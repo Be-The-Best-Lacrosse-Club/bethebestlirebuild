@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>Players Hub | BTB Lacrosse</title>
+    <meta name="description" content="BTB Players Hub — Your central hub for the BTB Lacrosse Academy curriculum, events, player enhancement drills, and film study.">
+    <meta property="og:title" content="Players Hub | BTB Lacrosse">
+    <meta property="og:description" content="BTB Players Hub — Academy, Events, Player Enhancement, and Film Study all in one place.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#D22630">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ========================================
+           HERO
+           ======================================== */
+        .hero {
+            position: relative;
+            min-height: 60vh;
+            background: linear-gradient(160deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 140px 20px 80px;
+            overflow: hidden;
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 8s infinite ease-in-out;
+        }
+
+        @keyframes particleFloat {
+            0%   { opacity: 0; transform: translateY(100vh) scale(0); }
+            20%  { opacity: 0.6; }
+            50%  { opacity: 0.3; }
+            100% { opacity: 0; transform: translateY(-100px) scale(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.12);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 72px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.65);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           HUB CARDS
+           ======================================== */
+        .hub-section {
+            background: #0a0a0a;
+            padding: 0 20px 100px;
+        }
+
+        .hub-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .hub-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 40px 32px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hub-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(210, 38, 48, 0.12);
+        }
+
+        .hub-card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: rgba(210, 38, 48, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .hub-card-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .hub-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--white);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .hub-card p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .hub-card-arrow {
+            margin-top: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s;
+        }
+
+        .hub-card:hover .hub-card-arrow {
+            gap: 12px;
+        }
+
+        /* ========================================
+           REVEAL
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 120px 16px 60px;
+                min-height: 45vh;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero-subtitle {
+                font-size: 15px;
+            }
+
+            .hub-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hub-card {
+                padding: 30px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Header -->
+    <header class="btb-header" id="navbar" role="banner">
+        <a href="index.html" class="btb-logo">
+            <img src="assets/B 3d Metal Logo copy.png" alt="BTB Lacrosse — Home">
+        </a>
+        <nav class="btb-nav" id="navLinks" role="navigation" aria-label="Main navigation">
+            <a href="index.html#standard">Our Standard</a>
+            <a href="players-hub.html">Players Hub</a>
+            <a href="world-series.html">World Series</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="coach-bios.html">Coaches</a>
+            <a href="faq.html">FAQ</a>
+            <a href="index.html#apply" class="btb-cta">Register Now</a>
+        </nav>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="main-content">
+        <div class="hero-particles" id="heroParticles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">BTB Lacrosse</div>
+            <h1>PLAYERS <span class="highlight">HUB</span></h1>
+            <p class="hero-subtitle">Your central hub for everything BTB — curriculum, events, drills, and film study.</p>
+        </div>
+    </section>
+
+    <!-- Hub Cards -->
+    <section class="hub-section">
+        <div class="hub-grid">
+
+            <a href="academy.html" class="hub-card reveal">
+                <div class="hub-card-icon">&#127891;</div>
+                <div class="hub-card-label">Curriculum</div>
+                <h3>BTB LACROSSE ACADEMY</h3>
+                <p>A grade-based learning curriculum with 3 levels, progress tracking, and a Wall of Fame. Master the fundamentals, build your game, and earn your name.</p>
+                <div class="hub-card-arrow">Enter Academy &rarr;</div>
+            </a>
+
+            <a href="academy-boys.html#programs" class="hub-card reveal">
+                <div class="hub-card-icon">&#128197;</div>
+                <div class="hub-card-label">Camps &amp; Clinics</div>
+                <h3>EVENTS</h3>
+                <p>Browse upcoming camps, clinics, and training programs for boys and girls. Find the right event to take your game to the next level.</p>
+                <div class="hub-card-arrow">View Events &rarr;</div>
+            </a>
+
+            <a href="academy-boys.html#drills" class="hub-card reveal">
+                <div class="hub-card-icon">&#127919;</div>
+                <div class="hub-card-label">Drills &amp; Training</div>
+                <h3>PLAYER ENHANCEMENT</h3>
+                <p>Curated drills and training exercises to sharpen your skills. Track your progress and train like a pro with our development library.</p>
+                <div class="hub-card-arrow">Start Training &rarr;</div>
+            </a>
+
+            <a href="academy-girls.html#film" class="hub-card reveal">
+                <div class="hub-card-icon">&#127909;</div>
+                <div class="hub-card-label">Film &amp; Analysis</div>
+                <h3>FILM STUDY</h3>
+                <p>Watch game breakdowns, D1 highlights, and instructional film. Study the game like the best players and coaches do.</p>
+                <div class="hub-card-arrow">Watch Film &rarr;</div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+                <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram" aria-label="BTB on Instagram">IG</a>
+                    <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube" aria-label="BTB on YouTube">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Program</h4>
+                <a href="index.html#standard">Our Standard</a>
+                <a href="index.html#development">Development Model</a>
+                <a href="index.html#filmstudy">Film Study</a>
+                <a href="coach-bios.html">Coach Bios</a>
+                <a href="index.html#results">Results</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="players-hub.html">Players Hub</a>
+                <a href="coaches.html">Coaching Playbook</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+                <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener">@bethebestli</a>
+                <a>Long Island, NY</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Be The Best Lacrosse. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Particles
+        (function() {
+            var container = document.getElementById('heroParticles');
+            for (var i = 0; i < 30; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.animationDuration = (6 + Math.random() * 4) + 's';
+                p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+                container.appendChild(p);
+            }
+        })();
+
+        // Navbar scroll shadow
+        window.addEventListener('scroll', function() {
+            var header = document.getElementById('navbar');
+            if (window.scrollY > 40) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            var nav = document.getElementById('navLinks');
+            var btn = document.getElementById('hamburger');
+            nav.classList.toggle('open');
+            btn.classList.toggle('active');
+            var expanded = nav.classList.contains('open');
+            btn.setAttribute('aria-expanded', expanded);
+        }
+
+        document.querySelectorAll('.btb-nav a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                document.getElementById('navLinks').classList.remove('open');
+                document.getElementById('hamburger').classList.remove('active');
+                document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Scroll reveal
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+    </script>
+</body>
+</html>

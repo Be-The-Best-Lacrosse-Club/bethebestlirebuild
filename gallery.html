@@ -15,36 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="shared.css">
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --primary: #D22630;
-            --primary-dark: #a01e26;
-            --dark: #000000;
-            --light: #DADADA;
-            --gray: #4A4A4A;
-            --white: #FFFFFF;
-            --off-white: #F5F5F5;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--dark);
-            background: var(--white);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Bebas Neue', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        a { text-decoration: none; color: inherit; }
-        img { max-width: 100%; }
-
         /* ── Hero ── */
         .hero {
             position: relative;
@@ -352,9 +322,9 @@
         </a>
         <nav class="btb-nav" id="navLinks" role="navigation" aria-label="Main navigation">
             <a href="index.html">Home</a>
-            <a href="academy-landing.html">Academy</a>
+            <a href="players-hub.html">Players Hub</a>
             <a href="world-series.html">World Series</a>
-            <a href="gallery.html">Gallery</a>
+            <a href="gallery.html" aria-current="page" style="color: var(--primary);">Gallery</a>
             <a href="coach-bios.html">Coaches</a>
             <a href="faq.html">FAQ</a>
             <a href="index.html#apply" class="btb-cta">Register Now</a>
@@ -533,7 +503,7 @@
             </div>
             <div class="footer-col">
                 <h4>Resources</h4>
-                <a href="coaches.html">Coaching Playbook</a>
+                <a href="coach-bios.html">Coaches</a>
                 <a href="testimonials.html">Testimonials</a>
                 <a href="faq.html">FAQ</a>
             </div>

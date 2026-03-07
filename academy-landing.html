@@ -15,88 +15,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="shared.css">
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* ── Page-specific variables ── */
         :root {
-            --primary: #D22630;
-            --primary-dark: #a01e26;
-            --dark: #000000;
-            --light: #DADADA;
-            --white: #FFFFFF;
-            --off-white: #F5F5F5;
             --gold: #C5A44E;
             --gold-dark: #A8893A;
         }
 
-        html { scroll-behavior: smooth; }
-
+        /* ── Page-specific body override ── */
         body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--dark);
             background: var(--dark);
-            overflow-x: hidden;
-        }
-
-        /* ── Header ── */
-        .btb-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 24px;
-            position: sticky;
-            top: 0;
-            background: #ffffff;
-            border-bottom: 1px solid #eee;
-            z-index: 1000;
-        }
-
-        .btb-logo img { height: 60px; width: auto; }
-
-        .btb-nav {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .btb-nav a {
-            font-size: 16px;
-            font-weight: 600;
-            color: #101010;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .btb-nav a:hover { color: var(--primary); }
-
-        .btb-cta {
-            display: inline-block;
-            padding: 8px 16px;
-            border: none;
-            background: var(--primary);
-            color: #fff !important;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.2s ease;
-        }
-
-        .btb-cta:hover { background: var(--primary-dark); }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-        }
-
-        .hamburger span {
-            width: 28px;
-            height: 3px;
-            background: #101010;
-            border-radius: 2px;
-            transition: all 0.3s;
         }
 
         /* ── Hero ── */
@@ -228,6 +155,101 @@
         @keyframes bounce {
             0%, 100% { transform: translateX(-50%) translateY(0); }
             50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ── Equipment Showcase ── */
+        .equipment-showcase {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 6rem;
+            padding: 5rem 2rem 2rem;
+            background: linear-gradient(180deg, #000 0%, #050505 100%);
+        }
+
+        .equipment-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--white);
+            transition: transform 0.4s ease;
+            cursor: pointer;
+        }
+
+        .equipment-link:hover {
+            transform: scale(1.08);
+        }
+
+        .equipment-link:hover .equipment-label {
+            color: var(--primary);
+        }
+
+        .equipment-spin {
+            width: 200px;
+            height: 200px;
+            perspective: 800px;
+        }
+
+        .equipment-spin svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 8px 30px rgba(210, 38, 48, 0.2));
+        }
+
+        .equipment-link:nth-child(1) .equipment-spin svg {
+            animation: helmetSpin 6s ease-in-out infinite;
+        }
+
+        .equipment-link:nth-child(2) .equipment-spin svg {
+            animation: goggleSpin 6s ease-in-out infinite;
+            animation-delay: -3s;
+        }
+
+        @keyframes helmetSpin {
+            0%, 100% { transform: perspective(600px) rotateY(-15deg) translateY(0); }
+            25% { transform: perspective(600px) rotateY(0deg) translateY(-8px); }
+            50% { transform: perspective(600px) rotateY(15deg) translateY(0); }
+            75% { transform: perspective(600px) rotateY(0deg) translateY(-8px); }
+        }
+
+        @keyframes goggleSpin {
+            0%, 100% { transform: perspective(600px) rotateY(15deg) translateY(0); }
+            25% { transform: perspective(600px) rotateY(0deg) translateY(-8px); }
+            50% { transform: perspective(600px) rotateY(-15deg) translateY(0); }
+            75% { transform: perspective(600px) rotateY(0deg) translateY(-8px); }
+        }
+
+        .equipment-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 1.2rem;
+            color: var(--gold);
+            transition: color 0.3s ease;
+        }
+
+        .equipment-sublabel {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 1px;
+            margin-top: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .equipment-showcase {
+                flex-direction: column;
+                align-items: center;
+                gap: 3rem;
+                padding: 3rem 2rem 1rem;
+            }
+
+            .equipment-spin {
+                width: 160px;
+                height: 160px;
+            }
         }
 
         /* ── Selector Section ── */
@@ -445,69 +467,13 @@
             box-shadow: 0 8px 25px rgba(197,164,78,0.3);
         }
 
-        /* ── Footer ── */
+        /* ── Footer padding override ── */
         footer {
-            background: var(--dark);
-            color: rgba(255,255,255,0.5);
             padding: 2.5rem 2rem;
-            border-top: 1px solid rgba(255,255,255,0.06);
         }
-
-        .footer-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .footer-copy {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.25);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-links a {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.35);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover { color: var(--primary); }
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
-            .btb-nav {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(255,255,255,0.98);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 1.8rem;
-                z-index: 1000;
-            }
-
-            .btb-nav.open { display: flex; }
-
-            .btb-nav a { font-size: 1.1rem; }
-
-            .btb-logo img { height: 48px; }
-
-            .hamburger {
-                display: flex;
-                z-index: 1001;
-            }
-
             .hero-inner { padding: 5rem 1.5rem 3rem; }
 
             .selector { padding: 4rem 1.5rem 5rem; }
@@ -520,12 +486,6 @@
             .academy-card { padding: 2.5rem 2rem; }
 
             .card-stats { gap: 1rem; }
-
-            .footer-inner {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -543,7 +503,7 @@
         </a>
         <nav class="btb-nav" id="navLinks">
             <a href="index.html">Home</a>
-            <a href="academy-landing.html">Academy</a>
+            <a href="players-hub.html">Players Hub</a>
             <a href="world-series.html">World Series</a>
             <a href="gallery.html">Gallery</a>
             <a href="coach-bios.html">Coaches</a>
@@ -568,6 +528,141 @@
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
+        </a>
+    </section>
+
+    <!-- Equipment Showcase -->
+    <section class="equipment-showcase">
+        <!-- Boys Helmet -->
+        <a href="academy-boys.html" class="equipment-link">
+            <div class="equipment-spin">
+                <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="redChrome" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#ff4444"/>
+                            <stop offset="25%" stop-color="#D22630"/>
+                            <stop offset="50%" stop-color="#ff6b6b"/>
+                            <stop offset="75%" stop-color="#D22630"/>
+                            <stop offset="100%" stop-color="#8b1a1a"/>
+                        </linearGradient>
+                        <linearGradient id="matteBlack" x1="0" y1="0" x2="0.2" y2="1">
+                            <stop offset="0%" stop-color="#2d2d2d"/>
+                            <stop offset="40%" stop-color="#1a1a1a"/>
+                            <stop offset="100%" stop-color="#111"/>
+                        </linearGradient>
+                        <linearGradient id="shellHighlight" x1="0.3" y1="0" x2="0.7" y2="1">
+                            <stop offset="0%" stop-color="#3a3a3a" stop-opacity="0.6"/>
+                            <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Helmet shell -->
+                    <path d="M 52 125 Q 42 60 85 32 Q 120 14 160 32 Q 198 55 192 125 Q 188 155 172 165 L 68 165 Q 52 155 52 125 Z" fill="url(#matteBlack)" stroke="#333" stroke-width="1"/>
+                    <!-- Shell highlight -->
+                    <path d="M 65 110 Q 58 60 95 38 Q 120 24 150 38 Q 178 52 175 100" fill="url(#shellHighlight)" stroke="none"/>
+                    <!-- Subtle edge reflection -->
+                    <path d="M 60 80 Q 55 60 75 42" stroke="#444" stroke-width="0.8" fill="none" opacity="0.5"/>
+                    <!-- Visor brim -->
+                    <path d="M 56 112 Q 120 104 184 112 L 188 118 Q 120 110 52 118 Z" fill="#222" stroke="#333" stroke-width="0.5"/>
+                    <!-- Ear guard left -->
+                    <path d="M 52 105 Q 40 118 42 142 Q 44 155 56 162 L 66 160 Q 56 150 54 138 Q 52 120 60 105 Z" fill="url(#matteBlack)" stroke="#333" stroke-width="0.5"/>
+                    <!-- Ear guard right -->
+                    <path d="M 188 105 Q 200 118 198 142 Q 196 155 184 162 L 174 160 Q 184 150 186 138 Q 188 120 180 105 Z" fill="url(#matteBlack)" stroke="#333" stroke-width="0.5"/>
+                    <!-- Facemask cage - red chrome -->
+                    <g stroke="url(#redChrome)" stroke-width="3.5" fill="none" stroke-linecap="round">
+                        <path d="M 64 118 Q 120 126 176 118"/>
+                        <path d="M 60 134 Q 120 142 180 134"/>
+                        <path d="M 64 148 Q 120 155 176 148"/>
+                        <path d="M 72 161 Q 120 166 168 161"/>
+                        <path d="M 88 112 Q 85 140 88 170"/>
+                        <path d="M 120 110 L 120 172"/>
+                        <path d="M 152 112 Q 155 140 152 170"/>
+                    </g>
+                    <!-- Chrome shine on bars -->
+                    <g stroke="rgba(255,160,160,0.35)" stroke-width="1" fill="none">
+                        <path d="M 64 116 Q 120 124 176 116"/>
+                        <path d="M 60 132 Q 120 140 180 132"/>
+                    </g>
+                    <!-- Chin guard -->
+                    <path d="M 72 164 Q 82 180 120 185 Q 158 180 168 164" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+                    <!-- Chin strap -->
+                    <path d="M 56 150 Q 48 170 58 192 Q 66 198 88 198" fill="none" stroke="#444" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M 184 150 Q 192 170 182 192 Q 174 198 152 198" fill="none" stroke="#444" stroke-width="2.5" stroke-linecap="round"/>
+                    <rect x="88" y="194" width="64" height="8" rx="3" fill="#333" stroke="#444" stroke-width="0.5"/>
+                    <!-- "B" logo on side -->
+                    <text x="148" y="82" font-family="Arial Black, sans-serif" font-size="36" font-weight="900" fill="#D22630" opacity="0.85">B</text>
+                </svg>
+            </div>
+            <span class="equipment-label">Boys Academy</span>
+            <span class="equipment-sublabel">Click to enter</span>
+        </a>
+
+        <!-- Girls Goggles -->
+        <a href="academy-girls.html" class="equipment-link">
+            <div class="equipment-spin">
+                <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="redChromeG" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#ff4444"/>
+                            <stop offset="25%" stop-color="#D22630"/>
+                            <stop offset="50%" stop-color="#ff6b6b"/>
+                            <stop offset="75%" stop-color="#D22630"/>
+                            <stop offset="100%" stop-color="#8b1a1a"/>
+                        </linearGradient>
+                        <linearGradient id="redChromeShine" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#ff8888"/>
+                            <stop offset="50%" stop-color="#D22630"/>
+                            <stop offset="100%" stop-color="#991a1a"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- White strap - left -->
+                    <path d="M 8 72 L 52 72 L 52 82 L 8 82 Z" fill="#f0f0f0" rx="2"/>
+                    <path d="M 8 72 L 52 72 L 52 82 L 8 82 Z" fill="none" stroke="#ddd" stroke-width="0.5"/>
+                    <!-- White strap - right -->
+                    <path d="M 228 72 L 272 72 L 272 82 L 228 82 Z" fill="#f0f0f0" rx="2"/>
+                    <path d="M 228 72 L 272 72 L 272 82 L 228 82 Z" fill="none" stroke="#ddd" stroke-width="0.5"/>
+                    <!-- Strap text - left side -->
+                    <text x="14" y="80" font-family="Montserrat, sans-serif" font-size="6.5" font-weight="700" fill="#333" letter-spacing="0.5">BE THE BEST</text>
+                    <!-- Strap text - right side -->
+                    <text x="232" y="80" font-family="Montserrat, sans-serif" font-size="6.5" font-weight="700" fill="#333" letter-spacing="0.5">LACROSSE</text>
+                    <!-- Strap connector curves -->
+                    <path d="M 8 72 Q 0 77 8 82" fill="#e8e8e8" stroke="#ddd" stroke-width="0.5"/>
+                    <path d="M 272 72 Q 280 77 272 82" fill="#e8e8e8" stroke="#ddd" stroke-width="0.5"/>
+                    <!-- Left goggle frame -->
+                    <path d="M 52 40 Q 52 28 70 24 Q 100 18 118 28 Q 130 36 132 50 L 132 100 Q 132 118 118 126 Q 100 134 70 130 Q 52 126 52 110 Z" fill="none" stroke="url(#redChromeG)" stroke-width="5"/>
+                    <!-- Right goggle frame -->
+                    <path d="M 148 40 Q 148 28 166 24 Q 196 18 218 28 Q 228 36 228 50 L 228 100 Q 228 118 218 126 Q 196 134 166 130 Q 148 126 148 110 Z" fill="none" stroke="url(#redChromeG)" stroke-width="5"/>
+                    <!-- Chrome shine on frames -->
+                    <path d="M 58 42 Q 58 32 74 28 Q 100 22 116 30" fill="none" stroke="rgba(255,160,160,0.4)" stroke-width="2"/>
+                    <path d="M 154 42 Q 154 32 170 28 Q 196 22 214 30" fill="none" stroke="rgba(255,160,160,0.4)" stroke-width="2"/>
+                    <!-- Bridge connecting lenses -->
+                    <path d="M 132 65 Q 140 58 148 65" fill="none" stroke="url(#redChromeG)" stroke-width="5" stroke-linecap="round"/>
+                    <!-- Inner cage bars - left -->
+                    <g stroke="url(#redChromeShine)" stroke-width="2" fill="none" opacity="0.7">
+                        <path d="M 60 55 Q 92 52 124 55"/>
+                        <path d="M 58 75 Q 92 72 126 75"/>
+                        <path d="M 60 95 Q 92 92 124 95"/>
+                        <path d="M 62 112 Q 92 110 122 112"/>
+                        <path d="M 78 30 L 76 125"/>
+                        <path d="M 102 26 L 102 128"/>
+                    </g>
+                    <!-- Inner cage bars - right -->
+                    <g stroke="url(#redChromeShine)" stroke-width="2" fill="none" opacity="0.7">
+                        <path d="M 156 55 Q 188 52 220 55"/>
+                        <path d="M 154 75 Q 188 72 222 75"/>
+                        <path d="M 156 95 Q 188 92 220 95"/>
+                        <path d="M 158 112 Q 188 110 218 112"/>
+                        <path d="M 178 30 L 176 125"/>
+                        <path d="M 202 26 L 202 128"/>
+                    </g>
+                    <!-- Nose padding -->
+                    <ellipse cx="140" cy="90" rx="6" ry="14" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
+                    <!-- Forehead padding -->
+                    <path d="M 65 38 Q 92 30 120 32 L 120 26 Q 92 24 65 32 Z" fill="#2a2a2a" opacity="0.6"/>
+                    <path d="M 160 38 Q 188 30 215 32 L 215 26 Q 188 24 160 32 Z" fill="#2a2a2a" opacity="0.6"/>
+                </svg>
+            </div>
+            <span class="equipment-label">Girls Academy</span>
+            <span class="equipment-sublabel">Click to enter</span>
         </a>
     </section>
 
