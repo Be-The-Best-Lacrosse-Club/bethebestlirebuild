@@ -1747,7 +1747,7 @@
             <a href="gallery.html">Gallery</a>
             <a href="coach-bios.html">Coaches</a>
             <a href="faq.html">FAQ</a>
-            <a href="index.html#apply" class="btb-cta">Register Now</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
         </nav>
         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
             <span></span><span></span><span></span>
@@ -2291,6 +2291,19 @@
                 <div class="section-tag">Film Study</div>
                 <h2>OFFENSIVE IQ STUDY LIBRARY</h2>
                 <p>Film Breakdown &amp; Coaching Reference — 2025-26 Season</p>
+            </div>
+
+            <!-- Coaching Manual Banner -->
+            <div class="reveal" style="margin-bottom:40px;">
+                <a href="btb-girls-coaching-manual.html" style="display:flex;align-items:center;gap:24px;background:#111;border:1px solid rgba(210,38,48,0.4);border-left:5px solid #D22630;border-radius:12px;padding:28px 32px;text-decoration:none;transition:all 0.3s;">
+                    <div style="font-size:40px;flex-shrink:0;">📋</div>
+                    <div>
+                        <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#D22630;margin-bottom:6px;">Staff Resource</div>
+                        <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:2px;margin-bottom:6px;">BTB GIRLS ACADEMY COACHING MANUAL 2026</div>
+                        <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.5;">25 practice plans · Install progressions · Draw control curriculum · Coach scripts · Player tracking sheets</div>
+                    </div>
+                    <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#D22630;flex-shrink:0;margin-left:auto;">Open Manual &rarr;</div>
+                </a>
             </div>
 
             <div class="film-kpi-row reveal">
@@ -3303,6 +3316,43 @@
                 navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.08)';
             }
         });
+    </script>
+
+    <!-- Password Gate -->
+    <div id="pwGate" style="position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;font-family:'Montserrat',sans-serif;">
+        <div style="text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#D22630;letter-spacing:4px;margin-bottom:8px;">BTB LACROSSE</div>
+            <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;">Enter Password</div>
+        </div>
+        <input id="pwInput" type="password" placeholder="Password" autofocus
+            style="padding:14px 24px;font-size:1rem;border:2px solid rgba(255,255,255,0.15);border-radius:8px;background:rgba(255,255,255,0.05);color:#fff;text-align:center;outline:none;width:280px;font-family:'Montserrat',sans-serif;letter-spacing:2px;"
+            onfocus="this.style.borderColor='#D22630'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+        <button id="pwBtn" onclick="checkPw()"
+            style="padding:12px 40px;font-size:0.85rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;border-radius:8px;background:#D22630;color:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background 0.3s;">
+            Enter
+        </button>
+        <div id="pwError" style="color:#D22630;font-size:0.8rem;opacity:0;transition:opacity 0.3s;">Incorrect password</div>
+    </div>
+    <script>
+        (function(){
+            if(sessionStorage.getItem('btb-academy-auth')==='true'){
+                document.getElementById('pwGate').style.display='none';
+                return;
+            }
+            document.body.style.overflow='hidden';
+            document.getElementById('pwInput').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw();});
+        })();
+        function checkPw(){
+            if(document.getElementById('pwInput').value==='#BTBLAX26'){
+                sessionStorage.setItem('btb-academy-auth','true');
+                document.getElementById('pwGate').style.display='none';
+                document.body.style.overflow='';
+            } else {
+                document.getElementById('pwError').style.opacity='1';
+                document.getElementById('pwInput').style.borderColor='#D22630';
+                setTimeout(function(){document.getElementById('pwError').style.opacity='0';},2000);
+            }
+        }
     </script>
 </body>
 </html>
