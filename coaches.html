@@ -27,7 +27,7 @@
             background: var(--bg);
         }
 
-        .btb-nav a {
+        .nav a {
             color: var(--black);
         }
 
@@ -116,7 +116,7 @@
             top: 54px;
             z-index: 100;
             background: var(--white);
-            border-bottom: 1px solid var(--light);
+            border-bottom: 1px solid var(--gray-200);
             padding: 1rem 2rem;
         }
 
@@ -138,7 +138,7 @@
         .search-box input {
             width: 100%;
             padding: 0.7rem 1rem 0.7rem 2.5rem;
-            border: 1px solid var(--light);
+            border: 1px solid var(--gray-200);
             border-radius: 6px;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.9rem;
@@ -162,7 +162,7 @@
 
         .filter-btn {
             padding: 0.6rem 1.2rem;
-            border: 1px solid var(--light);
+            border: 1px solid var(--gray-200);
             border-radius: 6px;
             background: var(--white);
             font-family: 'Montserrat', sans-serif;
@@ -235,7 +235,7 @@
         .category-header .count {
             font-size: 0.75rem;
             font-weight: 600;
-            background: var(--light);
+            background: var(--gray-200);
             color: var(--steel);
             padding: 0.2rem 0.6rem;
             border-radius: 50px;
@@ -415,7 +415,7 @@
 
         .drill-diagram {
             background: var(--bg);
-            border: 1px solid var(--light);
+            border: 1px solid var(--gray-200);
             border-radius: 8px;
             padding: 1rem;
             font-size: 0.8rem;
@@ -715,18 +715,18 @@
 <body>
 
     <!-- Header -->
-    <header class="btb-header" id="navbar">
-        <a href="index.html" class="btb-logo">
+    <header class="header" id="navbar">
+        <a href="index.html" class="header__logo">
             <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
         </a>
-        <nav class="btb-nav" id="navLinks">
+        <nav class="nav" id="navLinks">
             <a href="index.html">Home</a>
             <a href="players-hub.html">Players Hub</a>
             <a href="world-series.html">World Series</a>
             <a href="gallery.html">Gallery</a>
             <a href="coach-bios.html">Coaches</a>
             <a href="faq.html">FAQ</a>
-            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="nav__cta">Register Now</a>
         </nav>
         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
             <span></span><span></span><span></span>
@@ -2527,7 +2527,7 @@
             document.getElementById('navLinks').classList.toggle('open');
         }
 
-        document.querySelectorAll('.btb-nav a').forEach(link => {
+        document.querySelectorAll('.nav a').forEach(link => {
             link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
         });
     </script>

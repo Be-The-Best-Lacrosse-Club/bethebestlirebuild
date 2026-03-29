@@ -26,20 +26,20 @@
         /* ========================================
            HEADER OVERRIDES
            ======================================== */
-        .btb-nav a {
+        .nav a {
             font-size: 16px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--gray-900);
             transition: color 0.3s ease;
             font-family: 'Montserrat', sans-serif;
         }
 
-        .btb-nav a:hover {
+        .nav a:hover {
             color: var(--academy-accent);
         }
 
-        .btb-nav .btb-cta {
-            background: var(--primary);
+        .nav .nav__cta {
+            background: var(--red);
             color: var(--white);
             padding: 10px 24px;
             border-radius: 6px;
@@ -47,8 +47,8 @@
             transition: background 0.3s ease, transform 0.2s ease;
         }
 
-        .btb-nav .btb-cta:hover {
-            background: var(--primary-dark);
+        .nav .nav__cta:hover {
+            background: var(--red-dark);
             color: var(--white);
             transform: translateY(-1px);
         }
@@ -56,7 +56,7 @@
         .hamburger span {
             width: 28px;
             height: 3px;
-            background: var(--dark);
+            background: var(--gray-900);
             border-radius: 2px;
             transition: all 0.3s ease;
         }
@@ -194,7 +194,7 @@
             transform: translateY(-2px);
         }
 
-        .btn-outline {
+        .btn--outline {
             display: inline-block;
             background: transparent;
             color: var(--white);
@@ -208,7 +208,7 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        .btn-outline:hover {
+        .btn--outline:hover {
             border-color: var(--academy-accent);
             color: var(--academy-accent);
             transform: translateY(-2px);
@@ -396,7 +396,7 @@
         }
 
         .program-card {
-            background: var(--off-white);
+            background: var(--gray-50);
             border-radius: 12px;
             padding: 30px;
             border: 2px solid transparent;
@@ -1167,7 +1167,7 @@
         }
 
         .form-group label .required {
-            color: var(--primary);
+            color: var(--red);
         }
 
         .form-group input,
@@ -1179,7 +1179,7 @@
             border-radius: 8px;
             font-family: 'Montserrat', sans-serif;
             font-size: 15px;
-            color: var(--dark);
+            color: var(--gray-900);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
             background: var(--white);
             outline: none;
@@ -1195,7 +1195,7 @@
         .form-group input.error,
         .form-group select.error,
         .form-group textarea.error {
-            border-color: var(--primary);
+            border-color: var(--red);
         }
 
         .form-group textarea {
@@ -1205,7 +1205,7 @@
 
         .error-message {
             font-size: 12px;
-            color: var(--primary);
+            color: var(--red);
             margin-top: 4px;
             display: none;
         }
@@ -1279,12 +1279,12 @@
            FOOTER
            ======================================== */
         footer {
-            background: var(--dark);
+            background: var(--gray-900);
             padding: 60px 40px 30px;
             color: rgba(255,255,255,0.7);
         }
 
-        .footer-grid {
+        .footer__grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 40px;
@@ -1292,7 +1292,7 @@
             margin: 0 auto 40px;
         }
 
-        .footer-brand .logo {
+        .footer__brand .logo {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 28px;
             color: var(--white);
@@ -1300,18 +1300,18 @@
             margin-bottom: 12px;
         }
 
-        .footer-brand p {
+        .footer__brand p {
             font-size: 14px;
             line-height: 1.6;
             margin-bottom: 16px;
         }
 
-        .footer-social {
+        .footer__social {
             display: flex;
             gap: 12px;
         }
 
-        .footer-social a {
+        .footer__social a {
             width: 36px;
             height: 36px;
             background: rgba(255,255,255,0.1);
@@ -1325,11 +1325,11 @@
             transition: background 0.3s ease;
         }
 
-        .footer-social a:hover {
-            background: var(--primary);
+        .footer__social a:hover {
+            background: var(--red);
         }
 
-        .footer-col h4 {
+        .footer__col h4 {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 20px;
             color: var(--white);
@@ -1337,7 +1337,7 @@
             letter-spacing: 1px;
         }
 
-        .footer-col a {
+        .footer__col a {
             display: block;
             font-size: 14px;
             color: rgba(255,255,255,0.6);
@@ -1345,11 +1345,11 @@
             transition: color 0.3s ease;
         }
 
-        .footer-col a:hover {
+        .footer__col a:hover {
             color: var(--academy-accent);
         }
 
-        .footer-bottom {
+        .footer__bottom {
             text-align: center;
             padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.08);
@@ -1375,11 +1375,11 @@
            RESPONSIVE — 768px
            ======================================== */
         @media (max-width: 768px) {
-            .btb-header {
+            .header {
                 padding: 0 20px;
             }
 
-            .btb-nav {
+            .nav {
                 position: fixed;
                 top: 0;
                 right: -100%;
@@ -1394,7 +1394,7 @@
                 z-index: 999;
             }
 
-            .btb-nav.active {
+            .nav.active {
                 right: 0;
             }
 
@@ -1418,7 +1418,7 @@
                 margin-bottom: 40px;
             }
 
-            .btn-gold, .btn-outline {
+            .btn-gold, .btn--outline {
                 width: 100%;
                 max-width: 280px;
                 text-align: center;
@@ -1514,7 +1514,7 @@
                 padding: 40px 20px 20px;
             }
 
-            .footer-grid {
+            .footer__grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
@@ -1541,18 +1541,18 @@
     <!-- ============================================
          HEADER
          ============================================ -->
-    <header class="btb-header" id="navbar">
-        <a href="index.html" class="btb-logo">
+    <header class="header" id="navbar">
+        <a href="index.html" class="header__logo">
             <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
         </a>
-        <nav class="btb-nav" id="navLinks">
+        <nav class="nav" id="navLinks">
             <a href="index.html">Home</a>
             <a href="players-hub.html">Players Hub</a>
             <a href="world-series.html">World Series</a>
             <a href="gallery.html">Gallery</a>
             <a href="coach-bios.html">Coaches</a>
             <a href="faq.html">FAQ</a>
-            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="nav__cta">Register Now</a>
         </nav>
         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
             <span></span><span></span><span></span>
@@ -2370,22 +2370,22 @@
          FOOTER
          ============================================ -->
     <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
+        <div class="footer__grid">
+            <div class="footer__brand">
                 <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
                 <p>Long Island's premier lacrosse development program.</p>
-                <div class="footer-social">
+                <div class="footer__social">
                     <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram">IG</a>
                     <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube">YT</a>
                 </div>
             </div>
-            <div class="footer-col">
+            <div class="footer__col">
                 <h4>Players Hub</h4>
                 <a href="players-hub.html">Players Hub</a>
                 <a href="academy-boys.html">Boys Academy</a>
                 <a href="academy-girls.html">Girls Academy</a>
             </div>
-            <div class="footer-col">
+            <div class="footer__col">
                 <h4>Quick Links</h4>
                 <a href="#programs">Programs</a>
                 <a href="#drills">Drills</a>
@@ -2394,14 +2394,14 @@
                 <a href="faq.html">FAQ</a>
                 <a href="testimonials.html">Testimonials</a>
             </div>
-            <div class="footer-col">
+            <div class="footer__col">
                 <h4>Contact</h4>
                 <a href="#">info@bethebestli.com</a>
                 <a href="#">(516) 555-0199</a>
                 <a href="#">Long Island, NY</a>
             </div>
         </div>
-        <div class="footer-bottom">&copy; 2026 Be The Best Lacrosse. All rights reserved.</div>
+        <div class="footer__bottom">&copy; 2026 Be The Best Lacrosse. All rights reserved.</div>
     </footer>
 
     <!-- ============================================
@@ -2578,7 +2578,7 @@
         }
 
         // Close menu on link click
-        document.querySelectorAll('.btb-nav a').forEach(function(link) {
+        document.querySelectorAll('.nav a').forEach(function(link) {
             link.addEventListener('click', function() {
                 document.getElementById('navLinks').classList.remove('active');
                 document.getElementById('hamburger').classList.remove('active');

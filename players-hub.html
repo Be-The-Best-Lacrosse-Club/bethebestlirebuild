@@ -41,7 +41,7 @@
         .particle {
             position: absolute;
             width: 4px; height: 4px;
-            background: var(--primary);
+            background: var(--red);
             border-radius: 50%;
             opacity: 0;
             animation: particleFloat 8s infinite ease-in-out;
@@ -63,8 +63,8 @@
         .hero-badge {
             display: inline-block;
             background: rgba(210, 38, 48, 0.12);
-            border: 1px solid var(--primary);
-            color: var(--primary);
+            border: 1px solid var(--red);
+            color: var(--red);
             padding: 8px 24px;
             border-radius: 30px;
             font-size: 13px;
@@ -84,7 +84,7 @@
         }
 
         .hero h1 .highlight {
-            color: var(--primary);
+            color: var(--red);
         }
 
         .hero-subtitle {
@@ -181,7 +181,7 @@
         }
 
         .hub-card:hover {
-            border-color: var(--primary);
+            border-color: var(--red);
             transform: translateY(-4px);
             box-shadow: 0 12px 40px rgba(210, 38, 48, 0.12);
         }
@@ -203,7 +203,7 @@
             font-weight: 700;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--primary);
+            color: var(--red);
             margin-bottom: 8px;
         }
 
@@ -226,7 +226,7 @@
             margin-top: 20px;
             font-size: 13px;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--red);
             text-transform: uppercase;
             letter-spacing: 1.5px;
             display: flex;
@@ -288,7 +288,7 @@
         }
 
         .gate-logo span {
-            color: var(--primary);
+            color: var(--red);
         }
 
         .gate-tagline {
@@ -332,11 +332,11 @@
         }
 
         .gate-input:focus {
-            border-color: var(--primary);
+            border-color: var(--red);
         }
 
         .gate-input.error {
-            border-color: var(--primary);
+            border-color: var(--red);
             animation: shake 0.4s ease;
         }
 
@@ -368,7 +368,7 @@
 
         .gate-error {
             font-size: 12px;
-            color: var(--primary);
+            color: var(--red);
             font-weight: 600;
             letter-spacing: 1px;
             min-height: 18px;
@@ -377,7 +377,7 @@
 
         .gate-btn {
             width: 100%;
-            background: var(--primary);
+            background: var(--red);
             color: var(--white);
             border: none;
             border-radius: 8px;
@@ -416,7 +416,7 @@
             font-weight: 700;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--primary);
+            color: var(--red);
             text-align: center;
             margin-bottom: 12px;
         }
@@ -457,18 +457,18 @@
         }
 
         .ch-card:hover {
-            border-color: var(--primary);
+            border-color: var(--red);
             transform: translateY(-3px);
         }
 
         .ch-card.btb-card {
-            border-color: var(--primary);
+            border-color: var(--red);
             background: rgba(210,38,48,0.06);
         }
 
         .ch-card-badge {
             display: inline-block;
-            background: var(--primary);
+            background: var(--red);
             color: #fff;
             font-size: 9px;
             font-weight: 700;
@@ -498,11 +498,11 @@
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: var(--primary);
+            color: var(--red);
         }
 
         .playbook-link-card:hover {
-            border-color: var(--primary) !important;
+            border-color: var(--red) !important;
             transform: translateY(-3px);
             box-shadow: 0 8px 24px rgba(210, 38, 48, 0.1);
         }
@@ -577,18 +577,18 @@
     <a class="skip-link" href="#main-content">Skip to content</a>
 
     <!-- Header -->
-    <header class="btb-header" id="navbar" role="banner">
-        <a href="index.html" class="btb-logo">
+    <header class="header" id="navbar" role="banner">
+        <a href="index.html" class="header__logo">
             <img src="assets/B 3d Metal Logo copy.png" alt="BTB Lacrosse — Home">
         </a>
-        <nav class="btb-nav" id="navLinks" role="navigation" aria-label="Main navigation">
+        <nav class="nav" id="navLinks" role="navigation" aria-label="Main navigation">
             <a href="index.html">Our Standard</a>
             <a href="players-hub.html">Players Hub</a>
             <a href="world-series.html">World Series</a>
             <a href="gallery.html">Gallery</a>
             <a href="coach-bios.html">Coaches</a>
             <a href="faq.html">FAQ</a>
-            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="nav__cta">Register Now</a>
         </nav>
         <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
             <span></span><span></span><span></span>
@@ -865,16 +865,16 @@
 
     <!-- Footer -->
     <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
+        <div class="footer__grid">
+            <div class="footer__brand">
                 <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
                 <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
-                <div class="footer-social">
+                <div class="footer__social">
                     <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram" aria-label="BTB on Instagram">IG</a>
                     <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube" aria-label="BTB on YouTube">YT</a>
                 </div>
             </div>
-            <div class="footer-col">
+            <div class="footer__col">
                 <h4>Program</h4>
                 <a href="index.html">Our Standard</a>
                 <a href="index.html#development">Development Model</a>
@@ -882,21 +882,21 @@
                 <a href="coach-bios.html">Coach Bios</a>
                 <a href="index.html#results">Results</a>
             </div>
-            <div class="footer-col">
+            <div class="footer__col">
                 <h4>Resources</h4>
                 <a href="players-hub.html">Players Hub</a>
                 <a href="coaches.html">Coaching Playbook</a>
                 <a href="testimonials.html">Testimonials</a>
                 <a href="faq.html">FAQ</a>
             </div>
-            <div class="footer-col">
+            <div class="footer__col">
                 <h4>Contact</h4>
                 <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
                 <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener">@bethebestli</a>
                 <a>Long Island, NY</a>
             </div>
         </div>
-        <div class="footer-bottom">
+        <div class="footer__bottom">
             &copy; 2026 Be The Best Lacrosse. All rights reserved.
         </div>
     </footer>
@@ -1013,7 +1013,7 @@
             btn.setAttribute('aria-expanded', expanded);
         }
 
-        document.querySelectorAll('.btb-nav a').forEach(function(link) {
+        document.querySelectorAll('.nav a').forEach(function(link) {
             link.addEventListener('click', function() {
                 document.getElementById('navLinks').classList.remove('open');
                 document.getElementById('hamburger').classList.remove('active');

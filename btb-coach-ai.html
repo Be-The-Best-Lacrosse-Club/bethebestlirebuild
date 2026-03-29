@@ -39,7 +39,7 @@
         }
 
         /* ── Override shared.css header for dark ── */
-        .btb-header {
+        .header {
             background: #0f0f0f;
             border-bottom: 1px solid var(--border);
             box-shadow: none;
@@ -47,18 +47,18 @@
             padding: 0 20px;
         }
 
-        .btb-header.scrolled { box-shadow: none; }
+        .header.scrolled { box-shadow: none; }
 
-        .btb-nav a { color: rgba(255,255,255,0.6); }
-        .btb-nav a:hover { color: var(--accent); }
+        .nav a { color: rgba(255,255,255,0.6); }
+        .nav a:hover { color: var(--accent); }
 
         .hamburger span { background: rgba(255,255,255,0.7); }
 
         @media (max-width: 768px) {
-            .btb-nav {
+            .nav {
                 background: rgba(10,10,10,0.98);
             }
-            .btb-nav a { color: rgba(255,255,255,0.8); }
+            .nav a { color: rgba(255,255,255,0.8); }
         }
 
         /* ========================================
@@ -565,11 +565,11 @@
     </div>
 
     <!-- ── Site Header (dark) ── -->
-    <header class="btb-header">
-        <a class="btb-logo" href="index.html">
+    <header class="header">
+        <a class="header__logo" href="index.html">
             <img src="assets/B 3d Metal Logo copy.png" alt="BTB Lacrosse">
         </a>
-        <nav class="btb-nav" id="mainNav">
+        <nav class="nav" id="mainNav">
             <a href="index.html">Home</a>
             <a href="coaches.html">Coaches Hub</a>
             <a href="coach-bios.html">Coach Bios</a>
