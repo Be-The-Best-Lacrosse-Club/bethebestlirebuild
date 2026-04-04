@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>FAQ | BTB Lacrosse</title>
+    <meta name="description" content="Frequently asked questions about BTB Lacrosse programs, tryouts, travel teams, camps, and more. Long Island's premier lacrosse development program.">
+    <meta property="og:title" content="FAQ | BTB Lacrosse">
+    <meta property="og:description" content="Answers to common questions about BTB Lacrosse programs, tryouts, travel teams, and camps.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ========================================
+           HERO
+           ======================================== */
+        .hero {
+            background: linear-gradient(160deg, #1a1a1a 0%, #000 50%, #1a1a1a 100%);
+            padding: 140px 20px 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.12);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 16px;
+            letter-spacing: 3px;
+        }
+
+        .hero-subtitle {
+            font-size: 17px;
+            color: rgba(255,255,255,0.6);
+            max-width: 550px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           FAQ SECTION
+           ======================================== */
+        .faq-section {
+            padding: 80px 20px;
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-category {
+            margin-bottom: 50px;
+        }
+
+        .faq-category-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--dark);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .faq-category-icon {
+            font-size: 28px;
+        }
+
+        .faq-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            cursor: pointer;
+            background: var(--off-white);
+            transition: background 0.3s ease;
+            gap: 16px;
+        }
+
+        .faq-question:hover {
+            background: #eee;
+        }
+
+        .faq-question h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            letter-spacing: 0;
+            line-height: 1.4;
+        }
+
+        .faq-toggle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: transform 0.3s ease, background 0.3s ease;
+            line-height: 1;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+            background: var(--primary-dark);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-inner {
+            padding: 20px 24px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .faq-answer-inner a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .faq-answer-inner a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* ========================================
+           CTA SECTION
+           ======================================== */
+        .cta-section {
+            padding: 80px 20px;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 48px;
+            color: var(--white);
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+            max-width: 500px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+        }
+
+        .cta-contacts {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 16px 28px;
+            transition: border-color 0.3s ease;
+        }
+
+        .cta-contact-item:hover {
+            border-color: var(--primary);
+        }
+
+        .cta-contact-icon {
+            font-size: 24px;
+        }
+
+        .cta-contact-info {
+            text-align: left;
+        }
+
+        .cta-contact-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .cta-contact-value {
+            font-size: 15px;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.5);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-brand .logo {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-brand .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+
+        .footer-brand .logo span {
+            color: var(--primary);
+        }
+
+        .footer-brand p {
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .footer-social a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+
+        .footer-col h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--white);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            font-size: 0.82rem;
+            padding: 0.25rem 0;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover { color: var(--primary); }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.25);
+        }
+
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE — 768px
+           ======================================== */
+        @media (max-width: 768px) {
+            .btb-header {
+                padding: 0 20px;
+            }
+
+            .btb-nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--white);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                gap: 20px;
+                box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                z-index: 999;
+            }
+
+            .btb-nav.active {
+                right: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero {
+                padding: 110px 16px 60px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero-subtitle {
+                font-size: 15px;
+            }
+
+            .faq-section {
+                padding: 50px 16px;
+            }
+
+            .faq-category-title {
+                font-size: 26px;
+            }
+
+            .faq-question {
+                padding: 14px 18px;
+            }
+
+            .faq-question h3 {
+                font-size: 14px;
+            }
+
+            .faq-answer-inner {
+                padding: 16px 18px;
+            }
+
+            .cta-section h2 {
+                font-size: 36px;
+            }
+
+            .cta-contacts {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is BTB Lacrosse?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BTB (Be The Best) Lacrosse is Long Island's premier lacrosse development program. We build complete players through structured training, film study, small-group coaching, and a culture of accountability."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What makes BTB different from other lacrosse programs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BTB stands apart with filmed tryouts for transparency, varsity-level coaching staff, a structured development model that combines on-field training with film study, and a culture-first approach that builds character alongside skill."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What ages does BTB serve?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BTB serves players from 3rd grade through high school across our travel teams, Futures program, academy, and camps."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where is BTB located?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BTB Lacrosse is based on Long Island, New York. Practices and training sessions rotate between several Long Island facilities."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When are tryouts held?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Tryouts are typically held in the fall for the upcoming travel season. Exact dates are announced on our website and social media channels."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the tryout process work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BTB uses filmed tryouts so every evaluation is transparent and objective. Players are assessed on stick skills, lacrosse IQ, athleticism, coachability, and effort. Film is reviewed by coaching staff to ensure fair placement."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much do programs cost?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Program fees vary by level and season. Visit our registration page or contact us directly for current pricing. We are committed to providing exceptional value for the level of coaching and development offered."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are tryouts really filmed?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. BTB films every tryout session. This ensures complete transparency in the evaluation process and gives families confidence that roster decisions are based on merit."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many travel teams does BTB have?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BTB fields 24+ teams across multiple age groups and divisions for both boys and girls, competing at local, regional, and national tournaments."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What tournaments do travel teams compete in?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our travel teams compete in top-tier regional and national tournaments throughout the year, providing exposure to college coaches and high-level competition."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the practice schedule like?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Practice schedules vary by team and season. Travel teams typically practice 1-2 times per week with tournaments on weekends during the competitive season."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the Futures Program?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Futures Program is BTB's introductory development track for younger players (typically 3rd-5th grade). It focuses on fundamental skill building, game understanding, and preparing athletes for travel-level competition."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does Futures connect to the travel program?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Futures serves as a pipeline to our travel teams. Players who develop through the Futures program are well-prepared for travel tryouts and often transition seamlessly into our competitive rosters."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When are camps held?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BTB runs camps primarily during the summer months, with additional clinics and skills sessions during school breaks. Check our schedule for upcoming dates."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Who coaches the camps?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our camps are coached by the same varsity-level staff that runs our travel and academy programs, ensuring consistent high-quality instruction."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are camps open to non-BTB players?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! BTB camps are open to all players regardless of current team affiliation. Camps are a great way to experience BTB coaching and training methods."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What equipment does my child need?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Players need a lacrosse stick, helmet (boys), goggles (girls), gloves, cleats, and a mouthguard. Specific gear requirements vary by program and are communicated upon registration."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where are practices held?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Practices are held at various field locations across Long Island. Specific locations are communicated to registered families at the start of each season."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What happens if practice is cancelled due to weather?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Weather cancellations are communicated via email and team messaging as early as possible. Cancelled sessions are rescheduled when possible or alternative indoor training may be arranged."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does BTB provide team uniforms?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, travel team players receive BTB uniforms as part of their program fees. Additional BTB gear and apparel is available for purchase."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+
+    <!-- ============================================
+         HEADER
+         ============================================ -->
+    <header class="btb-header" id="navbar">
+        <a href="index.html" class="btb-logo">
+            <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
+        </a>
+        <nav class="btb-nav" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="players-hub.html">Players Hub</a>
+            <a href="world-series.html">World Series</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="coach-bios.html">Coaches</a>
+            <a href="faq.html">FAQ</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+        </nav>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section class="hero">
+        <div class="hero-badge">HELP CENTER</div>
+        <h1>FREQUENTLY ASKED QUESTIONS</h1>
+        <p class="hero-subtitle">Everything you need to know about BTB Lacrosse programs, tryouts, camps, and more.</p>
+    </section>
+
+    <!-- ============================================
+         FAQ ACCORDION
+         ============================================ -->
+    <section class="faq-section">
+        <div class="container">
+
+            <!-- ABOUT BTB -->
+            <div class="faq-category reveal">
+                <div class="faq-category-title">
+                    <span class="faq-category-icon">&#9878;</span> About BTB
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What is BTB Lacrosse?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB (Be The Best) Lacrosse is Long Island's premier lacrosse development program. We build complete players through structured training, film study, small-group coaching, and a culture of accountability. Learn more about <a href="index.html">our standard</a>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What makes BTB different from other lacrosse programs?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB stands apart with filmed tryouts for transparency, varsity-level coaching staff, a structured <a href="index.html#development">development model</a> that combines on-field training with <a href="index.html#filmstudy">film study</a>, and a culture-first approach that builds character alongside skill.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What ages does BTB serve?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB serves players from 3rd grade through high school across our <a href="index.html">travel teams</a>, Futures program, <a href="players-hub.html">academy</a>, and camps.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Where is BTB located?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB Lacrosse is based on Long Island, New York. Practices and training sessions rotate between several Long Island facilities to provide the best playing surfaces for our athletes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRYOUTS & REGISTRATION -->
+            <div class="faq-category reveal">
+                <div class="faq-category-title">
+                    <span class="faq-category-icon">&#9998;</span> Tryouts &amp; Registration
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>When are tryouts held?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Tryouts are typically held in the fall for the upcoming travel season. Exact dates are announced on our website and social media channels. <a href="mailto:info@bethebestli.com?subject=BTB%20Registration">Register your interest</a> to be notified when tryout dates are set.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>How does the tryout process work?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB uses filmed tryouts so every evaluation is transparent and objective. Players are assessed on stick skills, lacrosse IQ, athleticism, coachability, and effort. Film is reviewed by our <a href="coach-bios.html">coaching staff</a> to ensure fair placement on competitive rosters.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>How much do programs cost?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Program fees vary by level and season. Visit our <a href="mailto:info@bethebestli.com?subject=BTB%20Registration">registration page</a> or contact us directly for current pricing. We are committed to providing exceptional value for the level of coaching and development offered.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Are tryouts really filmed?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes. BTB films every tryout session. This ensures complete transparency in the evaluation process and gives families confidence that roster decisions are based on merit, not politics. It's one of the things that sets BTB apart.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRAVEL TEAMS -->
+            <div class="faq-category reveal">
+                <div class="faq-category-title">
+                    <span class="faq-category-icon">&#127942;</span> Travel Teams
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>How many travel teams does BTB have?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB fields 24+ teams across multiple age groups and divisions for both boys and girls, competing at local, regional, and national tournaments. See our full <a href="index.html#results">results and history</a>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What tournaments do travel teams compete in?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Our travel teams compete in top-tier regional and national tournaments throughout the year, providing exposure to college coaches and high-level competition. Tournament schedules are shared with families at the start of each season.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What is the practice schedule like?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Practice schedules vary by team and season. Travel teams typically practice 1-2 times per week with tournaments on weekends during the competitive season. Schedules are designed to balance development with family time.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>How competitive are BTB travel teams?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB travel teams compete at the highest levels, with 85+ college commitments and counting. Our teams regularly place in top tournaments, and our development pipeline prepares athletes for varsity and collegiate lacrosse.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FUTURES PROGRAM -->
+            <div class="faq-category reveal">
+                <div class="faq-category-title">
+                    <span class="faq-category-icon">&#127793;</span> Futures Program
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What is the Futures Program?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            The Futures Program is BTB's introductory development track for younger players (typically 3rd-5th grade). It focuses on fundamental skill building, game understanding, and preparing athletes for travel-level competition in a supportive environment.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What ages are eligible for Futures?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            The Futures Program is designed for players in 3rd through 5th grade who are developing their skills and preparing for travel-level play. It's the ideal starting point for young athletes new to competitive lacrosse.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>How does Futures connect to the travel program?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Futures serves as a direct pipeline to our travel teams. Players who develop through the Futures program are well-prepared for travel tryouts and often transition seamlessly into our competitive rosters. Our coaches track development and help guide families through the process.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAMPS -->
+            <div class="faq-category reveal">
+                <div class="faq-category-title">
+                    <span class="faq-category-icon">&#9978;</span> Camps &amp; Clinics
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>When are camps held?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            BTB runs camps primarily during the summer months, with additional clinics and skills sessions during school breaks. Check our <a href="mailto:info@bethebestli.com?subject=BTB%20Registration">registration page</a> for upcoming dates and availability.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Who coaches the camps?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Our camps are coached by the same varsity-level staff that runs our travel and <a href="players-hub.html">academy programs</a>, ensuring consistent, high-quality instruction. Meet the <a href="coach-bios.html">coaching staff</a>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Are camps open to non-BTB players?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes! BTB camps are open to all players regardless of current team affiliation. Camps are a great way to experience BTB coaching and training methods firsthand before committing to a program.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EQUIPMENT & LOGISTICS -->
+            <div class="faq-category reveal">
+                <div class="faq-category-title">
+                    <span class="faq-category-icon">&#127992;</span> Equipment &amp; Logistics
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What equipment does my child need?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Players need a lacrosse stick, helmet (boys), goggles (girls), gloves, cleats, and a mouthguard. Specific gear requirements vary by program and are communicated upon registration. Our coaches can recommend age-appropriate equipment.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Where are practices held?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Practices are held at various field locations across Long Island. Specific locations are communicated to registered families at the start of each season, with directions and parking information provided.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>What happens if practice is cancelled due to weather?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Weather cancellations are communicated via email and team messaging as early as possible. Cancelled sessions are rescheduled when possible, or alternative indoor training may be arranged depending on facility availability.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>Does BTB provide team uniforms?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes, travel team players receive BTB uniforms as part of their program fees. Additional BTB gear and apparel is available for purchase throughout the season.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA — STILL HAVE QUESTIONS?
+         ============================================ -->
+    <section class="cta-section reveal">
+        <h2>STILL HAVE QUESTIONS?</h2>
+        <p>Our team is here to help. Reach out and we'll get back to you within 24 hours.</p>
+        <div class="cta-contacts">
+            <a href="mailto:info@bethebestli.com" class="cta-contact-item">
+                <span class="cta-contact-icon">&#9993;</span>
+                <div class="cta-contact-info">
+                    <div class="cta-contact-label">Email Us</div>
+                    <div class="cta-contact-value">info@bethebestli.com</div>
+                </div>
+            </a>
+            <a href="tel:+15165550199" class="cta-contact-item">
+                <span class="cta-contact-icon">&#9742;</span>
+                <div class="cta-contact-info">
+                    <div class="cta-contact-label">Call Us</div>
+                    <div class="cta-contact-value">(516) 555-0199</div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+                <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram">IG</a>
+                    <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Program</h4>
+                <a href="index.html">Our Standard</a>
+                <a href="index.html#development">Development Model</a>
+                <a href="coach-bios.html">Coaches</a>
+                <a href="coach-bios.html">Coach Bios</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="players-hub.html">Players Hub</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+                <a href="tel:+15165550199">(516) 555-0199</a>
+                <a href="#">Long Island, NY</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Be The Best Lacrosse. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // ── Mobile menu toggle ──
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+
+        document.querySelectorAll('.btb-nav a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                document.getElementById('navLinks').classList.remove('active');
+                document.getElementById('hamburger').classList.remove('active');
+            });
+        });
+
+        // ── FAQ Accordion ──
+        function toggleFaq(questionEl) {
+            const item = questionEl.parentElement;
+            const category = item.closest('.faq-category');
+
+            // Close other items in the same category
+            category.querySelectorAll('.faq-item.active').forEach(function(openItem) {
+                if (openItem !== item) {
+                    openItem.classList.remove('active');
+                }
+            });
+
+            item.classList.toggle('active');
+        }
+
+        // ── Scroll reveal ──
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

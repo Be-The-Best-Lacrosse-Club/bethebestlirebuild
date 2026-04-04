@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Lacrosse — Site Architecture Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --red: #D22630;
+    --red-dark: #a01e26;
+    --black: #000000;
+    --white: #FFFFFF;
+    --off-white: #F5F5F5;
+    --steel: #4A4A4A;
+    --light: #DADADA;
+    --success: #2A9D8F;
+    --warning: #F4A261;
+    --info: #457B9D;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--black);
+    background: var(--off-white);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── DOCUMENT HEADER ── */
+.doc-header {
+    background: var(--black);
+    color: var(--white);
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.doc-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--red);
+}
+.doc-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+.doc-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+}
+.doc-title span { color: var(--red); }
+.doc-subtitle {
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.6;
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+}
+.doc-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.4;
+}
+
+/* ── TABLE OF CONTENTS ── */
+.toc {
+    background: var(--white);
+    max-width: 900px;
+    margin: 2rem auto;
+    border-radius: 8px;
+    padding: 2rem;
+    border: 1px solid var(--light);
+}
+.toc h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    color: var(--red);
+}
+.toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.5rem;
+}
+.toc-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--black);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.toc-item:hover { background: var(--off-white); color: var(--red); }
+.toc-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--red);
+    min-width: 28px;
+}
+
+/* ── CONTAINER ── */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ── SECTION ── */
+.section {
+    background: var(--white);
+    margin: 2rem auto;
+    max-width: 900px;
+    border-radius: 8px;
+    border: 1px solid var(--light);
+    overflow: hidden;
+}
+.section-header {
+    background: var(--black);
+    color: var(--white);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--red);
+    line-height: 1;
+}
+.section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+}
+.section-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.5;
+}
+.section-body { padding: 2rem; }
+
+/* ── TYPOGRAPHY ── */
+h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    margin: 2rem 0 0.8rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light);
+}
+h3:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 1.2rem 0 0.4rem;
+}
+p { font-size: 0.88rem; color: var(--steel); margin-bottom: 0.8rem; }
+strong { color: var(--black); }
+
+/* ── SITEMAP TREE ── */
+.sitemap-tree {
+    font-size: 0.82rem;
+    line-height: 2;
+}
+.sitemap-tree ul {
+    list-style: none;
+    padding-left: 1.5rem;
+}
+.sitemap-tree > ul { padding-left: 0; }
+.sitemap-tree li {
+    position: relative;
+    color: var(--steel);
+}
+.sitemap-tree li::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 0.9em;
+    width: 8px;
+    height: 1px;
+    background: var(--light);
+}
+.sitemap-tree > ul > li::before { display: none; }
+.sitemap-tree .page {
+    font-weight: 600;
+    color: var(--black);
+}
+.sitemap-tree .slug {
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: var(--red);
+    opacity: 0.8;
+    margin-left: 0.4rem;
+}
+.sitemap-tree .tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+}
+.tag-primary { background: var(--red); color: var(--white); }
+.tag-nav { background: var(--black); color: var(--white); }
+.tag-mega { background: var(--info); color: var(--white); }
+.tag-gated { background: var(--warning); color: var(--white); }
+.tag-utility { background: var(--steel); color: var(--white); }
+.tag-seo { background: var(--success); color: var(--white); }
+
+/* ── WIREFRAME ── */
+.wireframe {
+    background: var(--off-white);
+    border: 2px solid var(--light);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+.wf-block {
+    border-bottom: 2px dashed var(--light);
+    padding: 1.2rem 1.5rem;
+    position: relative;
+}
+.wf-block:last-child { border-bottom: none; }
+.wf-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--red);
+    margin-bottom: 0.3rem;
+}
+.wf-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--black);
+    line-height: 1.2;
+}
+.wf-desc {
+    font-size: 0.78rem;
+    color: var(--steel);
+    margin-top: 0.3rem;
+    line-height: 1.5;
+}
+.wf-grid {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+}
+.wf-grid-2 { grid-template-columns: 1fr 1fr; }
+.wf-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.wf-grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.wf-card {
+    background: var(--white);
+    border: 1px solid var(--light);
+    border-radius: 6px;
+    padding: 0.8rem;
+    text-align: center;
+}
+.wf-card-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    color: var(--black);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.wf-card-sub { font-size: 0.68rem; color: var(--steel); }
+.wf-hero {
+    background: var(--black);
+    color: var(--white);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-bottom: 3px solid var(--red);
+}
+.wf-hero .wf-label { color: var(--red); }
+.wf-hero .wf-title { color: var(--white); font-size: 2rem; }
+.wf-hero .wf-desc { color: rgba(255,255,255,0.6); }
+.wf-cta-row {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-top: 0.8rem;
+}
+.wf-cta {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    border: none;
+}
+.wf-cta-primary { background: var(--red); color: var(--white); }
+.wf-cta-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+.wf-trust-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+}
+.wf-trust-bar span { color: var(--red); font-weight: 700; opacity: 1; }
+.wf-dark {
+    background: var(--black);
+    color: var(--white);
+}
+.wf-dark .wf-label { color: var(--red); }
+.wf-dark .wf-desc { color: rgba(255,255,255,0.5); }
+
+/* ── TABLES ── */
+.arch-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin: 0.8rem 0;
+}
+.arch-table th {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    background: var(--black);
+    color: var(--white);
+    border-bottom: 2px solid var(--red);
+}
+.arch-table td {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--light);
+    color: var(--steel);
+    vertical-align: top;
+}
+.arch-table tr:last-child td { border-bottom: none; }
+.arch-table tr:hover td { background: rgba(210,38,48,0.02); }
+.arch-table code {
+    font-size: 0.72rem;
+    background: var(--off-white);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    color: var(--red);
+    font-family: 'Courier New', monospace;
+}
+
+/* ── FUNNEL DIAGRAM ── */
+.funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 1rem 0;
+}
+.funnel-stage {
+    padding: 1rem 1.5rem;
+    position: relative;
+    border-left: 4px solid;
+}
+.funnel-stage.awareness { border-color: var(--info); background: rgba(69,123,157,0.04); }
+.funnel-stage.consideration { border-color: var(--warning); background: rgba(244,162,97,0.04); }
+.funnel-stage.conversion { border-color: var(--red); background: rgba(210,38,48,0.04); }
+.funnel-stage.retention { border-color: var(--success); background: rgba(42,157,143,0.04); }
+.funnel-stage-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+}
+.funnel-stage.awareness .funnel-stage-label { color: var(--info); }
+.funnel-stage.consideration .funnel-stage-label { color: var(--warning); }
+.funnel-stage.conversion .funnel-stage-label { color: var(--red); }
+.funnel-stage.retention .funnel-stage-label { color: var(--success); }
+.funnel-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+}
+.funnel-cta-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    background: var(--white);
+    border: 1px solid var(--light);
+    color: var(--black);
+}
+
+/* ── CHECKLIST ── */
+.checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0.6rem 0;
+}
+.checklist li {
+    font-size: 0.82rem;
+    color: var(--steel);
+    padding: 0.4rem 0 0.4rem 1.6rem;
+    position: relative;
+    border-bottom: 1px solid rgba(218,218,218,0.3);
+}
+.checklist li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: 700;
+}
+.checklist li:last-child { border-bottom: none; }
+
+/* ── CALLOUT ── */
+.callout {
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    font-size: 0.82rem;
+}
+.callout-strategy {
+    background: rgba(210,38,48,0.04);
+    border-left: 3px solid var(--red);
+}
+.callout-insight {
+    background: rgba(69,123,157,0.06);
+    border-left: 3px solid var(--info);
+}
+.callout-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+}
+.callout-strategy .callout-title { color: var(--red); }
+.callout-insight .callout-title { color: var(--info); }
+
+/* ── AUTOMATION FLOW ── */
+.auto-flow {
+    display: grid;
+    gap: 0.8rem;
+    margin: 1rem 0;
+}
+.auto-card {
+    background: var(--off-white);
+    border: 1px solid var(--light);
+    border-radius: 6px;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.8rem;
+    align-items: start;
+}
+.auto-trigger {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    background: var(--black);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+.auto-desc {
+    font-size: 0.78rem;
+    color: var(--steel);
+}
+.auto-desc strong { color: var(--black); font-size: 0.82rem; }
+.auto-tool {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+.tool-email { background: rgba(69,123,157,0.1); color: var(--info); }
+.tool-sms { background: rgba(42,157,143,0.1); color: var(--success); }
+.tool-crm { background: rgba(244,162,97,0.1); color: #E67E22; }
+.tool-zapier { background: rgba(210,38,48,0.1); color: var(--red); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .doc-title { font-size: 2rem; }
+    .doc-meta { flex-direction: column; gap: 0.5rem; }
+    .section-body { padding: 1.2rem; }
+    .wf-grid-4 { grid-template-columns: 1fr 1fr; }
+    .wf-grid-3 { grid-template-columns: 1fr; }
+    .wf-trust-bar { flex-direction: column; gap: 0.5rem; }
+    .auto-card { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+    .section { break-inside: avoid; box-shadow: none; }
+    .doc-header { background: white !important; color: black !important; }
+    .doc-header::after { background: black; }
+    .section-header { background: #eee !important; color: black !important; }
+    body { background: white; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ -->
+<!-- DOCUMENT HEADER -->
+<!-- ═══════════════════════════════════ -->
+<header class="doc-header">
+    <div class="doc-logo">BE THE BEST LACROSSE</div>
+    <h1 class="doc-title">SITE <span>ARCHITECTURE</span> BLUEPRINT</h1>
+    <p class="doc-subtitle">National-Level Lacrosse Academy &bull; Long Island, NY</p>
+    <div class="doc-meta">
+        <span>Version 1.0</span>
+        <span>March 2026</span>
+        <span>Performance-First Brand Strategy</span>
+    </div>
+</header>
+
+<!-- ═══════════════════════════════════ -->
+<!-- TABLE OF CONTENTS -->
+<!-- ═══════════════════════════════════ -->
+<nav class="toc">
+    <h2>Blueprint Contents</h2>
+    <div class="toc-grid">
+        <a href="#sitemap" class="toc-item"><span class="toc-num">01</span>Complete Sitemap</a>
+        <a href="#homepage" class="toc-item"><span class="toc-num">02</span>Homepage Wireframe</a>
+        <a href="#pages" class="toc-item"><span class="toc-num">03</span>Page Architecture</a>
+        <a href="#cta" class="toc-item"><span class="toc-num">04</span>CTA & Funnel Strategy</a>
+        <a href="#trust" class="toc-item"><span class="toc-num">05</span>Trust-Building System</a>
+        <a href="#seo" class="toc-item"><span class="toc-num">06</span>SEO Structure</a>
+        <a href="#automation" class="toc-item"><span class="toc-num">07</span>Automation Playbook</a>
+        <a href="#brand" class="toc-item"><span class="toc-num">08</span>Brand & Design System</a>
+    </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 01 — COMPLETE SITEMAP -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="sitemap">
+    <div class="section-header">
+        <span class="section-num">01</span>
+        <div>
+            <div class="section-label">Information Architecture</div>
+            <h2 class="section-title">Complete Sitemap</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <div class="callout callout-strategy">
+            <div class="callout-title">Strategic Principle</div>
+            <p>Every page exists for one of three reasons: <strong>build credibility</strong>, <strong>capture a lead</strong>, or <strong>convert to registration</strong>. Pages that don't serve one of these get cut.</p>
+        </div>
+
+        <h3>Primary Navigation (6 Items Max)</h3>
+        <div class="sitemap-tree">
+            <ul>
+                <li><span class="page">Home</span> <span class="slug">/</span> <span class="tag tag-primary">Primary Landing</span></li>
+                <li><span class="page">Programs</span> <span class="slug">/programs/</span> <span class="tag tag-mega">Mega Menu</span>
+                    <ul>
+                        <li><span class="page">Boys Lacrosse</span> <span class="slug">/boys-lacrosse/</span> <span class="tag tag-nav">Nav</span>
+                            <ul>
+                                <li>Travel Teams <span class="slug">/boys-lacrosse/travel/</span></li>
+                                <li>Team Pages (by grad year) <span class="slug">/boys-lacrosse/2028/</span> <span class="slug">/2029/</span> <span class="slug">/2030/</span> <span class="slug">/2031/</span> <span class="slug">/2032/</span></li>
+                                <li>Clinics & Camps <span class="slug">/boys-lacrosse/clinics/</span></li>
+                                <li>Private Training <span class="slug">/boys-lacrosse/private-training/</span></li>
+                            </ul>
+                        </li>
+                        <li><span class="page">Girls Lacrosse</span> <span class="slug">/girls-lacrosse/</span> <span class="tag tag-nav">Nav</span>
+                            <ul>
+                                <li>Travel Teams <span class="slug">/girls-lacrosse/travel/</span></li>
+                                <li>Team Pages (by grad year) <span class="slug">/girls-lacrosse/2028/</span> <span class="slug">/2029/</span> <span class="slug">/2030/</span></li>
+                                <li>Clinics & Camps <span class="slug">/girls-lacrosse/clinics/</span></li>
+                                <li>Private Training <span class="slug">/girls-lacrosse/private-training/</span></li>
+                            </ul>
+                        </li>
+                        <li><span class="page">BTB World Series</span> <span class="slug">/world-series/</span> <span class="tag tag-primary">Event Brand</span>
+                            <ul>
+                                <li>About the Tournament <span class="slug">/world-series/about/</span></li>
+                                <li>Divisions & Schedule <span class="slug">/world-series/divisions/</span></li>
+                                <li>Past Champions <span class="slug">/world-series/results/</span></li>
+                                <li>Register a Team <span class="slug">/world-series/register/</span></li>
+                            </ul>
+                        </li>
+                        <li><span class="page">BTB Futures</span> <span class="slug">/futures/</span> <span class="tag tag-primary">Prospect Dev</span>
+                            <ul>
+                                <li>Program Overview <span class="slug">/futures/overview/</span></li>
+                                <li>Showcase Events <span class="slug">/futures/showcases/</span></li>
+                                <li>Player Profiles <span class="slug">/futures/players/</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><span class="page">Recruiting</span> <span class="slug">/recruiting/</span> <span class="tag tag-nav">Nav</span>
+                    <ul>
+                        <li>College Placement Record <span class="slug">/recruiting/commits/</span></li>
+                        <li>Player Profiles & Highlights <span class="slug">/recruiting/profiles/</span></li>
+                        <li>Recruiting Resources <span class="slug">/recruiting/resources/</span> <span class="tag tag-seo">SEO Hub</span></li>
+                        <li>Individual Player Page <span class="slug">/recruiting/profiles/[name]/</span></li>
+                    </ul>
+                </li>
+                <li><span class="page">Schedule</span> <span class="slug">/schedule/</span> <span class="tag tag-nav">Nav</span>
+                    <ul>
+                        <li>Full Calendar <span class="slug">/schedule/calendar/</span></li>
+                        <li>Tryout Dates <span class="slug">/schedule/tryouts/</span></li>
+                        <li>Tournament Schedule <span class="slug">/schedule/tournaments/</span></li>
+                    </ul>
+                </li>
+                <li><span class="page">About</span> <span class="slug">/about/</span> <span class="tag tag-nav">Nav</span>
+                    <ul>
+                        <li>Our Story <span class="slug">/about/story/</span></li>
+                        <li>Coaching Staff <span class="slug">/about/coaches/</span></li>
+                        <li>Facilities <span class="slug">/about/facilities/</span></li>
+                        <li>News & Blog <span class="slug">/blog/</span> <span class="tag tag-seo">SEO Hub</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <h3>Utility Navigation (Top-Right Corner)</h3>
+        <div class="sitemap-tree">
+            <ul>
+                <li><span class="page">Register / Tryouts</span> <span class="slug">/register/</span> <span class="tag tag-primary">Primary CTA</span></li>
+                <li><span class="page">Parent Portal</span> <span class="slug">/portal/</span> <span class="tag tag-gated">Gated</span></li>
+                <li><span class="page">BTB Academy</span> <span class="slug">/academy/</span> <span class="tag tag-gated">Gated</span></li>
+                <li><span class="page">Coaches Hub</span> <span class="slug">/coaches/</span> <span class="tag tag-gated">Staff Only</span></li>
+            </ul>
+        </div>
+
+        <h3>Footer-Only Pages</h3>
+        <div class="sitemap-tree">
+            <ul>
+                <li>Contact <span class="slug">/contact/</span></li>
+                <li>FAQ <span class="slug">/faq/</span></li>
+                <li>Privacy Policy <span class="slug">/privacy/</span></li>
+                <li>Terms of Service <span class="slug">/terms/</span></li>
+                <li>Refund Policy <span class="slug">/refund-policy/</span></li>
+                <li>SafeSport & Background Checks <span class="slug">/safety/</span></li>
+            </ul>
+        </div>
+
+        <h3>Hidden / Gated Pages</h3>
+        <div class="sitemap-tree">
+            <ul>
+                <li>Tryout Confirmation <span class="slug">/register/confirmation/</span></li>
+                <li>Tryout Guide Download <span class="slug">/resources/tryout-guide/</span> <span class="tag tag-gated">Lead Magnet</span></li>
+                <li>Recruiting Checklist Download <span class="slug">/resources/recruiting-checklist/</span> <span class="tag tag-gated">Lead Magnet</span></li>
+                <li>Thank You Page <span class="slug">/thank-you/</span></li>
+            </ul>
+        </div>
+
+        <div class="callout callout-insight">
+            <div class="callout-title">Page Count</div>
+            <p><strong>~35 unique pages</strong> at launch. Individual team pages and player profiles scale dynamically via CMS collections. Blog posts are ongoing SEO assets (target: 2 posts/month).</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 02 — HOMEPAGE WIREFRAME -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="homepage">
+    <div class="section-header">
+        <span class="section-num">02</span>
+        <div>
+            <div class="section-label">Homepage Layout</div>
+            <h2 class="section-title">Wireframe — Section by Section</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <div class="callout callout-strategy">
+            <div class="callout-title">Design Reference</div>
+            <p>Study these for tone: <strong>Nike EYBL</strong> (dark, bold, performance-first), <strong>Under Armour Next</strong> (clean grids, athlete-centric), <strong>IMG Academy</strong> (credibility-stacked). The vibe is "national program" not "local rec league."</p>
+        </div>
+
+        <div class="wireframe">
+            <!-- S1: HERO -->
+            <div class="wf-hero">
+                <div class="wf-label">Section 01 &bull; Hero &bull; 100vh</div>
+                <div class="wf-title">THE STANDARD.</div>
+                <div class="wf-desc">Long Island's Premier Lacrosse Development Program.<br>Full-bleed background video (practice highlights, slow-mo shots, celebrations). Dark overlay 60%.</div>
+                <div class="wf-cta-row">
+                    <span class="wf-cta wf-cta-primary">Find Your Program &rarr;</span>
+                    <span class="wf-cta wf-cta-outline">Watch Highlights</span>
+                </div>
+                <div class="wf-trust-bar">
+                    <span><span>500+</span> Athletes Developed</span>
+                    <span><span>85+</span> College Commits</span>
+                    <span><span>24</span> Travel Teams</span>
+                    <span><span>6</span> National Titles</span>
+                </div>
+            </div>
+
+            <!-- S2: PROGRAM SELECTOR -->
+            <div class="wf-block">
+                <div class="wf-label">Section 02 &bull; Program Selector</div>
+                <div class="wf-title">Find Your Path</div>
+                <div class="wf-desc">Four program cards. Large hero images, bold titles, one-liner descriptions. Each card links to its landing page. Hover: red border + slight lift.</div>
+                <div class="wf-grid wf-grid-4">
+                    <div class="wf-card">
+                        <div class="wf-card-label">Boys Lacrosse</div>
+                        <div class="wf-card-sub">Travel &bull; Clinics &bull; Private</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">Girls Lacrosse</div>
+                        <div class="wf-card-sub">Travel &bull; Clinics &bull; Private</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">BTB World Series</div>
+                        <div class="wf-card-sub">National Tournament</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">BTB Futures</div>
+                        <div class="wf-card-sub">Prospect Development</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S3: CREDIBILITY BAR -->
+            <div class="wf-block wf-dark">
+                <div class="wf-label">Section 03 &bull; College Commit Ticker</div>
+                <div class="wf-title" style="color:var(--white)">Where BTB Players Play</div>
+                <div class="wf-desc">Horizontal auto-scrolling logo bar of college programs where BTB alumni have committed. Grayscale logos, white on hover. 15–20 logos minimum. Below logos: "85+ college placements since 2018"</div>
+                <div class="wf-grid wf-grid-4" style="margin-top:0.8rem">
+                    <div class="wf-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1)">
+                        <div class="wf-card-label" style="color:rgba(255,255,255,0.4)">Syracuse</div>
+                    </div>
+                    <div class="wf-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1)">
+                        <div class="wf-card-label" style="color:rgba(255,255,255,0.4)">Duke</div>
+                    </div>
+                    <div class="wf-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1)">
+                        <div class="wf-card-label" style="color:rgba(255,255,255,0.4)">UNC</div>
+                    </div>
+                    <div class="wf-card" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1)">
+                        <div class="wf-card-label" style="color:rgba(255,255,255,0.4)">Notre Dame</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S4: ATHLETE SPOTLIGHT -->
+            <div class="wf-block">
+                <div class="wf-label">Section 04 &bull; Athlete Spotlight</div>
+                <div class="wf-title">Built Different</div>
+                <div class="wf-desc">3 featured athletes in a rotating carousel. Each card: action photo, name, grad year, position, committed school (if applicable). Click through to full player profile. This section screams "we produce D1 players."</div>
+                <div class="wf-grid wf-grid-3">
+                    <div class="wf-card">
+                        <div class="wf-card-label">Jake M. '27</div>
+                        <div class="wf-card-sub">Attack &bull; Committed: Syracuse</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">Sarah K. '28</div>
+                        <div class="wf-card-sub">Midfield &bull; Top 50 Recruit</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">Ethan R. '29</div>
+                        <div class="wf-card-sub">Defense &bull; BTB Futures</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S5: COACHING STAFF -->
+            <div class="wf-block">
+                <div class="wf-label">Section 05 &bull; Coaching Staff Preview</div>
+                <div class="wf-title">Led by the Best</div>
+                <div class="wf-desc">3 coaches. Headshot, name, title, credentials (where they played, years coaching, notable results). Link to full staff page. This answers the parent question: "Who is coaching my kid?"</div>
+                <div class="wf-grid wf-grid-3">
+                    <div class="wf-card">
+                        <div class="wf-card-label">Head of Program</div>
+                        <div class="wf-card-sub">Fmr. D1 &bull; 12yr coaching</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">Girls Director</div>
+                        <div class="wf-card-sub">Fmr. D1 &bull; US Lacrosse</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">Recruiting Coord.</div>
+                        <div class="wf-card-sub">50+ placements &bull; 8yr</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S6: UPCOMING EVENTS -->
+            <div class="wf-block">
+                <div class="wf-label">Section 06 &bull; Upcoming Events</div>
+                <div class="wf-title">What's Next</div>
+                <div class="wf-desc">Next 3–4 events pulled from calendar CMS. Each row: date block (month/day), event name, location, "Register" or "Learn More" button. Always ends with "View Full Schedule →" link.</div>
+                <div class="wf-grid wf-grid-2">
+                    <div class="wf-card">
+                        <div class="wf-card-label">Mar 15 &bull; Spring Tryouts</div>
+                        <div class="wf-card-sub">Stony Brook, NY &bull; Register</div>
+                    </div>
+                    <div class="wf-card">
+                        <div class="wf-card-label">Apr 6 &bull; Showcase</div>
+                        <div class="wf-card-sub">College coaches attend &bull; RSVP</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S7: PARENT TESTIMONIALS -->
+            <div class="wf-block">
+                <div class="wf-label">Section 07 &bull; Parent Testimonials</div>
+                <div class="wf-title">What Families Say</div>
+                <div class="wf-desc">3 testimonials, carousel format. <strong>Video preferred</strong> (thumbnail + play button). Fallback: quote card with name, "Parent of [Player Name], [College]". Star rating. This is the #1 trust signal for parents doing due diligence. The money quote format: "[Kid's name] got a D1 offer because of BTB."</div>
+            </div>
+
+            <!-- S8: NEWSLETTER -->
+            <div class="wf-block wf-dark">
+                <div class="wf-label">Section 08 &bull; Lead Capture</div>
+                <div class="wf-title" style="color:var(--white)">Stay in the Loop</div>
+                <div class="wf-desc">Email + first name + "Parent / Player / Coach" dropdown. CTA: "Get Tryout Dates & Recruiting Tips". Below: "Join 2,000+ BTB families." Subtle. No pop-ups.</div>
+            </div>
+
+            <!-- S9: INSTAGRAM FEED -->
+            <div class="wf-block">
+                <div class="wf-label">Section 09 &bull; Social Proof</div>
+                <div class="wf-title">@BTBLacrosse</div>
+                <div class="wf-desc">6-image Instagram grid embed (via Elfsight or native Wix Instagram widget). Shows life inside the program — practice clips, game wins, team photos, commit announcements. "Follow Us →" link.</div>
+            </div>
+
+            <!-- S10: FOOTER -->
+            <div class="wf-block wf-dark">
+                <div class="wf-label">Section 10 &bull; Footer</div>
+                <div class="wf-desc">4-column: Programs | About | Resources | Contact. Below: social icons, SafeSport badge, US Lacrosse member badge, copyright. "Register for Tryouts" button anchored in footer on mobile (sticky bottom bar).</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 03 — PAGE ARCHITECTURE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="pages">
+    <div class="section-header">
+        <span class="section-num">03</span>
+        <div>
+            <div class="section-label">Key Pages</div>
+            <h2 class="section-title">Page-Level Architecture</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <h3>Boys / Girls Lacrosse Landing Pages</h3>
+        <p>These two pages are the most visited after the homepage. They're the primary program selector for parents.</p>
+        <table class="arch-table">
+            <thead><tr><th>Section</th><th>Content</th><th>Purpose</th></tr></thead>
+            <tbody>
+                <tr><td>Hero</td><td>Program-specific action photo. "BTB Boys Lacrosse" / "BTB Girls Lacrosse". Tagline + Register CTA.</td><td>Identity</td></tr>
+                <tr><td>Age Selector</td><td>Visual grid of team cards by grad year (2027–2032). Each links to team-specific page.</td><td>Segmentation</td></tr>
+                <tr><td>Season Overview</td><td>Practice schedule, tournament calendar, cost breakdown, what's included.</td><td>Information</td></tr>
+                <tr><td>Staff Section</td><td>Program-specific coaches with headshots and credentials.</td><td>Trust</td></tr>
+                <tr><td>Results</td><td>Tournament placements, championships, season records.</td><td>Credibility</td></tr>
+                <tr><td>Parent FAQ</td><td>Accordion: cost, commitment level, skill requirements, tryout process.</td><td>Objection handling</td></tr>
+                <tr><td>CTA</td><td>"Register for Tryouts" + "Download Tryout Guide" (lead magnet).</td><td>Conversion</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Individual Team Pages <code>/boys-lacrosse/2029/</code></h3>
+        <p>CMS-driven. One template, populated per team.</p>
+        <table class="arch-table">
+            <thead><tr><th>Section</th><th>Content</th></tr></thead>
+            <tbody>
+                <tr><td>Team Header</td><td>Team name, grad year, division, head coach name + photo</td></tr>
+                <tr><td>Roster</td><td>Player grid: headshot, name, position, jersey number, height. (No DOB for COPPA.)</td></tr>
+                <tr><td>Schedule</td><td>Upcoming games/tournaments. Auto-pulled from calendar CMS.</td></tr>
+                <tr><td>Results</td><td>Season record, tournament finishes, notable wins.</td></tr>
+                <tr><td>Gallery</td><td>Photo gallery from games and practices.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>BTB World Series <code>/world-series/</code></h3>
+        <p>This is a standalone event brand within BTB. Treated as its own mini-site with distinct energy.</p>
+        <table class="arch-table">
+            <thead><tr><th>Section</th><th>Content</th></tr></thead>
+            <tbody>
+                <tr><td>Hero</td><td>Event branding. Date, location, "Register Your Team" CTA. Countdown timer.</td></tr>
+                <tr><td>Divisions</td><td>Age group breakdown. Team cap per division. Cost per team.</td></tr>
+                <tr><td>Past Champions</td><td>Photo + team name + year. Builds legitimacy.</td></tr>
+                <tr><td>Venue & Logistics</td><td>Field maps, hotels, parking, spectator info.</td></tr>
+                <tr><td>Registration Form</td><td>Team name, coach contact, division selection, payment.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>BTB Futures <code>/futures/</code></h3>
+        <p>Prospect development pipeline. Targets ambitious families with kids in grades 5–8 who want college exposure early.</p>
+        <table class="arch-table">
+            <thead><tr><th>Section</th><th>Content</th></tr></thead>
+            <tbody>
+                <tr><td>Hero</td><td>"The Next Generation Starts Here." Performance-first imagery.</td></tr>
+                <tr><td>What is Futures?</td><td>Program explanation: identification, development, exposure pathway.</td></tr>
+                <tr><td>Showcase Events</td><td>Upcoming showcase dates with college coach attendance lists.</td></tr>
+                <tr><td>Player Profiles</td><td>CMS grid of Futures athletes with highlight links, stats, GPA.</td></tr>
+                <tr><td>Success Stories</td><td>Futures alumni who earned college commits.</td></tr>
+                <tr><td>Apply</td><td>Application form: player info, film link, coach recommendation.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Recruiting Hub <code>/recruiting/</code></h3>
+        <table class="arch-table">
+            <thead><tr><th>Section</th><th>Content</th></tr></thead>
+            <tbody>
+                <tr><td>Commit Board</td><td>Grid of committed players: photo, name, school logo, year. Sortable by year.</td></tr>
+                <tr><td>Player Profiles</td><td>Individual player pages: highlight video, stats, academics, coach quote.</td></tr>
+                <tr><td>Resources</td><td>Blog-style articles: "When to Start Recruiting", "How to Make a Highlight Reel", NCAA rules guide.</td></tr>
+                <tr><td>Contact</td><td>"Have a college coach inquire about a BTB player" form.</td></tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 04 — CTA & FUNNEL STRATEGY -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="cta">
+    <div class="section-header">
+        <span class="section-num">04</span>
+        <div>
+            <div class="section-label">Conversion Architecture</div>
+            <h2 class="section-title">CTA & Funnel Strategy</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <h3>The Parent Decision Journey</h3>
+        <div class="callout callout-insight">
+            <div class="callout-title">Key Insight</div>
+            <p>The buyer is the parent. The user is the athlete. Every CTA must answer the parent's real question: <strong>"Will this help my kid get to the next level — and can I trust these people?"</strong></p>
+        </div>
+
+        <div class="funnel">
+            <div class="funnel-stage awareness">
+                <div class="funnel-stage-label">Awareness — "Who is BTB?"</div>
+                <p><strong>Traffic sources:</strong> Google search, Instagram, word-of-mouth referrals, tournament exposure.</p>
+                <p><strong>Goal:</strong> Get them to the site. Get them to stay 60+ seconds.</p>
+                <div class="funnel-ctas">
+                    <span class="funnel-cta-tag">Watch Highlights</span>
+                    <span class="funnel-cta-tag">View Programs</span>
+                    <span class="funnel-cta-tag">Read Blog Post</span>
+                    <span class="funnel-cta-tag">Follow on Instagram</span>
+                </div>
+            </div>
+            <div class="funnel-stage consideration">
+                <div class="funnel-stage-label">Consideration — "Is BTB right for us?"</div>
+                <p><strong>Behavior:</strong> Browsing program pages, reading coach bios, checking schedule, comparing with other clubs.</p>
+                <p><strong>Goal:</strong> Capture email. Build trust. Answer objections.</p>
+                <div class="funnel-ctas">
+                    <span class="funnel-cta-tag">Download Tryout Guide (PDF)</span>
+                    <span class="funnel-cta-tag">View Coaching Staff</span>
+                    <span class="funnel-cta-tag">See College Commits</span>
+                    <span class="funnel-cta-tag">Read Parent Testimonials</span>
+                    <span class="funnel-cta-tag">Subscribe to Newsletter</span>
+                </div>
+            </div>
+            <div class="funnel-stage conversion">
+                <div class="funnel-stage-label">Conversion — "We're in."</div>
+                <p><strong>Behavior:</strong> Ready to commit. Looking for registration link, tryout dates, payment info.</p>
+                <p><strong>Goal:</strong> Zero friction to register. One-click where possible.</p>
+                <div class="funnel-ctas">
+                    <span class="funnel-cta-tag">Register for Tryouts</span>
+                    <span class="funnel-cta-tag">Reserve Your Spot</span>
+                    <span class="funnel-cta-tag">Schedule a Call</span>
+                    <span class="funnel-cta-tag">Pay Deposit</span>
+                </div>
+            </div>
+            <div class="funnel-stage retention">
+                <div class="funnel-stage-label">Retention — "We're staying."</div>
+                <p><strong>Behavior:</strong> Current families. Need schedule, portal access, community.</p>
+                <p><strong>Goal:</strong> Keep families engaged. Reduce churn. Drive referrals.</p>
+                <div class="funnel-ctas">
+                    <span class="funnel-cta-tag">Parent Portal Login</span>
+                    <span class="funnel-cta-tag">BTB Academy Access</span>
+                    <span class="funnel-cta-tag">Refer a Friend</span>
+                    <span class="funnel-cta-tag">View Schedule</span>
+                </div>
+            </div>
+        </div>
+
+        <h3>CTA Button Hierarchy</h3>
+        <table class="arch-table">
+            <thead><tr><th>Level</th><th>Label</th><th>Style</th><th>Placement</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Primary</strong></td><td>"Register for Tryouts"</td><td>Red button, white text, arrow icon</td><td>Hero, nav bar, sticky mobile bar, every page footer</td></tr>
+                <tr><td><strong>Secondary</strong></td><td>"Find Your Program"</td><td>White button, red text or black outline</td><td>Hero, program pages</td></tr>
+                <tr><td><strong>Lead Magnet</strong></td><td>"Download Tryout Guide"</td><td>Black button, white text</td><td>Program pages, blog sidebar, exit intent</td></tr>
+                <tr><td><strong>Tertiary</strong></td><td>"View Schedule" / "Learn More"</td><td>Text link with arrow, no fill</td><td>Inline, event sections, cards</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Sticky Mobile CTA</h3>
+        <p>On mobile, a persistent bottom bar with <strong>"Register for Tryouts →"</strong> stays visible at all times. This alone can increase mobile conversion by 15–25%. Disappears only on the registration page itself.</p>
+
+        <h3>Exit Intent Popup (Desktop Only)</h3>
+        <p>Triggered when cursor leaves viewport. Offer: <strong>"Free Tryout Prep Guide"</strong> — email capture in exchange for a PDF covering what to bring, how to stand out, and the BTB evaluation criteria. This converts 3–5% of abandoning visitors.</p>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 05 — TRUST-BUILDING SYSTEM -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="trust">
+    <div class="section-header">
+        <span class="section-num">05</span>
+        <div>
+            <div class="section-label">Social Proof & Credibility</div>
+            <h2 class="section-title">Trust-Building System</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <div class="callout callout-strategy">
+            <div class="callout-title">The Trust Stack</div>
+            <p>Parents don't sign up because of features. They sign up because they trust you with their kid. Every page needs at least 3 trust signals visible without scrolling.</p>
+        </div>
+
+        <h3>Tier 1 — Hard Credentials (Non-Negotiable)</h3>
+        <p>These must be on every page, either in the header, hero, or immediately below.</p>
+        <ul class="checklist">
+            <li><strong>College Commit Count:</strong> "85+ College Placements" with logo bar. This is the single most powerful trust signal in youth lacrosse. Update in real-time as commits happen.</li>
+            <li><strong>Coaching Staff Credentials:</strong> Where coaches played (D1/D2/D3), years of experience, certifications. Every coach page needs a headshot, bio, and "Why I Coach" quote.</li>
+            <li><strong>SafeSport & Background Checks:</strong> Badge in footer + dedicated /safety/ page. Parents Google this. Be proactive.</li>
+            <li><strong>US Lacrosse Member Club:</strong> Official badge. Signals legitimacy to parents who don't know the landscape.</li>
+            <li><strong>Years Operating:</strong> "Est. [Year]" in the logo or footer. Longevity = legitimacy.</li>
+        </ul>
+
+        <h3>Tier 2 — Social Proof (Emotional Trust)</h3>
+        <ul class="checklist">
+            <li><strong>Parent Video Testimonials:</strong> 60-second clips. Format: "My son was [before]. After BTB, [after]." Name and face visible. Minimum 3 on homepage.</li>
+            <li><strong>Player Success Stories:</strong> Full-page features on athletes who committed. Journey narrative: "From BTB Futures to D1 Scholarship." Shareable format.</li>
+            <li><strong>Google Reviews Widget:</strong> Embed your Google Business reviews (target: 4.8+ stars, 50+ reviews). Parents check Google reviews before they check your website.</li>
+            <li><strong>"By the Numbers" Dashboard:</strong> 500+ athletes, 85+ commits, 24 teams, 6 national titles, 50 coaches. Large font, high-contrast, visible within 3 seconds of landing.</li>
+            <li><strong>Instagram Feed:</strong> Embedded. Shows daily life, wins, culture. Proves the program is active and thriving right now.</li>
+        </ul>
+
+        <h3>Tier 3 — Authority Signals</h3>
+        <ul class="checklist">
+            <li><strong>Media Mentions:</strong> "As Seen In" bar with logos: Inside Lacrosse, Newsday, LaxPower, local news. Even one feature is enough.</li>
+            <li><strong>Equipment / Brand Partnerships:</strong> If you have a deal with STX, Maverik, Epoch, etc. — logo bar with "Official Equipment Partner."</li>
+            <li><strong>Facility Photos:</strong> High-quality photos of where you practice and play. Turf fields, indoor facilities, branded gear. Visual quality = perceived program quality.</li>
+            <li><strong>College Coach Quotes:</strong> "BTB players show up prepared." — Attributed to actual college coaches who recruit your players. Massive credibility.</li>
+        </ul>
+
+        <h3>Trust Signal Placement by Page</h3>
+        <table class="arch-table">
+            <thead><tr><th>Page</th><th>Required Trust Signals</th></tr></thead>
+            <tbody>
+                <tr><td>Homepage</td><td>Stats bar, college logos, testimonials, coaching staff, Instagram feed, SafeSport badge</td></tr>
+                <tr><td>Boys / Girls Lacrosse</td><td>Program-specific results, coach bios, parent FAQ, college commits from that program</td></tr>
+                <tr><td>World Series</td><td>Past champions, team count history, venue photos, returning teams count</td></tr>
+                <tr><td>Futures</td><td>Success stories (Futures → commit), showcase attendance stats, college coach attendance list</td></tr>
+                <tr><td>Recruiting</td><td>Full commit board, college logos, player profile quality, coach endorsements</td></tr>
+                <tr><td>Registration</td><td>Minimal — just SafeSport badge, refund policy link, and "Trusted by 500+ families" one-liner. Don't distract.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 06 — SEO STRUCTURE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="seo">
+    <div class="section-header">
+        <span class="section-num">06</span>
+        <div>
+            <div class="section-label">Search Engine Optimization</div>
+            <h2 class="section-title">SEO Structure</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <h3>URL Strategy</h3>
+        <p>Clean, keyword-rich, human-readable. No trailing slashes inconsistency. No query parameters for navigation.</p>
+        <table class="arch-table">
+            <thead><tr><th>Page</th><th>URL</th><th>Primary Keyword</th></tr></thead>
+            <tbody>
+                <tr><td>Homepage</td><td><code>/</code></td><td>BTB lacrosse Long Island</td></tr>
+                <tr><td>Boys Lacrosse</td><td><code>/boys-lacrosse/</code></td><td>boys lacrosse club Long Island</td></tr>
+                <tr><td>Girls Lacrosse</td><td><code>/girls-lacrosse/</code></td><td>girls lacrosse Long Island</td></tr>
+                <tr><td>Travel Teams</td><td><code>/boys-lacrosse/travel/</code></td><td>youth lacrosse travel teams Long Island</td></tr>
+                <tr><td>World Series</td><td><code>/world-series/</code></td><td>youth lacrosse tournament Long Island</td></tr>
+                <tr><td>Futures</td><td><code>/futures/</code></td><td>lacrosse prospect development</td></tr>
+                <tr><td>Recruiting</td><td><code>/recruiting/</code></td><td>lacrosse recruiting help</td></tr>
+                <tr><td>College Commits</td><td><code>/recruiting/commits/</code></td><td>lacrosse college commits Long Island</td></tr>
+                <tr><td>Coaching Staff</td><td><code>/about/coaches/</code></td><td>lacrosse coaches Long Island</td></tr>
+                <tr><td>Schedule</td><td><code>/schedule/</code></td><td>BTB lacrosse schedule</td></tr>
+                <tr><td>Blog Hub</td><td><code>/blog/</code></td><td>lacrosse training tips</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Meta Tag Template</h3>
+        <table class="arch-table">
+            <thead><tr><th>Tag</th><th>Format</th></tr></thead>
+            <tbody>
+                <tr><td><code>&lt;title&gt;</code></td><td>[Page Name] | BTB Lacrosse — Long Island's Premier Lacrosse Academy</td></tr>
+                <tr><td><code>meta description</code></td><td>Unique per page, 150–160 chars, includes primary keyword + CTA language</td></tr>
+                <tr><td><code>og:title</code></td><td>Same as title tag</td></tr>
+                <tr><td><code>og:description</code></td><td>Same as meta description</td></tr>
+                <tr><td><code>og:image</code></td><td>1200x630 branded share image per page (red/black with BTB logo + page title)</td></tr>
+                <tr><td><code>canonical</code></td><td>Self-referencing. Critical for CMS-generated pages.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Schema Markup (Structured Data)</h3>
+        <table class="arch-table">
+            <thead><tr><th>Schema Type</th><th>Where</th><th>Why</th></tr></thead>
+            <tbody>
+                <tr><td><code>SportsTeam</code></td><td>Homepage, team pages</td><td>Rich result for "BTB Lacrosse" searches</td></tr>
+                <tr><td><code>LocalBusiness</code></td><td>Homepage, contact page</td><td>Google Maps / local pack results</td></tr>
+                <tr><td><code>Event</code></td><td>Schedule page, World Series</td><td>Event rich results in Google</td></tr>
+                <tr><td><code>Person</code></td><td>Coaching staff pages</td><td>Coach name searches → your site</td></tr>
+                <tr><td><code>FAQPage</code></td><td>FAQ sections on program pages</td><td>FAQ rich results (massive SERP real estate)</td></tr>
+                <tr><td><code>Article</code></td><td>Blog posts</td><td>Blog post rich results</td></tr>
+                <tr><td><code>BreadcrumbList</code></td><td>All pages</td><td>Navigation breadcrumbs in SERPs</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Blog / Content SEO Strategy</h3>
+        <p>Target: <strong>2 posts per month</strong>. Each post targets a specific long-tail keyword that parents or players are searching for.</p>
+        <table class="arch-table">
+            <thead><tr><th>Content Pillar</th><th>Example Posts</th><th>Target Keyword</th></tr></thead>
+            <tbody>
+                <tr><td>Training Tips</td><td>"5 Wall Ball Drills Every Youth Player Should Do Daily"</td><td>wall ball drills lacrosse</td></tr>
+                <tr><td>Recruiting</td><td>"When Should My Kid Start the College Lacrosse Recruiting Process?"</td><td>college lacrosse recruiting timeline</td></tr>
+                <tr><td>Parent Guides</td><td>"What to Expect at Your First Lacrosse Travel Tournament"</td><td>youth lacrosse travel tournament</td></tr>
+                <tr><td>Program News</td><td>"BTB Sends 12 Players to D1 Programs in 2026"</td><td>BTB lacrosse college commits 2026</td></tr>
+                <tr><td>Gear / Prep</td><td>"Best Lacrosse Sticks for Youth Players in 2026"</td><td>best youth lacrosse stick 2026</td></tr>
+                <tr><td>Local SEO</td><td>"Youth Lacrosse Programs on Long Island: A Parent's Guide"</td><td>youth lacrosse Long Island</td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-insight">
+            <div class="callout-title">Local SEO Priority</div>
+            <p><strong>Google Business Profile</strong> is arguably more important than on-page SEO for a local lacrosse club. Ensure the profile is fully optimized: photos, reviews, posts, Q&A, hours, service areas covering all of Long Island (Nassau + Suffolk counties). Target: 50+ Google reviews at 4.8+ stars.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 07 — AUTOMATION PLAYBOOK -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="automation">
+    <div class="section-header">
+        <span class="section-num">07</span>
+        <div>
+            <div class="section-label">Marketing & Operations</div>
+            <h2 class="section-title">Automation Playbook</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <div class="callout callout-strategy">
+            <div class="callout-title">Stack Recommendation</div>
+            <p><strong>LeagueApps</strong> (registration & payments) + <strong>Mailchimp or Klaviyo</strong> (email) + <strong>Twilio</strong> (SMS) + <strong>Zapier</strong> (glue) + <strong>Airtable</strong> (ops hub). This stack handles everything below and scales to 1,000+ families without custom code.</p>
+        </div>
+
+        <h3>Lead Capture Automations</h3>
+        <div class="auto-flow">
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Tryout Guide Downloaded</strong><br>Parent submits email for PDF → 4-email nurture sequence over 10 days: (1) Guide delivery, (2) "Why BTB" overview, (3) Coach intro video, (4) "Tryout dates announced — register now."</div>
+                <span class="auto-tool tool-email">Email</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Newsletter Signup</strong><br>Welcome email with program overview + next 3 events. Then segmented into weekly newsletter list. Segment by: parent vs. player, boys vs. girls, age group.</div>
+                <span class="auto-tool tool-email">Email</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Registration Started but Not Completed</strong><br>Abandoned cart flow: 1hr reminder, 24hr follow-up, 72hr "spots are filling" urgency email. Include direct link to resume registration.</div>
+                <span class="auto-tool tool-zapier">Zapier + Email</span>
+            </div>
+        </div>
+
+        <h3>Registration & Onboarding Automations</h3>
+        <div class="auto-flow">
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Tryout Registration Confirmed</strong><br>Instant confirmation email + SMS: date, location, what to bring, arrival time. 48hr before: reminder SMS with weather/field update. 1hr after: "Thanks for trying out — results within 48 hours" email.</div>
+                <span class="auto-tool tool-sms">Email + SMS</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Team Placement Confirmed</strong><br>Welcome sequence: (1) Placement announcement + team info, (2) Parent handbook PDF, (3) Calendar sync link + practice schedule, (4) Introduce the coaching staff, (5) Gear checklist. Spaced over 5 days.</div>
+                <span class="auto-tool tool-email">Email</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Payment Overdue</strong><br>Automatic reminders at 3 days, 7 days, 14 days past due. Escalate from email → SMS → direct coach outreach. Include payment link in every message.</div>
+                <span class="auto-tool tool-crm">LeagueApps + SMS</span>
+            </div>
+        </div>
+
+        <h3>Season Operations Automations</h3>
+        <div class="auto-flow">
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Practice Reminder (48hr Before)</strong><br>SMS to parent: "Reminder: [Team Name] practice on [Day] at [Time] at [Location]. Reply STOP to unsubscribe." Include weather alert if applicable.</div>
+                <span class="auto-tool tool-sms">SMS</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Game Day Notification</strong><br>Morning-of SMS with: opponent, time, location, Google Maps link. Post-game: score update email to parent list + photo gallery link.</div>
+                <span class="auto-tool tool-sms">SMS + Email</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Weather Cancellation</strong><br>Manual trigger by coach → auto-SMS and email to all affected families within 5 minutes. Include makeup date if available.</div>
+                <span class="auto-tool tool-sms">SMS</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Waiver Expiring (30 Days Before)</strong><br>Email + SMS to parent: "Your child's medical waiver expires on [Date]. Please update here: [Link]." Repeat at 14 days and 7 days if not updated.</div>
+                <span class="auto-tool tool-zapier">Airtable + SMS</span>
+            </div>
+        </div>
+
+        <h3>Retention & Re-Enrollment Automations</h3>
+        <div class="auto-flow">
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Season End (2 Weeks Before)</strong><br>Email: season recap, stats highlights, "What's Next" preview. Include early-bird re-enrollment link with discount. Follow-up survey: "Rate your BTB experience."</div>
+                <span class="auto-tool tool-email">Email</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Player Birthday</strong><br>Automated birthday email from "BTB Family" with player's name. Small gesture, massive retention signal. Include: "Want to celebrate with a private training session? 20% off this month."</div>
+                <span class="auto-tool tool-email">Email</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>College Commit Announcement</strong><br>When a BTB player commits: auto-email to all families celebrating the achievement. Social post template auto-generated. Builds "this could be your kid" narrative.</div>
+                <span class="auto-tool tool-zapier">Zapier + Email</span>
+            </div>
+            <div class="auto-card">
+                <span class="auto-trigger">Trigger</span>
+                <div class="auto-desc"><strong>Referral Program</strong><br>"Refer a family, get $100 off next season." Unique referral links per family tracked in Airtable. Auto-credit applied when referred family registers.</div>
+                <span class="auto-tool tool-crm">Airtable + Zapier</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 08 — BRAND & DESIGN SYSTEM -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="brand">
+    <div class="section-header">
+        <span class="section-num">08</span>
+        <div>
+            <div class="section-label">Visual Identity</div>
+            <h2 class="section-title">Brand & Design System</h2>
+        </div>
+    </div>
+    <div class="section-body">
+
+        <h3>Color System</h3>
+        <table class="arch-table">
+            <thead><tr><th>Token</th><th>Hex</th><th>Usage</th></tr></thead>
+            <tbody>
+                <tr><td><code>--primary</code></td><td><strong style="color:#D22630">#D22630</strong></td><td>CTAs, accents, headlines, badges. The "BTB red."</td></tr>
+                <tr><td><code>--primary-dark</code></td><td><strong style="color:#a01e26">#A01E26</strong></td><td>Hover states, gradients, emphasis.</td></tr>
+                <tr><td><code>--black</code></td><td><strong>#000000</strong></td><td>Backgrounds, nav, headers, body text. The dominant brand color.</td></tr>
+                <tr><td><code>--white</code></td><td>#FFFFFF</td><td>Card backgrounds, body text on dark, CTA text.</td></tr>
+                <tr><td><code>--off-white</code></td><td>#F5F5F5</td><td>Page backgrounds, alternating section fills.</td></tr>
+                <tr><td><code>--steel</code></td><td style="color:#4A4A4A"><strong>#4A4A4A</strong></td><td>Secondary text, descriptions, captions.</td></tr>
+                <tr><td><code>--light</code></td><td>#DADADA</td><td>Borders, dividers, progress track backgrounds.</td></tr>
+                <tr><td><code>--success</code></td><td><strong style="color:#2A9D8F">#2A9D8F</strong></td><td>Positive states: mastered, confirmed, complete.</td></tr>
+                <tr><td><code>--warning</code></td><td><strong style="color:#F4A261">#F4A261</strong></td><td>In-progress states, attention callouts.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-strategy">
+            <div class="callout-title">Color Ratio Rule</div>
+            <p><strong>70% black/dark, 20% white, 10% red.</strong> Red is the accent — not the background. This creates the Nike EYBL-level premium feel. The moment you put red backgrounds on large sections, it starts looking like a pizza shop flyer. Red is for buttons, headlines, borders, and badges only.</p>
+        </div>
+
+        <h3>Typography</h3>
+        <table class="arch-table">
+            <thead><tr><th>Role</th><th>Font</th><th>Weight</th><th>Usage</th></tr></thead>
+            <tbody>
+                <tr><td>Display / Headlines</td><td><strong>Bebas Neue</strong></td><td>400 (regular)</td><td>H1–H3, stats, nav logo, buttons, badges. Always uppercase.</td></tr>
+                <tr><td>Body / UI</td><td><strong>Montserrat</strong></td><td>300–700</td><td>Paragraphs, nav links, form inputs, captions, descriptions.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Photography Direction</h3>
+        <ul class="checklist">
+            <li><strong>Action shots only.</strong> No posed group photos with arms crossed. Every image should show athletes in motion — shooting, dodging, celebrating, competing.</li>
+            <li><strong>Dark, high-contrast editing.</strong> Desaturate slightly, boost contrast, add subtle vignette. Think ESPN highlight reel, not summer camp brochure.</li>
+            <li><strong>Consistent crop ratios.</strong> Hero: 16:9. Cards: 4:3. Headshots: 1:1. No exceptions.</li>
+            <li><strong>No stock photos.</strong> Every image should be from actual BTB practices, games, or events. Authenticity beats polish.</li>
+            <li><strong>Red accent overlays.</strong> Use red gradient overlays on dark photos for hero sections and CTA backgrounds.</li>
+        </ul>
+
+        <h3>Component Patterns</h3>
+        <table class="arch-table">
+            <thead><tr><th>Component</th><th>Style</th></tr></thead>
+            <tbody>
+                <tr><td>Cards</td><td>White background, 1px border #E8E8E8, 8–10px radius, subtle shadow on hover, red top-border accent on featured items.</td></tr>
+                <tr><td>Buttons</td><td>4px radius, font-weight 600, uppercase Bebas Neue, min-height 48px (touch target), arrow icon on primary CTAs.</td></tr>
+                <tr><td>Section Headers</td><td>Black background, white Bebas Neue text, red accent line (3–4px) at bottom. Every section starts with a label ("Programs", "Results") in red above the h2.</td></tr>
+                <tr><td>Stats</td><td>Large Bebas Neue number in red, label in steel gray below. Min font-size 2.5rem for the number.</td></tr>
+                <tr><td>Trust Badges</td><td>Grayscale logos, 40px height, horizontal row, auto-scrolling on mobile.</td></tr>
+                <tr><td>Forms</td><td>Dark background section. White input fields, rounded corners, red submit button. Minimal fields (name, email, phone, program interest).</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Page Speed Targets</h3>
+        <table class="arch-table">
+            <thead><tr><th>Metric</th><th>Target</th><th>How</th></tr></thead>
+            <tbody>
+                <tr><td>Largest Contentful Paint</td><td>&lt; 2.5s</td><td>Lazy-load images below fold, WebP format, preload hero image</td></tr>
+                <tr><td>First Input Delay</td><td>&lt; 100ms</td><td>Defer non-critical JS, no render-blocking scripts</td></tr>
+                <tr><td>Cumulative Layout Shift</td><td>&lt; 0.1</td><td>Set explicit width/height on all images, font-display: swap</td></tr>
+                <tr><td>Total Page Weight</td><td>&lt; 1.5MB</td><td>Compress images, no auto-playing video (click-to-load), minimal dependencies</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CLOSING -->
+<!-- ═══════════════════════════════════════════════ -->
+<div style="max-width:900px; margin:2rem auto; text-align:center; padding:3rem 2rem;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:var(--red); letter-spacing:0.15em; margin-bottom:0.5rem;">NEXT STEPS</div>
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--black); line-height:1.2; margin-bottom:1rem;">Build It Section by Section</div>
+    <p style="font-size:0.85rem; color:var(--steel); max-width:600px; margin:0 auto 1.5rem;">Start with the homepage and the two program landing pages (boys/girls). Get those live, running paid traffic, and converting before building the remaining pages. Perfect is the enemy of live.</p>
+    <table class="arch-table" style="max-width:600px; margin:0 auto;">
+        <thead><tr><th>Phase</th><th>Pages</th><th>Priority</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Phase 1</strong></td><td>Homepage, Boys Lacrosse, Girls Lacrosse, Register, Contact</td><td style="color:var(--red); font-weight:700;">Now</td></tr>
+            <tr><td><strong>Phase 2</strong></td><td>World Series, Futures, Schedule, Coaching Staff</td><td style="color:var(--warning); font-weight:700;">Week 2–3</td></tr>
+            <tr><td><strong>Phase 3</strong></td><td>Recruiting Hub, Player Profiles, Blog (first 5 posts)</td><td style="color:var(--info); font-weight:700;">Week 4–6</td></tr>
+            <tr><td><strong>Phase 4</strong></td><td>Academy, Coaches Hub, Parent Portal, Automations</td><td style="color:var(--steel); font-weight:700;">Week 7–8</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<footer style="background:var(--black); color:rgba(255,255,255,0.3); text-align:center; padding:2rem; font-size:0.7rem; letter-spacing:0.08em;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:1rem; color:rgba(255,255,255,0.15); letter-spacing:0.15em; margin-bottom:0.3rem;">BE THE BEST LACROSSE</div>
+    Site Architecture Blueprint &bull; v1.0 &bull; March 2026 &bull; Confidential
+</footer>
+
+</body>
+</html>

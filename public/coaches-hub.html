@@ -1,0 +1,2650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>Coaches Hub | BTB Lacrosse</title>
+    <meta name="description" content="BTB Coaches Hub — Official coaching resources, playbooks, diagrams, practice plans, and film study for BTB Lacrosse coaching staff.">
+    <meta property="og:title" content="Coaches Hub | BTB Lacrosse">
+    <meta property="og:description" content="BTB Coaches Hub — The complete coaching curriculum for Be The Best Lacrosse Club staff.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#D22630">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ========================================
+           BODY & GLOBALS
+           ======================================== */
+        body {
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        .btb-header {
+            background: #000;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .btb-nav a { color: rgba(255,255,255,0.75); }
+        .btb-nav a:hover { color: var(--primary); }
+
+        .hamburger span { background: #fff; }
+
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 16px;
+            background: var(--primary);
+            color: #fff;
+            padding: 8px 16px;
+            z-index: 10000;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 0 0 4px 4px;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* ========================================
+           PASSWORD GATE
+           ======================================== */
+        .gate-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.6s ease;
+        }
+
+        .gate-overlay.unlocking {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .gate-box {
+            text-align: center;
+            max-width: 520px;
+            width: 100%;
+        }
+
+        .gate-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            color: var(--white);
+            letter-spacing: 4px;
+            margin-bottom: 4px;
+        }
+
+        .gate-logo span { color: var(--primary); }
+
+        .gate-tagline {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 48px;
+        }
+
+        /* Role selection cards */
+        .gate-roles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .role-card {
+            background: #111;
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 24px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .role-card:hover {
+            border-color: rgba(210, 38, 48, 0.4);
+            background: #151515;
+        }
+
+        .role-card.selected {
+            border-color: var(--primary);
+            background: rgba(210, 38, 48, 0.08);
+            box-shadow: 0 0 20px rgba(210, 38, 48, 0.15);
+        }
+
+        .role-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .role-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .role-desc {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            font-weight: 500;
+        }
+
+        .gate-password-section {
+            display: none;
+            animation: fadeSlideUp 0.4s ease;
+        }
+
+        .gate-password-section.show {
+            display: block;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .gate-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 14px;
+        }
+
+        .gate-input-wrap {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .gate-input {
+            width: 100%;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            padding: 16px 50px 16px 20px;
+            outline: none;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .gate-input:focus { border-color: var(--primary); }
+
+        .gate-input.error {
+            border-color: var(--primary);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%       { transform: translateX(-8px); }
+            40%       { transform: translateX(8px); }
+            60%       { transform: translateX(-6px); }
+            80%       { transform: translateX(6px); }
+        }
+
+        .gate-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.35);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .gate-toggle:hover { color: rgba(255,255,255,0.7); }
+
+        .gate-error {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 1px;
+            min-height: 18px;
+            margin-bottom: 16px;
+        }
+
+        .gate-btn {
+            width: 100%;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 3px;
+            padding: 16px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .gate-btn:hover { background: #b81f28; }
+        .gate-btn:active { transform: scale(0.98); }
+
+        /* ========================================
+           ROLE BADGE
+           ======================================== */
+        .role-badge {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            background: rgba(210, 38, 48, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            display: none;
+        }
+
+        .role-badge.visible { display: block; }
+
+        /* ========================================
+           HERO
+           ======================================== */
+        .hero {
+            position: relative;
+            min-height: 65vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 140px 20px 80px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, #0a0a0a 0%, #111 40%, #0a0a0a 100%);
+            z-index: 0;
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(210,38,48,0.12) 0%, transparent 60%);
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 8s infinite ease-in-out;
+        }
+
+        @keyframes particleFloat {
+            0%   { opacity: 0; transform: translateY(100vh) scale(0); }
+            20%  { opacity: 0.5; }
+            50%  { opacity: 0.2; }
+            100% { opacity: 0; transform: translateY(-100px) scale(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.12);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 72px;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 16px;
+            letter-spacing: 3px;
+        }
+
+        .hero h1 .highlight { color: var(--primary); }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.65);
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.4);
+            max-width: 620px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-ctas .btn {
+            font-size: 0.75rem;
+            padding: 0.75rem 1.6rem;
+        }
+
+        /* ========================================
+           SECTION STYLES
+           ======================================== */
+        .ch-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ch-section-alt {
+            background: #111;
+        }
+
+        .ch-section-alt .ch-section {
+            padding: 80px 20px;
+        }
+
+        .section-tag {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .section-desc {
+            font-size: 15px;
+            color: rgba(255,255,255,0.45);
+            max-width: 700px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        /* ========================================
+           DASHBOARD GRID
+           ======================================== */
+        .dash-section {
+            background: #0a0a0a;
+            padding: 80px 20px;
+        }
+
+        .dash-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .dash-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 36px 28px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .dash-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(210, 38, 48, 0.12);
+        }
+
+        .dash-card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: rgba(210, 38, 48, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .dash-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .dash-card p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .dash-card-arrow {
+            margin-top: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s;
+        }
+
+        .dash-card:hover .dash-card-arrow { gap: 12px; }
+
+        .dash-sub-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .dash-sub-links a {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(210, 38, 48, 0.15);
+            border: 1px solid rgba(210, 38, 48, 0.3);
+            border-radius: 6px;
+            padding: 5px 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .dash-sub-links a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* ========================================
+           SUB-CARDS (3-col within sections)
+           ======================================== */
+        .sub-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .sub-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 28px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .sub-card:hover {
+            border-color: rgba(210, 38, 48, 0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .sub-card h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: #fff;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .sub-card p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .sub-card-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sub-card-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: gap 0.3s;
+        }
+
+        .sub-card-links a:hover { gap: 10px; }
+
+        /* ========================================
+           SVG DIAGRAMS
+           ======================================== */
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .diagram-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .diagram-card:hover {
+            border-color: rgba(210, 38, 48, 0.3);
+        }
+
+        .diagram-card svg {
+            width: 100%;
+            display: block;
+        }
+
+        .diagram-label {
+            padding: 14px 18px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 1.5px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* ========================================
+           MODULE CARDS
+           ======================================== */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .module-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 28px 24px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: rgba(210, 38, 48, 0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .module-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+        }
+
+        .module-card h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: #fff;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .module-card p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           PHASE TIMELINE
+           ======================================== */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            position: relative;
+            padding: 40px 0 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            z-index: 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 12px;
+            border: 3px solid;
+            background: #0a0a0a;
+        }
+
+        .timeline-dot.phase-1 { border-color: #3b82f6; color: #3b82f6; }
+        .timeline-dot.phase-2 { border-color: #D22630; color: #D22630; }
+        .timeline-dot.phase-3 { border-color: #22c55e; color: #22c55e; }
+        .timeline-dot.phase-4 { border-color: #C5A44E; color: #C5A44E; }
+        .timeline-dot.phase-5 { border-color: #a855f7; color: #a855f7; }
+
+        .timeline-phase {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 4px;
+        }
+
+        .timeline-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* ========================================
+           FILM FILTER & CARDS
+           ======================================== */
+        .film-filter {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .film-pill {
+            padding: 8px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 30px;
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .film-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .film-pill.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .film-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .film-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        .film-card:hover {
+            border-color: rgba(210, 38, 48, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .film-card.hidden { display: none; }
+
+        .film-thumb {
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .film-play {
+            width: 48px;
+            height: 48px;
+            background: rgba(210,38,48,0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .film-card:hover .film-play {
+            transform: scale(1.1);
+            background: var(--primary);
+        }
+
+        .film-play::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 0 8px 14px;
+            border-color: transparent transparent transparent #fff;
+            margin-left: 2px;
+        }
+
+        .film-info {
+            padding: 14px 16px;
+        }
+
+        .film-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .film-tag.defense { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .film-tag.offense { background: rgba(210,38,48,0.15); color: #f87171; }
+        .film-tag.goalie  { background: rgba(34,197,94,0.15); color: #4ade80; }
+        .film-tag.clearing { background: rgba(197,164,78,0.15); color: #C5A44E; }
+        .film-tag.riding  { background: rgba(168,85,247,0.15); color: #c084fc; }
+        .film-tag.transition { background: rgba(251,146,60,0.15); color: #fb923c; }
+
+        .film-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.4;
+        }
+
+        .film-tag.coaching { background: rgba(251,146,60,0.15); color: #fb923c; }
+        .film-tag.girls { background: rgba(236,72,153,0.15); color: #f472b6; }
+        .film-tag.playlists { background: rgba(155,89,182,0.15); color: #9b59b6; }
+
+        /* ── Channel Directory ── */
+        .channel-directory-header {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .channel-directory-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 24px;
+        }
+
+        .channel-category-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            margin: 32px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .channel-category-label:first-child { margin-top: 0; }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 0 0 24px;
+        }
+
+        .channel-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .channel-card:hover {
+            border-color: rgba(210,38,48,0.4);
+            transform: translateY(-2px);
+        }
+
+        .channel-card.btb-channel {
+            border-color: var(--primary);
+            background: rgba(210,38,48,0.06);
+        }
+
+        .channel-cat {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 6px;
+        }
+
+        .channel-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            color: #fff;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .channel-desc {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .channel-link {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .channel-link:hover { color: #fff; }
+
+        .btb-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            font-size: 9px;
+            letter-spacing: 1px;
+            padding: 2px 8px;
+            border-radius: 2px;
+            margin-bottom: 8px;
+        }
+
+        .playlist-badge {
+            background: rgba(155,89,182,0.2);
+            color: #9b59b6;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 2px 8px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .video-library-header {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: #fff;
+            margin: 48px 0 4px;
+        }
+
+        .video-library-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 24px;
+        }
+
+        .film-section-divider {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin: 40px 0;
+        }
+
+        /* ========================================
+           DOWNLOAD CARDS
+           ======================================== */
+        .dl-category {
+            margin-bottom: 32px;
+        }
+
+        .dl-category-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .dl-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .dl-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .dl-card:hover {
+            border-color: rgba(210, 38, 48, 0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .dl-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .dl-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dl-info h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 6px;
+            letter-spacing: 0;
+        }
+
+        .dl-info p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .dl-btn-active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .dl-btn-active:hover {
+            background: #b81f28;
+        }
+
+        .dl-btn-soon {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.3);
+            cursor: default;
+        }
+
+        /* ========================================
+           ROLE VISIBILITY
+           ======================================== */
+        body.role-assistant .admin-only,
+        body.role-assistant .coach-only { display: none !important; }
+
+        /* ========================================
+           SCROLL REVEAL
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 1024px) {
+            .film-grid { grid-template-columns: repeat(3, 1fr); }
+            .channel-grid { grid-template-columns: repeat(3, 1fr); }
+            .dl-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 120px 16px 60px; min-height: 50vh; }
+            .hero h1 { font-size: 48px; }
+            .hero-subtitle { font-size: 15px; }
+            .hero-desc { font-size: 13px; }
+            .hero-ctas { flex-direction: column; align-items: center; }
+            .hero-ctas .btn { width: 100%; max-width: 280px; justify-content: center; }
+
+            .dash-grid { grid-template-columns: 1fr; }
+            .sub-grid { grid-template-columns: 1fr; }
+            .diagram-grid { grid-template-columns: 1fr; }
+            .module-grid { grid-template-columns: 1fr; }
+            .film-grid { grid-template-columns: repeat(2, 1fr); }
+            .channel-grid { grid-template-columns: repeat(2, 1fr); }
+            .dl-grid { grid-template-columns: 1fr; }
+
+            .section-title { font-size: 32px; }
+            .ch-section { padding: 50px 16px; }
+
+            .gate-roles { grid-template-columns: 1fr; gap: 10px; }
+
+            .role-badge { top: 72px; right: 12px; font-size: 10px; }
+
+            /* Timeline: vertical on mobile */
+            .timeline {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 40px;
+                gap: 24px;
+            }
+
+            .timeline::before {
+                top: 0;
+                bottom: 0;
+                left: 19px;
+                right: auto;
+                width: 3px;
+                height: auto;
+            }
+
+            .timeline-item {
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                gap: 16px;
+            }
+
+            .timeline-dot { margin-bottom: 0; flex-shrink: 0; }
+
+            .btb-nav {
+                background: rgba(0, 0, 0, 0.98);
+            }
+
+            .btb-nav a { color: rgba(255,255,255,0.75); }
+        }
+
+        @media (max-width: 500px) {
+            .film-grid { grid-template-columns: 1fr; }
+            .channel-grid { grid-template-columns: 1fr; }
+            .film-filter { justify-content: center; }
+        }
+
+        /* ========================================
+           PRINT
+           ======================================== */
+        @media print {
+            .gate-overlay,
+            .role-badge,
+            .hamburger,
+            .btb-header { display: none !important; }
+
+            body { background: #fff; color: #000; }
+
+            .admin-only, .coach-only { display: block !important; }
+
+            .ch-section, .ch-section-alt,
+            .dash-section { background: #fff; }
+
+            .section-title, .sub-card h4, .module-card h4, .dash-card h3 { color: #000; }
+
+            .section-desc, .sub-card p, .module-card p, .dash-card p { color: #333; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Password Gate -->
+    <div class="gate-overlay" id="gateOverlay">
+        <div class="gate-box">
+            <div class="gate-logo">BTB <span>COACHES</span></div>
+            <div class="gate-tagline">Staff Only -- Select Your Role</div>
+
+            <!-- Role Selection -->
+            <div class="gate-roles" id="gateRoles">
+                <div class="role-card" data-role="administrator" onclick="selectRole(this)">
+                    <span class="role-icon">&#128272;</span>
+                    <div class="role-title">Administrator</div>
+                    <div class="role-desc">Director / Owner</div>
+                </div>
+                <div class="role-card" data-role="coach" onclick="selectRole(this)">
+                    <span class="role-icon">&#129351;</span>
+                    <div class="role-title">BTB Coach</div>
+                    <div class="role-desc">Head Coach / Lead</div>
+                </div>
+                <div class="role-card" data-role="assistant" onclick="selectRole(this)">
+                    <span class="role-icon">&#128203;</span>
+                    <div class="role-title">Assistant Coach</div>
+                    <div class="role-desc">Assistant / Volunteer</div>
+                </div>
+            </div>
+
+            <!-- Password Entry (shown after role selection) -->
+            <div class="gate-password-section" id="gatePasswordSection">
+                <div class="gate-label">Enter Staff Password</div>
+                <div class="gate-input-wrap">
+                    <input
+                        class="gate-input"
+                        id="gateInput"
+                        type="password"
+                        placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+                        autocomplete="off"
+                        spellcheck="false"
+                        maxlength="32"
+                        onkeydown="if(event.key==='Enter')gateSubmit()"
+                    >
+                    <button class="gate-toggle" id="gateToggle" onclick="gateToggleVisibility()" aria-label="Show/hide password" type="button">&#128065;</button>
+                </div>
+                <div class="gate-error" id="gateError"></div>
+                <button class="gate-btn" onclick="gateSubmit()">ENTER HUB</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Role Badge -->
+    <div class="role-badge" id="roleBadge"></div>
+
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Header -->
+    <header class="btb-header" id="navbar" role="banner">
+        <a href="index.html" class="btb-logo">
+            <img src="assets/B 3d Metal Logo copy.png" alt="BTB Lacrosse -- Home">
+        </a>
+        <nav class="btb-nav" id="navLinks" role="navigation" aria-label="Main navigation">
+            <a href="index.html">Our Standard</a>
+            <a href="players-hub.html">Players Hub</a>
+            <a href="world-series.html">World Series</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="coach-bios.html">Coaches</a>
+            <a href="faq.html">FAQ</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+        </nav>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <!-- ========================================
+         HERO
+         ======================================== -->
+    <section class="hero" id="main-content">
+        <div class="hero-bg"></div>
+        <div class="hero-particles" id="heroParticles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Staff Only</div>
+            <h1>BTB COACHES <span class="highlight">HUB</span></h1>
+            <p class="hero-subtitle">Official coaching resources for Be The Best Lacrosse Club.</p>
+            <p class="hero-desc">The complete BTB coaching curriculum &mdash; playbooks, diagrams, teaching modules, practice systems, and film study. Everything your staff needs to run the BTB standard.</p>
+            <div class="hero-ctas">
+                <a href="#defense-system" class="btn btn-primary">Defensive System</a>
+                <a href="#offense-system" class="btn btn-outline">Offensive System</a>
+                <a href="#film-study" class="btn btn-outline">Film Study</a>
+                <a href="#practice-planning" class="btn btn-outline">Practice Plans</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         DASHBOARD GRID
+         ======================================== -->
+    <section class="dash-section">
+        <div class="dash-grid">
+            <a href="#defense-system" class="dash-card reveal">
+                <div class="dash-card-icon">&#128737;</div>
+                <h3>DEFENSIVE SYSTEM</h3>
+                <p>Slide packages, zone principles, man-defense rules, riding and clearing systems for all BTB teams.</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+            <a href="#offense-system" class="dash-card reveal">
+                <div class="dash-card-icon">&#127919;</div>
+                <h3>OFFENSIVE SYSTEM</h3>
+                <p>Motion offense, set plays, man-up formations, and the full BTB offensive curriculum.</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+            <a href="coaches.html" class="dash-card reveal">
+                <div class="dash-card-icon">&#128218;</div>
+                <h3>DRILL LIBRARY</h3>
+                <p>Complete library of drills, progressions, and teaching sequences used in BTB practices.</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+            <a href="#practice-planning" class="dash-card reveal">
+                <div class="dash-card-icon">&#128197;</div>
+                <h3>PRACTICE PLANNING</h3>
+                <p>Season templates, practice plans, and the 5-phase install calendar for building your program.</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+            <a href="#film-study" class="dash-card reveal">
+                <div class="dash-card-icon">&#127909;</div>
+                <h3>FILM STUDY LIBRARY</h3>
+                <p>Curated video library for coaches. Defensive positioning, dodging technique, and goalie work.</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+            <a href="#downloads" class="dash-card reveal coach-only">
+                <div class="dash-card-icon">&#128229;</div>
+                <h3>DOWNLOADS</h3>
+                <p>Downloadable coaching resources. Print-ready PDFs, slide decks, and diagram packs.</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+            <div class="dash-card reveal" style="cursor:default;">
+                <div class="dash-card-icon">&#127916;</div>
+                <h3>VIDEO PLAYBOOKS</h3>
+                <p>D1 film breakdowns with POWLAX coaching analysis</p>
+                <div class="dash-sub-links">
+                    <a href="btb-boys-offense-playbook.html">Boys Motion Offense</a>
+                    <a href="btb-boys-defense-playbook.html">Boys Defense</a>
+                    <a href="btb-boys-transition-playbook.html">Boys Transition</a>
+                    <a href="btb-girls-offense-playbook.html">Girls Motion Offense</a>
+                    <a href="btb-girls-defense-playbook.html">Girls Defense</a>
+                    <a href="btb-girls-transition-playbook.html">Girls Transition</a>
+                </div>
+            </div>
+            <a href="btb-coach-ai.html" class="dash-card reveal">
+                <div class="dash-card-icon">&#129302;</div>
+                <h3>COACH AI</h3>
+                <p>AI-powered coaching assistant with D1 lacrosse knowledge</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+            <a href="btb-positionless-guru.html" class="dash-card reveal">
+                <div class="dash-card-icon">&#129504;</div>
+                <h3>POSITIONLESS GURU</h3>
+                <p>Deep dive into positionless offensive concepts</p>
+                <div class="dash-card-arrow">Enter &rarr;</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 1: DEFENSIVE SYSTEM
+         ======================================== -->
+    <div class="ch-section-alt" id="defense-system">
+        <div class="ch-section">
+            <span class="section-tag reveal">Defense</span>
+            <h2 class="section-title reveal">BTB Defensive System</h2>
+            <p class="section-desc reveal">The BTB Defensive System establishes a unified defensive identity across all BTB teams. It includes transition defense, riding systems, clearing systems, and substitution strategy.</p>
+
+            <div class="sub-grid">
+                <div class="sub-card reveal">
+                    <h4>Defensive Playbook</h4>
+                    <p>Complete defensive system used across all BTB teams. Includes slide packages, zone principles, and man-defense rules.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-boys-coaching-manual.html#s3">Open Boys Manual &rarr;</a>
+                        <a href="btb-girls-coaching-manual.html#s3">Open Girls Manual &rarr;</a>
+                    </div>
+                </div>
+                <div class="sub-card reveal">
+                    <h4>Riding Systems</h4>
+                    <p>Press ride, zone ride, and soft ride packages. Kill the outlet, force turnovers, control possession.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-boys-coaching-manual.html#s4">Open Boys Manual &rarr;</a>
+                        <a href="btb-girls-coaching-manual.html#s4">Open Girls Manual &rarr;</a>
+                    </div>
+                </div>
+                <div class="sub-card reveal">
+                    <h4>Clearing Systems</h4>
+                    <p>Standard clear, fast break clear, and goalie outlet options. Get the ball across midfield under pressure.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-boys-coaching-manual.html#s5">Open Boys Manual &rarr;</a>
+                        <a href="btb-girls-coaching-manual.html#s5">Open Girls Manual &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVG Diagrams -->
+            <div class="diagram-grid">
+                <!-- Crease Slide Diagram -->
+                <div class="diagram-card reveal">
+                    <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="320" fill="#111"/>
+                        <!-- Half field -->
+                        <line x1="20" y1="20" x2="380" y2="20" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="20" y1="20" x2="20" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="380" y1="20" x2="380" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="20" y1="300" x2="380" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <!-- Goal -->
+                        <rect x="175" y="280" width="50" height="20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" rx="2"/>
+                        <!-- Crease -->
+                        <circle cx="200" cy="280" r="45" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+                        <!-- Offense (red) -->
+                        <circle cx="200" cy="60" r="10" fill="#D22630"/>
+                        <text x="200" y="64" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">A</text>
+                        <circle cx="100" cy="120" r="10" fill="#D22630"/>
+                        <text x="100" y="124" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">M</text>
+                        <circle cx="300" cy="120" r="10" fill="#D22630"/>
+                        <text x="300" y="124" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">M</text>
+                        <circle cx="80" cy="220" r="10" fill="#D22630"/>
+                        <text x="80" y="224" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">A</text>
+                        <circle cx="320" cy="220" r="10" fill="#D22630"/>
+                        <text x="320" y="224" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">A</text>
+                        <circle cx="200" cy="240" r="10" fill="#D22630"/>
+                        <text x="200" y="244" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">C</text>
+                        <!-- Defense (blue) -->
+                        <circle cx="200" cy="100" r="10" fill="#3b82f6"/>
+                        <text x="200" y="104" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">1</text>
+                        <circle cx="120" cy="160" r="10" fill="#3b82f6"/>
+                        <text x="120" y="164" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">2</text>
+                        <circle cx="280" cy="160" r="10" fill="#3b82f6"/>
+                        <text x="280" y="164" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">3</text>
+                        <circle cx="100" cy="240" r="10" fill="#3b82f6"/>
+                        <text x="100" y="244" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">4</text>
+                        <circle cx="300" cy="240" r="10" fill="#3b82f6"/>
+                        <text x="300" y="244" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">5</text>
+                        <circle cx="200" cy="268" r="10" fill="#3b82f6"/>
+                        <text x="200" y="272" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">G</text>
+                        <!-- Ball carrier drive arrow -->
+                        <line x1="200" y1="72" x2="200" y2="88" stroke="#D22630" stroke-width="2" marker-end="url(#arrowR)"/>
+                        <!-- Crease slide arrow -->
+                        <path d="M 200 256 Q 160 200 140 170" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrowG)"/>
+                        <!-- Fill arrow -->
+                        <path d="M 110 238 Q 150 250 190 256" fill="none" stroke="#C5A44E" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowY)"/>
+                        <!-- Arrow markers -->
+                        <defs>
+                            <marker id="arrowR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#D22630"/></marker>
+                            <marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#22c55e"/></marker>
+                            <marker id="arrowY" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#C5A44E"/></marker>
+                        </defs>
+                        <!-- Labels -->
+                        <text x="130" y="188" fill="#22c55e" font-size="10" font-weight="bold" font-family="Montserrat,sans-serif">SLIDE</text>
+                        <text x="140" y="264" fill="#C5A44E" font-size="10" font-weight="bold" font-family="Montserrat,sans-serif">FILL</text>
+                    </svg>
+                    <div class="diagram-label">Crease Slide</div>
+                </div>
+
+                <!-- Press Ride Diagram -->
+                <div class="diagram-card reveal">
+                    <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="320" fill="#111"/>
+                        <!-- Full field lines -->
+                        <line x1="20" y1="20" x2="380" y2="20" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="20" y1="20" x2="20" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="380" y1="20" x2="380" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="20" y1="300" x2="380" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <!-- Midfield line -->
+                        <line x1="20" y1="160" x2="380" y2="160" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="8,4"/>
+                        <!-- Offensive goal (bottom) -->
+                        <rect x="175" y="280" width="50" height="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" rx="2"/>
+                        <!-- Defensive goal (top) -->
+                        <rect x="175" y="24" width="50" height="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" rx="2"/>
+                        <!-- Goalie with ball (top) -->
+                        <circle cx="200" cy="60" r="12" fill="#D22630" stroke="#fff" stroke-width="1.5"/>
+                        <text x="200" y="64" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">G</text>
+                        <!-- Outlet targets being denied (red = opponents trying to clear) -->
+                        <circle cx="100" cy="90" r="9" fill="#D22630" opacity="0.6"/>
+                        <circle cx="300" cy="90" r="9" fill="#D22630" opacity="0.6"/>
+                        <circle cx="140" cy="150" r="9" fill="#D22630" opacity="0.6"/>
+                        <circle cx="260" cy="150" r="9" fill="#D22630" opacity="0.6"/>
+                        <circle cx="200" cy="130" r="9" fill="#D22630" opacity="0.6"/>
+                        <!-- Press riders (blue = our ride team) -->
+                        <circle cx="200" cy="46" r="10" fill="#3b82f6"/>
+                        <text x="200" y="50" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">R1</text>
+                        <circle cx="115" cy="78" r="10" fill="#3b82f6"/>
+                        <text x="115" y="82" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">R2</text>
+                        <circle cx="285" cy="78" r="10" fill="#3b82f6"/>
+                        <text x="285" y="82" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">R3</text>
+                        <circle cx="150" cy="140" r="10" fill="#3b82f6"/>
+                        <text x="150" y="144" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">R4</text>
+                        <circle cx="250" cy="140" r="10" fill="#3b82f6"/>
+                        <text x="250" y="144" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">R5</text>
+                        <circle cx="200" cy="115" r="10" fill="#3b82f6"/>
+                        <text x="200" y="119" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">R6</text>
+                        <!-- Deny arrows -->
+                        <line x1="200" y1="56" x2="200" y2="68" stroke="#f87171" stroke-width="2"/>
+                        <line x1="200" y1="64" x2="196" y2="60" stroke="#f87171" stroke-width="2"/>
+                        <line x1="200" y1="64" x2="204" y2="60" stroke="#f87171" stroke-width="2"/>
+                        <!-- X marks for denial -->
+                        <text x="90" y="110" fill="#f87171" font-size="16" font-weight="bold">&#10005;</text>
+                        <text x="290" y="110" fill="#f87171" font-size="16" font-weight="bold">&#10005;</text>
+                        <!-- Label -->
+                        <text x="200" y="200" fill="rgba(255,255,255,0.25)" font-size="14" text-anchor="middle" font-weight="bold" font-family="Bebas Neue,sans-serif" letter-spacing="4">PRESS RIDE</text>
+                        <text x="200" y="220" fill="rgba(255,255,255,0.15)" font-size="10" text-anchor="middle" font-family="Montserrat,sans-serif">Deny all outlets. Trap the ball.</text>
+                    </svg>
+                    <div class="diagram-label">Press Ride</div>
+                </div>
+
+                <!-- Zone 1 Clear Diagram -->
+                <div class="diagram-card reveal">
+                    <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="320" fill="#111"/>
+                        <!-- Field lines -->
+                        <line x1="20" y1="20" x2="380" y2="20" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="20" y1="20" x2="20" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="380" y1="20" x2="380" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <line x1="20" y1="300" x2="380" y2="300" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+                        <!-- Midfield -->
+                        <line x1="20" y1="160" x2="380" y2="160" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="8,4"/>
+                        <!-- Our goal (bottom) -->
+                        <rect x="175" y="280" width="50" height="16" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" rx="2"/>
+                        <!-- Crease -->
+                        <circle cx="200" cy="280" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+                        <!-- Goalie with ball -->
+                        <circle cx="200" cy="260" r="12" fill="#3b82f6" stroke="#22c55e" stroke-width="2"/>
+                        <text x="200" y="264" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">G</text>
+                        <!-- Defenders -->
+                        <circle cx="120" cy="230" r="10" fill="#3b82f6"/>
+                        <text x="120" y="234" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">D1</text>
+                        <circle cx="280" cy="230" r="10" fill="#3b82f6"/>
+                        <text x="280" y="234" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">D2</text>
+                        <circle cx="200" cy="200" r="10" fill="#3b82f6"/>
+                        <text x="200" y="204" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">D3</text>
+                        <!-- Midfielders at midfield -->
+                        <circle cx="140" cy="150" r="10" fill="#3b82f6"/>
+                        <text x="140" y="154" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">M1</text>
+                        <circle cx="260" cy="150" r="10" fill="#3b82f6"/>
+                        <text x="260" y="154" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">M2</text>
+                        <!-- Attack at far midfield -->
+                        <circle cx="200" cy="100" r="10" fill="#3b82f6"/>
+                        <text x="200" y="104" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">A1</text>
+                        <!-- Clear arrows -->
+                        <defs>
+                            <marker id="arrowW" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#22c55e"/></marker>
+                        </defs>
+                        <!-- Goalie to D1 -->
+                        <path d="M 190 252 L 132 236" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowW)"/>
+                        <!-- Goalie to D2 -->
+                        <path d="M 210 252 L 268 236" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,3"/>
+                        <!-- D1 up to M1 -->
+                        <path d="M 124 220 Q 130 185 138 162" fill="none" stroke="#C5A44E" stroke-width="2" marker-end="url(#arrowY)"/>
+                        <!-- M1 to A1 -->
+                        <path d="M 148 142 Q 170 120 192 108" fill="none" stroke="#C5A44E" stroke-width="2" stroke-dasharray="5,3"/>
+                        <!-- Labels -->
+                        <text x="160" y="248" fill="#22c55e" font-size="10" font-weight="bold" font-family="Montserrat,sans-serif">OUTLET</text>
+                        <text x="108" y="192" fill="#C5A44E" font-size="10" font-weight="bold" font-family="Montserrat,sans-serif">CLEAR</text>
+                        <text x="200" y="50" fill="rgba(255,255,255,0.2)" font-size="14" text-anchor="middle" font-weight="bold" font-family="Bebas Neue,sans-serif" letter-spacing="3">ZONE 1 CLEAR</text>
+                    </svg>
+                    <div class="diagram-label">Zone 1 Clear</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         SECTION 2: OFFENSIVE SYSTEM
+         ======================================== -->
+    <div id="offense-system">
+        <div class="ch-section">
+            <span class="section-tag reveal">Offense</span>
+            <h2 class="section-title reveal">BTB Offensive System</h2>
+            <p class="section-desc reveal">Motion offense principles, set plays, and settled 6v6 systems. Installed progressively across the season.</p>
+
+            <div class="sub-grid">
+                <div class="sub-card reveal">
+                    <h4>Motion Offense</h4>
+                    <p>Cut-replace motion, spacing rules, ball movement. The foundation of BTB offense.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-boys-coaching-manual.html#s2">Open Boys Manual &rarr;</a>
+                        <a href="btb-girls-coaching-manual.html#s2">Open Girls Manual &rarr;</a>
+                    </div>
+                </div>
+                <div class="sub-card reveal">
+                    <h4>Set Plays</h4>
+                    <p>DUKE, RED, BLUE, FAST, FLIP &mdash; named plays with full teaching progressions.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-boys-coaching-manual.html#s2">Open Boys Manual (Stage 6) &rarr;</a>
+                    </div>
+                </div>
+                <div class="sub-card reveal coach-only">
+                    <h4>Man-Up / EMO</h4>
+                    <p>Extra man offense formations and rotations. 1-3-2 set, skip passes, 3 set plays.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-boys-coaching-manual.html#s7">Open Boys Manual &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         SECTION 3: PLAYER LEARNING MODULES
+         ======================================== -->
+    <div class="ch-section-alt" id="player-modules">
+        <div class="ch-section">
+            <span class="section-tag reveal">Teaching</span>
+            <h2 class="section-title reveal">Player Learning Modules</h2>
+            <p class="section-desc reveal">Short training modules used to teach BTB players core concepts.</p>
+
+            <div class="module-grid">
+                <div class="module-card reveal">
+                    <span class="module-badge">Module 1</span>
+                    <h4>Riding Principles</h4>
+                    <p>Why we ride, how we ride, and what every player must know about transition defense. Covers press ride, zone ride, and soft ride philosophies, plus individual responsibilities by position.</p>
+                </div>
+                <div class="module-card reveal">
+                    <span class="module-badge">Module 2</span>
+                    <h4>Clearing Responsibilities</h4>
+                    <p>Position-by-position clearing duties. Goalie outlets, midfield lanes, attack positioning. How to move the ball from our defensive end to the offensive end under pressure.</p>
+                </div>
+                <div class="module-card reveal">
+                    <span class="module-badge">Module 3</span>
+                    <h4>Defensive Transition</h4>
+                    <p>Getting back, matching up on the run, and communication systems. The first 5 seconds after a turnover determine whether you get scored on or lock down.</p>
+                </div>
+                <div class="module-card reveal">
+                    <span class="module-badge">Module 4</span>
+                    <h4>Communication Systems</h4>
+                    <p>Ball, help, fire, slide &mdash; the BTB defensive vocabulary every player must master. Clear, consistent communication is the backbone of every great defense.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         SECTION 4: PRACTICE PLANNING
+         ======================================== -->
+    <div id="practice-planning">
+        <div class="ch-section">
+            <span class="section-tag reveal">Planning</span>
+            <h2 class="section-title reveal">Practice Planning</h2>
+            <p class="section-desc reveal">Practice templates and season plans used across all BTB teams.</p>
+
+            <div class="sub-grid">
+                <div class="sub-card reveal">
+                    <h4>Preseason Install Calendar</h4>
+                    <p>The 5-phase install progression used to build the complete BTB system from Day 1 through championship prep.</p>
+                </div>
+                <div class="sub-card reveal">
+                    <h4>25 Practice Plans (Boys)</h4>
+                    <p>Complete daily practice plans with warm-up, drills, team segments, and cool-down for every session of the season.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-boys-coaching-manual.html#s9">Open Boys Plans &rarr;</a>
+                    </div>
+                </div>
+                <div class="sub-card reveal">
+                    <h4>25 Practice Plans (Girls)</h4>
+                    <p>Complete daily practice plans tailored for the girls program, including draw control and defensive positioning segments.</p>
+                    <div class="sub-card-links">
+                        <a href="btb-girls-coaching-manual.html#s8">Open Girls Plans &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase Timeline -->
+            <div class="timeline reveal">
+                <div class="timeline-item">
+                    <div class="timeline-dot phase-1">1</div>
+                    <div>
+                        <div class="timeline-phase">Phase 1</div>
+                        <div class="timeline-name">Foundation</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot phase-2">2</div>
+                    <div>
+                        <div class="timeline-phase">Phase 2</div>
+                        <div class="timeline-name">System Install</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot phase-3">3</div>
+                    <div>
+                        <div class="timeline-phase">Phase 3</div>
+                        <div class="timeline-name">Integration</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot phase-4">4</div>
+                    <div>
+                        <div class="timeline-phase">Phase 4</div>
+                        <div class="timeline-name">Competition</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot phase-5">5</div>
+                    <div>
+                        <div class="timeline-phase">Phase 5</div>
+                        <div class="timeline-name">Championship</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         SECTION 5: FILM STUDY LIBRARY
+         ======================================== -->
+    <div class="ch-section-alt" id="film-study">
+        <div class="ch-section">
+            <span class="section-tag reveal">Film</span>
+            <h2 class="section-title reveal">BTB Film Study Library</h2>
+            <p class="section-desc reveal">Years of curated coaching film &mdash; organized by category. Every video here has been reviewed and selected for BTB coaching education.</p>
+
+            <!-- ── PART A: CHANNEL DIRECTORY ── -->
+            <div class="channel-directory-header reveal">Channel Directory</div>
+            <div class="channel-directory-sub reveal">Trusted YouTube channels used in BTB coaching education. Bookmark these.</div>
+
+            <!-- BTB LACROSSE -->
+            <div class="channel-category-label reveal">BTB Lacrosse</div>
+            <div class="channel-grid reveal">
+                <div class="channel-card btb-channel">
+                    <span class="btb-badge">Our Channel</span>
+                    <div class="channel-cat">BTB Lacrosse</div>
+                    <div class="channel-name">BTB LAX</div>
+                    <div class="channel-desc">Be The Best Lacrosse &mdash; our own channel. Game film, highlights, events.</div>
+                    <a href="https://www.youtube.com/@BTBLAX" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+            </div>
+
+            <!-- COACHING & STRATEGY -->
+            <div class="channel-category-label reveal">Coaching &amp; Strategy</div>
+            <div class="channel-grid reveal">
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">HogansLax</div>
+                    <div class="channel-desc">Matt Hogan &mdash; 30+ years of coaching. Practice planning, drills, strategy.</div>
+                    <a href="https://www.youtube.com/@HogansLax" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">POWLAX</div>
+                    <div class="channel-desc">Patrick Chapla &mdash; offensive systems, motion offense, play breakdowns.</div>
+                    <a href="https://www.youtube.com/@POWLAX" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">Coaching Through Cancellation</div>
+                    <div class="channel-desc">Coaching philosophy, drills, and development.</div>
+                    <a href="https://www.youtube.com/@coachingthroughcancellatio751" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">Modern Lacrosse</div>
+                    <div class="channel-desc">Modern coaching concepts and tactical breakdowns.</div>
+                    <a href="https://www.youtube.com/@ModernLacrosse" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">Lacrosse Film Room</div>
+                    <div class="channel-desc">Film breakdown and tactical analysis of college/pro games.</div>
+                    <a href="https://www.youtube.com/@lacrossefilmroom" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">GLE Lacrosse</div>
+                    <div class="channel-desc">Goal Line Extended &mdash; behind-the-cage offense, X attack, feeds.</div>
+                    <a href="https://www.youtube.com/@GLE-Lacrosse" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">JM3 Sports</div>
+                    <div class="channel-desc">Jim Mule &mdash; coaching education, practice design, program building.</div>
+                    <a href="https://www.youtube.com/@jm3sports" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">John Knowles</div>
+                    <div class="channel-desc">Coaching concepts and lacrosse fundamentals.</div>
+                    <a href="https://www.youtube.com/@johnknowles4814" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Coaching &amp; Strategy</div>
+                    <div class="channel-name">Pivot Guy</div>
+                    <div class="channel-desc">Pivot footwork, individual skills, technique breakdowns.</div>
+                    <a href="https://www.youtube.com/@pivotguy33" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+            </div>
+
+            <!-- COLLEGE & PRO -->
+            <div class="channel-category-label reveal">College &amp; Pro</div>
+            <div class="channel-grid reveal">
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">College Lacrosse OFF</div>
+                    <div class="channel-desc">College game highlights, plays, and recruiting content.</div>
+                    <a href="https://www.youtube.com/@CollegeLacrosseOFF" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">Inside Lacrosse</div>
+                    <div class="channel-desc">The trusted source since 1996 &mdash; highlights, analysis, profiles.</div>
+                    <a href="https://www.youtube.com/@insidelacrosse" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">CuseCrease</div>
+                    <div class="channel-desc">Syracuse lacrosse content and analysis.</div>
+                    <a href="https://www.youtube.com/@CuseCrease" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">Prime Lacrosse</div>
+                    <div class="channel-desc">Premium lacrosse content and player features.</div>
+                    <a href="https://www.youtube.com/@primelacrosse" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">TLN (The Lacrosse Network)</div>
+                    <div class="channel-desc">Wall ball, drills, player development, and news.</div>
+                    <a href="https://www.youtube.com/@TLN" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">LacrosseTV</div>
+                    <div class="channel-desc">24/7 lacrosse network &mdash; games, highlights, coaching.</div>
+                    <a href="https://www.youtube.com/@LacrosseTV" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">First Class Lax</div>
+                    <div class="channel-desc">Deemer Class &mdash; pro player perspective, training, skills.</div>
+                    <a href="https://www.youtube.com/@firstclasslax" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">College &amp; Pro</div>
+                    <div class="channel-name">HLX1881</div>
+                    <div class="channel-desc">Lacrosse highlights and game film.</div>
+                    <a href="https://www.youtube.com/@HLX1881" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+            </div>
+
+            <!-- WOMEN'S / GIRLS LACROSSE -->
+            <div class="channel-category-label reveal">Women's / Girls Lacrosse</div>
+            <div class="channel-grid reveal">
+                <div class="channel-card">
+                    <div class="channel-cat">Women's / Girls Lacrosse</div>
+                    <div class="channel-name">Women's Lax Drills</div>
+                    <div class="channel-desc">Girls lacrosse-specific drills and training videos.</div>
+                    <a href="https://www.youtube.com/@womenslaxdrills4102" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Women's / Girls Lacrosse</div>
+                    <div class="channel-name">Taylor Cummings</div>
+                    <div class="channel-desc">3x Tewaaraton winner &mdash; draw control, skills, training.</div>
+                    <a href="https://www.youtube.com/@TaylorCummings21" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Women's / Girls Lacrosse</div>
+                    <div class="channel-name">STX Women's Lacrosse</div>
+                    <div class="channel-desc">Girls lacrosse gear, skills, and training content.</div>
+                    <a href="https://www.youtube.com/@STXWomensLacrosse" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+            </div>
+
+            <!-- TRAINING & DEVELOPMENT -->
+            <div class="channel-category-label reveal">Training &amp; Development</div>
+            <div class="channel-grid reveal">
+                <div class="channel-card">
+                    <div class="channel-cat">Training &amp; Development</div>
+                    <div class="channel-name">Team Zebra Lax</div>
+                    <div class="channel-desc">Youth development, drills, and coaching education.</div>
+                    <a href="https://www.youtube.com/@team_zebra_lax" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Training &amp; Development</div>
+                    <div class="channel-name">Lacrosse Training</div>
+                    <div class="channel-desc">Skills development and individual training content.</div>
+                    <a href="https://www.youtube.com/@lacrosse.training" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+                <div class="channel-card">
+                    <div class="channel-cat">Training &amp; Development</div>
+                    <div class="channel-name">USA Lacrosse</div>
+                    <div class="channel-desc">The national governing body &mdash; rules, coaching education, events.</div>
+                    <a href="https://www.youtube.com/@USA_Lacrosse" target="_blank" rel="noopener" class="channel-link">Visit Channel &rarr;</a>
+                </div>
+            </div>
+
+            <!-- ── PART B: CURATED VIDEO LIBRARY ── -->
+            <hr class="film-section-divider">
+            <div class="video-library-header reveal">Curated Video Library</div>
+            <div class="video-library-sub reveal">Individual videos and playlists hand-picked for BTB coaching staff.</div>
+
+            <div class="film-filter" id="filmFilter">
+                <button class="film-pill active" data-filter="all">All</button>
+                <button class="film-pill" data-filter="coaching">Coaching</button>
+                <button class="film-pill" data-filter="defense">Defense</button>
+                <button class="film-pill" data-filter="offense">Offense</button>
+                <button class="film-pill" data-filter="goalie">Goalie</button>
+                <button class="film-pill" data-filter="girls">Girls</button>
+                <button class="film-pill" data-filter="playlists">Playlists</button>
+            </div>
+
+            <div class="film-grid" id="filmGrid">
+
+                <!-- ── EXISTING VIDEOS (preserved) ── -->
+
+                <a href="https://www.youtube.com/watch?v=BY7K0IaDNMM" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Defensive Slides &amp; Positioning</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=wT7yw77eQs4" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Wall Ball Fundamentals</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=DQpOn9hU3-4" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Face-Off Basics</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=vwmjMydx0OI" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Shooting Drills</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=FKr65AUZdV0" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Defensive Stance &amp; Ball Position</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=M4Tvpgv1RA0" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Split Dodge Tutorial</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=1FZv4GwtNE0" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Roll Dodge Tutorial</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=wOMQhw314CU" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Defense Drills &amp; Agility</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=EuAt_evb0I8" target="_blank" rel="noopener" class="film-card" data-category="goalie">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag goalie">Goalie</span>
+                        <div class="film-title">Goalie Warm-Up Drills</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=3jSPUOUNnHM" target="_blank" rel="noopener" class="film-card" data-category="goalie">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag goalie">Goalie</span>
+                        <div class="film-title">Goalie Butterfly Drills</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=jw3Ib8PF3TQ" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Scooping &amp; Cradling</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=LSM-Ppcrwno" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Two Man Game Shooting</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=P4XLWi_b_EU" target="_blank" rel="noopener" class="film-card" data-category="girls">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag girls">Girls</span>
+                        <div class="film-title">Girls: Push Draw Technique</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=vz5hdrna4IE" target="_blank" rel="noopener" class="film-card" data-category="girls">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag girls">Girls</span>
+                        <div class="film-title">Girls: On-Ball Defense</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=I7XHgciCn5A" target="_blank" rel="noopener" class="film-card" data-category="girls">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag girls">Girls</span>
+                        <div class="film-title">Girls: Cutting into 8M</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=SXNmDdGym1U" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Clearing Drill</div>
+                    </div>
+                </a>
+
+                <!-- ── NEW INDIVIDUAL VIDEOS ── -->
+
+                <a href="https://www.youtube.com/watch?v=54n9CVGaums" target="_blank" rel="noopener" class="film-card" data-category="coaching">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">PPSV Lacrosse</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=3s0W7oRz_fg" target="_blank" rel="noopener" class="film-card" data-category="coaching">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">Lacrosse Training Film</div>
+                    </div>
+                </a>
+
+                <a href="https://youtu.be/_H1CyZpCGcw" target="_blank" rel="noopener" class="film-card" data-category="coaching">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">Lacrosse Coaching Breakdown</div>
+                    </div>
+                </a>
+
+                <!-- ── NEW PLAYLISTS ── -->
+
+                <a href="https://www.youtube.com/watch?v=HdsGeEQETHA&amp;list=PLS7H-dn2OpWBwM7VGJUbzjGnV6fwjS3B9" target="_blank" rel="noopener" class="film-card" data-category="playlists">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="playlist-badge">Playlist</span>
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">BTB Film Study Playlist</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=DwmM4tVRZAo&amp;list=PLS7H-dn2OpWBFKnPYox9AM_9BM5x9AIhp" target="_blank" rel="noopener" class="film-card" data-category="playlists">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="playlist-badge">Playlist</span>
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">BTB Training Playlist</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/playlist?list=PL2nZ0lEJHn2eBkCzuJM8N5fA2_LSypQYK" target="_blank" rel="noopener" class="film-card" data-category="playlists">
+                    <div class="film-thumb"><div class="film-play"></div></div>
+                    <div class="film-info">
+                        <span class="playlist-badge">Playlist</span>
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">Lacrosse Drill Collection</div>
+                    </div>
+                </a>
+
+                <!-- ── POWLAX FILM BREAKDOWNS ── -->
+
+                <a href="https://www.youtube.com/watch?v=TsTgsq2vcPE" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/TsTgsq2vcPE/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Adjacent Slide Basics</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=JITcbrt8g8M" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/JITcbrt8g8M/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Crease Slide Basics</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=TL__YxdGSKQ" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/TL__YxdGSKQ/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Near Man Defense</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=rKZU6IMtJvo" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/rKZU6IMtJvo/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Defending 2-Man Games</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=MQEnQtZem-o" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/MQEnQtZem-o/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Wesleyan 3-3 Zone</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=pev8Lh9e6ng" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/pev8Lh9e6ng/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">Box and 1 Man-Down</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=9B-DbHoCERg" target="_blank" rel="noopener" class="film-card" data-category="defense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/9B-DbHoCERg/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag defense">Defense</span>
+                        <div class="film-title">House Zone Man-Down</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=131gO57WErA" target="_blank" rel="noopener" class="film-card" data-category="coaching">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/131gO57WErA/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">The Riding Playbook</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=bjIKPeCmhwc" target="_blank" rel="noopener" class="film-card" data-category="coaching">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/bjIKPeCmhwc/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">10 Man Ride</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=sX7_dwPEUHs" target="_blank" rel="noopener" class="film-card" data-category="coaching">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/sX7_dwPEUHs/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">4-3 Clear</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=YfAveIh47Pc" target="_blank" rel="noopener" class="film-card" data-category="coaching">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/YfAveIh47Pc/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag coaching">Coaching</span>
+                        <div class="film-title">Faceoff Plays &amp; Tactics</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=HwZ3IUpPbz8" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/HwZ3IUpPbz8/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">Cheddar/Pepper Jack Man Up</div>
+                    </div>
+                </a>
+
+                <a href="https://www.youtube.com/watch?v=qLht8H1LofY" target="_blank" rel="noopener" class="film-card" data-category="offense">
+                    <div class="film-thumb" style="background-image:url('https://img.youtube.com/vi/qLht8H1LofY/mqdefault.jpg');background-size:cover;background-position:center;">
+                        <div class="film-play"></div>
+                    </div>
+                    <div class="film-info">
+                        <span class="film-tag offense">Offense</span>
+                        <div class="film-title">22 Quick Man Up</div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         SECTION 6: DOWNLOADS
+         ======================================== -->
+    <div class="coach-only" id="downloads">
+        <div class="ch-section">
+            <span class="section-tag reveal">Resources</span>
+            <h2 class="section-title reveal">Downloads</h2>
+            <p class="section-desc reveal">Downloadable coaching resources. Print-ready PDFs, slide decks, and diagram packs.</p>
+
+            <div class="dl-category reveal">
+                <div class="dl-category-title">Defensive System</div>
+                <div class="dl-grid">
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>BTB Defensive Playbook</h5>
+                            <p>Complete defensive system for all BTB teams.</p>
+                            <a href="btb-boys-coaching-manual.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>Coach Certification Manual</h5>
+                            <p>Staff certification guide and standards.</p>
+                            <span class="dl-btn dl-btn-soon">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128202;</div>
+                        <div class="dl-info">
+                            <h5>Defensive Slides Deck</h5>
+                            <p>Visual slide presentation for defensive concepts.</p>
+                            <span class="dl-btn dl-btn-soon">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dl-category reveal">
+                <div class="dl-category-title">Offensive System</div>
+                <div class="dl-grid">
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>BTB Boys Coaching Manual</h5>
+                            <p>Full boys coaching curriculum and playbook.</p>
+                            <a href="btb-boys-coaching-manual.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>BTB Girls Coaching Manual</h5>
+                            <p>Full girls coaching curriculum and playbook.</p>
+                            <a href="btb-girls-coaching-manual.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dl-category reveal">
+                <div class="dl-category-title">Player Modules</div>
+                <div class="dl-grid">
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>Riding Module</h5>
+                            <p>Player-facing riding principles handout.</p>
+                            <span class="dl-btn dl-btn-soon">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>Clearing Module</h5>
+                            <p>Player-facing clearing responsibilities handout.</p>
+                            <span class="dl-btn dl-btn-soon">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>Defensive IQ Module</h5>
+                            <p>Defensive decision-making workbook.</p>
+                            <span class="dl-btn dl-btn-soon">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dl-category reveal">
+                <div class="dl-category-title">Practice Plans</div>
+                <div class="dl-grid">
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>Boys 25 Practice Plans</h5>
+                            <p>Complete season of daily practice plans.</p>
+                            <a href="btb-boys-coaching-manual.html#s9" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#128196;</div>
+                        <div class="dl-info">
+                            <h5>Girls 25 Practice Plans</h5>
+                            <p>Complete season of daily practice plans.</p>
+                            <a href="btb-girls-coaching-manual.html#s8" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dl-category reveal">
+                <div class="dl-category-title">Video Playbooks</div>
+                <div class="dl-grid">
+                    <div class="dl-card">
+                        <div class="dl-icon">&#127916;</div>
+                        <div class="dl-info">
+                            <h5>Boys Offense Playbook</h5>
+                            <p>Motion offense film breakdowns with POWLAX analysis.</p>
+                            <a href="btb-boys-offense-playbook.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#127916;</div>
+                        <div class="dl-info">
+                            <h5>Boys Defense Playbook</h5>
+                            <p>Defensive systems film breakdowns with POWLAX analysis.</p>
+                            <a href="btb-boys-defense-playbook.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#127916;</div>
+                        <div class="dl-info">
+                            <h5>Boys Transition Playbook</h5>
+                            <p>Transition game film breakdowns with POWLAX analysis.</p>
+                            <a href="btb-boys-transition-playbook.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#127916;</div>
+                        <div class="dl-info">
+                            <h5>Girls Offense Playbook</h5>
+                            <p>Girls motion offense film breakdowns with POWLAX analysis.</p>
+                            <a href="btb-girls-offense-playbook.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#127916;</div>
+                        <div class="dl-info">
+                            <h5>Girls Defense Playbook</h5>
+                            <p>Girls defensive systems film breakdowns with POWLAX analysis.</p>
+                            <a href="btb-girls-defense-playbook.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#127916;</div>
+                        <div class="dl-info">
+                            <h5>Girls Transition Playbook</h5>
+                            <p>Girls transition game film breakdowns with POWLAX analysis.</p>
+                            <a href="btb-girls-transition-playbook.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dl-category reveal">
+                <div class="dl-category-title">AI Coaching Tools</div>
+                <div class="dl-grid">
+                    <div class="dl-card">
+                        <div class="dl-icon">&#129302;</div>
+                        <div class="dl-info">
+                            <h5>Coach AI</h5>
+                            <p>AI-powered coaching assistant with D1 lacrosse knowledge.</p>
+                            <a href="btb-coach-ai.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="dl-card">
+                        <div class="dl-icon">&#129504;</div>
+                        <div class="dl-info">
+                            <h5>Positionless Guru</h5>
+                            <p>Deep dive into positionless offensive concepts.</p>
+                            <a href="btb-positionless-guru.html" class="dl-btn dl-btn-active">Open &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+                <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram" aria-label="BTB on Instagram">IG</a>
+                    <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube" aria-label="BTB on YouTube">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Program</h4>
+                <a href="index.html">Our Standard</a>
+                <a href="index.html#development">Development Model</a>
+                <a href="index.html#filmstudy">Film Study</a>
+                <a href="coach-bios.html">Coach Bios</a>
+                <a href="index.html#results">Results</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="players-hub.html">Players Hub</a>
+                <a href="coaches.html">Coaching Playbook</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+                <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener">@bethebestli</a>
+                <a>Long Island, NY</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Be The Best Lacrosse. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- ========================================
+         JAVASCRIPT
+         ======================================== -->
+    <script>
+        // ── Password Gate ──
+        var GATE_KEY = 'btb_coach_hub_unlocked';
+        var GATE_ROLE_KEY = 'btb_coach_hub_role';
+        var GATE_PASS = '#BTBCOACH26';
+        var selectedRole = null;
+
+        function gateCheck() {
+            if (sessionStorage.getItem(GATE_KEY) === '1') {
+                document.getElementById('gateOverlay').style.display = 'none';
+                var savedRole = sessionStorage.getItem(GATE_ROLE_KEY) || 'coach';
+                applyRole(savedRole);
+            }
+        }
+
+        function selectRole(card) {
+            // Remove selection from all
+            document.querySelectorAll('.role-card').forEach(function(c) {
+                c.classList.remove('selected');
+            });
+            card.classList.add('selected');
+            selectedRole = card.getAttribute('data-role');
+
+            // Show password section
+            var pwSection = document.getElementById('gatePasswordSection');
+            pwSection.classList.add('show');
+            setTimeout(function() {
+                document.getElementById('gateInput').focus();
+            }, 100);
+        }
+
+        function gateSubmit() {
+            if (!selectedRole) {
+                document.getElementById('gateError').textContent = 'Please select a role first.';
+                return;
+            }
+
+            var input = document.getElementById('gateInput');
+            var errorEl = document.getElementById('gateError');
+
+            if (input.value === GATE_PASS) {
+                sessionStorage.setItem(GATE_KEY, '1');
+                sessionStorage.setItem(GATE_ROLE_KEY, selectedRole);
+                applyRole(selectedRole);
+
+                var overlay = document.getElementById('gateOverlay');
+                overlay.classList.add('unlocking');
+                setTimeout(function() { overlay.style.display = 'none'; }, 600);
+            } else {
+                errorEl.textContent = 'Incorrect password. Try again.';
+                input.classList.add('error');
+                input.value = '';
+                setTimeout(function() {
+                    input.classList.remove('error');
+                    errorEl.textContent = '';
+                    input.focus();
+                }, 1200);
+            }
+        }
+
+        function gateToggleVisibility() {
+            var input = document.getElementById('gateInput');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        function applyRole(role) {
+            // Remove any previous role class
+            document.body.classList.remove('role-administrator', 'role-coach', 'role-assistant');
+            document.body.classList.add('role-' + role);
+
+            // Show role badge
+            var badge = document.getElementById('roleBadge');
+            var labels = {
+                administrator: 'Administrator',
+                coach: 'BTB Coach',
+                assistant: 'Assistant Coach'
+            };
+            badge.textContent = 'Logged in as: ' + (labels[role] || role);
+            badge.classList.add('visible');
+        }
+
+        gateCheck();
+
+        // ── Film Study Filter ──
+        var filmFilter = document.getElementById('filmFilter');
+        var filmCards = document.querySelectorAll('.film-card');
+
+        filmFilter.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('film-pill')) return;
+
+            // Update active pill
+            filmFilter.querySelectorAll('.film-pill').forEach(function(p) {
+                p.classList.remove('active');
+            });
+            e.target.classList.add('active');
+
+            var filter = e.target.getAttribute('data-filter');
+
+            filmCards.forEach(function(card) {
+                if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+
+        // ── Smooth Scroll for Anchor Links ──
+        document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ── Particles ──
+        (function() {
+            var container = document.getElementById('heroParticles');
+            for (var i = 0; i < 25; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.animationDuration = (6 + Math.random() * 4) + 's';
+                p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+                container.appendChild(p);
+            }
+        })();
+
+        // ── Navbar Scroll Shadow ──
+        window.addEventListener('scroll', function() {
+            var header = document.getElementById('navbar');
+            if (window.scrollY > 40) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ── Mobile Menu Toggle ──
+        function toggleMenu() {
+            var nav = document.getElementById('navLinks');
+            var btn = document.getElementById('hamburger');
+            nav.classList.toggle('open');
+            btn.classList.toggle('active');
+            var expanded = nav.classList.contains('open');
+            btn.setAttribute('aria-expanded', expanded);
+        }
+
+        document.querySelectorAll('.btb-nav a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                document.getElementById('navLinks').classList.remove('open');
+                document.getElementById('hamburger').classList.remove('active');
+                document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // ── Scroll Reveal (Intersection Observer) ──
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

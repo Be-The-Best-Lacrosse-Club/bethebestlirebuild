@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --btb-red: #D22630;
+    --btb-red-dark: #a01e26;
+    --btb-red-glow: rgba(210, 38, 48, 0.4);
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 356 72% 49%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 356 72% 49%;
+    --radius: 0.25rem;
+    --section-gap: 9rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ── Typography ── */
+.font-display {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+/* ── Smooth scroll (Lenis override) ── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Fade-up animations (hero load) ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-fade-up-delay-1 { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.15s; opacity: 0; }
+.animate-fade-up-delay-2 { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s; opacity: 0; }
+.animate-fade-up-delay-3 { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.45s; opacity: 0; }
+.animate-fade-up-delay-4 { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s; opacity: 0; }
+.animate-fade-up-delay-5 { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s; opacity: 0; }
+
+/* ── Scroll reveal system ── */
+.reveal-target {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-target.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children — each child delays by 80ms */
+.reveal-stagger > .reveal-child {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-stagger.revealed > .reveal-child { opacity: 1; transform: translateY(0); }
+.reveal-stagger.revealed > .reveal-child:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger.revealed > .reveal-child:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger.revealed > .reveal-child:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger.revealed > .reveal-child:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger.revealed > .reveal-child:nth-child(5) { transition-delay: 320ms; }
+.reveal-stagger.revealed > .reveal-child:nth-child(6) { transition-delay: 400ms; }
+.reveal-stagger.revealed > .reveal-child:nth-child(7) { transition-delay: 480ms; }
+.reveal-stagger.revealed > .reveal-child:nth-child(8) { transition-delay: 560ms; }
+
+/* Fade-left / fade-right variants */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-left.revealed { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-right.revealed { opacity: 1; transform: translateX(0); }
+
+/* Scale-up variant */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.revealed { opacity: 1; transform: scale(1); }
+
+/* ── Card hover lift ── */
+.card-hover {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Button glow on hover ── */
+.btn-glow:hover {
+  box-shadow: 0 8px 24px var(--btb-red-glow);
+}
+
+/* ── Animated counter pulse ── */
+@keyframes counterPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ── Section divider line ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 50%, transparent);
+}
+
+/* ── Accordion transition ── */
+.transition-all {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Selection color ── */
+::selection {
+  background: var(--btb-red);
+  color: white;
+}

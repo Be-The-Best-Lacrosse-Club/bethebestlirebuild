@@ -115,6 +115,16 @@ export function Header() {
             </div>
           ))}
 
+          {/* Contact */}
+          <button
+            onClick={() => go("/contact")}
+            className={`px-3 py-2 text-[0.75rem] font-semibold uppercase tracking-[1.5px] transition-colors rounded ${
+              isActive("/contact") ? "text-white" : "text-white/50 hover:text-white"
+            }`}
+          >
+            Contact
+          </button>
+
           {/* Staff Portal */}
           <a
             href="https://btb-os.netlify.app"
@@ -208,6 +218,10 @@ export function Header() {
                 )}
               </div>
             ))}
+
+            <button onClick={() => go("/contact")} className="block w-full text-left text-lg font-semibold uppercase tracking-[2px] text-white/60 hover:text-white py-2">
+              Contact
+            </button>
 
             <a
               href="https://btb-os.netlify.app"

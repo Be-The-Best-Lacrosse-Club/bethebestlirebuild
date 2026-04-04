@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>Coaching Staff | BTB Lacrosse</title>
+    <meta name="description" content="Meet the coaches behind BTB Lacrosse. Varsity-level staff dedicated to developing complete lacrosse players on Long Island.">
+    <meta property="og:title" content="Coaching Staff | BTB Lacrosse">
+    <meta property="og:description" content="Meet the varsity-level coaching staff behind BTB Lacrosse's player development program.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ========================================
+           HERO
+           ======================================== */
+        .hero {
+            background: linear-gradient(160deg, #1a1a1a 0%, #000 50%, #1a1a1a 100%);
+            padding: 140px 20px 60px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.12);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 16px;
+            letter-spacing: 3px;
+        }
+
+        .hero-subtitle {
+            font-size: 17px;
+            color: rgba(255,255,255,0.6);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* Hero Stats Row */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ========================================
+           PILLARS SECTION
+           ======================================== */
+        .pillars-section {
+            padding: 80px 20px;
+            background: #111;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.12);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            color: var(--white);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.5);
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .pillar-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 36px 28px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(210, 38, 48, 0.4);
+        }
+
+        .pillar-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .pillar-card h3 {
+            font-size: 26px;
+            color: var(--white);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .pillar-card p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           COACH BIOS SECTION
+           ======================================== */
+        .bios-section {
+            padding: 80px 20px;
+            background: var(--white);
+        }
+
+        .bios-section .section-header h2 {
+            color: var(--dark);
+        }
+
+        .bios-section .section-header p {
+            color: #666;
+        }
+
+        .bios-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .bio-card {
+            background: var(--off-white);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .bio-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+        }
+
+        .bio-photo {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #ddd 0%, #bbb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .bio-content {
+            padding: 24px;
+        }
+
+        .bio-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--dark);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .bio-role {
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .bio-background {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .bio-details {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bio-details li {
+            font-size: 13px;
+            color: #555;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .bio-details li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .bio-placeholder {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.1);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ========================================
+           STATS BAR
+           ======================================== */
+        .stats-bar {
+            padding: 60px 20px;
+            background: var(--primary);
+        }
+
+        .stats-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stats-bar .stat-item { text-align: center; }
+
+        .stats-bar .stat-number {
+            color: var(--white);
+        }
+
+        .stats-bar .stat-label {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* ========================================
+           WHY BTB COACHES
+           ======================================== */
+        .why-section {
+            padding: 80px 20px;
+            background: var(--off-white);
+        }
+
+        .why-section .section-header h2 {
+            color: var(--dark);
+        }
+
+        .why-section .section-header p {
+            color: #666;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .why-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 36px 28px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .why-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .why-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .why-card h3 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .why-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           CTA SECTION
+           ======================================== */
+        .cta-section {
+            padding: 80px 20px;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 48px;
+            color: var(--white);
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+            max-width: 500px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 40px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE — 768px
+           ======================================== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 110px 16px 50px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .pillars-grid,
+            .bios-grid,
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-inner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-section h2 {
+                font-size: 36px;
+            }
+        }
+    </style>
+
+    <!-- SportsTeam Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsTeam",
+        "name": "BTB Lacrosse",
+        "sport": "Lacrosse",
+        "description": "Long Island's premier lacrosse development program with varsity-level coaching staff.",
+        "url": "https://bethebestli.com",
+        "location": {
+            "@type": "Place",
+            "name": "Long Island, NY",
+            "address": {
+                "@type": "PostalAddress",
+                "addressRegion": "NY",
+                "addressLocality": "Long Island"
+            }
+        },
+        "coach": [
+            {
+                "@type": "Person",
+                "name": "[REPLACE — Coach 1 Name]",
+                "jobTitle": "[REPLACE — Coach 1 Title]"
+            },
+            {
+                "@type": "Person",
+                "name": "[REPLACE — Coach 2 Name]",
+                "jobTitle": "[REPLACE — Coach 2 Title]"
+            },
+            {
+                "@type": "Person",
+                "name": "[REPLACE — Coach 3 Name]",
+                "jobTitle": "[REPLACE — Coach 3 Title]"
+            },
+            {
+                "@type": "Person",
+                "name": "[REPLACE — Coach 4 Name]",
+                "jobTitle": "[REPLACE — Coach 4 Title]"
+            },
+            {
+                "@type": "Person",
+                "name": "[REPLACE — Coach 5 Name]",
+                "jobTitle": "[REPLACE — Coach 5 Title]"
+            },
+            {
+                "@type": "Person",
+                "name": "[REPLACE — Coach 6 Name]",
+                "jobTitle": "[REPLACE — Coach 6 Title]"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+
+    <!-- ============================================
+         HEADER
+         ============================================ -->
+    <header class="btb-header" id="navbar">
+        <a href="index.html" class="btb-logo">
+            <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
+        </a>
+        <nav class="btb-nav" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="players-hub.html">Players Hub</a>
+            <a href="world-series.html">World Series</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="coach-bios.html">Coaches</a>
+            <a href="faq.html">FAQ</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+        </nav>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section class="hero">
+        <div class="hero-badge">BTB COACHING STAFF</div>
+        <h1>THE COACHES BEHIND<br>THE STANDARD</h1>
+        <p class="hero-subtitle">Every BTB coach is a varsity-level educator who believes in developing complete players — on and off the field.</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">Teams</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="85">0</div>
+                <div class="stat-label">College Commits</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="10">0</div>
+                <div class="stat-label">Years</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number special">100%</div>
+                <div class="stat-label">Varsity Coaches</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         COACHING PILLARS
+         ============================================ -->
+    <section class="pillars-section reveal">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Our Philosophy</div>
+                <h2>THREE PILLARS OF COACHING</h2>
+            </div>
+            <div class="pillars-grid">
+                <div class="pillar-card">
+                    <div class="pillar-icon">&#127891;</div>
+                    <h3>DEVELOPMENT FIRST</h3>
+                    <p>Every session is structured with purpose. Our coaches build progressive skill development plans that meet each player where they are and push them forward.</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">&#128170;</div>
+                    <h3>CHARACTER DRIVEN</h3>
+                    <p>We coach the person, not just the player. Accountability, effort, and sportsmanship are non-negotiable standards that define the BTB culture.</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">&#127942;</div>
+                    <h3>COMPETITIVE EDGE</h3>
+                    <p>Our staff brings varsity and collegiate experience to every practice. Players learn to compete at the highest level with game-ready IQ and tactical awareness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         COACH BIO CARDS
+         ============================================ -->
+    <section class="bios-section" id="bios">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Meet The Team</div>
+                <h2>OUR COACHING STAFF</h2>
+                <p>The educators, competitors, and mentors who set the BTB standard every day.</p>
+            </div>
+            <div class="bios-grid">
+
+                <!-- Coach 1 -->
+                <div class="bio-card reveal">
+                    <div class="bio-photo">[REPLACE — Coach Photo]</div>
+                    <div class="bio-content">
+                        <div class="bio-name">[REPLACE — Coach 1 Name]</div>
+                        <div class="bio-role">[REPLACE — Title, e.g. Program Director]</div>
+                        <p class="bio-background">[REPLACE — 2-3 sentence background: playing career, education, coaching philosophy, and what drives them at BTB.]</p>
+                        <ul class="bio-details">
+                            <li>[REPLACE — Experience detail, e.g. "10+ years coaching varsity lacrosse"]</li>
+                            <li>[REPLACE — Playing credential, e.g. "All-American at University of X"]</li>
+                            <li>[REPLACE — Coaching style, e.g. "Specializes in offensive development"]</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Coach 2 -->
+                <div class="bio-card reveal">
+                    <div class="bio-photo">[REPLACE — Coach Photo]</div>
+                    <div class="bio-content">
+                        <div class="bio-name">[REPLACE — Coach 2 Name]</div>
+                        <div class="bio-role">[REPLACE — Title, e.g. Head Coach - Boys Travel]</div>
+                        <p class="bio-background">[REPLACE — 2-3 sentence background: playing career, education, coaching philosophy, and what drives them at BTB.]</p>
+                        <ul class="bio-details">
+                            <li>[REPLACE — Experience detail]</li>
+                            <li>[REPLACE — Playing credential]</li>
+                            <li>[REPLACE — Coaching style]</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Coach 3 -->
+                <div class="bio-card reveal">
+                    <div class="bio-photo">[REPLACE — Coach Photo]</div>
+                    <div class="bio-content">
+                        <div class="bio-name">[REPLACE — Coach 3 Name]</div>
+                        <div class="bio-role">[REPLACE — Title, e.g. Head Coach - Girls Travel]</div>
+                        <p class="bio-background">[REPLACE — 2-3 sentence background: playing career, education, coaching philosophy, and what drives them at BTB.]</p>
+                        <ul class="bio-details">
+                            <li>[REPLACE — Experience detail]</li>
+                            <li>[REPLACE — Playing credential]</li>
+                            <li>[REPLACE — Coaching style]</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Coach 4 -->
+                <div class="bio-card reveal">
+                    <div class="bio-photo">[REPLACE — Coach Photo]</div>
+                    <div class="bio-content">
+                        <div class="bio-name">[REPLACE — Coach 4 Name]</div>
+                        <div class="bio-role">[REPLACE — Title, e.g. Academy Director]</div>
+                        <p class="bio-background">[REPLACE — 2-3 sentence background: playing career, education, coaching philosophy, and what drives them at BTB.]</p>
+                        <ul class="bio-details">
+                            <li>[REPLACE — Experience detail]</li>
+                            <li>[REPLACE — Playing credential]</li>
+                            <li>[REPLACE — Coaching style]</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Coach 5 -->
+                <div class="bio-card reveal">
+                    <div class="bio-photo">[REPLACE — Coach Photo]</div>
+                    <div class="bio-content">
+                        <div class="bio-name">[REPLACE — Coach 5 Name]</div>
+                        <div class="bio-role">[REPLACE — Title, e.g. Futures Program Lead]</div>
+                        <p class="bio-background">[REPLACE — 2-3 sentence background: playing career, education, coaching philosophy, and what drives them at BTB.]</p>
+                        <ul class="bio-details">
+                            <li>[REPLACE — Experience detail]</li>
+                            <li>[REPLACE — Playing credential]</li>
+                            <li>[REPLACE — Coaching style]</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Coach 6 -->
+                <div class="bio-card reveal">
+                    <div class="bio-photo">[REPLACE — Coach Photo]</div>
+                    <div class="bio-content">
+                        <div class="bio-name">[REPLACE — Coach 6 Name]</div>
+                        <div class="bio-role">[REPLACE — Title, e.g. Goalie Coach / Skills Trainer]</div>
+                        <p class="bio-background">[REPLACE — 2-3 sentence background: playing career, education, coaching philosophy, and what drives them at BTB.]</p>
+                        <ul class="bio-details">
+                            <li>[REPLACE — Experience detail]</li>
+                            <li>[REPLACE — Playing credential]</li>
+                            <li>[REPLACE — Coaching style]</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         STATS BAR
+         ============================================ -->
+    <section class="stats-bar reveal">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">Teams Coached</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="85">0</div>
+                <div class="stat-label">College Commits</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Players Developed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="10">0</div>
+                <div class="stat-label">Years of Excellence</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         WHY BTB COACHES
+         ============================================ -->
+    <section class="why-section reveal">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">The Difference</div>
+                <h2>WHY BTB COACHES</h2>
+                <p>What sets our coaching staff apart from every other program on Long Island.</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">&#127909;</div>
+                    <h3>FILMED TRYOUTS</h3>
+                    <p>Every tryout is filmed for full transparency. Roster decisions are made on merit, reviewed on film, and defensible to every family.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">&#127979;</div>
+                    <h3>EDUCATORS FIRST</h3>
+                    <p>Our coaches are teachers by trade. They understand how young athletes learn, grow, and respond to structured development plans.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">&#127941;</div>
+                    <h3>VARSITY-LEVEL STAFF</h3>
+                    <p>Every BTB coach has varsity or collegiate coaching experience. Your child trains under the same caliber of coach they'll see at the next level.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA
+         ============================================ -->
+    <section class="cta-section reveal">
+        <h2>READY TO TRAIN WITH THE BEST?</h2>
+        <p>Join the program that develops complete lacrosse players. Register for tryouts or contact us to learn more.</p>
+        <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btn-primary">Register Now</a>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+                <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram">IG</a>
+                    <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Program</h4>
+                <a href="index.html">Our Standard</a>
+                <a href="index.html#development">Development Model</a>
+                <a href="coach-bios.html">Coaches</a>
+                <a href="coach-bios.html">Coach Bios</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="players-hub.html">Players Hub</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+                <a href="tel:+15165550199">(516) 555-0199</a>
+                <a href="#">Long Island, NY</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Be The Best Lacrosse. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // ── Mobile menu toggle ──
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+
+        document.querySelectorAll('.btb-nav a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                document.getElementById('navLinks').classList.remove('active');
+                document.getElementById('hamburger').classList.remove('active');
+            });
+        });
+
+        // ── Stat counter animation ──
+        function animateCounters() {
+            document.querySelectorAll('.stat-number[data-target]').forEach(function(counter) {
+                var target = parseInt(counter.getAttribute('data-target'));
+                var duration = 2000;
+                var steps = 50;
+                var increment = target / steps;
+                var interval = duration / steps;
+                var step = 0;
+
+                var timer = setInterval(function() {
+                    step++;
+                    var current = Math.round(increment * step);
+                    if (step >= steps) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = current + '+';
+                }, interval);
+            });
+        }
+
+        // ── Scroll reveal ──
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+
+        // ── Trigger stat counters ──
+        var statsBar = document.querySelector('.stats-bar');
+        if (statsBar) {
+            var statsObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            statsObserver.observe(statsBar);
+        }
+    </script>
+
+</body>
+</html>

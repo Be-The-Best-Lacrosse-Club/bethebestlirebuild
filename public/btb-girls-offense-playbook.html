@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Girls Motion Offense Playbook | BTB Lacrosse</title>
+<meta name="description" content="BTB Girls Motion Offense Video Playbook — Women's D1 film breakdowns with youth-ready coaching notes for spacing, fades, cuts, clear-throughs, and picks.">
+<meta property="og:title" content="Girls Motion Offense Playbook | BTB Lacrosse">
+<meta property="og:description" content="Women's D1 Film. Real Game Footage. Youth-Ready Notes.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#D22630">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ===== DARK THEME OVERRIDES ===== */
+:root {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-2: #1a1a1a;
+  --border: rgba(255,255,255,0.08);
+  --text: #ffffff;
+  --text-secondary: rgba(255,255,255,0.7);
+  --text-muted: rgba(255,255,255,0.4);
+  --red: #D22630;
+  --red-dark: #a01e26;
+  --gold: #C5A44E;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ===== HEADER DARK OVERRIDE ===== */
+.btb-header {
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
+}
+.btb-nav a { color: rgba(255,255,255,0.8) !important; }
+.btb-nav a:hover { color: var(--red) !important; }
+.hamburger span { background: #fff; }
+
+@media (max-width: 768px) {
+  .btb-nav {
+    background: rgba(10,10,10,0.98) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .btb-nav a { color: #fff !important; font-size: 1.1rem; }
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 8rem 2rem 3.5rem;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #0d0d0d 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(210,38,48,0.18) 0%, transparent 60%);
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.hero .badge {
+  display: inline-block;
+  background: rgba(210,38,48,0.15);
+  border: 1px solid rgba(210,38,48,0.4);
+  color: var(--red);
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  line-height: 1.05;
+  margin-bottom: 0.8rem;
+  color: #fff;
+}
+.hero h1 .hl { color: var(--red); }
+.hero p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== PLAYBOOK TABS ===== */
+.playbook-tabs {
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.playbook-tabs::-webkit-scrollbar { display: none; }
+.playbook-tab {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.55rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+  min-height: 40px;
+}
+.playbook-tab:hover {
+  color: var(--text);
+  border-color: rgba(255,255,255,0.2);
+}
+.playbook-tab.active {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel {
+  display: none;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  animation: fadeIn 0.35s ease;
+}
+.tab-panel.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.section-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 700px;
+}
+
+/* ===== VIDEO CARDS ===== */
+.video-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .video-grid.two-col { grid-template-columns: repeat(2, 1fr); }
+}
+.video-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.video-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  border-color: rgba(210,38,48,0.3);
+}
+.video-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  background: #000;
+}
+.video-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+.video-info {
+  padding: 1.2rem 1.4rem;
+}
+.video-info h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 0.4rem;
+}
+.video-info p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.video-badge {
+  display: inline-block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.2rem 0.7rem;
+  border-radius: 3px;
+  margin-right: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.video-badge.powlax { background: rgba(210,38,48,0.2); color: var(--red); }
+.video-badge.d1-film { background: rgba(197,164,78,0.2); color: var(--gold); }
+.video-badge.coaching { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
+
+/* ===== COACH NOTE ===== */
+.coach-note {
+  background: var(--surface-2);
+  border-left: 3px solid var(--red);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.coach-note h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--red);
+  margin-bottom: 0.5rem;
+}
+.coach-note p, .coach-note ul {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.coach-note ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+.coach-note li { margin-bottom: 0.4rem; }
+
+/* ===== TEACHING POINT ===== */
+.teaching-point {
+  background: var(--surface-2);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.teaching-point h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.teaching-point p, .teaching-point ul, .teaching-point ol {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.teaching-point ul, .teaching-point ol {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+.teaching-point li { margin-bottom: 0.4rem; }
+
+/* ===== TERM BOX ===== */
+.term-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+.term-box h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.term-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  align-items: flex-start;
+}
+.term-item strong {
+  color: var(--red);
+  font-size: 0.88rem;
+  white-space: nowrap;
+  min-width: 140px;
+}
+.term-item span {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* ===== PROTOCOL LIST ===== */
+.protocol-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  counter-reset: step;
+}
+.protocol-list li {
+  counter-increment: step;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+  transition: border-color 0.2s;
+}
+.protocol-list li:hover { border-color: rgba(210,38,48,0.3); }
+.protocol-list li::before {
+  content: counter(step);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: var(--red);
+  min-width: 28px;
+  line-height: 1;
+}
+.protocol-list li .step-content h5 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+.protocol-list li .step-content p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ===== CONTENT TEXT ===== */
+.content-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.content-text strong { color: #fff; }
+
+/* ===== DIVIDER ===== */
+.section-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--red);
+  margin: 2.5rem 0 2rem;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== FOOTER DARK ===== */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero { padding: 7rem 1.2rem 2.5rem; }
+  .hero h1 { font-size: 2rem; }
+  .tab-panel { padding: 1.5rem 1rem 3rem; }
+  .section-title { font-size: 1.4rem; }
+  .term-item { flex-direction: column; gap: 0.2rem; }
+  .term-item strong { min-width: auto; }
+  .video-info { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ HEADER ═══════════════════════════════════════ -->
+<header class="btb-header" id="navbar">
+  <a href="index.html" class="btb-logo">
+    <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
+  </a>
+  <nav class="btb-nav" id="navLinks">
+    <a href="index.html">Our Standard</a>
+    <a href="players-hub.html">Players Hub</a>
+    <a href="world-series.html">World Series</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="coach-bios.html">Coaches</a>
+    <a href="faq.html">FAQ</a>
+    <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="badge">Girls Program</div>
+    <h1>BTB <span class="hl">Motion Offense</span> Video Playbook</h1>
+    <p>Women's D1 Film &bull; Real Game Footage &bull; Youth-Ready Coaching Notes</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ TABS ═══════════════════════════════════════ -->
+<nav class="playbook-tabs" id="tabBar">
+  <button class="playbook-tab active" data-tab="overview">Overview</button>
+  <button class="playbook-tab" data-tab="spacing">Spacing</button>
+  <button class="playbook-tab" data-tab="fade">Fade</button>
+  <button class="playbook-tab" data-tab="cut">Cut &amp; Deception</button>
+  <button class="playbook-tab" data-tab="clear">Clear Through</button>
+  <button class="playbook-tab" data-tab="follow">Follow &amp; Picks</button>
+</nav>
+
+<!-- ═══════════════════════════════════════ CONTENT ═══════════════════════════════════════ -->
+<main>
+
+<!-- ============ OVERVIEW TAB ============ -->
+<div class="tab-panel active" id="overview">
+
+  <h2 class="section-title reveal">How to Use This Playbook</h2>
+  <p class="content-text reveal">Every clip in this playbook is real women's D1 game footage from programs like Northwestern, Syracuse, North Carolina, Boston College, and Maryland. The coaching notes are written for youth understanding — no college-level jargon, just clear explanations of what's happening and why it works. Your job is to watch, learn, and then bring these concepts to practice.</p>
+  <p class="content-text reveal">This playbook covers the core principles of motion offense in women's lacrosse. Motion offense is not a set of memorized plays — it's a system of reads and reactions. Every player on the field has a role on every possession, whether she has the ball or not. The concepts here — spacing, fading, cutting, clearing through, following, and picking — are the building blocks. Master these, and you can play in any offensive system at any level.</p>
+
+  <div class="section-divider"></div>
+
+  <h2 class="section-title reveal">Player Watch Protocol</h2>
+  <p class="content-text reveal">Every time you watch a clip in this playbook, watch it three times. Each time, focus on something different. This is how college players study film — and it's how you'll train your lacrosse IQ.</p>
+
+  <ul class="protocol-list reveal">
+    <li>
+      <div class="step-content">
+        <h5>Watch #1: Full Speed</h5>
+        <p>Just watch the whole play from start to finish. Don't analyze anything. Let the play happen in front of you and get a feel for the rhythm, the timing, and the result.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <h5>Watch #2: Off-Ball Focus</h5>
+        <p>This time, ignore the ball carrier completely. Focus ONLY on the player WITHOUT the ball. What does she do? Where does she move? Watch how her movement creates space or a passing lane for the ball carrier.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-content">
+        <h5>Watch #3: The Setup</h5>
+        <p>Ask yourself: "What happened BEFORE the play happened?" Great plays don't start when the ball moves — they start 2-3 seconds earlier when a player makes a subtle move that sets the whole thing up. Find that moment.</p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="section-divider"></div>
+
+  <h2 class="section-title reveal">Key Women's Lacrosse Terminology</h2>
+  <p class="content-text reveal">Before you dive into the film, make sure you understand these terms. They'll come up in every coaching note throughout this playbook.</p>
+
+  <div class="term-box reveal">
+    <h4>Essential Terms</h4>
+    <div class="term-item">
+      <strong>8-Meter Arc</strong>
+      <span>The arc in front of the goal — like the "paint" in basketball. This is where most goals are scored. When coaches say "attack the 8," they mean drive into this zone.</span>
+    </div>
+    <div class="term-item">
+      <strong>12-Meter Fan</strong>
+      <span>The wider arc outside the 8-meter. Free position shots happen here. It's also the boundary of the "critical scoring area" — the zone where offenses do most of their damage.</span>
+    </div>
+    <div class="term-item">
+      <strong>Critical Scoring Area</strong>
+      <span>The zone right in front of the goal, inside the 12-meter fan. Drive here to score or draw fouls. Every offensive concept in this playbook is designed to get the ball — and a player — into this area.</span>
+    </div>
+    <div class="term-item">
+      <strong>Draw</strong>
+      <span>How the game starts — like a faceoff in boys lacrosse. The ball is placed between two players' sticks and released on the whistle. Winning the draw gives your team possession without having to play defense first.</span>
+    </div>
+    <div class="term-item">
+      <strong>Slide</strong>
+      <span>When a defender leaves her assigned player to help stop the ball carrier who has beaten her defender. Slides create open players — your job on offense is to find who's open when the slide happens.</span>
+    </div>
+    <div class="term-item">
+      <strong>Give-and-Go</strong>
+      <span>Pass the ball, then immediately cut toward the goal to get it back. The most fundamental two-person play in lacrosse. It works because defenders relax for a split second after you release the ball.</span>
+    </div>
+    <div class="term-item">
+      <strong>Clear Through</strong>
+      <span>After your action (pass, attempted dodge, screen), move out of the area to create space for teammates. This prevents clogging and keeps the defense honest. Think of it as "I did my job, now get out of the way."</span>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note</h4>
+    <p>Motion offense works because of MOVEMENT. If you stand still, you're helping the defense. Every time you stop moving, your defender can relax, look around, and help her teammates. When you move — even without the ball — you force your defender to make decisions. Bad decisions by defenders lead to goals. Your movement IS the offense.</p>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Key Concept: The Women's Game is 12v12</h4>
+    <p>Unlike boys lacrosse (10v10), the women's game plays 12v12 — with 7 attackers and 5 defenders plus a goalie on each side of the field. The restraining line separates the field into offensive and defensive zones. This means there are more bodies in the offensive zone, which makes spacing and movement even more critical. If seven attackers stand still, seven defenders have an easy job. But if seven attackers are all moving with purpose? That's nearly impossible to defend.</p>
+  </div>
+
+</div>
+
+<!-- ============ SPACING TAB ============ -->
+<div class="tab-panel" id="spacing">
+
+  <h2 class="section-title reveal">Spacing: The Foundation</h2>
+  <p class="content-text reveal">Spacing is the foundation of motion offense. In the women's game, the 8-meter arc and 12-meter fan create natural spacing zones that your players must learn to fill and vacate. Here's the rule that makes everything else work: when you maintain proper spacing, the defense cannot help without leaving someone open. Every gap you create is a scoring opportunity waiting to happen.</p>
+
+  <div class="coach-note reveal">
+    <h4>The 15-Yard Rule</h4>
+    <p>Every attacker should maintain roughly 15 yards of spacing from her nearest teammate. This distance is critical because it forces the defense to cover ground. When a defender has to travel 15 yards to help on the ball, the pass to the open player arrives before the recovery can happen. If your attackers are only 8-10 yards apart, the defense can cover two players at once. Fifteen yards makes that impossible.</p>
+    <ul>
+      <li>Too close = the defense covers two players with one defender</li>
+      <li>Too far = passes become difficult and slow</li>
+      <li>15 yards = the sweet spot where the defense is stretched but your offense stays connected</li>
+    </ul>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">Spacing in the 7v7 Offensive Zone</h3>
+  <p class="content-text reveal">In the women's game, the restraining line creates a 7v7 battle on the offensive end (7 attackers vs. 5 field defenders + a goalie, plus the opposing goalie). With 7 attackers in the zone, your spacing framework changes compared to boys lacrosse. Think of it as two layers:</p>
+
+  <div class="teaching-point reveal">
+    <h4>Two-Layer Spacing</h4>
+    <ol>
+      <li><strong>Inside Layer (around the 8-meter arc):</strong> 3-4 players positioned around the crease and 8-meter arc. These are your finishers — players who cut, receive feeds, and shoot. They need to stay dynamic, moving in and out of the 8-meter to avoid the 3-second violation.</li>
+      <li><strong>Outside Layer (12-meter fan and above):</strong> 3-4 players positioned outside the 12-meter fan. These are your initiators — they carry the ball, make entry passes, and start the offense. They create spacing width that stretches the defense horizontally.</li>
+    </ol>
+    <p>When the inside layer moves, the outside layer holds. When the outside layer drives, the inside layer clears. This push-pull rhythm is what makes motion offense flow.</p>
+  </div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/wvMlGMLkNhc" title="Northwestern Women's Lacrosse — Spacing Concepts" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Northwestern Offensive Spacing</h3>
+        <p>Watch how Northwestern maintains spacing around the 8-meter arc. Notice the constant movement of off-ball players — they never stand still for more than 2 seconds. Every cut creates a reaction from the defense.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/M6Ql77QF5HU" title="Women's Lacrosse Spacing and Ball Movement" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Ball Movement Creates Open Shots</h3>
+        <p>This clip shows how fast ball movement combined with proper spacing generates open looks. Count the passes — every time the ball moves, the defense is a half-step behind. The shot comes when a defender is caught between two attackers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Spacing Kills Zones</h4>
+    <p>When a team plays zone defense against you, spacing is your best weapon. If your players are spread 15 yards apart around the 12-meter fan, the zone has to stretch. Stretched zones have seams. Drive the seams. In the women's game, the shooting space rule actually helps your offense here — defenders in a zone can't just camp in the 8-meter arc. They have to be actively marking someone, which means they have to commit to a player. That commitment creates an opening somewhere else.</p>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Practice Drill: Spacing Awareness</h4>
+    <p>Set up 7 attackers in the offensive zone. Place cones at each spacing position (3 around the 8-meter, 4 outside the 12-meter fan). Play 7v0 — no defense. The only rule: every player must be within 3 yards of a cone position at all times, but no two players can be at the same cone. When the coach blows the whistle, everyone must freeze and check their spacing. This builds spatial awareness before you add defenders.</p>
+  </div>
+
+</div>
+
+<!-- ============ FADE TAB ============ -->
+<div class="tab-panel" id="fade">
+
+  <h2 class="section-title reveal">The Fade</h2>
+  <p class="content-text reveal">When the ball carrier drives toward the goal, the nearest off-ball attacker FADES — moving away from the drive to create space and position herself for a pass if the defense slides. In women's lacrosse, the fade is especially important because the shooting space rule means defenders can't just stand in the lane between the attacker and the goal. The fade exploits this — it creates a passing lane that the defense legally cannot close off without committing a violation.</p>
+
+  <div class="teaching-point reveal">
+    <h4>Why the Fade Works</h4>
+    <p>The fade works because of the defender's dilemma. When your teammate drives, her defender is either going to get beat (goal), or a second defender is going to slide to help. When that slide happens, someone is open. The player who faded is in the perfect position: she's moved to open space, she's facing the ball carrier, and she has a clear shooting lane. The slide defender can't recover in time because the fade created too much distance.</p>
+    <ul>
+      <li><strong>Timing:</strong> Start your fade the moment your teammate begins her drive — not when she picks up speed, not when she reaches the 8-meter, but the MOMENT she commits to driving</li>
+      <li><strong>Direction:</strong> Fade away from the drive direction, opening up your hips to face the ball</li>
+      <li><strong>Distance:</strong> 3-5 yards of movement is enough. You don't need to sprint to the sideline — just create enough separation that the slide defender can't cover both you and the driver</li>
+      <li><strong>Ready position:</strong> Stick up, hands ready, eyes on the ball. If the pass comes, you need to catch and shoot in one motion</li>
+    </ul>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/qx-x7kJzFjE" title="Women's Lacrosse — Fade and Drive Concepts" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Drive and Fade in Action</h3>
+        <p>Watch the off-ball attacker on the weak side. When the ball carrier drives from the top, she fades toward the wing and opens her hips. The slide comes, the pass goes to the fader, and it's a clean look at the cage. This is textbook execution.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/I3F6eoJkMKY" title="Women's Lacrosse — Off-Ball Movement" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Reading the Slide for the Fade</h3>
+        <p>This breakdown shows the decision tree after the fade. If the defense doesn't slide, the driver scores. If the defense slides from your side, you're wide open for a catch-and-shoot. If the defense slides from the opposite side, skip pass across. The fade creates all three options.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Shooting Space and the Fade</h4>
+    <p>Here's where the women's game gives you an advantage. The shooting space rule says a defender cannot be in the path between an attacker with the ball and the goal unless she is within a stick's length and actively marking. This means when your teammate drives and a slide comes, the area between you (the fader) and the goal is PROTECTED. The defense can't just throw a body in the lane. If they do, it's a free position shot for your team inside the 8-meter arc. Teach your players to recognize this — sometimes drawing a shooting space violation is even better than scoring, because you get an unguarded shot.</p>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Common Mistakes</h4>
+    <ul>
+      <li><strong>Fading too late:</strong> If you wait until the slide happens to fade, you're too late. The defender recovering from the slide will be on top of you. Move BEFORE the slide.</li>
+      <li><strong>Fading too far:</strong> If you fade to the restraining line, you're out of the play. Stay within shooting range. 3-5 yards of movement, not 10-15.</li>
+      <li><strong>Turning your back:</strong> Keep your eyes on the ball carrier and your stick ready. If you turn away to fade, you can't catch a pass or read the play.</li>
+      <li><strong>Standing still after the fade:</strong> If the pass doesn't come, don't freeze. Re-engage with the offense. Cut, relocate, find the next open space.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ============ CUT & DECEPTION TAB ============ -->
+<div class="tab-panel" id="cut">
+
+  <h2 class="section-title reveal">Cut &amp; Deception</h2>
+  <p class="content-text reveal">Deception in the women's game comes from change of speed and direction. V-cuts, L-cuts, and back-door cuts all work when the defender's hips turn the wrong way. The key: sell the move with your body before you cut. In the women's game, you can't body-check a cutter or hold her stick — so a well-timed cut is nearly impossible to stop without help defense.</p>
+
+  <div class="teaching-point reveal">
+    <h4>The Three Cuts Every Player Must Master</h4>
+    <ol>
+      <li><strong>V-Cut:</strong> Walk your defender toward the goal, then explode back out to receive the ball. The "V" shape of your path sells the fake — your defender thinks you're going inside, then you reverse direction. Use this to get open on the perimeter for a catch-and-shoot or a dodge opportunity.</li>
+      <li><strong>L-Cut:</strong> Move laterally along the 8-meter arc, then plant and cut hard toward the ball. The "L" shape creates separation because your defender has momentum going sideways while you change direction. Use this near the crease to get open for feeds.</li>
+      <li><strong>Back-Door Cut:</strong> When your defender is overplaying the passing lane (between you and the ball), cut behind her toward the goal. This punishes aggressive defenders who cheat toward the ball. The back-door cut requires eye contact with the ball carrier — she needs to know you're going.</li>
+    </ol>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/MH0Cw3MuJog" title="Women's Lacrosse — Cutting and Deception" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>V-Cuts and L-Cuts at Game Speed</h3>
+        <p>Watch the attackers around the 8-meter arc. Every time they receive the ball, it's preceded by a cut that creates 2-3 yards of separation. The cut happens in one explosive step — they don't telegraph it. The defender is always reacting, never anticipating.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/9R_hQ7A1SxA" title="Women's Lacrosse — Back Door Cuts" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>The Back-Door Cut</h3>
+        <p>Syracuse runs a devastating back-door play off the right side. Watch how the cutter sells the high move — two steps toward the ball, eye contact with the passer — then plants and goes back door. The defender's hips open to the ball and she's completely beaten. Timing between passer and cutter is everything here.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Reading the Defender</h4>
+    <p>Teach your players to read the defender's hips and feet before every cut. Here's the cheat sheet:</p>
+    <ul>
+      <li><strong>Defender's hips are open to the ball:</strong> Go back door. She's overplaying the pass and can't recover if you cut behind her.</li>
+      <li><strong>Defender's hips are square to you:</strong> V-cut to the outside. She's in good position, so create separation with a change of direction.</li>
+      <li><strong>Defender is watching the ball (head turned):</strong> Explode to the goal. She's ball-watching and won't see you move for a critical half-second.</li>
+      <li><strong>Defender is sagging off you:</strong> Flash to the ball hard. If she's giving you space, take it. Catch the ball in a dangerous position and force her to close out.</li>
+    </ul>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Why Cuts Work Differently in Women's Lacrosse</h4>
+    <p>In the boys' game, a defender can body-check a cutter or use physical contact to disrupt her path to the goal. In the women's game, body checking is illegal. This means that a well-executed cut is essentially unguardable one-on-one. The only way the defense can stop a good cutter is with help defense (slides) or by denying the pass. This is why cutting is the single most important off-ball skill in girls' lacrosse. If you can cut, you will score. If your team can cut together, you will score a lot.</p>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>The Deception Sell</h4>
+    <p>Every great cut starts with a "sell" — a fake move in the opposite direction that freezes the defender. Here's how to teach it:</p>
+    <ul>
+      <li>Take 2-3 slow steps in one direction (this is the sell)</li>
+      <li>Drop your hips and lower your center of gravity (loading position)</li>
+      <li>Explode in the opposite direction with your first step being your longest</li>
+      <li>Get your stick to the outside, away from the defender, ready to receive</li>
+      <li>Call for the ball with your eyes first, voice second — eye contact tells the passer you're open before your voice does</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ============ CLEAR THROUGH TAB ============ -->
+<div class="tab-panel" id="clear">
+
+  <h2 class="section-title reveal">Clear Through</h2>
+  <p class="content-text reveal">After your action — whether it's a pass, a dodge attempt, or setting a screen — CLEAR THROUGH to the opposite side of the formation. This does two critical things: it creates space for the next player's action, and it forces your defender to choose between helping on the ball or following you. If she helps, you're open on the back side. If she follows, the ball carrier has more room to operate.</p>
+
+  <div class="teaching-point reveal">
+    <h4>The Clear Through Principle</h4>
+    <p>Think of the offensive zone like a stage. When your scene is done, exit the stage so the next actor can perform. If you stand in the middle of the stage after your line, you block the next scene. Clearing through is your exit. It's not a passive jog away from the action — it's an active, purposeful sprint that drags your defender with you and opens up the scoring area for a teammate.</p>
+    <ul>
+      <li><strong>After a pass:</strong> Clear to the opposite side of where you passed. If you passed right, clear left. This creates a natural rotation.</li>
+      <li><strong>After a dodge attempt:</strong> If you drove and didn't get a shot, don't pick up your dribble and stand there. Clear through behind the goal or to the back side. Your teammates need that space.</li>
+      <li><strong>After a pick:</strong> After you set a screen, roll away from the ball toward the opposite pipe or fade to the outside. Don't stand at the spot where you set the pick — that clogs the lane.</li>
+    </ul>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/dNGJEQ7W1dM" title="Women's Lacrosse — Clear Through and Rotation" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Clear Through Creates Second Chances</h3>
+        <p>Watch Maryland's offense cycle the ball around the perimeter. After every pass, the passer clears through to the back side. By the third pass, the defense has rotated three times and there's a seam at the top of the 8-meter. The goal comes from disciplined clearing, not a single brilliant play.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/6qk_a7VuVRk" title="Lacrosse Motion Offense — Space Creation" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>What Happens When You Don't Clear</h3>
+        <p>This clip shows the opposite — when an attacker doesn't clear through after her action. Watch how the area in front of the goal becomes clogged. Three attackers end up within 5 yards of each other, and two defenders can cover all three. The offense stalls and the 90-second shot clock becomes a factor.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Clear Through Timing</h4>
+    <p>The most common question players ask is "When do I clear?" The answer is simple: clear immediately after your action is complete. Don't wait to see what happens next. Don't watch the ball. Don't admire your pass. The moment the ball leaves your stick, you should already be moving to the opposite side. Here's the timing breakdown:</p>
+    <ul>
+      <li><strong>After a pass:</strong> Begin clearing as the ball is in the air. By the time your teammate catches it, you should be 3-4 steps into your clear.</li>
+      <li><strong>After a dodge:</strong> If you didn't get a shot within 2 seconds of starting your dodge, abort and clear. Holding the ball while standing still is the worst thing you can do.</li>
+      <li><strong>After a pick:</strong> Roll or pop within 1 second of contact. Don't wait to see if your teammate used the screen. Your job is done — move.</li>
+    </ul>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Where to Clear</h4>
+    <p>Clearing isn't random movement — there are specific spots to clear TO. The rule of thumb: clear to the area furthest from the ball, or to an empty spot in the formation. If no spot is obviously empty, clear behind the goal and come out the other side. The behind-goal-area (called "X" or "the island") is the safety valve in women's lacrosse. You can reset the offense from there, and your defender has to follow you all the way around, which takes her completely out of help position.</p>
+  </div>
+
+</div>
+
+<!-- ============ FOLLOW & PICKS TAB ============ -->
+<div class="tab-panel" id="follow">
+
+  <h2 class="section-title reveal">Follow &amp; Picks</h2>
+  <p class="content-text reveal">Two of the most powerful concepts in women's lacrosse motion offense: the Follow and the Pick. The Follow is a cut behind the ball carrier as she drives — you trail her drive path and look for a dump-off pass or a loose ball. Picks are screens set on a teammate's defender to free her for a shot or drive. In women's lacrosse, off-ball picks are legal and devastating because defenders cannot body-check through them — they have to fight around or switch.</p>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">The Follow</h3>
+
+  <div class="teaching-point reveal">
+    <h4>How the Follow Works</h4>
+    <p>When your teammate drives to goal, trail her drive path 3-4 yards behind. You're the safety net. Here's what can happen:</p>
+    <ul>
+      <li><strong>She scores:</strong> Great. You're in position for a rebound or to pick up a ground ball if the shot misses.</li>
+      <li><strong>She gets cut off:</strong> She drops the ball back to you and you have a clean look, because her defender committed to stopping the drive and can't recover to you.</li>
+      <li><strong>She draws a double team:</strong> The extra defender came from somewhere. You can see the whole field from behind the play and find the open player.</li>
+      <li><strong>She loses the ball:</strong> You're right there for the ground ball. Possession maintained.</li>
+    </ul>
+    <p>The Follow is a low-risk, high-reward concept. You're never out of position because you're following the ball. And you're always ready for the next play.</p>
+  </div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/HxNjdlDGmWE" title="Women's Lacrosse — Follow and Trail Concepts" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>The Follow Creates Easy Goals</h3>
+        <p>Watch the attacker trailing the drive. She stays 3-4 yards behind, stick up, ready. When the driver gets cut off by the slide, the dump pass goes back and the follower has an open lane to the cage. Two-person play, two touches, goal.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/PfjEbqlz1sc" title="Women's Lacrosse — Pick and Roll" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Off-Ball Picks in the Women's Game</h3>
+        <p>Boston College runs pick action near the 8-meter arc. Watch the screener set her feet, the cutter use the screen to create 2 yards of separation, and the catch-and-shoot that follows. The defender goes under the pick and arrives a half-second late. That half-second is all the shooter needs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">Picks (Screens)</h3>
+
+  <div class="teaching-point reveal">
+    <h4>Pick Fundamentals in Women's Lacrosse</h4>
+    <p>A pick (screen) is when you stand in the path of a teammate's defender to free your teammate for a shot, pass, or drive. In the women's game, picks are legal when set properly, and they are one of the most effective weapons in your offensive arsenal because defenders cannot use body contact to fight through them.</p>
+    <ul>
+      <li><strong>Setting the pick:</strong> You must be stationary when contact occurs. Feet shoulder-width apart, arms at your sides or holding your stick vertically in front of your body. Moving into a defender while setting a screen is an illegal pick — it's a foul on you.</li>
+      <li><strong>Using the pick:</strong> Set up your cut by going AWAY from the screen first, then change direction and run your defender into the pick. The setup sells the screen. If you run straight at the pick, the defender will see it coming and avoid it.</li>
+      <li><strong>After the pick:</strong> The screener has two options — ROLL (turn toward the goal) or POP (step back to open space). Read the defense: if the help defender steps up, roll behind her to the goal. If the help defender stays back, pop out for a catch-and-shoot.</li>
+    </ul>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Pick-and-Roll vs Pick-and-Pop</h4>
+    <p>The pick-and-roll is your bread and butter inside the 8-meter arc. The screener sets the pick, the cutter uses it to get free, and the screener rolls to the goal looking for a feed. This works when the help defender is slow or doesn't communicate.</p>
+    <p>The pick-and-pop is your perimeter weapon. The screener sets the pick, the cutter drives to the goal, and instead of rolling, the screener steps back to the 12-meter fan for an open shot. This works when the defense switches or when the help defender commits to the cutter.</p>
+    <p>Teach both options. The defense will tell your players which one to use. If help comes, roll. If help stays home, pop.</p>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Communication on Picks</h4>
+    <p>Picks only work with communication. Here's the system:</p>
+    <ul>
+      <li>The screener calls <strong>"PICK RIGHT"</strong> or <strong>"PICK LEFT"</strong> to tell her teammate which side the screen is on</li>
+      <li>The cutter acknowledges with <strong>"USING"</strong> so the screener knows to hold her position</li>
+      <li>After the pick, the screener calls <strong>"ROLL"</strong> or <strong>"POP"</strong> to tell the ball carrier where to look for the secondary pass</li>
+      <li>The cutter calls <strong>"SHOT"</strong> if she's shooting, or <strong>"SKIP"</strong> if she's passing to the back side</li>
+    </ul>
+    <p>Four words. That's all you need. But without them, the pick breaks down and the timing is lost.</p>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Why Off-Ball Picks Are Devastating in Women's Lacrosse</h4>
+    <p>In the boys' game, a defender can fight through a screen with physical contact — shoulder through, push past, recover. In the women's game, that physical contact is a foul. A properly set off-ball pick in women's lacrosse essentially gives the cutter a free 2-3 yards of space. The only defensive solutions are: switch (which creates a size or speed mismatch), go under (which gives the shooter an open look), or call for help (which leaves someone else open). Every option favors the offense. This is why elite women's programs like Northwestern, Maryland, and North Carolina use 10-15 pick actions per game. It's the most efficient way to create scoring opportunities.</p>
+  </div>
+
+</div>
+
+</main>
+
+<!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+      <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram" aria-label="BTB on Instagram">IG</a>
+        <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube" aria-label="BTB on YouTube">YT</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Program</h4>
+      <a href="index.html">Our Standard</a>
+      <a href="index.html#development">Development Model</a>
+      <a href="academy-landing.html">Academy</a>
+      <a href="coach-bios.html">Coach Bios</a>
+      <a href="index.html#results">Results</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="coach-bios.html">Coaches</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+      <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener">@bethebestli</a>
+      <a>Long Island, NY</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Be The Best Lacrosse. All rights reserved.
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════ SCRIPTS ═══════════════════════════════════════ -->
+<script>
+// ── Mobile menu toggle ──
+function toggleMenu() {
+  const nav = document.getElementById('navLinks');
+  const ham = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  nav.classList.toggle('active');
+  ham.classList.toggle('active');
+}
+
+// ── Tab switching ──
+document.querySelectorAll('.playbook-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.playbook-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const panel = document.getElementById(tab.dataset.tab);
+    if (panel) panel.classList.add('active');
+    // Re-trigger reveal for new panel
+    setTimeout(() => {
+      panel.querySelectorAll('.reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add('visible');
+        }
+      });
+    }, 50);
+  });
+});
+
+// ── Scroll reveal ──
+function handleReveal() {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60) {
+      el.classList.add('visible');
+    }
+  });
+}
+window.addEventListener('scroll', handleReveal);
+window.addEventListener('load', handleReveal);
+
+// ── Navbar scroll effect ──
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('navbar');
+  if (window.scrollY > 10) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+</script>
+
+</body>
+</html>

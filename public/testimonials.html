@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>Testimonials | BTB Lacrosse</title>
+    <meta name="description" content="Hear what families, players, and coaches say about BTB Lacrosse. Read testimonials, see college commitments, and watch video reviews.">
+    <meta property="og:title" content="Testimonials | BTB Lacrosse">
+    <meta property="og:description" content="What families say about BTB Lacrosse — testimonials, college commits, and video reviews.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ========================================
+           HERO
+           ======================================== */
+        .hero {
+            background: linear-gradient(160deg, #1a1a1a 0%, #000 50%, #1a1a1a 100%);
+            padding: 140px 20px 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.12);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 16px;
+            letter-spacing: 3px;
+        }
+
+        .hero-subtitle {
+            font-size: 17px;
+            color: rgba(255,255,255,0.6);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           SHARED
+           ======================================== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.12);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            color: var(--dark);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: #666;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        /* ========================================
+           TESTIMONIALS SECTION
+           ======================================== */
+        .testimonials-section {
+            padding: 80px 20px;
+            background: var(--white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--off-white);
+            border-radius: 12px;
+            padding: 30px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        .testimonial-category {
+            display: inline-block;
+            background: rgba(210, 38, 48, 0.1);
+            color: var(--primary);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .testimonial-stars {
+            color: #F5A623;
+            font-size: 16px;
+            letter-spacing: 3px;
+            margin-bottom: 14px;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-sample {
+            display: block;
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 600;
+            font-style: normal;
+            margin-top: 8px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ddd, #bbb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #999;
+            flex-shrink: 0;
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .testimonial-role {
+            font-size: 12px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        /* ========================================
+           COLLEGE COMMITS
+           ======================================== */
+        .commits-section {
+            padding: 80px 20px;
+            background: #111;
+        }
+
+        .commits-section .section-header h2 {
+            color: var(--white);
+        }
+
+        .commits-section .section-header p {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .commits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .commit-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .commit-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(210, 38, 48, 0.4);
+        }
+
+        .commit-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .commit-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: var(--white);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .commit-school {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .commit-year {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            font-weight: 500;
+        }
+
+        .commit-placeholder {
+            font-size: 11px;
+            color: rgba(210, 38, 48, 0.8);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* Commits Summary Table */
+        .commits-table-wrap {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .commits-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .commits-table th {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .commits-table td {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .commits-table tr:last-child td {
+            border-bottom: none;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        /* ========================================
+           VIDEO TESTIMONIALS
+           ======================================== */
+        .video-section {
+            padding: 80px 20px;
+            background: var(--off-white);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .video-placeholder {
+            background: #222;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 20px;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            border-color: var(--primary);
+        }
+
+        .video-play-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(210, 38, 48, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .video-play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 18px solid var(--white);
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+
+        .video-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .video-instruction {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.5;
+        }
+
+        /* ========================================
+           GOOGLE REVIEW CTA
+           ======================================== */
+        .review-cta {
+            padding: 80px 20px;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .review-cta h2 {
+            font-size: 48px;
+            color: var(--white);
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .review-cta p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+            max-width: 500px;
+            margin: 0 auto 12px;
+            line-height: 1.7;
+        }
+
+        .review-stars {
+            font-size: 36px;
+            color: #F5A623;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+        }
+
+        .btn-review {
+            display: inline-block;
+            background: var(--white);
+            color: var(--dark);
+            padding: 14px 40px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            margin-right: 12px;
+        }
+
+        .btn-review:hover {
+            background: var(--off-white);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 40px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE — 768px
+           ======================================== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 110px 16px 60px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .testimonials-grid,
+            .commits-grid,
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .commits-section {
+                padding: 60px 16px;
+            }
+
+            .review-cta h2 {
+                font-size: 36px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-review, .btn-primary {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+        }
+    </style>
+
+    <!-- Organization + Review Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "BTB Lacrosse",
+        "description": "Long Island's premier lacrosse development program.",
+        "url": "https://bethebestli.com",
+        "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "NY",
+            "addressLocality": "Long Island"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "ratingCount": "6",
+            "reviewCount": "6"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "author": { "@type": "Person", "name": "[SAMPLE — Replace with real reviewer name]" },
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "reviewBody": "[SAMPLE — Replace with real review text about coaching quality]"
+            },
+            {
+                "@type": "Review",
+                "author": { "@type": "Person", "name": "[SAMPLE — Replace with real reviewer name]" },
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "reviewBody": "[SAMPLE — Replace with real review text about player development]"
+            },
+            {
+                "@type": "Review",
+                "author": { "@type": "Person", "name": "[SAMPLE — Replace with real reviewer name]" },
+                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+                "reviewBody": "[SAMPLE — Replace with real review text about program culture]"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+
+    <!-- ============================================
+         HEADER
+         ============================================ -->
+    <header class="btb-header" id="navbar">
+        <a href="index.html" class="btb-logo">
+            <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
+        </a>
+        <nav class="btb-nav" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="players-hub.html">Players Hub</a>
+            <a href="world-series.html">World Series</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="coach-bios.html">Coaches</a>
+            <a href="faq.html">FAQ</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+        </nav>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section class="hero">
+        <div class="hero-badge">TESTIMONIALS</div>
+        <h1>WHAT FAMILIES SAY<br>ABOUT BTB</h1>
+        <p class="hero-subtitle">Real stories from families who've experienced the BTB difference. Culture, coaching, and player development that speaks for itself.</p>
+    </section>
+
+    <!-- ============================================
+         TESTIMONIAL CARDS
+         ============================================ -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Family Voices</div>
+                <h2>WHAT PEOPLE ARE SAYING</h2>
+                <p>From parents and players across Long Island, these stories capture the BTB experience.</p>
+            </div>
+            <div class="testimonials-grid">
+
+                <!-- Testimonial 1: Coaching Quality -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-category">Coaching Quality</div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"The coaching at BTB is unlike anything else on Long Island. Every practice has a plan, every drill has a purpose, and you can see the results in how the kids play on game day. Our son has grown more in one season with BTB than two years elsewhere."                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">P</div>
+                        <div>
+                            <div class="testimonial-name">[SAMPLE] Parent Name</div>
+                            <div class="testimonial-role">Parent of 2026 Travel Player</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2: Player Development -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-category">Player Development</div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"When my daughter joined BTB, she could barely catch with her off-hand. The development plan they put in place — with film review and individual skill targets — transformed her game completely. She's now starting varsity as a sophomore."                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">P</div>
+                        <div>
+                            <div class="testimonial-name">[SAMPLE] Parent Name</div>
+                            <div class="testimonial-role">Parent of Girls Academy Player</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3: Culture -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-category">Culture</div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"BTB isn't just about lacrosse — it's about building the right kind of kid. The accountability, the work ethic, the way they demand effort over talent. My son learned more about being a good teammate here than anywhere else."                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">P</div>
+                        <div>
+                            <div class="testimonial-name">[SAMPLE] Parent Name</div>
+                            <div class="testimonial-role">Parent of 2025 Travel Player</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 4: Player Voice -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-category">Player Voice</div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"Coach pushed me harder than anyone ever has, but he also believed in me more than anyone ever did. The film sessions opened my eyes to parts of my game I didn't even know existed. BTB made me the player I am today."                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">A</div>
+                        <div>
+                            <div class="testimonial-name">[SAMPLE] Player Name</div>
+                            <div class="testimonial-role">BTB Alum, Class of 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 5: Camp Experience -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-category">Camp Experience</div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"We sent our son to BTB summer camp not knowing what to expect. By the end of the week, he was hooked. The coaches were incredible — patient but demanding. He came home asking to try out for the travel team immediately."                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">P</div>
+                        <div>
+                            <div class="testimonial-name">[SAMPLE] Parent Name</div>
+                            <div class="testimonial-role">Camp Parent</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 6: Tryout Fairness -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-category">Tryout Fairness</div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"What sold us on BTB was the filmed tryouts. After years of feeling like roster spots were predetermined at other programs, it was refreshing to see a truly fair process. Our son earned his spot and he knows it."                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">P</div>
+                        <div>
+                            <div class="testimonial-name">[SAMPLE] Parent Name</div>
+                            <div class="testimonial-role">Travel Team Parent</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         COLLEGE COMMITS
+         ============================================ -->
+    <section class="commits-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Results</div>
+                <h2>COLLEGE COMMITMENTS</h2>
+                <p>BTB players competing at the next level. 85+ commits and counting.</p>
+            </div>
+
+            <div class="commits-grid reveal">
+                <!-- Commit 1 -->
+                <div class="commit-card">
+                    <div class="commit-icon">&#127891;</div>
+                    <div class="commit-name">Player Name</div>
+                    <div class="commit-school">University Name</div>
+                    <div class="commit-year">Class of 2025 &bull; Division</div>
+                    <div class="commit-placeholder">Coming Soon</div>
+                </div>
+
+                <!-- Commit 2 -->
+                <div class="commit-card">
+                    <div class="commit-icon">&#127891;</div>
+                    <div class="commit-name">Player Name</div>
+                    <div class="commit-school">University Name</div>
+                    <div class="commit-year">Class of 2025 &bull; Division</div>
+                    <div class="commit-placeholder">Coming Soon</div>
+                </div>
+
+                <!-- Commit 3 -->
+                <div class="commit-card">
+                    <div class="commit-icon">&#127891;</div>
+                    <div class="commit-name">Player Name</div>
+                    <div class="commit-school">University Name</div>
+                    <div class="commit-year">Class of 2026 &bull; Division</div>
+                    <div class="commit-placeholder">Coming Soon</div>
+                </div>
+
+                <!-- Commit 4 -->
+                <div class="commit-card">
+                    <div class="commit-icon">&#127891;</div>
+                    <div class="commit-name">Player Name</div>
+                    <div class="commit-school">University Name</div>
+                    <div class="commit-year">Class of 2026 &bull; Division</div>
+                    <div class="commit-placeholder">Coming Soon</div>
+                </div>
+
+                <!-- Commit 5 -->
+                <div class="commit-card">
+                    <div class="commit-icon">&#127891;</div>
+                    <div class="commit-name">Player Name</div>
+                    <div class="commit-school">University Name</div>
+                    <div class="commit-year">Class of 2027 &bull; Division</div>
+                    <div class="commit-placeholder">Coming Soon</div>
+                </div>
+
+                <!-- Commit 6 -->
+                <div class="commit-card">
+                    <div class="commit-icon">&#127891;</div>
+                    <div class="commit-name">Player Name</div>
+                    <div class="commit-school">University Name</div>
+                    <div class="commit-year">Class of 2027 &bull; Division</div>
+                    <div class="commit-placeholder">Coming Soon</div>
+                </div>
+            </div>
+
+            <!-- Summary Table -->
+            <div class="commits-table-wrap reveal">
+                <table class="commits-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>D1</th>
+                            <th>D2</th>
+                            <th>D3</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                        </tr>
+                        <tr>
+                            <td>2026</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                        </tr>
+                        <tr>
+                            <td>All-Time</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>[REPLACE]</td>
+                            <td>85+</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         VIDEO TESTIMONIALS
+         ============================================ -->
+    <section class="video-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Watch</div>
+                <h2>VIDEO TESTIMONIALS</h2>
+                <p>Hear directly from BTB families in their own words.</p>
+            </div>
+            <div class="video-grid reveal">
+                <div class="video-placeholder">
+                    <div class="video-play-icon"></div>
+                    <div class="video-label">Parent Testimonial</div>
+                    <div class="video-instruction">[REPLACE — Embed YouTube/Vimeo iframe here.<br>Recommended: 16:9 aspect ratio]</div>
+                </div>
+                <div class="video-placeholder">
+                    <div class="video-play-icon"></div>
+                    <div class="video-label">Player Story</div>
+                    <div class="video-instruction">[REPLACE — Embed YouTube/Vimeo iframe here.<br>Recommended: 16:9 aspect ratio]</div>
+                </div>
+                <div class="video-placeholder">
+                    <div class="video-play-icon"></div>
+                    <div class="video-label">Season Recap</div>
+                    <div class="video-instruction">[REPLACE — Embed YouTube/Vimeo iframe here.<br>Recommended: 16:9 aspect ratio]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         GOOGLE REVIEW CTA
+         ============================================ -->
+    <section class="review-cta reveal">
+        <h2>SHARE YOUR BTB EXPERIENCE</h2>
+        <p>Your review helps other families discover the BTB difference. Leave us a review on Google or share your story.</p>
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="cta-buttons">
+            <a href="#" class="btn-review">Leave a Google Review</a>
+            <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btn-primary">Join BTB</a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+                <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram">IG</a>
+                    <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Program</h4>
+                <a href="index.html">Our Standard</a>
+                <a href="index.html#development">Development Model</a>
+                <a href="coach-bios.html">Coaches</a>
+                <a href="coach-bios.html">Coach Bios</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="players-hub.html">Players Hub</a>
+                <a href="testimonials.html">Testimonials</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+                <a href="tel:+15165550199">(516) 555-0199</a>
+                <a href="#">Long Island, NY</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Be The Best Lacrosse. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // ── Mobile menu toggle ──
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+
+        document.querySelectorAll('.btb-nav a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                document.getElementById('navLinks').classList.remove('active');
+                document.getElementById('hamburger').classList.remove('active');
+            });
+        });
+
+        // ── Scroll reveal ──
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

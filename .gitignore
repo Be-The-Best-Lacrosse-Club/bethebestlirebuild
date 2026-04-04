@@ -1,6 +1,10 @@
 .DS_Store
 node_modules/
+dist/
 _archive/
+.env
+.env.local
+.parcel-cache/
 
 # Local Netlify folder
 .netlify

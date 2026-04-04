@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Girls Transition &amp; Special Teams | BTB Lacrosse</title>
+<meta name="description" content="BTB Girls Transition & Special Teams Playbook — rides, clears, draw control, wing play, man up, man down, and film study plan for women's lacrosse.">
+<meta property="og:title" content="Girls Transition & Special Teams | BTB Lacrosse">
+<meta property="og:description" content="Rides. Clears. Draw Control. Man Up. Man Down. Film Plan.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#D22630">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ===== DARK THEME OVERRIDES ===== */
+:root {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-2: #1a1a1a;
+  --border: rgba(255,255,255,0.08);
+  --text: #ffffff;
+  --text-secondary: rgba(255,255,255,0.7);
+  --text-muted: rgba(255,255,255,0.4);
+  --red: #D22630;
+  --red-dark: #a01e26;
+  --gold: #C5A44E;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ===== HEADER DARK OVERRIDE ===== */
+.btb-header {
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
+}
+.btb-nav a { color: rgba(255,255,255,0.8) !important; }
+.btb-nav a:hover { color: var(--red) !important; }
+.hamburger span { background: #fff; }
+
+@media (max-width: 768px) {
+  .btb-nav {
+    background: rgba(10,10,10,0.98) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .btb-nav a { color: #fff !important; font-size: 1.1rem; }
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 8rem 2rem 3.5rem;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #0d0d0d 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(210,38,48,0.18) 0%, transparent 60%);
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.hero .badge {
+  display: inline-block;
+  background: rgba(210,38,48,0.15);
+  border: 1px solid rgba(210,38,48,0.4);
+  color: var(--red);
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  line-height: 1.05;
+  margin-bottom: 0.8rem;
+  color: #fff;
+}
+.hero h1 .hl { color: var(--red); }
+.hero p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ===== PLAYBOOK TABS ===== */
+.playbook-tabs {
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.playbook-tabs::-webkit-scrollbar { display: none; }
+.playbook-tab {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.55rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+  min-height: 40px;
+}
+.playbook-tab:hover {
+  color: var(--text);
+  border-color: rgba(255,255,255,0.2);
+}
+.playbook-tab.active {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel {
+  display: none;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  animation: fadeIn 0.35s ease;
+}
+.tab-panel.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.section-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+/* ===== VIDEO CARDS ===== */
+.video-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .video-grid.two-col { grid-template-columns: repeat(2, 1fr); }
+}
+.video-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.video-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  border-color: rgba(210,38,48,0.3);
+}
+.video-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  background: #000;
+}
+.video-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+.video-info {
+  padding: 1.2rem 1.4rem;
+}
+.video-info h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 0.4rem;
+}
+.video-info p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.video-badge {
+  display: inline-block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.2rem 0.7rem;
+  border-radius: 3px;
+  margin-right: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.video-badge.powlax { background: rgba(210,38,48,0.2); color: var(--red); }
+.video-badge.d1-film { background: rgba(197,164,78,0.2); color: var(--gold); }
+.video-badge.coaching { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
+
+/* ===== COACH NOTE ===== */
+.coach-note {
+  background: var(--surface-2);
+  border-left: 3px solid var(--red);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.coach-note h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--red);
+  margin-bottom: 0.5rem;
+}
+.coach-note p, .coach-note ul {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.coach-note ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+.coach-note li { margin-bottom: 0.4rem; }
+
+/* ===== TEACHING POINT ===== */
+.teaching-point {
+  background: var(--surface-2);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.teaching-point h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.teaching-point p, .teaching-point ul, .teaching-point ol {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.teaching-point ul, .teaching-point ol {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+.teaching-point li { margin-bottom: 0.4rem; }
+
+/* ===== TERM BOX ===== */
+.term-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+.term-box h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.term-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  align-items: flex-start;
+}
+.term-item strong {
+  color: var(--red);
+  font-size: 0.88rem;
+  white-space: nowrap;
+  min-width: 150px;
+}
+.term-item span {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* ===== COMM BOX ===== */
+.comm-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+.comm-box h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.comm-call {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.8rem 1rem;
+  background: var(--surface-2);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  border-left: 3px solid var(--red);
+}
+.comm-call .call-word {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  color: var(--red);
+  min-width: 140px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.comm-call .call-meaning {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ===== WEEK SCHEDULE ===== */
+.week-grid {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+}
+.week-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  transition: border-color 0.2s;
+}
+.week-card:hover { border-color: rgba(210,38,48,0.3); }
+.week-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: var(--red);
+  min-width: 32px;
+  line-height: 1;
+}
+.week-content h5 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+.week-content p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ===== CONTENT TEXT ===== */
+.content-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.content-text strong { color: #fff; }
+
+/* ===== DIVIDER ===== */
+.section-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--red);
+  margin: 2.5rem 0 2rem;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== FOOTER DARK ===== */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero { padding: 7rem 1.2rem 2.5rem; }
+  .hero h1 { font-size: 2rem; }
+  .tab-panel { padding: 1.5rem 1rem 3rem; }
+  .section-title { font-size: 1.4rem; }
+  .term-item { flex-direction: column; gap: 0.2rem; }
+  .term-item strong { min-width: auto; }
+  .comm-call { flex-direction: column; gap: 0.3rem; }
+  .comm-call .call-word { min-width: auto; }
+  .video-info { padding: 1rem; }
+  .week-card { flex-direction: column; gap: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ HEADER ═══════════════════════════════════════ -->
+<header class="btb-header" id="navbar">
+  <a href="index.html" class="btb-logo">
+    <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
+  </a>
+  <nav class="btb-nav" id="navLinks">
+    <a href="index.html">Our Standard</a>
+    <a href="players-hub.html">Players Hub</a>
+    <a href="world-series.html">World Series</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="coach-bios.html">Coaches</a>
+    <a href="faq.html">FAQ</a>
+    <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+  </nav>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="badge">Girls Program</div>
+    <h1>BTB Girls <span class="hl">Transition</span> &amp; Special Teams</h1>
+    <p>Rides &bull; Clears &bull; Draw Control &bull; Man Up &bull; Man Down</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ TABS ═══════════════════════════════════════ -->
+<nav class="playbook-tabs" id="tabBar">
+  <button class="playbook-tab active" data-tab="rides">Rides</button>
+  <button class="playbook-tab" data-tab="clears">Clears</button>
+  <button class="playbook-tab" data-tab="subs">Substitution</button>
+  <button class="playbook-tab" data-tab="draw">Draw</button>
+  <button class="playbook-tab" data-tab="wing">Wing Play</button>
+  <button class="playbook-tab" data-tab="manup">Man Up</button>
+  <button class="playbook-tab" data-tab="mandown">Man Down</button>
+  <button class="playbook-tab" data-tab="film">Film Plan</button>
+</nav>
+
+<!-- ═══════════════════════════════════════ CONTENT ═══════════════════════════════════════ -->
+<main>
+
+<!-- ============ RIDES TAB ============ -->
+<div class="tab-panel active" id="rides">
+
+  <h2 class="section-title reveal">Riding: First Line of Defense</h2>
+  <p class="content-text reveal">Riding is your team's first line of defense after a shot or turnover. The moment your team loses possession, the ride begins. In the women's game, the restraining line changes personnel dynamics — only 7 field players per team are allowed past it on the defensive end. This means your ride must be organized and aggressive within the constraints of the personnel rules.</p>
+
+  <div class="teaching-point reveal">
+    <h4>Why the Ride Matters</h4>
+    <p>A successful ride does one of three things: it forces a turnover and gives your team the ball back, it slows the opponent's clear so your defense has time to set up, or it creates a bad pass that your team can intercept in transition. Even an unsuccessful ride that delays the clear by 5-10 seconds gives your defenders time to get organized. A lazy ride — or no ride at all — gives the opponent a free transition opportunity, and transition goals are the easiest goals in lacrosse.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">The 3-3 Deep Zone Ride</h3>
+  <p class="content-text reveal">The 3-3 Deep Zone is your base ride formation in women's lacrosse. Three riders press the ball near the restraining line while three defenders drop back to protect against the long clear. This formation balances aggression with safety — you're pressuring the ball without leaving yourself exposed to a fast break.</p>
+
+  <div class="teaching-point reveal">
+    <h4>3-3 Ride Positions</h4>
+    <ol>
+      <li><strong>Ball Rider (R1):</strong> The player closest to the ball when possession changes. Her job: sprint to the ball carrier and force a decision. She doesn't need to cause a turnover — she just needs to take away the easy clear down the middle of the field.</li>
+      <li><strong>Support Riders (R2 &amp; R3):</strong> Position on each side of R1, cutting off the two nearest passing lanes. They're reading the ball carrier's eyes and stick position. If the pass goes to their side, they jump the passing lane.</li>
+      <li><strong>Deep Defenders (D1, D2, D3):</strong> Drop back toward the defensive end. They protect against the long outlet pass. Their job is containment — don't let anyone get behind you with the ball.</li>
+    </ol>
+  </div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/iEyB_lKuo2c" title="Women's Lacrosse — Riding Concepts" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Aggressive Ride Forces Turnover</h3>
+        <p>Watch the three riders close down the passing lanes immediately after the save. The goalie has nowhere to go. She tries an outlet pass up the sideline and the support rider jumps the lane for an interception. The ride created a possession — and the goal comes 4 seconds later off the turnover.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/UZAz_OCOESM" title="Women's Lacrosse — Transition Defense" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Restraining Line Ride Adjustments</h3>
+        <p>In the women's game, only 7 field players can cross the restraining line. This clip shows how the ride must account for personnel changes — the riders press up to the line while substitutes enter the field on the defensive end. Timing the sub with the ride pressure is critical.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: The All-In Ride (Desperation)</h4>
+    <p>In the women's game, the "10 Man Ride" from boys lacrosse adapts to an all-in ride where the goalie pushes out of the cage to add pressure. Use this ONLY in desperation situations — when you're down by 1-2 goals in the final minutes and need the ball back immediately. The goalie sprints out to pressure the clearing goalie or the nearest outlet, essentially creating a 7v6 advantage in the riding zone. The risk: if the clear succeeds, your goal is empty. The reward: the opponent's goalie is your weakest link to pressure, and she may panic. Use it once per game maximum. If the opponent is ready for it, they'll beat it every time.</p>
+  </div>
+
+</div>
+
+<!-- ============ CLEARS TAB ============ -->
+<div class="tab-panel" id="clears">
+
+  <h2 class="section-title reveal">Clearing: Getting the Ball to Your Offense</h2>
+  <p class="content-text reveal">Clearing is the transition from defense to offense. After your goalie makes a save or your defense forces a turnover, you need to move the ball from your defensive end to your offensive end — past the restraining line — to start your attack. In the women's game, the restraining line creates a unique challenge: you need to get the ball across the line while managing your personnel (only 7 field players allowed past the line on the offensive end).</p>
+
+  <div class="teaching-point reveal">
+    <h4>Clearing Principles</h4>
+    <ul>
+      <li><strong>Speed over perfection:</strong> Get the ball up the field quickly. The longer you hold the ball in your defensive end, the more time the ride has to pressure you. Quick, decisive passes beat patient, cautious ones.</li>
+      <li><strong>Use the sidelines:</strong> Clear up the sidelines, not through the middle. The middle of the field is where the ride is strongest. The sidelines give you a boundary as a "free defender" — the rider can only approach from one side.</li>
+      <li><strong>The goalie is your quarterback:</strong> After a save, the goalie should be the calmest person on the field. She surveys the field, identifies the best outlet, and delivers the pass. Everything starts with her.</li>
+      <li><strong>Three-pass rule:</strong> Ideally, the ball should be past the restraining line within 3 passes. More than that, and the ride is getting to you. Goalie to outlet. Outlet to midfield. Midfield across the line.</li>
+    </ul>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">Clearing Formations</h3>
+
+  <div class="teaching-point reveal">
+    <h4>4-3 Clear</h4>
+    <p>Your base clearing formation. Four players position in a box around the goal — two at goal line extended on each side, two at the restraining line on each side. Three midfielders space across the restraining line. The goalie makes the first pass to one of the four box players, who advances the ball to a midfielder at the restraining line.</p>
+    <ul>
+      <li>Best used against a passive ride that drops back</li>
+      <li>Gives the goalie four short outlet options</li>
+      <li>Creates width that stretches the ride horizontally</li>
+    </ul>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>2-3-2 Clear</h4>
+    <p>An aggressive clearing formation for when the ride is pressing. Two players stay deep near the goal. Three players space across the middle of the defensive zone. Two players sprint ahead past the restraining line. The ball goes deep-to-middle-to-ahead in quick succession. This formation stretches the field vertically and gives the clearing team options at three different levels.</p>
+    <ul>
+      <li>Best used against an aggressive ride that commits riders high</li>
+      <li>Creates vertical spacing that is hard to cover</li>
+      <li>Requires fast, accurate long passes from the deep players</li>
+    </ul>
+  </div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/gJQ3-kQ_3kY" title="Women's Lacrosse — Clearing Concepts" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Clean Clear Under Pressure</h3>
+        <p>Watch the goalie read the ride, find the outlet on the right sideline, and the ball moves up the field in 3 passes. The clearing team uses the sideline as a wall, and every pass is ahead of the receiver. By the third pass, the ball is past the restraining line and the offense is set up.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/Y2mkbHxI1ZE" title="Women's Lacrosse — Goalie Clearing" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Goalie Outlet Decision Making</h3>
+        <p>This breakdown shows the goalie's decision tree after a save. She scans left, right, then middle. The first open outlet gets the ball. Watch her footwork — she steps toward her target to generate power and accuracy. No wasted motion, no hesitation. The clear starts with the goalie's confidence.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Restraining Line Management</h4>
+    <p>The restraining line is the biggest factor in women's lacrosse clearing. You must have no more than 7 field players past it on the offensive end, and no more than 7 past it on the defensive end. During a clear, this means your substitutions and transitions across the line must be coordinated. If a defender carries the ball past the restraining line, an attacker must come off the field (or cross back over the line to the defensive side). Practice this exchange in every clearing drill — ball crosses the line, personnel adjust simultaneously. A restraining line violation kills a clear and gives possession to the opponent.</p>
+  </div>
+
+</div>
+
+<!-- ============ SUBSTITUTION TAB ============ -->
+<div class="tab-panel" id="subs">
+
+  <h2 class="section-title reveal">Substitution Management</h2>
+  <p class="content-text reveal">In women's lacrosse, substitutions happen on the fly — players enter and exit the field through the substitution area during live play. Managing substitutions properly is a competitive advantage. Bad subs lead to too many players on the field (penalty), missed defensive assignments, or lost offensive possessions. Great subs keep your team fresh, create matchup advantages, and maintain tempo.</p>
+
+  <div class="teaching-point reveal">
+    <h4>Running the Box</h4>
+    <p>The substitution area (the "box") is where all player changes happen during live play. Here's how to run it effectively:</p>
+    <ol>
+      <li><strong>One in, one out:</strong> The player going OFF the field must be at the box BEFORE the player coming ON enters the field. If two players from the same team are on the field at the same time and neither is in the box, it's a too-many-players penalty.</li>
+      <li><strong>Communication:</strong> The player going on calls the name of the player she's replacing. "SARAH, YOU'RE OFF!" The player coming off acknowledges: "COMING!" No surprises. No confusion.</li>
+      <li><strong>Timing:</strong> Substitute during dead balls when possible. During live play, sub during transition moments — after a clear succeeds, after a goal, or during a stoppage in play. Never sub when the ball is in your defensive end and the opponent is in settled offense.</li>
+      <li><strong>Matchups:</strong> Use subs to create favorable matchups. If your fastest attacker is on the bench and the opponent's slowest defender is on the field, get that sub in. The sub box is a coaching tool, not just a rest stop.</li>
+    </ol>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="teaching-point reveal">
+    <h4>Personnel Across the Restraining Line</h4>
+    <p>The restraining line rule (7 field players max on each side) directly affects substitution strategy. Here's the framework:</p>
+    <ul>
+      <li><strong>Attack-to-defense transition:</strong> When your team loses the ball, your 7 offensive players must get off the field (or behind the restraining line) while 7 defensive players enter. This exchange happens simultaneously through the sub box and across the restraining line.</li>
+      <li><strong>Defense-to-attack transition:</strong> The reverse. Your defensive players come off and attackers go on. The key: don't rush. A controlled sub is better than a fast sub that creates confusion.</li>
+      <li><strong>"Midfielders":</strong> Some players play both sides of the field and run through the restraining line transition. These are your most versatile players. They don't need to sub — they just cross the line. Having 2-3 players who can play both ways gives you a huge advantage because you don't need to wait for subs to complete.</li>
+    </ul>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Practice Your Subs</h4>
+    <p>Most youth teams never practice substitutions. Then in games, subs are chaotic — wrong players on the field, too many players penalties, defensive breakdowns after bad timing. Dedicate 5 minutes at the end of every practice to running transition subs. Blow the whistle, call "TRANSITION!", and make your attack and defense groups swap ends with proper sub box procedure. Time it. Your goal: a clean swap in under 8 seconds. If it takes longer than that in a game, the opponent is running a fast break against your scrambled defense.</p>
+  </div>
+
+</div>
+
+<!-- ============ DRAW TAB ============ -->
+<div class="tab-panel" id="draw">
+
+  <h2 class="section-title reveal">Draw Control</h2>
+  <p class="content-text reveal">The draw is the women's game equivalent of the faceoff. After every goal and at the start of every half, two players stand at the center circle with the ball placed between their sticks, and on the whistle, they fight for possession. Mastering the draw gives your team extra possessions — which means extra goals. A team that wins 60% of draws has a significant scoring advantage over the course of a game.</p>
+
+  <div class="teaching-point reveal">
+    <h4>Draw Circle Fundamentals</h4>
+    <p>The draw is a technical skill that requires practice, timing, and hand strength. Here are the fundamentals:</p>
+    <ol>
+      <li><strong>Grip:</strong> Top hand chokes up to the throat of the stick for control. Bottom hand is at the butt end for leverage. The grip should be firm but not white-knuckle — you need wrist flexibility to direct the ball.</li>
+      <li><strong>Stance:</strong> Feet shoulder-width apart, knees bent, weight on the balls of your feet. Your body should be coiled and ready to explode upward.</li>
+      <li><strong>The motion:</strong> On the whistle, push UP and OUT with your top hand while pulling DOWN with your bottom hand. The goal is to direct the ball to a specific wing player or to yourself. Think of it as "throwing" the ball out of the circle with your stick.</li>
+      <li><strong>Direction control:</strong> You can direct the draw to your left, right, or straight up by angling your stick at the moment of the draw. Practice all three directions. The opponent will adjust, so you need multiple options.</li>
+      <li><strong>The clamp (when legal):</strong> Some draw specialists use a "clamp" technique — pulling the ball down and trapping it, then scooping it up. Rules vary by level, so check with your officials. At the youth level, the up-and-out technique is more consistent and easier to learn.</li>
+    </ol>
+  </div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/M1w6hYhIvmU" title="Women's Lacrosse — Draw Control Technique" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Elite Draw Control Technique</h3>
+        <p>Watch the draw specialist's hand position and the explosive motion on the whistle. She directs the ball to her left wing every time. Her wing player reads the draw direction, sprints to the spot, and secures the ground ball. Two-person execution, and the offense has possession within 2 seconds of the whistle.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/bNrH2MrCwF4" title="Women's Lacrosse — Draw Circle Strategy" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Designed Plays Off the Draw</h3>
+        <p>Winning the draw is step one. Step two: having a plan for what to do with it. This clip shows designed plays that start immediately after the draw is won — fast breaks, outlet passes to attackers who are already sprinting toward the goal, and quick-strike scoring before the defense is set. The draw isn't just possession — it's a scoring opportunity.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Draw Scouting</h4>
+    <p>Before every game, scout the opponent's draw specialist. Does she go up-and-out or clamp? Does she favor directing the ball to a specific side? Does she win draws by speed or by technique? Knowing her tendencies lets your draw specialist prepare and lets your wing players anticipate where the ball is going. In the BTB program, every pre-game film session should include 3-5 clips of the opponent's draws. Knowledge is the difference between 50/50 draws and 60/40 draws.</p>
+  </div>
+
+</div>
+
+<!-- ============ WING PLAY TAB ============ -->
+<div class="tab-panel" id="wing">
+
+  <h2 class="section-title reveal">Wing Play</h2>
+  <p class="content-text reveal">Wing players are the unsung heroes of the draw. While the draw specialist battles in the center circle, the wing players on each side of the circle are positioned to retrieve the ball. A great wing player can turn a 50/50 draw into a guaranteed possession. Wing play requires anticipation, speed, ground ball skill, and the ability to outlet quickly.</p>
+
+  <div class="teaching-point reveal">
+    <h4>Wing Player Positioning</h4>
+    <p>Wing players line up on the restraining line, on each side of the center circle. Here's how to position for success:</p>
+    <ul>
+      <li><strong>Inside position:</strong> Your inside foot should be closer to the draw circle. This gives you a shorter path to the ball if the draw comes your way. The opponent's wing player will be trying to take the same inside position — get there first.</li>
+      <li><strong>Ready stance:</strong> Low center of gravity, weight forward, stick in front of you with the head close to the ground. You're not standing upright — you're in a sprinter's crouch, ready to explode toward the ball.</li>
+      <li><strong>Eyes on the ball:</strong> Don't watch the draw specialist's hands or stick. Watch the BALL. The moment it pops out of the circle, you need to track it and sprint to the landing zone.</li>
+      <li><strong>Communication with draw specialist:</strong> Before the whistle, your draw specialist should give you a signal or call that tells you which direction she's directing the draw. If you know the ball is coming to your side, you can cheat a half-step inside.</li>
+    </ul>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">Ground Ball Techniques</h3>
+
+  <div class="teaching-point reveal">
+    <h4>Winning the Ground Ball</h4>
+    <p>Ground balls off the draw are contested and chaotic. Here's the technique for winning them cleanly:</p>
+    <ol>
+      <li><strong>Get low:</strong> Bend your knees, not your waist. Your stick head should be on the ground, behind the ball, with your body between the ball and the opponent.</li>
+      <li><strong>Scoop through:</strong> Don't stop your feet when you reach the ball. Scoop through it — run through the ground ball at full speed. Stopping your feet lets the opponent catch up and check your stick.</li>
+      <li><strong>Protect with your body:</strong> After the scoop, immediately cradle and protect the ball by turning your body away from the nearest opponent. In the women's game, your opponent can't body check you, but she can go for a stick check — so cradle tight and protect.</li>
+      <li><strong>Outlet immediately:</strong> The moment you have clean possession, look to outlet the ball to a teammate who is already running toward the offensive end. Don't hold it. Don't celebrate. Outlet and go.</li>
+    </ol>
+  </div>
+
+  <div class="video-grid reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/aZCt_Wg7rmE" title="Women's Lacrosse — Wing Play and Ground Balls" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Wing Play Execution</h3>
+        <p>This clip shows elite wing play at game speed. Watch the wing player's positioning before the whistle — she's low, inside foot forward, stick ready. The draw pops to her side, she sprints 3 steps, scoops through the ground ball without slowing down, and outlets to a teammate at the restraining line. Three seconds from whistle to organized possession. That's the standard.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Outlet After the Draw</h4>
+    <p>Winning the draw is only half the battle. The outlet is what turns possession into scoring opportunities. Here's the outlet hierarchy for the wing player after winning the draw:</p>
+    <ul>
+      <li><strong>First look:</strong> Ahead. Is there a teammate sprinting toward the offensive end with no defender between her and the goal? Hit her for a fast break.</li>
+      <li><strong>Second look:</strong> Sideline. An attacker running up the sideline is a safe outlet. The sideline limits the defender's angles.</li>
+      <li><strong>Third look:</strong> Back to the draw specialist. She's usually uncovered after the draw because her opponent is still recovering. She can catch and carry.</li>
+      <li><strong>Safety valve:</strong> If nothing is open, protect the ball and carry it yourself. Don't force a pass into traffic. Possession is more valuable than a rushed outlet.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ============ MAN UP TAB ============ -->
+<div class="tab-panel" id="manup">
+
+  <h2 class="section-title reveal">Man Up (Advantage Offense)</h2>
+  <p class="content-text reveal">When the opponent draws a yellow card, your team has a 7v6 advantage (7 attackers vs. 5 field defenders + goalie — one fewer defender than normal). This is your best scoring opportunity of the game. Elite teams convert man-up situations at a 50%+ rate. The key: quick ball movement, attacking the gaps, and shooting before the defense can rotate.</p>
+
+  <div class="teaching-point reveal">
+    <h4>Man-Up Formation: The 2-3-1</h4>
+    <p>Your base man-up set puts 2 players at the top (above the 12-meter fan), 3 players around the 8-meter arc (wings and crease), and 1 player behind the goal. With 7 attackers against 4 field defenders, there are always at least 3 attackers who are unguarded or lightly guarded. The offense's job: find them.</p>
+    <ul>
+      <li><strong>Top 2:</strong> Ball carriers and playmakers. They initiate the offense by driving or passing to create rotation.</li>
+      <li><strong>Wing 3 (left wing, right wing, crease):</strong> Scorers and cutters. They move around the 8-meter arc looking for seams in the zone. The crease player is the most dangerous — she's right in front of the goal.</li>
+      <li><strong>Behind (X):</strong> The reset option. If the offense stalls, the ball goes to X and the attack restarts. The X player can also feed the crease directly.</li>
+    </ul>
+  </div>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/QwO5EzfJKgs" title="Women's Lacrosse — Man Up Offense" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Quick Ball Movement on Man Up</h3>
+        <p>Watch how fast the ball moves. Four passes in 3 seconds. Each pass forces the 4-person defense to rotate, and by the fourth pass, a wing attacker is wide open at the 8-meter arc. She catches and shoots in one motion. The key: the ball moved faster than the defense could rotate. Speed kills on man up.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/x0Gh19M-3tA" title="Women's Lacrosse — Attacking the 8-Meter" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Attacking the 8-Meter in Advantage</h3>
+        <p>This breakdown shows why the crease player is the most important person in man-up offense. She positions at the edge of the 8-meter arc, reads the defensive rotation, and flashes to the open spot. Two of the three goals in this clip come from crease feeds — the defense collapsed on the driver and the crease was wide open.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Patience vs. Urgency</h4>
+    <p>Man-up possessions have a natural tension: you want to score quickly because the advantage is temporary (2 minutes), but you also need to be patient enough to find the right shot. Here's the balance: the first 15 seconds of a man-up possession should be spent moving the ball and reading the defense. Look for the easy goal — the unguarded crease player, the wide-open wing. If it's there, take it. If it's not, be patient. You have the 90-second shot clock working for you. Move the ball, make the defense rotate, and eventually a seam will open. Never force a bad shot just because you're on man up — a missed shot on man up is a wasted advantage.</p>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Man-Up Communication</h4>
+    <ul>
+      <li><strong>"MOVE IT!"</strong> — Ball needs to move faster. Stop holding it.</li>
+      <li><strong>"CREASE!"</strong> — The crease player is open. Feed her now.</li>
+      <li><strong>"SKIP!"</strong> — Skip pass across the formation to the weak side. The defense has overloaded one side.</li>
+      <li><strong>"SHOOT!"</strong> — You have an open look. Don't pass up a good shot waiting for a great one.</li>
+      <li><strong>"CLOCK!"</strong> — Shot clock is under 30 seconds. Start looking for your best shot.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ============ MAN DOWN TAB ============ -->
+<div class="tab-panel" id="mandown">
+
+  <h2 class="section-title reveal">Man Down (Disadvantage Defense)</h2>
+  <p class="content-text reveal">When your team draws a yellow card, you play with 4 field defenders plus a goalie against the opponent's 7 attackers. The goal is simple: survive 2 minutes without giving up a goal. You won't stop every shot, but you can make every shot contested. The 90-second shot clock is your best friend — use it.</p>
+
+  <div class="teaching-point reveal">
+    <h4>Pack the 8: Your Man-Down System</h4>
+    <p>The "Pack the 8" defense condenses your 4 field defenders inside and around the 8-meter arc. You're not trying to guard every attacker — you're protecting the critical scoring area and forcing the offense to score from outside the 8.</p>
+    <ol>
+      <li><strong>Two defenders at the top of the 8:</strong> They pressure the ball when it's above the arc and prevent direct drives to the goal.</li>
+      <li><strong>Two defenders at the bottom of the 8:</strong> They protect the crease and deny feeds to the inside. These players are your anchor — they don't chase, they protect.</li>
+      <li><strong>The goalie:</strong> She's the 5th defender and the quarterback. She directs all rotations, calls out cutters, and positions herself to take away the most dangerous shot angle.</li>
+    </ol>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">Backer Zone Under Pressure</h3>
+  <p class="content-text reveal">The Backer Zone in man-down defense works differently than in settled defense. Your "backer" is the deepest of your four defenders — she sits between the two bottom defenders and reads the ball. When the ball goes left, she shades left. When the ball goes right, she shades right. She never commits fully to one side unless a direct drive comes at her. The backer provides depth that the offense must account for, and her presence in the middle of the 8 discourages crease feeds.</p>
+
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/Ld8NVe0cf30" title="Women's Lacrosse — Man Down Defense" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge d1-film">D1 Film</span>
+        <h3>Surviving the Man Down</h3>
+        <p>Watch the defensive unit move as one. When the ball shifts, all four defenders slide in the same direction. No one chases. No one gambles. They let the offense pass around the outside and contest every shot that comes near the 8-meter arc. The offense uses 70 seconds of shot clock and settles for a low-percentage outside shot. That's a win for the defense.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/4pzH9Z_DRWQ" title="Women's Lacrosse — Shot Clock Defense" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-badge coaching">Coaching</span>
+        <h3>Clock Management on Man Down</h3>
+        <p>The 90-second shot clock is the best tool in man-down defense. This clip breaks down how elite defenses use the clock: they concede passes around the perimeter (eating clock) while denying everything inside the 8. By the time the offense recognizes they're running out of time, they're forced into a rushed, contested shot. Patience wins.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="comm-box reveal">
+    <h4>Man-Down Communication Adjustments</h4>
+    <div class="comm-call">
+      <span class="call-word">"BALL TOP!"</span>
+      <span class="call-meaning">Ball is above the 8-meter arc. Top two defenders step out to pressure, bottom two hold position in front of the goal.</span>
+    </div>
+    <div class="comm-call">
+      <span class="call-word">"BALL LEFT!" / "RIGHT!"</span>
+      <span class="call-meaning">Ball is on a wing. Entire zone shifts ball-side. Weak-side bottom defender pinches toward the crease.</span>
+    </div>
+    <div class="comm-call">
+      <span class="call-word">"BALL LOW!"</span>
+      <span class="call-meaning">Ball is behind the goal. All four defenders pack tight around the crease. Dangerous position — be ready for a crease feed from behind.</span>
+    </div>
+    <div class="comm-call">
+      <span class="call-word">"CLOCK!"</span>
+      <span class="call-meaning">Under 30 seconds on the shot clock. Play conservatively. Don't reach. Don't gamble. Make them shoot over the zone.</span>
+    </div>
+    <div class="comm-call">
+      <span class="call-word">"CLEAR OUT!"</span>
+      <span class="call-meaning">Penalty is about to expire. Transition back to full-strength defense. The player coming back on should sprint to the nearest open attacker.</span>
+    </div>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: The Mindset</h4>
+    <p>Tell your players this: "You have to survive ONE possession." That's it. The math: 2-minute penalty minus transition time equals roughly 90-100 seconds of man-down play. With a 90-second shot clock, the offense gets at most 1.5 possessions. Force them to use the clock on the first possession, and they might only get one real look at the goal during the entire penalty. One possession. Four defenders. One goalie. You can do this.</p>
+  </div>
+
+</div>
+
+<!-- ============ FILM PLAN TAB ============ -->
+<div class="tab-panel" id="film">
+
+  <h2 class="section-title reveal">10-Week Film Study Schedule</h2>
+  <p class="content-text reveal">Film study separates good teams from great teams. This 10-week schedule is designed for the BTB Girls Program — each week focuses on a different aspect of the game. Film sessions should be 15 minutes maximum with 3-5 clips per session. Players should also complete individual film review using the protocol below.</p>
+
+  <div class="section-divider"></div>
+
+  <div class="week-grid reveal">
+    <div class="week-card">
+      <span class="week-num">1</span>
+      <div class="week-content">
+        <h5>Draw Control &amp; Wing Play</h5>
+        <p>Review 5 clips of draw techniques from D1 games. Focus on hand positioning, direction control, and wing player reactions. Each player identifies one draw technique she wants to develop.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">2</span>
+      <div class="week-content">
+        <h5>Transition Offense — Fast Breaks</h5>
+        <p>Study 4 clips of transition scoring opportunities. Focus on identifying when to run a fast break vs. when to slow down and set up the settled offense. Players chart how many passes are made before the shot.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">3</span>
+      <div class="week-content">
+        <h5>Settled Offense — Spacing &amp; Cutting</h5>
+        <p>Review 5 clips of motion offense from this playbook. Watch for spacing principles, V-cuts, L-cuts, and back-door cuts. Each player watches one clip three times using the Player Watch Protocol.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">4</span>
+      <div class="week-content">
+        <h5>Settled Defense — Slides &amp; Recovery</h5>
+        <p>Study 4 clips of defensive rotations. Focus on adjacent slide timing, recovery sprints, and communication. After each clip, players identify what call should have been made and when.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">5</span>
+      <div class="week-content">
+        <h5>Rides &amp; Clears</h5>
+        <p>Review 3 ride clips and 3 clear clips. Identify the formation used in each, the decision points, and the result. Discuss: what could the clearing/riding team have done differently?</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">6</span>
+      <div class="week-content">
+        <h5>Pick Offense &amp; Pick Defense</h5>
+        <p>Study 5 clips of pick-and-roll / pick-and-pop actions from D1 women's games. Watch both the offensive execution and the defensive response. Players identify whether the defense fought through, switched, or went under — and whether it worked.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">7</span>
+      <div class="week-content">
+        <h5>Man Up &amp; Man Down</h5>
+        <p>Review 3 man-up clips and 3 man-down clips. Focus on ball movement speed in man-up and zone discipline in man-down. Chart shot clock usage — how long does it take the man-up offense to get a shot?</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">8</span>
+      <div class="week-content">
+        <h5>Full Game Review (Offense)</h5>
+        <p>Watch a full half of a D1 women's game, focusing only on the offensive end. Track: possessions, shots, goals, turnovers, shot clock usage. Discuss offensive patterns and tendencies as a group.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">9</span>
+      <div class="week-content">
+        <h5>Full Game Review (Defense)</h5>
+        <p>Watch the same half again, this time focusing only on the defensive end. Track: slides, recovery time, shooting space violations, forced turnovers. Compare defensive possessions where communication was present vs. absent.</p>
+      </div>
+    </div>
+    <div class="week-card">
+      <span class="week-num">10</span>
+      <div class="week-content">
+        <h5>Self-Scout &amp; Season Prep</h5>
+        <p>Review 5 clips from your own team's scrimmages or games. Each player identifies one offensive habit and one defensive habit she needs to improve. Create a personal development plan for the next training cycle.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <h3 class="section-title reveal">How to Run a Film Session</h3>
+
+  <div class="teaching-point reveal">
+    <h4>Coach's Film Session Structure (15 Minutes)</h4>
+    <ol>
+      <li><strong>Minutes 1-2: Set the Context</strong> — Tell players what they're about to watch and what to focus on. "Today we're looking at defensive slides. Watch how the adjacent defender reads the drive and times her slide."</li>
+      <li><strong>Minutes 3-8: Watch 3 Clips</strong> — Play each clip twice. First time: full speed, no commentary. Second time: pause at key moments, ask questions. "What should #4 do here? Where is the open attacker?"</li>
+      <li><strong>Minutes 9-12: Discuss</strong> — Let players share what they saw. Ask open-ended questions. "Why did the slide work in clip 2 but not clip 3?" The best learning happens when players articulate what they see.</li>
+      <li><strong>Minutes 13-15: Connect to Practice</strong> — Tell players exactly how today's film connects to today's practice. "In our slide drill today, I want you to focus on the timing we saw in clip 2. Wait for the inside shoulder."</li>
+    </ol>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Player Film Study Protocol (Individual Review)</h4>
+    <p>Players should complete individual film review at least once per week. Here's the protocol:</p>
+    <ul>
+      <li><strong>Choose 1 clip</strong> from this playbook or from your own game film</li>
+      <li><strong>Watch it 3 times</strong> using the Player Watch Protocol (full speed, off-ball focus, setup analysis)</li>
+      <li><strong>Write 3 sentences:</strong> (1) What did you see? (2) Why did it work or not work? (3) How does this apply to your game?</li>
+      <li><strong>Share with a teammate:</strong> Text or tell one teammate what you learned. Teaching reinforces learning.</li>
+      <li><strong>Total time:</strong> 10 minutes per week. That's all it takes to build elite-level lacrosse IQ.</li>
+    </ul>
+  </div>
+
+  <div class="coach-note reveal">
+    <h4>Coach's Note: Film Study is a Habit</h4>
+    <p>The goal of this 10-week plan is not to cover every aspect of the game — it's to build the HABIT of watching film. After 10 weeks, your players will start watching lacrosse differently. They'll see spacing instead of chaos. They'll hear communication instead of noise. They'll recognize plays before they happen. That's lacrosse IQ, and it can't be taught on the field alone. Film study is where understanding grows. Make it a non-negotiable part of your program, and your players will be smarter, faster decision-makers on every play.</p>
+  </div>
+
+</div>
+
+</main>
+
+<!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+      <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram" aria-label="BTB on Instagram">IG</a>
+        <a href="https://www.youtube.com/@bethebestlacrosse" target="_blank" rel="noopener" title="YouTube" aria-label="BTB on YouTube">YT</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Program</h4>
+      <a href="index.html">Our Standard</a>
+      <a href="index.html#development">Development Model</a>
+      <a href="academy-landing.html">Academy</a>
+      <a href="coach-bios.html">Coach Bios</a>
+      <a href="index.html#results">Results</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="coach-bios.html">Coaches</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+      <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener">@bethebestli</a>
+      <a>Long Island, NY</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Be The Best Lacrosse. All rights reserved.
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════ SCRIPTS ═══════════════════════════════════════ -->
+<script>
+// ── Mobile menu toggle ──
+function toggleMenu() {
+  const nav = document.getElementById('navLinks');
+  const ham = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  nav.classList.toggle('active');
+  ham.classList.toggle('active');
+}
+
+// ── Tab switching ──
+document.querySelectorAll('.playbook-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.playbook-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const panel = document.getElementById(tab.dataset.tab);
+    if (panel) panel.classList.add('active');
+    setTimeout(() => {
+      panel.querySelectorAll('.reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add('visible');
+        }
+      });
+    }, 50);
+  });
+});
+
+// ── Scroll reveal ──
+function handleReveal() {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60) {
+      el.classList.add('visible');
+    }
+  });
+}
+window.addEventListener('scroll', handleReveal);
+window.addEventListener('load', handleReveal);
+
+// ── Navbar scroll effect ──
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('navbar');
+  if (window.scrollY > 10) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+</script>
+
+</body>
+</html>
