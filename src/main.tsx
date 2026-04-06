@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { SmoothScroll } from './components/SmoothScroll'
+import { SiteGate } from './components/SiteGate'
 
 // After Netlify Identity widget processes an invite/recovery/confirmation token,
 // redirect the user to the login page so the SPA takes over.
@@ -26,8 +27,10 @@ if (window.netlifyIdentity) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SmoothScroll>
-      <App />
-    </SmoothScroll>
+    <SiteGate>
+      <SmoothScroll>
+        <App />
+      </SmoothScroll>
+    </SiteGate>
   </StrictMode>,
 )
