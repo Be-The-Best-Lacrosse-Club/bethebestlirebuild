@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = "dist"
 
+[[edge_functions]]
+  function = "site-gate"
+  path = "/*"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -1,4 +1,4 @@
-import type { Context } from "https://edge.netlify.com"
+import type { Context, Config } from "@netlify/edge-functions"
 
 // CHANGE THIS to whatever passcode you want
 const SITE_PASSCODE = "BTB2026"
@@ -194,7 +194,6 @@ function getLoginHTML(error: boolean): string {
 </html>`
 }
 
-export const config = {
+export const config: Config = {
   path: "/*",
-  excludedPath: ["/.netlify/*"],
 }
