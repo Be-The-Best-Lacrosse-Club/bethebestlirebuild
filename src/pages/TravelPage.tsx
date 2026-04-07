@@ -125,25 +125,34 @@ export function TravelPage({ gender }: { gender: Gender }) {
       {/* Tournament Schedule */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Tournaments</div>
+          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Where We Compete</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
-            Tournament<br />Schedule
+            We Play The<br /><span className="text-[var(--btb-red)]">Best Tournaments</span>
           </h2>
-          <div className="relative rounded-2xl border border-[var(--btb-red)]/20 overflow-hidden">
-            <div className="absolute inset-0 bg-[var(--btb-red)]/[0.03]" />
-            <div className="absolute top-0 left-0 w-1 h-full bg-[var(--btb-red)]" />
-            <div className="relative p-10 md:p-14">
-              <p className="text-[0.88rem] text-white/40 max-w-[520px] leading-[1.85] mb-6">
-                The 2026 tournament schedule is being finalized. BTB travel teams typically compete in 6–8 tournaments per season across Long Island, the tri-state area, and select national events.
+
+          <div className="grid md:grid-cols-2 gap-4 mb-10">
+            <div className="rounded-xl border border-[var(--btb-red)]/25 bg-[var(--btb-red)]/[0.04] p-7">
+              <div className="text-[0.62rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)] mb-3">Elite Circuit</div>
+              <h3 className="font-display text-[1.4rem] uppercase tracking-wide mb-3">Top National Tournaments</h3>
+              <p className="text-[0.85rem] text-white/40 leading-[1.85]">
+                BTB enters the elite tournaments where the top club programs in the country compete — the events that matter for college recruiting and high-level development.
               </p>
-              <div className="flex flex-wrap gap-6">
-                {["Schedule Coming Soon", "6–8 Tournaments", "Regional & National", "All Age Groups"].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)]" />
-                    <span className="text-[0.72rem] font-semibold uppercase tracking-[1px] text-white/50">{item}</span>
-                  </div>
-                ))}
-              </div>
+            </div>
+            <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-7">
+              <div className="text-[0.62rem] font-bold uppercase tracking-[2px] text-white/50 mb-3">Regional Play</div>
+              <h3 className="font-display text-[1.4rem] uppercase tracking-wide mb-3">Long Island & Tri-State</h3>
+              <p className="text-[0.85rem] text-white/40 leading-[1.85]">
+                We also compete in top local tournaments across Long Island and the tri-state area — the games where BTB players get reps against the strongest regional competition.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative rounded-2xl border border-white/[0.07] overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 h-full bg-[var(--btb-red)]" />
+            <div className="relative p-8 md:p-10">
+              <p className="text-[0.88rem] text-white/45 leading-[1.85]">
+                <span className="text-white font-semibold">Tournament schedules are shared with rostered families</span> — every BTB team's full schedule, travel info, and tournament details are distributed once the season is set. The lineup is built to maximize development, exposure, and competition for each age group.
+              </p>
             </div>
           </div>
         </div>
