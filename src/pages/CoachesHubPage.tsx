@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { drills, drillCategories, practicePlans } from "@/lib/coachData"
+import { fetchCoachPayment, type CoachPaymentResponse } from "@/lib/paymentData"
 import {
   films,
   filmCategories,
@@ -30,6 +31,7 @@ import {
   X,
   Tag,
   ArrowRight,
+  DollarSign,
 } from "lucide-react"
 
 /* ------------------------------------------------------------------ */
@@ -98,6 +100,7 @@ const dashboardCards = [
   { id: "film", icon: Video, title: "Film Resources", description: "Game film, scouting reports, and teaching clips." },
   { id: "plans", icon: ClipboardList, title: "Practice Plans", description: "Seasonal phase templates with timed segment breakdowns." },
   { id: "certification", icon: Award, title: "Certification", description: "Track your coaching certification requirements and progress." },
+  { id: "mypay", icon: DollarSign, title: "My Pay", description: "View your season contract, payment schedule, and payment status." },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -211,6 +214,16 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
   }
 
   const completedCount = certificationItems.filter((c) => certCompleted[c.id]).length
+
+  // Payment data — fetched live from BTB-OS API
+  const [paymentData, setPaymentData] = useState<CoachPaymentResponse | null>(null)
+
+  useEffect(() => {
+    if (!user?.email) return
+    fetchCoachPayment(user.email).then((data) => {
+      if (data) setPaymentData(data)
+    })
+  }, [user?.email])
 
   const label = gender === "boys" ? "Boys" : "Girls"
 
@@ -887,6 +900,170 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               )
             })}
           </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════ */}
+      {/*  MY PAY                                                       */}
+      {/* ══════════════════════════════════════════════════════════════ */}
+      <section
+        id="mypay"
+        ref={(el) => { sectionRefs.current["mypay"] = el }}
+        className="py-20 px-6 border-t border-white/[0.07]"
+      >
+        <div className="max-w-[1000px] mx-auto">
+          <div className="mb-10">
+            <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+              My Pay
+            </div>
+            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92]">
+              Season Contract
+              <br />
+              <span className="text-white/20">&amp; Payments</span>
+            </h2>
+          </div>
+
+          {paymentData?.found && paymentData.coach && paymentData.installments ? (() => {
+            const coach = paymentData.coach
+            const installments = paymentData.installments
+            const paidCount = installments.filter((i) => i.status === "paid").length
+            const paidTotal = installments.filter((i) => i.status === "paid").reduce((s, i) => s + i.amount, 0)
+            const remaining = coach.seasonContract - paidTotal
+            const nextInst = installments.find((i) => i.status === "scheduled" || i.status === "upcoming")
+
+            return (
+            <div className="space-y-6">
+              {/* Coach info + contract summary */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02]">
+                  <div className="text-[0.6rem] font-bold uppercase tracking-[2px] text-white/25 mb-2">
+                    Season Contract
+                  </div>
+                  <div className="font-display text-[2.2rem] text-white leading-none">
+                    ${coach.seasonContract.toLocaleString()}
+                  </div>
+                  <div className="text-[0.75rem] text-white/30 mt-2">
+                    {paymentData.season} &middot; {coach.title}
+                  </div>
+                  {coach.teamAssignment && (
+                    <div className="text-[0.7rem] text-white/20 mt-1">{coach.teamAssignment}</div>
+                  )}
+                </div>
+
+                <div className="p-6 rounded-xl border border-emerald-400/15 bg-emerald-400/[0.03]">
+                  <div className="text-[0.6rem] font-bold uppercase tracking-[2px] text-emerald-400/50 mb-2">
+                    Paid
+                  </div>
+                  <div className="font-display text-[2.2rem] text-emerald-400 leading-none">
+                    ${paidTotal.toLocaleString()}
+                  </div>
+                  <div className="text-[0.75rem] text-white/30 mt-2">
+                    {paidCount} of {installments.length} payments
+                  </div>
+                </div>
+
+                <div className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02]">
+                  <div className="text-[0.6rem] font-bold uppercase tracking-[2px] text-white/25 mb-2">
+                    Remaining
+                  </div>
+                  <div className="font-display text-[2.2rem] text-white leading-none">
+                    ${remaining.toLocaleString()}
+                  </div>
+                  {nextInst && (
+                    <div className="text-[0.75rem] text-white/30 mt-2">
+                      Next: {new Date(nextInst.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Progress bar */}
+              <div className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02]">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[0.75rem] font-semibold text-white/50">{paymentData.season} Progress</span>
+                  <span className="text-[0.75rem] text-white/30">
+                    ${paidTotal.toLocaleString()} of ${coach.seasonContract.toLocaleString()}
+                  </span>
+                </div>
+                <div className="h-2.5 bg-white/[0.06] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[var(--btb-red)] rounded-full transition-all duration-700"
+                    style={{ width: `${coach.seasonContract > 0 ? (paidTotal / coach.seasonContract) * 100 : 0}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Payment schedule */}
+              <div className="space-y-3">
+                {installments.map((inst, i) => {
+                  const isPaid = inst.status === "paid"
+                  const isScheduled = inst.status === "scheduled"
+                  const d = new Date(inst.date)
+                  return (
+                    <div
+                      key={i}
+                      className={`flex items-center gap-4 p-5 rounded-xl border transition-all ${
+                        isPaid
+                          ? "border-emerald-400/15 bg-emerald-400/[0.03]"
+                          : isScheduled
+                            ? "border-amber-400/15 bg-amber-400/[0.03]"
+                            : "border-white/[0.07] bg-white/[0.02]"
+                      }`}
+                    >
+                      {/* Date block */}
+                      <div className="text-center w-14 shrink-0">
+                        <div className="text-[0.55rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
+                          {d.toLocaleDateString("en-US", { month: "short" })}
+                        </div>
+                        <div className="font-display text-2xl text-white leading-tight">
+                          {d.getDate()}
+                        </div>
+                      </div>
+
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[0.85rem] font-semibold text-white">{inst.label}</span>
+                          {isPaid ? (
+                            <span className="text-[0.58rem] font-bold uppercase tracking-[2px] text-emerald-400/60 border border-emerald-400/15 bg-emerald-400/5 px-2.5 py-0.5 rounded-full">
+                              Paid
+                            </span>
+                          ) : isScheduled ? (
+                            <span className="text-[0.58rem] font-bold uppercase tracking-[2px] text-amber-400/60 border border-amber-400/15 bg-amber-400/5 px-2.5 py-0.5 rounded-full">
+                              Scheduled
+                            </span>
+                          ) : (
+                            <span className="text-[0.58rem] font-bold uppercase tracking-[2px] text-white/25 border border-white/10 bg-white/[0.02] px-2.5 py-0.5 rounded-full">
+                              Upcoming
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[0.72rem] text-white/25 mt-1">
+                          {d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+                        </div>
+                      </div>
+
+                      {/* Amount */}
+                      <div className="text-right shrink-0">
+                        <div className={`font-display text-xl ${isPaid ? "text-emerald-400" : "text-white"}`}>
+                          ${inst.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+            )
+          })() : (
+            <div className="p-10 rounded-xl border border-white/[0.07] bg-white/[0.02] text-center">
+              <DollarSign size={32} className="mx-auto text-white/15 mb-4" />
+              <p className="text-[0.85rem] text-white/40 mb-1">No payment record found</p>
+              <p className="text-[0.72rem] text-white/20">
+                Contact BTB operations if you believe this is an error.
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </div>
