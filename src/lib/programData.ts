@@ -80,7 +80,7 @@ export const programData: Record<Gender, ProgramContent> = {
           "M.Ed. — Manhattanville College",
           "18+ Years Varsity Coaching",
         ],
-        bio: "Dan founded Be The Best Lacrosse Club in 2021 with one mission: youth lacrosse on Long Island deserved better. A Seaford HS grad and Rutgers University alum, Dan was named team captain, earned All-ECAC honors, and won the Knight Cup for on-field excellence and leadership. He holds a Master's in Education from Manhattanville College and has spent nearly two decades coaching varsity lacrosse — including stops at Valley Stream and Plainedge.",
+        bio: "Dan founded Be The Best Lacrosse Club in 2021 with one conviction: Long Island youth lacrosse deserved coaching that refused to cut corners. A Seaford HS grad and Rutgers SSDM — dawg culture in practice and games since '83 — Dan built BTB around a simple standard: effort is non-negotiable, discipline drives development, team comes before individual, and development comes before ego. He currently leads four BTB teams including his original 2028 Black, the group he calls his most celebrated because they stood by him when they didn't have to. His core belief is that players can achieve what others say they can't — if they're willing to embrace the work, the sacrifice, and the daily standard.",
         initials: "DA",
       },
       {
@@ -179,7 +179,7 @@ export const programData: Record<Gender, ProgramContent> = {
           "M.Ed. — Manhattanville College",
           "18+ Years Varsity Coaching",
         ],
-        bio: "Dan founded Be The Best Lacrosse Club in 2021 to give Long Island girls the same structured, film-based development the boys' game has had for years. A Seaford HS grad, Rutgers University team captain, and Knight Cup recipient, Dan built BTB Girls on the principle that the women's game deserves the same standards, accountability, and coaching depth — no shortcuts, no compromises.",
+        bio: "Dan founded Be The Best Lacrosse Club in 2021 to give Long Island girls the same structured, film-based development the boys' game has had for years. A Seaford HS grad and Rutgers SSDM, Dan built BTB Girls on the principle that the women's game deserves the same standards, accountability, and coaching depth — no shortcuts, no compromises. His philosophy is simple: effort is non-negotiable, discipline drives development, team over individual, and development over ego. His core belief — that players can achieve what others say they can't if they're willing to embrace the work — is the foundation of the entire BTB program.",
         initials: "DA",
       },
       {

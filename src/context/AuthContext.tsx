@@ -28,6 +28,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false
 
+    // Localhost dev bypass — auto-login as owner so hubs are accessible without Netlify Identity
+    const isDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    if (isDev) {
+      setUser({
+        id: "dev-owner",
+        email: "dan@btb.dev",
+        name: "Coach Dan (Dev)",
+        role: "owner",
+        gender: "boys",
+      })
+      setLoading(false)
+      return
+    }
+
     async function init() {
       try {
         // First try synchronous recovery (fast, from localStorage)

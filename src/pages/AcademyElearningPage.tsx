@@ -8,10 +8,13 @@ import {
   markCourseComplete,
   getWallOfFame,
   addToWallOfFame,
+  PILLAR_CONFIG,
+  PILLAR_ORDER,
   type AcademyCourse,
   type AcademyLesson,
   type WallOfFameEntry,
   type AgeTier,
+  type Pillar,
 } from "@/lib/academyData"
 import {
   ArrowLeft,
@@ -28,6 +31,10 @@ import {
   Brain,
   Target,
   Heart,
+  Users,
+  Swords,
+  Crown,
+  Play,
 } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
 import type { Gender } from "@/types"
@@ -46,6 +53,18 @@ const TOPIC_COLORS: Record<string, string> = {
   Character: "text-amber-400 bg-amber-500/10 border-amber-500/30",
 }
 
+const PILLAR_ICONS: Record<Pillar, typeof BookOpen> = {
+  game: Swords,
+  leadership: Crown,
+  team: Users,
+}
+
+const PILLAR_COLORS: Record<Pillar, { gradient: string; text: string; bg: string; border: string }> = {
+  game: { gradient: "from-blue-500 to-blue-700", text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30" },
+  leadership: { gradient: "from-amber-500 to-amber-700", text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/30" },
+  team: { gradient: "from-emerald-500 to-emerald-700", text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/30" },
+}
+
 const TIER_COLORS: Record<AgeTier, string> = {
   youth: "from-emerald-500 to-emerald-700",
   middle: "from-blue-500 to-blue-700",
@@ -61,6 +80,7 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
 
   const [progress, setProgress] = useState(getAcademyProgress())
   const [activeCourse, setActiveCourse] = useState<AcademyCourse | null>(null)
+  const [activePillar, setActivePillar] = useState<Pillar>("game")
   const [activeLesson, setActiveLesson] = useState<AcademyLesson | null>(null)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
@@ -81,11 +101,19 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
     navigate("/login")
   }
 
-  // Check if a lesson is unlocked
+  // Get lessons filtered by pillar
+  const getLessonsByPillar = (course: AcademyCourse, pillar: Pillar): AcademyLesson[] => {
+    return course.lessons.filter((l) => l.pillar === pillar)
+  }
+
+  // Check if a lesson is unlocked (sequential within its pillar, parallel across pillars)
   const isLessonUnlocked = (course: AcademyCourse, lessonIndex: number): boolean => {
-    if (lessonIndex === 0) return true
-    const prevLesson = course.lessons[lessonIndex - 1]
-    return progress[course.id]?.completedLessons.includes(prevLesson.id) ?? false
+    const lesson = course.lessons[lessonIndex]
+    const pillarLessons = getLessonsByPillar(course, lesson.pillar)
+    const pillarIndex = pillarLessons.findIndex((l) => l.id === lesson.id)
+    if (pillarIndex === 0) return true
+    const prevInPillar = pillarLessons[pillarIndex - 1]
+    return progress[course.id]?.completedLessons.includes(prevInPillar.id) ?? false
   }
 
   // Check if a course is complete
@@ -176,6 +204,15 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
   // ─── COURSE DETAIL VIEW ────────────────────────────────────────────
   if (activeCourse && !activeLesson && !showCourseComplete) {
     const courseProgress = getCourseProgress(activeCourse)
+    const pillarLessons = getLessonsByPillar(activeCourse, activePillar)
+
+    // Per-pillar progress
+    const getPillarProgress = (pillar: Pillar) => {
+      const lessons = getLessonsByPillar(activeCourse, pillar)
+      const completed = lessons.filter((l) => progress[activeCourse.id]?.completedLessons.includes(l.id)).length
+      return lessons.length > 0 ? Math.round((completed / lessons.length) * 100) : 0
+    }
+
     return (
       <div className="min-h-screen bg-black text-white">
         <SEO title={`${activeCourse.tierLabel} Academy | BTB ${label}`} description={activeCourse.description} path={`/${gender}/academy`} />
@@ -184,7 +221,7 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
         <header className="border-b border-white/10 bg-black/80 backdrop-blur sticky top-0 z-10">
           <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <button
-              onClick={() => setActiveCourse(null)}
+              onClick={() => { setActiveCourse(null); setActivePillar("game") }}
               className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm font-semibold"
             >
               <ArrowLeft size={18} /> All Courses
@@ -200,20 +237,20 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
 
         <div className="max-w-5xl mx-auto px-6 py-12">
           {/* Course header */}
-          <div className="mb-10">
+          <div className="mb-8">
             <div className={`inline-block px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider mb-4 bg-gradient-to-r ${TIER_COLORS[activeCourse.tier]} text-white`}>
               {activeCourse.tierLabel} · {activeCourse.ageRange}
             </div>
             <h1 className="text-5xl font-bold mb-3" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.02em" }}>
-              {label} {activeCourse.tierLabel} Course
+              {label} {activeCourse.tierLabel} Academy
             </h1>
             <p className="text-white/60 text-lg mb-2">{activeCourse.description}</p>
             <p className="text-white/40 text-sm mb-6">{activeCourse.gradYears}</p>
 
-            {/* Progress bar */}
+            {/* Overall progress bar */}
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-white/60">Progress</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-white/60">Overall Progress</span>
                 <span className="text-sm font-bold">{courseProgress}%</span>
               </div>
               <div className="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -228,13 +265,62 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
             </div>
           </div>
 
-          {/* Lessons list */}
+          {/* Pillar tabs */}
+          <div className="grid grid-cols-3 gap-3 mb-8">
+            {PILLAR_ORDER.map((pillar) => {
+              const config = PILLAR_CONFIG[pillar]
+              const colors = PILLAR_COLORS[pillar]
+              const PillarIcon = PILLAR_ICONS[pillar]
+              const pillarProg = getPillarProgress(pillar)
+              const isActive = activePillar === pillar
+              const pillarCount = getLessonsByPillar(activeCourse, pillar).length
+              const pillarCompleted = getLessonsByPillar(activeCourse, pillar).filter(
+                (l) => progress[activeCourse.id]?.completedLessons.includes(l.id)
+              ).length
+
+              return (
+                <button
+                  key={pillar}
+                  onClick={() => setActivePillar(pillar)}
+                  className={`relative text-left p-4 rounded-xl border transition-all ${
+                    isActive
+                      ? `${colors.bg} ${colors.border} border-2`
+                      : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <PillarIcon size={18} className={isActive ? colors.text : "text-white/50"} />
+                    <span className={`text-xs font-bold uppercase tracking-wider ${isActive ? colors.text : "text-white/50"}`}>
+                      {config.label}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1.5">
+                    <span>{pillarCompleted}/{pillarCount}</span>
+                    <span>{pillarProg}%</span>
+                  </div>
+                  <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${colors.gradient} transition-all duration-500`}
+                      style={{ width: `${pillarProg}%` }}
+                    />
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Active pillar description */}
+          <div className="mb-6">
+            <p className="text-white/50 text-sm">{PILLAR_CONFIG[activePillar].description}</p>
+          </div>
+
+          {/* Pillar lessons list */}
           <div className="space-y-3">
-            {activeCourse.lessons.map((lesson, idx) => {
-              const unlocked = isLessonUnlocked(activeCourse, idx)
+            {pillarLessons.map((lesson, pillarIdx) => {
+              const globalIdx = activeCourse.lessons.findIndex((l) => l.id === lesson.id)
+              const unlocked = isLessonUnlocked(activeCourse, globalIdx)
               const completed = progress[activeCourse.id]?.completedLessons.includes(lesson.id) ?? false
-              const TopicIcon = TOPIC_ICONS[lesson.topic]
-              const topicColor = TOPIC_COLORS[lesson.topic]
+              const colors = PILLAR_COLORS[activePillar]
 
               return (
                 <button
@@ -247,33 +333,28 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
                       : "bg-white/[0.02] border-white/5 cursor-not-allowed opacity-50"
                   }`}
                 >
-                  {/* Lesson number / status */}
                   <div className="shrink-0">
                     {completed ? (
-                      <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
-                        <Check size={20} className="text-emerald-400" />
+                      <div className={`w-12 h-12 rounded-full ${colors.bg} border ${colors.border} flex items-center justify-center`}>
+                        <Check size={20} className={colors.text} />
                       </div>
                     ) : !unlocked ? (
                       <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                         <Lock size={18} className="text-white/30" />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-white/5 border border-white/20 flex items-center justify-center font-bold text-white/80">
-                        {lesson.lessonNumber}
+                      <div className={`w-12 h-12 rounded-full ${colors.bg} border ${colors.border} flex items-center justify-center font-bold ${colors.text}`}>
+                        {pillarIdx + 1}
                       </div>
                     )}
                   </div>
 
-                  {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${topicColor}`}>
-                        <TopicIcon size={10} /> {lesson.topic}
-                      </span>
-                    </div>
                     <h3 className="text-lg font-bold text-white">{lesson.title}</h3>
-                    <p className="text-white/50 text-sm mt-0.5">
-                      {lesson.questions.length} question{lesson.questions.length !== 1 ? "s" : ""} to advance
+                    <p className="text-white/50 text-sm mt-0.5 flex items-center gap-2">
+                      {lesson.videoUrl && <span className="inline-flex items-center gap-1 text-[#D22630]"><Play size={11} fill="currentColor" /> Video</span>}
+                      {lesson.videoUrl && <span className="text-white/20">+</span>}
+                      {lesson.questions.length} question{lesson.questions.length !== 1 ? "s" : ""}
                     </p>
                   </div>
 
@@ -323,6 +404,25 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
               {activeLesson.title}
             </h1>
           </div>
+
+          {/* Video (if available) */}
+          {activeLesson.videoUrl && (() => {
+            const videoId = activeLesson.videoUrl?.match(/(?:v=|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1]
+            return videoId ? (
+              <div className="mb-10">
+                <div className="relative w-full rounded-xl overflow-hidden border border-white/10" style={{ paddingBottom: "56.25%" }}>
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+                    title={activeLesson.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                <p className="text-white/30 text-xs mt-2 text-center uppercase tracking-wider">Watch the video, then answer the questions below</p>
+              </div>
+            ) : null
+          })()}
 
           {/* Reading content */}
           <div className="prose prose-invert max-w-none mb-12">
@@ -565,9 +665,14 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
           <h1 className="text-6xl font-bold mb-3" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.02em" }}>
             BTB {label} Academy
           </h1>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Choose your course based on your age group. Complete lessons by answering all questions correctly to unlock the next one.
+          <p className="text-white/60 text-lg max-w-2xl mx-auto mb-6">
+            Three pillars of development: learn the game, build leadership, and understand what makes teams win.
           </p>
+          <div className="flex items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider text-white/40">
+            <span className="flex items-center gap-1.5"><Swords size={14} className="text-blue-400" /> The Game</span>
+            <span className="flex items-center gap-1.5"><Crown size={14} className="text-amber-400" /> Leadership</span>
+            <span className="flex items-center gap-1.5"><Users size={14} className="text-emerald-400" /> Team</span>
+          </div>
         </div>
 
         {/* Course tiles */}
@@ -599,15 +704,30 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
                   <p className="text-white/70 text-sm mb-4 leading-relaxed">{course.description}</p>
                   <p className="text-white/40 text-xs mb-4">{course.gradYears}</p>
 
-                  <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider mb-2">
+                  {/* Pillar mini-progress */}
+                  <div className="space-y-2 mb-4">
+                    {PILLAR_ORDER.map((pillar) => {
+                      const PIcon = PILLAR_ICONS[pillar]
+                      const pColors = PILLAR_COLORS[pillar]
+                      const pLessons = course.lessons.filter((l) => l.pillar === pillar)
+                      const pDone = pLessons.filter((l) => progress[course.id]?.completedLessons.includes(l.id)).length
+                      const pProg = pLessons.length > 0 ? Math.round((pDone / pLessons.length) * 100) : 0
+                      return (
+                        <div key={pillar} className="flex items-center gap-2">
+                          <PIcon size={12} className={pColors.text} />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-white/40 w-20">{PILLAR_CONFIG[pillar].label}</span>
+                          <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+                            <div className={`h-full bg-gradient-to-r ${pColors.gradient} transition-all`} style={{ width: `${pProg}%` }} />
+                          </div>
+                          <span className="text-[10px] font-bold text-white/40 w-6 text-right">{pDone}/{pLessons.length}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider">
                     <span className="text-white/50">{course.lessons.length} Lessons</span>
                     <span className="text-white/80">{courseProgress}%</span>
-                  </div>
-                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full bg-gradient-to-r ${TIER_COLORS[course.tier]} transition-all`}
-                      style={{ width: `${courseProgress}%` }}
-                    />
                   </div>
                 </div>
               </button>
