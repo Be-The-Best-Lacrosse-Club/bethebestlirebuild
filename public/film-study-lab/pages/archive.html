@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Archive — BTB Film Study Lab</title>
+  <meta name="description" content="Running record of every game broken down by BTB coaching staff. Browse by program, search by concept.">
+  <link rel="stylesheet" href="../css/btb-core.css">
+  <style>
+    .archive-hero {
+      background: var(--btb-black);
+      color: var(--btb-white);
+      padding: var(--space-xl) var(--space-lg) var(--space-md);
+    }
+    .archive-hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .archive-hero h1 {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .archive-hero h1 .red { color: var(--btb-red); }
+    .archive-hero p {
+      color: var(--btb-gray-300);
+      font-size: 0.9rem;
+      margin-top: var(--space-xs);
+    }
+
+    .archive-controls {
+      background: var(--btb-black-soft);
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: 1px solid var(--btb-gray-700);
+    }
+    .archive-controls-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .game-count {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      color: var(--btb-gray-300);
+    }
+    .game-count strong {
+      color: var(--btb-red);
+      font-size: 1.1rem;
+    }
+
+    .sheet-status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: 0.75rem;
+      color: var(--btb-gray-400);
+    }
+    .sheet-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--btb-gray-500);
+    }
+    .sheet-dot.connected { background: var(--btb-success); }
+
+    #archive-list {
+      min-height: 200px;
+    }
+
+    .load-more {
+      text-align: center;
+      margin-top: var(--space-xl);
+    }
+
+    @media (max-width: 768px) {
+      .archive-controls-inner { flex-direction: column; align-items: stretch; }
+      .sheet-status { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <span class="logo-btb">BTB</span>
+        <span class="logo-sub">Be The Best Lacrosse</span>
+        <span class="logo-title">Film Study Lab</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <nav class="main-nav">
+        <a href="../index.html">Home</a>
+        <a href="library.html">Concept Library</a>
+        <a href="archive.html">Game Archive</a>
+        <a href="breakdown.html">Coach Panel</a>
+        <a href="progress.html">My Progress</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="archive-hero">
+    <div class="archive-hero-inner">
+      <h1>Game <span class="red">Archive</span></h1>
+      <p>Running record of every game we've broken down. New film added regularly.</p>
+    </div>
+  </section>
+
+  <!-- CONTROLS -->
+  <section class="archive-controls">
+    <div class="archive-controls-inner">
+      <div class="control-group">
+        <span class="control-label">Filter</span>
+        <button class="btn btn-sm filter-btn active" data-filter="all">All</button>
+        <button class="btn btn-sm filter-btn" data-filter="boys">Boys</button>
+        <button class="btn btn-sm filter-btn" data-filter="girls">Girls</button>
+      </div>
+      <div class="game-count">
+        <strong id="game-count-num">0</strong> games in archive
+      </div>
+      <div class="sheet-status">
+        <span class="sheet-dot" id="sheet-status-dot"></span>
+        <span id="sheet-status-text">Checking Google Sheet...</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHIVE LIST -->
+  <main class="container">
+    <div id="archive-list"></div>
+    <div class="load-more" id="load-more" style="display:none;">
+      <button class="btn btn-dark" id="load-more-btn">Load More Games</button>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">BTB</div>
+      <div class="footer-tagline">BE THE BEST LACROSSE — FILM STUDY LAB</div>
+      <div class="footer-links">
+        <a href="library.html">Concept Library</a>
+        <a href="archive.html">Game Archive</a>
+        <a href="breakdown.html">Coach Panel</a>
+        <a href="progress.html">My Progress</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/btb-data.js"></script>
+  <script src="../js/btb-ui.js"></script>
+  <script>
+    let currentFilter = 'all';
+    let sheetGames = [];
+    let allGames = [...GAME_ARCHIVE];
+
+    function renderArchive() {
+      const filtered = currentFilter === 'all'
+        ? allGames
+        : allGames.filter(g => g.program === currentFilter);
+
+      document.getElementById('game-count-num').textContent = filtered.length;
+
+      const container = document.getElementById('archive-list');
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🎬</div>
+            <p>No games match this filter yet.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(game => `
+        <div class="game-entry" data-program="${game.program}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div class="game-title">${game.title}</div>
+              <div class="game-meta">${game.date}</div>
+            </div>
+            <span class="badge ${game.program === 'boys' ? 'badge-black' : 'badge-red'}">
+              ${game.program === 'boys' ? 'BOYS' : 'GIRLS'}
+            </span>
+          </div>
+          <div style="margin-top:0.75rem;">
+            ${game.concepts.map(c => `<span class="game-tag">${c}</span>`).join('')}
+          </div>
+          <div class="game-meta" style="margin-top:0.5rem;">
+            ${game.clips} clips &mdash; ${game.summary}
+          </div>
+          ${game.videoId ? `
+            <a href="https://www.youtube.com/watch?v=${game.videoId}" target="_blank"
+               style="display:inline-block;margin-top:0.5rem;font-size:0.85rem;">
+              Watch Full Game ↗
+            </a>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentFilter = btn.dataset.filter;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderArchive();
+      });
+    });
+
+    // Try to fetch live data from Google Sheet
+    async function loadSheetGames() {
+      const dot = document.getElementById('sheet-status-dot');
+      const text = document.getElementById('sheet-status-text');
+
+      try {
+        const data = await fetchSheetData('all');
+        if (data && data.games && data.games.length > 0) {
+          // Merge sheet games with seed data (avoid duplicates)
+          const existingIds = new Set(allGames.map(g => g.id));
+          data.games.forEach(g => {
+            if (!existingIds.has(g.id)) {
+              allGames.push(g);
+            }
+          });
+          dot.classList.add('connected');
+          text.textContent = `Google Sheet connected — ${data.games.length} games synced`;
+        } else {
+          dot.classList.add('connected');
+          text.textContent = 'Google Sheet connected — using seed data';
+        }
+      } catch (err) {
+        text.textContent = 'Offline — showing seed data';
+      }
+      renderArchive();
+    }
+
+    // Init
+    renderArchive();
+    loadSheetGames();
+  </script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concept Library — BTB Film Study Lab</title>
+  <meta name="description" content="Browse lacrosse concepts organized by category. Every concept explained at three learning levels with video clips and coaching notes.">
+  <link rel="stylesheet" href="../css/btb-core.css">
+  <style>
+    .library-hero {
+      background: var(--btb-black);
+      color: var(--btb-white);
+      padding: var(--space-xl) var(--space-lg) var(--space-md);
+    }
+    .library-hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .library-hero h1 {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .library-hero h1 .red { color: var(--btb-red); }
+    .library-hero p {
+      color: var(--btb-gray-300);
+      font-size: 0.9rem;
+      margin-top: var(--space-xs);
+    }
+
+    .library-controls {
+      background: var(--btb-black-soft);
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: 1px solid var(--btb-gray-700);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .library-controls-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 220px;
+      flex: 1;
+      max-width: 350px;
+    }
+    .search-box input {
+      background: var(--btb-gray-700);
+      border: 1px solid var(--btb-gray-600);
+      color: var(--btb-white);
+      padding-left: 2rem;
+    }
+    .search-box input::placeholder { color: var(--btb-gray-400); }
+    .search-box input:focus {
+      border-color: var(--btb-red);
+      box-shadow: 0 0 0 2px rgba(204,0,0,0.2);
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--btb-gray-400);
+      font-size: 0.85rem;
+    }
+
+    .active-filter {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .active-filter label {
+      color: var(--btb-gray-300);
+      font-size: 0.75rem;
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--btb-gray-600);
+      border-radius: 11px;
+      transition: 0.3s;
+    }
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      height: 16px; width: 16px;
+      left: 3px; bottom: 3px;
+      background: var(--btb-white);
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--btb-red);
+    }
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(18px);
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .library-stats {
+      display: flex;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .library-stat {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-xs);
+    }
+    .library-stat-value {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--btb-red);
+    }
+    .library-stat-label {
+      font-size: 0.8rem;
+      color: var(--btb-gray-500);
+    }
+
+    @media (max-width: 768px) {
+      .concept-grid { grid-template-columns: 1fr; }
+      .library-controls-inner { flex-direction: column; align-items: stretch; }
+      .search-box { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <span class="logo-btb">BTB</span>
+        <span class="logo-sub">Be The Best Lacrosse</span>
+        <span class="logo-title">Film Study Lab</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <nav class="main-nav">
+        <a href="../index.html">Home</a>
+        <a href="library.html">Concept Library</a>
+        <a href="archive.html">Game Archive</a>
+        <a href="breakdown.html">Coach Panel</a>
+        <a href="progress.html">My Progress</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="library-hero">
+    <div class="library-hero-inner">
+      <h1>Concept <span class="red">Library</span></h1>
+      <p>Every lacrosse concept, organized and explained at your level.</p>
+    </div>
+  </section>
+
+  <!-- CONTROLS -->
+  <section class="library-controls">
+    <div class="library-controls-inner">
+      <div class="control-group">
+        <span class="control-label">Program</span>
+        <button class="btn btn-sm program-btn active" data-program="boys">Boys</button>
+        <button class="btn btn-sm program-btn" data-program="girls">Girls</button>
+      </div>
+      <div class="control-group">
+        <span class="control-label">Level</span>
+        <button class="btn btn-sm level-btn active" data-level="dev">2nd-5th</button>
+        <button class="btn btn-sm level-btn" data-level="int">6th-8th</button>
+        <button class="btn btn-sm level-btn" data-level="adv">9th-11th</button>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="search" id="conceptSearch" placeholder="Search concepts...">
+      </div>
+      <div class="active-filter">
+        <label for="activeOnly">Active Only</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="activeOnly">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRARY CONTENT -->
+  <main class="container">
+    <div class="library-stats" id="library-stats"></div>
+    <div class="concept-grid" id="taxonomy-grid"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">BTB</div>
+      <div class="footer-tagline">BE THE BEST LACROSSE — FILM STUDY LAB</div>
+      <div class="footer-links">
+        <a href="library.html">Concept Library</a>
+        <a href="archive.html">Game Archive</a>
+        <a href="breakdown.html">Coach Panel</a>
+        <a href="progress.html">My Progress</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/btb-data.js"></script>
+  <script src="../js/btb-ui.js"></script>
+  <script>
+    // ============= STATE =============
+    let currentProgram = 'boys';
+    let currentLevel = 'dev';
+    let activeOnlyFilter = false;
+    let searchQuery = '';
+
+    // Check URL params
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('program') === 'girls') currentProgram = 'girls';
+    if (['dev','int','adv'].includes(params.get('level'))) currentLevel = params.get('level');
+
+    // ============= RENDER =============
+    function renderLibrary() {
+      const taxonomy = getTaxonomy(currentProgram);
+      const stats = countConcepts(taxonomy);
+
+      // Stats
+      document.getElementById('library-stats').innerHTML = `
+        <div class="library-stat">
+          <span class="library-stat-value">${stats.total}</span>
+          <span class="library-stat-label">total concepts</span>
+        </div>
+        <div class="library-stat">
+          <span class="library-stat-value">${stats.active}</span>
+          <span class="library-stat-label">with film content</span>
+        </div>
+        <div class="library-stat">
+          <span class="library-stat-value">${currentProgram === 'boys' ? '6' : '6'}</span>
+          <span class="library-stat-label">categories</span>
+        </div>
+      `;
+
+      // Filter taxonomy by search
+      let filteredTaxonomy = taxonomy;
+      if (searchQuery) {
+        filteredTaxonomy = {};
+        const q = searchQuery.toLowerCase();
+        Object.keys(taxonomy).forEach(catKey => {
+          const cat = taxonomy[catKey];
+          const filteredSubs = {};
+          Object.keys(cat.subcategories).forEach(subKey => {
+            const items = cat.subcategories[subKey].filter(item => {
+              const name = getConceptName(item);
+              return name.toLowerCase().includes(q) || subKey.toLowerCase().includes(q);
+            });
+            if (items.length > 0) filteredSubs[subKey] = items;
+          });
+          if (Object.keys(filteredSubs).length > 0) {
+            filteredTaxonomy[catKey] = { ...cat, subcategories: filteredSubs };
+          }
+        });
+      }
+
+      renderTaxonomyGrid(filteredTaxonomy, currentProgram, 'taxonomy-grid', {
+        showStatus: true,
+        filterActive: activeOnlyFilter,
+        onConceptClick: (name, program, active) => {
+          const html = renderConceptDetail(name, program, currentLevel);
+          openModal(html);
+          wireConceptModalTiers();
+        }
+      });
+
+      // Auto-expand all when searching
+      if (searchQuery) {
+        document.querySelectorAll('#taxonomy-grid .category-card').forEach(card => {
+          card.classList.add('expanded');
+        });
+      }
+    }
+
+    // ============= EVENT LISTENERS =============
+    // Program toggle
+    document.querySelectorAll('.program-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentProgram = btn.dataset.program;
+        document.querySelectorAll('.program-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderLibrary();
+      });
+    });
+
+    // Level toggle
+    document.querySelectorAll('.level-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentLevel = btn.dataset.level;
+        document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // Search
+    document.getElementById('conceptSearch').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      renderLibrary();
+    });
+
+    // Active only toggle
+    document.getElementById('activeOnly').addEventListener('change', (e) => {
+      activeOnlyFilter = e.target.checked;
+      renderLibrary();
+    });
+
+    // Set initial active states from URL params
+    if (currentProgram === 'girls') {
+      document.querySelectorAll('.program-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('.program-btn[data-program="girls"]').classList.add('active');
+    }
+
+    // ============= INIT =============
+    renderLibrary();
+  </script>
+</body>
+</html>

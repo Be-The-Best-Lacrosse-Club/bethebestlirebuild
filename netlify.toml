@@ -7,6 +7,12 @@
   to = "/film-breakdown.html"
   status = 200
 
+# Film Study Lab — serve static files directly
+[[redirects]]
+  from = "/film-study-lab/*"
+  to = "/film-study-lab/:splat"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

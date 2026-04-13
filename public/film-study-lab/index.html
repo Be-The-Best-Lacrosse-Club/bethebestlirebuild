@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTB Film Study Lab — Be The Best Lacrosse</title>
+  <meta name="description" content="College-level lacrosse film study for BTB players. AI-powered game breakdowns organized by concept for developmental, intermediate, and advanced players.">
+  <link rel="stylesheet" href="css/btb-core.css">
+  <style>
+    .hero {
+      background: var(--btb-black);
+      color: var(--btb-white);
+      padding: var(--space-3xl) var(--space-lg);
+      text-align: center;
+    }
+    .hero-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: var(--space-md);
+    }
+    .hero h1 .red { color: var(--btb-red); }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--btb-gray-300);
+      max-width: 600px;
+      margin: 0 auto var(--space-xl);
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-xl);
+    }
+    .feature-card {
+      text-align: center;
+      padding: var(--space-xl);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-md);
+    }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: var(--space-sm);
+    }
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--btb-gray-500);
+    }
+
+    .how-it-works {
+      background: var(--btb-white);
+      padding: var(--space-3xl) var(--space-lg);
+    }
+    .how-it-works-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .how-it-works h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: var(--space-2xl);
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+      counter-reset: step;
+    }
+    .step {
+      text-align: center;
+      counter-increment: step;
+    }
+    .step::before {
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      margin: 0 auto var(--space-md);
+      background: var(--btb-red);
+      color: var(--btb-white);
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50%;
+    }
+    .step h4 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: var(--space-xs);
+    }
+    .step p {
+      font-size: 0.85rem;
+      color: var(--btb-gray-500);
+    }
+
+    .programs-section {
+      padding: var(--space-3xl) var(--space-lg);
+    }
+    .programs-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .programs-section h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: var(--space-2xl);
+    }
+    .program-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
+    }
+    .program-card {
+      background: var(--btb-white);
+      border: 1px solid var(--btb-gray-200);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .program-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    .program-card-header {
+      background: var(--btb-black);
+      color: var(--btb-white);
+      padding: var(--space-xl);
+      text-align: center;
+    }
+    .program-card-header h3 {
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .program-card-header .concept-count {
+      color: var(--btb-red);
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-top: var(--space-sm);
+    }
+    .program-card-header .concept-count-label {
+      color: var(--btb-gray-400);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .program-card-body {
+      padding: var(--space-lg);
+    }
+    .program-card-body p {
+      font-size: 0.9rem;
+      color: var(--btb-gray-500);
+      margin-bottom: var(--space-md);
+    }
+
+    .recent-section {
+      background: var(--btb-white);
+      padding: var(--space-3xl) var(--space-lg);
+    }
+    .recent-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .recent-section h2 {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: var(--space-xl);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .program-cards { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-btb">BTB</span>
+        <span class="logo-sub">Be The Best Lacrosse</span>
+        <span class="logo-title">Film Study Lab</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <nav class="main-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="pages/library.html">Concept Library</a>
+        <a href="pages/archive.html">Game Archive</a>
+        <a href="pages/breakdown.html">Coach Panel</a>
+        <a href="pages/progress.html">My Progress</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Study Like <span class="red">D1</span></h1>
+      <p>College-level game film, broken down by concept, adapted for every age level. This is how elite players are made.</p>
+      <div class="hero-actions">
+        <a href="pages/library.html" class="btn btn-primary btn-lg">Enter the Library</a>
+        <a href="pages/archive.html" class="btn btn-lg" style="border-color:#fff;color:#fff;">Game Archive</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section style="padding:var(--space-3xl) var(--space-lg);max-width:var(--max-width);margin:0 auto;">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎬</div>
+        <h3>Real College Film</h3>
+        <p>NCAA game footage broken down into teachable moments. Watch the same plays D1 coaches study.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>Concept Clusters</h3>
+        <p>Clips organized by concept — not chronologically. See split dodges, fast breaks, or slides grouped together across games.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>3-Tier Learning</h3>
+        <p>Every concept explained at three levels: Developmental (2nd-5th), Intermediate (6th-8th), and Advanced (9th-11th).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="how-it-works-inner">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <h4>Dan Sources Film</h4>
+          <p>College NCAA game footage from YouTube — the best matchups and most teachable moments.</p>
+        </div>
+        <div class="step">
+          <h4>AI Breaks It Down</h4>
+          <p>Every play is tagged by concept, phase, and teaching points. Organized into concept clusters.</p>
+        </div>
+        <div class="step">
+          <h4>Pick Your Level</h4>
+          <p>Choose Developmental, Intermediate, or Advanced to get coaching notes matched to your age and skill.</p>
+        </div>
+        <div class="step">
+          <h4>Study & Improve</h4>
+          <p>Watch the clips, read the notes, track your progress. New content added regularly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section class="programs-section">
+    <div class="programs-inner">
+      <h2>Boys & Girls Programs</h2>
+      <div class="program-cards">
+        <div class="program-card">
+          <div class="program-card-header">
+            <h3>Boys Lacrosse</h3>
+            <div class="concept-count" id="boys-count">—</div>
+            <div class="concept-count-label">Total Concepts</div>
+          </div>
+          <div class="program-card-body">
+            <p>Full taxonomy covering offense, defense, goalie, face-offs, fundamentals, and team concepts. From split dodges to 10-man rides.</p>
+            <a href="pages/library.html?program=boys" class="btn btn-primary">Browse Boys Concepts</a>
+          </div>
+        </div>
+        <div class="program-card">
+          <div class="program-card-header">
+            <h3>Girls Lacrosse</h3>
+            <div class="concept-count" id="girls-count">—</div>
+            <div class="concept-count-label">Total Concepts</div>
+          </div>
+          <div class="program-card-body">
+            <p>Girls-specific concepts including draw controls, free position shots, behind-the-cage offense, and the 3-second rule. Different game, different film.</p>
+            <a href="pages/library.html?program=girls" class="btn btn-primary">Browse Girls Concepts</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT GAMES -->
+  <section class="recent-section">
+    <div class="recent-inner">
+      <h2>Latest Film Breakdowns</h2>
+      <div id="recent-games"></div>
+      <div style="text-align:center;margin-top:var(--space-xl);">
+        <a href="pages/archive.html" class="btn btn-dark btn-lg">Full Game Archive</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">BTB</div>
+      <div class="footer-tagline">BE THE BEST LACROSSE — FILM STUDY LAB</div>
+      <div class="footer-links">
+        <a href="pages/library.html">Concept Library</a>
+        <a href="pages/archive.html">Game Archive</a>
+        <a href="pages/breakdown.html">Coach Panel</a>
+        <a href="pages/progress.html">My Progress</a>
+      </div>
+      <p style="margin-top:var(--space-xl);font-size:0.75rem;color:var(--btb-gray-500);">
+        &copy; 2025 Be The Best Lacrosse Club. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/btb-data.js"></script>
+  <script src="js/btb-ui.js"></script>
+  <script>
+    // Populate concept counts
+    const boysStats = countConcepts(BOYS_TAXONOMY);
+    const girlsStats = countConcepts(GIRLS_TAXONOMY);
+    document.getElementById('boys-count').textContent = boysStats.total;
+    document.getElementById('girls-count').textContent = girlsStats.total;
+
+    // Render recent games (last 3)
+    const recentContainer = document.getElementById('recent-games');
+    GAME_ARCHIVE.slice(0, 3).forEach(game => {
+      const entry = document.createElement('div');
+      entry.className = 'game-entry';
+      entry.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+          <div>
+            <div class="game-title">${game.title}</div>
+            <div class="game-meta">${game.date}</div>
+          </div>
+          <span class="badge ${game.program === 'boys' ? 'badge-black' : 'badge-red'}">
+            ${game.program === 'boys' ? 'BOYS' : 'GIRLS'}
+          </span>
+        </div>
+        <div style="margin-top:0.75rem;">
+          ${game.concepts.map(c => `<span class="game-tag">${c}</span>`).join('')}
+        </div>
+        <div class="game-meta" style="margin-top:0.5rem;">${game.clips} clips &mdash; ${game.summary}</div>
+      `;
+      recentContainer.appendChild(entry);
+    });
+  </script>
+</body>
+</html>

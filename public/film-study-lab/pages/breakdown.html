@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coach Breakdown Panel — BTB Film Study Lab</title>
+  <meta name="description" content="Coach-side tool for breaking down YouTube game film. Paste a URL, run AI analysis, push tagged events to the BTB database.">
+  <link rel="stylesheet" href="../css/btb-core.css">
+  <style>
+    .breakdown-hero {
+      background: var(--btb-black);
+      color: var(--btb-white);
+      padding: var(--space-xl) var(--space-lg) var(--space-md);
+    }
+    .breakdown-hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .breakdown-hero h1 {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .breakdown-hero h1 .red { color: var(--btb-red); }
+    .breakdown-hero p {
+      color: var(--btb-gray-300);
+      font-size: 0.9rem;
+      margin-top: var(--space-xs);
+    }
+    .coach-badge {
+      display: inline-block;
+      background: var(--btb-red);
+      color: var(--btb-white);
+      font-family: var(--font-heading);
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin-left: var(--space-sm);
+      vertical-align: middle;
+    }
+
+    .input-section {
+      background: var(--btb-white);
+      border: 1px solid var(--btb-gray-200);
+      border-radius: 6px;
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+    .input-section h3 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-sm);
+      border-bottom: 2px solid var(--btb-red);
+      display: inline-block;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .form-group label {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--btb-gray-600);
+    }
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .status-panel {
+      background: var(--btb-gray-100);
+      border-radius: 6px;
+      padding: var(--space-lg);
+      margin-top: var(--space-lg);
+      display: none;
+    }
+    .status-panel.visible { display: block; }
+
+    .status-step {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) 0;
+      font-size: 0.9rem;
+      color: var(--btb-gray-400);
+    }
+    .status-step.active { color: var(--btb-black); font-weight: 600; }
+    .status-step.done { color: var(--btb-success); }
+    .status-step.error { color: var(--btb-error); }
+
+    .events-panel {
+      margin-top: var(--space-xl);
+    }
+    .event-card {
+      background: var(--btb-white);
+      border: 1px solid var(--btb-gray-200);
+      border-radius: 6px;
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+      border-left: 4px solid var(--btb-gray-300);
+    }
+    .event-card.offense { border-left-color: var(--btb-red); }
+    .event-card.defense { border-left-color: var(--btb-info); }
+    .event-card.transition { border-left-color: var(--btb-warning); }
+
+    .event-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .event-title {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .event-timestamp {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      color: var(--btb-gray-500);
+      cursor: pointer;
+    }
+    .event-timestamp:hover { color: var(--btb-red); }
+    .event-description {
+      font-size: 0.9rem;
+      color: var(--btb-gray-600);
+      margin-bottom: var(--space-sm);
+    }
+    .event-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .event-teaching {
+      margin-top: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--btb-gray-100);
+      font-size: 0.85rem;
+      color: var(--btb-gray-500);
+    }
+
+    .action-bar {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+      flex-wrap: wrap;
+    }
+
+    .connection-info {
+      background: var(--btb-black-soft);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-xl);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .connection-info p {
+      font-size: 0.8rem;
+      color: var(--btb-gray-400);
+    }
+    .connection-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--btb-gray-500);
+      flex-shrink: 0;
+    }
+    .connection-dot.ok { background: var(--btb-success); }
+    .connection-dot.fail { background: var(--btb-error); }
+
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <span class="logo-btb">BTB</span>
+        <span class="logo-sub">Be The Best Lacrosse</span>
+        <span class="logo-title">Film Study Lab</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <nav class="main-nav">
+        <a href="../index.html">Home</a>
+        <a href="library.html">Concept Library</a>
+        <a href="archive.html">Game Archive</a>
+        <a href="breakdown.html">Coach Panel</a>
+        <a href="progress.html">My Progress</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="breakdown-hero">
+    <div class="breakdown-hero-inner">
+      <h1>Coach <span class="red">Panel</span> <span class="coach-badge">Coaches Only</span></h1>
+      <p>Paste a YouTube URL, run AI analysis, and push tagged events to the BTB database.</p>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="container">
+    <!-- CONNECTION STATUS -->
+    <div class="connection-info">
+      <span class="connection-dot" id="server-dot"></span>
+      <p id="server-status">Checking local server (localhost:8765)...</p>
+      <span class="connection-dot" id="sheet-dot"></span>
+      <p id="sheet-status">Checking Google Sheet webhook...</p>
+    </div>
+
+    <!-- INPUT -->
+    <div class="input-section">
+      <h3>Game Breakdown</h3>
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label for="youtube-url">YouTube URL</label>
+          <input type="url" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="game-title">Game Title</label>
+          <input type="text" id="game-title" placeholder="e.g., Cornell vs Maryland 2025">
+        </div>
+        <div class="form-group">
+          <label for="game-program">Program</label>
+          <select id="game-program">
+            <option value="boys">Boys Lacrosse</option>
+            <option value="girls">Girls Lacrosse</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="game-level">Level</label>
+          <select id="game-level">
+            <option value="college">College (NCAA)</option>
+            <option value="pro">Professional (PLL/NLL)</option>
+            <option value="high-school">High School</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="team-focus">Team Focus</label>
+          <select id="team-focus">
+            <option value="both">Both Teams</option>
+            <option value="home">Home Team</option>
+            <option value="away">Away Team</option>
+          </select>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="btn btn-primary btn-lg" id="run-breakdown">Run AI Breakdown</button>
+        <button class="btn btn-dark" id="fetch-transcript">Fetch Transcript Only</button>
+      </div>
+
+      <!-- STATUS -->
+      <div class="status-panel" id="status-panel">
+        <div class="status-step" id="step-transcript" data-step="transcript">⏳ Fetching transcript from YouTube...</div>
+        <div class="status-step" id="step-analyze" data-step="analyze">⏳ Running AI analysis...</div>
+        <div class="status-step" id="step-events" data-step="events">⏳ Parsing tagged events...</div>
+        <div class="status-step" id="step-save" data-step="save">⏳ Saving to Google Sheet...</div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="events-panel" id="events-panel" style="display:none;">
+      <h3 style="font-size:1.2rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:var(--space-lg);padding-bottom:var(--space-sm);border-bottom:2px solid #CC0000;display:inline-block;">
+        Breakdown Results
+      </h3>
+      <div class="stats-row" id="event-stats"></div>
+      <div id="events-list"></div>
+      <div class="action-bar">
+        <button class="btn btn-primary" id="save-all-events">Save All to Google Sheet</button>
+        <button class="btn" id="export-json">Export JSON</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">BTB</div>
+      <div class="footer-tagline">BE THE BEST LACROSSE — FILM STUDY LAB</div>
+    </div>
+  </footer>
+
+  <script src="../js/btb-data.js"></script>
+  <script src="../js/btb-ui.js"></script>
+  <script>
+    const elements = {
+      url: document.getElementById('youtube-url'),
+      title: document.getElementById('game-title'),
+      program: document.getElementById('game-program'),
+      level: document.getElementById('game-level'),
+      focus: document.getElementById('team-focus'),
+      runBtn: document.getElementById('run-breakdown'),
+      transcriptBtn: document.getElementById('fetch-transcript'),
+      statusPanel: document.getElementById('status-panel'),
+      eventsPanel: document.getElementById('events-panel'),
+      eventsList: document.getElementById('events-list'),
+      eventStats: document.getElementById('event-stats'),
+      saveAllBtn: document.getElementById('save-all-events'),
+      exportBtn: document.getElementById('export-json')
+    };
+
+    let currentEvents = [];
+    let videoId = '';
+
+    // ============= CONNECTION CHECK =============
+    async function checkConnections() {
+      // Local server
+      const serverDot = document.getElementById('server-dot');
+      const serverText = document.getElementById('server-status');
+      try {
+        const resp = await fetch(`${BTB_CONFIG.localServer}/transcript?url=test`, { signal: AbortSignal.timeout(3000) });
+        serverDot.classList.add('ok');
+        serverText.textContent = 'Local server connected (localhost:8765)';
+      } catch {
+        serverDot.classList.add('fail');
+        serverText.textContent = 'Local server offline — start BTB_Film_Server.py';
+      }
+
+      // Google Sheet
+      const sheetDot = document.getElementById('sheet-dot');
+      const sheetText = document.getElementById('sheet-status');
+      try {
+        const resp = await fetch(`${BTB_CONFIG.webhookUrl}?action=ping&key=${BTB_CONFIG.apiKey}`, { signal: AbortSignal.timeout(5000) });
+        sheetDot.classList.add('ok');
+        sheetText.textContent = 'Google Sheet webhook connected';
+      } catch {
+        sheetDot.classList.add('fail');
+        sheetText.textContent = 'Google Sheet webhook unreachable';
+      }
+    }
+
+    // ============= EXTRACT VIDEO ID =============
+    function extractVideoId(url) {
+      const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return match ? match[1] : null;
+    }
+
+    // ============= STATUS UPDATES =============
+    function setStep(step, state) {
+      const el = document.getElementById(`step-${step}`);
+      if (!el) return;
+      el.className = 'status-step ' + state;
+      const icons = { active: '🔄', done: '✅', error: '❌' };
+      const text = el.textContent.replace(/^[^\s]+\s/, '');
+      el.textContent = `${icons[state] || '⏳'} ${text}`;
+    }
+
+    // ============= RUN BREAKDOWN =============
+    elements.runBtn.addEventListener('click', async () => {
+      const url = elements.url.value.trim();
+      if (!url) { alert('Paste a YouTube URL first.'); return; }
+
+      videoId = extractVideoId(url);
+      if (!videoId) { alert('Could not extract YouTube video ID from that URL.'); return; }
+
+      const gameTitle = elements.title.value.trim() || 'Untitled Game';
+      const program = elements.program.value;
+      const level = elements.level.value;
+      const focus = elements.focus.value;
+
+      elements.statusPanel.classList.add('visible');
+      elements.eventsPanel.style.display = 'none';
+      currentEvents = [];
+
+      // Step 1: Transcript
+      setStep('transcript', 'active');
+      let transcript = '';
+      try {
+        const resp = await fetch(`${BTB_CONFIG.localServer}/transcript?url=${encodeURIComponent(url)}`);
+        const data = await resp.json();
+        transcript = data.transcript || data.text || '';
+        if (!transcript) throw new Error('Empty transcript');
+        setStep('transcript', 'done');
+      } catch (err) {
+        setStep('transcript', 'error');
+        console.error('Transcript error:', err);
+        alert('Failed to fetch transcript. Make sure BTB_Film_Server.py is running.');
+        return;
+      }
+
+      // Step 2: AI Analysis
+      setStep('analyze', 'active');
+      try {
+        const resp = await fetch(`${BTB_CONFIG.localServer}/analyze`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            transcript,
+            game_title: gameTitle,
+            program,
+            level,
+            team_focus: focus,
+            video_id: videoId
+          })
+        });
+        const data = await resp.json();
+        if (data.events) {
+          currentEvents = data.events;
+        } else if (data.result) {
+          // Parse from raw result
+          try {
+            const parsed = JSON.parse(data.result);
+            currentEvents = parsed.events || parsed;
+          } catch {
+            currentEvents = [];
+          }
+        }
+        setStep('analyze', 'done');
+      } catch (err) {
+        setStep('analyze', 'error');
+        console.error('Analysis error:', err);
+        alert('AI analysis failed. Check the local server logs.');
+        return;
+      }
+
+      // Step 3: Parse events
+      setStep('events', 'active');
+      if (currentEvents.length > 0) {
+        setStep('events', 'done');
+        renderEvents();
+      } else {
+        setStep('events', 'error');
+        alert('No events were parsed from the analysis.');
+      }
+    });
+
+    // ============= RENDER EVENTS =============
+    function renderEvents() {
+      elements.eventsPanel.style.display = 'block';
+
+      // Stats
+      const phases = {};
+      currentEvents.forEach(e => {
+        const phase = e.phase || 'unknown';
+        phases[phase] = (phases[phase] || 0) + 1;
+      });
+
+      elements.eventStats.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-value">${currentEvents.length}</div>
+          <div class="stat-label">Total Events</div>
+        </div>
+        ${Object.entries(phases).map(([phase, count]) => `
+          <div class="stat-card">
+            <div class="stat-value">${count}</div>
+            <div class="stat-label">${phase}</div>
+          </div>
+        `).join('')}
+      `;
+
+      // Event cards
+      elements.eventsList.innerHTML = currentEvents.map((event, i) => {
+        const phaseClass = (event.phase || '').toLowerCase().includes('offense') ? 'offense'
+          : (event.phase || '').toLowerCase().includes('defense') ? 'defense'
+          : 'transition';
+
+        const timestamp = event.timestamp || event.time || '';
+        const seconds = parseTimestamp(timestamp);
+        const ytLink = videoId && seconds >= 0
+          ? `https://www.youtube.com/watch?v=${videoId}&t=${seconds}s`
+          : '';
+
+        return `
+          <div class="event-card ${phaseClass}">
+            <div class="event-header">
+              <div class="event-title">${event.play || event.title || `Event ${i + 1}`}</div>
+              ${timestamp ? `
+                <a href="${ytLink}" target="_blank" class="event-timestamp" title="Jump to this moment">
+                  ⏱ ${timestamp}
+                </a>
+              ` : ''}
+            </div>
+            <div class="event-description">${event.description || ''}</div>
+            <div class="event-tags">
+              ${event.phase ? `<span class="game-tag red">${event.phase}</span>` : ''}
+              ${event.category ? `<span class="game-tag">${event.category}</span>` : ''}
+              ${event.result ? `<span class="game-tag">${event.result}</span>` : ''}
+              ${(event.tags || []).map(t => `<span class="game-tag">${t}</span>`).join('')}
+            </div>
+            ${event.teaching_points ? `
+              <div class="event-teaching">
+                <strong>Teaching Point:</strong> ${Array.isArray(event.teaching_points) ? event.teaching_points.join('; ') : event.teaching_points}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function parseTimestamp(ts) {
+      if (!ts) return -1;
+      const parts = ts.split(':').map(Number);
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return parseInt(ts) || -1;
+    }
+
+    // ============= SAVE TO SHEET =============
+    elements.saveAllBtn.addEventListener('click', async () => {
+      if (currentEvents.length === 0) return;
+
+      setStep('save', 'active');
+      elements.statusPanel.classList.add('visible');
+
+      const gameTitle = elements.title.value.trim() || 'Untitled Game';
+      const program = elements.program.value;
+
+      try {
+        // Send in batches of 5
+        for (let i = 0; i < currentEvents.length; i += 5) {
+          const batch = currentEvents.slice(i, i + 5);
+          await fetch(BTB_CONFIG.webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'save',
+              key: BTB_CONFIG.apiKey,
+              game: gameTitle,
+              program,
+              videoId,
+              events: batch
+            })
+          });
+        }
+        setStep('save', 'done');
+        alert(`Saved ${currentEvents.length} events to Google Sheet.`);
+      } catch (err) {
+        setStep('save', 'error');
+        console.error('Save error:', err);
+        alert('Failed to save to Google Sheet.');
+      }
+    });
+
+    // ============= EXPORT JSON =============
+    elements.exportBtn.addEventListener('click', () => {
+      const data = JSON.stringify({
+        game: elements.title.value.trim(),
+        program: elements.program.value,
+        videoId,
+        events: currentEvents,
+        exportedAt: new Date().toISOString()
+      }, null, 2);
+
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `btb-breakdown-${videoId || 'export'}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // ============= FETCH TRANSCRIPT ONLY =============
+    elements.transcriptBtn.addEventListener('click', async () => {
+      const url = elements.url.value.trim();
+      if (!url) { alert('Paste a YouTube URL first.'); return; }
+
+      try {
+        const resp = await fetch(`${BTB_CONFIG.localServer}/transcript?url=${encodeURIComponent(url)}`);
+        const data = await resp.json();
+        const transcript = data.transcript || data.text || 'No transcript found.';
+        openModal(`
+          <h2 style="font-size:1.3rem;text-transform:uppercase;border-bottom:3px solid #CC0000;padding-bottom:0.5rem;margin-bottom:1rem;">Transcript</h2>
+          <pre style="white-space:pre-wrap;font-size:0.85rem;max-height:60vh;overflow-y:auto;background:#f5f5f5;padding:1rem;border-radius:4px;">${transcript}</pre>
+        `);
+      } catch (err) {
+        alert('Failed to fetch transcript. Make sure BTB_Film_Server.py is running on localhost:8765.');
+      }
+    });
+
+    // Init
+    checkConnections();
+  </script>
+</body>
+</html>
