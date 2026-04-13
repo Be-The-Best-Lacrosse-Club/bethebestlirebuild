@@ -9,9 +9,10 @@ function fetch(url) {
       method: "GET",
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
         "Accept-Language": "en-US,en;q=0.9",
         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        Cookie: "CONSENT=PENDING+987; SOCS=CAESEwgDEgk2ODE2MTcyNjQaAmVuIAEaBgiA_LyaBg",
       },
     };
 
@@ -175,6 +176,58 @@ function parseTimedTextXml(xml) {
   return lines;
 }
 
+function getCaptionUrlViaInnertube(videoId) {
+  return new Promise((resolve, reject) => {
+    const postData = JSON.stringify({
+      context: {
+        client: {
+          hl: "en",
+          gl: "US",
+          clientName: "WEB",
+          clientVersion: "2.20240101.00.00",
+        },
+      },
+      videoId: videoId,
+    });
+
+    const options = {
+      hostname: "www.youtube.com",
+      path: "/youtubei/v1/player?prettyPrint=false",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "Content-Length": Buffer.byteLength(postData),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let data = "";
+      res.on("data", (chunk) => (data += chunk));
+      res.on("end", () => {
+        try {
+          const json = JSON.parse(data);
+          const tracks = json?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+          if (!tracks || tracks.length === 0) {
+            reject(new Error("No captions"));
+            return;
+          }
+          const enTrack = tracks.find((t) => t.languageCode === "en" || t.languageCode === "en-US");
+          const track = enTrack || tracks[0];
+          resolve(track.baseUrl || null);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    });
+
+    req.on("error", reject);
+    req.setTimeout(10000, () => { req.destroy(); reject(new Error("Timeout")); });
+    req.write(postData);
+    req.end();
+  });
+}
+
 exports.handler = async function (event) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -221,55 +274,49 @@ exports.handler = async function (event) {
   }
 
   try {
-    // Step 1: Fetch the YouTube video page
-    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-    let html;
+    // Try innertube API first (more reliable, no login issues)
+    let captionUrl = null;
     try {
-      html = await fetch(videoUrl);
-    } catch (err) {
-      return {
-        statusCode: 502,
-        headers,
-        body: JSON.stringify({
-          error: `Failed to fetch YouTube page: ${err.message}`,
-        }),
-      };
+      captionUrl = await getCaptionUrlViaInnertube(videoId);
+    } catch (e) {
+      // Fall back to page scraping
     }
-
-    // Check if video exists
-    if (html.includes('"playabilityStatus":{"status":"ERROR"')) {
-      return {
-        statusCode: 404,
-        headers,
-        body: JSON.stringify({ error: "Video not found or unavailable." }),
-      };
-    }
-
-    // Step 2: Extract the captions track URL
-    const captionUrl = findCaptionUrl(html);
 
     if (!captionUrl) {
-      // Check if it's an age-restricted or login-required video
-      if (
-        html.includes("Sign in to confirm your age") ||
-        html.includes("LOGIN_REQUIRED")
-      ) {
+      // Fallback: Fetch the YouTube video page
+      const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      let html;
+      try {
+        html = await fetch(videoUrl);
+      } catch (err) {
         return {
-          statusCode: 403,
+          statusCode: 502,
           headers,
           body: JSON.stringify({
-            error: "This video requires sign-in (possibly age-restricted). Cannot fetch transcript.",
+            error: `Failed to fetch YouTube page: ${err.message}`,
           }),
         };
       }
 
-      return {
-        statusCode: 404,
-        headers,
-        body: JSON.stringify({
-          error: "No captions found for this video. The video may not have subtitles or auto-generated captions.",
-        }),
-      };
+      if (html.includes('"playabilityStatus":{"status":"ERROR"')) {
+        return {
+          statusCode: 404,
+          headers,
+          body: JSON.stringify({ error: "Video not found or unavailable." }),
+        };
+      }
+
+      captionUrl = findCaptionUrl(html);
+
+      if (!captionUrl) {
+        return {
+          statusCode: 404,
+          headers,
+          body: JSON.stringify({
+            error: "No captions found for this video.",
+          }),
+        };
+      }
     }
 
     // Step 3: Fetch the captions XML
