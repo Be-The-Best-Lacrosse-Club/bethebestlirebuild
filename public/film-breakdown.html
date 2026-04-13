@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>BTB Film Breakdown | AI Game Analysis</title>
+    <meta name="description" content="BTB Film Breakdown — AI-powered lacrosse game film analysis. Paste a YouTube URL, get tagged play-by-play breakdowns.">
+    <meta property="og:title" content="BTB Film Breakdown | AI Game Analysis">
+    <meta property="og:description" content="AI-powered lacrosse game film analysis for BTB coaching staff.">
+    <meta name="theme-color" content="#D22630">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           RESET & ROOT
+           ======================================== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --accent: #D22630;
+            --accent-dark: #a01e26;
+            --accent-glow: rgba(210, 38, 48, 0.25);
+            --bg: #0a0a0a;
+            --bg-card: #141414;
+            --bg-card-hover: #1a1a1a;
+            --bg-input: #111111;
+            --bg-surface: #0f0f0f;
+            --text: #FFFFFF;
+            --text-muted: rgba(255,255,255,0.55);
+            --text-faint: rgba(255,255,255,0.3);
+            --border: rgba(255,255,255,0.08);
+            --border-accent: rgba(210,38,48,0.3);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Bebas Neue', 'Arial Narrow', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* ========================================
+           PASSWORD GATE
+           ======================================== */
+        .gate-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.6s ease;
+        }
+
+        .gate-overlay.unlocking {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .gate-overlay.hidden { display: none; }
+
+        .gate-box {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .gate-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: var(--accent);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+        .gate-title {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .gate-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .gate-input-wrap {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .gate-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            outline: none;
+            transition: border-color var(--transition);
+        }
+
+        .gate-input:focus { border-color: var(--accent); }
+
+        .gate-input.error {
+            border-color: var(--accent);
+            animation: shake 0.4s ease;
+        }
+
+        .gate-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .gate-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+        .gate-error-msg {
+            color: var(--accent);
+            font-size: 13px;
+            margin-top: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gate-error-msg.visible { opacity: 1; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-4px); }
+        }
+
+        /* ========================================
+           HEADER
+           ======================================== */
+        .header {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 14px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .header-title {
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .header-badge {
+            background: rgba(210,38,48,0.15);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(210,38,48,0.08);
+        }
+
+        /* ========================================
+           MAIN CONTENT
+           ======================================== */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 20px 80px;
+        }
+
+        /* ========================================
+           INPUT SECTION
+           ======================================== */
+        .input-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .input-section-title {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .input-section-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .url-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .url-input {
+            flex: 1;
+            padding: 14px 18px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color var(--transition);
+        }
+
+        .url-input::placeholder { color: var(--text-faint); }
+        .url-input:focus { border-color: var(--accent); }
+
+        .analyze-btn {
+            padding: 14px 32px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .analyze-btn:hover:not(:disabled) {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .options-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .option-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .option-select {
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .option-select:focus { border-color: var(--accent); }
+
+        /* ========================================
+           PROGRESS / STATUS
+           ======================================== */
+        .status-bar {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 24px;
+        }
+
+        .status-bar.active { display: block; }
+
+        .status-steps {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+        }
+
+        .status-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .status-step::after {
+            content: '';
+            position: absolute;
+            top: 14px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .status-step:last-child::after { display: none; }
+
+        .status-step.active::after,
+        .status-step.done::after {
+            background: var(--accent);
+        }
+
+        .step-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 12px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            transition: all var(--transition);
+        }
+
+        .status-step.active .step-dot {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        .status-step.done .step-dot {
+            border-color: #22c55e;
+            background: #22c55e;
+            color: #fff;
+        }
+
+        .step-label {
+            font-size: 11px;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .status-step.active .step-label,
+        .status-step.done .step-label {
+            color: var(--text-muted);
+        }
+
+        .progress-bar-track {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-input);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #e84855);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .status-message {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ========================================
+           RESULTS HEADER
+           ======================================== */
+        .results-header {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .results-header.active { display: flex; }
+
+        .results-title {
+            font-size: 28px;
+        }
+
+        .results-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+        }
+
+        .action-btn:hover {
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .action-btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .action-btn.primary:hover {
+            background: var(--accent-dark);
+        }
+
+        .action-btn.saved {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #fff;
+        }
+
+        /* ========================================
+           FILTERS
+           ======================================== */
+        .filter-bar {
+            display: none;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar.active { display: flex; }
+
+        .filter-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .filter-chip.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .filter-chip .chip-count {
+            background: rgba(255,255,255,0.2);
+            padding: 1px 7px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-size: 11px;
+        }
+
+        /* ========================================
+           STATS BAR
+           ======================================== */
+        .stats-bar {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stats-bar.active { display: grid; }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ========================================
+           PLAY CARDS
+           ======================================== */
+        .play-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .play-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            transition: all var(--transition);
+            animation: cardIn 0.4s ease both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .play-card[data-result="goal"]::before { background: #22c55e; }
+        .play-card[data-result="save"]::before { background: #3b82f6; }
+        .play-card[data-result="turnover"]::before { background: #ef4444; }
+        .play-card[data-result="ground_ball"]::before { background: #f59e0b; }
+        .play-card[data-result="clear_success"]::before { background: #06b6d4; }
+        .play-card[data-result="clear_fail"]::before { background: #f97316; }
+        .play-card[data-result="faceoff_win"]::before { background: #8b5cf6; }
+        .play-card[data-result="faceoff_loss"]::before { background: #a855f7; }
+        .play-card[data-result="shot_on_goal"]::before { background: #10b981; }
+        .play-card[data-result="shot_off_target"]::before { background: #6b7280; }
+        .play-card[data-result="caused_turnover"]::before { background: #14b8a6; }
+        .play-card[data-result="penalty"]::before { background: #dc2626; }
+
+        .play-card:hover {
+            border-color: rgba(255,255,255,0.15);
+            background: var(--bg-card-hover);
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .play-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .play-seq {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .play-meta {
+            flex: 1;
+        }
+
+        .play-result-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .play-result-badge.goal { background: rgba(34,197,94,0.15); color: #22c55e; }
+        .play-result-badge.save { background: rgba(59,130,246,0.15); color: #3b82f6; }
+        .play-result-badge.turnover { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .play-result-badge.ground_ball { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .play-result-badge.clear_success { background: rgba(6,182,212,0.15); color: #06b6d4; }
+        .play-result-badge.clear_fail { background: rgba(249,115,22,0.15); color: #f97316; }
+        .play-result-badge.faceoff_win { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+        .play-result-badge.faceoff_loss { background: rgba(168,85,247,0.15); color: #a855f7; }
+        .play-result-badge.shot_on_goal { background: rgba(16,185,129,0.15); color: #10b981; }
+        .play-result-badge.shot_off_target { background: rgba(107,114,128,0.15); color: #6b7280; }
+        .play-result-badge.caused_turnover { background: rgba(20,184,166,0.15); color: #14b8a6; }
+        .play-result-badge.penalty { background: rgba(220,38,38,0.15); color: #dc2626; }
+
+        .play-phase {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .play-timestamp {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            color: var(--text-faint);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .play-timestamp a {
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        .play-timestamp a:hover { color: var(--accent); }
+
+        .play-confidence {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-faint);
+        }
+
+        .confidence-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .confidence-dot.high { background: #22c55e; }
+        .confidence-dot.mid { background: #f59e0b; }
+        .confidence-dot.low { background: #ef4444; }
+
+        .play-summary {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .play-teaching {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 2px solid var(--accent);
+        }
+
+        .play-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .play-tag {
+            padding: 3px 10px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .play-tag.category {
+            background: rgba(210,38,48,0.1);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .play-tag.player {
+            background: rgba(59,130,246,0.1);
+            color: #60a5fa;
+        }
+
+        .play-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .play-context {
+            font-size: 11px;
+            color: var(--text-faint);
+            display: flex;
+            gap: 12px;
+        }
+
+        /* ========================================
+           EMPTY STATE / ERRORS
+           ======================================== */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--text-faint);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: var(--text-faint);
+        }
+
+        .error-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a1a1a;
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: var(--radius-sm);
+            padding: 14px 24px;
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 90%;
+        }
+
+        .error-toast.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .success-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a1a1a;
+            border: 1px solid rgba(34,197,94,0.3);
+            border-radius: var(--radius-sm);
+            padding: 14px 24px;
+            color: #22c55e;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 90%;
+        }
+
+        .success-toast.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 640px) {
+            .main { padding: 16px 12px 80px; }
+
+            .input-section { padding: 20px 16px; }
+
+            .url-row {
+                flex-direction: column;
+            }
+
+            .analyze-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .header-badge { display: none; }
+
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .play-card { padding: 16px; }
+
+            .play-card-top { flex-direction: column; }
+
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+
+            .options-row { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* ========================================
+           PRINT STYLES
+           ======================================== */
+        @media print {
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .gate-overlay,
+            .header,
+            .input-section,
+            .status-bar,
+            .filter-bar,
+            .results-actions,
+            .error-toast,
+            .success-toast { display: none !important; }
+
+            .main {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .results-header {
+                display: flex !important;
+                padding: 20px 0;
+                border-bottom: 2px solid #D22630;
+                margin-bottom: 20px;
+            }
+
+            .results-title { color: #000 !important; }
+            .results-meta { color: #666 !important; }
+
+            .stats-bar {
+                display: grid !important;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .stat-card {
+                background: #f5f5f5 !important;
+                border: 1px solid #ddd !important;
+                padding: 12px;
+            }
+
+            .stat-value { color: #D22630 !important; }
+            .stat-label { color: #666 !important; }
+
+            .play-card {
+                background: #fff !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+                margin-bottom: 8px;
+                box-shadow: none !important;
+            }
+
+            .play-card::before { print-color-adjust: exact; }
+
+            .play-summary { color: #000 !important; }
+            .play-teaching { color: #D22630 !important; border-left-color: #D22630 !important; }
+            .play-phase { color: #666 !important; }
+            .play-tag { background: #f0f0f0 !important; color: #333 !important; }
+            .play-tag.category { background: #fde8e8 !important; color: #D22630 !important; }
+            .play-tag.player { background: #dbeafe !important; color: #2563eb !important; }
+            .play-context { color: #999 !important; }
+            .play-bottom { border-top-color: #eee !important; }
+
+            .play-grid { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     PASSWORD GATE
+     ═══════════════════════════════════════ -->
+<div class="gate-overlay" id="gateOverlay">
+    <div class="gate-box">
+        <div class="gate-logo">BTB</div>
+        <h1 class="gate-title">FILM BREAKDOWN</h1>
+        <p class="gate-subtitle">Coaching staff access only</p>
+        <div class="gate-input-wrap">
+            <input type="password" class="gate-input" id="gateInput" placeholder="Enter staff password" autocomplete="off">
+        </div>
+        <button class="gate-btn" id="gateBtn">UNLOCK</button>
+        <p class="gate-error-msg" id="gateError">Incorrect password. Try again.</p>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════ -->
+<div class="header">
+    <div class="header-left">
+        <div class="header-logo">BTB</div>
+        <h1 class="header-title">FILM BREAKDOWN</h1>
+        <span class="header-badge">AI Analysis</span>
+    </div>
+    <div class="header-actions">
+        <button class="icon-btn" id="printBtn" title="Print results">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        </button>
+        <button class="icon-btn" id="backBtn" title="Back to site" onclick="window.location.href='/'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN
+     ═══════════════════════════════════════ -->
+<div class="main">
+
+    <!-- INPUT -->
+    <div class="input-section" id="inputSection">
+        <h2 class="input-section-title">ANALYZE GAME FILM</h2>
+        <p class="input-section-desc">Paste a YouTube URL to get AI-powered play-by-play analysis. The tool fetches the transcript and identifies every notable play.</p>
+        <div class="url-row">
+            <input type="url" class="url-input" id="urlInput" placeholder="https://www.youtube.com/watch?v=...">
+            <button class="analyze-btn" id="analyzeBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                ANALYZE
+            </button>
+        </div>
+        <div class="options-row">
+            <div class="option-group">
+                <span class="option-label">Focus</span>
+                <select class="option-select" id="focusSelect">
+                    <option value="both">All Plays</option>
+                    <option value="offense">Offense Only</option>
+                    <option value="defense">Defense Only</option>
+                </select>
+            </div>
+            <div class="option-group">
+                <span class="option-label">Game Context</span>
+                <input type="text" class="url-input" id="contextInput" placeholder="e.g. BTB 2030 vs Igloo — Summer Kickoff 2026" style="max-width: 360px; padding: 8px 12px; font-size: 13px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- STATUS BAR -->
+    <div class="status-bar" id="statusBar">
+        <div class="status-steps">
+            <div class="status-step" id="step1">
+                <div class="step-dot">1</div>
+                <div class="step-label">Fetch Transcript</div>
+            </div>
+            <div class="status-step" id="step2">
+                <div class="step-dot">2</div>
+                <div class="step-label">AI Analysis</div>
+            </div>
+            <div class="status-step" id="step3">
+                <div class="step-dot">3</div>
+                <div class="step-label">Build Cards</div>
+            </div>
+        </div>
+        <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <p class="status-message" id="statusMessage">Initializing...</p>
+    </div>
+
+    <!-- RESULTS HEADER -->
+    <div class="results-header" id="resultsHeader">
+        <div>
+            <h2 class="results-title" id="resultsTitle">ANALYSIS RESULTS</h2>
+            <p class="results-meta" id="resultsMeta"></p>
+        </div>
+        <div class="results-actions">
+            <button class="action-btn" id="saveBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                SAVE TO SHEETS
+            </button>
+            <button class="action-btn" id="exportJsonBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                EXPORT JSON
+            </button>
+            <button class="action-btn primary" id="printResultsBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                PRINT
+            </button>
+        </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar" id="statsBar"></div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar" id="filterBar"></div>
+
+    <!-- PLAY CARDS -->
+    <div class="play-grid" id="playGrid">
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/></svg>
+            </div>
+            <h3>NO FILM LOADED</h3>
+            <p>Paste a YouTube URL above to get started</p>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="error-toast" id="errorToast"></div>
+<div class="success-toast" id="successToast"></div>
+
+<script>
+(function() {
+    'use strict';
+
+    // ─── CONFIG ───────────────────────────────────────
+    const GEMINI_KEY = 'AIzaSyDHVIQp2MB_G_Z_Ev8-WeRtJmFtFrxXkgU';
+    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
+    const TRANSCRIPT_URL = '/.netlify/functions/youtube-transcript';
+    const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyLz8IzFau00mve4vCxSbtpGAKHmZRHFhXx-Dx6qUGrM9Yz8wqGU3HLiYeGxyvlXnEpCw/exec';
+    const SHEETS_API_KEY = 'BTB_SECRET_123';
+    const PASSWORD = '#BTBCOACH26';
+
+    // ─── ELEMENTS ─────────────────────────────────────
+    const gateOverlay = document.getElementById('gateOverlay');
+    const gateInput = document.getElementById('gateInput');
+    const gateBtn = document.getElementById('gateBtn');
+    const gateError = document.getElementById('gateError');
+    const urlInput = document.getElementById('urlInput');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const focusSelect = document.getElementById('focusSelect');
+    const contextInput = document.getElementById('contextInput');
+    const statusBar = document.getElementById('statusBar');
+    const progressFill = document.getElementById('progressFill');
+    const statusMessage = document.getElementById('statusMessage');
+    const resultsHeader = document.getElementById('resultsHeader');
+    const resultsTitle = document.getElementById('resultsTitle');
+    const resultsMeta = document.getElementById('resultsMeta');
+    const statsBar = document.getElementById('statsBar');
+    const filterBar = document.getElementById('filterBar');
+    const playGrid = document.getElementById('playGrid');
+    const emptyState = document.getElementById('emptyState');
+    const saveBtn = document.getElementById('saveBtn');
+    const exportJsonBtn = document.getElementById('exportJsonBtn');
+    const printBtn = document.getElementById('printBtn');
+    const printResultsBtn = document.getElementById('printResultsBtn');
+    const errorToast = document.getElementById('errorToast');
+    const successToast = document.getElementById('successToast');
+
+    let currentPlays = [];
+    let currentVideoId = '';
+    let activeFilter = 'all';
+
+    // ─── PASSWORD GATE ────────────────────────────────
+    if (sessionStorage.getItem('btb_film_auth') === 'true') {
+        gateOverlay.classList.add('hidden');
+    }
+
+    function tryUnlock() {
+        if (gateInput.value === PASSWORD) {
+            sessionStorage.setItem('btb_film_auth', 'true');
+            gateOverlay.classList.add('unlocking');
+            setTimeout(() => gateOverlay.classList.add('hidden'), 600);
+        } else {
+            gateInput.classList.add('error');
+            gateError.classList.add('visible');
+            setTimeout(() => {
+                gateInput.classList.remove('error');
+                gateError.classList.remove('visible');
+            }, 2000);
+        }
+    }
+
+    gateBtn.addEventListener('click', tryUnlock);
+    gateInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+    // ─── YOUTUBE URL PARSING ──────────────────────────
+    function extractVideoId(url) {
+        try {
+            const u = new URL(url);
+            if (u.hostname.includes('youtu.be')) return u.pathname.slice(1).split('/')[0];
+            if (u.searchParams.has('v')) return u.searchParams.get('v');
+            if (u.pathname.includes('/embed/')) return u.pathname.split('/embed/')[1].split('/')[0];
+            if (u.pathname.includes('/shorts/')) return u.pathname.split('/shorts/')[1].split('/')[0];
+        } catch(e) {}
+        return null;
+    }
+
+    // ─── FORMAT SECONDS ───────────────────────────────
+    function fmtTime(sec) {
+        if (!sec && sec !== 0) return '--:--';
+        const s = Math.round(sec);
+        const m = Math.floor(s / 60);
+        const ss = s % 60;
+        return `${m}:${String(ss).padStart(2, '0')}`;
+    }
+
+    function ytLink(videoId, seconds) {
+        if (!seconds && seconds !== 0) return '#';
+        return `https://www.youtube.com/watch?v=${videoId}&t=${Math.round(seconds)}s`;
+    }
+
+    // ─── STATUS CONTROL ───────────────────────────────
+    function setStep(num, msg) {
+        ['step1','step2','step3'].forEach((id, i) => {
+            const el = document.getElementById(id);
+            el.classList.remove('active','done');
+            if (i + 1 < num) el.classList.add('done');
+            if (i + 1 === num) el.classList.add('active');
+        });
+        statusMessage.textContent = msg;
+    }
+
+    function setProgress(pct) {
+        progressFill.style.width = pct + '%';
+    }
+
+    // ─── TOAST ────────────────────────────────────────
+    function showError(msg) {
+        errorToast.textContent = msg;
+        errorToast.classList.add('visible');
+        setTimeout(() => errorToast.classList.remove('visible'), 4000);
+    }
+
+    function showSuccess(msg) {
+        successToast.textContent = msg;
+        successToast.classList.add('visible');
+        setTimeout(() => successToast.classList.remove('visible'), 4000);
+    }
+
+    // ─── FETCH TRANSCRIPT ─────────────────────────────
+    async function fetchTranscript(videoId) {
+        const res = await fetch(`${TRANSCRIPT_URL}?videoId=${videoId}`);
+        if (!res.ok) {
+            const errText = await res.text().catch(() => '');
+            throw new Error(`Transcript fetch failed (${res.status}): ${errText || 'No transcript available for this video'}`);
+        }
+        const data = await res.json();
+        // The function may return { transcript: "..." } or just a string
+        if (typeof data === 'string') return data;
+        if (data.transcript) return data.transcript;
+        if (Array.isArray(data)) {
+            // Array of {text, start, duration} objects
+            return data.map(seg => `[${fmtTime(seg.start)}] ${seg.text}`).join('\n');
+        }
+        throw new Error('Unexpected transcript format');
+    }
+
+    // ─── GEMINI ANALYSIS ──────────────────────────────
+    async function analyzeWithGemini(transcript, focus, context) {
+        let focusNote = '';
+        if (focus === 'offense') focusNote = '\n\nFOCUS: Only tag OFFENSIVE plays.';
+        else if (focus === 'defense') focusNote = '\n\nFOCUS: Only tag DEFENSIVE plays.';
+
+        let contextNote = '';
+        if (context && context.trim()) {
+            contextNote = `\n\nGAME CONTEXT: ${context.trim()}`;
+        }
+
+        const prompt = `You are an expert lacrosse film analyst for BTB Lacrosse Club.
+Analyze this lacrosse game transcript and identify every notable play.
+
+For EACH play, return a JSON object with these exact fields:
+  event_sequence: (number, starting at 1)
+  source_start_seconds: (number)
+  source_end_seconds: (number)
+  play_result: (one of: goal, save, turnover, ground_ball, clear_success, clear_fail, faceoff_win, faceoff_loss, shot_on_goal, shot_off_target, caused_turnover, penalty)
+  team_focus: (one of: offense, defense)
+  phase: (one of: "Offense - Settled 6v6", "Offense - Early Offense / Transition", "Offense - EMO", "Defense - Settled 6v6", "Defense - Recovery", "Defense - Man Down", "Faceoff", "Clear", "Ride")
+  category: (one of: "Advantage Created", "Finish", "Shot Quality Win", "Decision Error", "Defensive Stop", "On Ball Win", "Slide Recover Win", "GB Win", "Faceoff Win", "Clear Success", "Ride Stop", "Special Teams Win")
+  tags: (array of applicable tags)
+  main_teaching_point: (one sentence)
+  event_summary: (one sentence)
+  players: (array of jersey numbers or names mentioned)
+  period: (string — "1", "2", "3", "4", or "OT" if mentioned)
+  clock: (string — game clock if mentioned, or "")
+  score_state: (string — e.g. "2-1" or "")
+  ai_confidence: (number 0-1)
+
+Return ONLY a JSON array. No markdown, no explanation. Tag every identifiable play.${focusNote}${contextNote}
+
+TRANSCRIPT:
+${transcript}`;
+
+        const body = {
+            contents: [{
+                parts: [{ text: prompt }]
+            }],
+            generationConfig: {
+                temperature: 0.3,
+                maxOutputTokens: 65536
+            }
+        };
+
+        const res = await fetch(GEMINI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(`Gemini API error (${res.status}): ${errData.error?.message || 'Unknown error'}`);
+        }
+
+        const data = await res.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error('No response from Gemini');
+
+        // Parse JSON — strip markdown fences if present
+        let cleaned = text.trim();
+        if (cleaned.startsWith('```')) {
+            cleaned = cleaned.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '');
+        }
+
+        try {
+            return JSON.parse(cleaned);
+        } catch(e) {
+            // Try to find JSON array in the response
+            const match = cleaned.match(/\[[\s\S]*\]/);
+            if (match) return JSON.parse(match[0]);
+            throw new Error('Failed to parse Gemini response as JSON');
+        }
+    }
+
+    // ─── RENDER STATS ─────────────────────────────────
+    function renderStats(plays) {
+        const goals = plays.filter(p => p.play_result === 'goal').length;
+        const turnovers = plays.filter(p => p.play_result === 'turnover').length;
+        const saves = plays.filter(p => p.play_result === 'save').length;
+        const faceoffWins = plays.filter(p => p.play_result === 'faceoff_win').length;
+        const faceoffLosses = plays.filter(p => p.play_result === 'faceoff_loss').length;
+        const avgConfidence = plays.length > 0 ? (plays.reduce((s, p) => s + (p.ai_confidence || 0), 0) / plays.length) : 0;
+
+        statsBar.innerHTML = `
+            <div class="stat-card">
+                <div class="stat-value">${plays.length}</div>
+                <div class="stat-label">Total Plays</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${goals}</div>
+                <div class="stat-label">Goals</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${saves}</div>
+                <div class="stat-label">Saves</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${turnovers}</div>
+                <div class="stat-label">Turnovers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${faceoffWins}/${faceoffWins + faceoffLosses}</div>
+                <div class="stat-label">Faceoffs Won</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${Math.round(avgConfidence * 100)}%</div>
+                <div class="stat-label">AI Confidence</div>
+            </div>
+        `;
+        statsBar.classList.add('active');
+    }
+
+    // ─── RENDER FILTERS ───────────────────────────────
+    function renderFilters(plays) {
+        const phases = {};
+        plays.forEach(p => {
+            const ph = p.phase || 'Unknown';
+            phases[ph] = (phases[ph] || 0) + 1;
+        });
+
+        let html = `<button class="filter-chip active" data-filter="all">All<span class="chip-count">${plays.length}</span></button>`;
+        Object.keys(phases).sort().forEach(ph => {
+            html += `<button class="filter-chip" data-filter="${ph}">${ph}<span class="chip-count">${phases[ph]}</span></button>`;
+        });
+
+        filterBar.innerHTML = html;
+        filterBar.classList.add('active');
+
+        filterBar.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterBar.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                activeFilter = chip.dataset.filter;
+                renderCards(currentPlays);
+            });
+        });
+    }
+
+    // ─── RENDER CARDS ─────────────────────────────────
+    function renderCards(plays) {
+        const filtered = activeFilter === 'all' ? plays : plays.filter(p => p.phase === activeFilter);
+
+        if (filtered.length === 0) {
+            playGrid.innerHTML = `
+                <div class="empty-state">
+                    <h3>NO PLAYS MATCH</h3>
+                    <p>Try a different filter</p>
+                </div>`;
+            return;
+        }
+
+        playGrid.innerHTML = filtered.map((play, i) => {
+            const result = play.play_result || 'unknown';
+            const resultLabel = result.replace(/_/g, ' ');
+            const confClass = play.ai_confidence >= 0.8 ? 'high' : play.ai_confidence >= 0.5 ? 'mid' : 'low';
+            const confPct = Math.round((play.ai_confidence || 0) * 100);
+
+            const tags = (play.tags || []).map(t => `<span class="play-tag">${t}</span>`).join('');
+            const players = (play.players || []).map(p => `<span class="play-tag player">#${p}</span>`).join('');
+
+            return `
+            <div class="play-card" data-result="${result}" style="animation-delay: ${i * 0.04}s">
+                <div class="play-card-top">
+                    <div class="play-seq">${play.event_sequence || i + 1}</div>
+                    <div class="play-meta">
+                        <span class="play-result-badge ${result}">${resultLabel}</span>
+                        <div class="play-phase">${play.phase || ''}</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div class="play-timestamp">
+                            <a href="${ytLink(currentVideoId, play.source_start_seconds)}" target="_blank" rel="noopener">
+                                ${fmtTime(play.source_start_seconds)} - ${fmtTime(play.source_end_seconds)}
+                            </a>
+                        </div>
+                        <div class="play-confidence">
+                            <span class="confidence-dot ${confClass}"></span>
+                            ${confPct}% conf
+                        </div>
+                    </div>
+                </div>
+                <div class="play-summary">${play.event_summary || ''}</div>
+                ${play.main_teaching_point ? `<div class="play-teaching">${play.main_teaching_point}</div>` : ''}
+                <div class="play-tags">
+                    ${play.category ? `<span class="play-tag category">${play.category}</span>` : ''}
+                    ${tags}
+                    ${players}
+                </div>
+                ${(play.period || play.clock || play.score_state) ? `
+                <div class="play-bottom">
+                    <div class="play-context">
+                        ${play.period ? `<span>Q${play.period}</span>` : ''}
+                        ${play.clock ? `<span>${play.clock}</span>` : ''}
+                        ${play.score_state ? `<span>Score: ${play.score_state}</span>` : ''}
+                        <span>${play.team_focus || ''}</span>
+                    </div>
+                </div>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    // ─── MAIN ANALYZE ─────────────────────────────────
+    async function runAnalysis() {
+        const url = urlInput.value.trim();
+        if (!url) { showError('Paste a YouTube URL first'); return; }
+
+        const videoId = extractVideoId(url);
+        if (!videoId) { showError('Invalid YouTube URL'); return; }
+
+        currentVideoId = videoId;
+        currentPlays = [];
+        activeFilter = 'all';
+
+        // Reset UI
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<span class="spinner"></span> ANALYZING...';
+        statusBar.classList.add('active');
+        resultsHeader.classList.remove('active');
+        statsBar.classList.remove('active');
+        filterBar.classList.remove('active');
+        playGrid.innerHTML = '';
+        emptyState && (emptyState.style.display = 'none');
+
+        try {
+            // Step 1: Fetch transcript
+            setStep(1, 'Fetching YouTube transcript...');
+            setProgress(15);
+            const transcript = await fetchTranscript(videoId);
+            setProgress(30);
+
+            if (!transcript || transcript.length < 50) {
+                throw new Error('Transcript too short or empty. This video may not have captions.');
+            }
+
+            // Step 2: Gemini analysis
+            setStep(2, `Analyzing ${Math.round(transcript.length / 1000)}K characters with Gemini AI...`);
+            setProgress(45);
+
+            const focus = focusSelect.value;
+            const context = contextInput.value;
+            const plays = await analyzeWithGemini(transcript, focus, context);
+            setProgress(80);
+
+            if (!Array.isArray(plays) || plays.length === 0) {
+                throw new Error('No plays identified. The video may not contain lacrosse game footage.');
+            }
+
+            // Step 3: Render
+            setStep(3, `Building ${plays.length} play cards...`);
+            setProgress(90);
+
+            currentPlays = plays;
+
+            renderStats(plays);
+            renderFilters(plays);
+            renderCards(plays);
+
+            const gameContext = context || `YouTube ${videoId}`;
+            resultsTitle.textContent = 'ANALYSIS RESULTS';
+            resultsMeta.textContent = `${plays.length} plays identified from "${gameContext}" — ${new Date().toLocaleDateString()}`;
+            resultsHeader.classList.add('active');
+
+            setProgress(100);
+            setStep(3, 'Analysis complete');
+
+            // Collapse status bar after a moment
+            setTimeout(() => {
+                statusBar.classList.remove('active');
+            }, 2000);
+
+            showSuccess(`${plays.length} plays tagged successfully`);
+
+        } catch(err) {
+            console.error(err);
+            showError(err.message);
+            statusBar.classList.remove('active');
+        } finally {
+            analyzeBtn.disabled = false;
+            analyzeBtn.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                ANALYZE`;
+        }
+    }
+
+    analyzeBtn.addEventListener('click', runAnalysis);
+    urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') runAnalysis(); });
+
+    // ─── SAVE TO SHEETS ───────────────────────────────
+    async function saveToSheets() {
+        if (currentPlays.length === 0) { showError('No plays to save'); return; }
+
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span class="spinner"></span> SAVING...';
+
+        try {
+            const payload = {
+                api_key: SHEETS_API_KEY,
+                video_id: currentVideoId,
+                game_context: contextInput.value.trim() || '',
+                analyzed_at: new Date().toISOString(),
+                plays: currentPlays
+            };
+
+            const res = await fetch(SHEETS_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+                mode: 'no-cors'
+            });
+
+            // no-cors means we can't read the response, but the request was sent
+            saveBtn.classList.add('saved');
+            saveBtn.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                SAVED`;
+            showSuccess('Results sent to Google Sheets');
+
+            setTimeout(() => {
+                saveBtn.classList.remove('saved');
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    SAVE TO SHEETS`;
+            }, 3000);
+
+        } catch(err) {
+            console.error(err);
+            showError('Failed to save to Google Sheets');
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                SAVE TO SHEETS`;
+        }
+    }
+
+    saveBtn.addEventListener('click', saveToSheets);
+
+    // ─── EXPORT JSON ──────────────────────────────────
+    function exportJson() {
+        if (currentPlays.length === 0) { showError('No plays to export'); return; }
+
+        const data = {
+            video_id: currentVideoId,
+            game_context: contextInput.value.trim() || '',
+            analyzed_at: new Date().toISOString(),
+            total_plays: currentPlays.length,
+            plays: currentPlays
+        };
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `BTB_FilmBreakdown_${currentVideoId}_${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showSuccess('JSON exported');
+    }
+
+    exportJsonBtn.addEventListener('click', exportJson);
+
+    // ─── PRINT ────────────────────────────────────────
+    printBtn.addEventListener('click', () => window.print());
+    printResultsBtn.addEventListener('click', () => window.print());
+
+})();
+</script>
+</body>
+</html>
