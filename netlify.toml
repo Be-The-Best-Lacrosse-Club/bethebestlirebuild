@@ -7,6 +7,22 @@
   to = "/film-breakdown.html"
   status = 200
 
+# Plainedge coach resources — serve static HTML directly
+[[redirects]]
+  from = "/bethpage-scout.html"
+  to = "/bethpage-scout.html"
+  status = 200
+
+[[redirects]]
+  from = "/10-man-ride.html"
+  to = "/10-man-ride.html"
+  status = 200
+
+[[redirects]]
+  from = "/defensive-playbook.html"
+  to = "/defensive-playbook.html"
+  status = 200
+
 # Film Study Lab — serve static files directly
 [[redirects]]
   from = "/film-study-lab/*"
