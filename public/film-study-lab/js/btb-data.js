@@ -637,6 +637,95 @@ function countConcepts(taxonomy) {
   return { total, active };
 }
 
+// ============= PHASE → TAXONOMY MAPPER =============
+const PHASE_TO_TAXONOMY = {
+  // Boys mappings
+  'Offense - Settled 6v6':              { category: 'offense', subcategory: 'Settled Offense' },
+  'Offense - Early Offense / Transition': { category: 'offense', subcategory: 'Transition Offense' },
+  'Offense - EMO':                      { category: 'offense', subcategory: 'Extra Man Offense (EMO)' },
+  'Defense - Settled 6v6':              { category: 'defense', subcategory: 'Team Defense / Slides' },
+  'Defense - Recovery':                 { category: 'defense', subcategory: 'Man-to-Man Defense' },
+  'Defense - Man Down':                 { category: 'defense', subcategory: 'Man-Down Defense' },
+  'Faceoff':                            { category: 'faceoffs', subcategory: 'Face-Off Technique' },
+  'Clear':                              { category: 'offense', subcategory: 'Clearing' },
+  'Ride':                               { category: 'defense', subcategory: 'Riding (Preventing Clears)' },
+  // Girls mappings (same phases, different taxonomy)
+  'girls_Offense - Settled 6v6':        { category: 'offense', subcategory: 'Settled Offense' },
+  'girls_Offense - Early Offense / Transition': { category: 'offense', subcategory: 'Transition Offense' },
+  'girls_Offense - EMO':                { category: 'offense', subcategory: 'Player-Up Offense' },
+  'girls_Defense - Settled 6v6':        { category: 'defense', subcategory: 'Team Defense' },
+  'girls_Defense - Recovery':           { category: 'defense', subcategory: 'Defensive Transition' },
+  'girls_Defense - Man Down':           { category: 'defense', subcategory: 'Team Defense' },
+};
+
+// Extract YouTube video ID from a URL
+function extractVideoId(url) {
+  if (!url) return null;
+  const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+}
+
+// Convert sheet events into VIDEO_LIBRARY-compatible entries
+function sheetEventsToVideos(events) {
+  return events.map(e => {
+    const videoId = extractVideoId(e.youtube_url || e.youtube_deep_link || '');
+    if (!videoId) return null;
+
+    const startSeconds = parseInt(e.source_start_seconds) || 0;
+    const phase = e.phase || '';
+    const mapping = PHASE_TO_TAXONOMY[phase] || { category: 'team', subcategory: 'Game Management' };
+    const program = (e.team_focus === 'defense') ? 'boys' : 'boys'; // default boys, override for girls source_type
+
+    return {
+      id: videoId,
+      title: `${e.event_summary || 'Game Clip'}`,
+      channel: e.game_title || 'NCAA Game',
+      category: `${program}_${mapping.category}`,
+      subcategory: mapping.subcategory,
+      concept: e.category || '',
+      startTime: startSeconds,
+      notes: e.main_teaching_point || e.event_summary || '',
+      gameTitle: e.game_title || '',
+      playResult: e.play_result || '',
+      period: e.period || '',
+      confidence: e.ai_confidence || 0,
+      fromSheet: true
+    };
+  }).filter(Boolean);
+}
+
+// Fetch events from Google Sheet and merge into VIDEO_LIBRARY
+async function loadSheetClips() {
+  try {
+    const url = `${BTB_CONFIG.webhookUrl}?json=${encodeURIComponent(JSON.stringify({
+      api_key: BTB_CONFIG.apiKey,
+      action: 'list_events'
+    }))}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Sheet fetch failed');
+    const data = await response.json();
+
+    if (data.events && data.events.length > 0) {
+      const sheetVideos = sheetEventsToVideos(data.events);
+      // Merge into VIDEO_LIBRARY (avoid duplicates by checking id + startTime)
+      const existingKeys = new Set(VIDEO_LIBRARY.map(v => `${v.id}_${v.startTime}`));
+      sheetVideos.forEach(v => {
+        const key = `${v.id}_${v.startTime}`;
+        if (!existingKeys.has(key)) {
+          VIDEO_LIBRARY.push(v);
+          existingKeys.add(key);
+        }
+      });
+      console.log(`Loaded ${sheetVideos.length} clips from Google Sheet (${VIDEO_LIBRARY.length} total)`);
+      return sheetVideos.length;
+    }
+    return 0;
+  } catch (err) {
+    console.warn('Could not fetch sheet clips:', err.message);
+    return 0;
+  }
+}
+
 // ============= GOOGLE SHEET DATA FETCH =============
 async function fetchSheetData(program = 'all') {
   try {

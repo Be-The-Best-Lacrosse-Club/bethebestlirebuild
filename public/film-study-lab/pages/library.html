@@ -339,6 +339,11 @@
 
     // ============= INIT =============
     renderLibrary();
+
+    // Load clips from Google Sheet in background
+    loadSheetClips().then(count => {
+      if (count > 0) renderLibrary();
+    });
   </script>
 </body>
 </html>
