@@ -441,6 +441,85 @@ const CONCEPT_CONTENT = {
   }
 };
 
+// ============= VIDEO LIBRARY =============
+// 44 verified YouTube videos mapped to taxonomy categories
+const VIDEO_LIBRARY = [
+  // ── BOYS DEFENSE: Team Defense / Slides ──
+  { id: 'TsTgsq2vcPE', title: 'Adjacent Slide Basics', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Team Defense / Slides', concept: 'Adjacent Slides', startTime: 0, notes: 'Fundamentals of adjacent sliding — when and how to rotate one pass away on defense.' },
+  { id: 'JITcbrt8g8M', title: 'Crease Slide Basics', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Team Defense / Slides', concept: 'Crease Slides', startTime: 0, notes: 'Crease slide responsibilities and how the crease defender rotates to the ball carrier.' },
+  { id: 'TL__YxdGSKQ', title: 'Near Man Defense', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Team Defense / Slides', concept: 'Communication & Calls', startTime: 0, notes: 'Near-man defensive philosophy where the closest defender slides to the ball.' },
+  { id: 'rKZU6IMtJvo', title: 'Defending 2-Man Games', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Team Defense / Slides', concept: 'Slide Recovery', startTime: 0, notes: 'Defending pick-and-roll / two-man games with proper switches and communication.' },
+  { id: '3802fpuzdkE', title: '2-Man Game Pick Locations', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Team Defense / Slides', concept: 'Adjacent Slides', startTime: 0, notes: 'Common pick locations and how to anticipate and defend each one.' },
+  { id: 'qcN0RdFFF_M', title: 'Executing & Defending 2-Man Games (Full)', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Team Defense / Slides', concept: 'Backside Rotation', startTime: 0, notes: 'Comprehensive 1:51 deep dive on two-man games from both sides of the ball.' },
+  { id: 'fwKoKVTOt7s', title: 'Building D with 3v0s/3v2s/3v3s', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Team Defense / Slides', concept: 'Communication & Calls', startTime: 0, notes: 'Progressive small-sided drills building offensive and defensive concepts.' },
+
+  // ── BOYS DEFENSE: Zone ──
+  { id: 'MQEnQtZem-o', title: 'Wesleyan Championship 3-3 Zone', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Zone Defense', concept: '3-3 Zone', startTime: 0, notes: 'Film breakdown of Wesleyan\'s championship-winning 3-3 zone defense.' },
+  { id: 'MWg_b503Ijw', title: 'Wild Cat Trap Zone', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Zone Defense', concept: 'Zone Principles & Rotations', startTime: 0, notes: 'Aggressive trapping zone that pressures the ball and forces turnovers.' },
+
+  // ── BOYS DEFENSE: Man-to-Man ──
+  { id: 'xEnD16D8zL0', title: 'Individual Defensive Play', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Man-to-Man Defense', concept: 'On-Ball Footwork & Positioning', startTime: 0, notes: 'Foundation video on body positioning, footwork, and approach angles.' },
+
+  // ── BOYS DEFENSE: Man-Down ──
+  { id: 'pev8Lh9e6ng', title: 'Box and 1 Man-Down', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Man-Down Defense', concept: 'Rotation Packages', startTime: 0, notes: 'Box-and-1 man-down scheme with one chaser and four in a box zone.' },
+  { id: '9B-DbHoCERg', title: 'House Zone Man-Down', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Man-Down Defense', concept: 'Rotation Packages', startTime: 0, notes: 'House zone man-down setup with specific rotations and slide responsibilities.' },
+  { id: 'hrzYFIyQWTI', title: 'Pushin P Man-Down', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Man-Down Defense', concept: 'Pressure vs Contain', startTime: 0, notes: 'Aggressive pressure man-down that disrupts EMO by pushing the ball.' },
+  { id: 'R26pAhoXoNA', title: 'Box and Surprise Lock Man-Down', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Man-Down Defense', concept: 'Rotation Packages', startTime: 0, notes: 'Box man-down with a surprise lock call shifting from zone to man-to-man.' },
+
+  // ── BOYS DEFENSE: Riding ──
+  { id: '13lgO57WErA', title: 'The Riding Playbook', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Riding (Preventing Clears)', concept: '10-Man Ride', startTime: 0, notes: 'Complete riding system overview covering multiple formations and pressure packages.' },
+  { id: 'bjIKPeCmhwc', title: '10 Man Ride', channel: 'POWLAX', category: 'boys_defense', subcategory: 'Riding (Preventing Clears)', concept: '10-Man Ride', startTime: 0, notes: 'Full 10-man ride where all field players pressure the clear aggressively.' },
+
+  // ── BOYS OFFENSE: Settled ──
+  { id: 'oSKdetJt2pA', title: 'Duke\'s Fade and Follow', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: 'Motion Offense', startTime: 0, notes: 'Duke\'s signature fade-and-follow motion where the dodger fades and the next man follows.' },
+  { id: '3bP1bWdh76Y', title: 'Sweep-Fade-Float Midfield Motion', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: 'Motion Offense', startTime: 0, notes: 'Three-part midfield motion with sweep, fade, and float options off the dodge.' },
+  { id: 'f8un6ZHXNhM', title: 'Dodge-Clear Through-Follow Attack Motion', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: 'Motion Offense', startTime: 0, notes: 'Attack motion: dodger initiates, teammate clears through, another follows.' },
+  { id: 'j2ECYQVTliw', title: 'Dodge-Follow-Float Midfield Motion', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: 'Motion Offense', startTime: 0, notes: 'Midfield motion where the dodge triggers a follow cut and a float to the backside.' },
+  { id: 'H9aNp7-z_bE', title: 'Weave and Mumbo Box Offense', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: 'Motion Offense', startTime: 0, notes: 'Weave and Mumbo offensive sets out of a box formation with continuous motion.' },
+  { id: 'R19Zg4xQfYs', title: 'Virginia\'s 2-2-2 from X', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: '1-4-1 Formation', startTime: 0, notes: 'Virginia\'s 2-2-2 formation initiated from X with player-cut perspective.' },
+  { id: 'oKk8p4Vx_OA', title: 'Virginia\'s 2-2-2 from X (Coach View)', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: '1-4-1 Formation', startTime: 0, notes: 'Coach\'s perspective breakdown of Virginia\'s 2-2-2 from behind the cage.' },
+  { id: '462mJNQyv50', title: '21-12 Motion Offense', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Settled Offense', concept: '2-3-1 Formation', startTime: 0, notes: 'Quick overview of the 21-12 motion offense with movement and passing reads.' },
+
+  // ── BOYS OFFENSE: Off-Ball Movement ──
+  { id: 'OH_HUlnbyQ4', title: 'Seawolves Drill (Off Ball O & D)', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Off-Ball Movement & Cutting', concept: 'Timing & Spacing', startTime: 0, notes: 'Drill teaching off-ball offensive movement and defensive positioning simultaneously.' },
+  { id: 'I5OTTccXYXY', title: 'Off-Ball Movement Tips', channel: 'First Class Lax', category: 'boys_offense', subcategory: 'Off-Ball Movement & Cutting', concept: 'V-Cuts', startTime: 0, notes: 'Three tips for reading defenses and moving without the ball to create scoring opportunities.' },
+
+  // ── BOYS OFFENSE: Clearing ──
+  { id: 'RnYRtSWkBug', title: '2-3-2 Clear', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Clearing', concept: 'Settled Clears', startTime: 0, notes: '2-3-2 clearing formation with spacing and passing options to beat a ride.' },
+  { id: 'sX7_dwPEUHs', title: '4-3 Clear', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Clearing', concept: 'Settled Clears', startTime: 0, notes: '4-3 clearing formation overloading one side to create passing lanes.' },
+  { id: '4LOocXTxHNw', title: '4-3 Alpha Clear', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Clearing', concept: 'Press Break Clears', startTime: 0, notes: '4-3 clear variation with a specific Alpha call triggering preset rotations.' },
+  { id: 'oI9-zj4tdeo', title: 'Clear Pass Terminology', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Clearing', concept: 'Settled Clears', startTime: 0, notes: 'Language and terminology players need for communication during clears.' },
+
+  // ── BOYS EMO ──
+  { id: 'HwZ3IUpPbz8', title: 'Cheddar/Pepper Jack Man Up', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Extra Man Offense (EMO)', concept: '3-3 EMO Set', startTime: 0, notes: 'Two man-up plays with specific rotations and shooting options.' },
+  { id: 'qLht8H1LofY', title: '22 Quick Man Up', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Extra Man Offense (EMO)', concept: 'Quick Shot Opportunities', startTime: 0, notes: 'Quick-hitting man-up play for an immediate shot opportunity off the set.' },
+  { id: '0A6U07_WC8E', title: '3-3 Four Man Wheel Man Up', channel: 'POWLAX', category: 'boys_offense', subcategory: 'Extra Man Offense (EMO)', concept: 'Ball Rotation Patterns', startTime: 0, notes: '3-3 man-up with a four-man wheel rotation creating mismatches.' },
+
+  // ── BOYS FACEOFFS ──
+  { id: 'YfAveIh47Pc', title: 'Faceoff Plays and Tactics', channel: 'POWLAX', category: 'boys_faceoffs', subcategory: 'Face-Off Technique', concept: 'Wing Play & Ground Ball Situations', startTime: 0, notes: 'Faceoff wing play, set plays off the draw, and tactical approaches.' },
+
+  // ── BOYS TEAM CONCEPTS ──
+  { id: '-xpNBfHYKqA', title: 'Running the Box (Substitutions)', channel: 'POWLAX', category: 'boys_team', subcategory: 'Game Management', concept: 'Substitution Patterns / On-the-Fly Subs', startTime: 0, notes: 'Managing substitution patterns and running an efficient box during live play.' },
+  { id: 'c3cfEOWJt70', title: 'Subbing Through the Midline', channel: 'POWLAX', category: 'boys_team', subcategory: 'Game Management', concept: 'Substitution Patterns / On-the-Fly Subs', startTime: 0, notes: 'How to substitute through the midline for a personnel advantage.' },
+
+  // ── BOYS FUNDAMENTALS ──
+  { id: 'HadmDjVY6wM', title: '8 Types of Passes', channel: 'Lacrosse Tutorial', category: 'boys_fundamentals', subcategory: 'Stick Skills', concept: 'Passing (Overhand, Sidearm)', startTime: 0, notes: 'Covers 8 essential pass types: overhand, sidearm, BTB, shovel, quick-stick, skip, feed, one-handed.' },
+  { id: '8krXEvMftvE', title: '5-Minute Wall Ball Routine', channel: 'POWLAX', category: 'boys_fundamentals', subcategory: 'Stick Skills', concept: 'Stick Protection', startTime: 0, notes: 'Guided 5-minute wall ball covering collarbone catches, one-hand, cross-body, and BTB.' },
+  { id: 'hMavv0xBSAE', title: '10-Minute Intermediate Wall Ball', channel: 'POWLAX', category: 'boys_fundamentals', subcategory: 'Stick Skills', concept: 'Weak Hand Development', startTime: 0, notes: 'Follow-along 10-minute intermediate wall ball with quick sticks, Canadian passes, 180 turns.' },
+  { id: 'quo6j9UQ9BE', title: 'Ground Balls to Give and Go', channel: 'POWLAX', category: 'boys_fundamentals', subcategory: 'Stick Skills', concept: 'Ground Balls', startTime: 0, notes: 'Proper ground ball pickup with immediate give-and-go transition to offense.' },
+  { id: 'o8XhUrZaC88', title: 'D1 Shooting Drills & Technique', channel: 'First Class Lax', category: 'boys_fundamentals', subcategory: 'Stick Skills', concept: 'Cradling', startTime: 0, notes: 'Five D1 attackers demonstrate go-to shooting drills: three-pot, drift, up-the-hash, layup, wing dodge.' },
+  { id: 'e0HXUtRWEoo', title: 'Accuracy Shooting with Stanwick Brothers', channel: 'TLN', category: 'boys_fundamentals', subcategory: 'Stick Skills', concept: 'Catching (Stationary, On the Move)', startTime: 0, notes: 'Stanwick brothers demonstrate accuracy drills focused on placing shots to specific corners.' },
+
+  // ── BOYS GOALIE ──
+  { id: 'AJMN_44lpio', title: 'Goalie Positioning Fundamentals', channel: 'Goalie Strength', category: 'boys_goalie', subcategory: 'Goalie Skills', concept: 'Positioning & Arc Play', startTime: 0, notes: 'Three pillars of goalie positioning: angle, squareness, and depth.' },
+
+  // ── GIRLS DRAWS ──
+  { id: 'u9eYaW06iv0', title: 'How to Win Draw Controls', channel: 'Notre Dame', category: 'girls_draws', subcategory: 'Draw Technique', concept: 'Draw Technique', startTime: 0, notes: 'Notre Dame\'s 3-step process: read ball placement, turn wrists fast, track and chase.' },
+
+  // ── GIRLS DEFENSE ──
+  { id: 'ko6QbOcpbmw', title: 'Train Like a College Women\'s Defender', channel: 'College Program', category: 'girls_defense', subcategory: 'Individual Defense', concept: 'Positioning & Footwork', startTime: 0, notes: 'College-level women\'s defensive training: on-ball positioning, channeling, footwork.' },
+];
+
 // ============= GAME ARCHIVE DATA =============
 // Seeded with sample games — live data comes from Google Sheet
 const GAME_ARCHIVE = [
@@ -508,7 +587,40 @@ function getTaxonomy(program) {
 
 function getConceptContent(program, conceptName) {
   const programContent = CONCEPT_CONTENT[program];
-  return programContent ? programContent[conceptName] : null;
+  const content = programContent ? programContent[conceptName] : null;
+
+  // Auto-attach matching videos from VIDEO_LIBRARY
+  if (typeof VIDEO_LIBRARY !== 'undefined') {
+    const prefix = program === 'boys' ? 'boys_' : 'girls_';
+    const matchingVideos = VIDEO_LIBRARY.filter(v => {
+      if (!v.category.startsWith(prefix)) return false;
+      const conceptLower = conceptName.toLowerCase();
+      return (v.concept && v.concept.toLowerCase().includes(conceptLower)) ||
+             (v.subcategory && v.subcategory.toLowerCase().includes(conceptLower)) ||
+             (v.title && v.title.toLowerCase().includes(conceptLower)) ||
+             (conceptLower.includes(v.concept.toLowerCase()));
+    });
+    if (matchingVideos.length > 0) {
+      if (content) {
+        content.videos = matchingVideos.map(v => ({ id: v.id, title: v.title, notes: v.notes, startTime: v.startTime }));
+      } else {
+        // Create basic content with videos even if no teaching content exists
+        return { videos: matchingVideos.map(v => ({ id: v.id, title: v.title, notes: v.notes, startTime: v.startTime })) };
+      }
+    }
+  }
+  return content;
+}
+
+function getVideosForCategory(category) {
+  if (typeof VIDEO_LIBRARY === 'undefined') return [];
+  return VIDEO_LIBRARY.filter(v => v.category === category);
+}
+
+function getVideoCount(program) {
+  if (typeof VIDEO_LIBRARY === 'undefined') return 0;
+  const prefix = program === 'boys' ? 'boys_' : 'girls_';
+  return VIDEO_LIBRARY.filter(v => v.category.startsWith(prefix)).length;
 }
 
 function countConcepts(taxonomy) {
