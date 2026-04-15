@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#C8102E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LYN Scout">
+<meta name="robots" content="noindex,nofollow">
+<title>Lynbrook Scout — Plainedge Varsity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --red: #C8102E;
+    --red-dark: #8b0a20;
+    --black: #000000;
+    --charcoal: #0a0a0a;
+    --slate: #1a1a1a;
+    --slate-2: #242424;
+    --border: #333;
+    --text: #e5e5e5;
+    --dim: #999;
+    --muted: #666;
+    --white: #ffffff;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+}
+
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--charcoal);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Password gate */
+.gate { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.gate-inner { max-width: 380px; width: 100%; text-align: center; }
+.gate h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #fff; letter-spacing: 2px; margin-bottom: 0.5rem; }
+.gate h1 span { color: var(--red); }
+.gate p { color: var(--dim); font-size: 0.875rem; margin-bottom: 1.5rem; }
+.gate input { width: 100%; padding: 1rem 1.25rem; background: var(--slate); border: 2px solid var(--border); border-radius: 12px; color: #fff; font-family: inherit; font-size: 1rem; font-weight: 600; margin-bottom: 1rem; outline: none; }
+.gate input:focus { border-color: var(--red); }
+.gate button { width: 100%; padding: 1rem; background: var(--red); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; }
+.gate .err { color: var(--red); font-size: 0.8rem; margin-top: 0.75rem; min-height: 1rem; }
+
+/* Hero */
+.hero {
+    background:
+        linear-gradient(135deg, rgba(200,16,46,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at top, rgba(200,16,46,0.25) 0%, transparent 60%),
+        #000;
+    padding: 2.5rem 1rem 2rem;
+    border-bottom: 4px solid var(--red);
+    position: relative;
+}
+.hero::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 80px); pointer-events: none; }
+.hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+.brand-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(200,16,46,0.15); border: 1px solid var(--red); padding: 0.4rem 0.9rem; border-radius: 100px; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+.brand-tag::before { content: ''; width: 8px; height: 8px; background: var(--red); border-radius: 50%; box-shadow: 0 0 10px var(--red); animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.25rem, 9vw, 4.5rem); line-height: 0.95; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 0.75rem; }
+.hero h1 .accent { color: var(--red); text-shadow: 0 0 30px rgba(200,16,46,0.5); }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; }
+.hero-meta span { background: rgba(0,0,0,0.5); border: 1px solid var(--border); padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); }
+.hero-meta span.live { background: var(--red); color: #fff; border-color: var(--red); }
+.hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem; }
+.hero-stat { background: rgba(26,26,26,0.7); backdrop-filter: blur(10px); border: 1px solid var(--border); border-left: 3px solid var(--red); padding: 0.75rem; border-radius: 6px; }
+.hero-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 5vw, 2rem); color: var(--red); line-height: 1; }
+.hero-stat-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); margin-top: 0.25rem; }
+
+/* Quickread */
+.quickread { background: var(--red); padding: 1rem; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.2); }
+.quickread-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+.quickread-label { background: rgba(0,0,0,0.25); padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
+.quickread-text { font-weight: 700; font-size: 0.9rem; color: #fff; }
+
+/* Coach strip */
+.coach-strip { background: #000; border-bottom: 1px solid var(--border); padding: 0.5rem 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+.coach-strip a { color: var(--dim); text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid var(--border); transition: all 0.2s; }
+.coach-strip a:hover { color: #fff; border-color: var(--red); }
+.coach-strip a.current { color: #fff; background: var(--red); border-color: var(--red); }
+
+/* Nav */
+.nav { background: var(--slate); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav-inner { max-width: 1100px; margin: 0 auto; display: flex; padding: 0 0.5rem; min-width: max-content; }
+.nav-btn { background: none; border: none; color: var(--dim); padding: 0.9rem 1rem; font-family: inherit; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.nav-btn.active { color: #fff; border-bottom-color: var(--red); }
+
+/* Sections */
+.section { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem 3rem; display: none; animation: fadeIn 0.3s ease-out; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.section-eyebrow { font-size: 0.7rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.5rem; }
+.section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.75rem, 6vw, 2.75rem); color: #fff; line-height: 1; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1.25rem; }
+.section h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: #fff; letter-spacing: 1px; margin: 1.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--red); }
+.section p { margin-bottom: 1rem; }
+
+/* Cards */
+.card { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+.card-red { border-left: 4px solid var(--red); }
+.card-green { border-left: 4px solid var(--green); }
+.card-amber { border-left: 4px solid var(--amber); }
+.card-blue { border-left: 4px solid var(--blue); }
+.card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 1px; margin-bottom: 0.5rem; }
+.card p { margin-bottom: 0.5rem; font-size: 0.925rem; }
+.card strong { color: #fff; }
+.card em { color: var(--red); font-style: normal; font-weight: 700; }
+
+/* Tags */
+.tag { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-right: 0.3rem; margin-bottom: 0.3rem; }
+.tag-red { background: rgba(200,16,46,0.2); color: var(--red); border: 1px solid rgba(200,16,46,0.4); }
+.tag-green { background: rgba(16,185,129,0.2); color: var(--green); border: 1px solid rgba(16,185,129,0.4); }
+.tag-amber { background: rgba(245,158,11,0.2); color: var(--amber); border: 1px solid rgba(245,158,11,0.4); }
+.tag-blue { background: rgba(59,130,246,0.2); color: var(--blue); border: 1px solid rgba(59,130,246,0.4); }
+
+/* KV */
+.kv { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+.kv-row { display: grid; grid-template-columns: 140px 1fr; border-bottom: 1px solid var(--border); }
+.kv-row:last-child { border-bottom: none; }
+.kv-row > div:first-child { background: var(--slate-2); padding: 0.75rem 1rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dim); border-right: 2px solid var(--red); }
+.kv-row > div:last-child { padding: 0.75rem 1rem; font-size: 0.9rem; color: #fff; }
+
+/* Player */
+.player { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; display: flex; gap: 1rem; align-items: flex-start; }
+.player-num { background: var(--red); color: #fff; width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; flex-shrink: 0; letter-spacing: 1px; }
+.player-info { flex: 1; min-width: 0; }
+.player-name { font-weight: 800; color: #fff; font-size: 1rem; margin-bottom: 0.25rem; }
+.player-meta { font-size: 0.75rem; color: var(--dim); margin-bottom: 0.4rem; }
+.player-note { font-size: 0.825rem; color: var(--text); }
+
+/* Gameplan list */
+.gameplan { counter-reset: gp; list-style: none; }
+.gameplan li { counter-increment: gp; background: var(--slate); border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: 10px; padding: 1rem 1rem 1rem 3.5rem; margin-bottom: 0.75rem; position: relative; }
+.gameplan li::before { content: counter(gp); position: absolute; left: 0.75rem; top: 1rem; width: 32px; height: 32px; background: var(--red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; }
+.gameplan h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; color: #fff; letter-spacing: 1px; margin-bottom: 0.4rem; }
+.gameplan p { font-size: 0.9rem; margin: 0; }
+
+/* Checklist */
+.checklist { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+.check-item { display: flex; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px dashed var(--border); cursor: pointer; user-select: none; }
+.check-item:last-child { border-bottom: none; }
+.check-box { width: 22px; height: 22px; border: 2px solid var(--red); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px; transition: all 0.2s; }
+.check-box::after { content: '✓'; color: #fff; font-weight: 800; font-size: 1rem; opacity: 0; transition: opacity 0.2s; }
+.check-item.done .check-box { background: var(--red); }
+.check-item.done .check-box::after { opacity: 1; }
+.check-item.done .check-text { color: var(--dim); text-decoration: line-through; }
+.check-text { font-size: 0.925rem; font-weight: 500; }
+
+/* Tables */
+.t-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; border-radius: 10px; border: 1px solid var(--border); -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; min-width: 400px; }
+th { background: var(--red); color: #fff; padding: 0.7rem; text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; }
+td { padding: 0.7rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--text); }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+/* Callouts */
+.callout { border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.9rem; }
+.callout-red { background: rgba(200,16,46,0.08); border-left: 4px solid var(--red); }
+.callout-green { background: rgba(16,185,129,0.08); border-left: 4px solid var(--green); }
+.callout-amber { background: rgba(245,158,11,0.08); border-left: 4px solid var(--amber); }
+.callout-label { display: inline-block; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 0.15rem 0.5rem; border-radius: 3px; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+.callout-red .callout-label { background: var(--red); color: #fff; }
+.callout-green .callout-label { background: var(--green); color: #000; }
+.callout-amber .callout-label { background: var(--amber); color: #000; }
+.callout p { margin: 0; }
+
+/* Footer */
+.footer { background: #000; border-top: 4px solid var(--red); padding: 2rem 1rem; text-align: center; margin-top: 2rem; }
+.footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; color: #fff; letter-spacing: 2px; margin-bottom: 0.4rem; }
+.footer-brand .r { color: var(--red); }
+.footer p { font-size: 0.75rem; color: var(--muted); margin: 0; }
+
+@media (max-width: 480px) {
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .kv-row { grid-template-columns: 100px 1fr; }
+    .section { padding: 1.5rem 0.75rem 2rem; }
+    .hero { padding: 2rem 0.75rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div class="gate" id="gate">
+    <div class="gate-inner">
+        <h1>Plainedge <span>Scout</span></h1>
+        <p>Coach access required</p>
+        <input type="password" id="gatepw" placeholder="Enter password" autocomplete="off" autocapitalize="off">
+        <button onclick="checkPw()">Unlock</button>
+        <div class="err" id="gateerr"></div>
+    </div>
+</div>
+
+<!-- Coach resources nav strip -->
+<div class="coach-strip">
+    <a href="/bethpage-scout.html">🎯 Bethpage</a>
+    <a href="/lynbrook-scout.html" class="current">🦉 Lynbrook</a>
+    <a href="/defensive-playbook.html">🛡 Defense</a>
+    <a href="/10-man-ride.html">⚡ 10-Man Ride</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="brand-tag">Plainedge Varsity Lacrosse · Red Devils</div>
+        <h1>Lynbrook<br><span class="accent">Scout Report</span></h1>
+        <div class="hero-meta">
+            <span class="live">2026 Season</span>
+            <span>Class C · Section 8</span>
+            <span>Nassau Conference 2</span>
+            <span>Owls</span>
+        </div>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num">4-3</div>
+                <div class="hero-stat-label">2026 Record</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">8.7</div>
+                <div class="hero-stat-label">Goals / Game</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">9.0</div>
+                <div class="hero-stat-label">GA / Game</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">75.4</div>
+                <div class="hero-stat-label">LaxNumbers Rating</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Read -->
+<div class="quickread">
+    <div class="quickread-inner">
+        <span class="quickread-label">Headline</span>
+        <span class="quickread-text">Rebuilding year. New goalie. Negative goal differential. We already beat them 12-11 last year — this team is weaker.</span>
+    </div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+    <div class="nav-inner">
+        <button class="nav-btn active" data-tab="snapshot">Snapshot</button>
+        <button class="nav-btn" data-tab="personnel">Personnel</button>
+        <button class="nav-btn" data-tab="offense">Offense</button>
+        <button class="nav-btn" data-tab="defense">Defense</button>
+        <button class="nav-btn" data-tab="gameplan">Game Plan</button>
+        <button class="nav-btn" data-tab="history">History</button>
+        <button class="nav-btn" data-tab="checklist">Pregame</button>
+    </div>
+</nav>
+
+<!-- ═══ SNAPSHOT ═══ -->
+<section class="section active" id="snapshot">
+    <div class="section-eyebrow">Team Snapshot</div>
+    <h2>Lynbrook 2026</h2>
+
+    <div class="kv">
+        <div class="kv-row"><div>Head Coach</div><div>Bill Luzzi (same as last year)</div></div>
+        <div class="kv-row"><div>Record</div><div>4-3</div></div>
+        <div class="kv-row"><div>Goals For</div><div>61 — ~8.7/game</div></div>
+        <div class="kv-row"><div>Goals Against</div><div>63 — ~9.0/game</div></div>
+        <div class="kv-row"><div>Differential</div><div><span style="color:var(--red);">-2</span> — giving up more than scoring</div></div>
+        <div class="kv-row"><div>Rating</div><div>75.39 (22nd Section 8, 25th Class C)</div></div>
+        <div class="kv-row"><div>Class</div><div>Class C · Nassau Conference 2</div></div>
+        <div class="kv-row"><div>Mascot</div><div>Owls</div></div>
+    </div>
+
+    <h3>Bottom Line</h3>
+
+    <div class="callout callout-green">
+        <span class="callout-label">We Are Favored</span>
+        <p>Lynbrook's LaxNumbers rating is <strong>6.4 points lower than Bethpage's</strong>. Their goal differential is <strong>negative</strong>. They are a Class C team rebuilding. We beat them 12-11 last year and they <em>lost their seniors since then.</em></p>
+        <p style="margin-top: 0.5rem;"><strong>Don't underestimate them.</strong> Same coach = same system, disciplined, won't beat themselves. But they don't have the talent to pull an upset unless we give it to them.</p>
+    </div>
+
+    <h3>Sources</h3>
+
+    <div class="t-wrap">
+        <table>
+            <thead><tr><th>Source</th><th>Use</th></tr></thead>
+            <tbody>
+                <tr><td><a href="https://laxnumbers.com/team_info.php?y=2026&t=12573" target="_blank" style="color:var(--red);">LaxNumbers</a></td><td>2026 record, rating, stats</td></tr>
+                <tr><td><a href="https://www.liherald.com/lynbrook/stories/lyn-boy-lax-2026,221498" target="_blank" style="color:var(--red);">LI Herald</a></td><td>Preseason profile, roster</td></tr>
+                <tr><td><a href="https://blaxeight.net/teams/teams.php?team=Lynbrook" target="_blank" style="color:var(--red);">BLaxEight</a></td><td>Nassau County stats</td></tr>
+                <tr><td><a href="https://www.maxpreps.com/ny/lynbrook/lynbrook-owls/lacrosse/" target="_blank" style="color:var(--red);">MaxPreps</a></td><td>Roster, schedule</td></tr>
+                <tr><td><a href="https://fan.hudl.com/usa/ny/lynbrook" target="_blank" style="color:var(--red);">Hudl</a></td><td>Film (needs login)</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ═══ PERSONNEL ═══ -->
+<section class="section" id="personnel">
+    <div class="section-eyebrow">Key Personnel</div>
+    <h2>Who to Watch</h2>
+
+    <h3>⚔️ Offense</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Kaden Rogers</div>
+            <div class="player-meta"><span class="tag tag-red">Sr Captain</span> Attack</div>
+            <div class="player-note">Senior captain — likely their #1 scorer and vocal leader. <strong>Pole him every possession.</strong> Force him left, limit his feeds.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Brandon Scala</div>
+            <div class="player-meta"><span class="tag tag-red">Senior</span> Attack</div>
+            <div class="player-note">Senior attackman. Probable feeder from X or wing. Team with Rogers = their scoring duo.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Patrick Algozzini</div>
+            <div class="player-meta"><span class="tag tag-amber">Junior</span> Attack</div>
+            <div class="player-note">Junior attackman. Less dangerous than the seniors but knows the system. Feeds/cuts.</div>
+        </div>
+    </div>
+
+    <h3>🎯 Face-off</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Thomas Dunne</div>
+            <div class="player-meta"><span class="tag tag-red">Senior</span> FOGO <span class="tag tag-amber">Primary</span></div>
+            <div class="player-note">Senior face-off specialist. LILJ says "gives Lynbrook a chance to stay competitive in possession" — <em>which means he's not dominant, just competent.</em> Our FOGO should win the X at 55%+ against him.</div>
+        </div>
+    </div>
+
+    <h3>🏃 Midfield</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Tyler Berke</div>
+            <div class="player-meta"><span class="tag tag-red">Sr Captain</span> SSDM</div>
+            <div class="player-note">Short-stick defensive midfielder / captain. <strong>Their best 2-way middie.</strong> He covers our offensive middie. Expect intelligent positioning, good stick checks.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Colin Grimes</div>
+            <div class="player-meta"><span class="tag tag-red">Senior</span> Middie</div>
+            <div class="player-note">Senior midfielder. Rotation + depth.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Nick Mignella</div>
+            <div class="player-meta"><span class="tag tag-red">Senior</span> Middie</div>
+            <div class="player-note">Senior midfielder. Rotation + depth.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">J.P. McHugh</div>
+            <div class="player-meta"><span class="tag tag-amber">Sophomore</span> Middie</div>
+            <div class="player-note">Young middie getting reps. <strong>Target him in dodging matchups.</strong></div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Owen Ceglie</div>
+            <div class="player-meta"><span class="tag tag-red">Freshman</span> Middie</div>
+            <div class="player-note"><strong>9th grader in the rotation.</strong> LILJ says he "will be asked to fill important roles early" — a depth concern for them. Attack this matchup.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Luke Marinos</div>
+            <div class="player-meta"><span class="tag tag-red">Freshman</span> Middie</div>
+            <div class="player-note"><strong>Another 9th grader</strong> in the rotation. Inexperienced. Attack him when he's on the field.</div>
+        </div>
+    </div>
+
+    <h3>🛡 Defense</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Max Dellacona</div>
+            <div class="player-meta"><span class="tag tag-red">Senior</span> Defense</div>
+            <div class="player-note">Senior close D. Likely their #1 pole. Takes our best attacker.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">James Pisano</div>
+            <div class="player-meta"><span class="tag tag-amber">Sophomore</span> Defense <span class="tag tag-green">"Workhorse"</span></div>
+            <div class="player-note">Sophomore close D. LILJ specifically called him a "workhorse" — <em>good motor but young body.</em> Dodge hard, make him slide late.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Jake Zols</div>
+            <div class="player-meta"><span class="tag tag-amber">Junior</span> LSM</div>
+            <div class="player-note">Junior long-stick midfielder. Matches our top middie. Expect solid footwork, will take shots at ball carriers.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Jack Chatterton</div>
+            <div class="player-meta"><span class="tag tag-amber">Sophomore</span> Defense</div>
+            <div class="player-note">Sophomore defender. LILJ flagged him as a "newcomer to watch" — new to varsity. <strong>Attack him the first few possessions to shake his confidence.</strong></div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Michael Potash</div>
+            <div class="player-meta"><span class="tag tag-red">Senior</span> Defense</div>
+            <div class="player-note">Senior defender. Experience + discipline. Probably takes our 2nd attackman.</div>
+        </div>
+    </div>
+
+    <h3>🥅 Goalie</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Ethan Lunati</div>
+            <div class="player-meta"><span class="tag tag-amber">Junior</span> Goalie <span class="tag tag-red">NEW STARTER</span></div>
+            <div class="player-note"><strong>First year as the starter.</strong> LILJ says he's "ready for the role" — but coach Luzzi's #1 concern was replacing their graduated goalie. <em>Unproven in big moments.</em></div>
+            <div class="player-note" style="margin-top: 0.5rem;"><strong>Exploit:</strong> Shoot on him early and often. Test his nerves. Low-to-high fakes. Hot shots in the corners. If he's struggling, pile it on before he settles in.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ OFFENSE (Lynbrook's) ═══ -->
+<section class="section" id="offense">
+    <div class="section-eyebrow">Lynbrook Offense</div>
+    <h2>How They Attack</h2>
+
+    <div class="callout callout-red">
+        <span class="callout-label">Core Weakness</span>
+        <p>Lynbrook averages 8.7 GF/game but gives up 9.0 — <strong>they can score but not enough to win shootouts.</strong> Last year they averaged ~10.4 GF with more seniors; they've <em>dropped almost 2 goals/game</em> offensively.</p>
+    </div>
+
+    <h3>Primary Attack Group</h3>
+
+    <div class="card card-red">
+        <h4>Kaden Rogers + Brandon Scala — The Senior Duo</h4>
+        <p>Two senior attackmen carrying the offense. Rogers is the captain — he's the initiator, takes the pressure touches.</p>
+        <p><strong>Tendency read:</strong> Senior attackmen tend to dodge from X if they're feeders, or from up top / wing if they're shooters. The Rogers/Scala tandem is probably a 2-man game at GLE.</p>
+        <p><strong>Our counter:</strong> Lock off one of them (force the other to create). Put our #1 pole on Rogers.</p>
+    </div>
+
+    <div class="card card-amber">
+        <h4>Patrick Algozzini — The Junior Glue</h4>
+        <p>Junior attackman. Less of a star but likely the smart off-ball mover. Cuts through the middle, back-pipes off Rogers drives.</p>
+        <p><strong>Our crease defender cannot leave him.</strong> If we're watching Rogers, Algozzini will back-cut for goals.</p>
+    </div>
+
+    <h3>Projected Offensive Set</h3>
+
+    <div class="card card-blue">
+        <h4>Likely: 2-3-1 or 1-3-2</h4>
+        <p>With 2 senior attackmen + 1 junior, a point-based set makes sense:</p>
+        <ul style="margin-left: 1.25rem; margin-top: 0.5rem;">
+            <li><strong>2-3-1</strong> — Two middies up top (Grimes + Mignella), three across (Rogers + Algozzini + Scala), one at X. Balanced with their seniors distributed.</li>
+            <li><strong>1-3-2</strong> — Classic motion set. One up top, three across, two at X. Good for 2-man at X with their senior attackmen.</li>
+        </ul>
+    </div>
+
+    <h3>Tendencies to Watch</h3>
+
+    <div class="t-wrap">
+        <table>
+            <thead><tr><th>Watch For</th><th>What It Tells Us</th></tr></thead>
+            <tbody>
+                <tr><td>Rogers dodge direction</td><td>If right hand → force him left. Put a lefty pole on him.</td></tr>
+                <tr><td>Scala's role</td><td>Dodger or feeder? If he feeds, he's behind/at X. If he dodges, up top.</td></tr>
+                <tr><td>2-man game location</td><td>X vs up top — tells us where to expect the pick.</td></tr>
+                <tr><td>Who takes their first shot</td><td>Whoever that is = the #1 weapon.</td></tr>
+                <tr><td>When freshmen are on (Ceglie/Marinos)</td><td>Their offense drops in potency. Don't let up.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Transition</h3>
+
+    <div class="card card-amber">
+        <h4>Their Only Big Play Threat</h4>
+        <p>With a less potent half-field offense, <strong>transition is where Lynbrook can steal goals.</strong> Watch for:</p>
+        <ul style="margin-left: 1.25rem; margin-top: 0.5rem;">
+            <li>Fast breaks after saves (their goalie Lunati is new — but if he makes a save, they'll push)</li>
+            <li>Thomas Dunne winning draws clean → direct to offense</li>
+            <li>Senior middies pushing numbers off turnovers</li>
+        </ul>
+        <p style="margin-top: 0.75rem;"><strong>Our defensive transition:</strong> Sprint back, no ball-watching. They don't have elite skill players — they need the numbers advantage to score.</p>
+    </div>
+</section>
+
+<!-- ═══ DEFENSE (Lynbrook's) ═══ -->
+<section class="section" id="defense">
+    <div class="section-eyebrow">Lynbrook Defense</div>
+    <h2>How They Stop You</h2>
+
+    <div class="callout callout-red">
+        <span class="callout-label">Giving Up 9 Goals/Game</span>
+        <p>Lynbrook's D is the weak point. 63 goals allowed in 7 games = <strong>they're giving up 9.0 per game.</strong> Coach Luzzi himself said the team needs to "tighten up defensively."</p>
+        <p style="margin-top: 0.5rem;"><em>If we put up 10, we win.</em></p>
+    </div>
+
+    <h3>Personnel Read</h3>
+
+    <div class="card card-blue">
+        <h4>Senior Leadership (Dellacona, Potash)</h4>
+        <p>Two senior close defenders. Experience + discipline. They'll communicate, slide well, play sound team defense.</p>
+        <p>But senior D-men don't have the athleticism of college-track players. <strong>They'll struggle with speed.</strong></p>
+    </div>
+
+    <div class="card card-amber">
+        <h4>Young Core (Pisano, Chatterton — Sophomores)</h4>
+        <p>Two sophomore D-men in the rotation. Pisano called a "workhorse" = high motor. Chatterton is a "newcomer" — <em>brand new to varsity.</em></p>
+        <p><strong>Target Chatterton first.</strong> Attack him immediately — his first possessions will be the shakiest.</p>
+    </div>
+
+    <h3>Projected Defensive Scheme</h3>
+
+    <div class="card card-red">
+        <h4>Most Likely: Man-to-Man with Adjacent Slide</h4>
+        <p>Same coach as last year = same system. Last year's team ran straight man with standard slides. Expect the same.</p>
+        <p><strong>Last year's film is relevant.</strong> Pull Hudl tape from our 12-11 playoff win — their scheme is the same, just younger personnel.</p>
+    </div>
+
+    <div class="card card-amber">
+        <h4>Possible: Zone When Tired</h4>
+        <p>Rebuilding teams often resort to zone to hide weaknesses. If they get worn down or we hit them with dodging early, they might flip to a 3-3 or backer zone.</p>
+        <p><strong>Against zone:</strong> Move the ball, don't dodge into it. Skip passes find the seams.</p>
+    </div>
+
+    <h3>Goalie — The Biggest Hole</h3>
+
+    <div class="callout callout-green">
+        <span class="callout-label">Shoot Early, Shoot Often</span>
+        <p><strong>Ethan Lunati is a first-year starter.</strong> Coach Luzzi's #1 preseason concern. Junior goalie with no varsity starting experience = nerves, positioning mistakes, slow reaction time.</p>
+        <p style="margin-top: 0.5rem;"><strong>Our approach:</strong></p>
+        <ul style="margin-left: 1.25rem; margin-top: 0.3rem;">
+            <li>Shoot on net from the first possession — no fancy plays early</li>
+            <li>Test all angles — high, low, corners</li>
+            <li>Crash the cage on every shot (he won't hold rebounds well)</li>
+            <li>If we score 2 fast, he'll deflate — pour it on</li>
+        </ul>
+    </div>
+
+    <h3>Ride</h3>
+
+    <div class="card card-blue">
+        <h4>Expected: Standard Zone Ride</h4>
+        <p>Class C team, rebuilding. Unlikely they run a sophisticated 10-man ride. Expect <strong>basic 3-3-1 or 3-4 zone ride.</strong></p>
+        <p>Clearing should be straightforward. Standard clears, no need for our 10-man ride counters.</p>
+    </div>
+
+    <h3>Man-Down Defense (EMD)</h3>
+
+    <div class="card card-amber">
+        <h4>Unknown — Watch Film</h4>
+        <p>No specific intel on their EMD. Standard approach: expect a box with rotation. They've given up 9 goals/game in even strength — <em>when man down, they'll give up even more.</em></p>
+        <p><strong>Take smart penalties.</strong> If we draw penalties, our EMO should convert at 35%+ against this defense.</p>
+    </div>
+</section>
+
+<!-- ═══ GAME PLAN ═══ -->
+<section class="section" id="gameplan">
+    <div class="section-eyebrow">Plainedge Game Plan</div>
+    <h2>How We Win</h2>
+
+    <ol class="gameplan">
+        <li>
+            <h4>Start Fast — Shake the New Goalie</h4>
+            <p>First 3 minutes: shoot at Lunati. Make him make saves. Score early, rattle his confidence. A shaky goalie on a rebuilding team = snowball effect.</p>
+        </li>
+        <li>
+            <h4>Win the X Against Dunne</h4>
+            <p>Thomas Dunne is a senior FOGO but not dominant. <strong>Our #1 FOGO should win 55%+.</strong> Every extra possession is a goal they can't generate.</p>
+        </li>
+        <li>
+            <h4>Pole Rogers, Shut Off Scala</h4>
+            <p>Their two senior attackmen carry the offense. Pole Rogers, put pressure on Scala to create. Force Algozzini (junior) to beat us.</p>
+        </li>
+        <li>
+            <h4>Target the Sophomore Defenders</h4>
+            <p>Pisano (soph) and Chatterton (soph) are young. <strong>Dodge right at them.</strong> Force their sliders to commit. If Chatterton is on the field, he's our primary target — new to varsity.</p>
+        </li>
+        <li>
+            <h4>Hunt the Freshman Middies</h4>
+            <p>Ceglie and Marinos are 9th graders. Any time one of them is matched against our offensive middie, <strong>dodge immediately.</strong> No hesitation. Young freshmen at the D1 game speed = mistakes.</p>
+        </li>
+        <li>
+            <h4>Control Transition</h4>
+            <p>Their only big-play threat is transition. Sprint back. No ball-watching. <strong>No turnovers in our offensive half</strong> — that's where they score.</p>
+        </li>
+        <li>
+            <h4>10 Goals Is the Target</h4>
+            <p>They give up 9.0/game. Put up 10+, game is over. Don't settle for bad shots — we have the talent to generate clean looks.</p>
+        </li>
+        <li>
+            <h4>Don't Get Too Comfortable</h4>
+            <p>Luzzi coaches them tight. They WILL play 4 quarters. They played us to 1 goal last year. <strong>Lead 4+ in the 4th quarter or nothing is safe.</strong></p>
+        </li>
+    </ol>
+
+    <div class="callout callout-green">
+        <span class="callout-label">Winning Score Target</span>
+        <p><strong>Us 12, Them 7.</strong> Their ceiling is 8-9 goals. Ours should be 12+ against this defense.</p>
+    </div>
+</section>
+
+<!-- ═══ HISTORY ═══ -->
+<section class="section" id="history">
+    <div class="section-eyebrow">History</div>
+    <h2>What Last Year Taught Us</h2>
+
+    <div class="callout callout-amber">
+        <span class="callout-label">Class C Quarterfinal (2025)</span>
+        <p><strong>Plainedge 12, Lynbrook 11</strong> — one-goal win. Close game. Same coach (Luzzi) + same system this year.</p>
+    </div>
+
+    <h3>What We Should Remember</h3>
+
+    <div class="card card-red">
+        <h4>They Played Us Close Last Year</h4>
+        <p>Lynbrook had senior leadership + experience last spring and still only lost by 1. That team was <strong>more talented</strong> than this year's team.</p>
+        <p><em>The lesson:</em> Coach Luzzi has a system that keeps them in games against better teams. Don't assume a blowout just because the talent gap is bigger this year.</p>
+    </div>
+
+    <div class="card card-blue">
+        <h4>2025 Lynbrook Stats (For Context)</h4>
+        <ul style="margin-left: 1.25rem;">
+            <li><strong>Record:</strong> 11-6</li>
+            <li><strong>Goals:</strong> 177 For / 138 Against (+39)</li>
+            <li><strong>Goals/Game:</strong> 10.4 GF, 8.1 GA</li>
+        </ul>
+        <p style="margin-top: 0.5rem;"><strong>vs. 2026:</strong> 8.7 GF, 9.0 GA. They've dropped 1.7 goals/game offensively and gained 0.9 goals/game defensively. <em>Significant decline on both sides.</em></p>
+    </div>
+
+    <h3>What They'll Remember From Last Year</h3>
+
+    <div class="card card-amber">
+        <h4>They Will Come Out Hungry</h4>
+        <p>This group was on the team or on the bench last year when we knocked them out of the playoffs. <strong>This is a revenge game for them.</strong></p>
+        <p><em>Expect a fired-up start.</em> Weather the early pressure, then our talent advantage takes over.</p>
+    </div>
+
+    <h3>Same Coach = Same Tells</h3>
+
+    <div class="card card-blue">
+        <h4>Pull Last Year's Hudl Film</h4>
+        <p>Since Coach Luzzi runs the same system, <strong>last year's playoff film is highly relevant.</strong> Watch for:</p>
+        <ul style="margin-left: 1.25rem;">
+            <li>Their EMO set — should be identical</li>
+            <li>Slide patterns — tendencies Luzzi drills into them</li>
+            <li>Clearing routes — same principles</li>
+            <li>Timeouts + end-of-quarter plays — Luzzi's calls</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ═══ CHECKLIST ═══ -->
+<section class="section" id="checklist">
+    <div class="section-eyebrow">One-Day Turnaround Prep</div>
+    <h2>Pregame Checklist</h2>
+
+    <p style="color: var(--dim); font-size: 0.875rem; margin-bottom: 1rem;">Tap to check off. Saves in your browser.</p>
+
+    <div class="checklist" id="checklist">
+        <div class="check-item" data-id="last-year-film"><div class="check-box"></div><div class="check-text">Pull last year's Lynbrook playoff film (12-11 game) — Luzzi's system is the same</div></div>
+        <div class="check-item" data-id="roster-ids"><div class="check-box"></div><div class="check-text">ID jersey numbers for key players (Rogers, Scala, Dunne, Lunati)</div></div>
+        <div class="check-item" data-id="team-brief"><div class="check-box"></div><div class="check-text">Brief team: "Revenge game for them — weather early pressure"</div></div>
+        <div class="check-item" data-id="fogo-reps"><div class="check-box"></div><div class="check-text">FOGO reps — we should win the X at 55%+ against Dunne</div></div>
+        <div class="check-item" data-id="goalie-attack"><div class="check-box"></div><div class="check-text">Brief shooters: "Lunati is new. Shoot early, shoot often, test him"</div></div>
+        <div class="check-item" data-id="pole-rogers"><div class="check-box"></div><div class="check-text">Assign our #1 pole to Rogers (Sr captain attack)</div></div>
+        <div class="check-item" data-id="target-soph"><div class="check-box"></div><div class="check-text">ID on film: which soph D (Pisano or Chatterton) is starting — target</div></div>
+        <div class="check-item" data-id="target-frosh"><div class="check-box"></div><div class="check-text">ID on film: when freshmen (Ceglie/Marinos) are on the field — dodge</div></div>
+        <div class="check-item" data-id="transition"><div class="check-box"></div><div class="check-text">Defensive transition emphasis — they only score in transition</div></div>
+        <div class="check-item" data-id="no-penalty"><div class="check-box"></div><div class="check-text">Discipline: avoid penalties, their EMD will bend</div></div>
+        <div class="check-item" data-id="4th-quarter"><div class="check-box"></div><div class="check-text">Must be up 4+ in 4th quarter — Luzzi's teams never quit</div></div>
+        <div class="check-item" data-id="12-goals"><div class="check-box"></div><div class="check-text">Target: Plainedge 12, Lynbrook 7</div></div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-brand">Plainedge Lacrosse · <span class="r">Red Devils</span></div>
+    <p>Coach Achatz · Lynbrook Scout · 2026 Season</p>
+    <p style="margin-top: 0.5rem;">Private — do not share outside staff/players</p>
+</footer>
+
+<script>
+    // Password gate
+    const GATE_PASS = 'plainedge';
+    const gate = document.getElementById('gate');
+    const pwInput = document.getElementById('gatepw');
+    const err = document.getElementById('gateerr');
+
+    function checkPw() {
+        if (pwInput.value === GATE_PASS) {
+            localStorage.setItem('plainedge_scout_access', '1');
+            gate.style.display = 'none';
+        } else {
+            err.textContent = 'Wrong password';
+            pwInput.value = '';
+            setTimeout(() => err.textContent = '', 2000);
+        }
+    }
+
+    if (localStorage.getItem('plainedge_scout_access') === '1') {
+        gate.style.display = 'none';
+    } else {
+        pwInput.focus();
+    }
+
+    pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') checkPw(); });
+    window.checkPw = checkPw;
+
+    // Tabs
+    const tabs = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.section');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(target).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.nav').offsetTop - 10, behavior: 'smooth' });
+        });
+    });
+
+    // Checklist persistence
+    const saved = JSON.parse(localStorage.getItem('plainedge_lynbrook_checklist') || '[]');
+    document.querySelectorAll('.check-item').forEach(item => {
+        if (saved.includes(item.dataset.id)) item.classList.add('done');
+        item.addEventListener('click', () => {
+            item.classList.toggle('done');
+            const done = Array.from(document.querySelectorAll('.check-item.done')).map(el => el.dataset.id);
+            localStorage.setItem('plainedge_lynbrook_checklist', JSON.stringify(done));
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -19,6 +19,11 @@
   status = 200
 
 [[redirects]]
+  from = "/lynbrook-scout.html"
+  to = "/lynbrook-scout.html"
+  status = 200
+
+[[redirects]]
   from = "/10-man-ride.html"
   to = "/10-man-ride.html"
   status = 200
