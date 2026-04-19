@@ -140,21 +140,51 @@ exports.handler = async function (event) {
       })
     );
 
-    const allEvents = eventsByTeam.flat().filter((ev) => ev.is_game);
+    const EXCLUDE_RE = /\b(practice|training|workout|clinic|film|meeting|tryout|evaluation|scrimmage)\b/i;
+    const allEvents = eventsByTeam
+      .flat()
+      .filter((ev) => ev.start_date && ev.name && !EXCLUDE_RE.test(ev.name));
+
+    const sorted = [...allEvents].sort(
+      (a, b) => new Date(a.start_date) - new Date(b.start_date)
+    );
+
+    const grouped = [];
+    for (const ev of sorted) {
+      const last = grouped[grouped.length - 1];
+      const sameTournament =
+        last &&
+        last._team_name === ev._team_name &&
+        last.name === ev.name &&
+        (last.location_name || "") === (ev.location_name || "");
+      if (sameTournament) {
+        const lastEnd = new Date(last._end_date || last.start_date);
+        const thisStart = new Date(ev.start_date);
+        const daysApart = (thisStart - lastEnd) / (1000 * 60 * 60 * 24);
+        if (daysApart >= 0 && daysApart <= 7) {
+          last._end_date = ev.start_date;
+          last._days = (last._days || 1) + 1;
+          continue;
+        }
+      }
+      grouped.push({ ...ev, _end_date: ev.start_date, _days: 1 });
+    }
 
     const months = {};
-    for (const ev of allEvents) {
-      if (!ev.start_date) continue;
+    for (const ev of grouped) {
       const d = new Date(ev.start_date);
       const key = d.toLocaleString("en-US", { month: "long", year: "numeric" });
       if (!months[key]) months[key] = [];
       months[key].push({
         team: ev._team_name,
-        name: ev.name || ev.opponent_name || "Game",
+        name: ev.name,
         opponent: ev.opponent_name || null,
         start: ev.start_date,
+        end: ev._end_date || ev.start_date,
+        days: ev._days || 1,
         location: ev.location_name || null,
         is_tbd: !!ev.is_tbd,
+        is_game: !!ev.is_game,
       });
     }
     for (const k of Object.keys(months)) {

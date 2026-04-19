@@ -246,18 +246,30 @@
           keys.forEach(function(k){
             html += '<div class="month-block"><h2 class="month-title">' + k + '</h2><div class="event-grid">';
             months[k].forEach(function(ev){
-              var d = new Date(ev.start);
-              var day = d.getDate();
-              var mon = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-              var time = ev.is_tbd ? 'TBD' : formatTime(ev.start);
+              var ds = new Date(ev.start);
+              var de = new Date(ev.end || ev.start);
+              var day = ds.getDate();
+              var mon = ds.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+              var isMultiDay = ev.days > 1 || de.toDateString() !== ds.toDateString();
+              var dateLabel;
+              if (isMultiDay) {
+                dateLabel = day + '–' + de.getDate();
+              } else {
+                dateLabel = day;
+              }
+              var time;
+              if (ev.is_tbd) time = 'TBD';
+              else if (isMultiDay) time = ev.days + ' DAYS';
+              else time = formatTime(ev.start);
+              var badge = ev.opponent ? 'vs ' + escape(ev.opponent) : (ev.is_game ? 'Game' : 'Tournament');
               html += '<div class="event">' +
-                '<div class="date"><div class="d">' + day + '</div><div class="m">' + mon + '</div><div class="t">' + time + '</div></div>' +
+                '<div class="date"><div class="d">' + dateLabel + '</div><div class="m">' + mon + '</div><div class="t">' + time + '</div></div>' +
                 '<div class="info">' +
                   '<div class="name">' + escape(ev.name) + '</div>' +
                   '<div class="team">' + escape(ev.team) + '</div>' +
                   (ev.location ? '<div class="loc">📍 ' + escape(ev.location) + '</div>' : '') +
                 '</div>' +
-                '<div class="loc-badge">' + (ev.opponent ? 'vs ' + escape(ev.opponent) : 'Tournament') + '</div>' +
+                '<div class="loc-badge">' + badge + '</div>' +
               '</div>';
             });
             html += '</div></div>';
