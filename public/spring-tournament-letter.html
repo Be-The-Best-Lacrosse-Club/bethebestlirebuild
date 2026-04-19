@@ -20,9 +20,121 @@
     background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
     color: var(--btb-text);
     min-height: 100vh;
-    padding: 20px 12px;
     line-height: 1.6;
   }
+  .video-landing {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 560px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--btb-white);
+  }
+  .video-landing video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+    z-index: 0;
+  }
+  .video-landing::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.9) 100%);
+    z-index: 1;
+  }
+  .video-landing .vl-content {
+    position: relative;
+    z-index: 2;
+    padding: 40px 24px;
+    max-width: 900px;
+  }
+  .video-landing .vl-shield {
+    width: 110px;
+    height: auto;
+    margin: 0 auto 22px;
+    display: block;
+    filter: drop-shadow(0 8px 24px rgba(210, 38, 48, 0.5));
+  }
+  .video-landing .vl-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .video-landing .vl-eyebrow::before,
+  .video-landing .vl-eyebrow::after {
+    content: "";
+    width: 40px;
+    height: 1px;
+    background: var(--btb-red);
+  }
+  .video-landing h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 9vw, 6rem);
+    letter-spacing: 2px;
+    line-height: 0.95;
+    margin-bottom: 18px;
+  }
+  .video-landing h1 .accent { color: var(--btb-red); }
+  .video-landing .vl-sub {
+    font-size: 14px;
+    max-width: 520px;
+    margin: 0 auto 30px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.7;
+  }
+  .video-landing .vl-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--btb-red);
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    box-shadow: 0 10px 30px rgba(210, 38, 48, 0.4);
+  }
+  .video-landing .vl-cta:hover {
+    background: var(--btb-dark-red);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(210, 38, 48, 0.5);
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 6px); }
+  }
+  .letter-wrap { padding: 40px 12px; }
   .letter {
     max-width: 720px;
     margin: 0 auto;
@@ -191,6 +303,22 @@
 </style>
 </head>
 <body>
+  <section class="video-landing">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="/assets/hero/brody.mp4" type="video/mp4">
+      <source src="/assets/hero/33g_1.mp4" type="video/mp4">
+    </video>
+    <div class="vl-content">
+      <img class="vl-shield" src="/images/THE NEW SHIELD_clean.png" alt="Be The Best Lacrosse Shield">
+      <div class="vl-eyebrow">A Letter From the Owner</div>
+      <h1>Spring Tournaments<br><span class="accent">Are Here.</span></h1>
+      <p class="vl-sub">A message to every BTB family before we take the field this spring. Please read it in full.</p>
+      <a href="#letter" class="vl-cta">Read The Letter ↓</a>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <div class="letter-wrap" id="letter">
   <div class="letter">
     <div class="accent-bar"></div>
     <div class="header">
@@ -260,6 +388,7 @@
     <div class="footer">
       Be The Best Lacrosse Club • <a href="https://bethebestli.com">bethebestli.com</a>
     </div>
+  </div>
   </div>
 </body>
 </html>
