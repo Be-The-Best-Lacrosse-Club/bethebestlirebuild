@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#D22630">
+<title>BTB Tournament Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --btb-red: #D22630;
+    --btb-dark-red: #a01e26;
+    --bg: #0a0a0a;
+    --bg-card: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #fff;
+    --text-muted: rgba(255,255,255,0.6);
+    --text-faint: rgba(255,255,255,0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; line-height: 1.6;
+  }
+
+  /* GATE */
+  .gate-overlay { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 0.5s; }
+  .gate-overlay.hidden { opacity: 0; pointer-events: none; }
+  .gate-box { max-width: 400px; width: 100%; text-align: center; }
+  .gate-shield { width: 80px; margin: 0 auto 18px; display: block; filter: drop-shadow(0 6px 20px rgba(210,38,48,0.4)); }
+  .gate-logo { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 4px; margin-bottom: 4px; }
+  .gate-logo span { color: var(--btb-red); }
+  .gate-tagline { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 40px; }
+  .gate-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .gate-input { width: 100%; background: #111; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; font-size: 16px; font-weight: 500; letter-spacing: 2px; padding: 16px 20px; text-align: center; outline: none; }
+  .gate-input:focus { border-color: var(--btb-red); }
+  .gate-error { font-size: 12px; color: var(--btb-red); font-weight: 600; min-height: 18px; margin: 14px 0 16px; }
+  .gate-btn { width: 100%; background: var(--btb-red); color: #fff; border: none; border-radius: 8px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; padding: 16px; cursor: pointer; }
+  .gate-btn:hover { background: var(--btb-dark-red); }
+
+  /* PAGE */
+  .accent-bar { height: 6px; background: var(--btb-red); }
+  .topbar { background: #0f0f0f; border-bottom: 1px solid var(--border); padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .topbar .brand img { width: 34px; }
+  .topbar .brand .name { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; }
+  .topbar .brand .name span { color: var(--btb-red); }
+  .topbar .back { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); text-decoration: none; font-weight: 600; }
+  .topbar .back:hover { color: var(--btb-red); }
+
+  .hero {
+    text-align: center; padding: 56px 24px 40px;
+    background: radial-gradient(ellipse at top, rgba(210,38,48,0.15) 0%, transparent 60%);
+  }
+  .hero .eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; font-weight: 700; }
+  .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 7vw, 4.5rem); letter-spacing: 2px; line-height: 0.95; }
+  .hero h1 span { color: var(--btb-red); }
+  .hero p { max-width: 540px; margin: 12px auto 0; color: var(--text-muted); font-size: 14px; }
+
+  .letter-cta {
+    max-width: 900px; margin: 0 auto 8px; padding: 0 20px;
+  }
+  .letter-cta a {
+    display: flex; align-items: center; gap: 14px; padding: 18px 22px;
+    background: linear-gradient(135deg, var(--btb-red) 0%, var(--btb-dark-red) 100%);
+    color: #fff; text-decoration: none; border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(210,38,48,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .letter-cta a:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(210,38,48,0.45); }
+  .letter-cta .txt { flex: 1; }
+  .letter-cta .t1 { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1.5px; }
+  .letter-cta .t2 { font-size: 12px; opacity: 0.9; }
+  .letter-cta .arrow { font-size: 22px; }
+
+  .schedule { max-width: 900px; margin: 0 auto; padding: 36px 20px 80px; }
+  .month-block { margin-bottom: 36px; }
+  .month-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px;
+    color: #fff; border-bottom: 3px solid var(--btb-red); padding-bottom: 8px; margin-bottom: 18px;
+  }
+  .event-grid { display: grid; gap: 10px; }
+  .event {
+    background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--btb-red);
+    border-radius: 8px; padding: 16px 20px;
+    display: grid; grid-template-columns: 92px 1fr auto; gap: 16px; align-items: center;
+    transition: all 0.2s;
+  }
+  .event:hover { border-color: rgba(210,38,48,0.4); transform: translateX(3px); }
+  .event .date {
+    font-family: 'Bebas Neue', sans-serif; text-align: center; line-height: 1;
+    border-right: 1px solid var(--border); padding-right: 16px;
+  }
+  .event .date .d { font-size: 32px; color: var(--btb-red); }
+  .event .date .m { font-size: 12px; letter-spacing: 2px; color: var(--text-muted); margin-top: 4px; }
+  .event .date .t { font-size: 11px; color: var(--text-faint); margin-top: 6px; letter-spacing: 1px; }
+  .event .info .name { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px; margin-bottom: 2px; }
+  .event .info .team { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+  .event .info .loc { font-size: 12px; color: var(--text-faint); margin-top: 4px; }
+  .event .loc-badge { font-size: 10px; letter-spacing: 2px; color: var(--text-faint); text-transform: uppercase; }
+
+  .status { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+  .status.error { color: var(--btb-red); }
+  .loader {
+    width: 38px; height: 38px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--btb-red);
+    border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .meta-row {
+    max-width: 900px; margin: 0 auto; padding: 0 20px 8px;
+    display: flex; justify-content: space-between; font-size: 11px; color: var(--text-faint);
+    letter-spacing: 1.5px; text-transform: uppercase;
+  }
+
+  footer { text-align: center; padding: 22px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-faint); border-top: 1px solid var(--border); }
+  footer a { color: var(--btb-red); text-decoration: none; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .event { grid-template-columns: 72px 1fr; gap: 12px; padding: 14px 16px; }
+    .event .loc-badge { display: none; }
+    .event .date .d { font-size: 26px; }
+    .hero { padding: 40px 20px 28px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="gate-overlay" id="gateOverlay">
+    <div class="gate-box">
+      <img class="gate-shield" src="/images/THE NEW SHIELD_clean.png" alt="BTB">
+      <div class="gate-logo">BTB <span>PARENTS</span></div>
+      <div class="gate-tagline">Parent Portal — Families Only</div>
+      <div class="gate-label">Enter Access Code</div>
+      <input class="gate-input" id="gateInput" type="password" placeholder="Enter code" autocomplete="off" onkeydown="if(event.key==='Enter')gateSubmit()">
+      <div class="gate-error" id="gateError"></div>
+      <button class="gate-btn" onclick="gateSubmit()">ENTER</button>
+    </div>
+  </div>
+
+  <div class="accent-bar"></div>
+  <header class="topbar">
+    <a class="brand" href="parent-portal.html">
+      <img src="/images/THE NEW SHIELD_clean.png" alt="BTB">
+      <div class="name">BTB <span>PARENTS</span></div>
+    </a>
+    <a class="back" href="parent-portal.html">← Parent Portal</a>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">May • June • July</div>
+    <h1>Tournament <span>Schedule</span></h1>
+    <p>All BTB teams, all spring and summer tournaments. Live from TeamSnap — refreshed every few minutes.</p>
+  </section>
+
+  <div class="letter-cta">
+    <a href="spring-tournament-letter.html">
+      <div class="txt">
+        <div class="t1">A Letter From the Owner</div>
+        <div class="t2">Arrival time, tailgating, standards — please read before the first tournament.</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </div>
+
+  <div class="meta-row" id="metaRow" style="display:none;"></div>
+
+  <div class="schedule" id="schedule">
+    <div class="status">
+      <div class="loader"></div>
+      Loading tournament schedule...
+    </div>
+  </div>
+
+  <footer>
+    Be The Best Lacrosse Club • <a href="https://bethebestli.com">bethebestli.com</a>
+  </footer>
+
+  <script>
+    var GATE_KEY = 'btb_parent_portal_unlocked';
+    var GATE_PASS = '#BTBPARENT26';
+
+    (function() {
+      if (sessionStorage.getItem(GATE_KEY) === '1') {
+        document.getElementById('gateOverlay').classList.add('hidden');
+        setTimeout(function(){ document.getElementById('gateOverlay').style.display='none'; loadSchedule(); }, 500);
+      } else {
+        setTimeout(function(){ document.getElementById('gateInput').focus(); }, 100);
+      }
+    })();
+
+    function gateSubmit() {
+      var input = document.getElementById('gateInput');
+      var err = document.getElementById('gateError');
+      if (input.value === GATE_PASS) {
+        sessionStorage.setItem(GATE_KEY, '1');
+        var o = document.getElementById('gateOverlay');
+        o.classList.add('hidden');
+        setTimeout(function(){ o.style.display='none'; loadSchedule(); }, 500);
+      } else {
+        err.textContent = 'Incorrect code. Try again.';
+        input.value = '';
+      }
+    }
+
+    var MONTH_ORDER = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    function monthSortKey(label) {
+      var parts = label.split(' ');
+      var idx = MONTH_ORDER.indexOf(parts[0]);
+      return parseInt(parts[1]||'0',10) * 100 + idx;
+    }
+
+    function formatTime(iso) {
+      var d = new Date(iso);
+      var h = d.getHours();
+      var m = d.getMinutes();
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return h + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+    }
+
+    function loadSchedule() {
+      fetch('/.netlify/functions/tournaments')
+        .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, data: j }; }); })
+        .then(function(res){
+          var container = document.getElementById('schedule');
+          if (!res.ok) {
+            container.innerHTML = '<div class="status error"><strong>Could not load schedule.</strong><br><br>' + (res.data.error || 'Unknown error') + '</div>';
+            return;
+          }
+          var data = res.data;
+          var months = data.months || {};
+          var keys = Object.keys(months).sort(function(a,b){ return monthSortKey(a) - monthSortKey(b); });
+
+          if (keys.length === 0) {
+            container.innerHTML = '<div class="status">No tournaments scheduled in TeamSnap for the selected range yet.</div>';
+            return;
+          }
+
+          var meta = document.getElementById('metaRow');
+          meta.style.display = 'flex';
+          meta.innerHTML = '<span>' + data.teamCount + ' Teams • ' + data.eventCount + ' Games</span><span>Updated ' + new Date(data.updated).toLocaleString() + '</span>';
+
+          var html = '';
+          keys.forEach(function(k){
+            html += '<div class="month-block"><h2 class="month-title">' + k + '</h2><div class="event-grid">';
+            months[k].forEach(function(ev){
+              var d = new Date(ev.start);
+              var day = d.getDate();
+              var mon = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+              var time = ev.is_tbd ? 'TBD' : formatTime(ev.start);
+              html += '<div class="event">' +
+                '<div class="date"><div class="d">' + day + '</div><div class="m">' + mon + '</div><div class="t">' + time + '</div></div>' +
+                '<div class="info">' +
+                  '<div class="name">' + escape(ev.name) + '</div>' +
+                  '<div class="team">' + escape(ev.team) + '</div>' +
+                  (ev.location ? '<div class="loc">📍 ' + escape(ev.location) + '</div>' : '') +
+                '</div>' +
+                '<div class="loc-badge">' + (ev.opponent ? 'vs ' + escape(ev.opponent) : 'Tournament') + '</div>' +
+              '</div>';
+            });
+            html += '</div></div>';
+          });
+          container.innerHTML = html;
+        })
+        .catch(function(err){
+          document.getElementById('schedule').innerHTML = '<div class="status error"><strong>Network error.</strong><br><br>' + err.message + '</div>';
+        });
+    }
+
+    function escape(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]; });
+    }
+  </script>
+
+</body>
+</html>
