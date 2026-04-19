@@ -303,6 +303,42 @@
 </style>
 </head>
 <body>
+  <div id="gateOverlay" style="position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Montserrat',sans-serif;transition:opacity 0.5s ease;">
+    <div style="max-width:400px;width:100%;text-align:center;color:#fff;">
+      <img src="/images/THE NEW SHIELD_clean.png" alt="BTB" style="width:80px;margin:0 auto 18px;display:block;filter:drop-shadow(0 6px 20px rgba(210,38,48,0.4));">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:4px;margin-bottom:4px;">BTB <span style="color:#D22630;">PARENTS</span></div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:40px;">Parent Portal — Families Only</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:14px;">Enter Access Code</div>
+      <input id="gateInput" type="password" placeholder="Enter code" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')gateSubmit()" style="width:100%;background:#111;border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:500;letter-spacing:2px;padding:16px 20px;outline:none;text-align:center;box-sizing:border-box;">
+      <div id="gateError" style="font-size:12px;color:#D22630;font-weight:600;letter-spacing:1px;min-height:18px;margin:14px 0 16px;"></div>
+      <button onclick="gateSubmit()" style="width:100%;background:#D22630;color:#fff;border:none;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;padding:16px;cursor:pointer;">ENTER</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var KEY = 'btb_parent_portal_unlocked';
+      var PASS = '#BTBPARENT26';
+      if (sessionStorage.getItem(KEY) === '1') {
+        document.getElementById('gateOverlay').style.display = 'none';
+      } else {
+        setTimeout(function(){ document.getElementById('gateInput').focus(); }, 100);
+      }
+      window.gateSubmit = function() {
+        var input = document.getElementById('gateInput');
+        var err = document.getElementById('gateError');
+        if (input.value === PASS) {
+          sessionStorage.setItem(KEY, '1');
+          var o = document.getElementById('gateOverlay');
+          o.style.opacity = '0';
+          setTimeout(function(){ o.style.display = 'none'; }, 500);
+        } else {
+          err.textContent = 'Incorrect code. Try again.';
+          input.value = '';
+        }
+      };
+    })();
+  </script>
+
   <section class="video-landing">
     <video autoplay muted loop playsinline preload="auto">
       <source src="/assets/hero/brody.mp4" type="video/mp4">

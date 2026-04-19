@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#D22630">
+<title>BTB Parent Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --btb-red: #D22630;
+    --btb-dark-red: #a01e26;
+    --btb-black: #000;
+    --btb-white: #FFF;
+    --bg: #0a0a0a;
+    --bg-card: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #fff;
+    --text-muted: rgba(255,255,255,0.6);
+    --text-faint: rgba(255,255,255,0.35);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* PASSWORD GATE */
+  .gate-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    transition: opacity 0.6s ease;
+  }
+  .gate-overlay.unlocking { opacity: 0; pointer-events: none; }
+  .gate-box { max-width: 400px; width: 100%; text-align: center; }
+  .gate-shield { width: 80px; height: auto; margin: 0 auto 18px; display: block; filter: drop-shadow(0 6px 20px rgba(210,38,48,0.4)); }
+  .gate-logo { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 4px; margin-bottom: 4px; }
+  .gate-logo span { color: var(--btb-red); }
+  .gate-tagline { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 40px; }
+  .gate-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .gate-input {
+    width: 100%; background: #111; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+    color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 500; letter-spacing: 2px;
+    padding: 16px 20px; outline: none; text-align: center; transition: border-color 0.2s;
+  }
+  .gate-input:focus { border-color: var(--btb-red); }
+  .gate-input.error { border-color: var(--btb-red); animation: shake 0.4s ease; }
+  @keyframes shake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(8px);} 60%{transform:translateX(-6px);} 80%{transform:translateX(6px);} }
+  .gate-error { font-size: 12px; color: var(--btb-red); font-weight: 600; letter-spacing: 1px; min-height: 18px; margin: 14px 0 16px; }
+  .gate-btn {
+    width: 100%; background: var(--btb-red); color: #fff; border: none; border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; padding: 16px; cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .gate-btn:hover { background: var(--btb-dark-red); }
+  .gate-btn:active { transform: scale(0.98); }
+
+  /* PAGE */
+  .accent-bar { height: 6px; background: var(--btb-red); }
+  .topbar {
+    background: #0f0f0f;
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .topbar .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
+  .topbar .brand img { width: 38px; height: auto; }
+  .topbar .brand .name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; }
+  .topbar .brand .name span { color: var(--btb-red); }
+  .topbar .home-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); text-decoration: none; font-weight: 600; }
+  .topbar .home-link:hover { color: var(--btb-red); }
+
+  .hero {
+    text-align: center;
+    padding: 70px 24px 48px;
+    background: radial-gradient(ellipse at top, rgba(210,38,48,0.15) 0%, transparent 60%);
+  }
+  .hero .eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .hero .eyebrow::before, .hero .eyebrow::after { content: ""; width: 36px; height: 1px; background: var(--btb-red); }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    letter-spacing: 2px; line-height: 0.95;
+    margin-bottom: 14px;
+  }
+  .hero h1 span { color: var(--btb-red); }
+  .hero p {
+    max-width: 560px; margin: 0 auto;
+    font-size: 14.5px; color: var(--text-muted);
+  }
+
+  .grid-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 24px 80px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    display: block; text-decoration: none; color: var(--text);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 26px 24px;
+    position: relative;
+    transition: all 0.25s ease;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--btb-red);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+  }
+  .card:hover {
+    border-color: rgba(210,38,48,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+  }
+  .card:hover::before { transform: scaleX(1); }
+  .card .icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    background: rgba(210,38,48,0.12); color: var(--btb-red);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 18px;
+  }
+  .card h3 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1.5px;
+    line-height: 1; margin-bottom: 8px;
+  }
+  .card p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+  .card .meta {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 4px;
+  }
+  .meta-live { background: rgba(210,38,48,0.15); color: var(--btb-red); }
+  .meta-soon { background: rgba(255,255,255,0.08); color: var(--text-faint); }
+
+  .card.disabled { opacity: 0.65; pointer-events: none; }
+
+  footer {
+    text-align: center; padding: 24px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-faint); border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--btb-red); text-decoration: none; font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 50px 20px 36px; }
+    .grid-wrap { padding: 16px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="gate-overlay" id="gateOverlay">
+    <div class="gate-box">
+      <img class="gate-shield" src="/images/THE NEW SHIELD_clean.png" alt="BTB Shield">
+      <div class="gate-logo">BTB <span>PARENTS</span></div>
+      <div class="gate-tagline">Parent Portal — Families Only</div>
+      <div class="gate-label">Enter Access Code</div>
+      <input class="gate-input" id="gateInput" type="password" placeholder="Enter code" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')gateSubmit()">
+      <div class="gate-error" id="gateError"></div>
+      <button class="gate-btn" onclick="gateSubmit()">ENTER</button>
+    </div>
+  </div>
+
+  <div class="accent-bar"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/images/THE NEW SHIELD_clean.png" alt="BTB">
+      <div class="name">BTB <span>PARENTS</span></div>
+    </a>
+    <a class="home-link" href="/">← bethebestli.com</a>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Families Only</div>
+    <h1>Parent <span>Portal</span></h1>
+    <p>Everything BTB families need — newsletters, club updates, tournament info, guidelines, policies, and contracts. One place.</p>
+  </section>
+
+  <div class="grid-wrap">
+    <div class="grid">
+
+      <a class="card" href="spring-tournament-letter.html">
+        <div class="icon">🏆</div>
+        <h3>Tournament Info</h3>
+        <p>Spring tournament letter from the owner, arrival times, standards, and expectations for every BTB family.</p>
+        <span class="meta meta-live">● Live</span>
+      </a>
+
+      <a class="card disabled" href="#">
+        <div class="icon">📰</div>
+        <h3>Newsletter</h3>
+        <p>The BTB family newsletter — program highlights, coach spotlights, player wins, and what's ahead.</p>
+        <span class="meta meta-soon">Coming Soon</span>
+      </a>
+
+      <a class="card disabled" href="#">
+        <div class="icon">📣</div>
+        <h3>Club Updates</h3>
+        <p>Important announcements from BTB leadership. Check here for the latest from Dan, Pete, and the directors.</p>
+        <span class="meta meta-soon">Coming Soon</span>
+      </a>
+
+      <a class="card disabled" href="#">
+        <div class="icon">📋</div>
+        <h3>BTB Guidelines</h3>
+        <p>The standards every BTB player and family is expected to uphold — on the field, on the sideline, and in the community.</p>
+        <span class="meta meta-soon">Coming Soon</span>
+      </a>
+
+      <a class="card disabled" href="#">
+        <div class="icon">💳</div>
+        <h3>Refund Policy</h3>
+        <p>Our official refund and withdrawal policy for all BTB programs, tournaments, and academy sessions.</p>
+        <span class="meta meta-soon">Coming Soon</span>
+      </a>
+
+      <a class="card disabled" href="#">
+        <div class="icon">✍️</div>
+        <h3>Parent / Player Contract</h3>
+        <p>The BTB commitment — the agreement every family and player signs when joining the club.</p>
+        <span class="meta meta-soon">Coming Soon</span>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    Be The Best Lacrosse Club • <a href="https://bethebestli.com">bethebestli.com</a>
+  </footer>
+
+  <script>
+    var GATE_KEY = 'btb_parent_portal_unlocked';
+    var GATE_PASS = '#BTBPARENT26';
+
+    (function init() {
+      if (sessionStorage.getItem(GATE_KEY) === '1') {
+        document.getElementById('gateOverlay').style.display = 'none';
+      } else {
+        setTimeout(function() { document.getElementById('gateInput').focus(); }, 100);
+      }
+    })();
+
+    function gateSubmit() {
+      var input = document.getElementById('gateInput');
+      var errorEl = document.getElementById('gateError');
+      if (input.value === GATE_PASS) {
+        sessionStorage.setItem(GATE_KEY, '1');
+        var overlay = document.getElementById('gateOverlay');
+        overlay.classList.add('unlocking');
+        setTimeout(function() { overlay.style.display = 'none'; }, 600);
+      } else {
+        errorEl.textContent = 'Incorrect code. Try again.';
+        input.classList.add('error');
+        setTimeout(function() { input.classList.remove('error'); }, 500);
+        input.value = '';
+      }
+    }
+  </script>
+
+</body>
+</html>

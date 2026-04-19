@@ -5,7 +5,6 @@ import { PublicLayout } from "@/layouts/PublicLayout"
 import { HubLayout } from "@/layouts/HubLayout"
 import { ProtectedRoute } from "@/components/ProtectedRoute"
 import { SEO } from "@/components/shared/SEO"
-import { ComingSoon } from "@/components/ComingSoon"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
@@ -30,24 +29,6 @@ import { TravelPage } from "@/pages/TravelPage"
 import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
 
-// ── MODE TOGGLE ──
-// Set to true  → full site with all pages & navigation
-// Set to false → Coming Soon landing page only (production)
-const DEV_MODE = new URLSearchParams(window.location.search).has("dev")
-
-function ComingSoonPage() {
-  return (
-    <>
-      <SEO
-        title="BTB Lacrosse Club | Something Big Is Coming"
-        description="Be The Best Lacrosse Club is dropping a brand new website that offers BTB families more than just lacrosse. Stay tuned!"
-        path="/"
-      />
-      <ComingSoon />
-    </>
-  )
-}
-
 function LandingPage() {
   return (
     <>
@@ -71,18 +52,6 @@ function LandingPage() {
 }
 
 function App() {
-  // Production: Coming Soon only (unless ?dev is in the URL)
-  if (!DEV_MODE) {
-    return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<ComingSoonPage />} />
-        </Routes>
-      </BrowserRouter>
-    )
-  }
-
-  // Dev mode: full site
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -113,8 +82,6 @@ function App() {
                 <Route path="/girls/coaches-hub" element={<CoachesHubPage gender="girls" />} />
               </Route>
             </Route>
-
-            <Route path="*" element={<ComingSoonPage />} />
           </Routes>
           <Toaster theme="dark" position="top-right" richColors closeButton />
         </div>
