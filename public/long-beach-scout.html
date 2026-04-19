@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#C8102E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LB Scout">
+<meta name="robots" content="noindex,nofollow">
+<title>Long Beach Scout — Plainedge Varsity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --red: #C8102E;
+    --red-dark: #8b0a20;
+    --black: #000000;
+    --charcoal: #0a0a0a;
+    --slate: #1a1a1a;
+    --slate-2: #242424;
+    --border: #333;
+    --text: #e5e5e5;
+    --dim: #999;
+    --muted: #666;
+    --white: #ffffff;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+}
+
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--charcoal);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.gate { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.gate-inner { max-width: 380px; width: 100%; text-align: center; }
+.gate h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #fff; letter-spacing: 2px; margin-bottom: 0.5rem; }
+.gate h1 span { color: var(--red); }
+.gate p { color: var(--dim); font-size: 0.875rem; margin-bottom: 1.5rem; }
+.gate input { width: 100%; padding: 1rem 1.25rem; background: var(--slate); border: 2px solid var(--border); border-radius: 12px; color: #fff; font-family: inherit; font-size: 1rem; font-weight: 600; margin-bottom: 1rem; outline: none; }
+.gate input:focus { border-color: var(--red); }
+.gate button { width: 100%; padding: 1rem; background: var(--red); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; }
+.gate .err { color: var(--red); font-size: 0.8rem; margin-top: 0.75rem; min-height: 1rem; }
+
+.hero {
+    background:
+        linear-gradient(135deg, rgba(200,16,46,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at top, rgba(200,16,46,0.25) 0%, transparent 60%),
+        #000;
+    padding: 2.5rem 1rem 2rem;
+    border-bottom: 4px solid var(--red);
+    position: relative;
+}
+.hero::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 80px); pointer-events: none; }
+.hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+.brand-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(200,16,46,0.15); border: 1px solid var(--red); padding: 0.4rem 0.9rem; border-radius: 100px; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+.brand-tag::before { content: ''; width: 8px; height: 8px; background: var(--red); border-radius: 50%; box-shadow: 0 0 10px var(--red); animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.25rem, 9vw, 4.5rem); line-height: 0.95; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 0.75rem; }
+.hero h1 .accent { color: var(--red); text-shadow: 0 0 30px rgba(200,16,46,0.5); }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; }
+.hero-meta span { background: rgba(0,0,0,0.5); border: 1px solid var(--border); padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); }
+.hero-meta span.live { background: var(--red); color: #fff; border-color: var(--red); }
+.hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem; }
+.hero-stat { background: rgba(26,26,26,0.7); backdrop-filter: blur(10px); border: 1px solid var(--border); border-left: 3px solid var(--red); padding: 0.75rem; border-radius: 6px; }
+.hero-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 5vw, 2rem); color: var(--red); line-height: 1; }
+.hero-stat-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); margin-top: 0.25rem; }
+
+.quickread { background: var(--red); padding: 1rem; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.2); }
+.quickread-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+.quickread-label { background: rgba(0,0,0,0.25); padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
+.quickread-text { font-weight: 700; font-size: 0.9rem; color: #fff; }
+
+.coach-strip { background: #000; border-bottom: 1px solid var(--border); padding: 0.5rem 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+.coach-strip a { color: var(--dim); text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid var(--border); transition: all 0.2s; }
+.coach-strip a:hover { color: #fff; border-color: var(--red); }
+.coach-strip a.current { color: #fff; background: var(--red); border-color: var(--red); }
+
+.nav { background: var(--slate); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav-inner { max-width: 1100px; margin: 0 auto; display: flex; padding: 0 0.5rem; min-width: max-content; }
+.nav-btn { background: none; border: none; color: var(--dim); padding: 0.9rem 1rem; font-family: inherit; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.nav-btn.active { color: #fff; border-bottom-color: var(--red); }
+
+.section { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem 3rem; display: none; animation: fadeIn 0.3s ease-out; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.section-eyebrow { font-size: 0.7rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.5rem; }
+.section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.75rem, 6vw, 2.75rem); color: #fff; line-height: 1; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 1.25rem; }
+.section h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: #fff; letter-spacing: 1px; margin: 1.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--red); }
+.section p { margin-bottom: 1rem; }
+
+.card { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+.card-red { border-left: 4px solid var(--red); }
+.card-green { border-left: 4px solid var(--green); }
+.card-amber { border-left: 4px solid var(--amber); }
+.card-blue { border-left: 4px solid var(--blue); }
+.card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: #fff; letter-spacing: 1px; margin-bottom: 0.5rem; }
+.card p { margin-bottom: 0.5rem; font-size: 0.925rem; }
+.card strong { color: #fff; }
+.card em { color: var(--red); font-style: normal; font-weight: 700; }
+
+.tag { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-right: 0.3rem; margin-bottom: 0.3rem; }
+.tag-red { background: rgba(200,16,46,0.2); color: var(--red); border: 1px solid rgba(200,16,46,0.4); }
+.tag-green { background: rgba(16,185,129,0.2); color: var(--green); border: 1px solid rgba(16,185,129,0.4); }
+.tag-amber { background: rgba(245,158,11,0.2); color: var(--amber); border: 1px solid rgba(245,158,11,0.4); }
+.tag-blue { background: rgba(59,130,246,0.2); color: var(--blue); border: 1px solid rgba(59,130,246,0.4); }
+
+.kv { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+.kv-row { display: grid; grid-template-columns: 140px 1fr; border-bottom: 1px solid var(--border); }
+.kv-row:last-child { border-bottom: none; }
+.kv-row > div:first-child { background: var(--slate-2); padding: 0.75rem 1rem; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dim); border-right: 2px solid var(--red); }
+.kv-row > div:last-child { padding: 0.75rem 1rem; font-size: 0.9rem; color: #fff; }
+
+.player { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; display: flex; gap: 1rem; align-items: flex-start; }
+.player-num { background: var(--red); color: #fff; width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; flex-shrink: 0; letter-spacing: 1px; }
+.player-info { flex: 1; min-width: 0; }
+.player-name { font-weight: 800; color: #fff; font-size: 1rem; margin-bottom: 0.25rem; }
+.player-meta { font-size: 0.75rem; color: var(--dim); margin-bottom: 0.4rem; }
+.player-note { font-size: 0.825rem; color: var(--text); }
+
+.gameplan { counter-reset: gp; list-style: none; }
+.gameplan li { counter-increment: gp; background: var(--slate); border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: 10px; padding: 1rem 1rem 1rem 3.5rem; margin-bottom: 0.75rem; position: relative; }
+.gameplan li::before { content: counter(gp); position: absolute; left: 0.75rem; top: 1rem; width: 32px; height: 32px; background: var(--red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; }
+.gameplan h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; color: #fff; letter-spacing: 1px; margin-bottom: 0.4rem; }
+.gameplan p { font-size: 0.9rem; margin: 0; }
+
+.checklist { background: var(--slate); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+.check-item { display: flex; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px dashed var(--border); cursor: pointer; user-select: none; }
+.check-item:last-child { border-bottom: none; }
+.check-box { width: 22px; height: 22px; border: 2px solid var(--red); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px; transition: all 0.2s; }
+.check-box::after { content: '✓'; color: #fff; font-weight: 800; font-size: 1rem; opacity: 0; transition: opacity 0.2s; }
+.check-item.done .check-box { background: var(--red); }
+.check-item.done .check-box::after { opacity: 1; }
+.check-item.done .check-text { color: var(--dim); text-decoration: line-through; }
+.check-text { font-size: 0.925rem; font-weight: 500; }
+
+.t-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; border-radius: 10px; border: 1px solid var(--border); -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; min-width: 400px; }
+th { background: var(--red); color: #fff; padding: 0.7rem; text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; }
+td { padding: 0.7rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--text); }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+.callout { border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.9rem; }
+.callout-red { background: rgba(200,16,46,0.08); border-left: 4px solid var(--red); }
+.callout-green { background: rgba(16,185,129,0.08); border-left: 4px solid var(--green); }
+.callout-amber { background: rgba(245,158,11,0.08); border-left: 4px solid var(--amber); }
+.callout-label { display: inline-block; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 0.15rem 0.5rem; border-radius: 3px; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+.callout-red .callout-label { background: var(--red); color: #fff; }
+.callout-green .callout-label { background: var(--green); color: #000; }
+.callout-amber .callout-label { background: var(--amber); color: #000; }
+.callout p { margin: 0; }
+
+.footer { background: #000; border-top: 4px solid var(--red); padding: 2rem 1rem; text-align: center; margin-top: 2rem; }
+.footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; color: #fff; letter-spacing: 2px; margin-bottom: 0.4rem; }
+.footer-brand .r { color: var(--red); }
+.footer p { font-size: 0.75rem; color: var(--muted); margin: 0; }
+
+@media (max-width: 480px) {
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .kv-row { grid-template-columns: 100px 1fr; }
+    .section { padding: 1.5rem 0.75rem 2rem; }
+    .hero { padding: 2rem 0.75rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div class="gate" id="gate">
+    <div class="gate-inner">
+        <h1>Plainedge <span>Scout</span></h1>
+        <p>Coach access required</p>
+        <input type="password" id="gatepw" placeholder="Enter password" autocomplete="off" autocapitalize="off">
+        <button onclick="checkPw()">Unlock</button>
+        <div class="err" id="gateerr"></div>
+    </div>
+</div>
+
+<!-- Coach resources nav strip -->
+<div class="coach-strip">
+    <a href="/bethpage-scout.html">🎯 Bethpage</a>
+    <a href="/lynbrook-scout.html">🦉 Lynbrook</a>
+    <a href="/long-beach-scout.html" class="current">🌊 Long Beach</a>
+    <a href="/defensive-playbook.html">🛡 Defense</a>
+    <a href="/10-man-ride.html">⚡ 10-Man Ride</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="brand-tag">Plainedge Varsity Lacrosse · Red Devils</div>
+        <h1>Long Beach<br><span class="accent">Scout Report</span></h1>
+        <div class="hero-meta">
+            <span class="live">2026 Season</span>
+            <span>Class B · Section 8</span>
+            <span>Nassau Conference 2</span>
+            <span>Marines</span>
+        </div>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num">4-5</div>
+                <div class="hero-stat-label">2026 Record</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">8.3</div>
+                <div class="hero-stat-label">Goals / Game</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">9.8</div>
+                <div class="hero-stat-label">GA / Game</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">.691</div>
+                <div class="hero-stat-label">Goalie SV%</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Read -->
+<div class="quickread">
+    <div class="quickread-inner">
+        <span class="quickread-label">Headline</span>
+        <span class="quickread-text">Slow starters (-29 in 1st halves) who flip in Q3 (+14). Legit goalie (.691). Beat Lynbrook 13-2. Win the shot-quality battle and the first 12 minutes.</span>
+    </div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+    <div class="nav-inner">
+        <button class="nav-btn active" data-tab="snapshot">Snapshot</button>
+        <button class="nav-btn" data-tab="personnel">Personnel</button>
+        <button class="nav-btn" data-tab="offense">Offense</button>
+        <button class="nav-btn" data-tab="defense">Defense</button>
+        <button class="nav-btn" data-tab="gameplan">Game Plan</button>
+        <button class="nav-btn" data-tab="filmplan">Film Plan</button>
+        <button class="nav-btn" data-tab="checklist">Pregame</button>
+    </div>
+</nav>
+
+<!-- ═══ SNAPSHOT ═══ -->
+<section class="section active" id="snapshot">
+    <div class="section-eyebrow">Team Snapshot</div>
+    <h2>Long Beach 2026</h2>
+
+    <div class="kv">
+        <div class="kv-row"><div>Head Coach</div><div>Jason Pearl (8th season — took over from Jim Kaspar)</div></div>
+        <div class="kv-row"><div>Record</div><div>4-5</div></div>
+        <div class="kv-row"><div>Goals For</div><div>75 — 8.33/game</div></div>
+        <div class="kv-row"><div>Goals Against</div><div>88 — 9.8/game</div></div>
+        <div class="kv-row"><div>Differential</div><div><span style="color:var(--red);">-13</span></div></div>
+        <div class="kv-row"><div>Assisted Goals</div><div>46.7% (75G / 35A) — multiple initiators</div></div>
+        <div class="kv-row"><div>Rating</div><div>83.84 (11th Section 8, 19th Class B)</div></div>
+        <div class="kv-row"><div>Class</div><div>Class B · Nassau Conference 2</div></div>
+        <div class="kv-row"><div>Mascot</div><div>Marines</div></div>
+    </div>
+
+    <h3>The Single Biggest Tell</h3>
+
+    <div class="callout callout-green">
+        <span class="callout-label">Slow Starters, Q3 Monsters</span>
+        <p><strong>Long Beach gets outscored 60-31 in the 1st half</strong>, then <strong>outscores opponents 43-28 in the 2nd</strong>. Q3 alone is <strong>+14 (26-12).</strong></p>
+        <p style="margin-top: 0.5rem;"><strong>Our edge:</strong> If we're up 3+ at halftime, we're in commanding position. If we let them hang around, Q3 is where they flip games.</p>
+    </div>
+
+    <div class="t-wrap">
+        <table>
+            <thead><tr><th>Quarter</th><th>LB</th><th>Opp</th><th>Diff</th></tr></thead>
+            <tbody>
+                <tr><td>Q1</td><td>17</td><td>30</td><td style="color:var(--red);">-13</td></tr>
+                <tr><td>Q2</td><td>14</td><td>30</td><td style="color:var(--red);">-16</td></tr>
+                <tr><td><strong>1st Half</strong></td><td><strong>31</strong></td><td><strong>60</strong></td><td style="color:var(--red);"><strong>-29</strong></td></tr>
+                <tr><td>Q3</td><td>26</td><td>12</td><td style="color:var(--green);">+14</td></tr>
+                <tr><td>Q4</td><td>17</td><td>16</td><td style="color:var(--green);">+1</td></tr>
+                <tr><td><strong>2nd Half</strong></td><td><strong>43</strong></td><td><strong>28</strong></td><td style="color:var(--green);"><strong>+15</strong></td></tr>
+                <tr><td>OT</td><td>1</td><td>0</td><td style="color:var(--green);">+1</td></tr>
+                <tr><td><strong>Total</strong></td><td><strong>75</strong></td><td><strong>88</strong></td><td style="color:var(--red);"><strong>-13</strong></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Schedule & Results</h3>
+
+    <div class="t-wrap">
+        <table>
+            <thead><tr><th>Date</th><th>Opp</th><th>Score</th><th>Note</th></tr></thead>
+            <tbody>
+                <tr><td>3/18</td><td>Carey</td><td style="color:var(--red);">L 8-9</td><td>Close Class B</td></tr>
+                <tr><td>3/20</td><td>Oceanside</td><td style="color:var(--green);">W 9-8</td><td>One-goal win</td></tr>
+                <tr><td>3/26</td><td>at Port Wash</td><td style="color:var(--red);">L 6-9</td><td></td></tr>
+                <tr><td>3/28</td><td>MacArthur</td><td style="color:var(--green);">W 9-8 OT</td><td>Grinder</td></tr>
+                <tr><td>3/31</td><td>Mepham</td><td style="color:var(--green);">W 11-6</td><td>Most complete W</td></tr>
+                <tr><td>4/8</td><td>at Lynbrook</td><td style="color:var(--green);">W 13-2</td><td><strong>Blowout of our next opp</strong></td></tr>
+                <tr><td>4/11</td><td>at Massapequa</td><td style="color:var(--red);">L 10-19</td><td>Class A blowout</td></tr>
+                <tr><td>4/14</td><td>Manhasset</td><td style="color:var(--red);">L 2-14</td><td>Got shut down</td></tr>
+                <tr><td>4/17</td><td>at Farmingdale</td><td style="color:var(--red);">L 7-13</td><td></td></tr>
+                <tr><td><strong>4/21</strong></td><td><strong>Plainedge (us)</strong></td><td>—</td><td><strong>Game day</strong></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Bottom Line</h3>
+
+    <div class="callout callout-amber">
+        <span class="callout-label">Toss-Up Matchup</span>
+        <p>LB is a step up from Lynbrook — but they got blown out by top-tier Class A programs (Massapequa, Manhasset, Farmingdale). <strong>Against peer-level competition they play one-goal games.</strong></p>
+        <p style="margin-top: 0.5rem;"><strong>Their ceiling is Mepham (11-6 W).</strong> <strong>Their floor is Manhasset (2-14 L).</strong> This game will be decided by whose version of us and them shows up — and by the first 12 minutes.</p>
+    </div>
+
+    <h3>Sources</h3>
+
+    <div class="t-wrap">
+        <table>
+            <thead><tr><th>Source</th><th>Use</th></tr></thead>
+            <tbody>
+                <tr><td><a href="https://laxnumbers.com/team_info.php?t=12556" target="_blank" style="color:var(--red);">LaxNumbers</a></td><td>Record, rating, schedule</td></tr>
+                <tr><td><a href="https://blaxeight.net/teams/teams.php?team=Long+Beach" target="_blank" style="color:var(--red);">BLaxEight</a></td><td>Player stats, quarter scoring, goalie splits</td></tr>
+                <tr><td><a href="https://www.maxpreps.com/ny/long-beach/long-beach-marines/lacrosse/" target="_blank" style="color:var(--red);">MaxPreps</a></td><td>Roster, schedule</td></tr>
+                <tr><td>YouTube (LB home playlist)</td><td>5-game film bundle — see Film Plan tab</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ═══ PERSONNEL ═══ -->
+<section class="section" id="personnel">
+    <div class="section-eyebrow">Key Personnel</div>
+    <h2>Who to Watch</h2>
+
+    <div class="callout callout-red">
+        <span class="callout-label">Shutdown Priority</span>
+        <p><strong>Cetrangolo · Myers · Jennings</strong> are the three scorers. <strong>Diehl · Morra</strong> are the feeders. Take away the feeders and the offense stalls.</p>
+    </div>
+
+    <h3>⚔️ Offense — Top Threats</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Daniel Cetrangolo</div>
+            <div class="player-meta"><span class="tag tag-red">A/P</span> <span class="tag tag-red">7G 5A · 12 pts</span> Top scorer</div>
+            <div class="player-note"><strong>Mixed finisher/feeder.</strong> Their most complete offensive player — can beat you dodging or feeding. <strong>Priority pole matchup.</strong> Make him initiate under pressure with no outlets.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Jack Myers</div>
+            <div class="player-meta"><span class="tag tag-red">A/P</span> <span class="tag tag-red">5G 4A · 9 pts</span> Initiator</div>
+            <div class="player-note"><strong>#2 scorer — initiator and creator.</strong> <strong>LSM on Myers.</strong> Deny his strong hand, chop his wrists, force alley dodges.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Tyler Jennings</div>
+            <div class="player-meta"><span class="tag tag-red">Midfield</span> <span class="tag tag-amber">5G 0A</span> Downhill scorer</div>
+            <div class="player-note">Pure scoring middie — all goals, zero assists. <strong>SSDM + early slide if he dodges.</strong> Don't let him get topside. Sit in his hands, keep him lateral.</div>
+        </div>
+    </div>
+
+    <h3>🎯 Offense — Feeders (Deny These)</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Collin Diehl</div>
+            <div class="player-meta"><span class="tag tag-blue">Midfield</span> <span class="tag tag-blue">1G 4A · 5 pts</span> Primary feeder</div>
+            <div class="player-note"><strong>Feeder profile.</strong> 4 of his 5 points are assists. <strong>Short-stick shutoff on Diehl.</strong> Low-poke, deny the hands, no easy throws. If Diehl and Morra can't distribute, their offense dies.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Steven Morra</div>
+            <div class="player-meta"><span class="tag tag-blue">Attack</span> <span class="tag tag-blue">1G 3A · 4 pts</span> Feeder</div>
+            <div class="player-note"><strong>Second feeder.</strong> Works with Diehl as the offense's distribution layer. Deny touches; make Cetrangolo beat us 1-on-1.</div>
+        </div>
+    </div>
+
+    <h3>🥅 Goalie</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Matthew Pepitone</div>
+            <div class="player-meta"><span class="tag tag-green">Goalie</span> <span class="tag tag-red">65 SVS · 29 GA · .691</span> Legit</div>
+            <div class="player-note"><strong>This is the biggest obstacle on their roster.</strong> A .691 save percentage at this level is elite — he's stopping far more than a typical HS goalie. <strong>Don't settle for outside shots.</strong> He eats low-quality alley shots. Force him to move, shoot through bodies, create inside looks.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Luke Strobel</div>
+            <div class="player-meta"><span class="tag tag-amber">Goalie — Backup</span></div>
+            <div class="player-note">Limited reps. If we see Strobel, the game has probably gotten out of hand. Not likely a factor.</div>
+        </div>
+    </div>
+
+    <div class="callout callout-amber">
+        <span class="callout-label">Goalie Name — Verify on Warmups</span>
+        <p>BLaxEight's roster page shows goalies <strong>Aiden Derupo (Sr, 52.3%, 248 min)</strong>, <strong>Jax Wagner (Jr, 69.4%, 166 min)</strong>, and <strong>Reilly Gentilesco (Jr, 66.7%, 25 min)</strong> for Long Beach. Different names from the ones we've been working with. <strong>Confirm the starter on warmups before committing the shot plan.</strong> If it's Wagner (.694) or Pepitone (.691), the legit-goalie plan holds. If it's Derupo (.523), shoot more aggressively — he's giving up .477.</p>
+    </div>
+
+    <h3>🏃 Faceoff / Two-Way</h3>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Ryan Gray</div>
+            <div class="player-meta"><span class="tag tag-amber">M / FO</span></div>
+            <div class="player-note">Shares FO reps. Two-way middie profile.</div>
+        </div>
+    </div>
+
+    <div class="player">
+        <div class="player-num">?</div>
+        <div class="player-info">
+            <div class="player-name">Owen Chariton</div>
+            <div class="player-meta"><span class="tag tag-amber">M / FO</span></div>
+            <div class="player-note">Shares FO reps. FO reps are distributed — no single dominant FOGO. <strong>Attack each one's weakness; no single "if we beat X we win" player.</strong></div>
+        </div>
+    </div>
+
+    <h3>📋 Roster Open Items</h3>
+
+    <div class="card card-amber">
+        <h4>Jersey Numbers — Need Warmup ID</h4>
+        <p>None of the player jersey numbers are published in public stat systems. <strong>First 5 minutes of warmups: eyes on Cetrangolo, Myers, Jennings, Diehl, Morra, Pepitone.</strong> Match names to numbers before faceoff.</p>
+    </div>
+
+    <div class="card card-blue">
+        <h4>Other Name to Know</h4>
+        <p><strong>Charlie Conway</strong> — 2026 A/M, All-County Honorable Mention (per LILJ). ~35 points. Did not appear in Dan's top-5 BLaxEight scoring list — could be out, could be lower-volume, or could be a feeder type. <strong>Watch for him.</strong></p>
+    </div>
+</section>
+
+<!-- ═══ OFFENSE (Long Beach's) ═══ -->
+<section class="section" id="offense">
+    <div class="section-eyebrow">Long Beach Offense</div>
+    <h2>How They Attack</h2>
+
+    <div class="callout callout-red">
+        <span class="callout-label">3-Initiator Offense</span>
+        <p>Cetrangolo + Myers produce the bulk. Diehl + Morra drive assists. Jennings is the downhill middie finisher. <strong>Expect 3 viable initiators — but only 2 primary feeders.</strong> Kill the feed and their assist-dependent offense stalls.</p>
+    </div>
+
+    <h3>Offensive Profile</h3>
+
+    <div class="card card-red">
+        <h4>Balanced Scoring + Assist-Driven</h4>
+        <p><strong>46.7% assisted goals (75G / 35A).</strong> Mid-tier ball movement — not pure iso, not pure team offense. The 2-man game and skip passes matter.</p>
+        <p><strong>Primary plan:</strong> Get Cetrangolo/Myers downhill, invert to matchup-hunt, then use Diehl/Morra as safety valves to reset and feed.</p>
+    </div>
+
+    <div class="card card-amber">
+        <h4>Weakness to Exploit</h4>
+        <p>Offense leans on assisted goals. <strong>When their feeders are denied, shutoff, or forced into low-angle shots, they stall out.</strong> Our job is simple: choke the feed.</p>
+    </div>
+
+    <h3>Scoring Patterns by Quarter</h3>
+
+    <div class="card card-blue">
+        <h4>Q1-Q2: Dormant (31 goals in 9 games = 3.4/half)</h4>
+        <p>They score 3-4 goals per 1st half. <strong>If we're not up 3+ at halftime, something is wrong with us.</strong></p>
+    </div>
+
+    <div class="card card-red">
+        <h4>Q3: The Explosion (26 goals in 9 games = 2.9/Q3)</h4>
+        <p>This is where they make games. Halftime adjustments, fresh legs, momentum — something clicks. <strong>Our Q3 defensive plan has to be identical to Q1 — same pressure, same slides, no letting up because we have a lead.</strong></p>
+    </div>
+
+    <h3>Tendencies to Watch on Film</h3>
+
+    <div class="t-wrap">
+        <table>
+            <thead><tr><th>Watch For</th><th>What It Tells Us</th></tr></thead>
+            <tbody>
+                <tr><td>Who initiates the 2-man game</td><td>Cetrangolo or Myers — tells us where to pre-slide</td></tr>
+                <tr><td>Diehl/Morra touch patterns</td><td>If they're setting off-ball picks for scorers, shutoff is harder</td></tr>
+                <tr><td>Jennings' dodge direction</td><td>Right or left hand? Sets the SSDM matchup side</td></tr>
+                <tr><td>Their EMO set</td><td>Expect lots of "draw two, dump" — Diehl/Morra as conduits</td></tr>
+                <tr><td>Substitution timing</td><td>Does Jennings come off on D? Hunt that matchup when he's on</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ═══ DEFENSE (Long Beach's) ═══ -->
+<section class="section" id="defense">
+    <div class="section-eyebrow">Long Beach Defense</div>
+    <h2>How They Stop You</h2>
+
+    <div class="callout callout-red">
+        <span class="callout-label">The Goalie Is the Problem</span>
+        <p>Pepitone's <strong>.691 save percentage</strong> means they're allowing only 29 goals on 94 shots their defense lets through. <strong>Their D gives up a lot of shots — but the goalie eats the low-quality ones.</strong> Shot quality is the entire battle.</p>
+    </div>
+
+    <h3>Defensive Profile</h3>
+
+    <div class="card card-blue">
+        <h4>Conservative D — Not Pushing Transition</h4>
+        <p>Their defenders recorded <strong>only 1 assist</strong> all season. That's a huge signal: <strong>they're not pushing the ball up after saves.</strong> They play clear-first, then rely on set offense.</p>
+        <p><strong>What it means for us:</strong> Our ride is where we can steal possessions. They don't have D-men who can beat a press with their stick.</p>
+    </div>
+
+    <div class="card card-red">
+        <h4>They Give Up 9.8 Goals/Game — But Stop the Bad Ones</h4>
+        <p>Bottom line: if you get a low-angle alley shot, you're probably shooting into a save. <strong>High-percentage looks only. No hero shots.</strong></p>
+    </div>
+
+    <h3>Goalie — Matthew Pepitone (.691)</h3>
+
+    <div class="callout callout-amber">
+        <span class="callout-label">How to Beat Him</span>
+        <ul style="margin-left: 1.25rem; margin-top: 0.3rem;">
+            <li><strong>Inside finishes only.</strong> Picks, screens, crease dumps, quick sticks.</li>
+            <li><strong>High-to-low deception.</strong> Fake high, shoot low. Change release points.</li>
+            <li><strong>Make him move.</strong> Don't let him set — ball movement before shooting.</li>
+            <li><strong>Screens.</strong> Make him track the shot through a body.</li>
+            <li><strong>Get him late-quarter.</strong> Test if he fatigues.</li>
+        </ul>
+    </div>
+
+    <h3>Clearing & Ride</h3>
+
+    <div class="card card-blue">
+        <h4>Clear Target — Press Early</h4>
+        <p>Defense is conservative → outlets are probably not elite stick handlers. <strong>Press their outlets in the 30-60 yard window.</strong> Force them to throw to their weak-hand side (whichever that is — tag on film).</p>
+    </div>
+
+    <div class="card card-red">
+        <h4>Every Shot = Ride Opportunity</h4>
+        <p>Hard ride after every shot. Two extra possessions a game is probably the difference in this game.</p>
+    </div>
+
+    <h3>Man-Down (How They Defend EMO)</h3>
+
+    <div class="card card-amber">
+        <h4>Likely Zone-Heavy (Goalie-Confidence Driven)</h4>
+        <p>A .691 goalie lets you play zone with more confidence. Expect a box or 1-3-2 zone with Pepitone as the backstop.</p>
+        <p><strong>Our EMO answer:</strong> keep the ball hot, attack the short-stick, backside hammer cuts, finish from 8 yards.</p>
+    </div>
+</section>
+
+<!-- ═══ GAME PLAN ═══ -->
+<section class="section" id="gameplan">
+    <div class="section-eyebrow">Plainedge Game Plan</div>
+    <h2>How We Win</h2>
+
+    <ol class="gameplan">
+        <li>
+            <h4>Own the First 12 Minutes</h4>
+            <p>They get outscored 60-31 in 1st halves. <strong>If we're not up 3+ at halftime we've underperformed.</strong> Set the tone on the first faceoff and don't let off.</p>
+        </li>
+        <li>
+            <h4>LSM on Myers</h4>
+            <p>Deny strong hand, chop wrists, force alley dodges. Myers is the initiator — make every possession a battle.</p>
+        </li>
+        <li>
+            <h4>Pole Cetrangolo</h4>
+            <p>Best pole on their top scorer. Ball must leave his stick without outlets. Make him create under pressure.</p>
+        </li>
+        <li>
+            <h4>Deny Diehl & Morra</h4>
+            <p>Short-stick shutoff on the feeders. Kill the feed and their assist-dependent offense stalls out. This is the single highest-leverage thing we can do.</p>
+        </li>
+        <li>
+            <h4>Jennings = Early Slide</h4>
+            <p>Pure scoring middie, no assists. Keep him lateral, deny topside, slide before the shot angle opens.</p>
+        </li>
+        <li>
+            <h4>Slide Early & Vertical — Not Horizontal</h4>
+            <p>Remove step-downs and middle dodges. 2-slide live only to the crease. Everyone else rotates backside. No ball-watching.</p>
+        </li>
+        <li>
+            <h4>Beat Pepitone With Shot Quality</h4>
+            <p>He's .691. Outside shots die. <strong>6 great looks &gt; 12 weak ones.</strong> Pick series for hands-free finishes, screens, quick sticks on the crease, high-to-low deception.</p>
+        </li>
+        <li>
+            <h4>Ride Every Shot</h4>
+            <p>Their D is clear-first, not elite with sticks. Hard ride — attack clears at 30-60 yards, force weak-side outlets. Steal 2 extra possessions.</p>
+        </li>
+        <li>
+            <h4>Q3 Alert — They Flip Games</h4>
+            <p>LB is +14 in Q3 over the season. <strong>Halftime message: same pressure, same slides, no easing up.</strong> If they cut our lead in Q3, we lose the game.</p>
+        </li>
+        <li>
+            <h4>Faceoff — Exit First, Ball Second</h4>
+            <p>FO reps are split (Gray, Chariton). No dominant FOGO. Win the exit, secure the second pass. On losses: immediate pressure, force a bad first outlet.</p>
+        </li>
+        <li>
+            <h4>Man-Up: Protect the Middle Seam</h4>
+            <p>Their EMO is multiple feeders → skip lanes and backside cuts are the threat. Protect the middle seam. Diehl/Morra are conduits — deny their touches.</p>
+        </li>
+    </ol>
+
+    <div class="callout callout-green">
+        <span class="callout-label">Winning Score Target</span>
+        <p><strong>Us 11, Them 7.</strong> Their floor is Manhasset (2 goals scored). Their ceiling is Mepham (11 scored). If we're disciplined and win Q1, we're closer to the floor than the ceiling.</p>
+    </div>
+</section>
+
+<!-- ═══ FILM PLAN ═══ -->
+<section class="section" id="filmplan">
+    <div class="section-eyebrow">Film Breakdown Workflow</div>
+    <h2>LB Home Playlist — 5 Games</h2>
+
+    <div class="callout callout-amber">
+        <span class="callout-label">~9 Hours of Film — Don't Watch Straight</span>
+        <p>Use the structured tagging workflow below. Split across 3 coaches and tag specific moments — don't watch 9 hours linearly.</p>
+    </div>
+
+    <h3>Playlist Contents</h3>
+
+    <div class="t-wrap">
+        <table>
+            <thead><tr><th>#</th><th>Opponent</th><th>Length</th><th>Why This Tape</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Oceanside</td><td>1:38:05</td><td>Opener — Day 1 identity, FO personnel, clear routes, subs</td></tr>
+                <tr><td>2</td><td>Carey</td><td>1:42:15</td><td>Mid-tier rhythm game — base offense + go-to sets when tied</td></tr>
+                <tr><td>3</td><td>MacArthur</td><td>2:08:05</td><td>Longest — zone reads, different rides, in-game adjustments</td></tr>
+                <tr><td>4</td><td>Mepham</td><td>1:55:39</td><td>Mid-tier — their best win (11-6), what clicks when they're firing</td></tr>
+                <tr><td>5</td><td>Manhasset</td><td>2:01:55</td><td>High-pressure — how they handle heat: clears, forced passes, rushed shots</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>What to Tag (Every Game)</h3>
+
+    <div class="card card-red">
+        <h4>First 5:00 of Every Game</h4>
+        <p>Opening set, clear routes, ride posture. Their Day-1 identity before they adjust to the opponent.</p>
+    </div>
+
+    <div class="card card-red">
+        <h4>Every Faceoff</h4>
+        <p>Tag: win/loss · exit direction · first pass · FO man (Gray/Chariton)</p>
+    </div>
+
+    <div class="card card-red">
+        <h4>Every Goal Allowed</h4>
+        <p>Tag: source (dodge / assist / transition) · defender culprit · slide timing</p>
+    </div>
+
+    <div class="card card-red">
+        <h4>Every Man-Up & Man-Down</h4>
+        <p>Set, ball movement, scoring action, defensive posture</p>
+    </div>
+
+    <div class="card card-red">
+        <h4>Every Clear & Failed Clear</h4>
+        <p>Tag: pressure response · outlet preference · turnover point</p>
+    </div>
+
+    <h3>Coach Assignments</h3>
+
+    <div class="card card-blue">
+        <h4>Coach A — Goals</h4>
+        <p>All goals for and against. Tag each: dodge / assist / transition. Culprit on the defensive end.</p>
+    </div>
+
+    <div class="card card-blue">
+        <h4>Coach B — Clears & Rides</h4>
+        <p>All clears + rides. Tag outlet preference. Tag turnover points. Where does pressure break their clear?</p>
+    </div>
+
+    <div class="card card-blue">
+        <h4>Coach C — Faceoffs</h4>
+        <p>All faceoffs. Tag exit direction, first pass, win/loss. Which FOGO is better? What's their wing play?</p>
+    </div>
+</section>
+
+<!-- ═══ CHECKLIST ═══ -->
+<section class="section" id="checklist">
+    <div class="section-eyebrow">One-Day Turnaround Prep</div>
+    <h2>Pregame Checklist</h2>
+
+    <p style="color: var(--dim); font-size: 0.875rem; margin-bottom: 1rem;">Tap to check off. Saves in your browser.</p>
+
+    <div class="checklist" id="checklist">
+        <div class="check-item" data-id="goalie-confirm"><div class="check-box"></div><div class="check-text">Confirm starting goalie on warmups (Pepitone vs Derupo — different save %s, different shot plan)</div></div>
+        <div class="check-item" data-id="jersey-ids"><div class="check-box"></div><div class="check-text">ID jersey numbers on warmups: Cetrangolo, Myers, Jennings, Diehl, Morra</div></div>
+        <div class="check-item" data-id="lsm-myers"><div class="check-box"></div><div class="check-text">LSM assigned to Myers — deny strong hand, chop wrists</div></div>
+        <div class="check-item" data-id="pole-cetra"><div class="check-box"></div><div class="check-text">#1 pole on Cetrangolo — no outlets, force him 1-on-1</div></div>
+        <div class="check-item" data-id="shutoff-feeders"><div class="check-box"></div><div class="check-text">Short-stick shutoff on Diehl and Morra — kill the feed</div></div>
+        <div class="check-item" data-id="jennings-slide"><div class="check-box"></div><div class="check-text">SSDM + early slide on Jennings — keep him lateral, no topside</div></div>
+        <div class="check-item" data-id="start-fast"><div class="check-box"></div><div class="check-text">Start fast — be up 3+ at halftime (they score 3.4 goals/half)</div></div>
+        <div class="check-item" data-id="q3-alert"><div class="check-box"></div><div class="check-text">Q3 message to team: same pressure, same slides, no easing up (they're +14 in Q3)</div></div>
+        <div class="check-item" data-id="shot-quality"><div class="check-box"></div><div class="check-text">Shot quality brief: Pepitone is .691 — no alley shots, inside looks only</div></div>
+        <div class="check-item" data-id="ride-hard"><div class="check-box"></div><div class="check-text">Ride every shot — attack clears at 30-60 yards, weak-side outlets</div></div>
+        <div class="check-item" data-id="fo-plan"><div class="check-box"></div><div class="check-text">FO plan: win the exit first, secure the second pass (no dominant FOGO)</div></div>
+        <div class="check-item" data-id="emo-middle"><div class="check-box"></div><div class="check-text">Man-up D: protect middle seam, deny Diehl/Morra conduits on skip lanes</div></div>
+        <div class="check-item" data-id="film-a"><div class="check-box"></div><div class="check-text">Coach A: all goals tagged (dodge/assist/transition)</div></div>
+        <div class="check-item" data-id="film-b"><div class="check-box"></div><div class="check-text">Coach B: all clears + rides tagged (outlet, turnover)</div></div>
+        <div class="check-item" data-id="film-c"><div class="check-box"></div><div class="check-text">Coach C: all faceoffs tagged (exit, first pass, win/loss)</div></div>
+        <div class="check-item" data-id="target"><div class="check-box"></div><div class="check-text">Target: Plainedge 11, Long Beach 7</div></div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-brand">Plainedge Lacrosse · <span class="r">Red Devils</span></div>
+    <p>Coach Achatz · Long Beach Scout · 2026 Season</p>
+    <p style="margin-top: 0.5rem;">Private — do not share outside staff/players</p>
+</footer>
+
+<script>
+    const GATE_PASS = 'plainedge';
+    const gate = document.getElementById('gate');
+    const pwInput = document.getElementById('gatepw');
+    const err = document.getElementById('gateerr');
+
+    function checkPw() {
+        if (pwInput.value === GATE_PASS) {
+            localStorage.setItem('plainedge_scout_access', '1');
+            gate.style.display = 'none';
+        } else {
+            err.textContent = 'Wrong password';
+            pwInput.value = '';
+            setTimeout(() => err.textContent = '', 2000);
+        }
+    }
+
+    if (localStorage.getItem('plainedge_scout_access') === '1') {
+        gate.style.display = 'none';
+    } else {
+        pwInput.focus();
+    }
+
+    pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') checkPw(); });
+    window.checkPw = checkPw;
+
+    const tabs = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.section');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            tabs.forEach(t => t.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(target).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.nav').offsetTop - 10, behavior: 'smooth' });
+        });
+    });
+
+    const saved = JSON.parse(localStorage.getItem('plainedge_longbeach_checklist') || '[]');
+    document.querySelectorAll('.check-item').forEach(item => {
+        if (saved.includes(item.dataset.id)) item.classList.add('done');
+        item.addEventListener('click', () => {
+            item.classList.toggle('done');
+            const done = Array.from(document.querySelectorAll('.check-item.done')).map(el => el.dataset.id);
+            localStorage.setItem('plainedge_longbeach_checklist', JSON.stringify(done));
+        });
+    });
+</script>
+
+</body>
+</html>
