@@ -51,6 +51,13 @@
   to = "/film-study-lab/:splat"
   status = 200
 
+# SMS Policy — serve the static HTML so bots/scrapers (Twilio A2P reviewers, etc.)
+# see real content without requiring JS execution. Must come before the SPA catch-all.
+[[redirects]]
+  from = "/sms-policy"
+  to = "/sms-policy.html"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
