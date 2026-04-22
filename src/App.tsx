@@ -28,6 +28,7 @@ import { AcademyElearningPage } from "@/pages/AcademyElearningPage"
 import { TravelPage } from "@/pages/TravelPage"
 import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
+import { SmsPolicyPage } from "@/pages/SmsPolicyPage"
 
 function LandingPage() {
   return (
@@ -68,6 +69,7 @@ function App() {
               <Route path="/girls/travel" element={<TravelPage gender="girls" />} />
               <Route path="/girls/coaches" element={<CoachingStaffPage gender="girls" />} />
               <Route path="/girls/teams" element={<TeamsPage gender="girls" />} />
+              <Route path="/sms-policy" element={<SmsPolicyPage />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
