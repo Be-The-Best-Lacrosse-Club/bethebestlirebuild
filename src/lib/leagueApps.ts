@@ -1,6 +1,6 @@
 /**
  * BTB Academy — LeagueApps Integration Service
- * 
+ *
  * Fetches real-time roster and program data for the public site.
  */
 
@@ -25,10 +25,10 @@ export async function fetchRoster(programId: number): Promise<LARegistration[]> 
   try {
     const res = await fetch(`${BASE_URL}/v1/sites/${SITE_ID}/programs/${programId}/registrations?la-api-key=${API_KEY}`);
     if (!res.ok) throw new Error(`LeagueApps Error: ${res.status}`);
-    
+
     const data = await res.json();
     const regs = Array.isArray(data) ? data : (data.registrations || []);
-    
+
     return regs.map((r: any) => ({
       id: r.registrationId || r.id,
       firstName: r.firstName,
