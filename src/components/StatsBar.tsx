@@ -37,8 +37,8 @@ function AnimatedNumber({ target, suffix = "+" }: { target: number; suffix?: str
 
 export function StatsBar() {
   const stats = [
-    { target: 500, label: "Players Developed", suffix: "+" },
-    { target: 85, label: "College Commits", suffix: "+" },
+    { target: 480, label: "Elite Athletes", suffix: "+" },
+    { target: 24, label: "Active Teams", suffix: "" },
     { target: 50, label: "Trained Coaches", suffix: "+" },
     { target: 10, label: "Years Running", suffix: "+" },
   ]

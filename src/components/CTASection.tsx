@@ -38,12 +38,12 @@ export function CTASection() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/register"
+              <button
+                onClick={() => navigate("/tryouts")}
                 className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 btn-glow transition-all duration-200"
               >
-                Apply for 2026 Season <ArrowRight size={13} />
-              </a>
+                Request Evaluation <ArrowRight size={13} />
+              </button>
               <button
                 onClick={() => navigate("/contact")}
                 className="inline-flex items-center justify-center gap-2.5 px-9 py-4 border border-white/15 text-white/60 text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"

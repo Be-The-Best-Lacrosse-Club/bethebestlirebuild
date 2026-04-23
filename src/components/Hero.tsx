@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronDown } from "lucide-react"
+import { ArrowRight, ChevronDown, Activity } from "lucide-react"
 
 export function Hero() {
   return (
@@ -31,6 +31,22 @@ export function Hero() {
 
       <div className="relative z-10 w-full max-w-[920px] px-6 pt-28 pb-16 text-center flex flex-col items-center">
 
+        {/* HUD Data Markers */}
+        <div className="animate-fade-up-delay-1 flex gap-8 mb-8 font-mono text-[0.6rem] tracking-[2px] text-white/30 uppercase">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" />
+            FLAGSHIP: BOYS_2028
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" />
+            FLAGSHIP: GIRLS_2030
+          </div>
+          <div className="hidden md:flex items-center gap-2">
+            <Activity size={10} className="text-[var(--btb-red)]" />
+            RECRUITING_PHASE: ACTIVE
+          </div>
+        </div>
+
         {/* Eyebrow */}
         <div className="animate-fade-up-delay-1 inline-flex items-center gap-3 mb-10">
           <div className="h-px w-10 bg-[var(--btb-red)]" />
@@ -56,12 +72,12 @@ export function Hero() {
         </p>
 
         {/* CTAs */}
-        <div className="animate-fade-up-delay-4 flex gap-3 justify-center flex-wrap">
-          <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
-            Apply for 2026 <ArrowRight size={13} />
+        <div className="animate-fade-up-delay-4 flex gap-4 justify-center flex-wrap">
+          <a href="https://bethebest.leagueapps.com/leagues" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
+            Register for 2026 <ArrowRight size={13} />
           </a>
-          <a href="#proof" className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/60 text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
-            See Our Results
+          <a href="/academy" className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 bg-white/5 backdrop-blur-sm text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:bg-white/10 transition-all duration-200">
+            Academy Access
           </a>
         </div>
       </div>

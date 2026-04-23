@@ -27,13 +27,12 @@ export function TeamsPage({ gender }: { gender: Gender }) {
   // Compute summary stats
   const totalTeams = data.teams.length
   const totalCoaches = data.teams.reduce((sum, t) => sum + t.coachCount, 0)
-  const levels = [...new Set(data.teams.map((t) => t.level))]
 
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
         title={`${label} Teams | BTB Lacrosse Club`}
-        description={`Browse BTB Lacrosse ${label.toLowerCase()} teams — ${totalTeams} teams across ${levels.length} competitive levels with dedicated coaching staff on Long Island.`}
+        description={`Browse BTB Lacrosse ${label.toLowerCase()} teams — ${totalTeams} teams across multiple age groups with dedicated coaching staff on Long Island.`}
         path={`/${gender}/teams`}
       />
 
@@ -51,7 +50,7 @@ export function TeamsPage({ gender }: { gender: Gender }) {
             {label}<br />Teams
           </h1>
           <p className="text-[0.92rem] text-white/40 max-w-[520px] leading-[1.9] mb-10">
-            {totalTeams} teams across {levels.length} levels — from youth development through elite varsity prep. Every team runs the same curriculum, the same film study, the same standard.
+            {totalTeams} teams spanning every youth grad year. Every team runs the same curriculum, the same film study, the same standard.
           </p>
           <a href={`#${anchorId}`} className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
             Apply Now <ArrowRight size={13} />
@@ -62,20 +61,16 @@ export function TeamsPage({ gender }: { gender: Gender }) {
       {/* Stats Summary */}
       <section className="py-14 px-6 bg-neutral-950 border-y border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
+            <div>
               <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{totalTeams}</div>
               <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">Total Teams</div>
             </div>
-            <div className="text-center">
+            <div>
               <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{totalCoaches}</div>
               <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">Total Coaches</div>
             </div>
-            <div className="text-center">
-              <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{levels.length}</div>
-              <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">Competition Levels</div>
-            </div>
-            <div className="text-center">
+            <div>
               <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">2</div>
               <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">Coaches Per Team</div>
             </div>
@@ -92,17 +87,14 @@ export function TeamsPage({ gender }: { gender: Gender }) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {data.teams.map((team) => (
-              <div key={team.gradYear} className="group rounded-xl border border-white/[0.07] bg-white/[0.02] p-7 hover:border-white/[0.15] hover:bg-white/[0.04] transition-all duration-300">
-                {/* Header with level badge */}
+              <div key={team.teamName} className="group rounded-xl border border-white/[0.07] bg-white/[0.02] p-7 hover:border-white/[0.15] hover:bg-white/[0.04] transition-all duration-300">
+                {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="font-display text-[2rem] text-white/[0.06] leading-none select-none">{team.gradYear}</div>
-                  <span className={`text-[0.58rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full border ${levelColor(team.level)}`}>
-                    {team.level}
-                  </span>
                 </div>
 
                 {/* Team name */}
-                <div className="font-display text-[1.2rem] uppercase tracking-wide text-white mb-1">{team.teamName}</div>
+                <div className="font-display text-[1.2rem] uppercase tracking-wide text-white mb-1 group-hover:text-[var(--btb-red)] transition-colors">{team.teamName}</div>
                 <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mb-5">Class of {team.gradYear}</div>
 
                 {/* Coach count */}
@@ -116,12 +108,12 @@ export function TeamsPage({ gender }: { gender: Gender }) {
         </div>
       </section>
 
-      {/* Level Breakdown */}
+      {/* Development Phases Breakdown */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Levels</div>
+          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
-            Competition<br />Levels
+            The BTB<br />Standard
           </h2>
           <div className="space-y-3">
             {data.ageGroups.map((group, i) => (
@@ -132,9 +124,6 @@ export function TeamsPage({ gender }: { gender: Gender }) {
               }`}>
                 <div className="shrink-0 md:w-40">
                   <div className="font-display text-[1.1rem] uppercase tracking-wide text-white">{group.grad}</div>
-                  <div className={`text-[0.62rem] font-bold uppercase tracking-[1.5px] mt-1 ${
-                    i === data.ageGroups.length - 1 ? "text-[var(--btb-red)]" : "text-white/25"
-                  }`}>{group.level}</div>
                 </div>
                 <div className="hidden md:block w-px self-stretch bg-white/[0.08]" />
                 <p className="text-[0.84rem] text-white/40 leading-relaxed">{group.description}</p>
@@ -155,7 +144,7 @@ export function TeamsPage({ gender }: { gender: Gender }) {
                 Find Your<br /><span className="text-[var(--btb-red)]">Team</span>
               </h2>
               <p className="text-[0.88rem] text-white/35 max-w-[440px] mx-auto leading-relaxed mb-10">
-                {totalTeams} teams, {levels.length} levels, one standard. Apply to join the {label.toLowerCase()} program and find the right team for your grad year.
+                {totalTeams} teams, one standard. Apply to join the {label.toLowerCase()} program and find the right team for your grad year.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="/contact" className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">

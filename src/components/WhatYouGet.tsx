@@ -1,6 +1,5 @@
-import { Video, Users, BookOpen, Target, TrendingUp, Shield } from "lucide-react"
+import { Video, Users, BookOpen, Target, TrendingUp, Shield, Activity } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
-import { SectionHeader } from "@/components/shared/SectionHeader"
 
 const benefits = [
   {
@@ -8,42 +7,45 @@ const benefits = [
     title: "Small-Group Training",
     what: "Max 8 players per coach.",
     detail: "You get real reps, real corrections, and real coaching — not a number in a line drill. Every session is intentional.",
-    tag: "Year-Round"
+    tag: "8:1_RATIO",
+    spec: "UNIT_TRAINING // 01",
+    className: "md:col-span-2 md:row-span-2"
   },
   {
     icon: Video,
     title: "Weekly Film Study",
     what: "Your game. On film. Every week.",
     detail: "You'll watch your own footage with a coach who breaks down exactly what you did right, what you missed, and how to fix it.",
-    tag: "Required"
+    tag: "MANDATORY",
+    spec: "SYSTEM_ANALYSIS // 02",
+    className: "md:col-span-1 md:row-span-2"
   },
   {
-    icon: BookOpen,
-    title: "Structured Curriculum",
-    what: "A plan built for you — not a generic workout.",
-    detail: "Every practice follows a written plan with timed segments and specific skill targets based on where you are in the development cycle.",
-    tag: "16-Week Cycle"
+    icon: Activity,
+    title: "Member-Only Training",
+    what: "Exclusive extra reps for rostered players.",
+    detail: "Club members get exclusive access to extra positional clinics, speed & agility sessions, and academy-only labs.",
+    tag: "CLUB_EXCL",
+    spec: "MEMBER_BENEFIT // 07",
+    className: "md:col-span-1 md:row-span-1"
   },
   {
     icon: Target,
     title: "Position-Specific Coaching",
     what: "Attack. Midfield. Defense. Goalie. FOGO.",
-    detail: "Your training is built for your position. Attackmen work on feeding and shot selection. Defenders work approach and slide timing. You get what you actually need.",
-    tag: "All Positions"
+    detail: "Your training is built for your position. Attackmen work on feeding and shot selection. Defenders work approach and slide timing.",
+    tag: "ELITE_SPEC",
+    spec: "CORE_SKILL // 04",
+    className: "md:col-span-1 md:row-span-1"
   },
   {
     icon: TrendingUp,
     title: "Recruiting Preparation",
-    what: "We help you build a highlight reel that gets noticed.",
-    detail: "Learn how to market yourself, which programs fit your profile, and what college coaches actually look for — before you start reaching out.",
-    tag: "College Track"
-  },
-  {
-    icon: Shield,
-    title: "Certified Coaching Staff",
-    what: "Every coach is background-checked and US Lacrosse certified.",
-    detail: "You're being coached by people who prepared for this — not just former players who showed up. Practice plans are submitted before every session.",
-    tag: "Verified"
+    what: "Flagship 2028s & 2030s focus.",
+    detail: "Learn how to market yourself, which programs fit your profile, and what college coaches actually look for.",
+    tag: "COLLEGE_READY",
+    spec: "CAREER_MAP // 05",
+    className: "md:col-span-2 md:row-span-1"
   },
 ]
 
@@ -51,47 +53,66 @@ export function WhatYouGet() {
   const gridRef = useReveal({ className: "reveal-stagger" })
 
   return (
-    <section className="bg-black text-white py-28 px-6" id="whatyouget">
-      <div className="max-w-[1000px] mx-auto">
-        <SectionHeader
-          number="02"
-          label="The Program"
-          title={"Here's Exactly\nWhat You Get"}
-          subtitle="No guesswork. No generic drills. This is what BTB athletes actually receive when they join the program."
-        />
+    <section className="bg-black text-white py-32 px-6 relative overflow-hidden border-t border-white/5" id="whatyouget">
+      {/* Ghost Typography */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-5">
+        <span className="font-display text-[22vw] leading-none text-white select-none">
+          SYSTEM
+        </span>
+      </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-w-[1100px] mx-auto relative z-10">
+        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 pb-12 border-b border-white/10">
+          <div className="max-w-[600px]">
+            <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
+              <Activity size={12} className="animate-pulse" />
+              ACADEMY_SYSTEM_SPECS
+            </div>
+            <h2 className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white">
+              The Academy <br /> <span className="text-[var(--btb-red)]">Advantage.</span>
+            </h2>
+          </div>
+          <p className="text-white/30 text-[0.88rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+            BTB is built as a development system. No guesswork. No generic drills. Just high-performance engineering for our club members.
+          </p>
+        </div>
+
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-0.5 bg-white/10 border border-white/10">
           {benefits.map((b, i) => (
             <div
               key={b.title}
-              className={`reveal-child group rounded-2xl border p-7 transition-all duration-300 cursor-default card-hover ${
-                i === 1
-                  ? "border-[var(--btb-red)]/40 bg-[var(--btb-red)]/5 hover:bg-[var(--btb-red)]/8"
-                  : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.15] hover:bg-white/[0.04]"
-              }`}
+              className={`reveal-child group relative p-10 bg-black hover:bg-[var(--btb-red)] transition-all duration-300 cursor-default ${b.className}`}
             >
-              <div className="flex items-start justify-between mb-5">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  i === 1 ? "bg-[var(--btb-red)]/20" : "bg-white/[0.05]"
-                }`}>
-                  <b.icon size={18} className={i === 1 ? "text-[var(--btb-red)]" : "text-white/40 group-hover:text-white/60"} strokeWidth={1.5} />
-                </div>
-                <span className={`text-[0.6rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full ${
-                  i === 1 ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]" : "bg-white/[0.05] text-white/25"
-                }`}>{b.tag}</span>
+              {/* Corner Spec */}
+              <div className="absolute top-6 right-6 text-[10px] font-mono text-white/20 group-hover:text-white/60 transition-colors">
+                {b.spec}
               </div>
 
-              <h4 className="font-display text-[1.05rem] uppercase tracking-wide mb-2">{b.title}</h4>
-              <p className={`text-[0.82rem] font-semibold mb-3 ${i === 1 ? "text-[var(--btb-red)]" : "text-white/55"}`}>{b.what}</p>
-              <p className="text-[0.8rem] text-white/30 leading-relaxed group-hover:text-white/45 transition-colors">{b.detail}</p>
+              <div className="mb-12">
+                <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-white group-hover:border-white transition-all">
+                  <b.icon size={20} className="text-[var(--btb-red)]" strokeWidth={2.5} />
+                </div>
+                <div className="text-[0.6rem] font-mono text-[var(--btb-red)] mb-2 group-hover:text-white transition-colors">
+                  {b.tag}
+                </div>
+                <h4 className="font-display text-2xl uppercase tracking-wider text-white mb-2">{b.title}</h4>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-[0.85rem] font-bold text-white group-hover:text-white/90 transition-colors uppercase tracking-wide">
+                  {b.what}
+                </p>
+                <p className="text-[0.8rem] text-white/30 leading-relaxed group-hover:text-white/70 transition-colors font-medium">
+                  {b.detail}
+                </p>
+              </div>
+
+              {/* Hover Indicator */}
+              <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_#fff]" />
+              </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <a href="#apply" className="text-[0.72rem] font-bold uppercase tracking-[2px] text-white/25 hover:text-[var(--btb-red)] transition-colors">
-            Ready to join? Apply below →
-          </a>
         </div>
       </div>
     </section>

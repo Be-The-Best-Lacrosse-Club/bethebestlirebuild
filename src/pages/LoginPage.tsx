@@ -248,13 +248,9 @@ export function LoginPage() {
             </div>
 
             <div className="mt-8 pt-6 border-t border-white/[0.07] text-center">
-              <p className="text-[0.78rem] text-white/40 mb-2">Don't have an account?</p>
-              <button
-                onClick={() => { setError(""); setView("signup") }}
-                className="text-[0.85rem] text-[var(--btb-red)] hover:text-[var(--btb-red-dark)] font-bold uppercase tracking-[1px] transition-colors"
-              >
-                Create One
-              </button>
+              <p className="text-[0.78rem] text-white/40 leading-relaxed">
+                BTB accounts are invite-only. Contact your program director if you need access.
+              </p>
             </div>
           </>
         )}

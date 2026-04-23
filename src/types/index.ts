@@ -44,7 +44,7 @@ export interface TeamInfo {
   gradYear: string
   teamName: string
   coachCount: number
-  level: string
+  programId?: number
 }
 
 // Auth types

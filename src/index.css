@@ -156,6 +156,15 @@ html.lenis, html.lenis body {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ── Ticker Animation ── */
+@keyframes scroll-fast {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-scroll-fast {
+  animation: scroll-fast 30s linear infinite;
+}
+
 /* ── Selection color ── */
 ::selection {
   background: var(--btb-red);

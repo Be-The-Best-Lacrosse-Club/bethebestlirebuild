@@ -4,10 +4,10 @@ import { programData } from "@/lib/programData"
 import { SEO } from "@/components/shared/SEO"
 import type { Gender } from "@/types"
 
-export function ProgramPage({ gender }: { gender: Gender }) {
-  const data = programData[gender]
-  const isGirls = gender === "girls"
-  const anchorId = `apply-${gender}`
+export function ProgramPage({ programKey }: { programKey: string }) {
+  const data = programData[programKey]
+  const isGirls = programKey === "girls"
+  const anchorId = `apply-${programKey}`
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -23,14 +23,14 @@ export function ProgramPage({ gender }: { gender: Gender }) {
   // Split CTA headline on newline
   const ctaParts = data.ctaHeadline.split("\n")
 
-  const label = gender === "boys" ? "Boys" : "Girls"
+  const label = programKey === "boys" ? "Boys" : programKey === "girls" ? "Girls" : data.navLabel
 
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
         title={`${label} Program | BTB Lacrosse Club`}
         description={`BTB Lacrosse ${label} Program — elite travel lacrosse development on Long Island with film study, position-specific coaching, and college recruiting preparation.`}
-        path={`/${gender}`}
+        path={`/${programKey}`}
       />
 
       {/* Hero */}
@@ -164,39 +164,57 @@ export function ProgramPage({ gender }: { gender: Gender }) {
         </div>
       </section>
 
-      {/* 16-Week Development */}
-      <section className="py-24 px-6 border-b border-white/[0.07]">
-        <div className="max-w-[900px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-            <div>
-              <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Model</div>
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92]">
-                16-Week Cycle.<br />Four Phases.
+      {/* 16-Week Development (Academy Spec) */}
+      <section className="py-32 px-6 bg-black relative overflow-hidden border-b border-white/5" id="curriculum">
+        {/* Ghost Typography */}
+        <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-5">
+          <span className="font-display text-[25vw] leading-none text-white select-none">
+            SPEC_LEVEL_01
+          </span>
+        </div>
+
+        <div className="max-w-[1100px] mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row items-start justify-between mb-24 gap-12">
+            <div className="max-w-[600px]">
+              <div className="inline-flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6">
+                DEVELOPMENT_BLUEPRINT // 16_WEEK_SPEC
+              </div>
+              <h2 className="font-display text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
+                Engineered <br /> <span className="text-[var(--btb-red)]">For Impact.</span>
               </h2>
             </div>
-            <p className="text-[0.84rem] text-white/35 max-w-[280px] leading-relaxed md:text-right">
-              {isGirls
-                ? "The same repeatable development cycle — adapted for the girls' game at every phase."
-                : "A repeatable development cycle designed around measurable skill progression."
-              }
-            </p>
+            <div className="pt-4 border-t border-[var(--btb-red)] max-w-[340px]">
+              <p className="text-white/40 text-[0.88rem] leading-relaxed">
+                {isGirls
+                  ? "The same rigorous development cycle — adapted for the elite female athlete at every phase."
+                  : "A repeatable engineering spec designed around measurable skill progression and high-IQ play."
+                }
+              </p>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {data.phases.map((p, i) => (
-              <div key={p.num} className={`relative rounded-xl border p-7 overflow-hidden group transition-all duration-300 ${
-                i === 1 ? "border-[var(--btb-red)]/30 bg-[var(--btb-red)]/5" : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12]"
-              }`}>
-                <div className="absolute right-4 top-2 font-display text-[4.5rem] text-white/[0.03] leading-none select-none">{p.num}</div>
-                <div className="text-[0.6rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
-                <div className="font-display text-xl uppercase tracking-wide mb-5">{p.phase}</div>
-                <ul className="space-y-2">
-                  {p.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-[0.8rem] text-white/35">
-                      <span className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-2 shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+              <div key={p.num} className="group relative">
+                {/* Vertical Progress Line */}
+                <div className="absolute top-0 left-0 w-px h-full bg-white/5 overflow-hidden">
+                  <div className="h-full bg-[var(--btb-red)] w-full -translate-y-full group-hover:translate-y-0 transition-transform duration-1000" />
+                </div>
+                
+                <div className="pl-8 pt-4 pb-12">
+                  <div className="font-mono text-[0.6rem] text-[var(--btb-red)] mb-2">PHASE_{p.num}</div>
+                  <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-2">{p.phase}</h3>
+                  <div className="text-[0.65rem] font-bold text-white/30 uppercase tracking-[2px] mb-6">{p.weeks}</div>
+                  
+                  <ul className="space-y-3">
+                    {p.items.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-[0.82rem] text-white/40 group-hover:text-white/70 transition-colors">
+                        <div className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-1.5 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>

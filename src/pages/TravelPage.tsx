@@ -1,6 +1,7 @@
 import { useEffect } from "react"
-import { ArrowRight, MapPin, Calendar, Trophy } from "lucide-react"
+import { ArrowRight, MapPin, Calendar, Trophy, ChevronRight, Shield, Video } from "lucide-react"
 import { programData } from "@/lib/programData"
+import { TOURNAMENT_DATA } from "@/lib/tournamentData"
 import { SEO } from "@/components/shared/SEO"
 import type { Gender } from "@/types"
 
@@ -12,17 +13,6 @@ export function TravelPage({ gender }: { gender: Gender }) {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
-  // Level badge color mapping
-  const levelColor = (level: string) => {
-    switch (level) {
-      case "Elite": return "bg-[var(--btb-red)]/20 text-[var(--btb-red)] border-[var(--btb-red)]/30"
-      case "Competitive": return "bg-amber-500/15 text-amber-400 border-amber-500/25"
-      case "Development": return "bg-blue-500/15 text-blue-400 border-blue-500/25"
-      case "Youth": return "bg-emerald-500/15 text-emerald-400 border-emerald-500/25"
-      default: return "bg-white/[0.05] text-white/40 border-white/[0.1]"
-    }
-  }
 
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
@@ -56,35 +46,74 @@ export function TravelPage({ gender }: { gender: Gender }) {
 
       {/* Team Cards */}
       <section className="py-24 px-6 bg-neutral-950 border-y border-white/[0.07]">
-        <div className="max-w-[900px] mx-auto">
+        <div className="max-w-[1100px] mx-auto">
           <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Teams</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
             {data.teams.length} Teams.<br />Every Grad Year.
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {data.teams.map((team) => (
-              <div key={team.gradYear} className="group rounded-xl border border-white/[0.07] bg-white/[0.02] p-7 hover:border-white/[0.12] transition-all duration-300">
-                <div className="flex items-start justify-between mb-5">
-                  <div>
-                    <div className="font-display text-[1.4rem] uppercase tracking-wide text-white">{team.teamName}</div>
-                    <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-1">Class of {team.gradYear}</div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {data.teams.map((team) => {
+              const tournaments = TOURNAMENT_DATA[team.teamName]
+              return (
+                <div key={team.teamName} className="group rounded-xl border border-white/[0.07] bg-white/[0.02] p-8 hover:border-white/[0.15] transition-all duration-300">
+                  <div className="flex items-start justify-between mb-8">
+                    <div>
+                      <div className="font-display text-[1.8rem] uppercase tracking-wide text-white group-hover:text-[var(--btb-red)] transition-colors">{team.teamName}</div>
+                      <div className="text-[0.68rem] font-bold uppercase tracking-[2px] text-white/25 mt-1">Class of {team.gradYear}</div>
+                    </div>
                   </div>
-                  <span className={`text-[0.58rem] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full border ${levelColor(team.level)}`}>
-                    {team.level}
-                  </span>
+
+                  {/* Tournament Schedule Display */}
+                  {tournaments && (
+                    <div className="space-y-6 mb-8">
+                      {tournaments.summer && (
+                        <div>
+                          <div className="text-[0.6rem] font-black uppercase tracking-[2px] text-white/20 mb-3 flex items-center gap-2">
+                            <div className="w-1 h-1 rounded-full bg-[var(--btb-red)]" />
+                            Summer_Circuit
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {tournaments.summer.map((t, i) => (
+                              <div key={i} className="bg-white/[0.03] border border-white/5 p-3 rounded-lg">
+                                <div className="text-[0.7rem] font-bold text-white/70 uppercase leading-tight mb-1">{t.name}</div>
+                                <div className="text-[0.6rem] font-mono text-[var(--btb-red)]">{t.date}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {tournaments.fall && (
+                        <div>
+                          <div className="text-[0.6rem] font-black uppercase tracking-[2px] text-white/20 mb-3 flex items-center gap-2">
+                            <div className="w-1 h-1 rounded-full bg-white/40" />
+                            Fall_Schedule
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {tournaments.fall.map((t, i) => (
+                              <div key={i} className="bg-white/[0.03] border border-white/5 p-3 rounded-lg">
+                                <div className="text-[0.7rem] font-bold text-white/70 uppercase leading-tight mb-1">{t.name}</div>
+                                <div className="text-[0.6rem] font-mono text-white/30">{t.date}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-8 pt-6 border-t border-white/[0.06]">
+                    <div className="flex items-center gap-2">
+                      <Shield size={12} className="text-[var(--btb-red)]" />
+                      <span className="text-[0.7rem] font-bold uppercase tracking-[1px] text-white/40">{team.coachCount} Pro Coaches</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Video size={12} className="text-[var(--btb-red)]" />
+                      <span className="text-[0.7rem] font-bold uppercase tracking-[1px] text-white/40">Film Study Hub</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-6 pt-4 border-t border-white/[0.06]">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)]" />
-                    <span className="text-[0.72rem] text-white/40">{team.coachCount} Coaches</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)]" />
-                    <span className="text-[0.72rem] text-white/40">Film Study Required</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
