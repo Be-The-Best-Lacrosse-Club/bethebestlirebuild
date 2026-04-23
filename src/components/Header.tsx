@@ -97,6 +97,17 @@ export function Header() {
           </button>
 
           <button
+            onClick={() => go("/interest")}
+            className={`px-3 py-2 text-[0.75rem] font-semibold uppercase tracking-[1.5px] transition-colors rounded ${
+              isActive("/interest")
+                ? (scrolled ? "text-black" : "text-white")
+                : (scrolled ? "text-black/50 hover:text-black" : "text-white/50 hover:text-white")
+            }`}
+          >
+            Interest
+          </button>
+
+          <button
             onClick={() => go("/parent-portal")}
             className={`px-3 py-2 text-[0.75rem] font-semibold uppercase tracking-[1.5px] transition-colors rounded ${
               isActive("/parent-portal")
@@ -249,6 +260,10 @@ export function Header() {
 
             <button onClick={() => go("/tryouts")} className="block w-full text-left text-lg font-bold uppercase tracking-[2px] text-[var(--btb-red)] py-2">
               Tryouts 2026
+            </button>
+
+            <button onClick={() => go("/interest")} className="block w-full text-left text-lg font-semibold uppercase tracking-[2px] text-black/60 hover:text-black py-2">
+              Interest Form
             </button>
 
             <button onClick={() => go("/parent-portal")} className="block w-full text-left text-lg font-semibold uppercase tracking-[2px] text-black/60 hover:text-black py-2">
