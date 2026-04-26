@@ -152,7 +152,7 @@ export function getAcademyProgress(): AcademyProgress {
 }
 
 // Mark a lesson complete: update cache immediately, persist to Airtable async
-export function markLessonComplete(courseId: string, lessonId: string, userId?: string): void {
+export function markLessonComplete(courseId: string, lessonId: string, userId?: string, playerName?: string, playerEmail?: string): void {
   const progress = readCache()
   if (!progress[courseId]) progress[courseId] = { completedLessons: [] }
   if (!progress[courseId].completedLessons.includes(lessonId)) {
@@ -170,6 +170,8 @@ export function markLessonComplete(courseId: string, lessonId: string, userId?: 
         courseId,
         completedLessons: progress[courseId].completedLessons,
         completedAt: progress[courseId].completedAt,
+        ...(playerName  ? { playerName }  : {}),
+        ...(playerEmail ? { playerEmail } : {}),
       }),
     }).catch(() => { /* non-fatal */ })
   }

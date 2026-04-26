@@ -250,12 +250,10 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
     })
   }, [user?.email])
 
-  // Player Progress state
+  // Player Progress state — names come from Airtable directly (stored on first lesson complete)
   interface PlayerCourse { courseId: string; lessonsCompleted: number; totalLessons: number; pct: number; completedAt: string | null }
-  interface PlayerRow { userId: string; courses: PlayerCourse[]; totalPct: number; lastActive: string | null }
-  interface IdentityUser { name: string; email: string }
+  interface PlayerRow { userId: string; playerName: string | null; playerEmail: string | null; courses: PlayerCourse[]; totalPct: number; lastActive: string | null }
   const [playerProgress, setPlayerProgress] = useState<PlayerRow[]>([])
-  const [playerIdentities, setPlayerIdentities] = useState<Record<string, IdentityUser>>({})
   const [progressLoading, setProgressLoading] = useState(false)
   const [progressLoaded, setProgressLoaded] = useState(false)
 
@@ -265,24 +263,8 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
     fetch(`/.netlify/functions/academy-coach-dashboard?gender=${gender}`)
       .then(r => r.json())
       .then(data => {
-        const players: PlayerRow[] = data.players || []
-        setPlayerProgress(players)
+        setPlayerProgress(data.players || [])
         setProgressLoaded(true)
-
-        // After loading players, resolve their names/emails from Netlify Identity
-        if (players.length > 0) {
-          const ids = players.map((p) => p.userId).join(",")
-          fetch(`/.netlify/functions/academy-identity?userIds=${encodeURIComponent(ids)}`)
-            .then(r => r.json())
-            .then(idData => {
-              if (idData.users && !idData.fallback) {
-                setPlayerIdentities(idData.users)
-              }
-            })
-            .catch(() => {
-              // Identity lookup failed — player rows fall back to truncated userId
-            })
-        }
       })
       .catch(() => {})
       .finally(() => setProgressLoading(false))
@@ -1543,9 +1525,8 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               </div>
 
               {playerProgress.map((player) => {
-                const identity = playerIdentities[player.userId]
-                const displayName = identity?.name || `${player.userId.slice(0, 8)}…`
-                const displayEmail = identity?.email || null
+                const displayName = player.playerName || `${player.userId.slice(0, 12)}…`
+                const displayEmail = player.playerEmail || null
                 return (
                 <div key={player.userId} className="bg-white/[0.02] border border-white/[0.07] rounded-xl overflow-hidden">
                   {/* Player summary row */}

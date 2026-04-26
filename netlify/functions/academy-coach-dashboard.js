@@ -67,7 +67,13 @@ exports.handler = async (event) => {
     for (const rec of records) {
       const f = rec.fields
       if (!f.userId || !f.courseId) continue
-      if (!byUser[f.userId]) byUser[f.userId] = { userId: f.userId, courses: [], lastActive: "" }
+      if (!byUser[f.userId]) byUser[f.userId] = {
+        userId: f.userId,
+        playerName: f.Name || null,
+        playerEmail: f.playerEmail || null,
+        courses: [],
+        lastActive: ""
+      }
       const lessons = f.completedLessons ? JSON.parse(f.completedLessons) : []
       const total   = COURSE_TOTALS[f.courseId] || 10
       const pct     = Math.round((lessons.length / total) * 100)
@@ -97,10 +103,12 @@ exports.handler = async (event) => {
       const totalAvail = p.courses.reduce((s, c) => s + c.totalLessons, 0)
       const totalPct   = totalAvail > 0 ? Math.round((totalDone / totalAvail) * 100) : 0
       return {
-        userId:    p.userId,
-        courses:   p.courses.sort((a, b) => a.courseId.localeCompare(b.courseId)),
+        userId:      p.userId,
+        playerName:  p.playerName || null,
+        playerEmail: p.playerEmail || null,
+        courses:     p.courses.sort((a, b) => a.courseId.localeCompare(b.courseId)),
         totalPct,
-        lastActive: p.lastActive || null,
+        lastActive:  p.lastActive || null,
       }
     }).sort((a, b) => b.totalPct - a.totalPct)
 

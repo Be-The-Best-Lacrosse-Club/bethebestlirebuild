@@ -99,7 +99,7 @@ exports.handler = async (event) => {
     // ── POST (upsert) ─────────────────────────────────────────────────
     if (event.httpMethod === "POST") {
       const body = JSON.parse(event.body || "{}")
-      const { userId, courseId, completedLessons, completedAt } = body
+      const { userId, courseId, completedLessons, completedAt, playerName, playerEmail } = body
 
       if (!userId || !courseId) return err(400, "userId and courseId are required")
 
@@ -109,6 +109,9 @@ exports.handler = async (event) => {
         completedLessons: JSON.stringify(completedLessons || []),
       }
       if (completedAt) fields.completedAt = completedAt
+      // Store player name in the Airtable Name field so coach dashboard can display it
+      if (playerName) fields.Name = playerName
+      if (playerEmail) fields.playerEmail = playerEmail
 
       const existing = await findRecord(userId, courseId)
       if (existing) {

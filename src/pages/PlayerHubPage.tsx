@@ -208,7 +208,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
       setSelectedAnswer(null)
       setAnswerSubmitted(false)
     } else {
-      markLessonComplete(activePillarCourse.id, activeLesson.id, user?.id)
+      markLessonComplete(activePillarCourse.id, activeLesson.id, user?.id, user?.name ?? undefined, user?.email ?? undefined)
       const newProgress = getAcademyProgress()
       setAcademyProgress(newProgress)
       setShowLessonComplete(true)
