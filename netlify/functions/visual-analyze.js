@@ -13,23 +13,22 @@
 const VISUAL_PROMPT = `You are an expert lacrosse film analyst for BTB Lacrosse Club on Long Island, NY.
 Watch this lacrosse game video and identify every notable play.
 
-For EACH play, return a JSON object with these EXACT fields:
-  timestamp: (string — formatted as M:SS when the play starts)
-  start: (number — start time in seconds)
-  end: (number — end time in seconds)
-  play: (string — short label, e.g. "Split dodge to paint" or "Adjacent slide win")
-  result: (one of: goal, save, turnover, ground_ball, clear_success, clear_fail, faceoff_win, faceoff_loss, shot_on_goal, shot_off_target, caused_turnover, penalty)
-  team: (one of: offense, defense)
+For EACH play, return a JSON object with these EXACT fields (use these exact key names):
+  event_sequence: (number, starting at 1)
+  source_start_seconds: (number — start time in seconds when the play begins)
+  source_end_seconds: (number — end time in seconds when the play ends)
+  play_result: (one of: goal, save, turnover, ground_ball, clear_success, clear_fail, faceoff_win, faceoff_loss, shot_on_goal, shot_off_target, caused_turnover, penalty)
+  team_focus: (one of: offense, defense)
   phase: (one of: "Offense - Settled 6v6", "Offense - Early Offense / Transition", "Offense - EMO", "Defense - Settled 6v6", "Defense - Recovery", "Defense - Man Down", "Faceoff", "Clear", "Ride")
   category: (one of: "Advantage Created", "Finish", "Shot Quality Win", "Decision Error", "Defensive Stop", "On Ball Win", "Slide Recover Win", "GB Win", "Faceoff Win", "Clear Success", "Ride Stop", "Special Teams Win")
-  tags: (array of 2-5 applicable tags from: dodge-downhill, paint-touch, draw-two, one-more, inside-feed, two-man-game, step-down, on-the-run, crease-finish, shot-selection-good, shot-selection-poor, approach-angle-win, top-side-denial, hot-slide, second-slide, recover-out, communication-win, gb-toughness, clamp-win, decision-making-plus, decision-making-minus, compete-plus, iq-off-ball, coachable-error)
-  teaching_point: (one sentence — the key coaching takeaway)
-  summary: (one sentence — what happened on the play)
+  tags: (array of 2-5 tags from: dodge-downhill, paint-touch, draw-two, one-more, inside-feed, two-man-game, step-down, on-the-run, crease-finish, shot-selection-good, shot-selection-poor, approach-angle-win, top-side-denial, hot-slide, second-slide, recover-out, communication-win, gb-toughness, clamp-win, decision-making-plus, decision-making-minus, compete-plus, iq-off-ball, coachable-error)
+  main_teaching_point: (one sentence — the key coaching takeaway from this play)
+  event_summary: (one sentence — what happened on the play)
   players: (array of visible jersey numbers e.g. ["#7", "#22"], or [] if not visible)
   period: (string — "1", "2", "3", "4", or "OT" if visible on scoreboard, else "")
   clock: (string — game clock if visible e.g. "8:32", else "")
-  score: (string — score if visible e.g. "3-2", else "")
-  confidence: (number 0-1 — how confident you are in this play identification)
+  score_state: (string — score if visible e.g. "3-2", else "")
+  ai_confidence: (number 0-1 — how confident you are in this play identification)
 
 Focus on identifying:
 - Dodging sequences and outcomes (split, roll, face, rocker dodges)

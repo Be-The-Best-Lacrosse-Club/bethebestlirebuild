@@ -1289,25 +1289,29 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || `Visual analyze failed (${res.status})`);
 
-        // Normalize fields to match what renderCards expects
-        return (data.plays || []).map(p => ({
-            timestamp: p.timestamp || '',
-            start: p.start,
-            end: p.end,
-            play: p.play || '',
-            result: p.result || '',
-            team: p.team || 'offense',
+        // Normalize visual analysis fields to match transcript-path field names
+        return (data.plays || []).map((p, i) => ({
+            // Core identity
+            event_sequence: i + 1,
+            source_start_seconds: p.start,
+            source_end_seconds: p.end,
+            // Use transcript-path field names throughout
+            play_result: p.result || p.play_result || '',
+            team_focus: p.team || p.team_focus || 'offense',
             phase: p.phase || '',
             category: p.category || '',
             tags: p.tags || [],
-            teaching_points: p.teaching_points || (p.teaching_point ? [p.teaching_point] : []),
-            summary: p.summary || p.play || '',
+            main_teaching_point: p.teaching_point || (p.teaching_points && p.teaching_points[0]) || '',
+            event_summary: p.summary || p.play || '',
             players: p.players || [],
             period: p.period || '',
             clock: p.clock || '',
-            score: p.score || '',
-            confidence: p.confidence || 0.8,
-            youtube_url: p.youtube_url || `https://www.youtube.com/watch?v=${videoId}`,
+            score_state: p.score || p.score_state || '',
+            ai_confidence: p.confidence || 0.8,
+            youtube_deep_link: p.youtube_url || `https://www.youtube.com/watch?v=${videoId}&t=${Math.floor(p.start || 0)}s`,
+            // Extra fields for display
+            play: p.play || p.event_summary || '',
+            timestamp: p.timestamp || '',
             source: 'gemini-visual',
         }));
     }
