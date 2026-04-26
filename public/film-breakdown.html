@@ -1066,6 +1066,10 @@
                 <span class="option-label">Game Context</span>
                 <input type="text" class="url-input" id="contextInput" placeholder="e.g. BTB 2030 vs Igloo — Summer Kickoff 2026" style="max-width: 360px; padding: 8px 12px; font-size: 13px;">
             </div>
+            <div class="option-group" style="grid-column: 1 / -1;">
+                <span class="option-label">Roster (optional)</span>
+                <textarea class="url-input" id="rosterInput" rows="3" placeholder="One per line: #7 Jace Smith, #5 Gavin Brown, #11 Skelly Murphy... (helps Gemini name players when jerseys are visible)" style="width: 100%; padding: 8px 12px; font-size: 13px; font-family: 'JetBrains Mono', monospace; resize: vertical; min-height: 64px;"></textarea>
+            </div>
         </div>
     </div>
 
@@ -1156,6 +1160,7 @@
     const analyzeBtn = document.getElementById('analyzeBtn');
     const focusSelect = document.getElementById('focusSelect');
     const contextInput = document.getElementById('contextInput');
+    const rosterInput = document.getElementById('rosterInput');
     const statusBar = document.getElementById('statusBar');
     const progressFill = document.getElementById('progressFill');
     const statusMessage = document.getElementById('statusMessage');
@@ -1279,7 +1284,7 @@
     // /visual-result every few seconds until status is done or error.
     // The sync version of this hit Netlify's ~30s edge timeout on full games
     // and returned HTML to the client, breaking JSON parse.
-    async function analyzeVisually(youtubeUrl, videoId, focus, context) {
+    async function analyzeVisually(youtubeUrl, videoId, focus, context, roster) {
         const jobId = `vis_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
 
         // Kick off (returns 202 quickly; the real work runs up to 15min)
@@ -1293,6 +1298,7 @@
                 game_title: context || videoId,
                 level: '',
                 focus: focus,
+                roster_text: roster || '',
             }),
         });
         if (!startRes.ok && startRes.status !== 202) {
@@ -1332,31 +1338,34 @@
             // status === 'pending' → keep polling
         }
 
-        // Normalize visual analysis fields to match transcript-path field names
-        return (data.plays || []).map((p, i) => ({
-            // Core identity
-            event_sequence: i + 1,
-            source_start_seconds: p.start,
-            source_end_seconds: p.end,
-            // Use transcript-path field names throughout
-            play_result: p.result || p.play_result || '',
-            team_focus: p.team || p.team_focus || 'offense',
-            phase: p.phase || '',
-            category: p.category || '',
-            tags: p.tags || [],
-            main_teaching_point: p.teaching_point || (p.teaching_points && p.teaching_points[0]) || '',
-            event_summary: p.summary || p.play || '',
-            players: p.players || [],
-            period: p.period || '',
-            clock: p.clock || '',
-            score_state: p.score || p.score_state || '',
-            ai_confidence: p.confidence || 0.8,
-            youtube_deep_link: p.youtube_url || `https://www.youtube.com/watch?v=${videoId}&t=${Math.floor(p.start || 0)}s`,
-            // Extra fields for display
-            play: p.play || p.event_summary || '',
-            timestamp: p.timestamp || '',
-            source: 'gemini-visual',
-        }));
+        // Normalize visual analysis fields to match transcript-path field names.
+        // Gemini returns source_start_seconds / source_end_seconds per the prompt;
+        // the legacy `start` / `end` fallbacks are kept for any older response shape.
+        return (data.plays || []).map((p, i) => {
+            const startSec = Number(p.source_start_seconds ?? p.start ?? 0);
+            const endSec = Number(p.source_end_seconds ?? p.end ?? 0);
+            return {
+                event_sequence: p.event_sequence ?? (i + 1),
+                source_start_seconds: startSec,
+                source_end_seconds: endSec,
+                play_result: p.play_result || p.result || '',
+                team_focus: p.team_focus || p.team || 'offense',
+                phase: p.phase || '',
+                category: p.category || '',
+                tags: p.tags || [],
+                main_teaching_point: p.main_teaching_point || p.teaching_point || (p.teaching_points && p.teaching_points[0]) || '',
+                event_summary: p.event_summary || p.summary || p.play || '',
+                players: p.players || [],
+                period: p.period || '',
+                clock: p.clock || '',
+                score_state: p.score_state || p.score || '',
+                ai_confidence: p.ai_confidence ?? p.confidence ?? 0.8,
+                youtube_deep_link: p.youtube_url || `https://www.youtube.com/watch?v=${videoId}&t=${Math.floor(startSec)}s`,
+                play: p.play || p.event_summary || '',
+                timestamp: p.timestamp || '',
+                source: 'gemini-visual',
+            };
+        });
     }
 
     // ─── GEMINI ANALYSIS ──────────────────────────────
@@ -1587,6 +1596,7 @@ ${transcript}`;
         try {
             const focus = focusSelect.value;
             const context = contextInput.value;
+            const roster = rosterInput ? rosterInput.value : '';
             const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
             let plays;
             let usedVisual = false;
@@ -1617,7 +1627,7 @@ ${transcript}`;
                 usedVisual = true;
                 setStep(1, '⚡ No captions found — switching to Gemini visual analysis (watches video directly)...');
                 setProgress(20);
-                plays = await analyzeVisually(youtubeUrl, videoId, focus, context);
+                plays = await analyzeVisually(youtubeUrl, videoId, focus, context, roster);
                 setProgress(80);
             } else {
                 // Transcript path

@@ -17,7 +17,7 @@
 import { getStore } from "@netlify/blobs";
 
 const VISUAL_PROMPT = `You are an expert lacrosse film analyst for BTB Lacrosse Club on Long Island, NY.
-Watch this lacrosse game video and identify every notable play.
+Watch this lacrosse game video and identify EVERY notable play — not just the highlights.
 
 For EACH play, return a JSON object with these EXACT fields (use these exact key names):
   event_sequence: (number, starting at 1)
@@ -30,25 +30,36 @@ For EACH play, return a JSON object with these EXACT fields (use these exact key
   tags: (array of 2-5 tags from: dodge-downhill, paint-touch, draw-two, one-more, inside-feed, two-man-game, step-down, on-the-run, crease-finish, shot-selection-good, shot-selection-poor, approach-angle-win, top-side-denial, hot-slide, second-slide, recover-out, communication-win, gb-toughness, clamp-win, decision-making-plus, decision-making-minus, compete-plus, iq-off-ball, coachable-error)
   main_teaching_point: (one sentence — the key coaching takeaway from this play)
   event_summary: (one sentence — what happened on the play)
-  players: (array of visible jersey numbers e.g. ["#7", "#22"], or [] if not visible)
+  players: (array of player references — see PLAYER NAMING below)
   period: (string — "1", "2", "3", "4", or "OT" if visible on scoreboard, else "")
   clock: (string — game clock if visible e.g. "8:32", else "")
   score_state: (string — score if visible e.g. "3-2", else "")
   ai_confidence: (number 0-1 — how confident you are in this play identification)
 
-Focus on identifying:
-- Dodging sequences and outcomes (split, roll, face, rocker dodges)
-- Slide packages (when they arrive, who slides, second slide timing)
-- Shot attempts and goalie saves (technique, placement, result)
-- Ground ball battles and outcomes
-- Faceoff wins and losses
-- Clear and ride situations
-- Off-ball movement, cutting, and positioning
-- Communication breakdowns or wins
+CRITICAL — VARIETY REQUIREMENT:
+Goals are roughly 5–10% of plays in a real game. If your output is mostly goals you have failed.
+For a typical full game (24-32 minutes of play), return AT LEAST 25 plays spanning these categories:
+- Faceoffs (every faceoff: who clamped, who got the GB)
+- Ground balls (every contested GB)
+- Shot attempts (goals, saves, AND shots that missed the cage or hit the pipe)
+- Goalie saves
+- Turnovers (caused turnovers AND unforced)
+- Defensive slides and recoveries
+- Clears (success and failure)
+- Rides (success and failure)
+- EMO / man-down possessions (each one)
+- Notable dodges that did NOT result in a shot (advantage created or denied)
+- Communication wins/losses (sliding correctly, recovering, hot-slide arriving on time)
 
-Return ONLY a JSON array of play objects. No markdown, no explanation, no wrapper object.
-Tag 20-40 plays for a full game, all visible plays for clips.
-If jersey numbers are not visible, use [] for players.`;
+For shorter clips, tag every visible play.
+
+PLAYER NAMING:
+- Default to jersey numbers like "#7" or "#22"
+- IF a roster is provided in the CONTEXT section below, use the provided names whenever
+  the visible jersey number matches a roster entry, e.g. ["#7 Jace", "#22 Skelly"]
+- If a jersey is not visible, use [] for players
+
+Return ONLY a JSON array of play objects. No markdown, no explanation, no wrapper object.`;
 
 const STORE_NAME = "film-breakdown-jobs";
 
@@ -82,7 +93,7 @@ export default async (req) => {
     });
   }
 
-  const { youtube_url, video_id, game_title, level, focus } = body;
+  const { youtube_url, video_id, game_title, level, focus, roster_text } = body;
   const jobId = safeJobId(body.jobId || "");
 
   if (!jobId) {
@@ -121,10 +132,15 @@ export default async (req) => {
     const contextLines = [
       game_title ? `Game: ${game_title}` : "",
       level      ? `Level: ${level}`     : "",
-      focus && focus !== "all" ? `Focus: ${focus} plays only` : "",
+      focus && focus !== "all" && focus !== "both" ? `Focus: ${focus} plays only` : "",
     ].filter(Boolean).join("\n");
 
-    const promptText = VISUAL_PROMPT + (contextLines ? `\n\n--- CONTEXT ---\n${contextLines}` : "");
+    const rosterTrim = (roster_text || "").trim().slice(0, 4000);
+    const rosterBlock = rosterTrim ? `\n\nROSTER (use these names when jersey numbers match):\n${rosterTrim}` : "";
+
+    const promptText = VISUAL_PROMPT
+      + (contextLines ? `\n\n--- CONTEXT ---\n${contextLines}` : "")
+      + rosterBlock;
 
     const resp = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
@@ -196,15 +212,22 @@ export default async (req) => {
     }
 
     const vid = video_id || (youtube_url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1] ?? "");
-    plays = plays.map((p, i) => ({
-      ...p,
-      index: i,
-      youtube_url: vid && p.start != null
-        ? `https://www.youtube.com/watch?v=${vid}&t=${Math.floor(Number(p.start))}s`
-        : videoUrl,
-      teaching_points: p.teaching_point ? [p.teaching_point] : [],
-      source: "gemini-visual",
-    }));
+    plays = plays.map((p, i) => {
+      // Gemini returns source_start_seconds per the prompt schema. Older shape used
+      // `start` — keep that as a fallback so we always produce a clickable timestamp.
+      const startSec = Number(p.source_start_seconds ?? p.start ?? 0);
+      return {
+        ...p,
+        index: i,
+        youtube_url: vid
+          ? `https://www.youtube.com/watch?v=${vid}&t=${Math.floor(startSec)}s`
+          : videoUrl,
+        teaching_points: p.main_teaching_point
+          ? [p.main_teaching_point]
+          : (p.teaching_point ? [p.teaching_point] : []),
+        source: "gemini-visual",
+      };
+    });
 
     await writeJob(jobId, {
       status: "done",
