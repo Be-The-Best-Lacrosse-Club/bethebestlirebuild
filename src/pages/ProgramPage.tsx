@@ -23,6 +23,11 @@ export function ProgramPage({ programKey }: { programKey: string }) {
   // Split CTA headline on newline
   const ctaParts = data.ctaHeadline.split("\n")
 
+  // Testimonials: prefer the 2nd as featured (matches existing layout), fall back to 1st.
+  // Show up to 2 others in the grid. Section hides entirely if there are none.
+  const featuredTestimonial = data.testimonials[1] ?? data.testimonials[0]
+  const otherTestimonials = data.testimonials.filter((t) => t !== featuredTestimonial).slice(0, 2)
+
   const label = programKey === "boys" ? "Boys" : programKey === "girls" ? "Girls" : data.navLabel
 
   return (
@@ -249,50 +254,54 @@ export function ProgramPage({ programKey }: { programKey: string }) {
       </section>
 
       {/* Results / Testimonials */}
-      <section className="py-24 px-6 border-b border-white/[0.07]">
-        <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Results</div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
-            Hear It From<br />{isGirls ? "BTB Athletes" : "The Players"}
-          </h2>
+      {featuredTestimonial && (
+        <section className="py-24 px-6 border-b border-white/[0.07]">
+          <div className="max-w-[900px] mx-auto">
+            <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Results</div>
+            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
+              Hear It From<br />{isGirls ? "BTB Athletes" : "The Players"}
+            </h2>
 
-          {/* Featured */}
-          <div className="relative rounded-2xl bg-neutral-950 border border-white/[0.07] overflow-hidden mb-4 p-10">
-            <div className="absolute top-0 left-0 w-1 h-full bg-[var(--btb-red)]" />
-            <div className="absolute top-4 right-6 font-display text-[6rem] text-white/[0.04] leading-none select-none">"</div>
-            <div className="relative">
-              <span className="text-[0.62rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-5 inline-block">Commit Story</span>
-              <p className="font-display text-[clamp(1.1rem,2.5vw,1.5rem)] uppercase tracking-wide leading-[1.25] text-white mb-8 max-w-[600px]">
-                "{data.testimonials[1].quote}"
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[var(--btb-red)] flex items-center justify-center font-bold text-sm">{data.testimonials[1].initials}</div>
-                <div>
-                  <div className="font-semibold text-white text-sm">{data.testimonials[1].name}</div>
-                  <div className="text-white/35 text-[0.72rem]">{data.testimonials[1].role}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[data.testimonials[0], data.testimonials[2]].map((t) => (
-              <div key={t.initials} className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-7 hover:border-white/[0.12] transition-colors">
-                <div className="font-display text-3xl text-white/[0.08] leading-none mb-3">"</div>
-                <p className="text-[0.84rem] text-white/40 leading-[1.8] mb-6">{t.quote}</p>
-                <div className="flex items-center gap-3 pt-4 border-t border-white/[0.07]">
-                  <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center font-bold text-[0.72rem] text-white shrink-0">{t.initials}</div>
+            {/* Featured */}
+            <div className="relative rounded-2xl bg-neutral-950 border border-white/[0.07] overflow-hidden mb-4 p-10">
+              <div className="absolute top-0 left-0 w-1 h-full bg-[var(--btb-red)]" />
+              <div className="absolute top-4 right-6 font-display text-[6rem] text-white/[0.04] leading-none select-none">"</div>
+              <div className="relative">
+                <span className="text-[0.62rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-5 inline-block">Commit Story</span>
+                <p className="font-display text-[clamp(1.1rem,2.5vw,1.5rem)] uppercase tracking-wide leading-[1.25] text-white mb-8 max-w-[600px]">
+                  "{featuredTestimonial.quote}"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[var(--btb-red)] flex items-center justify-center font-bold text-sm">{featuredTestimonial.initials}</div>
                   <div>
-                    <div className="font-semibold text-white text-[0.82rem]">{t.name}</div>
-                    <div className="text-white/30 text-[0.7rem]">{t.role}</div>
+                    <div className="font-semibold text-white text-sm">{featuredTestimonial.name}</div>
+                    <div className="text-white/35 text-[0.72rem]">{featuredTestimonial.role}</div>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Grid */}
+            {otherTestimonials.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {otherTestimonials.map((t) => (
+                  <div key={t.initials} className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-7 hover:border-white/[0.12] transition-colors">
+                    <div className="font-display text-3xl text-white/[0.08] leading-none mb-3">"</div>
+                    <p className="text-[0.84rem] text-white/40 leading-[1.8] mb-6">{t.quote}</p>
+                    <div className="flex items-center gap-3 pt-4 border-t border-white/[0.07]">
+                      <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center font-bold text-[0.72rem] text-white shrink-0">{t.initials}</div>
+                      <div>
+                        <div className="font-semibold text-white text-[0.82rem]">{t.name}</div>
+                        <div className="text-white/30 text-[0.7rem]">{t.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Apply CTA */}
       <section className="py-24 px-6" id={anchorId}>
