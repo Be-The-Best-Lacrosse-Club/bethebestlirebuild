@@ -25,7 +25,7 @@ const phases = [
 
 const testimonials = [
   { quote: "The film study changed my whole game. I started seeing defensive rotations before they happened. My high school coaches noticed within the first week of tryouts.", name: "Ethan K.", role: "Class of 2027 · Made Varsity as Freshman", initials: "EK" },
-  { quote: "I committed to Stony Brook my junior year. I don't think that happens without BTB. The recruiting prep alone was worth it — knowing how to reach out, what to send, how to talk to coaches.", name: "Connor B.", role: "Committed to Stony Brook University", initials: "CB" },
+  { quote: "Watching film with Coach Dan flipped how I think about the game. I stopped reacting and started anticipating — reading slides, off-ball movement, where the ball is going next. It's a completely different sport when you actually see it.", name: "BTB Player", role: "2030 Rage · BTB Boys", initials: "BR" },
   { quote: "My son came in as a good athlete who happened to play lacrosse. After two years at BTB, he is a lacrosse player who happens to be a good athlete. The difference is coaching.", name: "Jennifer M.", role: "Parent · 2028 Travel Team", initials: "JM" },
 ]
 

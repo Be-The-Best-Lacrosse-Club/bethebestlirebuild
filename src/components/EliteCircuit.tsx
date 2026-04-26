@@ -2,12 +2,16 @@ import { useReveal } from "@/hooks/useReveal"
 import { Trophy } from "lucide-react"
 
 const tournaments = [
-  { name: "NLF National Championships", location: "Lehigh, PA", level: "Elite" },
-  { name: "NXT Summer Invitational", location: "Conshohocken, PA", level: "National" },
-  { name: "Mid-Atlantic Showcase", location: "Owings Mills, MD", level: "Showcase" },
-  { name: "L.I. Lax Fest", location: "Farmingdale, NY", level: "Local" },
-  { name: "Aloha Lax Tournament", location: "Baltimore, MD", level: "Competitive" },
-  { name: "World Series of Lacrosse", location: "Maryland", level: "Championship" },
+  { name: "Naptown", location: "Annapolis, MD", level: "National" },
+  { name: "The Gauntlet", location: "Long Island, NY", level: "National" },
+  { name: "Lax By The Sea", location: "Long Branch, NJ", level: "Showcase" },
+  { name: "Maryland Cup", location: "Maryland", level: "Elite" },
+  { name: "Apex Events", location: "Pennsylvania", level: "National" },
+  { name: "LI Summer Showdown", location: "Farmingdale, NY", level: "Showcase" },
+  { name: "Adrenaline Events", location: "Multi-State", level: "National" },
+  { name: "Live Love Lax", location: "Long Island, NY", level: "Showcase" },
+  { name: "Excelsior Games", location: "New York", level: "National" },
+  { name: "Crabfeast", location: "Maryland", level: "Elite" },
 ]
 
 export function EliteCircuit() {

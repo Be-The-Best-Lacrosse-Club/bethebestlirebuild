@@ -9,8 +9,8 @@ const testimonials = [
     spec: "PLAYER_VOUCH // 01"
   },
   {
-    quote: "I committed to Stony Brook my junior year. I don't think that happens without BTB. The recruiting prep alone was worth it — knowing how to talk to coaches.",
-    role: "Player · Stony Brook Commit",
+    quote: "Studying film with Coach Dan changed how I see the whole game. I used to just chase the ball. Now I read the play before it develops and I'm in the right spot before anyone else moves.",
+    role: "Player · 2032 Riptide",
     spec: "PLAYER_VOUCH // 02"
   },
   {
