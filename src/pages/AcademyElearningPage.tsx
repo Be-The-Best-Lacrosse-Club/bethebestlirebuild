@@ -8,6 +8,7 @@ import {
   markCourseComplete,
   getWallOfFame,
   addToWallOfFame,
+  syncProgressFromServer,
   PILLAR_CONFIG,
   PILLAR_ORDER,
   type AcademyCourse,
@@ -92,9 +93,15 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
   const [wallName, setWallName] = useState("")
   const [nameSubmitted, setNameSubmitted] = useState(false)
 
+  // On mount: sync progress from server + load wall of fame
   useEffect(() => {
-    setWallEntries(getWallOfFame())
-  }, [])
+    if (user?.id) {
+      syncProgressFromServer(user.id).then((serverProgress) => {
+        setProgress(serverProgress)
+      })
+    }
+    getWallOfFame().then((entries) => setWallEntries(entries))
+  }, [user?.id])
 
   const handleLogout = async () => {
     await logout()
@@ -167,7 +174,7 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
       setAnswerSubmitted(false)
     } else {
       // Lesson complete
-      markLessonComplete(activeCourse.id, activeLesson.id)
+      markLessonComplete(activeCourse.id, activeLesson.id, user?.id)
       const newProgress = getAcademyProgress()
       setProgress(newProgress)
       setShowLessonComplete(true)
@@ -177,7 +184,7 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
         (l) => newProgress[activeCourse.id]?.completedLessons.includes(l.id),
       )
       if (completedAll && !newProgress[activeCourse.id]?.completedAt) {
-        markCourseComplete(activeCourse.id)
+        markCourseComplete(activeCourse.id, user?.id)
         setTimeout(() => {
           setShowCourseComplete(true)
           setShowLessonComplete(false)
@@ -196,8 +203,9 @@ export function AcademyElearningPage({ gender }: { gender: Gender }) {
 
   const submitWallEntry = () => {
     if (!wallName.trim() || !activeCourse) return
-    const updated = addToWallOfFame(wallName.trim(), gender, activeCourse.tier)
-    setWallEntries(updated)
+    addToWallOfFame(wallName.trim(), gender, activeCourse.tier, activeCourse.id).then(() => {
+      getWallOfFame().then((entries) => setWallEntries(entries))
+    })
     setNameSubmitted(true)
   }
 

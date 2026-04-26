@@ -51,79 +51,137 @@ export const PILLAR_CONFIG: Record<Pillar, { label: string; description: string 
 
 export const PILLAR_ORDER: Pillar[] = ["game", "leadership", "team"]
 
+// ─── API ENDPOINTS ────────────────────────────────────────────────────
+
+const PROGRESS_API = "/.netlify/functions/academy-progress"
+const WOF_API      = "/.netlify/functions/academy-wof"
+
 // ─── WALL OF FAME ─────────────────────────────────────────────────────
+// Backed by Airtable via academy-wof function.
+// Falls back to empty array if the API is unreachable.
 
-const WOF_KEY = "btb-wall-of-fame"
-
-const SEED_WALL: WallOfFameEntry[] = [
-  { name: "Jake Morrison", gender: "boys", tier: "middle", completedAt: "2026-02-22" },
-  { name: "Sophia Marino", gender: "girls", tier: "youth", completedAt: "2026-03-03" },
-  { name: "Liam O'Brien", gender: "boys", tier: "high", completedAt: "2026-03-10" },
-  { name: "Ava Rodriguez", gender: "girls", tier: "middle", completedAt: "2026-03-14" },
-]
-
-export function getWallOfFame(): WallOfFameEntry[] {
+export async function getWallOfFame(): Promise<WallOfFameEntry[]> {
   try {
-    const raw = localStorage.getItem(WOF_KEY)
-    if (raw) return JSON.parse(raw)
-    localStorage.setItem(WOF_KEY, JSON.stringify(SEED_WALL))
-    return SEED_WALL
+    const res = await fetch(WOF_API)
+    if (!res.ok) throw new Error("WOF fetch failed")
+    const data = await res.json()
+    return (data.entries || []) as WallOfFameEntry[]
   } catch {
-    return SEED_WALL
+    return []
   }
 }
 
-export function addToWallOfFame(name: string, gender: Gender, tier: AgeTier): WallOfFameEntry[] {
-  const entries = getWallOfFame()
-  const entry: WallOfFameEntry = {
-    name,
-    gender,
-    tier,
-    completedAt: new Date().toISOString().split("T")[0],
+export async function addToWallOfFame(
+  name: string,
+  gender: Gender,
+  tier: AgeTier,
+  courseId: string,
+): Promise<void> {
+  try {
+    await fetch(WOF_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, gender, tier, courseId }),
+    })
+  } catch {
+    // Non-fatal — wall of fame write failure silently ignored
   }
-  const updated = [...entries, entry]
-  localStorage.setItem(WOF_KEY, JSON.stringify(updated))
-  return updated
 }
 
 // ─── PROGRESS TRACKING ────────────────────────────────────────────────
+// Backed by Airtable via academy-progress function.
+// Uses localStorage as a write-through cache so the UI stays instant:
+//   - Writes go to cache first, then sync to Airtable in the background
+//   - Reads come from cache; full sync from Airtable on initial load
 
-const PROGRESS_KEY = "btb-academy-progress"
+const PROGRESS_CACHE_KEY = "btb-academy-progress-v2"
 
-interface AcademyProgress {
+export interface AcademyProgress {
   [courseId: string]: {
     completedLessons: string[]
     completedAt?: string
   }
 }
 
-export function getAcademyProgress(): AcademyProgress {
+function readCache(): AcademyProgress {
   try {
-    const raw = localStorage.getItem(PROGRESS_KEY)
+    const raw = localStorage.getItem(PROGRESS_CACHE_KEY)
     return raw ? JSON.parse(raw) : {}
   } catch {
     return {}
   }
 }
 
-export function markLessonComplete(courseId: string, lessonId: string): void {
-  const progress = getAcademyProgress()
-  if (!progress[courseId]) {
-    progress[courseId] = { completedLessons: [] }
+function writeCache(progress: AcademyProgress): void {
+  try {
+    localStorage.setItem(PROGRESS_CACHE_KEY, JSON.stringify(progress))
+  } catch { /* storage full — non-fatal */ }
+}
+
+// Sync all progress for a user from Airtable into local cache
+export async function syncProgressFromServer(userId: string): Promise<AcademyProgress> {
+  try {
+    const res = await fetch(`${PROGRESS_API}?userId=${encodeURIComponent(userId)}`)
+    if (!res.ok) throw new Error("Sync failed")
+    const data = await res.json()
+    const progressMap: AcademyProgress = data.progressMap || {}
+    writeCache(progressMap)
+    return progressMap
+  } catch {
+    // Network error — return whatever is cached
+    return readCache()
   }
+}
+
+// Read progress from cache (call syncProgressFromServer on mount for freshness)
+export function getAcademyProgress(): AcademyProgress {
+  return readCache()
+}
+
+// Mark a lesson complete: update cache immediately, persist to Airtable async
+export function markLessonComplete(courseId: string, lessonId: string, userId?: string): void {
+  const progress = readCache()
+  if (!progress[courseId]) progress[courseId] = { completedLessons: [] }
   if (!progress[courseId].completedLessons.includes(lessonId)) {
     progress[courseId].completedLessons.push(lessonId)
   }
-  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress))
+  writeCache(progress)
+
+  // Background sync to Airtable (fire-and-forget)
+  if (userId) {
+    fetch(PROGRESS_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId,
+        courseId,
+        completedLessons: progress[courseId].completedLessons,
+        completedAt: progress[courseId].completedAt,
+      }),
+    }).catch(() => { /* non-fatal */ })
+  }
 }
 
-export function markCourseComplete(courseId: string): void {
-  const progress = getAcademyProgress()
-  if (!progress[courseId]) {
-    progress[courseId] = { completedLessons: [] }
+// Mark a full course complete: update cache + Airtable
+export function markCourseComplete(courseId: string, userId?: string): void {
+  const progress = readCache()
+  if (!progress[courseId]) progress[courseId] = { completedLessons: [] }
+  const completedAt = new Date().toISOString().split("T")[0]
+  progress[courseId].completedAt = completedAt
+  writeCache(progress)
+
+  if (userId) {
+    fetch(PROGRESS_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId,
+        courseId,
+        completedLessons: progress[courseId].completedLessons,
+        completedAt,
+      }),
+    }).catch(() => { /* non-fatal */ })
   }
-  progress[courseId].completedAt = new Date().toISOString().split("T")[0]
-  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress))
 }
 
 // ─── COURSE DATA ──────────────────────────────────────────────────────
