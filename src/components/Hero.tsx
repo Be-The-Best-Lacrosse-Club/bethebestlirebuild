@@ -168,8 +168,7 @@ export function Hero() {
           </a>
 
           <a
-            ref={secondaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="/academy"
+            href="/academy-landing.html"
             className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-[0.72rem] font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
           >
             Academy Access
