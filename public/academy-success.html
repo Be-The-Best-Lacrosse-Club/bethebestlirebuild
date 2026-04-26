@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>You're In — BTB Digital Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;-webkit-font-smoothing:antialiased;}
+.check-wrap{width:80px;height:80px;border-radius:50%;background:rgba(0,210,106,.12);border:2px solid rgba(0,210,106,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 32px;animation:popIn .6s cubic-bezier(0.16,1,0.3,1) forwards;}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.check-icon{font-size:36px;color:#00d26a;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.3em;color:#00d26a;text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp .6s ease .3s forwards;}
+h1{font-family:'Anton',sans-serif;font-size:clamp(48px,8vw,96px);line-height:.9;text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fadeUp .7s ease .4s forwards;}
+h1 span{color:#D22630;}
+.sub{font-size:16px;color:rgba(255,255,255,.5);max-width:500px;line-height:1.7;font-weight:300;margin-bottom:48px;opacity:0;animation:fadeUp .7s ease .5s forwards;}
+.sub strong{color:#fff;}
+.tier-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:40px;opacity:0;animation:fadeUp .6s ease .55s forwards;}
+.tier-badge.member{background:rgba(0,210,106,.1);border:1px solid rgba(0,210,106,.3);color:#00d26a;}
+.tier-badge.public{background:rgba(210,38,48,.1);border:1px solid rgba(210,38,48,.3);color:#D22630;}
+.whats-next{background:#111;border:1px solid rgba(255,255,255,.08);padding:40px;max-width:560px;width:100%;margin-bottom:40px;text-align:left;opacity:0;animation:fadeUp .7s ease .65s forwards;}
+.whats-next h3{font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;margin-bottom:20px;letter-spacing:.04em;}
+.next-item{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.next-item:last-child{border-bottom:none;}
+.next-num{width:28px;height:28px;background:rgba(210,38,48,.15);color:#D22630;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:14px;flex-shrink:0;margin-top:2px;}
+.next-text h4{font-size:14px;font-weight:600;margin-bottom:3px;}
+.next-text p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5;}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .7s ease .75s forwards;}
+.btn-main{padding:16px 40px;background:#D22630;color:#fff;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:background .2s;}
+.btn-main:hover{background:#a01e26;}
+.btn-sec{padding:16px 40px;background:transparent;color:rgba(255,255,255,.5);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:color .2s,border-color .2s;}
+.btn-sec:hover{color:#fff;border-color:rgba(255,255,255,.4);}
+.session-id{font-size:10px;color:rgba(255,255,255,.15);margin-top:32px;font-family:monospace;opacity:0;animation:fadeUp .5s ease .9s forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* Confetti */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.dot{position:absolute;border-radius:50%;animation:fall linear forwards;}
+@keyframes fall{from{transform:translateY(-20px) rotate(0deg);opacity:1}to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<div class="confetti-wrap" id="confetti"></div>
+
+<div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;">
+  <div class="check-wrap">
+    <span class="check-icon">✓</span>
+  </div>
+
+  <div class="eyebrow">Payment Confirmed</div>
+
+  <h1>YOU'RE <span>IN.</span></h1>
+
+  <p class="sub" id="subText">
+    Welcome to BTB Digital Academy. <strong>Film. IQ. Systems. Execution.</strong><br>
+    Your access is active — the full course library is waiting.
+  </p>
+
+  <div class="tier-badge" id="tierBadge">
+    <span>✦</span>
+    <span id="tierLabel">BTB Academy Access</span>
+  </div>
+
+  <div class="whats-next">
+    <h3>What's Next</h3>
+    <div class="next-item">
+      <div class="next-num">1</div>
+      <div class="next-text">
+        <h4>Log in to BTB OS</h4>
+        <p>Your Digital Academy module is inside BTB OS. Log in with your BTB account to access all 48 modules, film library, and playbooks.</p>
+      </div>
+    </div>
+    <div class="next-item">
+      <div class="next-num">2</div>
+      <div class="next-text">
+        <h4>Pick Your Program</h4>
+        <p>Use the Boys/Girls toggle at the top of the academy to filter content for your program. Shared courses like Player IQ show for both.</p>
+      </div>
+    </div>
+    <div class="next-item">
+      <div class="next-num">3</div>
+      <div class="next-text">
+        <h4>Start With Player IQ</h4>
+        <p>"The 6 Reads Every Player Makes" is the most impactful first module. 6 lessons, 45 minutes, and you'll see the game differently by the end.</p>
+      </div>
+    </div>
+    <div class="next-item">
+      <div class="next-num">4</div>
+      <div class="next-text">
+        <h4>Confirmation Email</h4>
+        <p>A receipt is on its way from Stripe. Keep it as your access record for the season.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="https://btb-os.netlify.app" class="btn-main">Open BTB OS — Digital Academy ▸</a>
+    <a href="https://www.bethebestli.com" class="btn-sec">Back to BTB</a>
+  </div>
+
+  <div class="session-id" id="sessionId"></div>
+</div>
+
+<script>
+// Read URL params
+const params = new URLSearchParams(window.location.search)
+const tier = params.get('tier') || 'public'
+const sessionId = params.get('session_id')
+
+// Update UI based on tier
+const badge = document.getElementById('tierBadge')
+const label = document.getElementById('tierLabel')
+const sub   = document.getElementById('subText')
+
+if (tier === 'btb') {
+  badge.className = 'tier-badge member'
+  label.textContent = '✦ BTB Member Access — $30 Season Pass'
+  sub.innerHTML = 'Welcome to BTB Digital Academy, <strong>BTB member.</strong> Your $30 member rate is confirmed. Film. IQ. Systems. Execution. Full access is live.'
+} else {
+  badge.className = 'tier-badge public'
+  label.textContent = '★ Public Access — $75 Season Pass'
+}
+
+if (sessionId) {
+  document.getElementById('sessionId').textContent = 'Order: ' + sessionId.slice(-12).toUpperCase()
+}
+
+// Confetti
+function spawnConfetti() {
+  const wrap = document.getElementById('confetti')
+  const colors = ['#D22630','#fff','#00d26a','#FFB800','#3B82F6','#EC4899']
+  for (let i = 0; i < 80; i++) {
+    const dot = document.createElement('div')
+    dot.className = 'dot'
+    const size = Math.random() * 10 + 4
+    const color = colors[Math.floor(Math.random() * colors.length)]
+    const left = Math.random() * 100
+    const delay = Math.random() * 3
+    const dur   = Math.random() * 3 + 2
+    dot.style.cssText = `width:${size}px;height:${size}px;background:${color};left:${left}%;top:-20px;animation-duration:${dur}s;animation-delay:${delay}s;`
+    // Mix in some squares
+    if (Math.random() > 0.5) dot.style.borderRadius = '2px'
+    wrap.appendChild(dot)
+    setTimeout(() => dot.remove(), (delay + dur + 0.5) * 1000)
+  }
+}
+spawnConfetti()
+// Second burst
+setTimeout(spawnConfetti, 1200)
+</script>
+</body>
+</html>

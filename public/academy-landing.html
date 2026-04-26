@@ -678,18 +678,45 @@ function handleUserLogout() {
 }
 
 // ─── CHECKOUT HANDLERS ───────────────────────────────────
+async function callCheckout(tier, email, name) {
+  // Show loading state on button
+  const btn = tier === 'btb'
+    ? document.getElementById('btnAccessMember')
+    : document.querySelector('.btn-access-public')
+  const orig = btn.textContent
+  btn.textContent = 'Loading...'
+  btn.disabled = true
+
+  try {
+    const res = await fetch('/.netlify/functions/academy-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tier, email, name })
+    })
+    const data = await res.json()
+    if (data.url) {
+      window.location.href = data.url
+    } else {
+      alert('Something went wrong: ' + (data.error || 'Unknown error'))
+      btn.textContent = orig
+      btn.disabled = false
+    }
+  } catch (err) {
+    alert('Network error — please try again.')
+    btn.textContent = orig
+    btn.disabled = false
+  }
+}
+
 function handleMemberCheckout() {
   if (!currentUser) { openLogin(); return; }
-  // TODO: wire to Stripe or LeagueApps payment link for $30
-  // For now, redirect to interest form with member flag
-  alert('Member checkout coming soon!\n\nYou\'ll be charged $30 for the full season.\n\nWiring to payment processor — check back shortly.')
-  // window.location.href = 'https://buy.stripe.com/YOUR_MEMBER_LINK'
+  const email = currentUser.email || ''
+  const name  = currentUser.user_metadata?.full_name || ''
+  callCheckout('btb', email, name)
 }
 
 function handlePublicCheckout() {
-  // TODO: wire to Stripe or LeagueApps payment link for $75
-  alert('Public checkout coming soon!\n\nYou\'ll be charged $75 for the full season.\n\nWiring to payment processor — check back shortly.')
-  // window.location.href = 'https://buy.stripe.com/YOUR_PUBLIC_LINK'
+  callCheckout('public', '', '')
 }
 
 // ─── INTERSECTION OBSERVER ────────────────────────────────
