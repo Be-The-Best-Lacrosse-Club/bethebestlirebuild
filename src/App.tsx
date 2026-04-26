@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { Toaster } from "sonner"
 import { AuthProvider } from "@/context/AuthContext"
 import { PublicLayout } from "@/layouts/PublicLayout"
@@ -29,7 +29,6 @@ import { InterestFormPage } from "@/pages/InterestFormPage"
 import { ProgramPage } from "@/pages/ProgramPage"
 import { PlayerHubPage } from "@/pages/PlayerHubPage"
 import { CoachesHubPage } from "@/pages/CoachesHubPage"
-import { AcademyElearningPage } from "@/pages/AcademyElearningPage"
 import { TravelPage } from "@/pages/TravelPage"
 import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
@@ -91,10 +90,10 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route element={<HubLayout />}>
                 <Route path="/boys/players" element={<PlayerHubPage gender="boys" />} />
-                <Route path="/boys/academy" element={<AcademyElearningPage gender="boys" />} />
+                <Route path="/boys/academy" element={<Navigate to="/boys/players" replace />} />
                 <Route path="/boys/coaches-hub" element={<CoachesHubPage gender="boys" />} />
                 <Route path="/girls/players" element={<PlayerHubPage gender="girls" />} />
-                <Route path="/girls/academy" element={<AcademyElearningPage gender="girls" />} />
+                <Route path="/girls/academy" element={<Navigate to="/girls/players" replace />} />
                 <Route path="/girls/coaches-hub" element={<CoachesHubPage gender="girls" />} />
               </Route>
             </Route>
