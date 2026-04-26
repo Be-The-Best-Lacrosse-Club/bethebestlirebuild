@@ -35,6 +35,7 @@ import { TeamsPage } from "@/pages/TeamsPage"
 import { SmsPolicyPage } from "@/pages/SmsPolicyPage"
 import { FuturesPage } from "@/pages/FuturesPage"
 import { CampsPage } from "@/pages/CampsPage"
+import { FamilyHubPage } from "@/pages/FamilyHubPage"
 function LandingPage() {
   return (
     <>
@@ -95,6 +96,7 @@ function App() {
                 <Route path="/girls/players" element={<PlayerHubPage gender="girls" />} />
                 <Route path="/girls/academy" element={<Navigate to="/girls/players" replace />} />
                 <Route path="/girls/coaches-hub" element={<CoachesHubPage gender="girls" />} />
+                <Route path="/family-hub" element={<FamilyHubPage />} />
               </Route>
             </Route>
           </Routes>

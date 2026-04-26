@@ -37,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: "Coach Dan (Dev)",
         role: "owner",
         gender: "boys",
+        gradYear: "2036",
       })
       setLoading(false)
       return

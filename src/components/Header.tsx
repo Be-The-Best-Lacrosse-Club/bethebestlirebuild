@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { Menu, X, ChevronDown, Lock, LogOut, Shield, Activity } from "lucide-react"
+import { Menu, X, ChevronDown, Lock, LogOut, Shield, Activity, Layout } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 
 const programLinks = (gender: string) => [
@@ -208,7 +208,13 @@ export function Header() {
               <span className={`text-[0.6rem] font-bold uppercase tracking-[1px] px-2 py-0.5 rounded ${roleBadgeStyles[user.role] || "bg-black/5 text-black/40"}`}>
                 {roleLabel}
               </span>
-              <span className={`text-[0.68rem] font-semibold uppercase tracking-[1px] ${scrolled ? "text-black/30" : "text-white/30"}`}>{user.name}</span>
+              <button
+                onClick={() => go("/family-hub")}
+                className={`text-[0.68rem] font-semibold uppercase tracking-[1px] transition-colors ${scrolled ? "text-black/30 hover:text-black" : "text-white/30 hover:text-white"}`}
+                title="Open Family Hub"
+              >
+                {user.name}
+              </button>
               <button
                 onClick={handleLogout}
                 className={`p-2 transition-colors ${scrolled ? "text-black/30 hover:text-black" : "text-white/30 hover:text-white"}`}
@@ -331,8 +337,19 @@ export function Header() {
                   <span className={`text-[0.6rem] font-bold uppercase tracking-[1px] px-2 py-0.5 rounded ${roleBadgeStyles[user.role] || "bg-black/5 text-black/40"}`}>
                     {roleLabel}
                   </span>
-                  <span className="text-[0.78rem] font-semibold text-black/40">{user.name}</span>
+                  <button
+                    onClick={() => { go("/family-hub"); setMobileOpen(false) }}
+                    className="text-[0.78rem] font-semibold text-black/40 hover:text-black transition-colors"
+                  >
+                    {user.name}
+                  </button>
                 </div>
+                <button
+                  onClick={() => { go("/family-hub"); setMobileOpen(false) }}
+                  className="flex items-center gap-2 text-[0.88rem] font-semibold uppercase tracking-[1.5px] text-black/60 hover:text-black py-2 mb-2"
+                >
+                  <Layout size={14} /> Family Hub
+                </button>
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-2 text-[0.88rem] font-semibold uppercase tracking-[1.5px] text-black/40 hover:text-black py-2"
