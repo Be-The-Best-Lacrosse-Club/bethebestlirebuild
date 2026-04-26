@@ -1,10 +1,16 @@
+import React from "react"
 import { ArrowRight, Phone } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useReveal } from "@/hooks/useReveal"
+import { useWordSplit, useMagnetic, useFadeUp } from "@/hooks/useScrollAnimation"
 
 export function CTASection() {
   const ref = useReveal({ className: "reveal-scale" })
   const navigate = useNavigate()
+  const titleRef = useWordSplit(60)
+  const cardRef = useFadeUp(0)
+  const primaryRef = useMagnetic(0.3)
+  const secondaryRef = useMagnetic(0.25)
 
   return (
     <section className="bg-white py-28 px-6 relative overflow-hidden" id="apply">
@@ -15,11 +21,11 @@ export function CTASection() {
           <span className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)]">Ready to Apply</span>
         </div>
 
-        <div ref={ref} className="bg-black rounded-2xl overflow-hidden">
+        <div ref={cardRef as React.RefObject<HTMLDivElement>} className="bg-black rounded-2xl overflow-hidden">
           <div className="h-1.5 bg-[var(--btb-red)]" />
 
           <div className="px-10 md:px-16 py-16 text-center">
-            <h2 className="font-display text-[clamp(2.8rem,6vw,5rem)] uppercase tracking-wide leading-[0.9] text-white mb-6">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,6vw,5rem)] uppercase tracking-wide leading-[0.9] text-white mb-6">
               This Is Not a Tryout.<br />
               It's an <span className="text-[var(--btb-red)]">Application.</span>
             </h2>

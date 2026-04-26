@@ -1,4 +1,6 @@
+import React from "react"
 import { useReveal } from "@/hooks/useReveal"
+import { useWordSplit, useStaggerReveal, useCounter } from "@/hooks/useScrollAnimation"
 import { SectionHeader } from "@/components/shared/SectionHeader"
 
 const achievements = [
@@ -14,6 +16,8 @@ const achievements = [
 
 export function ProofSection() {
   const gridRef = useReveal({ className: "reveal-stagger" })
+  const cardsRef = useStaggerReveal(60)
+  const titleRef = useWordSplit(55)
 
   return (
     <section className="bg-black py-32 px-6 relative overflow-hidden" id="proof">
@@ -30,7 +34,7 @@ export function ProofSection() {
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               ELITE PERFORMANCE DATA
             </div>
-            <h2 className="font-display text-[clamp(2.8rem,7vw,5.5rem)] uppercase leading-[0.9] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,7vw,5.5rem)] uppercase leading-[0.9] text-white">
               Recruiting <br /> <span className="text-[var(--btb-red)]">Flagships.</span>
             </h2>
           </div>
@@ -39,9 +43,9 @@ export function ProofSection() {
           </div>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-4 gap-0.5 bg-white/10 border border-white/10">
+        <div ref={cardsRef as React.RefObject<HTMLDivElement>} className="grid grid-cols-1 md:grid-cols-4 gap-0.5 bg-white/10 border border-white/10">
           {achievements.map((a, i) => (
-            <div key={i} className="reveal-child group relative p-8 bg-black hover:bg-[var(--btb-red)] transition-all duration-300">
+            <div key={i} className="stagger-child group relative p-8 bg-black hover:bg-[var(--btb-red)] transition-all duration-300">
               {/* Corner Spec */}
               <div className="absolute top-4 right-4 text-[10px] font-mono text-white/20 group-hover:text-white/60 transition-colors">
                 {a.spec}

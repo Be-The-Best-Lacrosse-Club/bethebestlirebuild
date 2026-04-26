@@ -1,5 +1,6 @@
 import React from 'react';
 import { useReveal } from "@/hooks/useReveal";
+import { useWordSplit, useStaggerReveal, useParallax } from "@/hooks/useScrollAnimation";
 import { Hammer, ShieldAlert, TrendingUp } from 'lucide-react';
 
 const pillars = [
@@ -22,13 +23,16 @@ const pillars = [
 
 export function TheStandard() {
   const ref = useReveal({ className: "reveal-stagger" });
+  const titleRef = useWordSplit(50);
+  const cardsRef = useStaggerReveal(90);
+  const bgWordRef = useParallax(0.15);
 
   return (
     <section className="relative bg-[#D22630] py-32 px-6 overflow-hidden">
       {/* Background Texture & Ghost Type */}
       <div className="absolute inset-0 z-0 opacity-10">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-full" ref={bgWordRef as React.RefObject<HTMLDivElement>}>
           <span className="font-display text-[30vw] leading-none text-black select-none">
             ELITE
           </span>
@@ -44,15 +48,15 @@ export function TheStandard() {
           <div className="inline-block px-4 py-1.5 bg-black text-white text-[0.65rem] font-black uppercase tracking-[4px] rounded-sm mb-6">
             The Difference
           </div>
-          <h2 className="font-display text-[clamp(2.8rem,6vw,4.5rem)] uppercase tracking-tight text-white leading-[0.95]">
+          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,6vw,4.5rem)] uppercase tracking-tight text-white leading-[0.95]">
             Culture Built on <br />
             <span className="text-black/40">The Standard.</span>
           </h2>
         </div>
 
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div ref={cardsRef as React.RefObject<HTMLDivElement>} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {pillars.map((p, i) => (
-            <div key={i} className="reveal-child group p-10 bg-black text-white border border-white/5 hover:border-white/20 transition-all duration-300 relative overflow-hidden">
+            <div key={i} className="stagger-child group p-10 bg-black text-white border border-white/5 hover:border-white/20 transition-all duration-300 relative overflow-hidden">
               {/* Decorative Corner */}
               <div className="absolute top-0 right-0 w-12 h-12 bg-white/5 skew-x-[-45deg] translate-x-6 -translate-y-6" />
               

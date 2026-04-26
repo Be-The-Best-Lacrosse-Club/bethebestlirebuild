@@ -170,3 +170,49 @@ html.lenis, html.lenis body {
   background: var(--btb-red);
   color: white;
 }
+
+/* ─── CUSTOM CURSOR ──────────────────────────────────────────────── */
+body { cursor: none; }
+a, button, [role="button"] { cursor: none; }
+
+#btb-cursor {
+  position: fixed; top: 0; left: 0;
+  width: 10px; height: 10px;
+  background: var(--btb-red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.06s ease, width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1);
+  mix-blend-mode: difference;
+}
+#btb-cursor-ring {
+  position: fixed; top: 0; left: 0;
+  width: 38px; height: 38px;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.16s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
+}
+#btb-cursor.hovered { width: 44px; height: 44px; background: white; }
+#btb-cursor-ring.hovered { opacity: 0; }
+
+/* ─── SCROLL PROGRESS BAR ────────────────────────────────────────── */
+#btb-scroll-progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: var(--btb-red);
+  z-index: 9997;
+  transition: width 0.05s linear;
+}
+
+/* ─── SCROLL INDICATOR ANIMATION ────────────────────────────────── */
+@keyframes scrollIndicator {
+  0%   { height: 0%;   transform: translateY(0); }
+  50%  { height: 100%; transform: translateY(0); }
+  51%  { height: 100%; }
+  100% { height: 0%;   transform: translateY(100%); }
+}
+

@@ -1,4 +1,5 @@
 import { useReveal } from "@/hooks/useReveal"
+import { useWordSplit, useStaggerReveal } from "@/hooks/useScrollAnimation"
 import { Quote, Activity } from "lucide-react"
 
 const testimonials = [
@@ -39,6 +40,8 @@ const parentTestimonials = [
 
 export function Results() {
   const gridRef = useReveal({ className: "reveal-stagger" })
+  const titleRef = useWordSplit(55)
+  const cardsRef = useStaggerReveal(80)
 
   return (
     <section className="bg-black py-32 px-6 relative overflow-hidden border-t border-white/5" id="results">
