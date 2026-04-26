@@ -1142,7 +1142,8 @@
     // ─── CONFIG ───────────────────────────────────────
     const GEMINI_URL = '/.netlify/functions/gemini-analyze';
     const TRANSCRIPT_URL = '/.netlify/functions/youtube-transcript';
-    const VISUAL_URL = '/.netlify/functions/visual-analyze';
+    const VISUAL_START_URL = '/.netlify/functions/visual-analyze-background';
+    const VISUAL_RESULT_URL = '/.netlify/functions/visual-result';
     const SHEETS_URL = '/.netlify/functions/sheets-save';
     const PASSWORD = '#BTBCOACH26';
 
@@ -1274,11 +1275,19 @@
 
 
     // ─── VISUAL ANALYSIS (no captions fallback) ───────
+    // Background-function pattern: kick off the long Gemini call, then poll
+    // /visual-result every few seconds until status is done or error.
+    // The sync version of this hit Netlify's ~30s edge timeout on full games
+    // and returned HTML to the client, breaking JSON parse.
     async function analyzeVisually(youtubeUrl, videoId, focus, context) {
-        const res = await fetch(VISUAL_URL, {
+        const jobId = `vis_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+
+        // Kick off (returns 202 quickly; the real work runs up to 15min)
+        const startRes = await fetch(VISUAL_START_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                jobId,
                 youtube_url: youtubeUrl,
                 video_id: videoId,
                 game_title: context || videoId,
@@ -1286,8 +1295,42 @@
                 focus: focus,
             }),
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || `Visual analyze failed (${res.status})`);
+        if (!startRes.ok && startRes.status !== 202) {
+            const errText = await startRes.text().catch(() => '');
+            throw new Error(`Failed to start visual analysis (${startRes.status}): ${errText.slice(0, 200)}`);
+        }
+
+        // Poll for the result. Cap at 6 minutes — well under the 15min function
+        // ceiling but enough headroom for a full-game Gemini run.
+        const MAX_POLL_MS = 6 * 60 * 1000;
+        const POLL_INTERVAL_MS = 4000;
+        const startedAt = Date.now();
+        let data;
+        let pollCount = 0;
+        while (true) {
+            await new Promise(r => setTimeout(r, POLL_INTERVAL_MS));
+            pollCount++;
+            const pollRes = await fetch(`${VISUAL_RESULT_URL}?jobId=${encodeURIComponent(jobId)}`);
+            if (!pollRes.ok) {
+                const errText = await pollRes.text().catch(() => '');
+                throw new Error(`Result poll failed (${pollRes.status}): ${errText.slice(0, 200)}`);
+            }
+            data = await pollRes.json();
+            if (data.status === 'done') break;
+            if (data.status === 'error') {
+                const detail = data.hint ? ` ${data.hint}` : '';
+                throw new Error((data.error || 'Visual analysis failed') + detail);
+            }
+            // Surface a heartbeat so the user knows it's still chewing on the video.
+            const elapsed = Math.round((Date.now() - startedAt) / 1000);
+            if (typeof setStep === 'function') {
+                setStep(1, `⚡ Gemini is watching the video... (${elapsed}s elapsed — full games take 1–4 min)`);
+            }
+            if (Date.now() - startedAt > MAX_POLL_MS) {
+                throw new Error('Visual analysis is still running after 6 minutes — try a shorter clip.');
+            }
+            // status === 'pending' → keep polling
+        }
 
         // Normalize visual analysis fields to match transcript-path field names
         return (data.plays || []).map((p, i) => ({
