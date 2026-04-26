@@ -34,6 +34,8 @@ import { TravelPage } from "@/pages/TravelPage"
 import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
 import { SmsPolicyPage } from "@/pages/SmsPolicyPage"
+import { FuturesPage } from "@/pages/FuturesPage"
+import { CampsPage } from "@/pages/CampsPage"
 function LandingPage() {
   return (
     <>
@@ -79,8 +81,8 @@ function App() {
               <Route path="/girls/travel" element={<TravelPage gender="girls" />} />
               <Route path="/girls/coaches" element={<CoachingStaffPage gender="girls" />} />
               <Route path="/girls/teams" element={<TeamsPage gender="girls" />} />
-              <Route path="/futures" element={<ProgramPage programKey="futures" />} />
-              <Route path="/camps" element={<ProgramPage programKey="camps" />} />
+              <Route path="/futures" element={<FuturesPage />} />
+              <Route path="/camps" element={<CampsPage />} />
               <Route path="/sms-policy" element={<SmsPolicyPage />} />
             </Route>
 
