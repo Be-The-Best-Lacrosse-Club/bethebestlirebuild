@@ -25,7 +25,7 @@ const phases = [
 
 const testimonials = [
   { quote: "The film study changed my whole game. I started seeing defensive rotations before they happened. My high school coaches noticed within the first week of tryouts.", name: "Ethan K.", role: "Class of 2027 · Made Varsity as Freshman", initials: "EK" },
-  { quote: "Watching film with Coach Dan flipped how I think about the game. I stopped reacting and started anticipating — reading slides, off-ball movement, where the ball is going next. It's a completely different sport when you actually see it.", name: "BTB Player", role: "2030 Rage · BTB Boys", initials: "BR" },
+  { quote: "First film session with Coach Dan, he paused a clip every five seconds. By the end I'd seen ten things I missed live — slides I never read, picks I never felt, hands I never saw drop. Now I see them in real time. The game slowed down. That's the only way I can describe it.", name: "BTB Player", role: "2030 Rage · BTB Boys", initials: "BR" },
   { quote: "My son came in as a good athlete who happened to play lacrosse. After two years at BTB, he is a lacrosse player who happens to be a good athlete. The difference is coaching.", name: "Jennifer M.", role: "Parent · 2028 Travel Team", initials: "JM" },
 ]
 
