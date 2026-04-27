@@ -18,6 +18,8 @@ const tournaments = [
   { name: "Maverick Showtime",            type: "Team Tournament" },
   { name: "Trilogy Showcase",             type: "Team Tournament" },
   { name: "Capital Cup",                  type: "Team Tournament" },
+  { name: "IMLCA",                         type: "Team Tournament" },
+  { name: "Presidents Cup",               type: "Team Tournament" },
   // Individual recruiting showcases — players are seen by college coaches
   { name: "National Lacrosse Combine",    type: "Recruiting Showcase" },
   { name: "Top Threat Showcase",          type: "Recruiting Showcase" },
