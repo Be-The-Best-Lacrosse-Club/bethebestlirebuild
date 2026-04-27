@@ -35,6 +35,7 @@ import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
 import { SmsPolicyPage } from "@/pages/SmsPolicyPage"
 import { AcademyInfoPage } from "@/pages/AcademyInfoPage"
+import { RecruitingPage } from "@/pages/RecruitingPage"
 import { FuturesPage } from "@/pages/FuturesPage"
 import { CampsPage } from "@/pages/CampsPage"
 import { FamilyHubPage } from "@/pages/FamilyHubPage"
@@ -152,6 +153,7 @@ function App() {
               <Route path="/camps" element={<CampsPage />} />
               <Route path="/sms-policy" element={<SmsPolicyPage />} />
               <Route path="/academy-info" element={<AcademyInfoPage />} />
+              <Route path="/recruiting" element={<RecruitingPage />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
