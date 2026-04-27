@@ -15,6 +15,13 @@ const programLinks = [
   { label: "Camps & Clinics", href: "/camps" },
 ]
 
+const academyLinks = [
+  { label: "About the Academy", href: "/academy-info" },
+  { label: "Boys Academy", href: "/boys/players" },
+  { label: "Girls Academy", href: "/girls/players" },
+  { label: "Coach Tools", href: "/coach-tools" },
+]
+
 const roleBadgeStyles: Record<string, string> = {
   owner: "bg-[var(--btb-red)]/20 text-[var(--btb-red)]",
   coach: "bg-amber-500/15 text-amber-400",
@@ -91,7 +98,23 @@ export function Header() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1" ref={dropdownRef}>
           
-          <button onClick={() => go("/academy")} className={navItemClass("/academy")}>Academy</button>
+          <div className="relative group">
+            <button
+              onClick={() => setDropdown(dropdown === "academy" ? null : "academy")}
+              className={navItemClass("/academy")}
+            >
+              Academy <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "academy" ? "rotate-180" : ""}`} />
+            </button>
+            {dropdown === "academy" && (
+              <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
+                {academyLinks.map(link => (
+                  <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[0.7rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           
           <div className="relative group">
             <button 
@@ -188,6 +211,14 @@ export function Header() {
         <div className="fixed inset-0 bg-white z-50 overflow-y-auto pt-24 pb-12 px-8 animate-in fade-in slide-in-from-right">
           <div className="space-y-6">
             <button onClick={() => go("/academy")} className="block w-full text-left text-2xl font-display uppercase text-black">Academy</button>
+            <div>
+              <div className="text-[0.6rem] font-black text-black/30 uppercase tracking-[3px] mb-4">Digital Academy</div>
+              <div className="grid grid-cols-1 gap-3 pl-4 border-l-2 border-[var(--btb-red)]/20">
+                {academyLinks.map(link => (
+                  <button key={link.href} onClick={() => go(link.href)} className="text-left text-lg font-bold uppercase text-black/60">{link.label}</button>
+                ))}
+              </div>
+            </div>
             
             <div>
               <div className="text-[0.6rem] font-black text-black/30 uppercase tracking-[3px] mb-4">Our Programs</div>

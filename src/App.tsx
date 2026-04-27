@@ -15,6 +15,7 @@ import { ProofSection } from "@/components/ProofSection"
 import { WhatYouGet } from "@/components/WhatYouGet"
 import { DevelopmentModel } from "@/components/DevelopmentModel"
 import { FilmStudy } from "@/components/FilmStudy"
+import { DigitalAcademy } from "@/components/DigitalAcademy"
 import { CoachesHub } from "@/components/CoachesHub"
 import { FeaturedCoaches } from "@/components/FeaturedCoaches"
 import { EliteCircuit } from "@/components/EliteCircuit"
@@ -56,6 +57,7 @@ function LandingPage() {
       <WhatYouGet />
       <DevelopmentModel />
       <FilmStudy />
+      <DigitalAcademy />
       <CoachesHub />
       <FeaturedCoaches />
       <Results />
