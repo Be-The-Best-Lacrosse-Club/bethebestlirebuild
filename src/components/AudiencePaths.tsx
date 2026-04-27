@@ -51,14 +51,14 @@ export function AudiencePaths() {
   const navigate = useNavigate()
 
   return (
-    <section className="bg-black text-white py-32 px-6 relative overflow-hidden border-t border-white/5">
+    <section className="bg-black text-white py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5">
       {/* Ghost */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-[0.025]">
         <span className="font-display text-[18vw] leading-none text-white select-none">YOUR_PATH</span>
       </div>
 
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8 pb-12 border-b border-white/10">
+        <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-10 md:mb-20 gap-6 md:gap-8 pb-8 md:pb-12 border-b border-white/10 text-center md:text-left">
           <div className="max-w-[600px]">
             <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
@@ -66,7 +66,7 @@ export function AudiencePaths() {
             </div>
             <h2
               ref={titleRef as React.RefObject<HTMLHeadingElement>}
-              className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white"
+              className="font-display text-[clamp(2.2rem,8vw,5rem)] uppercase leading-[0.85] text-white"
             >
               Who Is BTB <br /><span className="text-[var(--btb-red)]">Built For?</span>
             </h2>

@@ -44,7 +44,7 @@ export function CharacterLab() {
   const titleRef = useWordSplit(55);
 
   return (
-    <section className="bg-black py-32 px-6 relative overflow-hidden border-t border-white/5" id="leadership">
+    <section className="bg-black py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5" id="leadership">
       {/* Ghost Typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-5">
         <span className="font-display text-[22vw] leading-none text-white select-none">
@@ -53,13 +53,13 @@ export function CharacterLab() {
       </div>
 
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
+        <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-10 md:mb-24 gap-6 md:gap-8 text-center md:text-left">
           <div className="max-w-[600px]">
             <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               THE_BTB_BLUEPRINT // LEADERSHIP_LAB
             </div>
-            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.2rem,8vw,6rem)] uppercase leading-[0.85] text-white">
               Building <br /> <span className="text-[var(--btb-red)]">Champions.</span>
             </h2>
           </div>
@@ -68,7 +68,7 @@ export function CharacterLab() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
           {/* Sidebar Nav */}
           <div className="lg:col-span-4 space-y-2">
             {pillars.map((p) => (

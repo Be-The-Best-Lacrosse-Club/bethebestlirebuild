@@ -19,7 +19,7 @@ export function FilmStudy() {
   const navigate = useNavigate()
 
   return (
-    <section className="bg-black text-white py-32 px-6 relative overflow-hidden border-t border-white/5" id="filmstudy">
+    <section className="bg-black text-white py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5" id="filmstudy">
       {/* Ghost Typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-5">
         <span className="font-display text-[22vw] leading-none text-white select-none translate-x-12">
@@ -28,13 +28,13 @@ export function FilmStudy() {
       </div>
 
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
+        <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-12 md:mb-24 gap-6 md:gap-8 text-center md:text-left">
           <div className="max-w-[600px]">
             <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
               <Search size={12} className="animate-pulse" />
               COGNITIVE_DEVELOPMENT // FILM_STUDY
             </div>
-            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
               Win Before <br /> <span className="text-[var(--btb-red)]">The Whistle.</span>
             </h2>
           </div>

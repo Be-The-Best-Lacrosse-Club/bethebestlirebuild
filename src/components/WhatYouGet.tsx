@@ -56,7 +56,7 @@ export function WhatYouGet() {
   const titleRef = useWordSplit(55)
 
   return (
-    <section className="bg-black text-white py-32 px-6 relative overflow-hidden border-t border-white/5" id="whatyouget">
+    <section className="bg-black text-white py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5" id="whatyouget">
       {/* Ghost Typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-5">
         <span className="font-display text-[22vw] leading-none text-white select-none">
@@ -65,13 +65,13 @@ export function WhatYouGet() {
       </div>
 
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 pb-12 border-b border-white/10">
+        <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-10 md:mb-16 gap-6 md:gap-8 pb-8 md:pb-12 border-b border-white/10 text-center md:text-left">
           <div className="max-w-[600px]">
             <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
               <Activity size={12} className="animate-pulse" />
               ACADEMY_SYSTEM_SPECS
             </div>
-            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,8vw,5rem)] uppercase leading-[0.85] text-white">
               The Academy <br /> <span className="text-[var(--btb-red)]">Advantage.</span>
             </h2>
           </div>

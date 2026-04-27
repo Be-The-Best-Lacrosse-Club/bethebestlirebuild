@@ -32,15 +32,15 @@ export function EliteCircuit() {
   const titleRef = useWordSplit(50)
 
   return (
-    <section className="bg-black py-24 px-6 relative overflow-hidden border-t border-white/5">
+    <section className="bg-black py-14 md:py-24 px-4 md:px-6 relative overflow-hidden border-t border-white/5">
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
+        <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-10 md:mb-16 gap-6 md:gap-8 text-center md:text-left">
           <div>
             <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-4 flex items-center gap-3">
               <Trophy size={12} />
               THE_ELITE_CIRCUIT
             </div>
-            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,5vw,4rem)] uppercase leading-none text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(1.8rem,5vw,4rem)] uppercase leading-none text-white">
               Competing Against <br /> <span className="text-[var(--btb-red)]">The Best.</span>
             </h2>
           </div>

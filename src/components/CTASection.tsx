@@ -13,7 +13,7 @@ export function CTASection() {
   const secondaryRef = useMagnetic(0.25)
 
   return (
-    <section className="bg-white py-28 px-6 relative overflow-hidden" id="apply">
+    <section className="bg-white py-14 md:py-28 px-4 md:px-6 relative overflow-hidden" id="apply">
       <div className="max-w-[900px] mx-auto">
         <div className="flex items-center gap-3 justify-center mb-8">
           <span className="text-[0.65rem] font-bold tracking-[3px] uppercase text-black/25">09</span>
@@ -24,7 +24,7 @@ export function CTASection() {
         <div ref={cardRef as React.RefObject<HTMLDivElement>} className="bg-black rounded-2xl overflow-hidden">
           <div className="h-1.5 bg-[var(--btb-red)]" />
 
-          <div className="px-10 md:px-16 py-16 text-center">
+          <div className="px-6 md:px-10 lg:px-16 py-10 md:py-16 text-center">
             {/* Season urgency badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-full mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" />
@@ -32,7 +32,7 @@ export function CTASection() {
                 2026 Season — Evaluations Now Open
               </span>
             </div>
-            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,6vw,5rem)] uppercase tracking-wide leading-[0.9] text-white mb-6">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,6vw,5rem)] uppercase tracking-wide leading-[0.9] text-white mb-6">
               This Is Not a Tryout.<br />
               It's an <span className="text-[var(--btb-red)]">Application.</span>
             </h2>

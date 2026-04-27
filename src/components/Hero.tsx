@@ -39,6 +39,7 @@ export function Hero() {
     <section
       className="relative min-h-screen flex flex-col items-center justify-center text-white overflow-hidden bg-black"
       id="home"
+      style={{ WebkitOverflowScrolling: 'touch' }}
     >
       {/* ─── Background video with cursor-parallax wrapper ─── */}
       <div
@@ -89,12 +90,12 @@ export function Hero() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--btb-red)]/50 to-transparent z-[4]" />
 
       {/* ─── Content ─── */}
-      <div className="relative z-10 w-full max-w-[1000px] px-6 pt-28 pb-20 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full max-w-[1000px] px-5 md:px-6 pt-24 pb-16 md:pt-28 md:pb-20 flex flex-col items-center text-center">
 
         {/* HUD Data strip */}
         <div
           ref={hud1Ref}
-          className="flex flex-wrap justify-center gap-6 mb-10 font-mono text-[0.58rem] tracking-[2px] text-white/30 uppercase"
+          className="flex flex-wrap justify-center gap-3 md:gap-6 mb-8 md:mb-10 font-mono text-[0.55rem] md:text-[0.58rem] tracking-[2px] text-white/30 uppercase"
         >
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" />
@@ -115,19 +116,19 @@ export function Hero() {
         </div>
 
         {/* Eyebrow */}
-        <div className="inline-flex items-center gap-3 mb-10">
-          <div className="h-px w-10 bg-[var(--btb-red)]" />
-          <span className="text-[0.62rem] font-bold uppercase tracking-[5px] text-white/40">
+        <div className="inline-flex items-center gap-3 mb-8 md:mb-10">
+          <div className="h-px w-8 bg-[var(--btb-red)]" />
+          <span className="text-[0.6rem] font-bold uppercase tracking-[4px] text-white/40">
             Long Island · Est. 2021
           </span>
-          <div className="h-px w-10 bg-[var(--btb-red)]" />
+          <div className="h-px w-8 bg-[var(--btb-red)]" />
         </div>
 
-        {/* Headline — word-split animated */}
+        {/* Headline */}
         <h1
           ref={headlineRef as React.RefObject<HTMLHeadingElement>}
-          className="font-display uppercase leading-[0.88] tracking-wide mb-8"
-          style={{ fontSize: "clamp(3.8rem, 10vw, 8rem)" }}
+          className="font-display uppercase leading-[0.88] tracking-wide mb-6 md:mb-8 w-full"
+          style={{ fontSize: "clamp(3rem, 14vw, 8rem)" }}
         >
           Train Here.{" "}
           <br />
@@ -138,17 +139,17 @@ export function Hero() {
         {/* Sub lines */}
         <p
           ref={subRef}
-          className="text-[0.95rem] leading-[1.9] text-white/40 max-w-[460px] mx-auto mb-2"
+          className="text-[0.9rem] md:text-[0.95rem] leading-[1.9] text-white/40 max-w-[460px] mx-auto mb-2"
         >
           BTB is where serious Long Island lacrosse players go to get serious
           about their game.
         </p>
-        <p className="text-[0.88rem] text-white/55 font-semibold mb-12">
+        <p className="text-[0.85rem] md:text-[0.88rem] text-white/55 font-semibold mb-10 md:mb-12">
           Film study. Small-group training. Real coaching. Real results.
         </p>
 
         {/* CTAs */}
-        <div ref={ctaRef} className="flex gap-4 justify-center flex-wrap">
+        <div ref={ctaRef} className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full max-w-sm sm:max-w-none">
           <a
             ref={primaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
             href="https://bethebest.leagueapps.com/leagues"
@@ -177,7 +178,7 @@ export function Hero() {
         </div>
 
         {/* Stats strip */}
-        <div className="flex flex-wrap justify-center gap-8 mt-16 pt-10 border-t border-white/[0.06] w-full max-w-[700px]">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8 mt-12 md:mt-16 pt-8 md:pt-10 border-t border-white/[0.06] w-full max-w-[700px]">
           {[
             { val: "488", label: "Players" },
             { val: "25", label: "Teams" },

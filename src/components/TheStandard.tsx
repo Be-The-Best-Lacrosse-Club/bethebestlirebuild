@@ -28,7 +28,7 @@ export function TheStandard() {
   const bgWordRef = useParallax(0.15);
 
   return (
-    <section className="relative bg-[#D22630] py-32 px-6 overflow-hidden">
+    <section className="relative bg-[#D22630] py-16 md:py-32 px-4 md:px-6 overflow-hidden">
       {/* Background Texture & Ghost Type */}
       <div className="absolute inset-0 z-0 opacity-10">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
@@ -48,7 +48,7 @@ export function TheStandard() {
           <div className="inline-block px-4 py-1.5 bg-black text-white text-[0.65rem] font-black uppercase tracking-[4px] rounded-sm mb-6">
             The Difference
           </div>
-          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,6vw,4.5rem)] uppercase tracking-tight text-white leading-[0.95]">
+          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase tracking-tight text-white leading-[0.95]">
             Culture Built on <br />
             <span className="text-black/40">The Standard.</span>
           </h2>

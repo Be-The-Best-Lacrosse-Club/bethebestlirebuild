@@ -46,7 +46,7 @@ export function FeaturedCoaches() {
   const titleRef = useWordSplit(55);
 
   return (
-    <section className="bg-black py-32 px-6 relative overflow-hidden border-t border-white/5">
+    <section className="bg-black py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5">
       {/* Ghost Typography Background */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
         <span className="font-display text-[22vw] leading-none text-white/[0.02] select-none translate-y-12">
@@ -55,19 +55,19 @@ export function FeaturedCoaches() {
       </div>
 
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="text-center mb-24">
+        <div className="text-center mb-12 md:mb-24">
           <div className="inline-flex items-center gap-3 text-[var(--btb-red)] font-display text-sm tracking-[5px] mb-6">
             <div className="w-8 h-px bg-[var(--btb-red)]" />
             ELITE COACHING ROSTER
             <div className="w-8 h-px bg-[var(--btb-red)]" />
           </div>
-          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white">
+          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.2rem,8vw,6rem)] uppercase leading-[0.85] text-white">
             Led by the <br /> <span className="text-[var(--btb-red)]">Professionals.</span>
           </h2>
         </div>
 
         {/* Coach Cards */}
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-0.5">
+        <div ref={ref} className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-0.5">
           {featuredCoaches.map((coach, i) => (
             <div key={i} className="reveal-child group relative bg-neutral-950 border border-white/5 p-1 transition-all duration-500 hover:border-[var(--btb-red)]/50">
               {/* Image or Initials */}
@@ -119,7 +119,7 @@ export function FeaturedCoaches() {
         </div>
 
         {/* Coaching Standards Strip */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0.5 bg-white/10 border border-white/10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0.5 bg-white/10 border border-white/10 mb-8 md:mb-12">
           {[
             { num: "30+", label: "Coaches on Staff", detail: "Every one background-checked, SafeSport certified, and US Lacrosse trained." },
             { num: "8:1", label: "Player-Coach Ratio", detail: "Real reps. Real corrections. Not a number in a line drill." },

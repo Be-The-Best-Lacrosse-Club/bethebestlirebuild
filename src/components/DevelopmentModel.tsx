@@ -34,7 +34,7 @@ export function DevelopmentModel() {
   const gridRef = useReveal({ className: "reveal-stagger" })
 
   return (
-    <section className="bg-black py-28 px-6 relative overflow-hidden border-t border-white/5" id="development">
+    <section className="bg-black py-14 md:py-28 px-4 md:px-6 relative overflow-hidden border-t border-white/5" id="development">
       {/* Ghost Typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
         <span className="font-display text-[22vw] leading-none text-white select-none">PROCESS</span>
@@ -47,7 +47,7 @@ export function DevelopmentModel() {
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               DEVELOPMENT_MODEL // 16-WEEK_CYCLE
             </div>
-            <h2 className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white">
+            <h2 className="font-display text-[clamp(2rem,8vw,5rem)] uppercase leading-[0.85] text-white">
               How We Actually<br /><span className="text-[var(--btb-red)]">Build Players.</span>
             </h2>
           </div>
