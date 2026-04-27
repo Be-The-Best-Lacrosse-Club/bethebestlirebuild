@@ -9,16 +9,16 @@ import { useEffect } from "react"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
+import { AudiencePaths } from "@/components/AudiencePaths"
 import { TheStandard } from "@/components/TheStandard"
-import { CharacterLab } from "@/components/CharacterLab"
-import { ProofSection } from "@/components/ProofSection"
 import { WhatYouGet } from "@/components/WhatYouGet"
 import { DevelopmentModel } from "@/components/DevelopmentModel"
+import { CharacterLab } from "@/components/CharacterLab"
 import { FilmStudy } from "@/components/FilmStudy"
 import { DigitalAcademy } from "@/components/DigitalAcademy"
-import { CoachesHub } from "@/components/CoachesHub"
-import { FeaturedCoaches } from "@/components/FeaturedCoaches"
 import { EliteCircuit } from "@/components/EliteCircuit"
+import { SpecTicker } from "@/components/SpecTicker"
+import { FeaturedCoaches } from "@/components/FeaturedCoaches"
 import { Results } from "@/components/Results"
 import { CTASection } from "@/components/CTASection"
 
@@ -42,6 +42,8 @@ import { RecruitingPage } from "@/pages/RecruitingPage"
 import { FuturesPage } from "@/pages/FuturesPage"
 import { CampsPage } from "@/pages/CampsPage"
 import { FamilyHubPage } from "@/pages/FamilyHubPage"
+import { ContactPage } from "@/pages/ContactPage"
+
 function LandingPage() {
   return (
     <>
@@ -51,15 +53,15 @@ function LandingPage() {
         path="/"
       />
       <Hero />
-      <EliteCircuit />
+      <AudiencePaths />
       <TheStandard />
-      <CharacterLab />
-      <ProofSection />
       <WhatYouGet />
       <DevelopmentModel />
+      <CharacterLab />
       <FilmStudy />
       <DigitalAcademy />
-      <CoachesHub />
+      <EliteCircuit />
+      <SpecTicker />
       <FeaturedCoaches />
       <Results />
       <CTASection />
@@ -158,6 +160,7 @@ function App() {
               <Route path="/sms-policy" element={<SmsPolicyPage />} />
               <Route path="/academy-info" element={<AcademyInfoPage />} />
               <Route path="/recruiting" element={<RecruitingPage />} />
+              <Route path="/contact" element={<ContactPage />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />

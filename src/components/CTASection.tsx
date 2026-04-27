@@ -25,6 +25,13 @@ export function CTASection() {
           <div className="h-1.5 bg-[var(--btb-red)]" />
 
           <div className="px-10 md:px-16 py-16 text-center">
+            {/* Season urgency badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-full mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" />
+              <span className="text-[0.65rem] font-black uppercase tracking-[3px] text-[var(--btb-red)]">
+                2026 Season — Evaluations Now Open
+              </span>
+            </div>
             <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,6vw,5rem)] uppercase tracking-wide leading-[0.9] text-white mb-6">
               This Is Not a Tryout.<br />
               It's an <span className="text-[var(--btb-red)]">Application.</span>

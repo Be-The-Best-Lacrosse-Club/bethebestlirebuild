@@ -75,17 +75,25 @@ export function CharacterLab() {
               <button
                 key={p.id}
                 onClick={() => setActivePillar(p)}
-                className={`w-full flex items-center justify-between p-6 transition-all duration-300 group border ${
+                className={`w-full flex items-center justify-between p-6 transition-all duration-300 group border relative overflow-hidden ${
                   activePillar.id === p.id 
                   ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" 
                   : "bg-white/[0.02] border-white/5 text-white/40 hover:bg-white/[0.05] hover:border-white/10"
                 }`}
               >
-                <div className="flex items-center gap-4">
+                {/* Active sweep pulse */}
+                {activePillar.id === p.id && (
+                  <div className="absolute inset-0 bg-white/5 animate-pulse pointer-events-none" />
+                )}
+                <div className="flex items-center gap-4 relative z-10">
                   <p.icon size={20} className={activePillar.id === p.id ? "text-white" : "text-[var(--btb-red)]"} />
                   <span className="font-display text-xl uppercase tracking-widest">{p.title}</span>
                 </div>
-                <div className={`w-1.5 h-1.5 rounded-full ${activePillar.id === p.id ? "bg-white" : "bg-white/10"}`} />
+                {activePillar.id === p.id ? (
+                  <div className="w-2 h-2 rounded-full bg-white animate-ping relative z-10" />
+                ) : (
+                  <div className="w-1.5 h-1.5 rounded-full bg-white/10 relative z-10" />
+                )}
               </button>
             ))}
           </div>
@@ -98,8 +106,13 @@ export function CharacterLab() {
             </div>
 
             <div className="relative z-10">
-              <div className="text-[var(--btb-red)] font-mono text-[0.7rem] font-bold uppercase tracking-[3px] mb-4">
-                {activePillar.subtitle}
+              <div className="flex items-center gap-4 mb-4">
+                <div className="font-display text-[4rem] text-white/5 leading-none select-none">
+                  0{pillars.indexOf(activePillar) + 1}
+                </div>
+                <div className="text-[var(--btb-red)] font-mono text-[0.7rem] font-bold uppercase tracking-[3px]">
+                  {activePillar.subtitle}
+                </div>
               </div>
               <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-[500px]">
                 {activePillar.text}

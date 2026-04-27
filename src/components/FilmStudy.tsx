@@ -48,7 +48,7 @@ export function FilmStudy() {
           <div className="absolute inset-0 bg-gradient-to-tr from-[#D22630]/40 via-black/60 to-black/90 z-10" />
           <div className="absolute inset-0 z-0 opacity-40 group-hover:scale-105 transition-transform duration-1000">
              {/* Placeholder for Cinematic Film Background */}
-             <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80')] bg-cover bg-center" />
+             <div className="w-full h-full bg-[url('/images/242A5471.JPG')] bg-cover bg-center" />
           </div>
           
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">

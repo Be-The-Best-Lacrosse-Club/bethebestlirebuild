@@ -11,8 +11,11 @@ const teamLinks = (gender: string) => [
 ]
 
 const programLinks = [
+  { label: "Boys Lacrosse", href: "/boys" },
+  { label: "Girls Lacrosse", href: "/girls" },
   { label: "BTB Futures (K-2)", href: "/futures" },
   { label: "Camps & Clinics", href: "/camps" },
+  { label: "Recruiting", href: "/recruiting" },
 ]
 
 const academyLinks = [
@@ -90,7 +93,7 @@ export function Header() {
         <button onClick={() => go("/")} className="flex items-center gap-3 group">
           <div className="w-9 h-9 bg-[var(--btb-red)] flex items-center justify-center font-display text-xl text-white -skew-x-6 group-hover:scale-105 transition-transform">B</div>
           <div className={`font-display text-2xl tracking-tight uppercase transition-colors ${scrolled ? "text-black" : "text-white"}`}>
-            BTB <span className={scrolled ? "text-black/40" : "text-white/40"}>OS</span>
+            Be The <span className="text-[var(--btb-red)]">Best</span>
           </div>
         </button>
 
@@ -163,6 +166,10 @@ export function Header() {
             className={`ml-2 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20`}
           >
             Tryouts 2026
+          </button>
+
+          <button onClick={() => go("/contact")} className={navItemClass("/contact")}>
+            Contact
           </button>
 
           <div className={`w-px h-5 mx-3 ${scrolled ? "bg-black/10" : "bg-white/10"}`} />
@@ -243,6 +250,14 @@ export function Header() {
                 {teamLinks("girls").map(link => (
                   <button key={link.href} onClick={() => go(link.href)} className="text-left text-lg font-bold uppercase text-black/60">{link.label}</button>
                 ))}
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-black/5 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => go("/recruiting")} className="text-left text-lg font-bold uppercase text-black/60">Recruiting</button>
+                <button onClick={() => go("/contact")} className="text-left text-lg font-bold uppercase text-black/60">Contact</button>
+                <button onClick={() => go("/tryouts")} className="text-left text-lg font-bold uppercase text-[var(--btb-red)]">Tryouts 2026</button>
               </div>
             </div>
 
