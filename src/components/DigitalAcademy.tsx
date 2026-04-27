@@ -43,7 +43,7 @@ export function DigitalAcademy() {
               Train Smarter. <br /> <span className="text-[var(--btb-red)]">Compete Better.</span>
             </h2>
           </div>
-          <p className="text-black/40 text-[0.88rem] leading-relaxed max-w-[340px] border-l border-black/10 pl-8">
+          <p className="text-black/50 text-[1rem] leading-relaxed max-w-[340px] border-l border-black/10 pl-8">
             90+ lessons. 6 position-specific tracks. Film study, skill progressions, and knowledge checks — available 24/7 to every BTB player and coach.
           </p>
         </div>
@@ -79,7 +79,7 @@ export function DigitalAcademy() {
                 </div>
                 <h4 className="font-display text-2xl uppercase tracking-wider text-black group-hover:text-white mb-2 transition-colors">{c.title}</h4>
               </div>
-              <p className="text-[0.85rem] text-black/40 group-hover:text-white/60 leading-relaxed transition-colors font-medium">
+              <p className="text-[1rem] text-black/50 group-hover:text-white/70 leading-relaxed transition-colors font-medium">
                 {c.text}
               </p>
             </div>

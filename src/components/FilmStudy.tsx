@@ -38,7 +38,7 @@ export function FilmStudy() {
               Win Before <br /> <span className="text-[var(--btb-red)]">The Whistle.</span>
             </h2>
           </div>
-          <div className="text-white/30 text-[0.75rem] font-bold uppercase tracking-[2px] mb-4 border-l border-[var(--btb-red)] pl-6 max-w-[340px]">
+          <div className="text-white/40 text-[0.9rem] leading-relaxed border-l border-[var(--btb-red)] pl-6 max-w-[340px]">
             Film study is the most underused tool in youth sports. At BTB, it is a mandatory spec in our development blueprint.
           </div>
         </div>
@@ -83,7 +83,7 @@ export function FilmStudy() {
             >
               <div className="text-[10px] font-mono text-[var(--btb-red)] mb-8">{c.spec}</div>
               <h4 className="font-display text-xl uppercase tracking-wider text-white mb-4 group-hover:translate-x-1 transition-transform">{c.title}</h4>
-              <p className="text-[0.82rem] text-white/30 group-hover:text-white/60 leading-relaxed transition-colors font-medium">
+              <p className="text-[0.95rem] text-white/40 group-hover:text-white/70 leading-relaxed transition-colors font-medium">
                 {c.text}
               </p>
             </div>

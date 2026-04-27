@@ -128,7 +128,7 @@ export function FeaturedCoaches() {
             <div key={s.label} className="group p-10 bg-black hover:bg-neutral-900 transition-all duration-300">
               <div className="font-display text-[3.5rem] text-[var(--btb-red)] leading-none mb-3">{s.num}</div>
               <div className="font-display text-lg uppercase tracking-wider text-white mb-3">{s.label}</div>
-              <p className="text-[0.8rem] text-white/30 leading-relaxed">{s.detail}</p>
+              <p className="text-[0.95rem] text-white/40 leading-relaxed">{s.detail}</p>
             </div>
           ))}
         </div>

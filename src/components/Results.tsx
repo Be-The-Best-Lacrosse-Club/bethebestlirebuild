@@ -63,7 +63,7 @@ export function Results() {
               The Parent <br /> <span className="text-[var(--btb-red)]">Perspective.</span>
             </h2>
           </div>
-          <p className="text-white/30 text-[0.88rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+          <p className="text-white/40 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
             Authentic feedback from the families who live the BTB Standard every weekend. Real development. Real results.
           </p>
         </div>
@@ -93,7 +93,7 @@ export function Results() {
               className="reveal-child group relative p-10 bg-black hover:bg-neutral-900 transition-all duration-300"
             >
               <div className="text-[10px] font-mono text-[var(--btb-red)] mb-8">{t.spec}</div>
-              <p className="text-[0.92rem] text-white/50 leading-relaxed mb-10 italic group-hover:text-white/80 transition-colors">
+              <p className="text-[1rem] text-white/60 leading-relaxed mb-10 italic group-hover:text-white/90 transition-colors">
                 "{t.quote}"
               </p>
               <div className="pt-6 border-t border-white/5">

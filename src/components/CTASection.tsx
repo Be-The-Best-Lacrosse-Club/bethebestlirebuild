@@ -37,7 +37,7 @@ export function CTASection() {
               It's an <span className="text-[var(--btb-red)]">Application.</span>
             </h2>
 
-            <p className="text-[0.88rem] text-white/40 max-w-[460px] mx-auto leading-[1.85] mb-10">
+            <p className="text-[1rem] text-white/50 max-w-[460px] mx-auto leading-[1.85] mb-10">
               BTB is selective because development requires commitment. We want players who are serious about lacrosse and families who are serious about investing in their athlete — the right way.
             </p>
 
@@ -45,7 +45,7 @@ export function CTASection() {
               {["Serious about development", "Coachable & accountable", "Ready to study film", "Committed to the process"].map((item) => (
                 <div key={item} className="flex items-center gap-2 px-4 py-2 border border-white/10 rounded-full">
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)]" />
-                  <span className="text-[0.72rem] font-semibold uppercase tracking-[1px] text-white/50">{item}</span>
+                  <span className="text-[0.8rem] font-semibold uppercase tracking-[1px] text-white/60">{item}</span>
                 </div>
               ))}
             </div>
