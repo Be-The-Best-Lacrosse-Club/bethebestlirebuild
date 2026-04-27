@@ -6,6 +6,11 @@ export const ease = "cubic-bezier(0.16, 1, 0.3, 1)"
 // ─── useWordSplit ─────────────────────────────────────────────────────────
 // Wraps every word in the element with overflow:hidden + a sliding inner span.
 // Triggers when the element enters the viewport.
+//
+// Walks only text nodes via TreeWalker — the previous implementation split
+// the full innerHTML string at whitespace, which corrupted HTML attributes
+// containing spaces (e.g. style="color: var(--btb-red);") and leaked the
+// raw attribute text into the rendered page.
 export function useWordSplit(staggerMs = 60) {
   const ref = useRef<HTMLElement>(null)
 
@@ -13,15 +18,42 @@ export function useWordSplit(staggerMs = 60) {
     const el = ref.current
     if (!el) return
 
-    // Build the split markup
+    // Snapshot original markup so we can restore on cleanup
     const original = el.innerHTML
-    const words = original.split(/(\s+)/)
-    el.innerHTML = words
-      .map((chunk) => {
-        if (/^\s+$/.test(chunk)) return chunk
-        return `<span class="word-wrap" style="display:inline-block;overflow:hidden;vertical-align:top;"><span class="word-inner" style="display:inline-block;transform:translateY(110%);opacity:0;transition:transform 0.85s ${ease},opacity 0.5s ease;">${chunk}</span></span>`
-      })
-      .join("")
+
+    // Collect text nodes first (don't mutate while walking)
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT)
+    const textNodes: Text[] = []
+    let node = walker.nextNode()
+    while (node) {
+      if (node.nodeValue && node.nodeValue.trim()) {
+        textNodes.push(node as Text)
+      }
+      node = walker.nextNode()
+    }
+
+    // Replace each text node with wrapped word spans, preserving surrounding markup
+    for (const tn of textNodes) {
+      const parts = (tn.nodeValue || "").split(/(\s+)/)
+      const frag = document.createDocumentFragment()
+      for (const part of parts) {
+        if (part === "") continue
+        if (/^\s+$/.test(part)) {
+          frag.appendChild(document.createTextNode(part))
+          continue
+        }
+        const wrap = document.createElement("span")
+        wrap.className = "word-wrap"
+        wrap.style.cssText = "display:inline-block;overflow:hidden;vertical-align:top;"
+        const inner = document.createElement("span")
+        inner.className = "word-inner"
+        inner.style.cssText = `display:inline-block;transform:translateY(110%);opacity:0;transition:transform 0.85s ${ease},opacity 0.5s ease;`
+        inner.textContent = part
+        wrap.appendChild(inner)
+        frag.appendChild(wrap)
+      }
+      tn.parentNode?.replaceChild(frag, tn)
+    }
 
     const inners = el.querySelectorAll<HTMLElement>(".word-inner")
 
