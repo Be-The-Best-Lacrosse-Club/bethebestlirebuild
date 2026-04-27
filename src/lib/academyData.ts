@@ -2431,7 +2431,7 @@ function getCourseDescription(tier: AgeTier): string {
 export const GOALIE_LESSONS: AcademyLesson[] = [
   {
     id: "pos-goalie-l1",
-    videoUrl: "https://www.youtube.com/watch?v=wORmAJzdBMI",
+    videoUrl: "https://www.youtube.com/watch?v=q1UVaJsLehw",
     lessonNumber: 101,
     title: "The Goalie Mindset",
     topic: "Mental Game",
@@ -2469,7 +2469,7 @@ At BTB, we develop goalies who lead from the crease. That means studying film, k
   },
   {
     id: "pos-goalie-l2",
-    videoUrl: "https://www.youtube.com/watch?v=eI7WKifE8aI",
+    videoUrl: "https://www.youtube.com/watch?v=15BSKp0cvgg",
     lessonNumber: 102,
     title: "Arc Positioning and Angles",
     topic: "Fundamentals",
@@ -3144,7 +3144,7 @@ THE ROLE ON THE SIDELINE: Between faceoffs, your job is to study the opponent's 
   },
 ]
 
-const BASE_POSITION_LESSONS: AcademyLesson[] = [
+const BOYS_POSITION_LESSONS: AcademyLesson[] = [
   ...GOALIE_LESSONS,
   ...ATTACK_LESSONS,
   ...DEFENSE_LESSONS,
@@ -3153,11 +3153,69 @@ const BASE_POSITION_LESSONS: AcademyLesson[] = [
   ...FOGO_LESSONS,
 ]
 
+// Girls position lessons: same structure, gender-appropriate videos
+const GIRLS_POSITION_LESSONS: AcademyLesson[] = [
+  // Goalie
+  {
+    ...GOALIE_LESSONS[0],
+    id: "pos-goalie-girls-l1",
+    videoUrl: "https://www.youtube.com/watch?v=wORmAJzdBMI",  // Women's Lacrosse Goalie Training
+  },
+  {
+    ...GOALIE_LESSONS[1],
+    id: "pos-goalie-girls-l2",
+    videoUrl: "https://www.youtube.com/watch?v=pgJzzpjrdFA",  // Ropes Video Shooting Space - Girls
+  },
+  // Attack
+  {
+    ...ATTACK_LESSONS[0],
+    id: "pos-attack-girls-l1",
+    videoUrl: "https://www.youtube.com/watch?v=7deaRXF70Q8",  // Top 3 Dodge Moves Girls
+  },
+  {
+    ...ATTACK_LESSONS[1],
+    id: "pos-attack-girls-l2",
+    videoUrl: "https://www.youtube.com/watch?v=RwMQvpad-XE",  // Taylor Cummings Cutting
+  },
+  // Defense
+  {
+    ...DEFENSE_LESSONS[0],
+    id: "pos-defense-girls-l1",
+    videoUrl: "https://www.youtube.com/watch?v=3f3EEGr6WZk",  // Women's Lacrosse Defensive Footwork
+  },
+  {
+    ...DEFENSE_LESSONS[1],
+    id: "pos-defense-girls-l2",
+    videoUrl: "https://www.youtube.com/watch?v=2v4vfqctG88",  // Intro to Team Defense Adjacent Slides
+  },
+  // Midfield
+  {
+    ...MIDFIELD_LESSONS[0],
+    id: "pos-midfield-girls-l1",
+    videoUrl: "https://www.youtube.com/watch?v=IEt5iXnMtsw",  // NORTH 2-3-1 Motion
+  },
+  {
+    ...MIDFIELD_LESSONS[1],
+    id: "pos-midfield-girls-l2",
+    videoUrl: "https://www.youtube.com/watch?v=dxvAw7zudVg",  // Charlotte North Shooting Drill
+  },
+  ...(MIDFIELD_LESSONS_EXTRA.map((l, i) => ({
+    ...l,
+    id: `pos-midfield-girls-extra-l${i + 1}`,
+  }))),
+  // FOGO → Draw for girls
+  ...FOGO_LESSONS.map((l, i) => ({
+    ...l,
+    id: `pos-draw-girls-l${i + 1}`,
+  })),
+]
+
 export function getAcademyCoursesWithPositions(gender: Gender): AcademyCourse[] {
   const base = getAcademyCourses(gender)
+  const positionLessons = gender === "boys" ? BOYS_POSITION_LESSONS : GIRLS_POSITION_LESSONS
   // Add position-specific lessons to each course (they show under position filter)
   return base.map((course) => ({
     ...course,
-    lessons: [...course.lessons, ...BASE_POSITION_LESSONS],
+    lessons: [...course.lessons, ...positionLessons],
   }))
 }
