@@ -203,7 +203,10 @@ export function Header() {
 
       {/* Mobile Menu Overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 bg-black z-50 overflow-y-auto">
+        <div
+          className="fixed inset-0 bg-black z-50 overflow-y-auto"
+          ref={(el) => { if (el) el.scrollTop = 0 }}
+        >
           {/* Header row */}
           <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
             <button onClick={() => go("/")} className="font-display text-xl text-white uppercase tracking-tight">
