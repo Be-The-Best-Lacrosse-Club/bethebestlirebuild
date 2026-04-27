@@ -1,5 +1,7 @@
+import type React from "react"
 import { Video, Users, BookOpen, Target, TrendingUp, Shield, Activity } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
+import { useWordSplit } from "@/hooks/useScrollAnimation"
 
 const benefits = [
   {
@@ -51,6 +53,7 @@ const benefits = [
 
 export function WhatYouGet() {
   const gridRef = useReveal({ className: "reveal-stagger" })
+  const titleRef = useWordSplit(55)
 
   return (
     <section className="bg-black text-white py-32 px-6 relative overflow-hidden border-t border-white/5" id="whatyouget">
@@ -68,7 +71,7 @@ export function WhatYouGet() {
               <Activity size={12} className="animate-pulse" />
               ACADEMY_SYSTEM_SPECS
             </div>
-            <h2 className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white">
               The Academy <br /> <span className="text-[var(--btb-red)]">Advantage.</span>
             </h2>
           </div>

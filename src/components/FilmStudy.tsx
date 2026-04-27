@@ -1,5 +1,7 @@
+import type React from "react"
 import { ArrowRight, Video, Target, Users, Zap, ShieldCheck, Search, Activity } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
+import { useWordSplit } from "@/hooks/useScrollAnimation"
 import { useNavigate } from "react-router-dom"
 
 const cards = [
@@ -13,6 +15,7 @@ const cards = [
 
 export function FilmStudy() {
   const gridRef = useReveal({ className: "reveal-stagger" })
+  const titleRef = useWordSplit(55)
   const navigate = useNavigate()
 
   return (
@@ -31,7 +34,7 @@ export function FilmStudy() {
               <Search size={12} className="animate-pulse" />
               COGNITIVE_DEVELOPMENT // FILM_STUDY
             </div>
-            <h2 className="font-display text-[clamp(2.8rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
               Win Before <br /> <span className="text-[var(--btb-red)]">The Whistle.</span>
             </h2>
           </div>

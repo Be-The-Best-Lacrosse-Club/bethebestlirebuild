@@ -1,4 +1,6 @@
+import type React from "react"
 import { useReveal } from "@/hooks/useReveal"
+import { useWordSplit } from "@/hooks/useScrollAnimation"
 
 interface SectionHeaderProps {
   number: string
@@ -10,6 +12,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ number, label, title, subtitle, light = false }: SectionHeaderProps) {
   const ref = useReveal()
+  const titleRef = useWordSplit(55)
 
   return (
     <div ref={ref} className="mb-16 max-w-[680px]">
@@ -23,6 +26,7 @@ export function SectionHeader({ number, label, title, subtitle, light = false }:
         </span>
       </div>
       <h2
+        ref={titleRef as React.RefObject<HTMLHeadingElement>}
         className={`font-display uppercase leading-[0.95] tracking-wide ${light ? "text-black" : "text-white"}`}
         style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)" }}
       >

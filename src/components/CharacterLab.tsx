@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useReveal } from "@/hooks/useReveal";
+import { useWordSplit } from "@/hooks/useScrollAnimation";
 import { ShieldCheck, Target, Users, Zap, PlayCircle, Quote } from 'lucide-react';
 
 const pillars = [
@@ -40,6 +41,7 @@ const pillars = [
 export function CharacterLab() {
   const [activePillar, setActivePillar] = useState(pillars[0]);
   const ref = useReveal({ className: "reveal-stagger" });
+  const titleRef = useWordSplit(55);
 
   return (
     <section className="bg-black py-32 px-6 relative overflow-hidden border-t border-white/5" id="leadership">
@@ -57,7 +59,7 @@ export function CharacterLab() {
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               THE_BTB_BLUEPRINT // LEADERSHIP_LAB
             </div>
-            <h2 className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white">
               Building <br /> <span className="text-[var(--btb-red)]">Champions.</span>
             </h2>
           </div>
