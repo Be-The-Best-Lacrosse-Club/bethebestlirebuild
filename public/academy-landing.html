@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BTB Digital Academy — Film. IQ. Systems. Execution.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<!-- Netlify Identity widget for member detection -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+
+/* ─── RESET + BASE ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --red:#D22630; --red-dark:#a01e26;
+  --black:#000; --graphite:#0a0a0a; --charcoal:#111; --steel:#1a1a1a;
+  --white:#fff; --ease:cubic-bezier(0.16,1,0.3,1);
+  --boys:#3B82F6; --girls:#EC4899;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--red);color:white;}
+a,button{cursor:none;}
+
+/* ─── CURSOR ─── */
+#cur{position:fixed;top:0;left:0;z-index:9999;width:10px;height:10px;background:var(--red);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .3s var(--ease),height .3s var(--ease);}
+#cur-ring{position:fixed;top:0;left:0;z-index:9998;width:36px;height:36px;border:1px solid rgba(255,255,255,.3);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:opacity .3s;}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:40px;height:40px;background:#fff;}
+body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{opacity:0;}
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--red);z-index:9997;transition:width .08s linear;}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:linear-gradient(to bottom,rgba(0,0,0,.9),transparent);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.06em;text-decoration:none;color:#fff;}
+.nav-logo-mark{width:30px;height:30px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:14px;transform:skew(-8deg);}
+.nav-right{display:flex;align-items:center;gap:24px;}
+.nav-link{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);transition:color .2s;text-decoration:none;background:none;border:none;}
+.nav-link:hover{color:#fff;}
+
+/* Member pill in nav */
+#nav-member-pill{display:none;align-items:center;gap:7px;padding:6px 14px;background:rgba(0,210,106,.1);border:1px solid rgba(0,210,106,.25);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#00d26a;}
+#nav-member-pill.show{display:flex;}
+#nav-member-pill .dot{width:6px;height:6px;border-radius:50%;background:#00d26a;}
+
+/* ─── HERO ─── */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 64px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 25% 60%,rgba(210,38,48,.2) 0%,transparent 50%),radial-gradient(ellipse at 75% 20%,rgba(210,38,48,.08) 0%,transparent 45%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 40% 50%,black 20%,transparent 70%);}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:28px;position:relative;z-index:2;opacity:0;transform:translateY(16px);animation:fadeUp .7s var(--ease) .3s forwards;}
+.hero-eyebrow::before{content:'';width:32px;height:2px;background:var(--red);}
+.hero-title{font-family:'Anton',sans-serif;font-size:clamp(72px,13vw,180px);line-height:.87;letter-spacing:-.01em;text-transform:uppercase;position:relative;z-index:2;margin-bottom:32px;}
+.hero-title .line{overflow:hidden;display:block;}
+.hero-title .line span{display:block;transform:translateY(110%);animation:slideUp .9s var(--ease) forwards;}
+.hero-title .line:nth-child(1) span{animation-delay:.15s;}
+.hero-title .line:nth-child(2) span{animation-delay:.28s;}
+.hero-title .line:nth-child(3) span{animation-delay:.41s;}
+.hero-title .red{color:var(--red);}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:32px;position:relative;z-index:2;opacity:0;animation:fadeUp .8s var(--ease) .7s forwards;}
+.hero-desc{max-width:480px;font-size:16px;line-height:1.75;color:rgba(255,255,255,.45);font-weight:300;}
+.hero-desc strong{color:#fff;font-weight:600;}
+.hero-ctas{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+
+/* ─── BTN ─── */
+.btn-primary{position:relative;overflow:hidden;padding:16px 40px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:var(--red);color:#fff;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:color .3s;display:inline-flex;align-items:center;gap:8px;border:none;}
+.btn-primary::after{content:'';position:absolute;inset:0;background:#fff;transform:translateY(101%);transition:transform .35s var(--ease);}
+.btn-primary:hover{color:#000;}
+.btn-primary:hover::after{transform:translateY(0);}
+.btn-primary span{position:relative;z-index:1;}
+.btn-ghost{padding:16px 40px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:transparent;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15);transition:color .2s,border-color .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,.5);}
+
+/* ─── STATS MARQUEE ─── */
+#stats-bar{background:var(--steel);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);overflow:hidden;}
+.marquee-track{display:flex;animation:marquee 22s linear infinite;white-space:nowrap;}
+.marquee-item{display:inline-flex;align-items:center;gap:20px;padding:18px 40px;font-family:'Anton',sans-serif;font-size:16px;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.marquee-item.hl{color:rgba(255,255,255,.7);}
+.marquee-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── SECTION ─── */
+.section{padding:120px 64px;position:relative;overflow:hidden;}
+.section-inner{max-width:1200px;margin:0 auto;}
+.section-eyebrow{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:16px;}
+.section-eyebrow::before{content:'';width:28px;height:2px;background:var(--red);}
+.section-title{font-family:'Anton',sans-serif;font-size:clamp(48px,7vw,88px);line-height:.9;letter-spacing:.01em;text-transform:uppercase;margin-bottom:24px;}
+.section-title .accent{color:var(--red);}
+
+/* ─── PILLARS ─── */
+#pillars{background:var(--charcoal);}
+.pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;border:1px solid rgba(255,255,255,.06);}
+.pillar{padding:48px 32px;border-right:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;transition:background .3s;opacity:0;transform:translateY(40px);}
+.pillar:last-child{border-right:none;}
+.pillar::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
+.pillar:hover{background:rgba(210,38,48,.05);}
+.pillar:hover::before{transform:scaleX(1);}
+.pillar.in{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s var(--ease);}
+.pillar-num{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.3em;color:var(--red);margin-bottom:20px;}
+.pillar-icon{font-size:36px;margin-bottom:16px;}
+.pillar-title{font-family:'Anton',sans-serif;font-size:26px;text-transform:uppercase;margin-bottom:12px;line-height:1;}
+.pillar-text{font-size:13px;line-height:1.7;color:rgba(255,255,255,.45);}
+
+/* ─── PROGRAMS ─── */
+#programs{background:#000;}
+.programs-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:64px;}
+.program-card{position:relative;overflow:hidden;padding:64px 48px;border:1px solid rgba(255,255,255,.06);opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s var(--ease),border-color .3s;}
+.program-card.in{opacity:1;transform:translateY(0);}
+.program-card:hover{border-color:rgba(255,255,255,.15);}
+.program-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.program-card.boys-card::after{background:var(--boys);}
+.program-card.girls-card::after{background:var(--girls);}
+.program-card-bg{position:absolute;right:-30px;bottom:-40px;font-family:'Anton',sans-serif;font-size:15vw;opacity:.03;line-height:1;pointer-events:none;letter-spacing:-.04em;}
+.program-card-bg.boys{color:var(--boys);}
+.program-card-bg.girls{color:var(--girls);}
+.program-num{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.3em;color:rgba(255,255,255,.25);margin-bottom:20px;}
+.program-title{font-family:'Anton',sans-serif;font-size:clamp(40px,5vw,64px);text-transform:uppercase;line-height:1;margin-bottom:8px;}
+.program-title.boys-text{color:var(--boys);}
+.program-title.girls-text{color:var(--girls);}
+.program-sub{font-size:14px;color:rgba(255,255,255,.35);margin-bottom:32px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;}
+.program-features{list-style:none;margin-bottom:40px;}
+.program-features li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:10px;}
+.program-features li::before{content:'▸';color:var(--red);font-size:11px;flex-shrink:0;}
+.prog-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border-radius:2px;}
+.prog-badge.boys{background:rgba(59,130,246,.15);color:var(--boys);border:1px solid rgba(59,130,246,.25);}
+.prog-badge.girls{background:rgba(236,72,153,.15);color:var(--girls);border:1px solid rgba(236,72,153,.25);}
+.prog-badge.both{background:rgba(210,38,48,.12);color:var(--red);border:1px solid rgba(210,38,48,.25);}
+
+/* ─── COURSES ─── */
+#courses{background:var(--charcoal);}
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:64px;background:rgba(255,255,255,.06);}
+.course-card{background:var(--charcoal);padding:36px 32px;position:relative;overflow:hidden;cursor:pointer;transition:background .3s;opacity:0;transform:translateY(24px);}
+.course-card.in{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s var(--ease);}
+.course-card:hover{background:#161616;}
+.course-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--red);transition:width .3s var(--ease);}
+.course-card:hover::before{width:3px;}
+.course-tag{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.course-title{font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;line-height:1.1;margin-bottom:8px;}
+.course-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px;}
+.course-meta{display:flex;gap:12px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+.course-arrow{position:absolute;top:36px;right:32px;font-size:18px;color:rgba(255,255,255,.15);transition:color .2s,transform .2s;}
+.course-card:hover .course-arrow{color:var(--red);transform:translate(3px,-3px);}
+
+/* ─── FILM STATS ─── */
+#film{background:#000;}
+.film-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:64px;}
+.film-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.film-stat{background:var(--steel);padding:40px 32px;border:1px solid rgba(255,255,255,.05);opacity:0;transform:translateY(20px);}
+.film-stat.in{opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s var(--ease);}
+.film-stat-val{font-family:'Anton',sans-serif;font-size:64px;color:var(--red);line-height:1;}
+.film-stat-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px;}
+.film-clips{display:flex;flex-direction:column;gap:2px;}
+.film-clip{background:var(--steel);padding:20px 24px;display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.05);cursor:pointer;transition:background .2s,border-color .2s;opacity:0;transform:translateX(20px);}
+.film-clip.in{opacity:1;transform:translateX(0);transition:opacity .6s ease,transform .6s var(--ease);}
+.film-clip:hover{background:rgba(210,38,48,.06);border-color:rgba(210,38,48,.2);}
+.film-clip-play{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:background .2s,border-color .2s;}
+.film-clip:hover .film-clip-play{background:var(--red);border-color:var(--red);}
+.film-clip-info{flex:1;}
+.film-clip-title{font-size:13px;font-weight:600;margin-bottom:3px;}
+.film-clip-meta{font-size:11px;color:rgba(255,255,255,.35);}
+.film-clip-dur{font-size:11px;color:rgba(255,255,255,.25);font-weight:700;letter-spacing:.1em;}
+
+/* ═══════════════════════════════════════════════════════
+   PRICING GATE — The centrepiece
+   ═══════════════════════════════════════════════════════ */
+#pricing{background:var(--charcoal);}
+
+/* Checking state */
+.pricing-checking{text-align:center;padding:80px 0;display:none;}
+.pricing-checking.show{display:block;}
+.check-spinner{width:48px;height:48px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 20px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.check-label{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+
+/* Two-tier pricing cards */
+.pricing-gate{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:64px;}
+.price-card{background:var(--steel);padding:48px 36px;border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;opacity:0;transform:translateY(32px);}
+.price-card.in{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s var(--ease);}
+.price-card.member-card{border-color:rgba(0,210,106,.3);background:linear-gradient(180deg,rgba(0,210,106,.06),var(--steel));}
+.price-card.member-card::before{content:'BTB MEMBER PRICE';position:absolute;top:0;right:24px;background:rgba(0,210,106,.85);color:#000;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:.2em;}
+.price-card.public-card{border-color:rgba(255,255,255,.08);}
+
+.price-tier{font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;margin-bottom:12px;}
+.price-tier.member-tier{color:#00d26a;}
+.price-tier.public-tier{color:var(--red);}
+
+.price-name{font-family:'Anton',sans-serif;font-size:28px;text-transform:uppercase;margin-bottom:8px;}
+.price-tagline{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:24px;line-height:1.5;}
+
+.price-amount{display:flex;align-items:flex-end;gap:6px;margin-bottom:6px;}
+.price-amount .num{font-family:'Anton',sans-serif;font-size:88px;line-height:1;color:#fff;}
+.price-amount .per{font-size:14px;color:rgba(255,255,255,.35);margin-bottom:16px;}
+
+.price-season-note{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:28px;}
+.price-season-note .crossed{text-decoration:line-through;color:rgba(255,255,255,.2);}
+.price-season-note .saved{color:#00d26a;}
+
+.price-list{list-style:none;padding:20px 0;margin:20px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);}
+.price-list li{padding:8px 0;font-size:13px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:10px;}
+.price-list li::before{content:'✓';font-weight:700;flex-shrink:0;}
+.member-card .price-list li::before{color:#00d26a;}
+.public-card .price-list li::before{color:var(--red);}
+
+/* Member status display */
+.member-status{display:none;align-items:center;gap:10px;padding:12px 16px;background:rgba(0,210,106,.08);border:1px solid rgba(0,210,106,.2);margin-bottom:20px;}
+.member-status.show{display:flex;}
+.member-status .check-icon{width:20px;height:20px;background:rgba(0,210,106,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#00d26a;font-size:11px;flex-shrink:0;}
+.member-status .ms-text{font-size:12px;color:rgba(255,255,255,.6);}
+.member-status .ms-name{color:#fff;font-weight:600;}
+
+/* Auth gate — shown when not logged in for member card */
+.auth-gate{display:none;margin-bottom:16px;padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.auth-gate.show{display:block;}
+.auth-gate p{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:12px;line-height:1.5;}
+.auth-gate p strong{color:#fff;}
+.btn-login{width:100%;padding:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;transition:background .2s;margin-bottom:8px;}
+.btn-login:hover{background:rgba(255,255,255,.15);}
+.btn-signup{width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:color .2s,border-color .2s;}
+.btn-signup:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+
+/* Access button states */
+.btn-access-member{width:100%;padding:16px;background:#00d26a;color:#000;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:none;transition:background .2s,transform .2s;display:none;}
+.btn-access-member.show{display:block;}
+.btn-access-member:hover{background:#00b85c;transform:translateY(-1px);}
+
+.btn-access-public{width:100%;padding:16px 40px;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:var(--red);color:#fff;border:none;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:background .2s;}
+.btn-access-public:hover{background:var(--red-dark);}
+
+/* Savings callout */
+.savings-banner{grid-column:1/-1;padding:20px 32px;background:rgba(0,210,106,.06);border:1px solid rgba(0,210,106,.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:2px;}
+.savings-banner p{font-size:13px;color:rgba(255,255,255,.6);}
+.savings-banner p strong{color:#00d26a;}
+.savings-banner .savings-cta{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#00d26a;border:1px solid rgba(0,210,106,.3);padding:8px 16px;background:none;transition:background .2s;}
+.savings-banner .savings-cta:hover{background:rgba(0,210,106,.1);}
+
+/* ─── TESTIMONIALS ─── */
+#testimonials{background:#000;}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px;}
+.testimonial{background:var(--steel);padding:40px 32px;border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;opacity:0;transform:translateY(24px);}
+.testimonial.in{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s var(--ease);}
+.testimonial-quote{font-size:15px;line-height:1.75;color:rgba(255,255,255,.65);margin-bottom:28px;font-style:italic;font-weight:300;}
+.testimonial-quote::before{content:'"';font-family:'Anton',sans-serif;font-size:64px;color:var(--red);line-height:.5;display:block;margin-bottom:12px;}
+.testimonial-role{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+
+/* ─── MANIFESTO ─── */
+#manifesto{background:var(--red);padding:160px 64px;position:relative;overflow:hidden;}
+.manifesto-title{font-family:'Anton',sans-serif;font-size:clamp(52px,9vw,120px);line-height:.9;text-transform:uppercase;max-width:900px;}
+.manifesto-title .dark{color:rgba(0,0,0,.7);}
+.manifesto-title .white{color:#fff;}
+.manifesto-word{display:inline-block;overflow:hidden;margin-right:.15em;}
+.manifesto-word span{display:inline-block;transform:translateY(110%);transition:transform .7s var(--ease);}
+.manifesto-word.in span{transform:translateY(0);}
+.manifesto-sep{width:100%;height:1px;background:rgba(0,0,0,.15);margin:48px 0;}
+.manifesto-sub{font-size:16px;color:rgba(0,0,0,.55);max-width:480px;line-height:1.75;font-weight:300;opacity:0;transform:translateY(20px);transition:opacity .8s ease .3s,transform .8s var(--ease) .3s;}
+.manifesto-sub.in{opacity:1;transform:translateY(0);}
+.manifesto-bg{position:absolute;right:-60px;top:50%;transform:translateY(-50%);font-family:'Anton',sans-serif;font-size:30vw;color:rgba(0,0,0,.06);line-height:1;pointer-events:none;letter-spacing:-.04em;}
+
+/* ─── FINAL CTA ─── */
+#final-cta{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 48px;background:#000;position:relative;overflow:hidden;}
+.final-bg{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(210,38,48,.15) 0%,transparent 60%);animation:breathe 4s ease infinite;}
+@keyframes breathe{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
+.final-eyebrow{font-size:11px;font-weight:700;letter-spacing:.4em;color:var(--red);text-transform:uppercase;margin-bottom:32px;position:relative;z-index:1;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s var(--ease);}
+.final-eyebrow.in{opacity:1;transform:translateY(0);}
+.final-title{font-family:'Anton',sans-serif;font-size:clamp(56px,11vw,140px);text-transform:uppercase;line-height:.88;position:relative;z-index:1;margin-bottom:48px;}
+.final-title .line{display:flex;justify-content:center;overflow:hidden;}
+.final-title .line span{display:block;transform:translateY(110%);transition:transform .9s var(--ease);}
+.final-title.in .line:nth-child(1) span{transform:translateY(0);transition-delay:0s;}
+.final-title.in .line:nth-child(2) span{transform:translateY(0);transition-delay:.1s;}
+.final-title.in .line:nth-child(3) span{transform:translateY(0);transition-delay:.2s;}
+.final-title .red{color:var(--red);}
+.final-btns{display:flex;gap:14px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(20px);transition:opacity .8s ease .4s,transform .8s var(--ease) .4s;}
+.final-btns.in{opacity:1;transform:translateY(0);}
+.final-tagline{position:absolute;bottom:40px;left:0;right:0;text-align:center;font-size:10px;letter-spacing:.3em;color:rgba(255,255,255,.12);text-transform:uppercase;}
+
+/* ─── KEYFRAMES ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{to{transform:translateY(0)}}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1000px){
+  .pillars-grid{grid-template-columns:1fr 1fr;}
+  .programs-grid{grid-template-columns:1fr;}
+  .courses-grid{grid-template-columns:1fr 1fr;}
+  .film-grid{grid-template-columns:1fr;}
+  .pricing-gate{grid-template-columns:1fr;}
+  .testimonials-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  nav{padding:16px 24px;}
+  .section{padding:80px 24px;}
+  #hero{padding:0 24px 64px;}
+  .pillars-grid,.courses-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="https://www.bethebestli.com" class="nav-logo">
+    <div class="nav-logo-mark">B</div>
+    BTB
+  </a>
+  <div class="nav-right">
+    <a href="#courses" class="nav-link">Courses</a>
+    <a href="#film" class="nav-link">Film</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+    <div id="nav-member-pill">
+      <span class="dot"></span>
+      <span id="nav-member-name">BTB Member</span>
+    </div>
+    <button class="nav-link" id="nav-login-btn" onclick="openLogin()">Log In</button>
+    <a href="#pricing" class="btn-primary" style="clip-path:none;padding:10px 20px;font-size:11px;text-decoration:none;"><span>Get Access</span></a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">BTB Digital Academy</div>
+  <h1 class="hero-title">
+    <span class="line"><span>TRAIN</span></span>
+    <span class="line"><span>YOUR <span class="red">MIND</span></span></span>
+    <span class="line"><span>WIN THE FIELD.</span></span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Film study. Player IQ. Systems. Execution.<br>
+      <strong>The on-demand academy that separates Long Island's best from everyone else.</strong>
+      Boys and girls programs — one platform.
+    </p>
+    <div>
+      <div style="display:flex;gap:8px;margin-bottom:20px;">
+        <span class="prog-badge boys">♂ Boys Program</span>
+        <span class="prog-badge girls">♀ Girls Program</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn-primary"><span>Get Access ▸</span></a>
+        <a href="#courses" class="btn-ghost">Explore Courses</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS MARQUEE ═══ -->
+<div id="stats-bar">
+  <div class="marquee-track">
+    <div class="marquee-item hl">488 Players<span class="marquee-dot"></span></div>
+    <div class="marquee-item">125 Hours of Film<span class="marquee-dot"></span></div>
+    <div class="marquee-item hl">48 Modules<span class="marquee-dot"></span></div>
+    <div class="marquee-item">12 D1 Commits<span class="marquee-dot"></span></div>
+    <div class="marquee-item hl">116 Coaches<span class="marquee-dot"></span></div>
+    <div class="marquee-item">25 Elite Teams<span class="marquee-dot"></span></div>
+    <div class="marquee-item hl">Boys + Girls<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Long Island NY<span class="marquee-dot"></span></div>
+    <div class="marquee-item hl">488 Players<span class="marquee-dot"></span></div>
+    <div class="marquee-item">125 Hours of Film<span class="marquee-dot"></span></div>
+    <div class="marquee-item hl">48 Modules<span class="marquee-dot"></span></div>
+    <div class="marquee-item">12 D1 Commits<span class="marquee-dot"></span></div>
+    <div class="marquee-item hl">116 Coaches<span class="marquee-dot"></span></div>
+    <div class="marquee-item">25 Elite Teams<span class="marquee-dot"></span></div>
+    <div class="marquee-item hl">Boys + Girls<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Long Island NY<span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- ═══ PILLARS ═══ -->
+<section id="pillars" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Why BTB Academy</div>
+    <h2 class="section-title">PRACTICE MAKES<br><span class="accent">PERMANENT.</span><br>WE MAKE IT RIGHT.</h2>
+    <div class="pillars-grid">
+      <div class="pillar"><div class="pillar-num">01 / 04</div><div class="pillar-icon">🧠</div><div class="pillar-title">Player IQ</div><p class="pillar-text">Decision-making frameworks built from 1,000+ live reps. Read defenses, recognize sets, and execute under pressure before the whistle blows.</p></div>
+      <div class="pillar"><div class="pillar-num">02 / 04</div><div class="pillar-icon">🎥</div><div class="pillar-title">Film Study</div><p class="pillar-text">Curated clips from Notre Dame, Maryland, Hopkins, Duke, and the PLL. Every clip annotated with what to watch and exactly why it works.</p></div>
+      <div class="pillar"><div class="pillar-num">03 / 04</div><div class="pillar-icon">⚙️</div><div class="pillar-title">Systems</div><p class="pillar-text">The exact offensive and defensive playbooks BTB teams run. Position-specific assignments and coaching cues for both boys and girls programs.</p></div>
+      <div class="pillar"><div class="pillar-num">04 / 04</div><div class="pillar-icon">🏆</div><div class="pillar-title">Execution</div><p class="pillar-text">Drillbooks, downloadable workouts, progress tracking, and coach feedback loops. Built for the field — results you can measure at the next practice.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROGRAMS ═══ -->
+<section id="programs" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Two Programs. One Platform.</div>
+    <h2 class="section-title">BUILT FOR<br><span class="accent">EVERY ATHLETE.</span></h2>
+    <div class="programs-grid">
+      <div class="program-card boys-card">
+        <div class="program-card-bg boys">B</div>
+        <div class="program-num">PROGRAM 01</div>
+        <div class="program-title boys-text">Boys</div>
+        <div class="program-sub">Attack · Midfield · Defense · FOGO · Goalie</div>
+        <ul class="program-features">
+          <li>Full Player IQ track (all positions)</li>
+          <li>FOGO mastery: clamp, rake &amp; go</li>
+          <li>2-Man game from X — pick, pop, release</li>
+          <li>Long-pole defense + slide packages</li>
+          <li>College + PLL film library (125 hrs)</li>
+          <li>Recruiting prep: D1 pathway modules</li>
+        </ul>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <a href="#pricing" class="btn-primary" style="clip-path:none;background:var(--boys);text-decoration:none;"><span>Join Boys Program ▸</span></a>
+          <span class="prog-badge boys">♂ Boys</span>
+        </div>
+      </div>
+      <div class="program-card girls-card">
+        <div class="program-card-bg girls">G</div>
+        <div class="program-num">PROGRAM 02</div>
+        <div class="program-title girls-text">Girls</div>
+        <div class="program-sub">Attack · Midfield · Defense · Draw · Goalie</div>
+        <ul class="program-features">
+          <li>Full Player IQ track (girls game)</li>
+          <li>Draw controls + transition offense</li>
+          <li>8M arc defense: position &amp; help</li>
+          <li>Crease cuts &amp; cage-side finishes</li>
+          <li>College women's film library (48 hrs)</li>
+          <li>Recruiting prep: D1 pathway modules</li>
+        </ul>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <a href="#pricing" class="btn-primary" style="clip-path:none;background:var(--girls);text-decoration:none;"><span>Join Girls Program ▸</span></a>
+          <span class="prog-badge girls">♀ Girls</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COURSES ═══ -->
+<section id="courses" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">The Curriculum</div>
+    <h2 class="section-title">48 MODULES.<br><span class="accent">ZERO FILLER.</span></h2>
+    <div class="courses-grid">
+      <div class="course-card"><div class="course-tag"><span class="prog-badge both" style="font-size:9px;">BOTH</span> Core</div><div class="course-title">The 6 Reads Every Player Makes</div><div class="course-desc">Decision trees built from 1,000+ live reps. Read it before they run it.</div><div class="course-meta"><span>6 LESSONS</span><span>45 MIN</span><span>✓ MOST POPULAR</span></div><div class="course-arrow">↗</div></div>
+      <div class="course-card"><div class="course-tag"><span class="prog-badge both" style="font-size:9px;">BOTH</span> Active</div><div class="course-title">Reading the Slide Package</div><div class="course-desc">Adjacent vs crease. Beat the slide before it arrives — boys and girls systems.</div><div class="course-meta"><span>3 LESSONS</span><span>18 MIN</span></div><div class="course-arrow">↗</div></div>
+      <div class="course-card"><div class="course-tag"><span class="prog-badge boys" style="font-size:9px;">BOYS</span> Attack</div><div class="course-title">Attack Footwork: Time &amp; Room</div><div class="course-desc">Steps, setup, and release mechanics. Right and left hand. Get separation every time.</div><div class="course-meta"><span>8 LESSONS</span><span>55 MIN</span></div><div class="course-arrow">↗</div></div>
+      <div class="course-card"><div class="course-tag"><span class="prog-badge girls" style="font-size:9px;">GIRLS</span> Attack</div><div class="course-title">Crease Cuts &amp; Cage-Side Finishes</div><div class="course-desc">Reading the 8M arc and finishing under pressure. The girls game, done right.</div><div class="course-meta"><span>8 LESSONS</span><span>52 MIN</span></div><div class="course-arrow">↗</div></div>
+      <div class="course-card"><div class="course-tag"><span class="prog-badge boys" style="font-size:9px;">BOYS</span> Systems</div><div class="course-title">2-Man Game from X</div><div class="course-desc">The core BTB set. Pick, pop, and release. The offense coaches wish their players understood.</div><div class="course-meta"><span>7 LESSONS</span><span>52 MIN</span></div><div class="course-arrow">↗</div></div>
+      <div class="course-card"><div class="course-tag"><span class="prog-badge both" style="font-size:9px;">BOTH</span> Recruiting</div><div class="course-title">Elite Prep: College Recruiting</div><div class="course-desc">What D1 coaches actually watch for, how to build your profile, and the timeline that matters.</div><div class="course-meta"><span>5 LESSONS</span><span>35 MIN</span></div><div class="course-arrow">↗</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FILM STATS ═══ -->
+<section id="film" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Film Library</div>
+    <h2 class="section-title">125 HOURS.<br><span class="accent">EVERY WEEK</span> MORE.</h2>
+    <div class="film-grid">
+      <div class="film-stats">
+        <div class="film-stat"><div class="film-stat-val" data-count="125">0</div><div class="film-stat-label">Total Film Hours</div></div>
+        <div class="film-stat"><div class="film-stat-val" data-count="340">0</div><div class="film-stat-label">Annotated Clips</div></div>
+        <div class="film-stat"><div class="film-stat-val" data-count="8">0</div><div class="film-stat-label">College Programs</div></div>
+        <div class="film-stat"><div class="film-stat-val" data-count="52">0</div><div class="film-stat-label">BTB Game Cuts</div></div>
+      </div>
+      <div class="film-clips">
+        <div class="film-clip"><div class="film-clip-play">▶</div><div class="film-clip-info"><div class="film-clip-title">Pat Kavanagh — 2-Man from X (Notre Dame)</div><div class="film-clip-meta">BOYS · 2-Man Game · Notre Dame</div></div><div class="film-clip-dur">4:32</div></div>
+        <div class="film-clip"><div class="film-clip-play">▶</div><div class="film-clip-info"><div class="film-clip-title">Northwestern — Draw Control &amp; Fast Break</div><div class="film-clip-meta">GIRLS · Draw Controls · Northwestern</div></div><div class="film-clip-dur">3:42</div></div>
+        <div class="film-clip"><div class="film-clip-play">▶</div><div class="film-clip-info"><div class="film-clip-title">Whipsnakes Defensive Slide Package (PLL)</div><div class="film-clip-meta">BOYS · Slides · PLL</div></div><div class="film-clip-dur">5:50</div></div>
+        <div class="film-clip"><div class="film-clip-play">▶</div><div class="film-clip-info"><div class="film-clip-title">UNC Women — 8M Arc Set Plays</div><div class="film-clip-meta">GIRLS · 8M Arc · UNC</div></div><div class="film-clip-dur">4:18</div></div>
+        <div class="film-clip"><div class="film-clip-play">▶</div><div class="film-clip-info"><div class="film-clip-title">BTB 2031 vs Express North — Coach Cut</div><div class="film-clip-meta">BOYS · BTB Games · Annotated</div></div><div class="film-clip-dur">6:12</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING GATE ═══ -->
+<section id="pricing" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Get Access</div>
+    <h2 class="section-title">ONE ACADEMY.<br><span class="accent">TWO PRICES.</span><br>KNOW WHICH ONE YOU ARE.</h2>
+
+    <!-- Savings banner -->
+    <div class="savings-banner">
+      <p>Already a BTB player, parent, or coach? <strong>Log in to unlock your member rate and save $45.</strong></p>
+      <button class="savings-cta" onclick="openLogin()">Log In to Save ▸</button>
+    </div>
+
+    <!-- Checking spinner -->
+    <div class="pricing-checking" id="pricingChecking">
+      <div class="check-spinner"></div>
+      <div class="check-label">Checking BTB membership...</div>
+    </div>
+
+    <!-- Two tier cards -->
+    <div class="pricing-gate" id="pricingGate">
+
+      <!-- BTB MEMBER -->
+      <div class="price-card member-card">
+        <div class="price-tier member-tier">✦ BTB Member Price</div>
+        <div class="price-name">Member Season Pass</div>
+        <div class="price-tagline">Exclusive rate for all BTB players, parents, and coaches. Your membership is your discount.</div>
+
+        <!-- Member status (shown when logged in) -->
+        <div class="member-status" id="memberStatus">
+          <div class="check-icon">✓</div>
+          <div class="ms-text">Signed in as <span class="ms-name" id="memberName">BTB Member</span></div>
+        </div>
+
+        <div class="price-amount">
+          <span class="num">$30</span>
+          <span class="per">/ full season</span>
+        </div>
+        <div class="price-season-note">
+          Non-member price: <span class="crossed">$75</span> &nbsp;·&nbsp; <span class="saved">You save $45</span>
+        </div>
+
+        <ul class="price-list">
+          <li>Full course library — boys + girls</li>
+          <li>125 hrs film library + new clips weekly</li>
+          <li>Position School (your program)</li>
+          <li>Downloadable playbooks + drillbooks</li>
+          <li>Progress tracking + achievement badges</li>
+          <li>Coach feedback loop</li>
+          <li>Recruiting prep module</li>
+          <li>Cancel anytime</li>
+        </ul>
+
+        <!-- Auth gate (shown when NOT logged in) -->
+        <div class="auth-gate show" id="authGate">
+          <p><strong>Log in with your BTB account</strong> to unlock your $30 member rate. Don't have one? Sign up free — your membership is verified automatically.</p>
+          <button class="btn-login" onclick="openLogin()">Log In to BTB Account</button>
+          <button class="btn-signup" onclick="openSignup()">New to BTB? Create Account →</button>
+        </div>
+
+        <!-- Access button (shown when logged in) -->
+        <button class="btn-access-member" id="btnAccessMember" onclick="handleMemberCheckout()">
+          Get Member Access — $30 ▸
+        </button>
+      </div>
+
+      <!-- PUBLIC -->
+      <div class="price-card public-card">
+        <div class="price-tier public-tier">Standard Rate</div>
+        <div class="price-name">Public Season Pass</div>
+        <div class="price-tagline">Open to all athletes and families outside the BTB club. Full access, same curriculum.</div>
+
+        <div class="price-amount">
+          <span class="num">$75</span>
+          <span class="per">/ full season</span>
+        </div>
+        <div class="price-season-note" style="color:rgba(255,255,255,.3);">
+          Not a BTB member? <a href="https://bethebest.leagueapps.com/leagues" style="color:var(--red);text-decoration:none;" target="_blank">Join BTB first</a> and save $45.
+        </div>
+
+        <ul class="price-list">
+          <li>Full course library — boys + girls</li>
+          <li>125 hrs film library + new clips weekly</li>
+          <li>Position School (choose your program)</li>
+          <li>Downloadable playbooks + drillbooks</li>
+          <li>Progress tracking + achievement badges</li>
+          <li>Coach feedback loop</li>
+          <li>Recruiting prep module</li>
+          <li>Cancel anytime</li>
+        </ul>
+
+        <button class="btn-access-public" onclick="handlePublicCheckout()">
+          Get Access — $75 ▸
+        </button>
+
+        <p style="font-size:11px;color:rgba(255,255,255,.25);margin-top:14px;text-align:center;">
+          Already a BTB member? <a href="#" onclick="openLogin();return false;" style="color:var(--red);">Log in above to save $45.</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section id="testimonials" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Field Reports</div>
+    <h2 class="section-title">WHAT PLAYERS<br><span class="accent">ARE SAYING.</span></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial"><div class="testimonial-quote">The film study changed my whole game. I started seeing defensive rotations before they happened. My high school coaches noticed the difference immediately.</div><div class="testimonial-role">Player · 2028 BTB Black</div></div>
+      <div class="testimonial"><div class="testimonial-quote">I committed to Stony Brook my junior year. I don't think that happens without BTB. The recruiting prep alone was worth every penny.</div><div class="testimonial-role">Player · Stony Brook Commit</div></div>
+      <div class="testimonial"><div class="testimonial-quote">BTB doesn't just develop lacrosse players — it develops confident young female competitors. My daughter is tougher, more coachable, and more self-aware.</div><div class="testimonial-role">Parent · BTB Storm 2033</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MANIFESTO ═══ -->
+<section id="manifesto">
+  <div class="manifesto-bg">BTB</div>
+  <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1;">
+    <div class="manifesto-title" id="manifestoTitle">
+      <div class="manifesto-word"><span class="dark">PRACTICE</span></div>
+      <div class="manifesto-word"><span class="dark">MAKES</span></div>
+      <br>
+      <div class="manifesto-word"><span class="white">PERMANENT.</span></div>
+    </div>
+    <div class="manifesto-sep"></div>
+    <div class="manifesto-title" id="manifestoTitle2" style="margin-bottom:32px;">
+      <div class="manifesto-word"><span class="dark">WE</span></div>
+      <div class="manifesto-word"><span class="dark">MAKE</span></div>
+      <div class="manifesto-word"><span class="white">IT</span></div>
+      <div class="manifesto-word"><span class="white">RIGHT.</span></div>
+    </div>
+    <p class="manifesto-sub" id="manifestoSub">Every rep. Every film session. Every early morning. This is what separates Long Island lacrosse from everywhere else — and it's what the Academy is built on.</p>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section id="final-cta">
+  <div class="final-bg"></div>
+  <div class="final-eyebrow" id="finalEyebrow">Your Season Starts Now</div>
+  <h2 class="final-title" id="finalTitle">
+    <div class="line"><span>YOU'VE GOT</span></div>
+    <div class="line"><span>TWO <span class="red">CHOICES.</span></span></div>
+    <div class="line"><span>LIFT OR GET LIFTED.</span></div>
+  </h2>
+  <div class="final-btns" id="finalBtns">
+    <a href="#pricing" class="btn-primary"><span>Get Access ▸</span></a>
+    <a href="https://www.bethebestli.com" class="btn-ghost">Back to BTB</a>
+  </div>
+  <div class="final-tagline">Be The Best Lacrosse Club · Digital Academy · Long Island, NY · Est. 2021</div>
+</section>
+
+<script>
+
+// ─── CURSOR ───────────────────────────────────────────────
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring')
+let mx=0,my=0,rx=0,ry=0
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'},{passive:true})
+;(function raf(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf)})()
+window.addEventListener('scroll',()=>{const t=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('prog').style.width=(t>0?window.scrollY/t*100:0)+'%'},{passive:true})
+
+// ─── NETLIFY IDENTITY SETUP ───────────────────────────────
+let currentUser = null
+
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on('init', user => {
+    if (user) handleUserLogin(user)
+  })
+  window.netlifyIdentity.on('login', user => {
+    handleUserLogin(user)
+    window.netlifyIdentity.close()
+  })
+  window.netlifyIdentity.on('logout', () => {
+    handleUserLogout()
+  })
+}
+
+function openLogin() {
+  if (window.netlifyIdentity) window.netlifyIdentity.open('login')
+}
+function openSignup() {
+  if (window.netlifyIdentity) window.netlifyIdentity.open('signup')
+}
+
+async function handleUserLogin(user) {
+  currentUser = user
+  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'BTB Member'
+
+  // Update nav pill
+  document.getElementById('nav-member-pill').classList.add('show')
+  document.getElementById('nav-member-name').textContent = name
+  document.getElementById('nav-login-btn').style.display = 'none'
+
+  // Update member card UI
+  document.getElementById('memberStatus').classList.add('show')
+  document.getElementById('memberName').textContent = name
+  document.getElementById('authGate').classList.remove('show')
+  document.getElementById('btnAccessMember').classList.add('show')
+}
+
+function handleUserLogout() {
+  currentUser = null
+  document.getElementById('nav-member-pill').classList.remove('show')
+  document.getElementById('nav-login-btn').style.display = ''
+  document.getElementById('memberStatus').classList.remove('show')
+  document.getElementById('authGate').classList.add('show')
+  document.getElementById('btnAccessMember').classList.remove('show')
+}
+
+// ─── CHECKOUT HANDLERS ───────────────────────────────────
+async function callCheckout(tier, email, name) {
+  // Show loading state on button
+  const btn = tier === 'btb'
+    ? document.getElementById('btnAccessMember')
+    : document.querySelector('.btn-access-public')
+  const orig = btn.textContent
+  btn.textContent = 'Loading...'
+  btn.disabled = true
+
+  try {
+    const res = await fetch('/.netlify/functions/academy-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tier, email, name })
+    })
+    const data = await res.json()
+    if (data.url) {
+      window.location.href = data.url
+    } else {
+      alert('Something went wrong: ' + (data.error || 'Unknown error'))
+      btn.textContent = orig
+      btn.disabled = false
+    }
+  } catch (err) {
+    alert('Network error — please try again.')
+    btn.textContent = orig
+    btn.disabled = false
+  }
+}
+
+function handleMemberCheckout() {
+  if (!currentUser) { openLogin(); return; }
+  const email = currentUser.email || ''
+  const name  = currentUser.user_metadata?.full_name || ''
+  callCheckout('btb', email, name)
+}
+
+function handlePublicCheckout() {
+  callCheckout('public', '', '')
+}
+
+// ─── INTERSECTION OBSERVER ────────────────────────────────
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return
+    const el=e.target
+    if(el.classList.contains('pillars-grid')){
+      el.querySelectorAll('.pillar').forEach((p,i)=>setTimeout(()=>p.classList.add('in'),i*100))
+    } else { el.classList.add('in') }
+  })
+},{threshold:0.15})
+
+document.querySelectorAll(
+  '.program-card,.film-stat,.film-clip,.price-card,.testimonial,.pillars-grid,.manifesto-sub,.final-eyebrow,.final-title,.final-btns'
+).forEach(el=>obs.observe(el))
+
+// Manifesto
+const mObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return
+    e.target.querySelectorAll('.manifesto-word').forEach((w,i)=>setTimeout(()=>w.classList.add('in'),i*60))
+    mObs.unobserve(e.target)
+  })
+},{threshold:0.3})
+document.querySelectorAll('#manifestoTitle,#manifestoTitle2').forEach(el=>mObs.observe(el))
+
+// Courses stagger
+const cObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return
+    e.target.querySelectorAll('.course-card').forEach((c,i)=>setTimeout(()=>c.classList.add('in'),i*80))
+    cObs.unobserve(e.target)
+  })
+},{threshold:0.1})
+const cg=document.querySelector('.courses-grid')
+if(cg) cObs.observe(cg)
+
+// Counters
+const countObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return
+    const el=e.target,target=+el.dataset.count,dur=1600,start=performance.now()
+    const run=now=>{const p=Math.min((now-start)/dur,1),ep=1-Math.pow(1-p,3);el.textContent=Math.floor(ep*target);if(p<1)requestAnimationFrame(run);else el.textContent=target}
+    requestAnimationFrame(run)
+    countObs.unobserve(el)
+  })
+},{threshold:0.5})
+document.querySelectorAll('[data-count]').forEach(el=>countObs.observe(el))
+
+// Magnetic buttons
+document.querySelectorAll('.btn-primary,.btn-ghost,.nav-cta,.btn-access-public,.btn-access-member').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect()
+    const dx=(e.clientX-(r.left+r.width/2))*.3,dy=(e.clientY-(r.top+r.height/2))*.3
+    btn.style.transform=`translate(${dx}px,${dy}px)`
+  })
+  btn.addEventListener('mouseleave',()=>{
+    btn.style.transform=''
+    btn.style.transition='transform 0.5s cubic-bezier(0.16,1,0.3,1)'
+    setTimeout(()=>btn.style.transition='',500)
+  })
+})
+
+</script>
+</body>
+</html>

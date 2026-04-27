@@ -79,7 +79,7 @@ export function Header() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1" ref={dropdownRef}>
           <button
-            onClick={() => go("/academy")}
+            onClick={() => window.location.href = '/academy-landing.html'}
             className={`px-3 py-2 text-[0.75rem] font-semibold uppercase tracking-[1.5px] transition-colors rounded ${
               isActive("/academy") 
                 ? (scrolled ? "text-black" : "text-white") 
@@ -260,7 +260,7 @@ export function Header() {
           </button>
 
           <div className="space-y-2">
-            <button onClick={() => go("/academy")} className="block w-full text-left text-lg font-semibold uppercase tracking-[2px] text-black/60 hover:text-black py-2">
+            <button onClick={() => { window.location.href = '/academy-landing.html' }} className="block w-full text-left text-lg font-semibold uppercase tracking-[2px] text-black/60 hover:text-black py-2">
               Academy
             </button>
 

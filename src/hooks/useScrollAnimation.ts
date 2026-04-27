@@ -13,15 +13,43 @@ export function useWordSplit(staggerMs = 60) {
     const el = ref.current
     if (!el) return
 
-    // Build the split markup
-    const original = el.innerHTML
-    const words = original.split(/(\s+)/)
-    el.innerHTML = words
-      .map((chunk) => {
-        if (/^\s+$/.test(chunk)) return chunk
-        return `<span class="word-wrap" style="display:inline-block;overflow:hidden;vertical-align:top;"><span class="word-inner" style="display:inline-block;transform:translateY(110%);opacity:0;transition:transform 0.85s ${ease},opacity 0.5s ease;">${chunk}</span></span>`
+    // Collect only TEXT nodes (leaf text) — don't touch elements/spans/children
+    const textNodes: Text[] = []
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT)
+    let node: Node | null
+    while ((node = walker.nextNode())) {
+      const text = (node as Text).textContent || ""
+      if (text.trim().length > 0) textNodes.push(node as Text)
+    }
+
+    // For each text node, split into words and wrap each in an animated span
+    const replacements: { parent: Node; original: Text; fragment: DocumentFragment }[] = []
+    textNodes.forEach((textNode) => {
+      const raw = textNode.textContent || ""
+      const words = raw.split(/(\s+)/)
+      const frag = document.createDocumentFragment()
+      words.forEach((chunk) => {
+        if (/^\s+$/.test(chunk)) {
+          frag.appendChild(document.createTextNode(chunk))
+        } else {
+          const wrap = document.createElement("span")
+          wrap.className = "word-wrap"
+          wrap.style.cssText = "display:inline-block;overflow:hidden;vertical-align:top;"
+          const inner = document.createElement("span")
+          inner.className = "word-inner"
+          inner.style.cssText = `display:inline-block;transform:translateY(110%);opacity:0;transition:transform 0.85s ${ease},opacity 0.5s ease;`
+          inner.textContent = chunk
+          wrap.appendChild(inner)
+          frag.appendChild(wrap)
+        }
       })
-      .join("")
+      replacements.push({ parent: textNode.parentNode!, original: textNode, fragment: frag })
+    })
+
+    // Apply all replacements
+    replacements.forEach(({ parent, original, fragment }) => {
+      parent.replaceChild(fragment, original)
+    })
 
     const inners = el.querySelectorAll<HTMLElement>(".word-inner")
 
@@ -41,7 +69,11 @@ export function useWordSplit(staggerMs = 60) {
 
     return () => {
       obs.disconnect()
-      el.innerHTML = original
+      // Unwrap: replace each .word-inner's .word-wrap parent with a plain text node
+      el.querySelectorAll<HTMLElement>(".word-wrap").forEach((wrap) => {
+        const text = wrap.querySelector(".word-inner")?.textContent || ""
+        wrap.replaceWith(document.createTextNode(text))
+      })
     }
   }, [staggerMs])
 
