@@ -147,13 +147,15 @@ function ProgressBar({ pct, colorClass = "bg-[#D22630]", height = "h-1.5" }: { p
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 
-export function DigitalAcademyHubPage() {
+export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const { getCourseCompletion } = useProgress(user?.id ?? "")
 
   // ── Gender state ─────────────────────────────────────────────────────────
   const [gender, setGender] = useState<Gender>(() => {
+    // If a gender is passed as a prop (route-level), always use it
+    if (genderProp) return genderProp
     try {
       const stored = localStorage.getItem(GENDER_STORAGE_KEY)
       if (stored === "boys" || stored === "girls") return stored

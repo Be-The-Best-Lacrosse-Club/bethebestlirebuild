@@ -214,7 +214,7 @@ const TIERS: { tier: AgeTier; label: string; ageRange: string; gradYears: string
 const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   {
     id: "boys-youth-l1",
-    videoUrl: "https://www.youtube.com/watch?v=qXhkg0wEKDY",
+    videoUrl: "https://www.youtube.com/watch?v=DFYpbgqY9vw",
     lessonNumber: 1,
     title: "Welcome to Lacrosse",
     topic: "Fundamentals",
@@ -321,7 +321,7 @@ const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "boys-youth-l4",
-    videoUrl: "https://www.youtube.com/watch?v=UI-ZteQ8JGU",
+    videoUrl: "https://www.youtube.com/watch?v=qtwKIxyOdGk",
     lessonNumber: 4,
     title: "Being a Great Teammate",
     topic: "Character",
@@ -403,7 +403,7 @@ const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "boys-youth-l6",
-    videoUrl: "https://www.youtube.com/watch?v=l-gQLqv9f4o",
+    videoUrl: "https://www.youtube.com/watch?v=eI7WKifE8aI",
     lessonNumber: 6,
     title: "The BTB Standard",
     topic: "Mental Game",
@@ -442,7 +442,7 @@ const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "boys-youth-l7",
-    videoUrl: "https://www.youtube.com/watch?v=l5-EwrhsMzY",
+    videoUrl: "https://www.youtube.com/watch?v=4KXp28yNO5Q",
     lessonNumber: 7,
     title: "Leading by Example",
     topic: "Character",
@@ -471,7 +471,7 @@ const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "boys-youth-l8",
-    videoUrl: "https://www.youtube.com/watch?v=dCVlRFWOjgE",
+    videoUrl: "https://www.youtube.com/watch?v=rbL9yXyCXtQ",
     lessonNumber: 8,
     title: "Respecting the Game",
     topic: "Character",
@@ -500,7 +500,7 @@ const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "boys-youth-l9",
-    videoUrl: "https://www.youtube.com/watch?v=S02D9QzDe4s",
+    videoUrl: "https://www.youtube.com/watch?v=2v4vfqctG88",
     lessonNumber: 9,
     title: "Why Teams Win",
     topic: "Mental Game",
@@ -1417,7 +1417,7 @@ const GIRLS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "girls-youth-l4",
-    videoUrl: "https://www.youtube.com/watch?v=UI-ZteQ8JGU",
+    videoUrl: "https://www.youtube.com/watch?v=7deaRXF70Q8",
     lessonNumber: 4,
     title: "Being a Great Teammate",
     topic: "Character",
@@ -1505,7 +1505,7 @@ const GIRLS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "girls-youth-l6",
-    videoUrl: "https://www.youtube.com/watch?v=l-gQLqv9f4o",
+    videoUrl: "https://www.youtube.com/watch?v=QrH4dilJi3c",
     lessonNumber: 6,
     title: "The BTB Standard",
     topic: "Mental Game",
@@ -1544,7 +1544,7 @@ const GIRLS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "girls-youth-l7",
-    videoUrl: "https://www.youtube.com/watch?v=l5-EwrhsMzY",
+    videoUrl: "https://www.youtube.com/watch?v=RwMQvpad-XE",
     lessonNumber: 7,
     title: "Leading by Example",
     topic: "Character",
@@ -1573,7 +1573,7 @@ const GIRLS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "girls-youth-l8",
-    videoUrl: "https://www.youtube.com/watch?v=dCVlRFWOjgE",
+    videoUrl: "https://www.youtube.com/watch?v=3f3EEGr6WZk",
     lessonNumber: 8,
     title: "Respecting the Game",
     topic: "Character",
@@ -1602,7 +1602,7 @@ const GIRLS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "girls-youth-l9",
-    videoUrl: "https://www.youtube.com/watch?v=S02D9QzDe4s",
+    videoUrl: "https://www.youtube.com/watch?v=2v4vfqctG88",
     lessonNumber: 9,
     title: "Why Teams Win",
     topic: "Mental Game",

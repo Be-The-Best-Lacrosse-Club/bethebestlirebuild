@@ -167,11 +167,11 @@ function App() {
 
             <Route element={<ProtectedRoute />}>
               <Route element={<HubLayout />}>
-                <Route path="/boys/players" element={<DigitalAcademyHubPage />} />
+                <Route path="/boys/players" element={<DigitalAcademyHubPage gender="boys" />} />
                 <Route path="/boys/academy" element={<Navigate to="/boys/players" replace />} />
                 <Route path="/boys/coaches-hub" element={<CoachesHubPage gender="boys" />} />
-                <Route path="/girls/players" element={<Navigate to="/boys/players" replace />} />
-                <Route path="/girls/academy" element={<Navigate to="/boys/players" replace />} />
+                <Route path="/girls/players" element={<DigitalAcademyHubPage gender="girls" />} />
+                <Route path="/girls/academy" element={<Navigate to="/girls/players" replace />} />
                 <Route path="/girls/coaches-hub" element={<CoachesHubPage gender="girls" />} />
                 <Route path="/family-hub" element={<FamilyHubPage />} />
               </Route>

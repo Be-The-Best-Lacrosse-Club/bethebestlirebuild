@@ -20,7 +20,8 @@ const programLinks = [
 
 const academyLinks = [
   { label: "About the Academy", href: "/academy-info" },
-  { label: "Player Academy", href: "/boys/players" },
+  { label: "Boys Academy", href: "/boys/players" },
+  { label: "Girls Academy", href: "/girls/players" },
   { label: "Coach Tools", href: "/coach-tools" },
 ]
 
