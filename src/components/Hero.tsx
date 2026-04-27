@@ -53,6 +53,7 @@ export function Hero() {
           playsInline
           preload="auto"
           className="w-full h-full object-cover opacity-45"
+          style={{ WebkitPlaysinline: true } as React.CSSProperties}
         >
           <source src="/assets/hero/brody.mp4" type="video/mp4" />
           <source src="/assets/hero/33g_1.mp4" type="video/mp4" />
@@ -197,7 +198,7 @@ export function Hero() {
         ref={scrollHintRef}
         href="#next"
         aria-label="Scroll down"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 group"
+        className="absolute bottom-6 md:bottom-8 left-0 right-0 mx-auto w-fit z-10 flex flex-col items-center gap-2 group"
       >
         <span className="text-[0.55rem] font-bold uppercase tracking-[3px] text-white/20 group-hover:text-white/40 transition-colors">
           Scroll

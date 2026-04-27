@@ -114,7 +114,7 @@ export function CharacterLab() {
                   {activePillar.subtitle}
                 </div>
               </div>
-              <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-[500px]">
+              <p className="text-white/70 text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-[500px]">
                 {activePillar.text}
               </p>
 

@@ -75,7 +75,7 @@ export function WhatYouGet() {
               The Academy <br /> <span className="text-[var(--btb-red)]">Advantage.</span>
             </h2>
           </div>
-          <p className="text-white/30 text-[0.88rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+          <p className="text-white/40 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
             BTB is built as a development system. No guesswork. No generic drills. Just high-performance engineering for our club members.
           </p>
         </div>
@@ -102,10 +102,10 @@ export function WhatYouGet() {
               </div>
 
               <div className="space-y-4">
-                <p className="text-[0.85rem] font-bold text-white group-hover:text-white/90 transition-colors uppercase tracking-wide">
+                <p className="text-[0.9rem] font-bold text-white group-hover:text-white/90 transition-colors uppercase tracking-wide">
                   {b.what}
                 </p>
-                <p className="text-[0.8rem] text-white/30 leading-relaxed group-hover:text-white/70 transition-colors font-medium">
+                <p className="text-[0.95rem] text-white/40 leading-relaxed group-hover:text-white/80 transition-colors font-medium">
                   {b.detail}
                 </p>
               </div>

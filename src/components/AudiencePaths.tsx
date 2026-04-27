@@ -106,7 +106,7 @@ export function AudiencePaths() {
               </h3>
 
               {/* Body */}
-              <p className="text-[0.82rem] text-white/35 group-hover:text-white/70 leading-relaxed font-medium transition-colors flex-1 mb-8">
+              <p className="text-[0.95rem] text-white/40 group-hover:text-white/80 leading-relaxed font-medium transition-colors flex-1 mb-8">
                 {p.description}
               </p>
 

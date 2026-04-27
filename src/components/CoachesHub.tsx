@@ -38,7 +38,7 @@ export function CoachesHub() {
               Real Coaches. <br /> <span className="text-[var(--btb-red)]">Real Standards.</span>
             </h2>
           </div>
-          <p className="text-white/30 text-[0.88rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+          <p className="text-white/40 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
             Every BTB coach is held to the same standard as every player. Preparation and accountability are not optional.
           </p>
         </div>
@@ -61,7 +61,7 @@ export function CoachesHub() {
                 <h4 className="font-display text-2xl uppercase tracking-wider text-white mb-2">{c.title}</h4>
               </div>
 
-              <p className="text-[0.85rem] text-white/30 group-hover:text-white/70 leading-relaxed transition-colors font-medium">
+              <p className="text-[1rem] text-white/40 group-hover:text-white/80 leading-relaxed transition-colors font-medium">
                 {c.text}
               </p>
             </div>
@@ -70,7 +70,7 @@ export function CoachesHub() {
 
         <div className="mt-20 text-center">
           <a
-            href="/coaches"
+            href="/boys/coaches"
             className="group flex items-center justify-center gap-4 text-white/40 hover:text-white transition-all"
           >
             <span className="text-[0.65rem] font-black uppercase tracking-[4px]">Access Full Academy Directory</span>

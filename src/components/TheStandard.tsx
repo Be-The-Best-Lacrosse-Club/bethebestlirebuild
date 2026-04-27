@@ -65,7 +65,7 @@ export function TheStandard() {
               </div>
               
               <h3 className="font-display text-2xl uppercase tracking-wider mb-5">{p.title}</h3>
-              <p className="text-white/50 text-[0.92rem] leading-relaxed group-hover:text-white/80 transition-colors font-medium">
+              <p className="text-white/60 text-[1rem] leading-relaxed group-hover:text-white/90 transition-colors font-medium">
                 {p.text}
               </p>
             </div>
