@@ -243,7 +243,7 @@ const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "boys-youth-l2",
-    videoUrl: "https://www.youtube.com/watch?v=a4fWOtC8C7Q",
+    videoUrl: "https://www.youtube.com/watch?v=ovd8u9ETUBk",
     lessonNumber: 2,
     title: "How to Hold and Cradle Your Stick",
     topic: "Fundamentals",
@@ -282,7 +282,7 @@ const BOYS_YOUTH_LESSONS: AcademyLesson[] = [
   },
   {
     id: "boys-youth-l3",
-    videoUrl: "https://www.youtube.com/watch?v=4iOD3TjV6D8",
+    videoUrl: "https://www.youtube.com/watch?v=qtwKIxyOdGk",
     lessonNumber: 3,
     title: "Catching and Throwing",
     topic: "Fundamentals",
