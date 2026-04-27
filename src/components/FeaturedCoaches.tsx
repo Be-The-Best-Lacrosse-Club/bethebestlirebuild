@@ -1,5 +1,6 @@
 import React from 'react';
 import { useReveal } from "@/hooks/useReveal";
+import { useWordSplit } from "@/hooks/useScrollAnimation";
 
 const featuredCoaches = [
   {
@@ -34,6 +35,7 @@ const featuredCoaches = [
 
 export function FeaturedCoaches() {
   const ref = useReveal({ className: "reveal-stagger" });
+  const titleRef = useWordSplit(55);
 
   return (
     <section className="bg-black py-32 px-6 relative overflow-hidden border-t border-white/5">
@@ -51,7 +53,7 @@ export function FeaturedCoaches() {
             ELITE COACHING ROSTER
             <div className="w-8 h-px bg-[var(--btb-red)]" />
           </div>
-          <h2 className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white">
+          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white">
             Led by the <br /> <span className="text-[var(--btb-red)]">Professionals.</span>
           </h2>
         </div>

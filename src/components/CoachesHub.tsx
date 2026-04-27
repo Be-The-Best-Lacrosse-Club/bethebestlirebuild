@@ -1,5 +1,7 @@
+import type React from "react"
 import { ArrowRight, ShieldCheck, BookOpen, Users, GraduationCap, Video, Star, Activity } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
+import { useWordSplit } from "@/hooks/useScrollAnimation"
 
 const cards = [
   { spec: "PHILOSOPHY // 01", icon: Star, title: "Coaching Philosophy", text: "Our coaches teach through structure, repetition, and progression. Every correction comes with a coaching point and a path to improvement." },
@@ -12,6 +14,7 @@ const cards = [
 
 export function CoachesHub() {
   const ref = useReveal({ className: "reveal-stagger" })
+  const titleRef = useWordSplit(55)
 
   return (
     <section className="bg-black text-white py-32 px-6 relative overflow-hidden border-t border-white/5" id="coaches">
@@ -31,7 +34,7 @@ export function CoachesHub() {
               <Activity size={12} className="animate-pulse" />
               COACHING_STANDARD // OPS_PROTOCOL
             </div>
-            <h2 className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,8vw,5rem)] uppercase leading-[0.85] text-white">
               Real Coaches. <br /> <span className="text-[var(--btb-red)]">Real Standards.</span>
             </h2>
           </div>
