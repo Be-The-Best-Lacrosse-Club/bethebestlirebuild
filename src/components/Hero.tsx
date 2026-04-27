@@ -183,7 +183,7 @@ export function Hero() {
           {[
             { val: "488", label: "Players" },
             { val: "25", label: "Teams" },
-            { val: "116", label: "Coaches" },
+            { val: "45+", label: "Coaches" },
           ].map(({ val, label }) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl text-[var(--btb-red)] leading-none">{val}</div>
