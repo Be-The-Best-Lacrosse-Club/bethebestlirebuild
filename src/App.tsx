@@ -35,6 +35,7 @@ import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
 import { SmsPolicyPage } from "@/pages/SmsPolicyPage"
 import { AcademyInfoPage } from "@/pages/AcademyInfoPage"
+import { AcademyGatePage } from "@/pages/AcademyGatePage"
 import { RecruitingPage } from "@/pages/RecruitingPage"
 import { FuturesPage } from "@/pages/FuturesPage"
 import { CampsPage } from "@/pages/CampsPage"
@@ -137,7 +138,7 @@ function App() {
           <Routes>
             <Route element={<PublicLayout />}>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/academy" element={<AcademyPage />} />
+              <Route path="/academy" element={<AcademyGatePage />} />
               <Route path="/tryouts" element={<TryoutsPage />} />
               <Route path="/interest" element={<InterestFormPage />} />
               <Route path="/parent-portal" element={<ParentPortalPage />} />
