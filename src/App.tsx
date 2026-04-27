@@ -11,7 +11,6 @@ import { useEffect } from "react"
 import { Hero } from "@/components/Hero"
 import { TheStandard } from "@/components/TheStandard"
 import { CharacterLab } from "@/components/CharacterLab"
-import { ProofSection } from "@/components/ProofSection"
 import { WhatYouGet } from "@/components/WhatYouGet"
 import { DevelopmentModel } from "@/components/DevelopmentModel"
 import { FilmStudy } from "@/components/FilmStudy"
@@ -52,7 +51,6 @@ function LandingPage() {
       <EliteCircuit />
       <TheStandard />
       <CharacterLab />
-      <ProofSection />
       <WhatYouGet />
       <DevelopmentModel />
       <FilmStudy />

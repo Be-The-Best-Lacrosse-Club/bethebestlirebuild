@@ -1,19 +1,26 @@
 import { useReveal } from "@/hooks/useReveal"
 import { Trophy } from "lucide-react"
 
+// The 14 tournaments BTB actually competes at — verified by Dan 2026-04-27.
+// No locations listed because we don't have verified locations for every event.
+// No specific finishes/placements claimed anywhere on this page.
 const tournaments = [
-  { name: "Naptown", location: "Annapolis, MD", level: "National" },
-  { name: "The Gauntlet", location: "Long Island, NY", level: "National" },
-  { name: "Lax By The Sea", location: "Long Branch, NJ", level: "Showcase" },
-  { name: "Maryland Cup", location: "Maryland", level: "Elite" },
-  { name: "Apex Events", location: "Pennsylvania", level: "National" },
-  { name: "LI Summer Showdown", location: "Farmingdale, NY", level: "Showcase" },
-  { name: "Adrenaline Events", location: "Multi-State", level: "National" },
-  { name: "Live Love Lax", location: "Long Island, NY", level: "Showcase" },
-  { name: "Excelsior Games", location: "New York", level: "National" },
-  { name: "Crabfeast", location: "Maryland", level: "Elite" },
-  { name: "World Series of Lacrosse", location: "Maryland", level: "Championship" },
-  { name: "NGLL", location: "Multi-State", level: "National" },
+  // Team tournaments — whole teams compete
+  { name: "Apex",                         type: "Team Tournament" },
+  { name: "Adrenaline Black Card",        type: "Team Tournament" },
+  { name: "Igloo Team Challenge",         type: "Team Tournament" },
+  { name: "Autumn & Gold Team Showcase",  type: "Team Tournament" },
+  { name: "Fall Classic",                 type: "Team Tournament" },
+  { name: "LI Summer Showdown",           type: "Team Tournament" },
+  { name: "IWLCA Champion Cup",           type: "Team Tournament" },
+  { name: "Maverick Showtime",            type: "Team Tournament" },
+  { name: "Trilogy Showcase",             type: "Team Tournament" },
+  { name: "Capital Cup",                  type: "Team Tournament" },
+  // Individual recruiting showcases — players are seen by college coaches
+  { name: "National Lacrosse Combine",    type: "Recruiting Showcase" },
+  { name: "Top Threat Showcase",          type: "Recruiting Showcase" },
+  { name: "Primetime Recruiting Showcase",type: "Recruiting Showcase" },
+  { name: "Best in Class",                type: "Recruiting Showcase" },
 ]
 
 export function EliteCircuit() {
@@ -33,7 +40,7 @@ export function EliteCircuit() {
             </h2>
           </div>
           <p className="text-white/30 text-[0.8rem] uppercase tracking-[1px] font-bold max-w-[300px] border-l border-white/10 pl-6">
-            We don't play for participation trophies. We enter the most competitive tournaments in the country to test our standard.
+            We don't play for participation trophies. We enter the most competitive tournaments and recruiting showcases in the country to test our standard.
           </p>
         </div>
 
@@ -43,11 +50,10 @@ export function EliteCircuit() {
               <div>
                 <div className="text-[10px] font-mono text-white/20 group-hover:text-[var(--btb-red)] transition-colors mb-4">EVENT // {String(i + 1).padStart(3, '0')}</div>
                 <h3 className="font-display text-xl text-white uppercase tracking-wider group-hover:translate-x-1 transition-transform">{t.name}</h3>
-                <div className="text-[0.65rem] font-bold text-white/40 mt-1 uppercase tracking-[1px]">{t.location}</div>
               </div>
               <div className="flex items-center justify-between mt-6">
                 <span className="px-2 py-0.5 border border-white/10 text-[0.6rem] font-black text-white/30 uppercase tracking-[1px] group-hover:border-[var(--btb-red)] group-hover:text-[var(--btb-red)] transition-colors">
-                  {t.level}
+                  {t.type}
                 </span>
                 <Trophy size={14} className="text-white/5 group-hover:text-[var(--btb-red)] transition-colors" />
               </div>
