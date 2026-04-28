@@ -2930,7 +2930,7 @@ SELF-SCOUTING: After every game, ask yourself three questions. Did I get back on
 
 // ─── FOGO LESSONS ─────────────────────────────────────────────────────
 
-const FOGO_LESSONS: AcademyLesson[] = [
+export const FOGO_LESSONS: AcademyLesson[] = [
   {
     id: "pos-fogo-l1",
     videoUrl: "https://www.youtube.com/watch?v=9N53S_RpBR8",
