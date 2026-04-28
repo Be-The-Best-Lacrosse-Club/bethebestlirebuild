@@ -93,7 +93,34 @@ const TOPIC_COLORS: Record<string, string> = {
   Character:     "text-amber-400 bg-amber-500/10 border-amber-500/30",
 }
 
-type Tab = "academy" | "courses" | "wof"
+type Tab = "academy" | "courses" | "wof" | "resources"
+
+// ─── YouTube Channels Data ────────────────────────────────────────────
+const YT_CHANNELS_BOYS = [
+  { name: "BTB LAX", badge: "OUR CHANNEL", href: "https://www.youtube.com/@BTBLAX", desc: "Our channel — game film, highlights, and events.", btb: true },
+  { name: "TLN", badge: null, href: "https://www.youtube.com/@TLN", desc: "The Lacrosse Network — drills, wall ball, news." },
+  { name: "First Class Lax", badge: null, href: "https://www.youtube.com/@firstclasslax", desc: "Deemer Class — pro training and skills." },
+  { name: "USA Lacrosse", badge: null, href: "https://www.youtube.com/@USA_Lacrosse", desc: "National governing body — rules, skills, education." },
+  { name: "POWLAX", badge: null, href: "https://www.youtube.com/@POWLAX", desc: "Offensive systems and play breakdowns." },
+  { name: "Inside Lacrosse", badge: null, href: "https://www.youtube.com/@insidelacrosse", desc: "Highlights, analysis, and profiles." },
+  { name: "Lacrosse Training", badge: null, href: "https://www.youtube.com/@lacrosse.training", desc: "Skills development and training." },
+  { name: "HogansLax", badge: null, href: "https://www.youtube.com/@HogansLax", desc: "Matt Hogan — coaching and drills." },
+  { name: "Prime Lacrosse", badge: null, href: "https://www.youtube.com/@primelacrosse", desc: "Premium lacrosse content." },
+  { name: "Team Zebra Lax", badge: null, href: "https://www.youtube.com/@team_zebra_lax", desc: "Youth development and drills." },
+]
+
+const YT_CHANNELS_GIRLS = [
+  { name: "BTB LAX", badge: "OUR CHANNEL", href: "https://www.youtube.com/@BTBLAX", desc: "Our channel — game film, highlights, and events.", btb: true },
+  { name: "Taylor Cummings", badge: null, href: "https://www.youtube.com/@TaylorCummings21", desc: "3x Tewaaraton — draw control & skills." },
+  { name: "Women's Lax Drills", badge: null, href: "https://www.youtube.com/@womenslaxdrills4102", desc: "Girls-specific drills and training." },
+  { name: "USA Lacrosse", badge: null, href: "https://www.youtube.com/@USA_Lacrosse", desc: "National governing body — rules, skills, education." },
+  { name: "Inside Lacrosse", badge: null, href: "https://www.youtube.com/@insidelacrosse", desc: "Highlights, analysis, and profiles." },
+  { name: "First Class Lax", badge: null, href: "https://www.youtube.com/@firstclasslax", desc: "Deemer Class — pro training and skills." },
+  { name: "Lacrosse Training", badge: null, href: "https://www.youtube.com/@lacrosse.training", desc: "Skills development and training." },
+  { name: "HogansLax", badge: null, href: "https://www.youtube.com/@HogansLax", desc: "Matt Hogan — coaching and drills." },
+  { name: "Prime Lacrosse", badge: null, href: "https://www.youtube.com/@primelacrosse", desc: "Premium lacrosse content." },
+  { name: "Team Zebra Lax", badge: null, href: "https://www.youtube.com/@team_zebra_lax", desc: "Youth development and drills." },
+]
 
 // ─── Component ────────────────────────────────────────────────────────
 
@@ -679,6 +706,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
             { id: "academy" as Tab, icon: GraduationCap, label: "BTB Academy" },
             { id: "courses"  as Tab, icon: BookOpen,      label: "My Courses" },
             { id: "wof"      as Tab, icon: Trophy,         label: "Wall of Fame" },
+            { id: "resources" as Tab, icon: Play,           label: "Resources" },
           ].map(({ id, icon: Icon, label: tabLabel }) => (
             <button
               key={id}
@@ -878,6 +906,48 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
             )}
           </div>
         )}
+        {/* ── TAB: Resources ───────────────────────────────────────── */}
+        {activeTab === "resources" && (() => {
+          const channels = gender === "girls" ? YT_CHANNELS_GIRLS : YT_CHANNELS_BOYS
+          return (
+            <div>
+              <div className="mb-8">
+                <p className="text-white/40 text-sm max-w-xl leading-relaxed">
+                  Hand-picked YouTube channels to keep leveling up between practices. Learn from the best in the game.
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {channels.map((ch) => (
+                  <a
+                    key={ch.href}
+                    href={ch.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group block rounded-xl border p-5 transition-all hover:-translate-y-0.5 ${
+                      (ch as { btb?: boolean }).btb
+                        ? "bg-[#D22630]/10 border-[#D22630]/30 hover:bg-[#D22630]/20"
+                        : "bg-white/[0.03] border-white/[0.07] hover:bg-white/[0.06] hover:border-white/20"
+                    }`}
+                  >
+                    {ch.badge && (
+                      <span className="inline-block bg-[#D22630] text-white text-[0.6rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded mb-3">
+                        {ch.badge}
+                      </span>
+                    )}
+                    <p className="font-display text-white text-base uppercase tracking-wide mb-1 group-hover:text-[#D22630] transition-colors">
+                      {ch.name}
+                    </p>
+                    <p className="text-white/35 text-xs leading-relaxed">{ch.desc}</p>
+                    <p className="text-white/20 text-[0.65rem] font-semibold uppercase tracking-widest mt-3">
+                      Watch →
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )
+        })()}
+
       </div>
     </div>
   )

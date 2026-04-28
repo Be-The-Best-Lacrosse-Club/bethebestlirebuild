@@ -58,6 +58,13 @@
   to = "/sms-policy.html"
   status = 200
 
+# Retire old static players-hub — redirect to login so existing links still work
+[[redirects]]
+  from = "/players-hub.html"
+  to = "/login"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
