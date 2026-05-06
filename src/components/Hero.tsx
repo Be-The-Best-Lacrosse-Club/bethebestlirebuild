@@ -7,7 +7,6 @@ export function Hero() {
   const subRef = useRef<HTMLParagraphElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
   const hud1Ref = useRef<HTMLDivElement>(null)
-  const scrollHintRef = useRef<HTMLAnchorElement>(null)
   const videoWrapRef = useCursorParallax(10)
   const primaryBtnRef = useMagnetic(0.3)
   const secondaryBtnRef = useMagnetic(0.25)
@@ -18,7 +17,6 @@ export function Hero() {
       [hud1Ref as React.RefObject<HTMLElement>, 200],
       [subRef as React.RefObject<HTMLElement>, 700],
       [ctaRef as React.RefObject<HTMLElement>, 900],
-      [scrollHintRef as React.RefObject<HTMLElement>, 1100],
     ]
     sequence.forEach(([ref, delay]) => {
       const el = ref.current
@@ -194,28 +192,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* ─── Scroll indicator ─── */}
-      {/* Hidden on mobile to avoid colliding with the stats strip (Players / Teams / Coaches). */}
-      <a
-        ref={scrollHintRef}
-        href="#next"
-        aria-label="Scroll down"
-        className="hidden md:flex absolute bottom-6 md:bottom-8 left-0 right-0 mx-auto w-fit z-10 flex-col items-center gap-2 group"
-      >
-        <span className="text-[1.05rem] font-bold uppercase tracking-[3px] text-white/90 group-hover:text-white/95 transition-colors">
-          Scroll
-        </span>
-        {/* Animated line */}
-        <div className="w-px h-10 overflow-hidden bg-white/10">
-          <div
-            className="w-full bg-[var(--btb-red)]"
-            style={{
-              height: "100%",
-              animation: "scrollIndicator 2s ease infinite",
-            }}
-          />
-        </div>
-      </a>
     </section>
   )
 }
