@@ -195,11 +195,12 @@ export function Hero() {
       </div>
 
       {/* ─── Scroll indicator ─── */}
+      {/* Hidden on mobile to avoid colliding with the stats strip (Players / Teams / Coaches). */}
       <a
         ref={scrollHintRef}
         href="#next"
         aria-label="Scroll down"
-        className="absolute bottom-6 md:bottom-8 left-0 right-0 mx-auto w-fit z-10 flex flex-col items-center gap-2 group"
+        className="hidden md:flex absolute bottom-6 md:bottom-8 left-0 right-0 mx-auto w-fit z-10 flex-col items-center gap-2 group"
       >
         <span className="text-[1.05rem] font-bold uppercase tracking-[3px] text-white/90 group-hover:text-white/95 transition-colors">
           Scroll
