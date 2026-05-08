@@ -2315,9 +2315,24 @@ function onPiecePointerDown(e, piece) {
     return;
   }
 
+  if ((state.tool === 'arrow' || state.tool === 'dashed' || state.tool === 'dodge' || state.tool === 'pass' || state.tool === 'pick' || state.tool === 'rotate') && state.arrowStart) {
+    state.arrows.push({
+      id: state.nextId++,
+      type: state.tool,
+      x1: state.arrowStart.x,
+      y1: state.arrowStart.y,
+      x2: piece.x,
+      y2: piece.y,
+      pieceId: state.arrowStart.pieceId,
+      targetPieceId: piece.id
+    });
+    state.arrowStart = null;
+    redraw();
+    return;
+  }
+
   if (state.tool === 'arrow' || state.tool === 'dashed' || state.tool === 'dodge' || state.tool === 'pass' || state.tool === 'pick' || state.tool === 'rotate') {
     state.arrowStart = { x: piece.x, y: piece.y, pieceId: piece.id };
-    return;
   }
 
   // Start dragging
@@ -2326,6 +2341,10 @@ function onPiecePointerDown(e, piece) {
   dragOffset.y = coords.y - piece.y;
   state.selectedId = piece.id;
   state.selection = null;
+  
+  // Attach balls
+  draggingPiece.attachedBalls = state.pieces.filter(p => p.type === 'ball' && p.id !== piece.id && Math.hypot(p.x - piece.x, p.y - piece.y) < 16);
+
   redraw();
 }
 
@@ -2430,6 +2449,7 @@ field.addEventListener('pointerdown', (e) => {
       y1: state.arrowStart.y,
       x2: coords.x,
       y2: coords.y,
+      pieceId: state.arrowStart.pieceId
     });
     state.arrowStart = null;
     redraw();
@@ -2480,8 +2500,38 @@ field.addEventListener('pointermove', (e) => {
   }
   if (!draggingPiece) return;
   const coords = getFieldCoords(e);
-  draggingPiece.x = coords.x - dragOffset.x;
-  draggingPiece.y = coords.y - dragOffset.y;
+  const newX = coords.x - dragOffset.x;
+  const newY = coords.y - dragOffset.y;
+  const dx = newX - draggingPiece.x;
+  const dy = newY - draggingPiece.y;
+  
+  if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
+    if (state.arrowStart && state.arrowStart.pieceId === draggingPiece.id) {
+      state.arrowStart = null;
+    }
+  }
+
+  draggingPiece.x = newX;
+  draggingPiece.y = newY;
+
+  if (draggingPiece.attachedBalls) {
+    draggingPiece.attachedBalls.forEach(b => {
+      b.x += dx;
+      b.y += dy;
+    });
+  }
+
+  state.arrows.forEach(a => {
+    if (a.pieceId === draggingPiece.id) {
+      a.x1 += dx;
+      a.y1 += dy;
+    }
+    if (a.targetPieceId === draggingPiece.id) {
+      a.x2 += dx;
+      a.y2 += dy;
+    }
+  });
+
   redraw();
 });
 
