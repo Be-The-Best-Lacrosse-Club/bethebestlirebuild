@@ -156,11 +156,8 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
   // Practice plan expand
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null)
 
-  // Film library state
-  const [filmCategory, setFilmCategory] = useState<"All" | FilmCategory>("All")
-  const [filmLevel, setFilmLevel] = useState<"All" | FilmLevel>("All")
-  const [filmSearch, setFilmSearch] = useState("")
-  const [selectedFilm, setSelectedFilm] = useState<FilmEntry | null>(null)
+  // Film library state (replaced by iframe)
+
 
   // Certification state (persisted in localStorage)
   const [certCompleted, setCertCompleted] = useState<Record<string, boolean>>(() => {
@@ -206,26 +203,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
   const filteredDrills =
     activeCategory === "All" ? drills : drills.filter((d) => d.category === activeCategory)
 
-  // Filtered films
-  const filteredFilms = useMemo(() => {
-    let result = films
-    if (filmCategory !== "All") {
-      result = result.filter((f) => f.category === filmCategory)
-    }
-    if (filmLevel !== "All") {
-      result = result.filter((f) => f.level === filmLevel)
-    }
-    if (filmSearch.trim()) {
-      const q = filmSearch.toLowerCase()
-      result = result.filter(
-        (f) =>
-          f.title.toLowerCase().includes(q) ||
-          f.description.toLowerCase().includes(q) ||
-          f.tags.some((t) => t.toLowerCase().includes(q))
-      )
-    }
-    return result
-  }, [filmCategory, filmLevel, filmSearch])
+
 
   const handleLogout = async () => {
     await logout()
@@ -505,233 +483,18 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
       <section
         id="film"
         ref={(el) => { sectionRefs.current["film"] = el }}
-        className="py-20 px-6 bg-neutral-950 border-b border-white/[0.07]"
+        className="bg-neutral-950 border-b border-white/[0.07]"
       >
-        <div className="max-w-[1000px] mx-auto">
-
-          {/* ── Film Detail View ── */}
-          {selectedFilm ? (
-            <div>
-              {/* Back button */}
-              <button
-                onClick={() => setSelectedFilm(null)}
-                className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-[0.78rem] font-semibold uppercase tracking-[1.5px] mb-8"
-              >
-                <ArrowLeft size={15} /> Back to Library
-              </button>
-
-              {/* Video placeholder */}
-              <div className={`relative w-full aspect-video rounded-xl ${filmCategoryBg[selectedFilm.category]} flex items-center justify-center mb-8 border border-white/[0.06]`}>
-                <div className="text-center">
-                  <PlayCircle size={64} strokeWidth={1} className="text-white/25 mx-auto mb-3" />
-                  <div className="text-[0.78rem] font-semibold uppercase tracking-[2px] text-white/30">
-                    Video Coming Soon
-                  </div>
-                </div>
-              </div>
-
-              {/* Film info */}
-              <div className="mb-8">
-                <div className="flex flex-wrap items-center gap-2 mb-3">
-                  <span className={`text-[0.6rem] font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${filmCategoryColors[selectedFilm.category]}`}>
-                    {selectedFilm.category}
-                  </span>
-                  <span className={`text-[0.6rem] font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${filmLevelColor(selectedFilm.level)}`}>
-                    {selectedFilm.level}
-                  </span>
-                  <span className="flex items-center gap-1 text-[0.72rem] text-white/30">
-                    <Clock size={12} /> {selectedFilm.duration}
-                  </span>
-                </div>
-                <h2 className="font-display text-[clamp(1.5rem,3.5vw,2.2rem)] uppercase tracking-wide leading-[0.95] text-white mb-3">
-                  {selectedFilm.title}
-                </h2>
-                <p className="text-[0.88rem] text-white/40 max-w-[600px] leading-[1.8] mb-1">
-                  {selectedFilm.subcategory}
-                </p>
-                <p className="text-[0.84rem] text-white/35 max-w-[600px] leading-relaxed">
-                  {selectedFilm.description}
-                </p>
-              </div>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-12">
-                {selectedFilm.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="flex items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[1px] px-3 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] text-white/40"
-                  >
-                    <Tag size={10} /> {tag}
-                  </span>
-                ))}
-              </div>
-
-              {/* Related Films */}
-              {getRelatedFilms(selectedFilm).length > 0 && (
-                <div>
-                  <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-5">
-                    Related Films
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                    {getRelatedFilms(selectedFilm).map((related) => (
-                      <button
-                        key={related.id}
-                        onClick={() => {
-                          setSelectedFilm(related)
-                          window.scrollTo({ top: (sectionRefs.current["film"]?.getBoundingClientRect().top ?? 0) + window.scrollY - 88, behavior: "smooth" })
-                        }}
-                        className="group text-left rounded-xl border border-white/[0.07] bg-white/[0.02] hover:border-white/[0.15] transition-all duration-200 overflow-hidden"
-                      >
-                        <div className={`aspect-video ${filmCategoryBg[related.category]} flex items-center justify-center`}>
-                          <PlayCircle size={28} strokeWidth={1.2} className="text-white/20 group-hover:text-white/40 transition-colors" />
-                        </div>
-                        <div className="p-4">
-                          <h5 className="font-display text-[0.82rem] uppercase tracking-wide text-white mb-1 line-clamp-2">
-                            {related.title}
-                          </h5>
-                          <span className="text-[0.68rem] text-white/25">{related.duration}</span>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            /* ── Film Library View ── */
-            <div>
-              {/* Header */}
-              <div className="mb-10">
-                <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
-                  Film Resources
-                </div>
-                <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-3">
-                  Game Film.
-                  <br />
-                  Teaching Clips.
-                </h2>
-                <p className="text-[0.84rem] text-white/35 max-w-[440px] leading-relaxed">
-                  {films.length} film resources across {filmCategories.length} categories. Filter by topic, level, or search by keyword.
-                </p>
-              </div>
-
-              {/* Search bar */}
-              <div className="relative mb-6">
-                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/25" />
-                <input
-                  type="text"
-                  placeholder="Search films by title, description, or tags..."
-                  value={filmSearch}
-                  onChange={(e) => setFilmSearch(e.target.value)}
-                  className="w-full pl-11 pr-10 py-3 rounded-xl border border-white/[0.1] bg-white/[0.03] text-[0.84rem] text-white placeholder:text-white/25 focus:outline-none focus:border-white/[0.2] focus:bg-white/[0.05] transition-all"
-                />
-                {filmSearch && (
-                  <button
-                    onClick={() => setFilmSearch("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/50 transition-colors"
-                  >
-                    <X size={16} />
-                  </button>
-                )}
-              </div>
-
-              {/* Category filter pills */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {(["All", ...filmCategories] as const).map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => {
-                      setFilmCategory(cat as "All" | FilmCategory)
-                      setSelectedFilm(null)
-                    }}
-                    className={`px-4 py-2 rounded-full text-[0.72rem] font-semibold uppercase tracking-[1px] transition-all duration-200 ${
-                      filmCategory === cat
-                        ? "bg-[var(--btb-red)] text-white"
-                        : "border border-white/[0.1] text-white/40 hover:text-white/60 hover:border-white/20"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-
-              {/* Level filter pills */}
-              <div className="flex flex-wrap gap-2 mb-10">
-                {(["All", "Beginner", "Intermediate", "Advanced"] as const).map((level) => (
-                  <button
-                    key={level}
-                    onClick={() => setFilmLevel(level as "All" | FilmLevel)}
-                    className={`px-3 py-1.5 rounded-full text-[0.65rem] font-semibold uppercase tracking-[1px] transition-all duration-200 ${
-                      filmLevel === level
-                        ? "bg-white/[0.12] text-white border border-white/[0.2]"
-                        : "border border-white/[0.06] text-white/30 hover:text-white/50 hover:border-white/15"
-                    }`}
-                  >
-                    {level === "All" ? "All Levels" : level}
-                  </button>
-                ))}
-              </div>
-
-              {/* Film result count */}
-              {(filmCategory !== "All" || filmLevel !== "All" || filmSearch) && (
-                <div className="text-[0.75rem] text-white/25 mb-6">
-                  Showing {filteredFilms.length} of {films.length} films
-                </div>
-              )}
-
-              {/* Film card grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredFilms.map((film) => (
-                  <button
-                    key={film.id}
-                    onClick={() => {
-                      setSelectedFilm(film)
-                      window.scrollTo({ top: (sectionRefs.current["film"]?.getBoundingClientRect().top ?? 0) + window.scrollY - 88, behavior: "smooth" })
-                    }}
-                    className="group text-left rounded-xl border border-white/[0.07] bg-white/[0.02] hover:border-[var(--btb-red)]/30 hover:shadow-lg hover:shadow-[var(--btb-red)]/[0.04] transition-all duration-200 overflow-hidden"
-                  >
-                    {/* Thumbnail placeholder */}
-                    <div className={`relative aspect-video ${filmCategoryBg[film.category]} flex items-center justify-center`}>
-                      <PlayCircle size={36} strokeWidth={1.2} className="text-white/20 group-hover:text-white/40 group-hover:scale-110 transition-all duration-200" />
-                      {/* Duration badge */}
-                      <span className="absolute bottom-2 right-2 text-[0.62rem] font-bold px-2 py-0.5 rounded bg-black/60 text-white/70 backdrop-blur-sm">
-                        {film.duration}
-                      </span>
-                    </div>
-
-                    {/* Card content */}
-                    <div className="p-5">
-                      <div className="flex flex-wrap items-center gap-1.5 mb-2">
-                        <span className={`text-[0.55rem] font-bold uppercase tracking-[1.5px] px-2 py-0.5 rounded-full border ${filmCategoryColors[film.category]}`}>
-                          {film.category}
-                        </span>
-                        <span className={`text-[0.55rem] font-bold uppercase tracking-[1.5px] px-2 py-0.5 rounded-full border ${filmLevelColor(film.level)}`}>
-                          {film.level}
-                        </span>
-                      </div>
-                      <h4 className="font-display text-[0.88rem] uppercase tracking-wide text-white mb-2 line-clamp-2 group-hover:text-[var(--btb-red)] transition-colors">
-                        {film.title}
-                      </h4>
-                      <p className="text-[0.74rem] text-white/30 leading-relaxed line-clamp-2">
-                        {film.description}
-                      </p>
-                      <div className="flex items-center gap-1 mt-3 text-[0.68rem] text-white/20 group-hover:text-[var(--btb-red)]/60 transition-colors">
-                        Watch <ArrowRight size={12} />
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              {filteredFilms.length === 0 && (
-                <div className="text-center py-16 text-white/20 text-[0.84rem]">
-                  No films found matching your filters.
-                </div>
-              )}
-            </div>
-          )}
+        <div className="w-full h-[800px]">
+          <iframe
+            src="https://btb-lacrosse-iq.netlify.app/"
+            className="w-full h-full border-none"
+            title="BTB Lacrosse IQ Library"
+            allowFullScreen
+          />
         </div>
       </section>
+
 
       {/* ══════════════════════════════════════════════════════════════ */}
       {/*  PRACTICE PLAN TEMPLATES                                      */}
