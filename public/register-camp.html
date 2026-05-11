@@ -95,6 +95,13 @@
     font-size: 0.85rem; display: none;
   }
   .error-msg.show { display: block; }
+  .sms-consent {
+    font-size: 11px;
+    color: #888;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .sms-consent a { color: #D22630; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -220,6 +227,7 @@
       <div class="field">
         <label>Phone<span class="req">*</span></label>
         <input type="tel" name="parent_phone" required>
+        <p class="sms-consent">By providing your phone number you consent to receive transactional SMS from Be The Best Lacrosse Club — practice reminders, game day info, schedule changes, and urgent announcements. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for assistance. <a href="/sms-policy" target="_blank">SMS Policy</a></p>
       </div>
     </div>
 
