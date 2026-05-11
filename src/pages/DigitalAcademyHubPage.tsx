@@ -110,16 +110,17 @@ const FILM_POSITIONS = ["All", "Attack", "Midfield", "Defense", "Goalie", "FOGO"
 type FilmPosition = typeof FILM_POSITIONS[number]
 
 const STATIC_DOWNLOADS = [
-  { id: "d1", name: "BTB Offensive System Playbook", category: "Playbooks", size: "2.4 MB", ext: "PDF" },
-  { id: "d2", name: "BTB Defensive Concepts Playbook", category: "Playbooks", size: "1.8 MB", ext: "PDF" },
-  { id: "d3", name: "Ground Ball Drill Sheet", category: "Drill Sheets", size: "540 KB", ext: "PDF" },
-  { id: "d4", name: "Wall Ball 30-Day Program", category: "Drill Sheets", size: "320 KB", ext: "PDF" },
-  { id: "d5", name: "BTB Footwork Ladder Circuit", category: "Drill Sheets", size: "280 KB", ext: "PDF" },
-  { id: "d6", name: "Mental Performance Journal", category: "Mental Game", size: "1.1 MB", ext: "PDF" },
-  { id: "d7", name: "Pressure Performance Protocol", category: "Mental Game", size: "420 KB", ext: "PDF" },
-  { id: "d8", name: "Recruiting Preparation Guide", category: "Recruiting", size: "890 KB", ext: "PDF" },
-  { id: "d9", name: "College Lacrosse Email Templates", category: "Recruiting", size: "180 KB", ext: "PDF" },
-  { id: "d10", name: "Highlight Film Checklist", category: "Recruiting", size: "210 KB", ext: "PDF" },
+  // Drill Sheets — gender-neutral
+  { id: "d3", name: "Ground Ball Drill Sheet",        category: "Drill Sheets",  gender: "all",   size: "540 KB",  ext: "PDF" },
+  { id: "d4", name: "Wall Ball 30-Day Program",       category: "Drill Sheets",  gender: "all",   size: "320 KB",  ext: "PDF" },
+  { id: "d5", name: "BTB Footwork Ladder Circuit",    category: "Drill Sheets",  gender: "all",   size: "280 KB",  ext: "PDF" },
+  // Mental Game — gender-neutral
+  { id: "d6", name: "Mental Performance Journal",     category: "Mental Game",   gender: "all",   size: "1.1 MB",  ext: "PDF" },
+  { id: "d7", name: "Pressure Performance Protocol",  category: "Mental Game",   gender: "all",   size: "420 KB",  ext: "PDF" },
+  // Recruiting — gender-neutral
+  { id: "d8", name: "Recruiting Preparation Guide",   category: "Recruiting",    gender: "all",   size: "890 KB",  ext: "PDF" },
+  { id: "d9", name: "College Lacrosse Email Templates", category: "Recruiting",  gender: "all",   size: "180 KB",  ext: "PDF" },
+  { id: "d10", name: "Highlight Film Checklist",      category: "Recruiting",    gender: "all",   size: "210 KB",  ext: "PDF" },
 ]
 
 const DOWNLOAD_CATEGORIES = ["Playbooks", "Drill Sheets", "Mental Game", "Recruiting"] as const
@@ -136,6 +137,7 @@ const PLAYER_RESOURCES = [
   {
     title: "Boys Motion Offense",
     program: "Boys Program",
+    gender: "boys" as const,
     desc: "Passing, fades, follow actions, cuts, picks, and full-system offensive film.",
     href: "/btb-boys-offense-playbook.html",
     icon: Swords,
@@ -143,6 +145,7 @@ const PLAYER_RESOURCES = [
   {
     title: "Boys Defensive Playbook",
     program: "Boys Program",
+    gender: "boys" as const,
     desc: "Slides, recovery, defending picks, cutters, man-down, and 3-3 zone principles.",
     href: "/btb-boys-defense-playbook.html",
     icon: Target,
@@ -150,6 +153,7 @@ const PLAYER_RESOURCES = [
   {
     title: "Boys Transition & Special Teams",
     program: "Boys Program",
+    gender: "boys" as const,
     desc: "Rides, clears, substitutions, faceoffs, wing play, man-up, and man-down.",
     href: "/btb-boys-transition-playbook.html",
     icon: Zap,
@@ -157,13 +161,31 @@ const PLAYER_RESOURCES = [
   {
     title: "Girls Motion Offense",
     program: "Girls Program",
+    gender: "girls" as const,
     desc: "Women's D1 film, spacing, fades, cuts, clear-throughs, follow actions, and picks.",
     href: "/btb-girls-offense-playbook.html",
     icon: Swords,
   },
   {
+    title: "Girls Defensive Playbook",
+    program: "Girls Program",
+    gender: "girls" as const,
+    desc: "Defensive footwork, draw defense, slides, man-to-man, and zone principles.",
+    href: "/btb-girls-defense-playbook.html",
+    icon: Target,
+  },
+  {
+    title: "Girls Transition & Special Teams",
+    program: "Girls Program",
+    gender: "girls" as const,
+    desc: "Rides, clears, draw plays, 8-meter shooting, man-up, and man-down situations.",
+    href: "/btb-girls-transition-playbook.html",
+    icon: Zap,
+  },
+  {
     title: "Positionless Guru",
     program: "All Players",
+    gender: "all" as const,
     desc: "Spacing, reads, off-ball movement, ball movement, and finishing IQ.",
     href: "/btb-positionless-guru.html",
     icon: Brain,
@@ -403,7 +425,8 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   )
 
   const filteredDownloads = STATIC_DOWNLOADS.filter(
-    (d) => downloadCategory === "All" || d.category === downloadCategory
+    (d) => (d.gender === "all" || d.gender === gender) &&
+           (downloadCategory === "All" || d.category === downloadCategory)
   )
 
   // ─── COURSE DETAIL VIEW (grad-year courses) ────────────────────────────
@@ -1278,7 +1301,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
             </div>
 
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
-              {PLAYER_RESOURCES.map((resource) => (
+              {PLAYER_RESOURCES.filter((r) => r.gender === gender || r.gender === "all").map((resource) => (
                 <a
                   key={resource.title}
                   href={resource.href}
