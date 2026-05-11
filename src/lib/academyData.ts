@@ -6671,222 +6671,242 @@ SELF-SCOUTING: After every game, ask yourself three questions. Did I get back on
   },
 ]
 
-// ─── FOGO LESSONS ─────────────────────────────────────────────────────
+// ─── FOGO LESSONS (Draw Specialist — Girls) ─────────────────────
 
 export const FOGO_LESSONS: AcademyLesson[] = [
   {
     id: "pos-fogo-l1",
-    videoUrl: "https://www.youtube.com/watch?v=9N53S_RpBR8",
+    videoUrl: "https://www.youtube.com/watch?v=u9eYaW06iv0",
     lessonNumber: 112,
-    title: "What Is FOGO and Why It Matters",
+    title: "What Is the Draw and Why It Controls the Game",
     topic: "Lacrosse IQ",
     pillar: "game",
     position: "fogo",
-    description: `FOGO stands for Face-Off, Get Off. It's a specialized role — the player who takes faceoffs and then immediately comes off the field after the faceoff is won or lost. In modern lacrosse, the FOGO has become one of the most strategically important positions on the field. Teams that dominate faceoffs control possession — and the team that controls possession controls the game.
+    description: `The draw is the most underrated position in girls lacrosse. Every possession starts here. Every goal scored or prevented begins with who wins the draw — and the team that controls possession controls the game.
 
-The math is simple. A college team might take 30 faceoffs in a game. If you win 60% of them, that's 6 extra possessions over your opponent. At the high school level where average goals per possession are low, those extra possessions are the difference between winning and losing. A dominant FOGO is worth more than most people realize.
+In girls lacrosse, the draw happens at the center of the field between two players. Each draw specialist holds the ball between the two sticks at waist height, and on the whistle, both players draw their sticks up and back, trying to direct the ball toward their teammates. Winning the draw doesn't just mean touching the ball first — it means controlling where it goes.
 
-The position requires an unusual combination of skills: explosive athleticism, hand-eye coordination, tactical intelligence, and mental toughness. Faceoffs are one-on-one competitions that happen under full stadium attention at the start of every possession. A FOGO who flinches mentally — who lets a loss carry into the next faceoff — will cost their team games.
+The math is simple. At the high school level, games have 20-30 draws. If your team wins 65% of them, that's 4-6 extra possessions. At a game where each possession has a low scoring percentage, those extra possessions are often the exact margin of victory. A dominant draw specialist is worth more to her team than most people realize — and recruiting coaches absolutely know this.
 
-The FOGO role is also evolving. Modern teams are using hybrid FOGOs — players who are good enough on faceoffs to start them but skilled enough as midfielders to stay on the field and contribute in transition. If you want to play at the next level, developing your game beyond faceoffs makes you far more valuable.
+The draw specialist role requires a rare combination: quick hands, explosive upward wrist snap, body positioning, and spatial intelligence. You are not just reacting — you are reading your opponent's body, anticipating her tendencies, and directing the ball to your teammate who is already in position.
 
-Your goal: master the faceoff first. Then expand your game outward from there. The technical skills come first. The tactical intelligence develops over time. And the mental toughness — the ability to reset after a loss and compete just as hard on the next one — is what separates the best from the rest.`,
+This is one of the few positions in sports where one player can completely change a game's outcome through a single specialized skill. If you're a draw specialist, own it. Master the technique, develop your counters, study your opponents, and build the mental toughness to compete 20+ times in a single game without carrying a loss into the next one.`,
     questions: [
       {
-        question: "What does FOGO stand for?",
-        options: ["Face-Off Get Out", "Face-Off, Get Off", "First On, Go Offense", "Faceoff Only Game Option"],
-        correctAnswer: 1,
-        explanation: "Face-Off, Get Off — the player takes the faceoff and rotates off the field after possession is decided.",
-      },
-      {
-        question: "Why is winning faceoffs so valuable?",
+        question: "When does a draw occur in girls lacrosse?",
         options: [
-          "It looks impressive",
-          "Extra possessions directly translate to more scoring opportunities — the team with more possessions controls the game",
-          "Only matters in close games",
-          "Faceoffs are worth a point",
+          "Only at the start of the game",
+          "At the start of each half and after every goal",
+          "Once per quarter",
+          "Only after penalties",
         ],
         correctAnswer: 1,
-        explanation: "Possession = opportunity. Winning 60% of 30 faceoffs is 6 extra possessions over your opponent — that decides games.",
+        explanation: "Draws happen at the start of each half and after every goal — meaning a draw specialist can compete 20-30+ times in a single game.",
       },
       {
-        question: "What separates the best FOGOs from the rest mentally?",
+        question: "What makes the draw specialist position so strategically important?",
         options: [
-          "They never lose a faceoff",
-          "They reset after every loss and compete just as hard on the next one",
-          "They're always the fastest",
-          "They never show emotion",
+          "It looks impressive to college coaches",
+          "Winning draws directly controls possession — the team with more possessions creates more scoring opportunities",
+          "It only matters in close games",
+          "Draw specialists score the most goals",
         ],
         correctAnswer: 1,
-        explanation: "Faceoffs are won and lost constantly. The mental reset between them — not letting one loss bleed into the next — is the mark of elite FOGOs.",
+        explanation: "Possession = opportunity. Winning 65% of 30 draws is 4-6 extra possessions — that margin often decides games.",
+      },
+      {
+        question: "What does winning the draw actually mean — beyond just touching the ball first?",
+        options: [
+          "Getting your stick on the ball before the opponent",
+          "Directing the ball to a positioned teammate who can secure possession",
+          "Knocking the ball away from the opponent",
+          "Getting the ball out of the circle fastest",
+        ],
+        correctAnswer: 1,
+        explanation: "Winning the draw means controlling where the ball goes — directing it to a teammate already in position. Touching it first but sending it to the opponent is not a win.",
       },
     ],
   },
   {
     id: "pos-fogo-l2",
-    videoUrl: "https://www.youtube.com/watch?v=9N53S_RpBR8",
+    videoUrl: "https://www.youtube.com/watch?v=r7jVWC4HeY0",
     lessonNumber: 113,
-    title: "The Clamp — Foundation of Every Faceoff",
+    title: "Draw Mechanics — Setup, Snap, and Control",
     topic: "Fundamentals",
     pillar: "game",
     position: "fogo",
-    description: `The clamp is the foundational faceoff technique. Before you learn any counters or specialty moves, you need to master the clamp — because everything in faceoffs is built around this base.
+    description: `Every draw starts with correct mechanics. Before you develop counters or advanced reads, the foundation has to be clean — because a technical mistake on the setup costs you the draw before the whistle even blows.
 
-SETUP: Your stick is placed with the head flat on the ground, facing toward the opponent's head. Your top hand grips the throat of the stick (just below the head), your bottom hand is at mid-shaft. Weight is forward on your fingertips and toes — you are coiled like a spring. Hips low. Eyes locked on the ball.
+SETUP POSITION
+Feet shoulder-width apart, knees slightly bent, weight balanced and ready to move. Your dominant foot should be slightly back. Hold the stick at waist height with the ball sitting in the pocket between both sticks. Your grip: top hand firm, bottom hand relaxed as a guide. Eyes locked on the ball and aware of where your teammate is positioned.
 
-THE CLAMP: On the whistle, your top hand drives the head of your stick down and over the ball, trapping it against the ground. At the same moment, your body drives forward low, using your hip and shoulder to fight for position over the ball. The goal is to trap the ball under your stick and use your body position to control where it goes next.
+THE SNAP
+On the whistle, your wrists snap upward and outward in one explosive motion. The power comes from the wrists — not the arms, not the shoulders. Think of snapping a towel. The faster and more precise your wrist snap, the more control you have over where the ball goes. Drive the head of your stick up and slightly toward your dominant wing to direct the ball there.
 
-BODY POSITION WINS: The physical battle in a faceoff happens in the two seconds after the whistle. The player who wins that battle wins the faceoff more than 80% of the time. Low body position — lower than your opponent — gives you leverage. If your hips are higher than his, he's winning the physical battle. Drive your hips down and forward, not up.
+BODY POSITION AND CONTACT
+In girls lacrosse, incidental body contact is allowed during the draw. Use your body to create space. Step slightly into your opponent as you snap — not a shove, but a controlled body positioning that gives you an extra inch of separation and directs the ball where you want it. Low body position gives you leverage — if you're standing upright, your opponent who stays low has more control.
 
-THE EXIT: After the clamp, you have a decision. If you have clean possession, rake the ball to your dominant side and exit to that wing. If it's a contested battle, use your body to shield the ball while your teammates arrive to support. The mistake most FOGOs make is rushing the exit before they have control — losing a ball you already won is the most costly mistake in faceoffs.
+THE DIRECT DRAW vs. THE WING DRAW
+You have two primary options on every draw: direct (snap straight up and toward your dominant side for a wing teammate) or wing (flick outward to the 8-meter arc where your wing player is positioned). Know before the whistle which you're executing. Committed draws beat reactive ones every time.
 
-REPETITION IS EVERYTHING: The clamp feels awkward at first. It becomes automatic only through thousands of reps. Every day: 20 setup reps, 20 whistle-reaction reps, and 20 full clamp-and-exit reps. Track your time from whistle to possession. Over months, this becomes muscle memory.`,
+REP COUNT MATTERS
+Draw mechanics become muscle memory only through repetition. With a partner: 10 setup reps, 10 slow-motion snaps tracking the ball direction, 10 full-speed reps. Daily practice, not just at team practice. The draw specialists who dominate at the college level all have thousands of solo reps built in before they ever step in the circle with an opponent.`,
     questions: [
       {
-        question: "What determines who wins the physical battle in a faceoff?",
+        question: "Where does the power in the draw snap come from?",
         options: [
-          "Who is bigger",
-          "Who has lower body position — lower hips win the leverage battle",
-          "Who has the better stick",
-          "Who is faster off the whistle",
+          "Arm strength and shoulder rotation",
+          "An explosive wrist snap — not the arms or shoulders",
+          "Full body momentum",
+          "The grip strength of the bottom hand",
         ],
         correctAnswer: 1,
-        explanation: "Low body position wins leverage. The player whose hips are lower controls the battle over the ball more than 80% of the time.",
+        explanation: "The wrist snap is the engine of the draw. Arm movement is too slow and less precise — a fast, explosive wrist snap gives you the speed and directional control you need.",
       },
       {
-        question: "When should a FOGO attempt the exit after a clamp?",
+        question: "What is the difference between a direct draw and a wing draw?",
         options: [
-          "Immediately after the whistle",
-          "Only when they have clean possession — rushing the exit before control leads to costly turnovers",
-          "After their teammates arrive",
-          "As fast as physically possible",
+          "One is legal and one is a foul",
+          "Direct snaps up toward your dominant-side wing; wing flicks outward to a player positioned at the 8-meter arc",
+          "One is used when winning, one when losing",
+          "They are the same thing with different names",
         ],
         correctAnswer: 1,
-        explanation: "A ball you win and then lose is the worst outcome. Don't exit until you have control.",
+        explanation: "Direct and wing draws are different directional intentions — and committing to one before the whistle produces a more precise, controlled outcome than deciding after.",
       },
       {
-        question: "How should a FOGO practice the clamp to build it into muscle memory?",
+        question: "Why does body position matter in the draw circle?",
         options: [
-          "Only in game situations",
-          "Daily reps: 20 setup, 20 whistle-reaction, 20 full clamp-and-exit — track time from whistle to possession",
-          "Watch film only",
-          "Practice once a week at team practice",
+          "It makes you look more athletic",
+          "Low body position gives leverage — and legal body contact can be used to create separation and direct the ball",
+          "It only matters for taller players",
+          "Body position has no effect in draws",
         ],
         correctAnswer: 1,
-        explanation: "Thousands of reps over months build muscle memory. Daily structured practice with tracking is how you develop a repeatable technique.",
+        explanation: "A lower, balanced position gives you leverage over an upright opponent. Combined with controlled body contact, this is how elite draw specialists create space and direct the ball.",
       },
     ],
   },
   {
     id: "pos-fogo-l3",
-    videoUrl: "https://www.youtube.com/watch?v=9N53S_RpBR8",
+    videoUrl: "https://www.youtube.com/watch?v=qkC3QUMjGBc",
     lessonNumber: 114,
-    title: "Counters — The Plunger, Motorcycle, and Jam",
+    title: "Draw Counters and Reading Your Opponent",
     topic: "Lacrosse IQ",
     pillar: "game",
     position: "fogo",
-    description: `Once you've mastered the clamp, you need counters. Every opponent you face will have a tendency — a preferred faceoff move they go to most often. Your job before every game is to know your opponent's go-to move, and have a practiced counter ready.
+    description: `Once your base mechanics are solid, the next level of draw mastery is reading and countering your opponent. Every draw specialist you face has tendencies — a preferred direction she snaps to, a setup tell, a timing pattern. Your job is to identify those tendencies and counter them before she executes.
 
-THE PLUNGER: The plunger is used when your opponent tries to clamp early or has a very heavy top-hand pressure. Instead of fighting his clamp, you drive your hands straight down — plunging the butt end of your stick toward the ground — which causes your head to pop up and over his, getting above his stick before he can trap the ball. From there, you rake or drive through for possession. The plunger works against early, aggressive clampers.
+SCOUTING IN THE CIRCLE
+The first two draws in a game are data. Watch her setup foot. Watch where her bottom hand grips. Watch the angle of her stick head before the whistle. Most draw specialists have a dominant direction — they prefer snapping left or right. Watch her first draw carefully even if you lose it: that information is more valuable than the one possession.
 
-THE MOTORCYCLE: Named for the grip motion that initiates it. On the whistle, your top hand rotates the stick — like revving a motorcycle — which flips the head of your stick face-down, driving the ball toward your dominant side. This is a speed move — it works because of quickness off the whistle before your opponent can react. If you're beating your opponent to the ball consistently, the motorcycle keeps you in control without a physical battle.
+THE COUNTER SNAP
+When you've identified your opponent's preferred direction, the counter snap uses that against her. As she snaps in her dominant direction, you anticipate and redirect — your wrist snap goes above hers and opposite, disrupting her control and directing the ball to your wing instead. Timing is everything: you're not reacting to her, you're reading her setup and acting simultaneously.
 
-THE JAM: The jam is used against opponents who rake quickly to their strong side after the clamp. Instead of fighting the clamp, you drive your stick into the side of their stick — jamming their rake — and use the disruption to come over the top and control the ball. Timing is everything on the jam: you're anticipating their move, not reacting to it.
+THE PUSH DRAW
+Instead of snapping up, the push draw drives the ball forward toward the opponent's side — catching draw specialists who expect the upward snap. It's a change-of-pace move that works when your opponent is so locked into countering your snap that she's overcommitted upward. Used sparingly, it's extremely effective.
 
-SCOUTING YOUR OPPONENT: Before every game, watch your opponent's faceoff tendencies on film if you have it. Three questions: What is his setup position? What does he do in the first half-second after the whistle? Where does the ball usually end up? The answers tell you exactly which counter to use. Faceoffs have a chess-match quality — the FOGO who out-thinks his opponent wins more than the one who just out-muscles him.`,
+THE LONG DRAW
+A long draw directs the ball far up the field to a midfielder running in transition. This requires your wing players to be in specific positions — it's a set play you execute as a team, not a solo decision. When your team has scouted that the opponent's defense is slow to transition, the long draw can turn a draw directly into a fast break.
+
+PRE-GAME PREPARATION
+Before every game: watch film if available. What direction does their draw specialist prefer? Does she have a tell in her setup? Does she change technique after she loses a draw? The best draw specialists in the country are students of the game. They win draws in the film room before they step into the circle.`,
     questions: [
       {
-        question: "When is the plunger most effective?",
+        question: "What should you do during the first two draws of a game, even if you lose them?",
         options: [
-          "Against slow opponents",
-          "Against opponents who clamp early or apply heavy top-hand pressure",
-          "In every faceoff situation",
-          "Only in college lacrosse",
+          "Try harder on the next draw",
+          "Gather data — watch her setup foot, grip, stick angle, and preferred snap direction",
+          "Call a timeout immediately",
+          "Switch to a different draw technique",
         ],
         correctAnswer: 1,
-        explanation: "The plunger counters an aggressive early clamp — popping up and over the opponent's stick before they trap the ball.",
+        explanation: "The first two draws are scouting opportunities. That information — her dominant direction and setup tells — is often worth more than the possessions.",
       },
       {
-        question: "What makes the motorcycle move effective?",
+        question: "What is the push draw and when does it work best?",
         options: [
-          "Physical strength",
-          "Speed off the whistle — it gets the ball moving before the opponent can react",
-          "It works against every opponent",
-          "The unusual grip",
+          "A draw that uses more arm strength",
+          "Driving the ball forward instead of up — most effective against opponents who are overcommitted to countering the upward snap",
+          "A draw that goes directly to the goalie",
+          "A draw used only in overtime",
         ],
         correctAnswer: 1,
-        explanation: "The motorcycle is a speed move. It beats opponents who haven't yet locked in their clamp, using quickness rather than strength.",
+        explanation: "The push draw is a change-of-pace. When an opponent is anticipating and countering your snap upward, going forward catches her out of position. Used sparingly, it's highly effective.",
       },
       {
-        question: "What three things should you look for when scouting an opponent's faceoff tendencies?",
+        question: "What makes the long draw a team play rather than a solo decision?",
         options: [
-          "Their height, weight, and experience level",
-          "Their setup position, what they do in the first half-second, and where the ball usually ends up",
-          "Their team's record, their coach's system, and their uniform",
-          "Their dominant hand, stick length, and mesh type",
+          "It requires approval from the coach",
+          "It requires your midfielders to already be in transition position — it's a set play executed together, not an individual choice",
+          "Only the fastest player can execute it",
+          "It's only legal in the second half",
         ],
         correctAnswer: 1,
-        explanation: "Setup, first movement, and typical ball location tell you exactly which counter to prepare for each opponent.",
+        explanation: "A long draw sends the ball far upfield into transition. Without your midfielders already running and positioned, the ball goes to no one. It's a coordinated team action.",
       },
     ],
   },
   {
     id: "pos-fogo-l4",
-    videoUrl: "https://www.youtube.com/watch?v=9N53S_RpBR8",
+    videoUrl: "https://www.youtube.com/watch?v=psBgWXV2mVs",
     lessonNumber: 115,
-    title: "The FOGO Mindset and Mental Routine",
+    title: "The Draw Specialist Mindset",
     topic: "Mental Game",
     pillar: "leadership",
     position: "fogo",
-    description: `The FOGO position is as much mental as physical. You compete one-on-one, in front of both teams, after every goal and at the start of every period. There is nowhere to hide. Every win and every loss is visible to everyone on the field.
+    description: `The draw specialist is one of the most mentally demanding roles in girls lacrosse. You compete one-on-one, in front of both teams, after every goal and at the start of every period. Every result — win or loss — is visible to everyone on the field. There is nowhere to hide.
 
-This visibility is a gift, not a burden. The FOGOs who last — who develop into truly elite faceoff specialists — are the ones who learn to thrive in that pressure rather than wilt under it.
+This visibility is a gift, not a burden. The draw specialists who thrive at the highest levels are the ones who learn to compete in that pressure rather than contract under it.
 
-THE RESET ROUTINE: Every elite FOGO develops a reset routine for after a loss. Not a superstition — a physical reset. For some it's a specific breath. For others it's touching the end of their stick to the ground. For others it's a short phrase they say internally. Whatever the specific action, the function is always the same: it signals to your nervous system that the last faceoff is over and the next one starts clean. Without a routine, your brain carries the last loss into the next competition — and compound losses are how FOGOs fall apart.
+THE RESET ROUTINE
+Every elite draw specialist develops a reset routine after a lost draw. Not a superstition — a physical anchor. For some it's a specific breath before stepping back into the circle. For others it's a short phrase they say to themselves. Whatever the form, the function is always the same: it signals to your nervous system that the last draw is finished and the next one starts clean. Without a reset, your brain carries the last loss forward — and compound losses are how draw specialists fall apart in the fourth quarter when games are on the line.
 
-THE COMPETITION MINDSET: Every faceoff is a one-on-one competition. You will face opponents who are faster, stronger, or more technically polished than you. The players who win in those matchups are usually the ones who compete harder, not better. Competing harder means: lower body position when it's uncomfortable, fighting for the ball when you don't have clean possession, and refusing to concede the faceoff before it's over. Faceoffs are decided on determination as often as they're decided on technique.
+COMPETING WHEN YOU'RE LOSING THE DRAW BATTLE
+Every draw specialist faces games where the opponent has her number. She's reading your tendencies, your counters aren't landing, you're losing possession after possession. What separates the great ones is what they do in those moments. They slow down. They go back to fundamentals — setup, snap, body position. They try one new direction and commit fully. They stay in the battle when it's uncomfortable. Draw battles are won and lost over the course of a game, not a single possession.
 
-STUDYING YOUR OWN FILM: The best FOGOs in the country watch film of their own faceoffs the same way QBs study game tape. What is your win rate from each body position? What moves work against which type of opponent? Where are you losing faceoffs — in the clamp, in the battle for the ball, or in the exit? Honest self-analysis is the fastest way to identify and fix the specific part of your game that's costing you possessions.
+YOUR ROLE BETWEEN DRAWS
+Draw specialists who are not in the circle should be the most active observers on the sideline. Watch every draw you're not in. What is her pattern right now? Did she adjust from the last one? What is her wing setup telling you about her intended direction? The preparation you do watching from the sideline is often what wins you the draw you take next.
 
-THE ROLE ON THE SIDELINE: Between faceoffs, your job is to study the opponent's FOGO. Watch every faceoff you're not in. What's his tell? What does he do when he wins? What does he do when he loses? The preparation you do on the sideline is often more valuable than anything you do on the field.`,
+OWNING THE POSITION
+The draw is one of the most impactful single-player roles in the sport. Own it. Study it. Practice it daily. The players who dominate draws at the college level didn't get there by only doing draws at team practice — they built their skill through thousands of independent reps, film study, and the competitive mentality to step into the circle with something to prove every single time.`,
     questions: [
       {
-        question: "What is the purpose of a FOGO's reset routine after a lost faceoff?",
+        question: "What is the purpose of a draw specialist's reset routine after losing a draw?",
         options: [
-          "To look calm to teammates",
-          "To signal to your nervous system that the last faceoff is over and the next one starts clean",
-          "To gain extra time between faceoffs",
-          "To distract the opponent",
+          "To appear calm to the referee",
+          "To signal to your nervous system that the last draw is over and the next one starts clean",
+          "To slow the game down",
+          "To communicate with teammates",
         ],
         correctAnswer: 1,
-        explanation: "A physical reset routine prevents one loss from carrying into the next. Compound losses are how FOGOs fall apart mentally.",
+        explanation: "A reset routine prevents one lost draw from bleeding into the next. Compound losses — where one loss affects the next — are how draw specialists unravel in pressure moments.",
       },
       {
-        question: "What do winning FOGOs do differently against physically superior opponents?",
+        question: "When you are losing the draw battle in a game, what is the right response?",
         options: [
-          "Use only speed moves",
-          "Compete harder — lower body position, fighting for every loose ball, refusing to concede early",
-          "Avoid physical battles",
-          "Ask to switch opponents",
+          "Panic and change everything at once",
+          "Slow down, return to fundamentals, commit fully to one new direction, and stay in the battle",
+          "Ask to be substituted",
+          "Try harder with the same technique",
         ],
         correctAnswer: 1,
-        explanation: "Determination closes skill gaps. Lower position, fight for the ball, and never concede before the faceoff is actually over.",
+        explanation: "Draw battles are won over the course of a game. The response to losing is controlled — slow down, reset to fundamentals, make one adjustment, and compete.",
       },
       {
-        question: "What should a FOGO do while on the sideline between faceoffs?",
+        question: "What should a draw specialist do while on the sideline between draws?",
         options: [
-          "Rest and conserve energy",
-          "Study the opponent's FOGO — watch for tendencies, tells, and patterns",
+          "Rest and recover",
+          "Study the opponent's draw specialist — watch for pattern changes and wing positioning tells",
           "Talk to teammates about other things",
-          "Stretch and warm up",
+          "Prepare physically for the next draw",
         ],
         correctAnswer: 1,
-        explanation: "Sideline preparation — scouting the opponent in real time — is often more valuable than anything done on the field.",
+        explanation: "Sideline observation is part of the job. Watching the opponent's tendencies between your draws gives you the read you need to win the next one.",
       },
     ],
   },
 ]
-
 const BOYS_POSITION_LESSONS: AcademyLesson[] = [
   ...GOALIE_LESSONS,
   ...ATTACK_LESSONS,
