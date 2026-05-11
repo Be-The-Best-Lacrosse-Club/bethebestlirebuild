@@ -294,9 +294,7 @@ export function DigitalAcademy() {
                   + {track.total - 3} more lessons locked
                 </span>
                 <a
-                  href="/academy-landing.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/academy-info"
                   style={{ display: "flex", alignItems: "center", gap: 6, color: RED, fontSize: 10, fontWeight: 900, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none" }}
                 >
                   More Info <ChevronRight size={12} />
@@ -352,7 +350,7 @@ export function DigitalAcademy() {
               Join Interest List ▸
             </a>
             <a
-              href="/academy-landing.html"
+              href="/academy-info"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 10,
                 border: `1px solid ${STEEL}`, color: "#fff",
@@ -363,7 +361,7 @@ export function DigitalAcademy() {
               onMouseEnter={e => (e.currentTarget.style.borderColor = "#fff")}
               onMouseLeave={e => (e.currentTarget.style.borderColor = STEEL)}
             >
-              Preview the Platform
+              Learn More ▸
             </a>
           </div>
         </div>
