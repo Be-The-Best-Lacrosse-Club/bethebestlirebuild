@@ -19,7 +19,7 @@ export function FilmStudy() {
   const navigate = useNavigate()
 
   return (
-    <section className="bg-black text-white py-32 px-6 relative overflow-hidden border-t border-white/5" id="filmstudy">
+    <section className="bg-black text-white py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5" id="filmstudy">
       {/* Ghost Typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-5">
         <span className="font-display text-[22vw] leading-none text-white select-none translate-x-12">
@@ -28,17 +28,17 @@ export function FilmStudy() {
       </div>
 
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
+        <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-12 md:mb-24 gap-6 md:gap-8 text-center md:text-left">
           <div className="max-w-[600px]">
             <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
               <Search size={12} className="animate-pulse" />
               COGNITIVE_DEVELOPMENT // FILM_STUDY
             </div>
-            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
+            <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
               Win Before <br /> <span className="text-[var(--btb-red)]">The Whistle.</span>
             </h2>
           </div>
-          <div className="text-white/30 text-[0.75rem] font-bold uppercase tracking-[2px] mb-4 border-l border-[var(--btb-red)] pl-6 max-w-[340px]">
+          <div className="text-white/65 text-[1rem] leading-relaxed border-l border-[var(--btb-red)] pl-6 max-w-[380px]">
             Film study is the most underused tool in youth sports. At BTB, it is a mandatory spec in our development blueprint.
           </div>
         </div>
@@ -47,8 +47,7 @@ export function FilmStudy() {
         <div className="relative aspect-[21/9] overflow-hidden bg-neutral-900 border border-white/10 mb-0.5 group">
           <div className="absolute inset-0 bg-gradient-to-tr from-[#D22630]/40 via-black/60 to-black/90 z-10" />
           <div className="absolute inset-0 z-0 opacity-40 group-hover:scale-105 transition-transform duration-1000">
-             {/* Placeholder for Cinematic Film Background */}
-             <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80')] bg-cover bg-center" />
+             <div className="w-full h-full bg-[url('/assets/film/btb-film-lab-room.jpeg')] bg-cover bg-center" />
           </div>
           
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">
@@ -83,7 +82,7 @@ export function FilmStudy() {
             >
               <div className="text-[10px] font-mono text-[var(--btb-red)] mb-8">{c.spec}</div>
               <h4 className="font-display text-xl uppercase tracking-wider text-white mb-4 group-hover:translate-x-1 transition-transform">{c.title}</h4>
-              <p className="text-[0.82rem] text-white/30 group-hover:text-white/60 leading-relaxed transition-colors font-medium">
+              <p className="text-[1rem] text-white/65 group-hover:text-white/80 leading-relaxed transition-colors font-medium">
                 {c.text}
               </p>
             </div>
@@ -103,7 +102,7 @@ export function FilmStudy() {
           </a>
           <button
             onClick={() => navigate("/academy")}
-            className="group flex items-center gap-4 text-white/40 hover:text-white transition-all"
+            className="group flex items-center gap-4 text-white/65 hover:text-white transition-all"
           >
             <span className="text-[0.65rem] font-black uppercase tracking-[4px]">Access E-Learning Portal</span>
             <div className="w-10 h-px bg-white/20 group-hover:w-20 group-hover:bg-[var(--btb-red)] transition-all" />

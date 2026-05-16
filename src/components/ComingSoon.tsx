@@ -4,18 +4,11 @@ export function ComingSoon() {
       className="relative min-h-screen w-full flex items-center justify-center text-white overflow-hidden bg-black"
       style={{ fontFamily: "'Montserrat', sans-serif" }}
     >
-      {/* Background video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"
-      >
-        <source src="/assets/hero/brody.mp4" type="video/mp4" />
-        <source src="/assets/hero/33g_1.mp4" type="video/mp4" />
-      </video>
+      {/* Background image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center opacity-40"
+        style={{ backgroundImage: 'url("/images/BTB_social_share_2026.png")' }}
+      />
 
       {/* Dark gradient overlay */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/70 via-black/60 to-black/95" />

@@ -9,15 +9,16 @@ import { useEffect } from "react"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
+import { AudiencePaths } from "@/components/AudiencePaths"
 import { TheStandard } from "@/components/TheStandard"
-import { CharacterLab } from "@/components/CharacterLab"
-import { ProofSection } from "@/components/ProofSection"
 import { WhatYouGet } from "@/components/WhatYouGet"
 import { DevelopmentModel } from "@/components/DevelopmentModel"
+import { CharacterLab } from "@/components/CharacterLab"
 import { FilmStudy } from "@/components/FilmStudy"
-import { CoachesHub } from "@/components/CoachesHub"
-import { FeaturedCoaches } from "@/components/FeaturedCoaches"
+import { DigitalAcademy } from "@/components/DigitalAcademy"
 import { EliteCircuit } from "@/components/EliteCircuit"
+import { SpecTicker } from "@/components/SpecTicker"
+import { FeaturedCoaches } from "@/components/FeaturedCoaches"
 import { Results } from "@/components/Results"
 import { CTASection } from "@/components/CTASection"
 
@@ -29,17 +30,28 @@ import { TryoutsPage } from "@/pages/TryoutsPage"
 import { InterestFormPage } from "@/pages/InterestFormPage"
 import { ProgramPage } from "@/pages/ProgramPage"
 import { PlayerHubPage } from "@/pages/PlayerHubPage"
+import { DigitalAcademyHubPage } from "@/pages/DigitalAcademyHubPage"
 import { CoachesHubPage } from "@/pages/CoachesHubPage"
 import { TravelPage } from "@/pages/TravelPage"
 import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
 import { SmsPolicyPage } from "@/pages/SmsPolicyPage"
+import { TermsAndConditionsPage } from "@/pages/TermsAndConditionsPage"
 import { AcademyInfoPage } from "@/pages/AcademyInfoPage"
 import { AcademyGatePage } from "@/pages/AcademyGatePage"
 import { RecruitingPage } from "@/pages/RecruitingPage"
 import { FuturesPage } from "@/pages/FuturesPage"
 import { CampsPage } from "@/pages/CampsPage"
 import { FamilyHubPage } from "@/pages/FamilyHubPage"
+import { ContactPage } from "@/pages/ContactPage"
+import { CoachToolsPage } from "@/pages/CoachToolsPage"
+import homeContent from "@/content/home.json"
+
+const SITE_URL = "https://bethebestli.com"
+const homeOgImage = homeContent.seoImage.startsWith("http")
+  ? homeContent.seoImage
+  : `${SITE_URL}${homeContent.seoImage}`
+
 function LandingPage() {
   return (
     <>
@@ -47,17 +59,19 @@ function LandingPage() {
         title="BTB Lacrosse Club | Be The Best"
         description="Be The Best Lacrosse Club — Long Island's premier youth lacrosse development program for boys and girls."
         path="/"
+        ogImage={homeOgImage}
       />
       <Hero />
-      <EliteCircuit />
+      <AudiencePaths />
       <TheStandard />
-      <CharacterLab />
-      <ProofSection />
+      <FeaturedCoaches />
       <WhatYouGet />
       <DevelopmentModel />
+      <CharacterLab />
       <FilmStudy />
-      <CoachesHub />
-      <FeaturedCoaches />
+      <DigitalAcademy />
+      <EliteCircuit />
+      <SpecTicker />
       <Results />
       <CTASection />
     </>
@@ -141,7 +155,6 @@ function App() {
               <Route path="/academy" element={<AcademyGatePage />} />
               <Route path="/tryouts" element={<TryoutsPage />} />
               <Route path="/interest" element={<InterestFormPage />} />
-              <Route path="/parent-portal" element={<ParentPortalPage />} />
               <Route path="/boys" element={<ProgramPage programKey="boys" />} />
               <Route path="/boys/travel" element={<TravelPage gender="boys" />} />
               <Route path="/boys/coaches" element={<CoachingStaffPage gender="boys" />} />
@@ -153,23 +166,30 @@ function App() {
               <Route path="/futures" element={<FuturesPage />} />
               <Route path="/camps" element={<CampsPage />} />
               <Route path="/sms-policy" element={<SmsPolicyPage />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
               <Route path="/academy-info" element={<AcademyInfoPage />} />
               <Route path="/recruiting" element={<RecruitingPage />} />
+              <Route path="/contact" element={<ContactPage />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
 
             <Route element={<ProtectedRoute />}>
+              <Route path="/parent-hub" element={<ParentPortalPage />} />
+              <Route path="/parent-portal" element={<ParentPortalPage />} />
+              <Route path="/coach-tools" element={<CoachToolsPage />} />
               <Route element={<HubLayout />}>
-                <Route path="/boys/players" element={<PlayerHubPage gender="boys" />} />
+                <Route path="/boys/players" element={<DigitalAcademyHubPage gender="boys" />} />
                 <Route path="/boys/academy" element={<Navigate to="/boys/players" replace />} />
                 <Route path="/boys/coaches-hub" element={<CoachesHubPage gender="boys" />} />
-                <Route path="/girls/players" element={<PlayerHubPage gender="girls" />} />
+                <Route path="/girls/players" element={<DigitalAcademyHubPage gender="girls" />} />
                 <Route path="/girls/academy" element={<Navigate to="/girls/players" replace />} />
                 <Route path="/girls/coaches-hub" element={<CoachesHubPage gender="girls" />} />
                 <Route path="/family-hub" element={<FamilyHubPage />} />
               </Route>
             </Route>
+            {/* Catch-all 404 */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster theme="dark" position="top-right" richColors closeButton />
         </div>

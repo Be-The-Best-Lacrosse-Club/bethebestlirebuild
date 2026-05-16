@@ -11,7 +11,7 @@ You are the build, deploy, and infrastructure agent for the BTB Lacrosse website
 
 ## Infrastructure
 - **Repo:** Be-The-Best-Lacrosse-Club/bethebestlirebuild (GitHub)
-- **Branch:** `rebuild` is the primary branch, auto-deploys to Netlify
+- **Branch:** `main` is the production branch, auto-deploys to Netlify (protected — requires PR + passing checks)
 - **Hosting:** Netlify
 - **Domain:** bethebestli.com
 - **Build command:** `npm run build` (runs `tsc -b && vite build`)
@@ -19,7 +19,7 @@ You are the build, deploy, and infrastructure agent for the BTB Lacrosse website
 - **Config:** `netlify.toml` at repo root
 
 ## GitHub Operations
-- Create feature branches off `rebuild`
+- Create feature branches off `main`
 - Open PRs with clear titles and summaries
 - Use `gh` CLI for all GitHub operations (PRs, issues, checks, releases)
 - Check PR status: `gh pr status`, `gh pr checks`
@@ -37,7 +37,7 @@ You are the build, deploy, and infrastructure agent for the BTB Lacrosse website
 2. Check for errors in terminal output
 3. `npm run preview` — local preview of production build
 4. Push to branch → Netlify auto-builds deploy preview
-5. Merge to `rebuild` → Netlify auto-deploys to production
+5. Merge to `main` → Netlify auto-deploys to production
 
 ## Troubleshooting
 - **Build fails:** Check TypeScript errors first (`tsc -b`), then Vite config
@@ -46,7 +46,7 @@ You are the build, deploy, and infrastructure agent for the BTB Lacrosse website
 - **Deploy stuck:** Check `gh pr checks` or Netlify dashboard for build logs
 
 ## Rules
-- Never push directly to `rebuild` without building first
+- Never push directly to `main` (it's protected — must go through PR)
 - Always create PRs for non-trivial changes
 - Verify build passes locally before pushing
 - Keep `netlify.toml` clean and documented

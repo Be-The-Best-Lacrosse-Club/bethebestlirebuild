@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Futures Registration | $125</title>
+<meta name="description" content="Register for BTB Futures — youth development for our next generation of BTB players.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
+
+  .header {
+    background: #000; border-bottom: 3px solid #D22630;
+    padding: 28px 20px; text-align: center;
+  }
+  .header .eyebrow { color: #D22630; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; font-size: 0.95rem; }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem;
+    letter-spacing: 3px; text-transform: uppercase; margin-top: 4px;
+  }
+  .header .price {
+    margin-top: 10px; display: inline-block; padding: 6px 16px;
+    background: #D22630; color: #fff; font-weight: 700; border-radius: 6px;
+    font-size: 1.05rem; letter-spacing: 1px;
+  }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .info-card {
+    background: #141414; border: 1px solid #2a2a2a; border-left: 3px solid #D22630;
+    border-radius: 8px; padding: 18px 20px; margin-bottom: 28px;
+    font-size: 0.92rem; color: #ccc;
+  }
+  .info-card strong { color: #fff; }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
+    color: #D22630; letter-spacing: 2px; text-transform: uppercase;
+    margin: 28px 0 14px; padding-bottom: 8px;
+    border-bottom: 1px solid #222;
+  }
+  .section-label:first-of-type { margin-top: 8px; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
+  @media (max-width: 600px) {
+    .row, .row-3 { grid-template-columns: 1fr; }
+    .header h1 { font-size: 2rem; }
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block; font-size: 0.78rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px; color: #aaa; margin-bottom: 6px;
+  }
+  .field label .req { color: #D22630; margin-left: 3px; }
+
+  input, select, textarea {
+    width: 100%; padding: 11px 13px; background: #1a1a1a; border: 1px solid #2a2a2a;
+    border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.95rem;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #D22630; }
+  textarea { resize: vertical; min-height: 80px; }
+
+  .checkbox-field {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: #141414; border: 1px solid #2a2a2a;
+    border-radius: 6px; padding: 14px;
+  }
+  .checkbox-field input { width: auto; margin-top: 2px; }
+  .checkbox-field label {
+    text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 0.85rem;
+    color: #ccc; line-height: 1.5; margin: 0;
+  }
+
+  .submit-btn {
+    width: 100%; padding: 18px; margin-top: 24px;
+    background: #D22630; color: #fff; border: none; border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer; transition: background 0.15s;
+  }
+  .submit-btn:hover { background: #a01e26; }
+  .submit-btn:disabled { background: #444; cursor: not-allowed; }
+
+  .footer-note {
+    margin-top: 18px; text-align: center; font-size: 0.78rem; color: #777;
+  }
+  .footer-note a { color: #D22630; text-decoration: none; }
+
+  .error-msg {
+    background: #2a1010; border: 1px solid #D22630; color: #ff8080;
+    padding: 12px 14px; border-radius: 6px; margin-bottom: 16px;
+    font-size: 0.85rem; display: none;
+  }
+  .error-msg.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">BE THE BEST LACROSSE CLUB</div>
+  <h1>Futures Registration</h1>
+  <div class="price">$125 PER PLAYER</div>
+</div>
+
+<div class="container">
+
+  <div class="info-card">
+    <strong>What's Included:</strong> Introduction to BTB lacrosse for our youngest players. Stickwork fundamentals, fun games, and an early taste of what BTB is all about. Every player gets a BTB Futures shirt.<br><br>
+    <strong>Eligibility:</strong> Open to entry-level players, boys and girls (typically 2034–2039 graduates).<br>
+    <strong>Schedule:</strong> See bethebestli.com for current sessions.
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <form
+    name="futures-registration"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    id="regForm"
+  >
+    <input type="hidden" name="form-name" value="futures-registration">
+    <input type="hidden" name="program" value="Futures">
+    <input type="hidden" name="amount" value="125">
+    <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
+
+    <div class="section-label">Player Information</div>
+
+    <div class="row">
+      <div class="field">
+        <label>First Name<span class="req">*</span></label>
+        <input type="text" name="player_first_name" required>
+      </div>
+      <div class="field">
+        <label>Last Name<span class="req">*</span></label>
+        <input type="text" name="player_last_name" required>
+      </div>
+    </div>
+
+    <div class="row-3">
+      <div class="field">
+        <label>Date of Birth<span class="req">*</span></label>
+        <input type="date" name="player_dob" required>
+      </div>
+      <div class="field">
+        <label>Grad Year<span class="req">*</span></label>
+        <select name="grad_year" required>
+          <option value="">Select</option>
+          <option>2032</option><option>2033</option><option>2034</option><option>2035</option>
+          <option>2036</option><option>2037</option><option>2038</option><option>2039</option>
+          <option>2040</option><option>2041</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Gender<span class="req">*</span></label>
+        <select name="program_gender" required>
+          <option value="">Select</option>
+          <option value="Boys">Male</option>
+          <option value="Girls">Female</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Experience Level</label>
+        <select name="experience">
+          <option value="">Select</option>
+          <option>First-time player</option>
+          <option>Some experience</option>
+          <option>Played 1+ years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>School / Town</label>
+        <input type="text" name="school_town" placeholder="e.g. Massapequa">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>T-Shirt Size<span class="req">*</span></label>
+      <select name="shirt_size" required>
+        <option value="">Select</option>
+        <option>Youth XS</option>
+        <option>Youth S</option>
+        <option>Youth M</option>
+        <option>Youth L</option>
+        <option>Adult S</option>
+        <option>Adult M</option>
+      </select>
+    </div>
+
+    <div class="section-label">Parent / Guardian</div>
+
+    <div class="row">
+      <div class="field">
+        <label>Parent First Name<span class="req">*</span></label>
+        <input type="text" name="parent_first_name" required>
+      </div>
+      <div class="field">
+        <label>Parent Last Name<span class="req">*</span></label>
+        <input type="text" name="parent_last_name" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Email<span class="req">*</span></label>
+        <input type="email" name="parent_email" required>
+      </div>
+      <div class="field">
+        <label>Phone<span class="req">*</span></label>
+        <input type="tel" name="parent_phone" required>
+      </div>
+    </div>
+
+    <div class="section-label">Emergency & Medical</div>
+
+    <div class="row">
+      <div class="field">
+        <label>Emergency Contact Name<span class="req">*</span></label>
+        <input type="text" name="emergency_name" required>
+      </div>
+      <div class="field">
+        <label>Emergency Contact Phone<span class="req">*</span></label>
+        <input type="tel" name="emergency_phone" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Medical Conditions, Allergies, Medications</label>
+      <textarea name="medical_notes" placeholder="None, or list any conditions BTB staff should know about"></textarea>
+    </div>
+
+    <div class="section-label">Final Step</div>
+
+    <div class="field">
+      <label>How did you hear about BTB?</label>
+      <select name="how_heard">
+        <option value="">Select</option>
+        <option>Current BTB family</option>
+        <option>Coach / Teammate</option>
+        <option>Instagram / Social</option>
+        <option>School</option>
+        <option>Town league / Rec</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="checkbox-field">
+      <input type="checkbox" id="waiver" name="waiver_accepted" required value="Yes">
+      <label for="waiver">
+        I acknowledge the BTB Lacrosse waiver and release. I understand registration is finalized only after payment is completed on the next screen. I authorize BTB staff to seek emergency medical treatment for my player if needed.
+      </label>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+      Continue to Payment — $125
+    </button>
+
+    <div class="footer-note">
+      Secure checkout via QuickBooks. Questions? <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+    </div>
+  </form>
+
+</div>
+
+<script>
+  // ====== QUICKBOOKS PAYMENT LINK ======
+  // Linked to BTB Futures product in QuickBooks. Funds flow into QB.
+  const PAYMENT_LINK = "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-bdb21ea46b6a49439fae22a6d2bc125fff48e7af6d8140b6a35758c738fb7ffceede97548478409bbf3cb540b631c92e?locale=EN_US&cta=paylinkbuybutton";
+  // ====================================
+
+  const form = document.getElementById('regForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errorMsg.classList.remove('show');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    const formData = new FormData(form);
+    const params = new URLSearchParams();
+    for (const [key, value] of formData.entries()) params.append(key, value);
+
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+      });
+
+      const email = formData.get('parent_email');
+      const playerName = `${formData.get('player_first_name')} ${formData.get('player_last_name')}`.trim();
+      const refId = `btb-futures-${Date.now()}`;
+
+      sessionStorage.setItem('btb_last_registration', JSON.stringify({
+        program: 'Futures', player: playerName, email, refId, ts: Date.now()
+      }));
+
+      window.location.href = PAYMENT_LINK;
+    } catch (err) {
+      errorMsg.textContent = 'Something went wrong saving your registration. Please try again or email info@bethebestli.com.';
+      errorMsg.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Continue to Payment — $125';
+    }
+  });
+</script>
+
+</body>
+</html>

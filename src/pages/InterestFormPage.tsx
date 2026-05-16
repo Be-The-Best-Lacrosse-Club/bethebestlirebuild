@@ -3,11 +3,10 @@ import { toast } from "sonner"
 import { Send, CheckCircle2, Shield } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
 
-type Category = "Travel" | "Camp" | "Futures" | "Tryouts" | "Coaching"
+type Category = "Travel" | "Camp" | "Futures" | "Tryouts" | "Coaching" | "Digital Academy"
 type Program = "Boys" | "Girls"
 
 const BOYS_TRAVEL_TEAMS = [
-  "Boys 2027",
   "2028 Black",
   "2029 Chrome",
   "2030 Rage",
@@ -40,6 +39,7 @@ const CATEGORIES: { id: Category; hasProgram: boolean; hasTeam: boolean }[] = [
   { id: "Futures", hasProgram: true, hasTeam: false },
   { id: "Tryouts", hasProgram: false, hasTeam: false },
   { id: "Coaching", hasProgram: true, hasTeam: false },
+  { id: "Digital Academy", hasProgram: false, hasTeam: false },
 ]
 
 function encode(data: Record<string, string>) {
@@ -67,6 +67,15 @@ export function InterestFormPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    const params = new URLSearchParams(window.location.search)
+    const categoryParam = params.get("category")
+    const notesParam = params.get("notes")
+    if (categoryParam && CATEGORIES.some((c) => c.id === categoryParam)) {
+      setCategory(categoryParam as Category)
+    }
+    if (notesParam) {
+      setNotes(notesParam)
+    }
   }, [])
 
   const activeCategory = CATEGORIES.find((c) => c.id === category)
@@ -95,7 +104,7 @@ export function InterestFormPage() {
       return
     }
     if (activeCategory?.hasProgram && !program) {
-      toast.error(`Please select Boys or Girls for ${category}.`)
+      toast.error(`Please select Male or Female for ${category}.`)
       return
     }
     if (activeCategory?.hasTeam && !team) {
@@ -256,7 +265,7 @@ export function InterestFormPage() {
                           : "bg-white/[0.04] text-white/50 border border-white/10 hover:bg-white/[0.08] hover:text-white/80"
                       }`}
                     >
-                      {p}
+                      {p === "Boys" ? "Male" : "Female"}
                     </button>
                   ))}
                 </div>
