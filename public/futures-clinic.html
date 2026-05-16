@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Futures Clinic Registration | FREE</title>
+<meta name="description" content="Register your player for a FREE BTB Futures Clinic at Stimson, Nickerson, or Seaford.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
+
+  .header {
+    background: #000; border-bottom: 3px solid #D22630;
+    padding: 28px 20px; text-align: center;
+  }
+  .header .eyebrow { color: #D22630; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; font-size: 0.95rem; }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem;
+    letter-spacing: 3px; text-transform: uppercase; margin-top: 4px;
+  }
+  .header .price {
+    margin-top: 10px; display: inline-block; padding: 6px 18px;
+    background: #D22630; color: #fff; font-weight: 700; border-radius: 6px;
+    font-size: 1.05rem; letter-spacing: 1px;
+  }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .info-card {
+    background: #141414; border: 1px solid #2a2a2a; border-left: 3px solid #D22630;
+    border-radius: 8px; padding: 18px 20px; margin-bottom: 28px;
+    font-size: 0.92rem; color: #ccc;
+  }
+  .info-card strong { color: #fff; }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
+    color: #D22630; letter-spacing: 2px; text-transform: uppercase;
+    margin: 28px 0 14px; padding-bottom: 8px;
+    border-bottom: 1px solid #222;
+  }
+  .section-label:first-of-type { margin-top: 8px; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
+  @media (max-width: 600px) {
+    .row, .row-3 { grid-template-columns: 1fr; }
+    .header h1 { font-size: 2rem; }
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block; font-size: 0.78rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px; color: #aaa; margin-bottom: 6px;
+  }
+  .field label .req { color: #D22630; margin-left: 3px; }
+
+  input, select, textarea {
+    width: 100%; padding: 11px 13px; background: #1a1a1a; border: 1px solid #2a2a2a;
+    border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.95rem;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #D22630; }
+  textarea { resize: vertical; min-height: 80px; }
+
+  .checkbox-field {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: #141414; border: 1px solid #2a2a2a;
+    border-radius: 6px; padding: 14px;
+  }
+  .checkbox-field input { width: auto; margin-top: 2px; }
+  .checkbox-field label {
+    text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 0.85rem;
+    color: #ccc; line-height: 1.5; margin: 0;
+  }
+
+  .submit-btn {
+    width: 100%; padding: 18px; margin-top: 24px;
+    background: #D22630; color: #fff; border: none; border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer; transition: background 0.15s;
+  }
+  .submit-btn:hover { background: #a01e26; }
+  .submit-btn:disabled { background: #444; cursor: not-allowed; }
+
+  .footer-note {
+    margin-top: 18px; text-align: center; font-size: 0.78rem; color: #777;
+  }
+  .footer-note a { color: #D22630; text-decoration: none; }
+
+  .error-msg, .success-msg {
+    padding: 14px 16px; border-radius: 6px; margin-bottom: 16px;
+    font-size: 0.9rem; display: none;
+  }
+  .error-msg { background: #2a1010; border: 1px solid #D22630; color: #ff8080; }
+  .success-msg {
+    background: #0d2615; border: 1px solid #2a8a4a; color: #8effb1;
+    text-align: center; padding: 24px;
+  }
+  .success-msg.show, .error-msg.show { display: block; }
+  .success-msg h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
+    letter-spacing: 2px; margin-bottom: 8px; color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">BE THE BEST LACROSSE CLUB</div>
+  <h1>Futures Clinic Registration</h1>
+  <div class="price">FREE — NO COST TO ATTEND</div>
+</div>
+
+<div class="container">
+
+  <div class="info-card">
+    <strong>What is BTB Futures?</strong> Free clinic for new and developing lacrosse players to come learn what BTB is all about. Stickwork fundamentals, fun games, and an early taste of elite-level coaching.<br><br>
+    <strong>Locations:</strong> Choose Stimson, Nickerson, or Seaford on the form below.<br>
+    <strong>Eligibility:</strong> Open to boys and girls — Kindergarten through 2nd grade only (classes of 2036–2039). No prior experience needed.
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <div class="success-msg" id="successMsg">
+    <h2>You're Registered!</h2>
+    <p>Thanks for signing up for the BTB Futures Clinic. We'll send a confirmation to your email shortly with all the details (date, time, what to bring).</p>
+    <p style="margin-top: 14px;"><a href="https://bethebestli.com" style="color:#D22630;text-decoration:none;font-weight:600;">← Back to bethebestli.com</a></p>
+  </div>
+
+  <form
+    name="futures-clinic-registration"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    id="regForm"
+  >
+    <input type="hidden" name="form-name" value="futures-clinic-registration">
+    <input type="hidden" name="program" value="Futures Clinic">
+    <input type="hidden" name="amount" value="0">
+    <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
+
+    <div class="section-label">Clinic Location</div>
+
+    <div class="field">
+      <label>Which location will you attend?<span class="req">*</span></label>
+      <select name="clinic_location" required>
+        <option value="">Select a location</option>
+        <option value="Stimson">Stimson</option>
+        <option value="Nickerson">Nickerson</option>
+        <option value="Seaford">Seaford</option>
+      </select>
+    </div>
+
+    <div class="section-label">Player Information</div>
+
+    <div class="row">
+      <div class="field">
+        <label>Player First Name<span class="req">*</span></label>
+        <input type="text" name="player_first_name" required>
+      </div>
+      <div class="field">
+        <label>Player Last Name<span class="req">*</span></label>
+        <input type="text" name="player_last_name" required>
+      </div>
+    </div>
+
+    <div class="row-3">
+      <div class="field">
+        <label>Date of Birth<span class="req">*</span></label>
+        <input type="date" name="player_dob" required>
+      </div>
+      <div class="field">
+        <label>Grad Year<span class="req">*</span></label>
+        <select name="grad_year" required>
+          <option value="">Select</option>
+          <option>2032</option><option>2033</option><option>2034</option><option>2035</option>
+          <option>2036</option><option>2037</option><option>2038</option><option>2039</option>
+          <option>2040</option><option>2041</option><option>2042</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Gender<span class="req">*</span></label>
+        <select name="program_gender" required>
+          <option value="">Select</option>
+          <option value="Boys">Male</option>
+          <option value="Girls">Female</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Experience Level</label>
+        <select name="experience">
+          <option value="">Select</option>
+          <option>First-time player</option>
+          <option>Some experience</option>
+          <option>Played 1+ years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>School / Town</label>
+        <input type="text" name="school_town" placeholder="e.g. Massapequa">
+      </div>
+    </div>
+
+    <div class="section-label">Parent / Guardian</div>
+
+    <div class="row">
+      <div class="field">
+        <label>Parent First Name<span class="req">*</span></label>
+        <input type="text" name="parent_first_name" required>
+      </div>
+      <div class="field">
+        <label>Parent Last Name<span class="req">*</span></label>
+        <input type="text" name="parent_last_name" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Email<span class="req">*</span></label>
+        <input type="email" name="parent_email" required>
+      </div>
+      <div class="field">
+        <label>Phone<span class="req">*</span></label>
+        <input type="tel" name="parent_phone" required>
+      </div>
+    </div>
+
+    <div class="section-label">Emergency & Medical</div>
+
+    <div class="row">
+      <div class="field">
+        <label>Emergency Contact Name<span class="req">*</span></label>
+        <input type="text" name="emergency_name" required>
+      </div>
+      <div class="field">
+        <label>Emergency Contact Phone<span class="req">*</span></label>
+        <input type="tel" name="emergency_phone" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Medical Conditions, Allergies, or Medications</label>
+      <textarea name="medical_notes" placeholder="None, or list any conditions BTB staff should know about"></textarea>
+    </div>
+
+    <div class="section-label">Final Step</div>
+
+    <div class="field">
+      <label>How did you hear about BTB?</label>
+      <select name="how_heard">
+        <option value="">Select</option>
+        <option>Current BTB family</option>
+        <option>Coach / Teammate</option>
+        <option>Instagram / Social</option>
+        <option>School</option>
+        <option>Town league / Rec</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="checkbox-field">
+      <input type="checkbox" id="waiver" name="waiver_accepted" required value="Yes">
+      <label for="waiver">
+        I acknowledge the BTB Lacrosse waiver and release. I authorize BTB staff to seek emergency medical treatment for my player if needed during the clinic.
+      </label>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+      Register for Clinic — Free
+    </button>
+
+    <div class="footer-note">
+      Questions? <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+    </div>
+  </form>
+
+</div>
+
+<script>
+  const form = document.getElementById('regForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const successMsg = document.getElementById('successMsg');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errorMsg.classList.remove('show');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    const formData = new FormData(form);
+    const params = new URLSearchParams();
+    for (const [key, value] of formData.entries()) params.append(key, value);
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+      });
+
+      if (!response.ok) throw new Error('Network error');
+
+      form.style.display = 'none';
+      successMsg.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      errorMsg.textContent = 'Something went wrong. Please try again or email info@bethebestli.com.';
+      errorMsg.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Register for Clinic — Free';
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -14,9 +14,10 @@ type Camp = {
   description: string
   bullets: string[]
   icon: typeof Trophy
+  registerUrl: string
+  price: string
 }
 
-// TODO: Confirm pricing and exact age/grad ranges per camp.
 const CAMPS: Camp[] = [
   {
     key: "main",
@@ -24,7 +25,7 @@ const CAMPS: Camp[] = [
     tagline: "The Flagship.",
     dates: "June 30 – July 3",
     range: "4 Days · Any Consecutive",
-    time: "9 AM – 1 PM Daily",
+    time: "9 AM – 2 PM Daily",
     location: "Plainedge Park",
     forWho: "All eligible BTB athletes",
     description:
@@ -36,6 +37,8 @@ const CAMPS: Camp[] = [
       "BTB Standard accountability",
     ],
     icon: Trophy,
+    registerUrl: "/register-camp",
+    price: "$300",
   },
   {
     key: "positional",
@@ -55,6 +58,8 @@ const CAMPS: Camp[] = [
       "Written evaluation from a pro coach",
     ],
     icon: Target,
+    registerUrl: "/register-positional",
+    price: "$125",
   },
   {
     key: "futures",
@@ -74,6 +79,8 @@ const CAMPS: Camp[] = [
       "Intro to the BTB Standard",
     ],
     icon: Users,
+    registerUrl: "/register-futures",
+    price: "$125",
   },
 ]
 
@@ -254,6 +261,16 @@ export function CampsPage() {
                       <MapPin size={12} className={i === 0 ? "text-[var(--btb-red)]" : "text-white/40"} />
                       {c.location}
                     </div>
+                    <a
+                      href={c.registerUrl}
+                      className={`mt-5 block text-center py-3 px-6 font-black text-[0.75rem] uppercase tracking-[2px] transition-all ${
+                        i === 0
+                          ? "bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)]"
+                          : "border border-[var(--btb-red)] text-white hover:bg-[var(--btb-red)]"
+                      }`}
+                    >
+                      Register · {c.price}
+                    </a>
                   </div>
                 </div>
               </div>

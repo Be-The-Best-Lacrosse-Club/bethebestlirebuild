@@ -18,12 +18,6 @@ const programLinks = [
   { label: "Recruiting", href: "/recruiting" },
 ]
 
-const academyLinks = [
-  { label: "About the Academy", href: "/academy-info" },
-  { label: "Player Academy", href: "/boys/players" },
-  { label: "Coach Tools", href: "/coach-tools" },
-]
-
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -83,11 +77,15 @@ export function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
     }`}>
-      <div className="max-w-[1200px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-[1320px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
         {/* Logo */}
         <button onClick={() => go("/")} className="flex items-center gap-2 md:gap-3 group flex-shrink-0">
-          <div className="w-8 h-8 md:w-9 md:h-9 bg-[var(--btb-red)] flex items-center justify-center font-display text-lg md:text-xl text-white -skew-x-6 group-hover:scale-105 transition-transform">B</div>
+          <img
+            src="/assets/brand/btb-circle-logo.png"
+            alt="BTB Lacrosse Club"
+            className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover group-hover:scale-105 transition-transform"
+          />
           <div className={`font-display text-lg md:text-2xl tracking-tight uppercase transition-colors ${scrolled ? "text-black" : "text-white"}`}>
             Be The <span className="text-[var(--btb-red)]">Best</span>
           </div>
@@ -96,20 +94,6 @@ export function Header() {
         {/* Desktop Nav — only at xl (1280px+) */}
         <nav className="hidden xl:flex items-center gap-1" ref={dropdownRef}>
 
-          <div className="relative">
-            <button onClick={() => setDropdown(dropdown === "academy" ? null : "academy")} className={navItemClass("/academy")}>
-              Academy <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "academy" ? "rotate-180" : ""}`} />
-            </button>
-            {dropdown === "academy" && (
-              <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
-                {academyLinks.map(link => (
-                  <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[0.7rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
 
           <div className="relative">
             <button onClick={() => setDropdown(dropdown === "programs" ? null : "programs")} className={navItemClass("/programs")}>
@@ -148,9 +132,17 @@ export function Header() {
             )}
           </div>
 
-          <button onClick={() => go("/tryouts")} className="ml-2 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
+          <button onClick={() => go("/register-tryouts")} className="ml-2 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
             Tryouts 2026
           </button>
+
+          <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
+
+          <button onClick={() => go("/coach-tools")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
+
+          <a href="/newsletter" className={navItemClass("/newsletter")}>Newsletter</a>
+
+          <a href="/academy-info" className={navItemClass("/academy-info")}>Academy</a>
 
           <button onClick={() => go("/contact")} className={navItemClass("/contact")}>Contact</button>
 
@@ -186,7 +178,7 @@ export function Header() {
         <div className="xl:hidden flex items-center gap-3">
           {/* Tryouts pill — always visible on mobile */}
           <button
-            onClick={() => go("/tryouts")}
+            onClick={() => go("/register-tryouts")}
             className="px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
           >
             Tryouts
@@ -222,14 +214,14 @@ export function Header() {
             {/* Primary CTAs */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               <button
-                onClick={() => go("/tryouts")}
+                onClick={() => go("/register-tryouts")}
                 className="py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
               >
                 Tryouts 2026
               </button>
               <button
                 onClick={() => go("/interest")}
-                className="py-4 border-2 border-white/20 text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
+                className="py-4 border-2 border-white/20 text-white font-black text-sm uppercase tracking-[2px] rounded-xl col-span-2"
               >
                 Register
               </button>
@@ -256,16 +248,12 @@ export function Header() {
                 ],
               },
               {
-                label: "Academy",
-                links: [
-                  { label: "About the Academy", href: "/academy-info" },
-                  { label: "Player Academy", href: "/boys/players" },
-                  { label: "Coach Tools", href: "/coach-tools" },
-                ],
-              },
-              {
                 label: "More",
                 links: [
+                  { label: "Parent Hub", href: "/parent-hub" },
+                  { label: "Coaches Hub", href: "/coach-tools" },
+                  { label: "Newsletter", href: "/newsletter" },
+                  { label: "Academy", href: "/academy-info" },
                   { label: "Recruiting", href: "/recruiting" },
                   { label: "Contact", href: "/contact" },
                   { label: "Login", href: "/login" },

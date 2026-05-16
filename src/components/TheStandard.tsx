@@ -7,7 +7,7 @@ const pillars = [
   {
     title: "Hard Work",
     icon: Hammer,
-    text: "We don't sell shortcuts. Every spot on our 24 teams is earned through grit and consistent effort. Our athletes embrace the grind because they know it's the only path to the top."
+    text: "We don't sell shortcuts. Every spot on our 22 teams is earned through grit and consistent effort. Our athletes embrace the grind because they know it's the only path to the top."
   },
   {
     title: "Accountability",
@@ -17,7 +17,7 @@ const pillars = [
   {
     title: "Development",
     icon: TrendingUp,
-    text: "We are an Academy first, a club second. With 8:1 player-to-coach ratios and a 16-week structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
+    text: "We are an Academy first, a club second. With 2+ coaches per team and a 16-week structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
   }
 ];
 

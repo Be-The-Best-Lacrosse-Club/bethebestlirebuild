@@ -55,7 +55,7 @@ export function ContactPage() {
 
             {/* Register */}
             <a
-              href="https://bethebest.leagueapps.com/leagues"
+              href="/register-tryouts"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-12 bg-black hover:bg-[var(--btb-red)] transition-all duration-300"
@@ -63,10 +63,10 @@ export function ContactPage() {
               <ArrowRight size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
               <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Register Now</h3>
               <p className="text-white/40 group-hover:text-white/80 text-[0.85rem] font-medium transition-colors mb-6">
-                Ready to join? Register for the 2026 season on LeagueApps.
+                Ready to join? Register for the 2026 season.
               </p>
               <div className="flex items-center gap-2 text-[0.72rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
-                Register on LeagueApps
+                Register for 2026 Tryouts
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </a>

@@ -4,7 +4,7 @@ interface SpecTickerProps {
 
 export function SpecTicker({ items = [
   "BTB_ELITE_ACADEMY",
-  "8:1_COACH_RATIO",
+  "2+_COACHES_PER_TEAM",
   "PRO_LEVEL_FILM",
   "16_WEEK_CURRICULUM",
   "LONG_ISLAND_NY",

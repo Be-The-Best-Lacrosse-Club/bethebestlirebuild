@@ -68,7 +68,7 @@ import type { Gender, Course } from "@/types"
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
-type Tab = "dashboard" | "academy" | "courses" | "film" | "downloads" | "wof"
+type Tab = "dashboard" | "academy" | "courses" | "film" | "resources" | "downloads" | "wof"
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -110,16 +110,17 @@ const FILM_POSITIONS = ["All", "Attack", "Midfield", "Defense", "Goalie", "FOGO"
 type FilmPosition = typeof FILM_POSITIONS[number]
 
 const STATIC_DOWNLOADS = [
-  { id: "d1", name: "BTB Offensive System Playbook", category: "Playbooks", size: "2.4 MB", ext: "PDF" },
-  { id: "d2", name: "BTB Defensive Concepts Playbook", category: "Playbooks", size: "1.8 MB", ext: "PDF" },
-  { id: "d3", name: "Ground Ball Drill Sheet", category: "Drill Sheets", size: "540 KB", ext: "PDF" },
-  { id: "d4", name: "Wall Ball 30-Day Program", category: "Drill Sheets", size: "320 KB", ext: "PDF" },
-  { id: "d5", name: "BTB Footwork Ladder Circuit", category: "Drill Sheets", size: "280 KB", ext: "PDF" },
-  { id: "d6", name: "Mental Performance Journal", category: "Mental Game", size: "1.1 MB", ext: "PDF" },
-  { id: "d7", name: "Pressure Performance Protocol", category: "Mental Game", size: "420 KB", ext: "PDF" },
-  { id: "d8", name: "Recruiting Preparation Guide", category: "Recruiting", size: "890 KB", ext: "PDF" },
-  { id: "d9", name: "College Lacrosse Email Templates", category: "Recruiting", size: "180 KB", ext: "PDF" },
-  { id: "d10", name: "Highlight Film Checklist", category: "Recruiting", size: "210 KB", ext: "PDF" },
+  // Drill Sheets — gender-neutral
+  { id: "d3", name: "Ground Ball Drill Sheet",        category: "Drill Sheets",  gender: "all",   size: "540 KB",  ext: "PDF" },
+  { id: "d4", name: "Wall Ball 30-Day Program",       category: "Drill Sheets",  gender: "all",   size: "320 KB",  ext: "PDF" },
+  { id: "d5", name: "BTB Footwork Ladder Circuit",    category: "Drill Sheets",  gender: "all",   size: "280 KB",  ext: "PDF" },
+  // Mental Game — gender-neutral
+  { id: "d6", name: "Mental Performance Journal",     category: "Mental Game",   gender: "all",   size: "1.1 MB",  ext: "PDF" },
+  { id: "d7", name: "Pressure Performance Protocol",  category: "Mental Game",   gender: "all",   size: "420 KB",  ext: "PDF" },
+  // Recruiting — gender-neutral
+  { id: "d8", name: "Recruiting Preparation Guide",   category: "Recruiting",    gender: "all",   size: "890 KB",  ext: "PDF" },
+  { id: "d9", name: "College Lacrosse Email Templates", category: "Recruiting",  gender: "all",   size: "180 KB",  ext: "PDF" },
+  { id: "d10", name: "Highlight Film Checklist",      category: "Recruiting",    gender: "all",   size: "210 KB",  ext: "PDF" },
 ]
 
 const DOWNLOAD_CATEGORIES = ["Playbooks", "Drill Sheets", "Mental Game", "Recruiting"] as const
@@ -131,6 +132,65 @@ const CATEGORY_COLORS: Record<DownloadCategory, string> = {
   "Mental Game": "bg-purple-500/10 text-purple-400 border-purple-500/30",
   Recruiting:   "bg-amber-500/10 text-amber-400 border-amber-500/30",
 }
+
+const PLAYER_RESOURCES = [
+  {
+    title: "Boys Motion Offense",
+    program: "Boys Program",
+    gender: "boys" as const,
+    desc: "Passing, fades, follow actions, cuts, picks, and full-system offensive film.",
+    href: "/btb-boys-offense-playbook.html",
+    icon: Swords,
+  },
+  {
+    title: "Boys Defensive Playbook",
+    program: "Boys Program",
+    gender: "boys" as const,
+    desc: "Slides, recovery, defending picks, cutters, man-down, and 3-3 zone principles.",
+    href: "/btb-boys-defense-playbook.html",
+    icon: Target,
+  },
+  {
+    title: "Boys Transition & Special Teams",
+    program: "Boys Program",
+    gender: "boys" as const,
+    desc: "Rides, clears, substitutions, faceoffs, wing play, man-up, and man-down.",
+    href: "/btb-boys-transition-playbook.html",
+    icon: Zap,
+  },
+  {
+    title: "Girls Motion Offense",
+    program: "Girls Program",
+    gender: "girls" as const,
+    desc: "Women's D1 film, spacing, fades, cuts, clear-throughs, follow actions, and picks.",
+    href: "/btb-girls-offense-playbook.html",
+    icon: Swords,
+  },
+  {
+    title: "Girls Defensive Playbook",
+    program: "Girls Program",
+    gender: "girls" as const,
+    desc: "Defensive footwork, draw defense, slides, man-to-man, and zone principles.",
+    href: "/btb-girls-defense-playbook.html",
+    icon: Target,
+  },
+  {
+    title: "Girls Transition & Special Teams",
+    program: "Girls Program",
+    gender: "girls" as const,
+    desc: "Rides, clears, draw plays, 8-meter shooting, man-up, and man-down situations.",
+    href: "/btb-girls-transition-playbook.html",
+    icon: Zap,
+  },
+  {
+    title: "Positionless Guru",
+    program: "All Players",
+    gender: "all" as const,
+    desc: "Spacing, reads, off-ball movement, ball movement, and finishing IQ.",
+    href: "/btb-positionless-guru.html",
+    icon: Brain,
+  },
+]
 
 // ─── Subcomponents ──────────────────────────────────────────────────────────
 
@@ -365,7 +425,8 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   )
 
   const filteredDownloads = STATIC_DOWNLOADS.filter(
-    (d) => downloadCategory === "All" || d.category === downloadCategory
+    (d) => (d.gender === "all" || d.gender === gender) &&
+           (downloadCategory === "All" || d.category === downloadCategory)
   )
 
   // ─── COURSE DETAIL VIEW (grad-year courses) ────────────────────────────
@@ -799,6 +860,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
               { id: "academy"   as Tab, icon: GraduationCap,   label: "Academy" },
               { id: "courses"   as Tab, icon: BookOpen,         label: "Courses" },
               { id: "film"      as Tab, icon: Film,             label: "Film Study" },
+              { id: "resources" as Tab, icon: Swords,           label: "Playbooks" },
               { id: "downloads" as Tab, icon: Download,         label: "Downloads" },
               { id: "wof"       as Tab, icon: Trophy,           label: "Wall of Fame" },
             ] as const).map(({ id, icon: Icon, label }) => (
@@ -902,6 +964,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                 { label: "Position School", icon: Target,         tab: "academy"   as Tab, color: "text-purple-400",  bg: "bg-purple-500/10",  border: "border-purple-500/20" },
                 { label: "Systems",         icon: Zap,            tab: "courses"   as Tab, color: "text-amber-400",   bg: "bg-amber-500/10",   border: "border-amber-500/20" },
                 { label: "Film Study",      icon: Film,           tab: "film"      as Tab, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+                { label: "Playbooks",       icon: Swords,         tab: "resources" as Tab, color: "text-red-400",      bg: "bg-red-500/10",     border: "border-red-500/20" },
                 { label: "Downloads",       icon: Download,       tab: "downloads" as Tab, color: "text-rose-400",    bg: "bg-rose-500/10",    border: "border-rose-500/20" },
               ].map(({ label, icon: Icon, tab, color, bg, border }) => (
                 <button
@@ -1221,6 +1284,48 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                 })}
               </div>
             )}
+          </div>
+        )}
+
+        {/* ── PLAYBOOK RESOURCES TAB ─────────────────────────────────────── */}
+        {activeTab === "resources" && (
+          <div>
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold uppercase mb-2"
+                style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                Video <span className="text-[#D22630]">Playbooks</span>
+              </h2>
+              <p className="text-[#888888] text-sm max-w-xl leading-relaxed">
+                BTB systems and IQ resources for players to study between practices. These are the same concepts coaches use to teach the program.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              {PLAYER_RESOURCES.filter((r) => r.gender === gender || r.gender === "all").map((resource) => (
+                <a
+                  key={resource.title}
+                  href={resource.href}
+                  className="group block bg-[#0A0A0A] border border-[#1F1F1F] rounded-2xl p-6 hover:border-[#D22630]/50 hover:bg-[#141414] transition-all"
+                >
+                  <div className="flex items-start justify-between gap-4 mb-10">
+                    <div className="w-12 h-12 rounded-xl bg-[#D22630]/10 border border-[#D22630]/20 flex items-center justify-center group-hover:bg-[#D22630] transition-colors">
+                      <resource.icon size={20} className="text-[#D22630] group-hover:text-white transition-colors" />
+                    </div>
+                    <span className="text-[0.6rem] font-black uppercase tracking-[1.5px] text-[#888888] border border-[#1F1F1F] rounded-full px-3 py-1">
+                      {resource.program}
+                    </span>
+                  </div>
+                  <h3 className="text-white font-bold uppercase text-xl mb-3"
+                    style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                    {resource.title}
+                  </h3>
+                  <p className="text-[#888888] text-sm leading-relaxed mb-8">{resource.desc}</p>
+                  <div className="inline-flex items-center gap-2 text-[#D22630] text-[0.7rem] font-black uppercase tracking-[2px] group-hover:translate-x-1 transition-transform">
+                    Open Resource <ChevronRight size={13} />
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
         )}
 

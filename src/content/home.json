@@ -1,0 +1,27 @@
+{
+  "seoImage": "/images/BTB_social_share_2026.png",
+  "hero": {
+    "backgroundImage": "/images/BTB_social_share_2026.png",
+    "eyebrow": "Long Island · Est. 2021",
+    "headlineLine1": "Train Here.",
+    "headlineLine2Prefix": "Get",
+    "headlineLine2Accent": "Recruited.",
+    "description": "The Most Complete Player Development Program on Long Island.",
+    "supportingLine": "Film study. Small-group training. Real coaching. Real results.",
+    "primaryCta": "Register for 2026",
+    "primaryCtaUrl": "/register-tryouts",
+    "secondaryCta": "Academy Access",
+    "secondaryCtaUrl": "/academy-landing.html",
+    "hudItems": [
+      "FLAGSHIP: BOYS_2028",
+      "FLAGSHIP: GIRLS_2030",
+      "RECRUITING_PHASE: ACTIVE",
+      "SEASON: 25-26"
+    ],
+    "stats": [
+      { "value": "450+", "label": "Players" },
+      { "value": "25", "label": "Teams" },
+      { "value": "45+", "label": "Coaches" }
+    ]
+  }
+}

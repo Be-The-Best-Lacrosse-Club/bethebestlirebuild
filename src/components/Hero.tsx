@@ -7,7 +7,6 @@ export function Hero() {
   const subRef = useRef<HTMLParagraphElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
   const hud1Ref = useRef<HTMLDivElement>(null)
-  const scrollHintRef = useRef<HTMLAnchorElement>(null)
   const videoWrapRef = useCursorParallax(10)
   const primaryBtnRef = useMagnetic(0.3)
   const secondaryBtnRef = useMagnetic(0.25)
@@ -18,7 +17,6 @@ export function Hero() {
       [hud1Ref as React.RefObject<HTMLElement>, 200],
       [subRef as React.RefObject<HTMLElement>, 700],
       [ctaRef as React.RefObject<HTMLElement>, 900],
-      [scrollHintRef as React.RefObject<HTMLElement>, 1100],
     ]
     sequence.forEach(([ref, delay]) => {
       const el = ref.current
@@ -96,7 +94,7 @@ export function Hero() {
         {/* HUD Data strip */}
         <div
           ref={hud1Ref}
-          className="flex flex-wrap justify-center gap-3 md:gap-6 mb-8 md:mb-10 font-mono text-[0.55rem] md:text-[0.58rem] tracking-[2px] text-white/30 uppercase"
+          className="flex flex-wrap justify-center gap-3 md:gap-6 mb-8 md:mb-10 font-mono text-[1.05rem] md:text-[1.05rem] tracking-[2px] text-white/90 uppercase"
         >
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" />
@@ -119,7 +117,7 @@ export function Hero() {
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-3 mb-8 md:mb-10">
           <div className="h-px w-8 bg-[var(--btb-red)]" />
-          <span className="text-[0.6rem] font-bold uppercase tracking-[4px] text-white/40">
+          <span className="text-[1.05rem] font-bold uppercase tracking-[4px] text-white/90">
             Long Island · Est. 2021
           </span>
           <div className="h-px w-8 bg-[var(--btb-red)]" />
@@ -131,21 +129,22 @@ export function Hero() {
           className="font-display uppercase leading-[0.88] tracking-wide mb-6 md:mb-8 w-full"
           style={{ fontSize: "clamp(3rem, 14vw, 8rem)" }}
         >
-          Train Here.{" "}
+          Built By{" "}
+          <span style={{ color: "var(--btb-red)" }}>Culture.</span>
           <br />
-          Get{" "}
-          <span style={{ color: "var(--btb-red)" }}>Recruited.</span>
+          Proven By Work.
         </h1>
 
         {/* Sub lines */}
         <p
           ref={subRef}
-          className="text-[0.9rem] md:text-[0.95rem] leading-[1.9] text-white/40 max-w-[460px] mx-auto mb-2"
+          className="relative font-display uppercase text-[1.55rem] sm:text-[1.9rem] md:text-[2.25rem] leading-[0.95] tracking-[1px] text-white max-w-[720px] mx-auto mb-5 drop-shadow-[0_4px_18px_rgba(0,0,0,0.85)]"
         >
-          BTB is where serious Long Island lacrosse players go to get serious
-          about their game.
+          The Most Complete Player Development Program
+          <span className="block text-[var(--btb-red)]">on Long Island.</span>
+          <span className="block w-24 h-1 bg-[var(--btb-red)] mx-auto mt-5" />
         </p>
-        <p className="text-[0.85rem] md:text-[0.88rem] text-white/55 font-semibold mb-10 md:mb-12">
+        <p className="text-[1.05rem] md:text-[1rem] text-white/95 font-semibold mb-10 md:mb-12">
           Film study. Small-group training. Real coaching. Real results.
         </p>
 
@@ -153,10 +152,10 @@ export function Hero() {
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full max-w-sm sm:max-w-none">
           <a
             ref={primaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="https://bethebest.leagueapps.com/leagues"
+            href="/register-tryouts"
             target="_blank"
             rel="noopener noreferrer"
-            className="relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] overflow-hidden group"
+            className="relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] overflow-hidden group"
             style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
           >
             {/* Fill sweep on hover */}
@@ -172,7 +171,7 @@ export function Hero() {
           <a
             ref={secondaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
             href="/academy-landing.html"
-            className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-[0.72rem] font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-[1.05rem] font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
           >
             Academy Access
           </a>
@@ -181,39 +180,18 @@ export function Hero() {
         {/* Stats strip */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 mt-12 md:mt-16 pt-8 md:pt-10 border-t border-white/[0.06] w-full max-w-[700px]">
           {[
-            { val: "488", label: "Players" },
-            { val: "25", label: "Teams" },
+            { val: "450+", label: "Players" },
+            { val: "22", label: "Teams" },
             { val: "45+", label: "Coaches" },
           ].map(({ val, label }) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl text-[var(--btb-red)] leading-none">{val}</div>
-              <div className="text-[0.6rem] font-bold uppercase tracking-[2px] text-white/30 mt-1">{label}</div>
+              <div className="text-[1.05rem] font-bold uppercase tracking-[2px] text-white/90 mt-1">{label}</div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ─── Scroll indicator ─── */}
-      <a
-        ref={scrollHintRef}
-        href="#next"
-        aria-label="Scroll down"
-        className="absolute bottom-6 md:bottom-8 left-0 right-0 mx-auto w-fit z-10 flex flex-col items-center gap-2 group"
-      >
-        <span className="text-[0.55rem] font-bold uppercase tracking-[3px] text-white/20 group-hover:text-white/40 transition-colors">
-          Scroll
-        </span>
-        {/* Animated line */}
-        <div className="w-px h-10 overflow-hidden bg-white/10">
-          <div
-            className="w-full bg-[var(--btb-red)]"
-            style={{
-              height: "100%",
-              animation: "scrollIndicator 2s ease infinite",
-            }}
-          />
-        </div>
-      </a>
     </section>
   )
 }

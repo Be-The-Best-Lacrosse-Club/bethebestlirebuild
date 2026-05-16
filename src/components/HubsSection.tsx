@@ -62,24 +62,24 @@ export function HubsSection() {
                   i === 1 ? "bg-[var(--btb-red)]/20" : "bg-neutral-200 group-hover:bg-[var(--btb-red)]/20"
                 }`}>
                   <h.icon size={18} strokeWidth={1.5} className={`transition-colors ${
-                    i === 1 ? "text-[var(--btb-red)]" : "text-neutral-500 group-hover:text-[var(--btb-red)]"
+                    i === 1 ? "text-[var(--btb-red)]" : "text-white/85 group-hover:text-[var(--btb-red)]"
                   }`} />
                 </div>
-                <span className={`text-[0.6rem] font-bold uppercase tracking-[1px] px-2.5 py-1 rounded-full border transition-colors ${
+                <span className={`text-[1.05rem] font-bold uppercase tracking-[1px] px-2.5 py-1 rounded-full border transition-colors ${
                   i === 1
-                    ? "bg-white/10 text-white/40 border-white/10"
-                    : "bg-white text-neutral-400 border-neutral-200 group-hover:bg-white/10 group-hover:text-white/40 group-hover:border-white/10"
+                    ? "bg-white/10 text-white/85 border-white/10"
+                    : "bg-white text-white/85 border-neutral-200 group-hover:bg-white/10 group-hover:text-white/85 group-hover:border-white/10"
                 }`}>{h.tag}</span>
               </div>
-              <div className="text-[0.6rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-2">{h.label}</div>
+              <div className="text-[1.05rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-2">{h.label}</div>
               <h3 className={`font-display text-[1.1rem] uppercase tracking-wide mb-3 transition-colors ${
                 i === 1 ? "text-white" : "text-black group-hover:text-white"
               }`}>{h.headline}</h3>
-              <p className={`text-[0.8rem] leading-relaxed mb-6 transition-colors ${
-                i === 1 ? "text-white/40" : "text-neutral-500 group-hover:text-white/40"
+              <p className={`text-[1rem] leading-relaxed mb-6 transition-colors ${
+                i === 1 ? "text-white/85" : "text-white/85 group-hover:text-white/85"
               }`}>{h.text}</p>
-              <div className={`flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-[1.5px] transition-colors ${
-                i === 1 ? "text-white/30" : "text-black/25 group-hover:text-white/35"
+              <div className={`flex items-center gap-1.5 text-[1.05rem] font-bold uppercase tracking-[1.5px] transition-colors ${
+                i === 1 ? "text-white/85" : "text-black/25 group-hover:text-white/85"
               }`}>
                 Explore <ArrowRight size={11} />
               </div>

@@ -358,6 +358,21 @@ export function TryoutsPage() {
               >
                 {submitting ? "PROCESSING_REQUEST..." : "SUBMIT_EVALUATION_INTEREST"}
               </button>
+
+              <div className="flex gap-3 pt-2">
+                <a
+                  href="/register-boys-tryouts"
+                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[0.75rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                >
+                  Register Boys →
+                </a>
+                <a
+                  href="/register-girls-tryouts"
+                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[0.75rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                >
+                  Register Girls →
+                </a>
+              </div>
             </form>
           </div>
 
@@ -382,7 +397,7 @@ export function TryoutsPage() {
                 <ul className="space-y-4">
                   {[
                     "Elite National Schedule",
-                    "8:1 Player-Coach Ratio",
+                    "2+ Coaches Per Team",
                     "Mandatory Film Study",
                     "Recruiting Path Guidance",
                     "Pro-Level Curriculum"

@@ -45,10 +45,105 @@
   to = "/playbook-studio.html"
   status = 200
 
+[[redirects]]
+  from = "/players-hub"
+  to = "/login?redirect=/boys/players"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/players-hub.html"
+  to = "/login?redirect=/boys/players"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/academy.html"
+  to = "/academy-landing.html"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/btb-boys-offense-playbook"
+  to = "/btb-boys-offense-playbook.html"
+  status = 200
+
+[[redirects]]
+  from = "/btb-boys-defense-playbook"
+  to = "/btb-boys-defense-playbook.html"
+  status = 200
+
+[[redirects]]
+  from = "/btb-boys-transition-playbook"
+  to = "/btb-boys-transition-playbook.html"
+  status = 200
+
+[[redirects]]
+  from = "/btb-boys-coaching-manual"
+  to = "/btb-boys-coaching-manual.html"
+  status = 200
+
+[[redirects]]
+  from = "/btb-girls-coaching-manual"
+  to = "/btb-girls-coaching-manual.html"
+  status = 200
+
+[[redirects]]
+  from = "/btb-girls-offense-playbook"
+  to = "/btb-girls-offense-playbook.html"
+  status = 200
+
+[[redirects]]
+  from = "/btb-positionless-guru"
+  to = "/btb-positionless-guru.html"
+  status = 200
+
 # Film Study Lab — serve static files directly
 [[redirects]]
   from = "/film-study-lab/*"
   to = "/film-study-lab/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/:splat"
+  status = 200
+
+# Tryout registration form (QuickBooks $75 evaluation fee)
+[[redirects]]
+  from = "/register-tryouts"
+  to = "/register-tryouts.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-boys-tryouts"
+  to = "/register-boys-tryouts.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-girls-tryouts"
+  to = "/register-girls-tryouts.html"
+  status = 200
+
+# Newsletter static pages — must come BEFORE the SPA catch-all
+[[redirects]]
+  from = "/newsletter"
+  to = "/newsletter/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/newsletter/"
+  to = "/newsletter/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/newsletter/*"
+  to = "/newsletter/:splat/index.html"
   status = 200
 
 # SMS Policy — serve the static HTML so bots/scrapers (Twilio A2P reviewers, etc.)
@@ -58,12 +153,31 @@
   to = "/sms-policy.html"
   status = 200
 
-# Retire old static players-hub — redirect to login so existing links still work
+# Camp / training registration forms (Stripe-connected)
 [[redirects]]
-  from = "/players-hub.html"
-  to = "/login"
-  status = 301
-  force = true
+  from = "/register-camp"
+  to = "/register-camp.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-positional"
+  to = "/register-positional.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-futures"
+  to = "/register-futures.html"
+  status = 200
+
+[[redirects]]
+  from = "/futures-clinic"
+  to = "/futures-clinic.html"
+  status = 200
+
+[[redirects]]
+  from = "/registration-success"
+  to = "/registration-success.html"
+  status = 200
 
 [[redirects]]
   from = "/*"
