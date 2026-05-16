@@ -63,7 +63,7 @@ export function CharacterLab() {
               Building <br /> <span className="text-[var(--btb-red)]">Champions.</span>
             </h2>
           </div>
-          <p className="text-white/30 text-[0.88rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
             Our character and leadership curriculum is not an add-on. It is the core of the BTB Standard. We develop the person first, then the player.
           </p>
         </div>
@@ -78,7 +78,7 @@ export function CharacterLab() {
                 className={`w-full flex items-center justify-between p-6 transition-all duration-300 group border relative overflow-hidden ${
                   activePillar.id === p.id 
                   ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" 
-                  : "bg-white/[0.02] border-white/5 text-white/40 hover:bg-white/[0.05] hover:border-white/10"
+                  : "bg-white/[0.02] border-white/5 text-white/65 hover:bg-white/[0.05] hover:border-white/10"
                 }`}
               >
                 {/* Active sweep pulse */}
@@ -101,7 +101,7 @@ export function CharacterLab() {
           {/* Active Content */}
           <div className="lg:col-span-8 bg-white/[0.02] border border-white/5 p-10 md:p-14 relative overflow-hidden">
             {/* Technical Spec Marking */}
-            <div className="absolute top-6 right-6 font-mono text-[10px] text-white/20 uppercase tracking-widest">
+            <div className="absolute top-6 right-6 font-mono text-[0.72rem] text-white/55 uppercase tracking-widest">
               MODULE // 0{pillars.indexOf(activePillar) + 1}
             </div>
 
@@ -120,12 +120,12 @@ export function CharacterLab() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 border-t border-white/10">
                 <div>
-                  <div className="text-[0.6rem] font-black text-white/30 uppercase tracking-[3px] mb-6">Curriculum Highlights</div>
+                  <div className="text-[0.75rem] font-black text-white/60 uppercase tracking-[3px] mb-6">Curriculum Highlights</div>
                   <ul className="space-y-4">
                     {activePillar.lessons.map((lesson, i) => (
                       <li key={i} className="flex items-center gap-3 group/item cursor-pointer">
                         <PlayCircle size={16} className="text-[var(--btb-red)] group-hover/item:scale-110 transition-transform" />
-                        <span className="text-[0.82rem] font-bold text-white/40 group-hover/item:text-white transition-colors uppercase tracking-wide">
+                        <span className="text-[0.92rem] font-bold text-white/65 group-hover/item:text-white transition-colors uppercase tracking-wide">
                           {lesson}
                         </span>
                       </li>
@@ -134,7 +134,7 @@ export function CharacterLab() {
                 </div>
                 <div className="bg-black/40 border border-white/5 p-8 rounded-sm">
                   <Quote className="text-[var(--btb-red)] mb-4 opacity-50" size={20} />
-                  <p className="text-[0.82rem] italic text-white/40 leading-relaxed">
+                  <p className="text-[0.95rem] italic text-white/65 leading-relaxed">
                     "The Standard is what you do when nobody is watching. It's the daily decision to outwork your yesterday."
                   </p>
                   <div className="mt-4 text-[0.6rem] font-black uppercase tracking-[2px] text-[var(--btb-red)]">

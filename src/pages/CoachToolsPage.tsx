@@ -6,23 +6,16 @@
  */
 
 import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import { SEO } from "@/components/shared/SEO"
 import {
-  ArrowRight,
   Clipboard,
   Film,
   BookOpen,
-  Printer,
   Lightbulb,
-  Zap,
   Target,
-  Users,
-  RotateCcw,
   Shield,
   Brain,
   Swords,
-  Clock,
   CheckCircle2,
   ExternalLink,
   Lock,
@@ -36,7 +29,7 @@ const tools = [
     title: "Practice Plan Generator",
     tag: "AI-Powered",
     tagColor: "bg-violet-100 text-violet-700",
-    desc: "Enter your team, phase, duration, and focus areas. Gemini AI builds a complete timed practice plan — every segment has a drill, coaching points, and personnel notes. One click prints a branded PDF ready for the sideline.",
+    desc: "Enter your team, phase, duration, and focus areas. Gemini AI builds a complete timed practice plan — every segment has a purpose, coaching points, and personnel notes. One click prints a branded PDF ready for the sideline.",
     features: [
       "7 phase options (Foundation → Postseason)",
       "20 selectable focus areas",
@@ -51,15 +44,15 @@ const tools = [
   },
   {
     icon: Film,
-    title: "Film Breakdown + Drill Suggestions",
+    title: "Film Breakdown + Practice Priorities",
     tag: "AI Film Analysis",
     tagColor: "bg-blue-100 text-blue-700",
-    desc: "Paste any YouTube game link. AI tags every play with phase, personnel, result, and teaching points. Then hit 'Suggest Drills from Film' — Gemini reads your teaching points and generates 3-4 specific drills that address exactly what you saw.",
+    desc: "Paste any YouTube game link. AI tags every play with phase, personnel, result, and teaching points. Turn the film into clear practice priorities for the next week.",
     features: [
       "Full game or clip breakdown",
       "Auto-tags plays: phase, result, teaching point",
       "Direct timestamp links to each play",
-      "Drill suggestions tied to film findings",
+      "Practice priorities tied to film findings",
       "Google Sheets export for film archive",
     ],
     cta: "Open Film Breakdown",
@@ -67,43 +60,115 @@ const tools = [
     accent: "border-blue-200 bg-blue-50/50",
     iconBg: "bg-blue-600",
   },
-  {
-    icon: BookOpen,
-    title: "BTB Drill Library",
-    tag: "50+ Drills",
-    tagColor: "bg-emerald-100 text-emerald-700",
-    desc: "Every BTB drill — categorized by type, difficulty, and duration. Each drill has setup, execution steps, and coaching points. Filter by position, phase, or difficulty. Pull directly into your practice plan.",
-    features: [
-      "8 categories: Wall Ball, Attack, Defense, Midfield, FOGO, Goalie, Team Concepts, Conditioning",
-      "Difficulty: Beginner → Advanced",
-      "Full execution walkthrough per drill",
-      "Position-specific coaching notes",
-      "One-click add to practice plan",
-    ],
-    cta: "Open Drill Library",
-    href: "https://btb-os.netlify.app/?module=playbooks",
-    accent: "border-emerald-200 bg-emerald-50/50",
-    iconBg: "bg-emerald-600",
-  },
 ]
 
-const categories = [
-  { icon: Zap,         label: "Wall Ball",          count: "3 drills" },
-  { icon: Target,      label: "Attack",              count: "2 drills" },
-  { icon: Shield,      label: "Defense",             count: "2 drills" },
-  { icon: Users,       label: "Midfield",            count: "1 drill" },
-  { icon: Brain,       label: "FOGO",                count: "1 drill" },
-  { icon: Users,       label: "Goalie",              count: "1 drill" },
-  { icon: Swords,      label: "Team Concepts",       count: "2 drills" },
-  { icon: RotateCcw,   label: "Conditioning",        count: "1 drill" },
+const resourceCards = [
+  {
+    title: "Playbook Studio",
+    desc: "Build, edit, and organize BTB playbook pages, installs, diagrams, and teaching resources.",
+    href: "/playbook-studio.html",
+    tag: "Studio",
+    icon: BookOpen,
+  },
+  {
+    title: "Film Breakdown",
+    desc: "Paste a YouTube link and tag plays with timestamps, phases, coaching points, and teaching notes.",
+    href: "/film-breakdown.html",
+    tag: "Film",
+    icon: Film,
+  },
+  {
+    title: "Film Study Lab",
+    desc: "Coaching video library organized by concept, teaching point, and player development need.",
+    href: "/film-study-lab/",
+    tag: "Videos",
+    icon: Film,
+  },
+  {
+    title: "Defensive System",
+    desc: "Slides, riding, clearing, recovery rules, and defensive standards from the BTB manuals.",
+    href: "/btb-boys-coaching-manual.html#s3",
+    tag: "System",
+    icon: Shield,
+  },
+  {
+    title: "Offensive System",
+    desc: "Spacing, motion, dodging decisions, off-ball movement, and install teaching points.",
+    href: "/btb-boys-coaching-manual.html#s2",
+    tag: "System",
+    icon: Target,
+  },
+  {
+    title: "Practice Plans",
+    desc: "Boys and girls practice planning references tied to BTB phases and weekly standards.",
+    href: "/btb-boys-coaching-manual.html#s9",
+    tag: "Plans",
+    icon: Clipboard,
+  },
+  {
+    title: "Boys Coaching Manual",
+    desc: "Complete boys program reference with standards, progressions, systems, and practice plans.",
+    href: "/btb-boys-coaching-manual",
+    tag: "Manual",
+    icon: Clipboard,
+  },
+  {
+    title: "Girls Coaching Manual",
+    desc: "Complete girls program reference with age-appropriate progressions and coaching standards.",
+    href: "/btb-girls-coaching-manual",
+    tag: "Manual",
+    icon: Clipboard,
+  },
+  {
+    title: "Boys Motion Offense",
+    desc: "Passing, fades, follow actions, cuts, picks, and full-system offensive film.",
+    href: "/btb-boys-offense-playbook.html",
+    tag: "Playbook",
+    icon: Swords,
+  },
+  {
+    title: "Boys Defensive Playbook",
+    desc: "Slides, recovery, defending picks, cutters, man-down, and 3-3 zone principles.",
+    href: "/btb-boys-defense-playbook.html",
+    tag: "Playbook",
+    icon: Shield,
+  },
+  {
+    title: "Boys Transition & Special Teams",
+    desc: "Rides, clears, substitutions, faceoffs, wing play, man-up, and man-down.",
+    href: "/btb-boys-transition-playbook.html",
+    tag: "Playbook",
+    icon: Swords,
+  },
+  {
+    title: "Girls Motion Offense",
+    desc: "Women's D1 film, spacing, fades, cuts, clear-throughs, follow actions, and picks.",
+    href: "/btb-girls-offense-playbook.html",
+    tag: "Playbook",
+    icon: Swords,
+  },
+  {
+    title: "Coach AI Assistant",
+    desc: "Ask for practice structure, game plans, film teaching points, and coaching ideas.",
+    href: "/btb-coach-ai.html",
+    tag: "AI",
+    icon: Brain,
+  },
+  {
+    title: "Positionless Guru",
+    desc: "Teaching support for IQ, spacing, decision-making, and complete-player concepts.",
+    href: "/btb-positionless-guru.html",
+    tag: "IQ",
+    icon: Brain,
+  },
 ]
 
 const planFlow = [
   { step: "01", label: "Pick your team + phase",    desc: "Foundation, Connection, Expansion, Execution, Preseason, In-Season, or Postseason." },
   { step: "02", label: "Select focus areas",        desc: "Dodging, slides, ground balls, fast break — up to 20 options. Mix and match." },
   { step: "03", label: "Set duration",              desc: "60, 75, 90, 105, or 120 minutes. AI fills every minute intentionally." },
-  { step: "04", label: "Generate",                  desc: "Gemini builds the full plan with timed segments, drills, coaching cues, and personnel notes." },
-  { step: "05", label: "Edit or print",             desc: "Swap drills from the library, add/remove segments, then print a branded PDF." },
+  { step: "04", label: "Generate",                  desc: "Gemini builds the full plan with timed segments, teaching blocks, coaching cues, and personnel notes." },
+  { step: "05", label: "Edit or print",             desc: "Swap segments, add/remove blocks, then print a branded PDF." },
 ]
 
 // ─── Component ────────────────────────────────────────────────────────
@@ -114,8 +179,8 @@ export function CoachToolsPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <SEO
-        title="BTB Coach Tools | Practice Plans, Film Breakdown, Drill Library"
-        description="BTB's AI-powered coach suite — practice plan generator, film breakdown with drill suggestions, and the full BTB drill library. Built for BTB coaches."
+        title="BTB Coach Tools | Practice Plans, Film Breakdown, Playbooks"
+        description="BTB's coach suite — practice planning, film breakdown, playbooks, systems, and staff-only resources. Built for BTB coaches."
         path="/coach-tools"
       />
 
@@ -147,7 +212,7 @@ export function CoachToolsPage() {
             16-week curriculum that runs every team in the program.
           </p>
           <p className="text-[0.85rem] text-white/60 font-semibold mb-12">
-            Practice Plan Generator · Film Breakdown · Drill Library
+            Playbook Studio · Practice Plans · Film Breakdown · Video Playbooks · Systems
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -169,12 +234,54 @@ export function CoachToolsPage() {
         </div>
       </section>
 
-      {/* ── THREE TOOLS ──────────────────────────────────────────────── */}
+      {/* ── CLICKABLE RESOURCE CARDS ─────────────────────────────────── */}
+      <section className="py-24 px-6 border-b border-white/[0.07] bg-neutral-950">
+        <div className="max-w-[960px] mx-auto">
+          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Coach Resource Hub</div>
+          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
+            Playbooks. Systems.<br />Videos. Tools.
+          </h2>
+          <p className="text-[0.9rem] text-white/55 max-w-[560px] leading-relaxed mb-12">
+            One coach-facing page for the resources staff need before practice, during install weeks, and after film review.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {resourceCards.map((card) => (
+              <a
+                key={card.title}
+                href={card.href}
+                className="group relative overflow-hidden rounded-xl border border-white/[0.08] bg-black p-6 transition-all hover:-translate-y-0.5 hover:border-[#D22630]/70 hover:bg-white/[0.03]"
+              >
+                <div className="absolute inset-x-0 top-0 h-1 bg-[#D22630] opacity-0 transition-opacity group-hover:opacity-100" />
+                <div className="mb-8 flex items-start justify-between gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04] transition-colors group-hover:border-[#D22630]/40 group-hover:bg-[#D22630]/15">
+                    <card.icon size={20} className="text-[#D22630]" />
+                  </div>
+                  <span className="rounded border border-white/[0.08] px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[1.5px] text-white/45 group-hover:border-[#D22630]/40 group-hover:text-[#D22630]">
+                    {card.tag}
+                  </span>
+                </div>
+                <h3 className="font-display text-[1.35rem] uppercase tracking-wide text-white mb-3">
+                  {card.title}
+                </h3>
+                <p className="text-[0.86rem] leading-relaxed text-white/55 group-hover:text-white/75">
+                  {card.desc}
+                </p>
+                <div className="mt-8 inline-flex items-center gap-2 text-[0.68rem] font-black uppercase tracking-[2px] text-[#D22630]">
+                  Open Resource <ExternalLink size={12} />
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CORE TOOLS ───────────────────────────────────────────────── */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
           <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">The Suite</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
-            Three Tools.<br />One System.
+            Core Tools.<br />One System.
           </h2>
 
           <div className="space-y-6">
@@ -248,59 +355,23 @@ export function CoachToolsPage() {
         </div>
       </section>
 
-      {/* ── DRILL CATEGORIES ─────────────────────────────────────────── */}
-      <section className="py-24 px-6 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Drill Library</div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            50+ Drills.<br />8 Categories.
-          </h2>
-          <p className="text-[0.84rem] text-white/35 max-w-[500px] leading-relaxed mb-12">
-            Every drill has a purpose, a setup, execution steps, and coaching points.
-            Position-specific, phase-appropriate, and consistent across every BTB coach and team.
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
-            {categories.map((cat) => (
-              <div key={cat.label} className="p-5 rounded-xl border border-white/[0.07] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.04] transition-all group">
-                <div className="w-9 h-9 rounded-lg bg-[#D22630]/10 flex items-center justify-center mb-3 group-hover:bg-[#D22630]/20 transition-colors">
-                  <cat.icon size={16} className="text-[#D22630]" />
-                </div>
-                <h4 className="font-display text-[0.9rem] uppercase tracking-wide mb-1">{cat.label}</h4>
-                <p className="text-[0.72rem] text-white/30">{cat.count}</p>
-              </div>
-            ))}
-          </div>
-
-          <a
-            href="https://btb-os.netlify.app/?module=playbooks"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[0.72rem] font-bold uppercase tracking-[2px] text-white/30 hover:text-[#D22630] transition-colors"
-          >
-            View Full Drill Library in BTB-OS <ExternalLink size={12} />
-          </a>
-        </div>
-      </section>
-
-      {/* ── FILM → DRILLS FLOW ───────────────────────────────────────── */}
+      {/* ── FILM → PRACTICE FLOW ─────────────────────────────────────── */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Film → Drills</div>
+              <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Film → Practice</div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-6">
-                Watch Film.<br />Get Drills.
+                Watch Film.<br />Build The Week.
               </h2>
               <p className="text-[0.84rem] text-white/35 leading-relaxed mb-6">
                 The Film Breakdown tool doesn't just tag plays. After the AI analyzes your game film, 
-                one click generates specific drills that address exactly what you saw — not generic suggestions, 
-                drills tied to your actual teaching points from that game.
+                it turns the teaching points into practice priorities, install notes, and staff talking points
+                tied to what actually happened in the game.
               </p>
               <p className="text-[0.78rem] text-white/25 leading-relaxed mb-8">
                 Example: AI finds "12 plays where the slide arrived late." 
-                The drill suggestion engine returns "Slide and Recover (15 min)" 
-                with coaching points directly referencing the slide timing issues.
+                The breakdown returns the clips, the correction, and the practice emphasis for the week.
               </p>
               <a
                 href="https://btb-os.netlify.app/?module=film-breakdown"
@@ -315,8 +386,8 @@ export function CoachToolsPage() {
             <div className="space-y-3">
               {[
                 { icon: Film,      step: "Film Breakdown", desc: "Paste any YouTube game link — AI tags every play with phase, result, and teaching point." },
-                { icon: Lightbulb, step: "Suggest Drills",  desc: "Click 'Suggest Drills from Film' — Gemini reads your teaching points and generates specific drills." },
-                { icon: Clipboard, step: "Build the Plan",  desc: "Jump to Practice Plan Generator with your drills pre-selected, add remaining segments, and print." },
+                { icon: Lightbulb, step: "Set Priorities",  desc: "Turn the recurring mistakes into a simple staff teaching plan for the week." },
+                { icon: Clipboard, step: "Build the Plan",  desc: "Jump to Practice Plan Generator, add the emphasis, and print the plan." },
               ].map((item) => (
                 <div key={item.step} className="flex items-start gap-4 p-5 rounded-xl border border-white/[0.07] bg-white/[0.02]">
                   <div className="w-9 h-9 rounded-lg bg-[#D22630]/10 flex items-center justify-center shrink-0">

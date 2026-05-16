@@ -36,6 +36,7 @@ import { TravelPage } from "@/pages/TravelPage"
 import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
 import { TeamsPage } from "@/pages/TeamsPage"
 import { SmsPolicyPage } from "@/pages/SmsPolicyPage"
+import { TermsAndConditionsPage } from "@/pages/TermsAndConditionsPage"
 import { AcademyInfoPage } from "@/pages/AcademyInfoPage"
 import { AcademyGatePage } from "@/pages/AcademyGatePage"
 import { RecruitingPage } from "@/pages/RecruitingPage"
@@ -44,6 +45,13 @@ import { CampsPage } from "@/pages/CampsPage"
 import { FamilyHubPage } from "@/pages/FamilyHubPage"
 import { ScrollDemoPage } from "@/pages/ScrollDemoPage"
 import { ContactPage } from "@/pages/ContactPage"
+import { CoachToolsPage } from "@/pages/CoachToolsPage"
+import homeContent from "@/content/home.json"
+
+const SITE_URL = "https://bethebestli.com"
+const homeOgImage = homeContent.seoImage.startsWith("http")
+  ? homeContent.seoImage
+  : `${SITE_URL}${homeContent.seoImage}`
 
 function LandingPage() {
   return (
@@ -52,10 +60,12 @@ function LandingPage() {
         title="BTB Lacrosse Club | Be The Best"
         description="Be The Best Lacrosse Club — Long Island's premier youth lacrosse development program for boys and girls."
         path="/"
+        ogImage={homeOgImage}
       />
       <Hero />
       <AudiencePaths />
       <TheStandard />
+      <FeaturedCoaches />
       <WhatYouGet />
       <DevelopmentModel />
       <CharacterLab />
@@ -63,7 +73,6 @@ function LandingPage() {
       <DigitalAcademy />
       <EliteCircuit />
       <SpecTicker />
-      <FeaturedCoaches />
       <Results />
       <CTASection />
     </>
@@ -147,7 +156,6 @@ function App() {
               <Route path="/academy" element={<AcademyGatePage />} />
               <Route path="/tryouts" element={<TryoutsPage />} />
               <Route path="/interest" element={<InterestFormPage />} />
-              <Route path="/parent-portal" element={<ParentPortalPage />} />
               <Route path="/boys" element={<ProgramPage programKey="boys" />} />
               <Route path="/boys/travel" element={<TravelPage gender="boys" />} />
               <Route path="/boys/coaches" element={<CoachingStaffPage gender="boys" />} />
@@ -159,6 +167,7 @@ function App() {
               <Route path="/futures" element={<FuturesPage />} />
               <Route path="/camps" element={<CampsPage />} />
               <Route path="/sms-policy" element={<SmsPolicyPage />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
               <Route path="/academy-info" element={<AcademyInfoPage />} />
               <Route path="/recruiting" element={<RecruitingPage />} />
               <Route path="/contact" element={<ContactPage />} />
@@ -168,6 +177,9 @@ function App() {
             <Route path="/scroll-demo" element={<ScrollDemoPage />} />
 
             <Route element={<ProtectedRoute />}>
+              <Route path="/parent-hub" element={<ParentPortalPage />} />
+              <Route path="/parent-portal" element={<ParentPortalPage />} />
+              <Route path="/coach-tools" element={<CoachToolsPage />} />
               <Route element={<HubLayout />}>
                 <Route path="/boys/players" element={<DigitalAcademyHubPage gender="boys" />} />
                 <Route path="/boys/academy" element={<Navigate to="/boys/players" replace />} />
@@ -178,6 +190,8 @@ function App() {
                 <Route path="/family-hub" element={<FamilyHubPage />} />
               </Route>
             </Route>
+            {/* Catch-all 404 */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster theme="dark" position="top-right" richColors closeButton />
         </div>

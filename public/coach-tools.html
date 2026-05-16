@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BTB Coach Tools</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    var key = 'btbCoachToolsUnlocked';
+    if (sessionStorage.getItem(key) === 'yes') return;
+    var pass = prompt('Enter BTB coach password:');
+    if (pass === '#BTBCOACH26') {
+      sessionStorage.setItem(key, 'yes');
+      return;
+    }
+    alert('Coach access required.');
+    window.location.href = '/login?redirect=/coach-tools.html';
+  })();
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Montserrat', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; }
@@ -111,6 +124,12 @@
 
   <div class="section-label">Playbooks</div>
   <div class="grid">
+    <a class="card" href="/playbook-studio.html">
+      <div class="card-icon">🎨</div>
+      <div class="card-title">Playbook Studio</div>
+      <div class="card-desc">Build, edit, and organize BTB playbook pages, installs, diagrams, and teaching resources.</div>
+      <span class="card-badge badge-staff">Studio</span>
+    </a>
     <a class="card" href="/btb-boys-offense-playbook.html">
       <div class="card-icon">⚔️</div>
       <div class="card-title">Boys Offense</div>
@@ -131,8 +150,8 @@
     </a>
     <a class="card" href="/btb-girls-offense-playbook.html">
       <div class="card-icon">⚔️</div>
-      <div class="card-title">Girls Offense</div>
-      <div class="card-desc">Spacing, fades, cuts, picks, passing, and behind-the-cage concepts.</div>
+      <div class="card-title">Girls Motion Offense</div>
+      <div class="card-desc">Women's D1 film, spacing, fades, cuts, clear-throughs, follow actions, and picks.</div>
       <span class="card-badge badge-pass">Password</span>
     </a>
     <a class="card" href="/btb-girls-defense-playbook.html">
@@ -151,28 +170,46 @@
 
   <div class="section-label">Coaching Resources</div>
   <div class="grid">
-    <a class="card" href="/btb-boys-coaching-manual.html">
-      <div class="card-icon">📋</div>
-      <div class="card-title">Boys Coaching Manual</div>
-      <div class="card-desc">Complete coaching reference — practice plans, drill library, and program philosophy.</div>
+    <a class="card" href="/btb-boys-coaching-manual.html#s3">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">Defensive System</div>
+      <div class="card-desc">Slides, riding, clearing, recovery rules, and defensive standards from the BTB manuals.</div>
       <span class="card-badge badge-pass">Password</span>
     </a>
-    <a class="card" href="/btb-girls-coaching-manual.html">
+    <a class="card" href="/btb-boys-coaching-manual.html#s2">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">Offensive System</div>
+      <div class="card-desc">Spacing, motion, dodging decisions, off-ball movement, and install teaching points.</div>
+      <span class="card-badge badge-pass">Password</span>
+    </a>
+    <a class="card" href="/btb-boys-coaching-manual.html#s9">
+      <div class="card-icon">🗓️</div>
+      <div class="card-title">Practice Plans</div>
+      <div class="card-desc">Boys and girls practice planning references tied to BTB phases and weekly standards.</div>
+      <span class="card-badge badge-pass">Password</span>
+    </a>
+    <a class="card" href="/btb-boys-coaching-manual">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Boys Coaching Manual</div>
+      <div class="card-desc">Complete coaching reference — standards, systems, progressions, and practice plans.</div>
+      <span class="card-badge badge-pass">Password</span>
+    </a>
+    <a class="card" href="/btb-girls-coaching-manual">
       <div class="card-icon">📋</div>
       <div class="card-title">Girls Coaching Manual</div>
       <div class="card-desc">Complete coaching reference for the girls program with age-appropriate progressions.</div>
       <span class="card-badge badge-pass">Password</span>
     </a>
-    <a class="card" href="/coaches-hub.html">
-      <div class="card-icon">🏠</div>
-      <div class="card-title">Coaches Hub</div>
-      <div class="card-desc">Central dashboard for all coaching resources, downloads, and program tools.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
     <a class="card" href="/btb-coach-ai.html">
       <div class="card-icon">🤖</div>
       <div class="card-title">Coach AI Assistant</div>
-      <div class="card-desc">AI-powered coaching assistant for game planning, drill selection, and film review.</div>
+      <div class="card-desc">AI-powered coaching assistant for game planning, practice structure, and film review.</div>
+      <span class="card-badge badge-staff">Staff Access</span>
+    </a>
+    <a class="card" href="/btb-positionless-guru.html">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">Positionless Guru</div>
+      <div class="card-desc">Teaching support for IQ, spacing, decision-making, and complete-player concepts.</div>
       <span class="card-badge badge-staff">Staff Access</span>
     </a>
   </div>

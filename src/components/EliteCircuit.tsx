@@ -18,6 +18,8 @@ const tournaments = [
   { name: "Maverick Showtime",            type: "Team Tournament" },
   { name: "Trilogy Showcase",             type: "Team Tournament" },
   { name: "Capital Cup",                  type: "Team Tournament" },
+  { name: "Maryland Cup",                 type: "Team Tournament" },
+  { name: "QOI / War at the Shore",       type: "Team Tournament" },
   { name: "IMLCA",                         type: "Team Tournament" },
   { name: "Presidents Cup",               type: "Team Tournament" },
   // Individual recruiting showcases — players are seen by college coaches
@@ -44,7 +46,7 @@ export function EliteCircuit() {
               Competing Against <br /> <span className="text-[var(--btb-red)]">The Best.</span>
             </h2>
           </div>
-          <p className="text-white/40 text-[0.95rem] leading-relaxed max-w-[300px] border-l border-white/10 pl-6">
+          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-6">
             We don't play for participation trophies. We enter the most competitive tournaments and recruiting showcases in the country to test our standard.
           </p>
         </div>
@@ -53,11 +55,11 @@ export function EliteCircuit() {
           {tournaments.map((t, i) => (
             <div key={i} className="reveal-child group p-8 bg-black hover:bg-neutral-900 transition-all duration-300 flex flex-col justify-between min-h-[160px]">
               <div>
-                <div className="text-[10px] font-mono text-white/20 group-hover:text-[var(--btb-red)] transition-colors mb-4">EVENT // {String(i + 1).padStart(3, '0')}</div>
+                <div className="text-[0.72rem] font-mono text-white/55 group-hover:text-[var(--btb-red)] transition-colors mb-4">EVENT // {String(i + 1).padStart(3, '0')}</div>
                 <h3 className="font-display text-2xl text-white uppercase tracking-wider group-hover:translate-x-1 transition-transform">{t.name}</h3>
               </div>
               <div className="flex items-center justify-between mt-6">
-                <span className="px-2 py-0.5 border border-white/10 text-[0.6rem] font-black text-white/30 uppercase tracking-[1px] group-hover:border-[var(--btb-red)] group-hover:text-[var(--btb-red)] transition-colors">
+                <span className="px-2 py-0.5 border border-white/10 text-[0.72rem] font-black text-white/60 uppercase tracking-[1px] group-hover:border-[var(--btb-red)] group-hover:text-[var(--btb-red)] transition-colors">
                   {t.type}
                 </span>
                 <Trophy size={14} className="text-white/5 group-hover:text-[var(--btb-red)] transition-colors" />

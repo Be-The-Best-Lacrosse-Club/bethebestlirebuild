@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Confirmed | BTB Lacrosse</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+
+  .card {
+    max-width: 560px; width: 100%; background: #141414;
+    border: 1px solid #2a2a2a; border-top: 4px solid #D22630;
+    border-radius: 12px; padding: 40px 32px; text-align: center;
+  }
+  .check {
+    width: 72px; height: 72px; border-radius: 50%; background: #D22630;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 2.4rem; color: #fff; margin-bottom: 18px; font-weight: 700;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem;
+    letter-spacing: 3px; text-transform: uppercase;
+  }
+  .eyebrow { color: #D22630; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; font-size: 0.9rem; }
+  .subtitle { color: #ccc; margin: 14px 0 24px; font-size: 1rem; line-height: 1.6; }
+  .summary {
+    background: #1a1a1a; border-radius: 8px; padding: 16px 20px;
+    text-align: left; font-size: 0.9rem; color: #ddd; margin: 0 0 24px;
+  }
+  .summary-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #222; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .label { color: #888; }
+  .next-steps {
+    background: #1a1a1a; border-left: 3px solid #D22630; border-radius: 6px;
+    padding: 14px 18px; text-align: left; font-size: 0.88rem; color: #ccc; margin-bottom: 24px;
+  }
+  .next-steps strong { color: #fff; display: block; margin-bottom: 6px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px; font-size: 1rem; }
+  .next-steps ul { margin: 0; padding-left: 18px; line-height: 1.6; }
+
+  .btn {
+    display: inline-block; padding: 14px 28px; background: #D22630;
+    color: #fff; text-decoration: none; border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 1.1rem;
+  }
+  .btn:hover { background: #a01e26; }
+  .footer { margin-top: 18px; font-size: 0.78rem; color: #777; }
+  .footer a { color: #D22630; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="check">✓</div>
+  <div class="eyebrow">BE THE BEST LACROSSE CLUB</div>
+  <h1>You're In</h1>
+  <p class="subtitle">
+    Payment received and registration confirmed. A receipt is on its way to your email from Stripe, and BTB will follow up with all the details before your first session.
+  </p>
+
+  <div class="summary" id="summary" style="display:none;">
+    <div class="summary-row"><span class="label">Program</span><span id="sumProgram"></span></div>
+    <div class="summary-row"><span class="label">Player</span><span id="sumPlayer"></span></div>
+    <div class="summary-row"><span class="label">Email</span><span id="sumEmail"></span></div>
+    <div class="summary-row"><span class="label">Confirmation</span><span id="sumRef"></span></div>
+  </div>
+
+  <div class="next-steps">
+    <strong>What happens next</strong>
+    <ul>
+      <li>You'll get a Stripe payment receipt within minutes</li>
+      <li>BTB will email session details, location, and what to bring</li>
+      <li>Add info@bethebestli.com to your contacts so we don't end up in spam</li>
+    </ul>
+  </div>
+
+  <a class="btn" href="https://bethebestli.com">Back to bethebestli.com</a>
+
+  <div class="footer">
+    Questions? <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+  </div>
+</div>
+
+<script>
+  try {
+    const data = JSON.parse(sessionStorage.getItem('btb_last_registration') || 'null');
+    if (data && data.player) {
+      document.getElementById('sumProgram').textContent = data.program;
+      document.getElementById('sumPlayer').textContent = data.player;
+      document.getElementById('sumEmail').textContent = data.email;
+      document.getElementById('sumRef').textContent = data.refId;
+      document.getElementById('summary').style.display = 'block';
+    }
+  } catch (e) {}
+</script>
+
+</body>
+</html>

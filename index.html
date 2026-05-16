@@ -46,6 +46,11 @@
       <input type="text" name="interestTeam" />
       <textarea name="notes"></textarea>
     </form>
+    <form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="source" />
+    </form>
 
     <div id="root"></div>
     <script type="module" src="./src/main.tsx"></script>

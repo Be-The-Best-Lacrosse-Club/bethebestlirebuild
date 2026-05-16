@@ -1,38 +1,67 @@
 import { useReveal } from "@/hooks/useReveal"
-import { Calendar, FileText, CreditCard, Video, BookOpen, Activity, ArrowRight, Shield } from "lucide-react"
+import { Calendar, FileText, CreditCard, Video, BookOpen, ArrowRight, Shield, Link as LinkIcon, Smartphone, MessageSquare } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const portalLinks = [
   {
     title: "Schedules & Rosters",
     icon: Calendar,
-    desc: "View practice times, game schedules, and team rosters on LeagueApps.",
-    href: "https://bethebest.leagueapps.com/dashboard",
+    desc: "Open TeamSnap for your team schedule, roster, availability, alerts, and event updates.",
+    href: "https://go.teamsnap.com",
     external: true,
-    tag: "LEAGUEAPPS"
+    tag: "TEAMSNAP",
   },
   {
-    title: "The Academy",
-    icon: Video,
-    desc: "Access your player's film study sessions and training curriculum.",
-    href: "/academy",
-    tag: "E-LEARNING"
-  },
-  {
-    title: "Waivers & Payments",
+    title: "BTB Policy & Waiver",
     icon: FileText,
-    desc: "Manage registrations, sign waivers, and check payment status.",
-    href: "https://bethebest.leagueapps.com/dashboard",
+    desc: "Find club policies, required waivers, family expectations, and registration paperwork.",
+    href: "https://go.teamsnap.com",
     external: true,
-    tag: "ADMIN"
+    tag: "WAIVERS",
   },
   {
-    title: "Digital Drill Book",
+    title: "Payments & Registration",
+    icon: CreditCard,
+    desc: "Manage registrations, payment plans, invoices, and account details.",
+    href: "https://go.teamsnap.com",
+    external: true,
+    tag: "BILLING",
+  },
+  {
+    title: "Important Links",
+    icon: LinkIcon,
+    desc: "Quick access to BTB links, forms, family resources, and club information.",
+    href: "/btb-links.html",
+    tag: "RESOURCES",
+  },
+  {
+    title: "Apps to Download",
+    icon: Smartphone,
+    desc: "TeamSnap, communication apps, and the tools families need on their phones.",
+    href: "/parent-portal",
+    tag: "APPS",
+  },
+  {
+    title: "Digital Academy",
+    icon: Video,
+    desc: "Access player film study, position tracks, skill progressions, and academy curriculum.",
+    href: "/academy-landing.html",
+    tag: "ACADEMY",
+  },
+  {
+    title: "My Team Schedule",
     icon: BookOpen,
-    desc: "Review the current training cycle's drills and homework.",
-    href: "/boys/coaches-hub", // Temporarily pointing to coaches hub for drills
-    tag: "TRAINING"
-  }
+    desc: "Login-only master schedule view filtered to your child's team information from TeamSnap.",
+    href: "/family-hub",
+    tag: "LOGIN ONLY",
+  },
+  {
+    title: "Contact BTB",
+    icon: MessageSquare,
+    desc: "Questions about schedules, waivers, payments, or team logistics? Reach out here.",
+    href: "/contact",
+    tag: "SUPPORT",
+  },
 ]
 
 export function ParentPortalPage() {
@@ -49,8 +78,8 @@ export function ParentPortalPage() {
           <h1 className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white mb-6">
             Command <br /> <span className="text-[var(--btb-red)]">Center.</span>
           </h1>
-          <p className="text-white/40 text-[0.95rem] leading-relaxed max-w-[500px]">
-            The centralized hub for everything BTB. Manage your athlete's development, schedule, and administrative tasks in one place.
+          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[560px]">
+            The parent hub for TeamSnap schedules and rosters, BTB policy and waivers, important links, apps to download, payments, academy access, and family support.
           </p>
         </div>
 
@@ -66,12 +95,12 @@ export function ParentPortalPage() {
                 </div>
 
                 <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">{link.title}</h3>
-                <p className="text-white/40 text-[0.88rem] leading-relaxed mb-10 group-hover:text-white/60 transition-colors">
+                <p className="text-white/65 text-[0.95rem] leading-relaxed mb-10 group-hover:text-white/80 transition-colors">
                   {link.desc}
                 </p>
 
                 <div className="flex items-center gap-2 text-[0.65rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:translate-x-1 transition-transform">
-                  Access Portal <ArrowRight size={12} />
+                  Open Resource <ArrowRight size={12} />
                 </div>
               </div>
             )

@@ -24,10 +24,10 @@ const phases = [
 ]
 
 const pillars = [
-  { stat: "8:1", label: "Max player-to-coach ratio" },
+  { stat: "2+ per team", label: "Dedicated coaches" },
   { stat: "16", label: "Week development cycle" },
   { stat: "50+", label: "Documented drills" },
-  { stat: "100%", label: "Written practice plans" },
+  { stat: "100%", label: "Guaranteed individual and team progress" },
 ]
 
 export function DevelopmentModel() {
@@ -51,7 +51,7 @@ export function DevelopmentModel() {
               How We Actually<br /><span className="text-[var(--btb-red)]">Build Players.</span>
             </h2>
           </div>
-          <p className="text-white/30 text-[0.86rem] leading-relaxed max-w-[300px] border-l border-white/10 pl-6">
+          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-6">
             A 16-week repeatable cycle designed around four phases of skill progression.
           </p>
         </div>
@@ -75,11 +75,11 @@ export function DevelopmentModel() {
                 </div>
               </div>
 
-              <p className="font-display text-[1.1rem] text-white/40 mb-5 uppercase tracking-wide">{p.title}</p>
+              <p className="font-display text-[1.2rem] text-white/70 mb-5 uppercase tracking-wide">{p.title}</p>
 
               <ul className="space-y-2">
                 {p.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[0.8rem] text-white/40">
+                  <li key={item} className="flex items-start gap-2.5 text-[0.92rem] text-white/65">
                     <span className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-2 shrink-0" />
                     {item}
                   </li>
@@ -96,7 +96,7 @@ export function DevelopmentModel() {
               className={`py-8 text-center ${i < pillars.length - 1 ? "border-r border-white/10" : ""}`}
             >
               <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{p.stat}</div>
-              <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/30 mt-2">{p.label}</div>
+              <div className="text-[0.75rem] font-semibold uppercase tracking-[1.5px] text-white/60 mt-2">{p.label}</div>
             </div>
           ))}
         </div>

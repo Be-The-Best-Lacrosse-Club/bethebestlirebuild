@@ -52,7 +52,7 @@ export function StatsBar() {
             className={`py-14 px-8 text-center relative ${i < stats.length - 1 ? "lg:border-r border-white/[0.06]" : ""} ${i % 2 === 0 && i !== stats.length - 2 ? "border-r border-white/[0.06] lg:border-r-0" : ""}`}
           >
             <AnimatedNumber target={s.target} suffix={s.suffix} />
-            <div className="text-[0.65rem] font-bold uppercase tracking-[2.5px] text-white/25 mt-3">{s.label}</div>
+            <div className="text-[1.05rem] font-bold uppercase tracking-[2.5px] text-white/90 mt-3">{s.label}</div>
           </div>
         ))}
       </div>

@@ -120,9 +120,9 @@ export function DigitalAcademy() {
               LIKE THE{" "}
               <span style={{
                 color: RED,
-                textDecoration: "line-through",
-                textDecorationColor: "#fff",
-                textDecorationThickness: 4,
+                display: "inline-block",
+                borderBottom: "4px solid #fff",
+                paddingBottom: 2,
               }}>BEST</span>
             </h2>
           </div>
@@ -143,7 +143,7 @@ export function DigitalAcademy() {
             { num: "340+", label: "Active Players" },
             { num: "125",  label: "Hours of Film" },
             { num: "48",   label: "Coaching Modules" },
-            { num: "12",   label: "D1 Commits" },
+            { num: "6",    label: "Position-Specific Tracks" },
           ].map(s => (
             <div key={s.label} style={{ background: "#000", padding: "28px 24px", textAlign: "center" }}>
               <div style={{
@@ -294,12 +294,10 @@ export function DigitalAcademy() {
                   + {track.total - 3} more lessons locked
                 </span>
                 <a
-                  href="/academy-landing.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/academy-info"
                   style={{ display: "flex", alignItems: "center", gap: 6, color: RED, fontSize: 10, fontWeight: 900, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none" }}
                 >
-                  Get Academy Access <ChevronRight size={12} />
+                  More Info <ChevronRight size={12} />
                 </a>
               </div>
             </div>
@@ -329,16 +327,16 @@ export function DigitalAcademy() {
           style={{ borderTop: `1px solid ${STEEL}` }}>
           <div>
             <div style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(1.4rem, 3.5vw, 2.2rem)", letterSpacing: "0.04em", textTransform: "uppercase", color: "#fff", lineHeight: 1.1 }}>
-              YOU EITHER GET ON THE LIST<br />
-              OR GET LEFT BEHIND.
+              STUDY IT BEFORE<br />
+              YOU SEE IT LIVE.
             </div>
             <div style={{ color: MUTE, fontSize: 12, marginTop: 8, letterSpacing: "0.05em" }}>
-              Season Pass · $50 BTB Members · $150 Public · Launches Sept 1, 2026
+              $30 BTB members · $75 non-members · Launches Sept 1, 2026
             </div>
           </div>
           <div style={{ display: "flex", gap: 10, flexShrink: 0, flexWrap: "wrap" }}>
             <a
-              href="/academy-landing.html"
+              href="/interest?category=Digital%20Academy&notes=Interested%20in%20BTB%20Digital%20Academy%20access"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 10,
                 background: RED, color: "#fff",
@@ -349,10 +347,10 @@ export function DigitalAcademy() {
               onMouseEnter={e => (e.currentTarget.style.background = "#fff", e.currentTarget.style.color = "#000")}
               onMouseLeave={e => (e.currentTarget.style.background = RED, e.currentTarget.style.color = "#fff")}
             >
-              Reserve Your Spot ▸
+              Join Interest List ▸
             </a>
             <a
-              href="/academy-landing.html"
+              href="/academy-info"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 10,
                 border: `1px solid ${STEEL}`, color: "#fff",
@@ -363,7 +361,7 @@ export function DigitalAcademy() {
               onMouseEnter={e => (e.currentTarget.style.borderColor = "#fff")}
               onMouseLeave={e => (e.currentTarget.style.borderColor = STEEL)}
             >
-              Preview the Platform
+              Learn More ▸
             </a>
           </div>
         </div>

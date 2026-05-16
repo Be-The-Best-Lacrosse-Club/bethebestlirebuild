@@ -9,7 +9,7 @@ const paths = [
     icon: Shield,
     eyebrow: "PATH_01 // FOR_ATHLETES",
     headline: "Train to Get Recruited.",
-    description: "Film study. Position-specific coaching. 8:1 ratios. The BTB Academy gives you the tools college coaches are actually looking for.",
+    description: "Film study. Position-specific coaching. 2+ coaches per team. The BTB Academy gives you the tools college coaches are actually looking for.",
     links: [
       { label: "Boys Program →", href: "/boys" },
       { label: "Girls Program →", href: "/girls" },
@@ -22,9 +22,9 @@ const paths = [
     icon: Users,
     eyebrow: "PATH_02 // FOR_FAMILIES",
     headline: "The Right Club Makes the Difference.",
-    description: "Written practice plans. Film accountability. Certified coaches. We don't just develop players — we give you full transparency into your athlete's progress.",
+    description: "Guaranteed progress. Film accountability. Certified coaches. We don't just develop players — we give you full transparency into your athlete's growth.",
     links: [
-      { label: "Tryouts 2026 →", href: "/tryouts" },
+      { label: "Register 2026 →", href: "/register-tryouts" },
       { label: "Parent Portal →", href: "/parent-portal" },
     ],
     cta: { label: "Learn About BTB", href: "/interest" },
@@ -71,7 +71,7 @@ export function AudiencePaths() {
               Who Is BTB <br /><span className="text-[var(--btb-red)]">Built For?</span>
             </h2>
           </div>
-          <p className="text-white/30 text-[0.88rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
             Whether you're a player chasing a college offer, a parent evaluating clubs, or a coach looking for better tools — BTB was built with you in mind.
           </p>
         </div>
@@ -86,7 +86,7 @@ export function AudiencePaths() {
               className={`stagger-child group relative p-10 bg-black ${p.bgHover} transition-all duration-500 flex flex-col min-h-[480px]`}
             >
               {/* Eyebrow */}
-              <div className="text-[10px] font-mono text-white/20 group-hover:text-white/50 transition-colors mb-8">
+              <div className="text-[0.72rem] font-mono text-white/55 group-hover:text-white/75 transition-colors mb-8">
                 {p.eyebrow}
               </div>
 
@@ -106,7 +106,7 @@ export function AudiencePaths() {
               </h3>
 
               {/* Body */}
-              <p className="text-[0.95rem] text-white/40 group-hover:text-white/80 leading-relaxed font-medium transition-colors flex-1 mb-8">
+              <p className="text-[1rem] text-white/65 group-hover:text-white/85 leading-relaxed font-medium transition-colors flex-1 mb-8">
                 {p.description}
               </p>
 
@@ -116,7 +116,7 @@ export function AudiencePaths() {
                   <div key={l.label}>
                     <button
                       onClick={() => navigate(l.href)}
-                      className="text-[0.68rem] font-black uppercase tracking-[2px] text-white/30 group-hover:text-white/70 hover:!text-white transition-colors block"
+                      className="text-[0.78rem] font-black uppercase tracking-[2px] text-white/60 group-hover:text-white/80 hover:!text-white transition-colors block"
                     >
                       {l.label}
                     </button>
@@ -127,7 +127,7 @@ export function AudiencePaths() {
               {/* CTA */}
               <button
                 onClick={() => navigate(p.cta.href)}
-                className="flex items-center gap-3 text-[0.72rem] font-black uppercase tracking-[2px] text-white/40 group-hover:text-white transition-colors border-t border-white/10 pt-6"
+                className="flex items-center gap-3 text-[0.82rem] font-black uppercase tracking-[2px] text-white/65 group-hover:text-white transition-colors border-t border-white/10 pt-6"
               >
                 {p.cta.label}
                 <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />

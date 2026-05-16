@@ -36,10 +36,10 @@ const familyLinks = [
   {
     title: "Schedules & Rosters",
     icon: Calendar,
-    desc: "Practice times, game schedules, and team rosters on LeagueApps.",
-    href: "https://bethebest.leagueapps.com/dashboard",
+    desc: "Practice times, game schedules, availability, alerts, and team rosters in TeamSnap.",
+    href: "https://go.teamsnap.com",
     external: true,
-    tag: "LEAGUEAPPS"
+    tag: "TEAMSNAP"
   },
   {
     title: "The Academy",
@@ -60,7 +60,7 @@ const familyLinks = [
     title: "Payments",
     icon: FileText,
     desc: "Manage registrations and check payment status.",
-    href: "https://bethebest.leagueapps.com/dashboard",
+    href: "https://go.teamsnap.com",
     external: true,
     tag: "LEAGUEAPPS"
   },
@@ -121,7 +121,7 @@ export function FamilyHubPage() {
     <div className="bg-black min-h-screen pt-32 pb-24 px-6" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
         title="Family Hub | BTB Lacrosse Club"
-        description="The centralized command center for BTB families. Manage schedules, training, and development."
+        description="The centralized command center for BTB families. View your child's TeamSnap schedule, training, and development."
         path="/family-hub"
       />
 
@@ -154,7 +154,7 @@ export function FamilyHubPage() {
               </h1>
               <p className="text-white/40 text-[1rem] leading-relaxed max-w-[540px]">
                 Welcome back, <span className="text-white/80 font-bold">{user?.name}</span>. 
-                Everything you need to manage the <span className="text-[var(--btb-red)] font-bold">{label} {user?.gradYear}</span> season is unified here.
+                Everything you need to manage your child's <span className="text-[var(--btb-red)] font-bold">{label} {user?.gradYear}</span> season is unified here. Schedule data is filtered to your player's assigned team.
               </p>
             </div>
             
@@ -197,12 +197,12 @@ export function FamilyHubPage() {
                 )}
               </div>
               <a
-                href="https://bethebest.leagueapps.com/dashboard"
+                href="https://go.teamsnap.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[0.62rem] font-black uppercase tracking-[2px] text-white/30 hover:text-white transition-colors"
               >
-                Full Schedule →
+                Open TeamSnap →
               </a>
             </div>
 
@@ -213,7 +213,7 @@ export function FamilyHubPage() {
               </div>
             ) : scheduleError ? (
               <div className="text-white/40 text-[0.82rem] py-8">
-                Couldn't load schedule. <a href="https://bethebest.leagueapps.com/dashboard" target="_blank" rel="noopener noreferrer" className="text-[var(--btb-red)] hover:underline">Open LeagueApps</a> instead.
+                Couldn't load schedule. <a href="https://go.teamsnap.com" target="_blank" rel="noopener noreferrer" className="text-[var(--btb-red)] hover:underline">Open TeamSnap</a> instead.
               </div>
             ) : hasSchedule ? (
               <div className="grid gap-2">

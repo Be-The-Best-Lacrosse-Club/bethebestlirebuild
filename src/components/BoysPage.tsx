@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight, Video, Users, BookOpen, Target, TrendingUp, Shield, Star } from "lucide-react"
 
 const benefits = [
-  { icon: Users, title: "Small-Group Training", stat: "8:1", text: "Max 8 players per coach. Real reps, real corrections, real coaching — not a number in a line drill." },
+  { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Real reps, real corrections, real coaching — not a number in a line drill." },
   { icon: Video, title: "Weekly Film Study", stat: "Required", text: "You'll watch your own footage with a coach who breaks down what you did right, what you missed, and how to fix it." },
   { icon: BookOpen, title: "Structured Curriculum", stat: "16 Weeks", text: "Every practice follows a written plan with timed segments and specific skill targets. Nothing is improvised." },
   { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie, FOGO. Your training is built for your position and what you actually need." },
@@ -30,10 +30,10 @@ const testimonials = [
 ]
 
 const stats = [
-  { num: "500+", label: "Players Trained" },
-  { num: "85+", label: "College Commits" },
-  { num: "8:1", label: "Player-Coach Ratio" },
-  { num: "50+", label: "Documented Drills" },
+  { num: "450+", label: "Players Trained" },
+  { num: "22", label: "Elite Teams" },
+  { num: "2+", label: "Coaches Per Team" },
+  { num: "45+", label: "Certified Coaches" },
 ]
 
 export function BoysPage({ onBack }: { onBack: () => void }) {
@@ -67,7 +67,7 @@ export function BoysPage({ onBack }: { onBack: () => void }) {
             Train Like You<br />Mean It.
           </h1>
           <p className="text-[0.92rem] text-white/40 max-w-[520px] leading-[1.9] mb-10">
-            The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 16-week curriculum, and an 8:1 player-to-coach ratio — for every age group.
+            The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 16-week curriculum, and 2+ coaches per team — for every age group.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a href="#apply-boys" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">

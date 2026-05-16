@@ -45,11 +45,11 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
       {/* Nav */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/[0.06]">
         <div className="max-w-[1100px] mx-auto px-6 h-16 flex items-center justify-between">
-          <button onClick={onBack} className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-[0.78rem] font-semibold uppercase tracking-[1.5px]">
+          <button onClick={onBack} className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-[1.05rem] font-semibold uppercase tracking-[1.5px]">
             <ArrowLeft size={15} /> Back
           </button>
           <span className="font-display text-lg uppercase tracking-wide">BTB <span className="text-[var(--btb-red)]">Players Hub</span></span>
-          <a href="#" className="px-5 py-2 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded hover:bg-[var(--btb-red-dark)] transition-colors">
+          <a href="#" className="px-5 py-2 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[1.5px] rounded hover:bg-[var(--btb-red-dark)] transition-colors">
             Apply Now
           </a>
         </div>
@@ -58,11 +58,11 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
       {/* Hero */}
       <section className="pt-40 pb-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">Players Hub</div>
+          <div className="text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">Players Hub</div>
           <h1 className="font-display text-[clamp(3rem,7vw,5.5rem)] uppercase tracking-wide leading-[0.88] mb-8">
             Your Development.<br />Your Film.<br /><span className="text-[var(--btb-red)]">Your Future.</span>
           </h1>
-          <p className="text-[0.9rem] text-white/40 max-w-[520px] leading-[1.9]">
+          <p className="text-[1.05rem] text-white/85 max-w-[520px] leading-[1.9]">
             The BTB Players Hub is everything a serious athlete needs to understand their development — how film study works, what the 16-week cycle looks like, and how BTB prepares you for the next level.
           </p>
         </div>
@@ -71,11 +71,11 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
       {/* Film Study */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Film Study</div>
+          <div className="text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Film Study</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             How Film Study<br />Actually Works
           </h2>
-          <p className="text-[0.84rem] text-white/35 mb-14 max-w-[420px] leading-relaxed">
+          <p className="text-[1rem] text-white/85 mb-14 max-w-[420px] leading-relaxed">
             Not optional. Not occasional. This is where your lacrosse IQ actually gets built.
           </p>
           <div className="space-y-3">
@@ -84,8 +84,8 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
                 <div className="font-display text-[var(--btb-red)] text-xl leading-none shrink-0 w-8">{f.step}</div>
                 <div className="w-px self-stretch bg-white/[0.08]" />
                 <div>
-                  <div className="font-display text-[0.95rem] uppercase tracking-wide text-white mb-1">{f.title}</div>
-                  <p className="text-[0.8rem] text-white/35 leading-relaxed">{f.text}</p>
+                  <div className="font-display text-[1.05rem] uppercase tracking-wide text-white mb-1">{f.title}</div>
+                  <p className="text-[1rem] text-white/85 leading-relaxed">{f.text}</p>
                 </div>
               </div>
             ))}
@@ -96,7 +96,7 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
       {/* Development Phases */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Cycle</div>
+          <div className="text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Cycle</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
             Your 16-Week<br />Development Path
           </h2>
@@ -107,13 +107,13 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
                   ? "border-[var(--btb-red)]/40 bg-[var(--btb-red)]/5"
                   : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12]"
               }`}>
-                <div className="text-[0.6rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
+                <div className="text-[1.05rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
                 <div className="font-display text-xl uppercase tracking-wide text-white mb-4">{p.num} — {p.title}</div>
-                <p className="text-[0.78rem] text-white/50 mb-3">
-                  <span className="text-white/25 uppercase text-[0.62rem] tracking-[1px] mr-2">Focus</span>
+                <p className="text-[1.05rem] text-white/90 mb-3">
+                  <span className="text-white/85 uppercase text-[1.05rem] tracking-[1px] mr-2">Focus</span>
                   {p.focus}
                 </p>
-                <p className="text-[0.8rem] text-white/30 leading-relaxed">{p.detail}</p>
+                <p className="text-[1rem] text-white/85 leading-relaxed">{p.detail}</p>
               </div>
             ))}
           </div>
@@ -123,7 +123,7 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
       {/* Recruiting Toolkit */}
       <section className="py-24 px-6">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">College Track</div>
+          <div className="text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">College Track</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
             Recruiting<br />Toolkit
           </h2>
@@ -134,8 +134,8 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
                   <t.icon size={18} strokeWidth={1.5} className="text-[var(--btb-red)]" />
                 </div>
                 <div>
-                  <h4 className="font-display text-[0.95rem] uppercase tracking-wide text-white mb-2">{t.title}</h4>
-                  <p className="text-[0.8rem] text-white/35 leading-relaxed">{t.text}</p>
+                  <h4 className="font-display text-[1.05rem] uppercase tracking-wide text-white mb-2">{t.title}</h4>
+                  <p className="text-[1rem] text-white/85 leading-relaxed">{t.text}</p>
                 </div>
               </div>
             ))}
@@ -148,7 +148,7 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
               <p className="font-display text-[clamp(1.5rem,3vw,2.2rem)] uppercase tracking-wide leading-[1.1] mb-8">
                 Ready to take your game<br />to the <span className="text-[var(--btb-red)]">next level?</span>
               </p>
-              <a href="#" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
+              <a href="#" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
                 Apply for 2026 <ArrowRight size={13} />
               </a>
             </div>

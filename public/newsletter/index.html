@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Monthly · Issue 01 · The Standard</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --btb-red: #E2231A;
+    --btb-red-dark: #B81812;
+    --btb-black: #0a0a0a;
+    --btb-dark: #141414;
+    --btb-card: #1a1a1a;
+    --btb-border: #2a2a2a;
+    --btb-text: #ffffff;
+    --btb-text-dim: #dcdcdc;
+    --btb-text-muted: #9a9a9a;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--btb-black);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--btb-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    background-color: var(--btb-black);
+    overflow: hidden;
+  }
+
+  /* === SCROLL REVEAL === */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger child reveals */
+  .reveal.visible .stagger > * {
+    animation: staggerIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  .reveal.visible .stagger > *:nth-child(1) { animation-delay: 0.1s; }
+  .reveal.visible .stagger > *:nth-child(2) { animation-delay: 0.2s; }
+  .reveal.visible .stagger > *:nth-child(3) { animation-delay: 0.3s; }
+  .reveal.visible .stagger > *:nth-child(4) { animation-delay: 0.4s; }
+  @keyframes staggerIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === MARQUEE === */
+  .marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    background: var(--btb-red);
+    padding: 14px 0;
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 30s linear infinite;
+    will-change: transform;
+  }
+  .marquee-item {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    color: var(--btb-black);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 0 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .marquee-item::after {
+    content: '★';
+    color: var(--btb-text);
+    font-size: 18px;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* === SECTION BREAK === */
+  .break {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--btb-red) 50%, transparent 100%);
+    margin: 0;
+    position: relative;
+  }
+  .break::before {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--btb-black);
+    color: var(--btb-red);
+    padding: 0 16px;
+    font-size: 16px;
+  }
+
+  /* === TICKER === */
+  .ticker {
+    background: var(--btb-red);
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--btb-black);
+  }
+  .ticker-pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--btb-black);
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* === HERO === */
+  .hero-img {
+    width: 100%;
+    display: block;
+    line-height: 0;
+  }
+  .hero-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .issue-meta {
+    background: var(--btb-black);
+    padding: 56px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--btb-border);
+    position: relative;
+  }
+  .issue-meta::before, .issue-meta::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 80px;
+    height: 1px;
+    background: var(--btb-red);
+    transform: translateY(-50%);
+  }
+  .issue-meta::before { left: 0; }
+  .issue-meta::after { right: 0; }
+  .issue-meta-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--btb-red);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .issue-meta-date {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    color: var(--btb-text);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  /* === SECTION === */
+  .section {
+    padding: 120px 40px;
+    background: var(--btb-black);
+    position: relative;
+  }
+  .section-tight {
+    padding: 64px 40px;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--btb-red);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--btb-red);
+  }
+
+  /* === HEADLINES === */
+  .h-display {
+    font-family: 'Anton', 'Impact', sans-serif;
+    font-size: 124px;
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--btb-text);
+    font-weight: 400;
+  }
+  .h-display-md {
+    font-family: 'Anton', 'Impact', sans-serif;
+    font-size: 96px;
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--btb-text);
+    font-weight: 400;
+  }
+  .h-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 72px;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--btb-text);
+    font-weight: 900;
+  }
+  .h-serif-md {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    font-weight: 900;
+  }
+  .accent {
+    color: var(--btb-red);
+  }
+  .italic-accent {
+    font-style: italic;
+    color: var(--btb-red);
+  }
+
+  /* Outline text trick for layered display */
+  .h-outline {
+    -webkit-text-stroke: 2px var(--btb-red);
+    color: transparent;
+  }
+
+  /* === BODY TEXT === */
+  .lead {
+    font-family: 'Inter', sans-serif;
+    font-size: 26px;
+    line-height: 1.55;
+    color: var(--btb-text);
+    font-weight: 500;
+    margin-bottom: 32px;
+    letter-spacing: -0.005em;
+  }
+  .body-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 21px;
+    line-height: 1.65;
+    color: var(--btb-text-dim);
+    font-weight: 400;
+  }
+  .body-text strong {
+    color: var(--btb-text);
+    font-weight: 700;
+  }
+  .signature {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: var(--btb-text);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--btb-border);
+  }
+
+  /* SECTION NUMS - upgraded */
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--btb-red);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-num::before {
+    content: '';
+    width: 48px;
+    height: 1px;
+    background: var(--btb-red);
+  }
+
+  /* === LAUNCH GRID === */
+  .launch-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .launch-card {
+    background: var(--btb-card);
+    padding: 36px 32px;
+    border-left: 4px solid var(--btb-red);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .launch-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(226, 35, 26, 0.08) 100%);
+    transition: width 0.5s ease;
+    pointer-events: none;
+  }
+  .launch-card:hover {
+    background: #1f1f1f;
+    box-shadow: 0 20px 40px -20px rgba(226, 35, 26, 0.3);
+  }
+  .launch-card:hover::before {
+    width: 100%;
+  }
+  .launch-card.featured {
+    background: var(--btb-red);
+    border-left-color: var(--btb-black);
+    color: var(--btb-text);
+  }
+  .launch-card.featured:hover {
+    background: var(--btb-red-dark);
+    box-shadow: 0 20px 40px -20px rgba(226, 35, 26, 0.6);
+  }
+  .launch-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--btb-red);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .launch-card.featured .launch-tag {
+    color: var(--btb-black);
+  }
+  .launch-tag-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    color: var(--btb-red);
+    letter-spacing: 0;
+    line-height: 1;
+  }
+  .launch-card.featured .launch-tag-num {
+    color: var(--btb-black);
+  }
+  .launch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    color: var(--btb-text);
+    letter-spacing: -0.015em;
+  }
+  .launch-card.featured .launch-title {
+    color: var(--btb-text);
+  }
+  .launch-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--btb-text-dim);
+    margin-bottom: 22px;
+  }
+  .launch-card.featured .launch-desc {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  .launch-note {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--btb-text-muted);
+    font-style: italic;
+  }
+  .launch-card.featured .launch-note {
+    color: var(--btb-black);
+    font-weight: 600;
+  }
+
+  /* === SITE FEATURES GRID (Launch 01) === */
+  .site-features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .site-feature {
+    background: rgba(226, 35, 26, 0.14);
+    border-left: 3px solid var(--btb-red);
+    padding: 18px 20px;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .site-feature:hover {
+    background: rgba(226, 35, 26, 0.24);
+    transform: translateX(4px);
+  }
+  .site-feature-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--btb-red);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .site-feature-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: var(--btb-text);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* === ONLINE ACADEMY — BUILD STATS === */
+  .academy-build-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--btb-card);
+    padding: 40px 32px;
+    margin-top: 48px;
+    border-top: 3px solid var(--btb-red);
+    gap: 16px;
+  }
+  .academy-build-stat {
+    flex: 1;
+    text-align: center;
+  }
+  .academy-build-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 104px;
+    line-height: 0.85;
+    color: var(--btb-red);
+    letter-spacing: -0.04em;
+  }
+  .academy-build-num-sm {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    color: var(--btb-text-muted);
+    font-weight: 700;
+    margin-left: 4px;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+  }
+  .academy-build-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--btb-text-dim);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 12px;
+  }
+  .academy-build-divider {
+    width: 1px;
+    height: 80px;
+    background: var(--btb-border);
+    flex-shrink: 0;
+  }
+
+  /* === TIER LADDER === */
+  .tier-ladder-header {
+    margin-top: 64px;
+    margin-bottom: 32px;
+  }
+  .tier-ladder-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-red);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .tier-ladder-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    line-height: 1.05;
+    color: var(--btb-text);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .tier-ladder {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .tier-step {
+    background: var(--btb-card);
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-left: 3px solid var(--btb-red);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+  .tier-step:hover {
+    background: #1f1f1f;
+    box-shadow: 0 12px 30px -15px rgba(226, 35, 26, 0.4);
+  }
+  .tier-step::before {
+    content: '';
+    position: absolute;
+    left: 64px;
+    top: -12px;
+    width: 1px;
+    height: 12px;
+    background: var(--btb-red);
+    opacity: 0.4;
+  }
+  .tier-step:first-child::before { display: none; }
+  .tier-step-marker {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    color: var(--btb-red);
+    line-height: 1;
+    font-style: italic;
+    flex-shrink: 0;
+    width: 56px;
+  }
+  .tier-step-content {
+    flex: 1;
+  }
+  .tier-step-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    color: var(--btb-text);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .tier-step-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--btb-text-dim);
+  }
+
+  /* === WALL OF FAME === */
+  .wof-card {
+    background: linear-gradient(135deg, var(--btb-red) 0%, var(--btb-red-dark) 100%);
+    padding: 56px 40px;
+    margin-top: 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .wof-card::before {
+    content: '★';
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    font-size: 240px;
+    color: rgba(0, 0, 0, 0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .wof-trophy {
+    font-size: 56px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .wof-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--btb-black);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .wof-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 88px;
+    line-height: 0.9;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .wof-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--btb-black);
+    max-width: 580px;
+    margin: 0 auto;
+    font-weight: 600;
+    position: relative;
+  }
+
+  /* === RECRUITING TITLE === */
+  .recruiting-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 80px;
+    line-height: 0.9;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-top: 16px;
+  }
+
+  /* === CLUB CALLOUTS (Wins section closers) === */
+  .club-callout {
+    background: var(--btb-black);
+    padding: 44px 36px;
+    margin-top: 24px;
+    border-top: 4px solid var(--btb-red);
+    position: relative;
+  }
+  .club-callout:first-of-type {
+    margin-top: 40px;
+  }
+  .club-callout-thanks {
+    background: linear-gradient(135deg, var(--btb-black) 0%, #181818 100%);
+  }
+  .club-callout-standard {
+    background: var(--btb-black);
+    border-top-color: #fff;
+  }
+  .club-callout-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--btb-red);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .club-callout-standard .club-callout-tag {
+    color: #fff;
+  }
+  .club-callout-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 72px;
+    line-height: 0.9;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  .club-callout-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--btb-text-dim);
+    max-width: 620px;
+  }
+  .club-callout-desc strong {
+    color: var(--btb-text);
+    font-weight: 700;
+  }
+
+  /* === BTB EAST PILOT ANNOUNCEMENT === */
+  .east-card {
+    background: linear-gradient(135deg, var(--btb-red) 0%, var(--btb-red-dark) 100%);
+    padding: 56px 40px 48px;
+    margin-top: 32px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--btb-red);
+  }
+  .east-card::before {
+    content: 'EAST';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    font-family: 'Anton', sans-serif;
+    font-size: 280px;
+    color: rgba(0, 0, 0, 0.07);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+  }
+  .east-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--btb-black);
+  }
+  .east-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--btb-black);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 22px;
+    position: relative;
+    display: inline-block;
+    background: var(--btb-text);
+    padding: 8px 16px;
+  }
+  .east-pilot-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-text);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 18px;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    display: inline-block;
+    padding: 8px 16px;
+  }
+  .east-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 144px;
+    line-height: 0.85;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .east-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--btb-black);
+    font-weight: 700;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .east-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--btb-text);
+    max-width: 580px;
+    margin-bottom: 36px;
+    position: relative;
+    font-weight: 500;
+  }
+  .east-desc strong {
+    color: var(--btb-black);
+    font-weight: 800;
+  }
+  .east-coming-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    background: var(--btb-black);
+    color: var(--btb-text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .east-coming-soon:hover {
+    background: var(--btb-text);
+    color: var(--btb-black);
+  }
+  .east-coming-soon-arrow {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+  .east-card:hover .east-coming-soon-arrow {
+    transform: translateX(6px);
+  }
+
+  /* === MEET COACH B === */
+  .coach-b-section {
+    background: linear-gradient(135deg, var(--btb-card) 0%, #1a1a1a 100%);
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .coach-b-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent 0%, var(--btb-red) 50%, transparent 100%);
+  }
+  .coach-b-section::after {
+    content: 'BTB';
+    position: absolute;
+    bottom: -50px;
+    left: -30px;
+    font-family: 'Anton', sans-serif;
+    font-size: 280px;
+    color: rgba(226, 35, 26, 0.05);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+  }
+  .coach-b-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .coach-b-image-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+  .coach-b-image-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -16px -8px -8px -8px;
+    background: radial-gradient(ellipse at center, rgba(226, 35, 26, 0.15) 0%, transparent 65%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .coach-b-image {
+    width: 220px;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+    animation: bobble 4s ease-in-out infinite;
+  }
+  @keyframes bobble {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .coach-b-content {
+    position: relative;
+    z-index: 1;
+  }
+  .coach-b-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-red);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 18px;
+    padding: 8px 14px;
+    background: rgba(226, 35, 26, 0.18);
+    border: 2px solid rgba(226, 35, 26, 0.4);
+  }
+  .coach-b-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 88px;
+    line-height: 0.88;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+  }
+  .coach-b-name-accent {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 900;
+    color: var(--btb-red);
+    text-transform: none;
+    font-size: 0.92em;
+  }
+  .coach-b-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--btb-text);
+    font-weight: 500;
+    margin-bottom: 18px;
+    position: relative;
+    padding-left: 22px;
+    border-left: 4px solid var(--btb-red);
+  }
+  .coach-b-quote strong {
+    color: var(--btb-text);
+    font-weight: 800;
+    font-style: normal;
+  }
+  .coach-b-quote em {
+    color: var(--btb-red);
+    font-style: italic;
+    font-weight: 700;
+  }
+  .coach-b-byline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-text-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* === LAUNCH DATE BANNER === */
+  .launch-date-banner {
+    background: linear-gradient(90deg, var(--btb-red) 0%, var(--btb-red-dark) 100%);
+    padding: 24px 32px;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+  .launch-date-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--btb-black);
+  }
+  .launch-date-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-black);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 800;
+    flex-shrink: 0;
+    padding: 6px 14px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.3);
+  }
+  .launch-date-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .launch-date-accent {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 900;
+    color: var(--btb-black);
+    font-size: 0.95em;
+    text-transform: none;
+  }
+
+  /* === BUTTONS === */
+  .btn {
+    display: inline-block;
+    background: var(--btb-red);
+    color: var(--btb-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 16px 32px;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 2px solid var(--btb-red);
+  }
+  .btn:hover {
+    background: transparent;
+    color: var(--btb-red);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--btb-red);
+    border: 2px solid var(--btb-red);
+  }
+  .btn-ghost:hover {
+    background: var(--btb-red);
+    color: var(--btb-text);
+  }
+  .btn-light {
+    background: var(--btb-text);
+    color: var(--btb-black);
+    border: 2px solid var(--btb-text);
+  }
+  .btn-light:hover {
+    background: transparent;
+    color: var(--btb-text);
+    border-color: var(--btb-text);
+  }
+  .btn-on-red {
+    background: var(--btb-black);
+    color: var(--btb-text);
+    border: 2px solid var(--btb-black);
+  }
+  .btn-on-red:hover {
+    background: var(--btb-text);
+    color: var(--btb-black);
+    border-color: var(--btb-text);
+  }
+
+  /* === TOURNAMENT WINS === */
+  .wins-section {
+    background: var(--btb-red);
+    padding: 80px 32px;
+  }
+  .wins-headline {
+    color: var(--btb-black);
+  }
+  .win-card {
+    background: var(--btb-black);
+    margin-bottom: 24px;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .win-card:hover {
+    transform: scale(1.02);
+  }
+  .win-photo {
+    width: 100%;
+    display: block;
+  }
+  .win-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .win-content {
+    padding: 32px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .win-text {
+    flex: 1;
+  }
+  .win-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .win-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 96px;
+    line-height: 0.85;
+    color: var(--btb-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .win-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--btb-text-dim);
+  }
+  .win-desc strong {
+    color: var(--btb-text);
+  }
+  .win-year {
+    font-family: 'Anton', sans-serif;
+    font-size: 128px;
+    color: var(--btb-red);
+    line-height: 0.8;
+    font-style: italic;
+    letter-spacing: -0.04em;
+  }
+
+  /* === BENTZ FEATURE === */
+  .bentz-card {
+    background: var(--btb-red);
+    padding: 56px 40px;
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .bentz-card::before {
+    content: 'BTB';
+    position: absolute;
+    bottom: -40px;
+    right: -20px;
+    font-family: 'Anton', sans-serif;
+    font-size: 240px;
+    color: rgba(0, 0, 0, 0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .bentz-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--btb-black);
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .bentz-welcome {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: var(--btb-black);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .bentz-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 128px;
+    line-height: 0.85;
+    color: var(--btb-text);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .bentz-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--btb-black);
+    font-weight: 800;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .bentz-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--btb-black);
+    font-weight: 600;
+    position: relative;
+    max-width: 90%;
+  }
+
+  /* === PARTNER CARDS === */
+  .partners-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .partner-card {
+    background: var(--btb-card);
+    padding: 32px 28px;
+    border-top: 3px solid var(--btb-red);
+    transition: all 0.3s ease;
+  }
+  .partner-card:hover {
+    background: #1f1f1f;
+    transform: translateY(-4px);
+  }
+  .partner-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--btb-red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .partner-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 56px;
+    line-height: 0.9;
+    color: var(--btb-text);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+  .partner-led {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--btb-red);
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 0.03em;
+  }
+  .partner-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--btb-text-dim);
+  }
+
+  /* === SCHEDULE === */
+  .schedule-block {
+    background: var(--btb-card);
+    padding: 40px 32px;
+    margin-top: 24px;
+    border-radius: 0;
+  }
+  .schedule-row {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--btb-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .schedule-row:last-child { border-bottom: none; }
+  .schedule-season {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .schedule-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--btb-text-dim);
+  }
+
+  /* === ACADEMY PILLARS === */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .pillar {
+    background: var(--btb-card);
+    padding: 28px 24px;
+    border-top: 3px solid var(--btb-red);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--btb-red);
+    transition: width 0.5s ease;
+  }
+  .pillar:hover {
+    background: #1f1f1f;
+    transform: translateY(-6px);
+  }
+  .pillar:hover::after {
+    width: 100%;
+  }
+  .pillar-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 80px;
+    color: var(--btb-red);
+    line-height: 0.85;
+    font-style: italic;
+    margin-bottom: 16px;
+    letter-spacing: -0.03em;
+  }
+  .pillar-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    color: var(--btb-text);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+  .pillar-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--btb-text-dim);
+  }
+
+  /* === CAMP CARDS === */
+  .camps-intro {
+    margin-top: 48px;
+    margin-bottom: 24px;
+  }
+  .camps-intro-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-red);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .camps-intro-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--btb-text);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .camp-card {
+    background: var(--btb-card);
+    margin-bottom: 16px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    border-left: 4px solid var(--btb-red);
+  }
+  .camp-card:hover {
+    background: #1f1f1f;
+    box-shadow: 0 16px 40px -20px rgba(226, 35, 26, 0.4);
+  }
+  .camp-card.featured {
+    background: var(--btb-red);
+    border-left-color: var(--btb-black);
+  }
+  .camp-card.featured:hover {
+    background: var(--btb-red-dark);
+  }
+  .camp-header {
+    padding: 32px 32px 16px;
+  }
+  .camp-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--btb-red);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .camp-card.featured .camp-tagline {
+    color: var(--btb-black);
+  }
+  .camp-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 72px;
+    line-height: 0.88;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+  }
+  .camp-eligibility {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: var(--btb-text);
+    font-weight: 700;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+  }
+  .camp-card.featured .camp-eligibility {
+    color: var(--btb-black);
+    opacity: 0.85;
+  }
+  .camp-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--btb-text-dim);
+    padding: 0 32px 28px;
+  }
+  .camp-card.featured .camp-desc {
+    color: rgba(255, 255, 255, 0.98);
+    font-weight: 500;
+  }
+  .camp-meta {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 24px 32px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .camp-card:not(.featured) .camp-meta {
+    background: var(--btb-black);
+  }
+  .camp-meta-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .camp-meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--btb-red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .camp-card.featured .camp-meta-label {
+    color: rgba(0, 0, 0, 0.95);
+  }
+  .camp-meta-value {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    color: var(--btb-text);
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+  .camp-meta-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--btb-text-dim);
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .camp-card.featured .camp-meta-sub {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  /* === TRYOUT CARD === */
+  .tryout-card {
+    background: linear-gradient(135deg, var(--btb-card) 0%, #1f1f1f 100%);
+    padding: 48px 32px;
+    margin-top: 24px;
+    position: relative;
+    border: 1px solid var(--btb-border);
+    overflow: hidden;
+  }
+  .tryout-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--btb-red);
+  }
+  .tryout-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 88px;
+    line-height: 0.9;
+    color: var(--btb-text);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+  }
+  .tryout-sessions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .tryout-session {
+    background: var(--btb-black);
+    padding: 24px;
+    border-left: 3px solid var(--btb-red);
+    transition: transform 0.3s ease;
+  }
+  .tryout-session:hover {
+    transform: translateY(-4px);
+  }
+  .tryout-session-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--btb-red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tryout-session-date {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--btb-text);
+    text-transform: uppercase;
+  }
+  .tryout-info {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    color: var(--btb-text);
+    line-height: 1.65;
+    font-weight: 500;
+  }
+  .tryout-info strong {
+    color: var(--btb-text);
+    font-weight: 800;
+  }
+
+  /* === ARCHIVE === */
+  .archive-cta {
+    background: var(--btb-card);
+    text-align: center;
+    padding: 64px 32px;
+    margin-top: 48px;
+    border-top: 1px solid var(--btb-border);
+    border-bottom: 1px solid var(--btb-border);
+  }
+  .archive-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--btb-text-muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .archive-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    line-height: 1.1;
+    color: var(--btb-text);
+    font-weight: 900;
+    margin-bottom: 36px;
+    letter-spacing: -0.02em;
+  }
+
+  /* === FOOTER === */
+  .footer {
+    background: #000;
+    padding: 64px 32px 40px;
+    text-align: center;
+  }
+  .footer-shield {
+    width: 96px;
+    margin: 0 auto 24px;
+    display: block;
+  }
+  .footer-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+  .footer-links {
+    margin-bottom: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .footer-links a {
+    color: #c0c0c0;
+    text-decoration: none;
+    padding: 0 12px;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover {
+    color: var(--btb-red);
+  }
+  .footer-divider {
+    color: #444;
+  }
+  .footer-copy {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #777;
+    line-height: 1.7;
+  }
+  .footer-copy a {
+    color: #888;
+    text-decoration: underline;
+  }
+
+  /* === RESPONSIVE === */
+  @media screen and (max-width: 600px) {
+    .section { padding: 72px 24px; }
+    .section-tight { padding: 40px 24px; }
+    .ticker { padding: 12px 24px; font-size: 10px; letter-spacing: 0.12em; }
+    .ticker-right { display: none; }
+    .issue-meta { padding: 32px 24px; }
+    .issue-meta::before, .issue-meta::after { width: 30px; }
+    .issue-meta-date { font-size: 22px; }
+
+    .marquee-item { font-size: 20px; padding: 0 18px; gap: 18px; }
+
+    .h-display { font-size: 64px; line-height: 0.9; }
+    .h-display-md { font-size: 52px; }
+    .h-serif { font-size: 44px; }
+    .h-serif-md { font-size: 32px; }
+
+    .lead { font-size: 19px; }
+    .body-text { font-size: 16px; }
+
+    .launch-card { padding: 28px 24px; }
+    .launch-title { font-size: 30px; }
+    .launch-desc { font-size: 15px; }
+
+    .wins-section { padding: 72px 24px; }
+    .win-content { flex-direction: column; padding: 28px 24px; gap: 12px; }
+    .win-title { font-size: 64px; }
+    .win-year { font-size: 80px; align-self: flex-end; }
+
+    .bentz-card { padding: 40px 28px; }
+    .bentz-name { font-size: 72px; }
+    .bentz-role { font-size: 18px; }
+    .bentz-desc { font-size: 15px; max-width: 100%; }
+    .bentz-card::before { font-size: 160px; bottom: -20px; }
+
+    .partners-grid { grid-template-columns: 1fr; }
+    .site-features-grid { grid-template-columns: 1fr; }
+    .partner-name { font-size: 44px; }
+
+    /* Online Academy mobile */
+    .academy-build-block {
+      flex-direction: column;
+      padding: 32px 24px;
+      gap: 28px;
+    }
+    .academy-build-divider {
+      width: 60%;
+      height: 1px;
+    }
+    .academy-build-num { font-size: 72px; }
+    .academy-build-num-sm { font-size: 16px; }
+    .tier-ladder-title { font-size: 36px; }
+    .tier-step {
+      padding: 20px 22px;
+      gap: 16px;
+    }
+    .tier-step-marker { font-size: 40px; width: 48px; }
+    .tier-step-label { font-size: 16px; }
+    .tier-step-desc { font-size: 14px; }
+    .tier-step::before { left: 48px; }
+    .wof-card { padding: 40px 28px; }
+    .wof-title { font-size: 56px; }
+    .wof-desc { font-size: 15px; }
+    .wof-card::before { font-size: 160px; top: -20px; }
+    .recruiting-title { font-size: 48px; }
+
+    .launch-date-banner { padding: 20px 24px; gap: 14px; }
+    .launch-date-headline { font-size: 32px; }
+    .launch-date-tag { font-size: 11px; padding: 5px 10px; }
+
+    .rest-of-club { padding: 36px 24px; }
+    .rest-of-club-title { font-size: 38px; }
+    .rest-of-club-desc { font-size: 15px; }
+
+    .club-callout { padding: 36px 26px; }
+    .club-callout-title { font-size: 48px; }
+    .club-callout-desc { font-size: 15px; }
+
+    .east-card { padding: 44px 28px 36px; }
+    .east-card::before { font-size: 200px; top: -25px; right: -25px; }
+    .east-title { font-size: 88px; }
+    .east-subtitle { font-size: 20px; }
+    .east-desc { font-size: 15px; }
+    .east-tag { font-size: 11px; padding: 5px 12px; }
+    .east-pilot-badge { font-size: 10px; padding: 5px 12px; }
+
+    .pillar-num { font-size: 60px; }
+    .pillar-title { font-size: 14px; }
+
+    .tryout-name { font-size: 56px; }
+
+    .camp-name { font-size: 52px; }
+    .camp-header { padding: 28px 24px 12px; }
+    .camp-desc { padding: 0 24px 20px; font-size: 14px; }
+
+    .pillars { grid-template-columns: 1fr; }
+    .tryout-sessions { grid-template-columns: 1fr; }
+    .camp-meta { grid-template-columns: 1fr; gap: 12px; padding: 20px 24px; }
+    .schedule-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+
+    .archive-title { font-size: 36px; }
+
+    /* Coach B mobile */
+    .coach-b-section { padding: 56px 24px; }
+    .coach-b-section::after { font-size: 200px; bottom: -30px; left: -20px; }
+    .coach-b-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+    .coach-b-image-wrap { margin: 0 auto; }
+    .coach-b-image { width: 180px; }
+    .coach-b-name { font-size: 64px; }
+    .coach-b-quote { font-size: 18px; padding-left: 0; padding-top: 12px; border-left: none; border-top: 3px solid var(--btb-red); text-align: left; }
+    .coach-b-tag { font-size: 10px; }
+
+    .footer { padding: 48px 24px 32px; }
+    .footer-links { font-size: 13px; }
+    .footer-links a { padding: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <span><span class="ticker-pulse"></span>BTB MONTHLY · ISSUE 01</span>
+    <span class="ticker-right">LONG ISLAND, NY</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-img">
+    <img src="/newsletter/assets/btb-newsletter-hero-shield.jpg" alt="Be The Best Lacrosse Club">
+  </div>
+
+  <!-- ISSUE META -->
+  <div class="issue-meta">
+    <div class="issue-meta-tag">The Standard · The Official Newsletter</div>
+    <div class="issue-meta-date">May 2026 · Issue No. 01</div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span class="marquee-item">Be The Best</span>
+      <span class="marquee-item">A New Era</span>
+      <span class="marquee-item">The Standard</span>
+      <span class="marquee-item">Long Island Lacrosse</span>
+      <span class="marquee-item">Be The Best</span>
+      <span class="marquee-item">A New Era</span>
+      <span class="marquee-item">The Standard</span>
+      <span class="marquee-item">Long Island Lacrosse</span>
+    </div>
+  </div>
+
+  <!-- 01 — DIRECTOR'S NOTE -->
+  <section class="section reveal">
+    <div class="section-num">01 — From the Director</div>
+    <h1 class="h-display">
+      This isn't<br>a season.<br>
+      <span class="italic-accent" style="font-family:'Playfair Display',serif; font-style:italic;">It's a launch.</span>
+    </h1>
+    <div style="height: 40px;"></div>
+    <p class="lead">
+      BTB families — what you're about to read isn't a normal newsletter. This month marks the biggest infrastructure leap in the history of our club.
+    </p>
+    <p class="body-text">
+      A new website. A new staff operating system. An Online Academy launching September 1st. A Recruiting Hub. Exclusive trainers. And a tournament season already producing hardware. Everything below is built around one promise: <strong>your player gets the highest standard of development on Long Island</strong> — on the field, off the field, and into college.
+    </p>
+    <div class="signature">— Dan Achatz, Director</div>
+  </section>
+
+  <!-- 02 — THE NEW BTB ERA -->
+  <section class="section reveal" style="background:#0d0d0d;">
+    <div class="section-num">02 — The New BTB Era</div>
+    <h2 class="h-display">
+      Four launches.<br>
+      <span class="italic-accent" style="font-family:'Playfair Display',serif; font-style:italic;">One mission.</span>
+    </h2>
+    <p class="lead" style="margin-top:24px; max-width:560px;">
+      We rebuilt the engine. Here's what's now live for BTB families and staff.
+    </p>
+
+    <div class="launch-grid">
+
+      <!-- Launch 01 -->
+      <div class="launch-card">
+        <div class="launch-tag">
+          <span class="launch-tag-num">01</span> · LIVE NOW
+        </div>
+        <h3 class="launch-title">bethebestli.com</h3>
+        <p class="launch-desc">
+          More than a website. <strong>The central resource</strong> for everything BTB and everything travel lacrosse. As we grow inside the lacrosse industry, we're holding ourselves to a higher standard — and the new platform reflects it.
+        </p>
+        <p class="launch-desc">
+          An interactive experience built to <strong>develop players off the field</strong>, keep families locked into BTB events, and deliver constant updates on what's happening across the travel lacrosse world.
+        </p>
+
+        <!-- Sub-features grid -->
+        <div class="site-features-grid">
+          <div class="site-feature">
+            <div class="site-feature-tag">Parent Hub</div>
+            <div class="site-feature-desc">Private access. Event details, schedules, club news.</div>
+          </div>
+          <div class="site-feature">
+            <div class="site-feature-tag">Coach Hub</div>
+            <div class="site-feature-desc">Staff-only. Plans, rosters, internal resources.</div>
+          </div>
+          <div class="site-feature">
+            <div class="site-feature-tag">Player Tools</div>
+            <div class="site-feature-desc">Off-field development built into the platform.</div>
+          </div>
+          <div class="site-feature">
+            <div class="site-feature-tag">Travel Lax World</div>
+            <div class="site-feature-desc">Live updates from across the industry.</div>
+          </div>
+        </div>
+
+        <p class="launch-note" style="margin-bottom:20px;">
+          Private, role-based access ensures parents and coaches see what's relevant to them — securely.
+        </p>
+        <a href="https://www.bethebestli.com" class="btn">Visit Site →</a>
+      </div>
+
+      <!-- Launch 02 -->
+      <div class="launch-card">
+        <div class="launch-tag">
+          <span class="launch-tag-num">02</span> · INTERNAL · LIVE
+        </div>
+        <h3 class="launch-title">BTB-OS</h3>
+        <p class="launch-desc">
+          The all-inclusive, integrated hub our coaching staff operates from every day. Attendance, schedules, communication, and every BTB system — <strong>unified into a single platform</strong>.
+        </p>
+        <p class="launch-desc">
+          Coaches access a complete library of practice plans, drills, and the ability to build their own personal playbook. Every workflow that used to live in five different places now lives in one.
+        </p>
+
+        <!-- BTB-OS capabilities grid -->
+        <div class="site-features-grid">
+          <div class="site-feature">
+            <div class="site-feature-tag">Attendance</div>
+            <div class="site-feature-desc">Tracked in real time at every practice and event.</div>
+          </div>
+          <div class="site-feature">
+            <div class="site-feature-tag">Schedules</div>
+            <div class="site-feature-desc">Full team and club calendars in one view.</div>
+          </div>
+          <div class="site-feature">
+            <div class="site-feature-tag">Playbook</div>
+            <div class="site-feature-desc">Practice plans, drills, and coach-built playbooks.</div>
+          </div>
+          <div class="site-feature">
+            <div class="site-feature-tag">Automations</div>
+            <div class="site-feature-desc">SMS updates and reminders sent automatically.</div>
+          </div>
+        </div>
+
+        <!-- Accountability callout -->
+        <div style="background:rgba(226,35,26,0.18); border:2px solid var(--btb-red); padding:24px 26px; margin:12px 0 28px 0;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--btb-red); letter-spacing:0.22em; text-transform:uppercase; font-weight:700; margin-bottom:12px;">
+            ★ Built-In Accountability
+          </div>
+          <p style="font-family:'Inter',sans-serif; font-size:17px; line-height:1.65; color:#ffffff; margin:0; font-weight:500;">
+            Attendance is closely monitored because it directly impacts player development and team performance. <strong style="color:#fff; font-weight:800;">Parents receive proactive alerts</strong> if their player's attendance puts them at risk of consequences — such as reduced playing time in a tournament — well before any decision is made. The goal is transparency and partnership, not surprise.
+          </p>
+        </div>
+
+        <p class="launch-note">
+          For BTB families: more consistent coaching, faster communication, zero information falling through the cracks.
+        </p>
+      </div>
+
+      <!-- Launch 03 - FEATURED -->
+      <div class="launch-card featured">
+        <div class="launch-tag">
+          <span class="launch-tag-num">03</span> · LAUNCHES SEPT 1
+        </div>
+        <h3 class="launch-title">BTB Online Academy</h3>
+        <p class="launch-desc">The off-field development engine. Built by Coach Dan. <strong>Launches September 1st.</strong></p>
+        <p class="launch-note">↓ Full story in Section 05</p>
+      </div>
+
+      <!-- Launch 04 -->
+      <div class="launch-card">
+        <div class="launch-tag">
+          <span class="launch-tag-num">04</span> · LIVE NOW
+        </div>
+        <h3 class="launch-title">The Recruiting Hub</h3>
+        <p class="launch-desc">A centralized resource for every BTB family navigating the college process. Timelines, contact strategies, film standards, exposure events.</p>
+        <a href="https://www.bethebestli.com/recruiting" class="btn btn-ghost">Explore Hub →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 03 — TOURNAMENT WINS -->
+  <section class="wins-section reveal">
+    <div class="section-num" style="color:var(--btb-black);">
+      <span style="background:var(--btb-black);width:32px;height:1px;"></span>
+      03 — Tournament Wins
+    </div>
+    <div style="display:inline-block; background:var(--btb-black); padding:8px 16px; margin-bottom:24px;">
+      <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--btb-red); letter-spacing:0.25em; text-transform:uppercase; font-weight:700;">★ The Club Is Proud</span>
+    </div>
+    <h2 class="h-display wins-headline">
+      Setting the<br>
+      <span style="font-family:'Playfair Display',serif; font-style:italic;">standard.</span>
+    </h2>
+    <p class="lead" style="color:rgba(0,0,0,0.9); margin-top:24px; font-weight:500;">
+      Two BTB teams. Two championships. One incredibly proud club.
+    </p>
+    <p style="font-family:'Inter',sans-serif; font-size:17px; line-height:1.65; color:rgba(0,0,0,0.85); font-weight:500; margin-top:16px; max-width:560px;">
+      Tournament season is officially underway, and the <strong style="color:#000;">2034 Snipers</strong> and <strong style="color:#000;">2032 Riptide</strong> have set the tone with their first championships of the year. To the players, coaches, and families behind these wins — congratulations. The work showed up.
+    </p>
+
+    <div style="height: 40px;"></div>
+
+    <!-- Win 1: Snipers -->
+    <div class="win-card">
+      <div class="win-photo">
+        <img src="/newsletter/assets/btb-newsletter-2034-snipers-champions.jpg" alt="2034 Snipers — Penguin Invitational Champions">
+      </div>
+      <div class="win-content">
+        <div class="win-text">
+          <div class="win-tag">CHAMPIONS · 1st of season</div>
+          <h3 class="win-title">Snipers</h3>
+          <p class="win-desc"><strong>Penguin Invitational Champions.</strong> First tournament of the season. First chip on the wall. The standard is set.</p>
+        </div>
+        <div class="win-year">2034</div>
+      </div>
+    </div>
+
+    <!-- Win 2: Riptide -->
+    <div class="win-card">
+      <div class="win-photo">
+        <img src="/newsletter/assets/btb-newsletter-2032-riptide-champions.jpg" alt="2032 Riptide — Spring Lax Jam Champions">
+      </div>
+      <div class="win-content">
+        <div class="win-text">
+          <div class="win-tag">CHAMPIONS · 1st of season</div>
+          <h3 class="win-title">Riptide</h3>
+          <p class="win-desc"><strong>Spring Lax Jam Bracket Champions.</strong> First tournament championship in program history. The girls set the tone.</p>
+        </div>
+        <div class="win-year">2032</div>
+      </div>
+    </div>
+
+    <!-- THANK YOU TO PLAYERS & FAMILIES -->
+    <div class="club-callout club-callout-thanks">
+      <div class="club-callout-tag">★ Thank You</div>
+      <h3 class="club-callout-title">
+        Class on every<br>
+        <span style="font-family:'Playfair Display',serif; font-style:italic; color:var(--btb-red);">sideline.</span>
+      </h3>
+      <p class="club-callout-desc">
+        To every BTB family and player who's already taken the field this season — <strong>thank you.</strong> The way our teams have conducted themselves, the way our parents have represented the club, the energy and class shown on every sideline so far — it has been first-class across the board. That doesn't go unnoticed, and it's the foundation we keep building on.
+      </p>
+    </div>
+
+    <!-- THE STANDARD -->
+    <div class="club-callout club-callout-standard">
+      <div class="club-callout-tag">The BTB Standard</div>
+      <h3 class="club-callout-title">
+        As we grow,<br>
+        <span style="font-family:'Playfair Display',serif; font-style:italic; color:var(--btb-red);">we hold the line.</span>
+      </h3>
+      <p class="club-callout-desc">
+        BTB is on the scene more than ever — more teams, more tournaments, more eyes on us. With that comes responsibility. <strong>How we present ourselves, how we behave, our energy, and our sideline conduct</strong> all reflect the entire club. Every player, every parent, every coach carries the brand. The standard is the standard — for everyone, everywhere we play.
+      </p>
+    </div>
+
+    <!-- TO THE REST OF THE CLUB -->
+    <div class="club-callout">
+      <div class="club-callout-tag">To Every BTB Team</div>
+      <h3 class="club-callout-title">
+        The season is just<br>
+        <span style="font-family:'Playfair Display',serif; font-style:italic;">getting started.</span>
+      </h3>
+      <p class="club-callout-desc">
+        These wins belong to the entire club, but the season belongs to all of us. To every BTB team still preparing, training, and waiting for their moment — we're cheering you on. Hit the ground running. Represent the standard. Your moment is coming.
+      </p>
+    </div>
+  </section>
+
+  <!-- 04 — EXCLUSIVE TRAINERS -->
+  <section class="section reveal">
+    <div class="section-num">04 — Major Announcement</div>
+    <h2 class="h-display">
+      Exclusive<br>trainers.<br>
+      <span class="italic-accent" style="font-family:'Playfair Display',serif; font-style:italic;">Year-round.</span>
+    </h2>
+    <p class="lead" style="margin-top:32px;">
+      BTB is fully committing to elite trainers working <strong style="color:#fff;">exclusively</strong> with our players.
+    </p>
+    <p class="body-text">
+      No more competing for time. No more random schedules. A locked-in fall, winter, and spring training calendar — built around BTB athletes.
+    </p>
+
+    <!-- Bentz announcement -->
+    <div class="bentz-card">
+      <div class="bentz-tag">★ Headline Hire</div>
+      <div class="bentz-welcome">Welcome</div>
+      <h3 class="bentz-name">Steve<br>Bentz</h3>
+      <div class="bentz-role">Director of Player Development</div>
+      <p class="bentz-desc">
+        A massive addition to the BTB staff. Steve will lead our overall player development strategy and head the SAB Training partnership — bringing structured, position-aware skill development to every age group.
+      </p>
+    </div>
+
+    <!-- Partner cards -->
+    <div class="partners-grid">
+      <div class="partner-card">
+        <div class="partner-tag">SKILL DEVELOPMENT</div>
+        <div class="partner-name">SAB<br>Training</div>
+        <div class="partner-led">Led by Steve Bentz</div>
+        <p class="partner-desc">Position-specific stick skill, IQ, and lacrosse-specific player development. Built for BTB. Reserved for BTB.</p>
+      </div>
+      <div class="partner-card">
+        <div class="partner-tag">SPEED &amp; AGILITY</div>
+        <div class="partner-name">Ghost<br>Athletics</div>
+        <div class="partner-led">Lacrosse-Specific Athletic Training</div>
+        <p class="partner-desc">First step, change of direction, conditioning. The work that shows up in the 4th quarter.</p>
+      </div>
+    </div>
+
+    <!-- Schedule Announcement -->
+    <div class="schedule-block">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--btb-red); letter-spacing:0.25em; text-transform:uppercase; font-weight:700; margin-bottom:14px;">
+        ★ Coming in August
+      </div>
+      <h4 style="font-family:'Playfair Display',serif; font-size:38px; color:#fff; font-weight:900; margin-bottom:22px; line-height:1.15; letter-spacing:-0.015em;">
+        A full schedule for<br>every age group.
+      </h4>
+      <p style="font-family:'Inter',sans-serif; font-size:19px; line-height:1.65; color:var(--btb-text); margin:0 0 28px 0; max-width:560px; font-weight:500;">
+        In August, BTB will release the complete training calendar — Fall, Winter, and Spring — locked in for every age group across the club. Stay tuned for the official announcement.
+      </p>
+      <div style="display:inline-flex; align-items:center; gap:10px; padding:14px 22px; background:rgba(226,35,26,0.18); border-left:3px solid var(--btb-red);">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--btb-red); letter-spacing:0.18em; text-transform:uppercase; font-weight:700;">Fall '26 · Winter '27 · Spring '27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — ONLINE ACADEMY FEATURE -->
+  <section class="section reveal" style="background:#0d0d0d;">
+    <div class="section-num">05 — Feature</div>
+    <h2 class="h-display">
+      The Online<br>Academy.<br>
+      <span class="italic-accent" style="font-family:'Playfair Display',serif; font-style:italic;">Built different.</span>
+    </h2>
+
+    <!-- LAUNCH DATE BANNER -->
+    <div class="launch-date-banner">
+      <div class="launch-date-tag">★ Mark Your Calendar</div>
+      <div class="launch-date-headline">
+        Launches <span class="launch-date-accent">September 1st.</span>
+      </div>
+    </div>
+
+    <!-- Coach Dan build story -->
+    <div class="academy-build-block">
+      <div class="academy-build-stat">
+        <div class="academy-build-num"><span data-count="20">0</span><span class="academy-build-num-sm">yrs</span></div>
+        <div class="academy-build-label">Coaching Experience</div>
+      </div>
+      <div class="academy-build-divider"></div>
+      <div class="academy-build-stat">
+        <div class="academy-build-num"><span data-count="6">0</span><span class="academy-build-num-sm">mo</span></div>
+        <div class="academy-build-label">Of Build &amp; Refinement</div>
+      </div>
+      <div class="academy-build-divider"></div>
+      <div class="academy-build-stat">
+        <div class="academy-build-num"><span data-count="1">0</span><span class="academy-build-num-sm">curriculum</span></div>
+        <div class="academy-build-label">Designed by Coach Dan</div>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-top:48px;">
+      Coach Dan has spent the last six months building this — drawing from <strong style="color:#fff;">over twenty years of coaching experience</strong> — to create something the travel lacrosse world hasn't seen.
+    </p>
+    <p class="body-text">
+      Practice gets you reps. Tournaments get you exposure. But the players who actually <strong>get recruited</strong> — who play varsity early, start in college, lead programs — are doing the work between practices that nobody sees. The Online Academy delivers that work, year-round, on every player's phone.
+    </p>
+
+    <!-- TIERED STRUCTURE -->
+    <div class="tier-ladder-header">
+      <div class="tier-ladder-tag">A Tiered Curriculum</div>
+      <h3 class="tier-ladder-title">
+        Knowledge that scales<br>
+        <span style="font-family:'Playfair Display',serif; font-style:italic; color:var(--btb-red);">with the player.</span>
+      </h3>
+      <p class="body-text" style="margin-top:16px; max-width:560px;">
+        Each age group gets its own track. As players grow, the depth grows with them. Concepts compound year over year — never repeated, always built upon.
+      </p>
+    </div>
+
+    <div class="tier-ladder">
+      <div class="tier-step">
+        <div class="tier-step-marker">01</div>
+        <div class="tier-step-content">
+          <div class="tier-step-label">Foundation Tier</div>
+          <div class="tier-step-desc">Younger age groups · Game basics, vocabulary, IQ fundamentals.</div>
+        </div>
+      </div>
+      <div class="tier-step">
+        <div class="tier-step-marker">02</div>
+        <div class="tier-step-content">
+          <div class="tier-step-label">Development Tier</div>
+          <div class="tier-step-desc">Middle age groups · Position concepts, advanced IQ, situational play.</div>
+        </div>
+      </div>
+      <div class="tier-step">
+        <div class="tier-step-marker">03</div>
+        <div class="tier-step-content">
+          <div class="tier-step-label">Mastery Tier</div>
+          <div class="tier-step-desc">High school years · Film study, recruiting prep, college-level concepts.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT'S COVERED (the 4 pillars, retained but tightened) -->
+    <div style="margin-top:64px; margin-bottom:24px;">
+      <div class="tier-ladder-tag">What's Covered</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:42px; line-height:1.15; color:#fff; font-weight:900; letter-spacing:-0.015em;">
+        Four pillars. Every tier.
+      </h3>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <h4 class="pillar-title">Film Study</h4>
+        <p class="pillar-desc">Read the game faster. See what coaches see.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <h4 class="pillar-title">Lacrosse IQ</h4>
+        <p class="pillar-desc">Decisions, situations, schemes. The mental game built systematically.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <h4 class="pillar-title">Position Training</h4>
+        <p class="pillar-desc">Attack, middie, defense, goalie — specialized work, not generic drills.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">04</div>
+        <h4 class="pillar-title">Off-Field</h4>
+        <p class="pillar-desc">Recruiting, character, leadership, accountability. The full athlete.</p>
+      </div>
+    </div>
+
+    <!-- WALL OF FAME -->
+    <div class="wof-card">
+      <div class="wof-trophy">🏆</div>
+      <div class="wof-tag">★ The Wall of Fame</div>
+      <h3 class="wof-title">
+        Finish a tier.<br>
+        <span style="font-style:italic; color:#fff;">Earn your spot.</span>
+      </h3>
+      <p class="wof-desc">
+        Every player who completes a tier earns a permanent place on the BTB Wall of Fame — featured directly on bethebestli.com. Public recognition for private work. Proof that the off-field grind is being seen.
+      </p>
+    </div>
+
+    <!-- RECRUITING PAYOFF -->
+    <div style="margin-top:48px;">
+      <div class="tier-ladder-tag">The End Goal</div>
+      <h3 class="recruiting-title">
+        The work today is<br>
+        <span style="font-family:'Playfair Display',serif; font-style:italic; color:var(--btb-red);">the recruiting edge tomorrow.</span>
+      </h3>
+      <p class="lead" style="margin-top:16px;">
+        Knowledge compounds. A 2034 player who masters Foundation Tier this year arrives at high school years ahead of peers who skipped it. By the time the recruiting process starts, BTB players have already done the hard work — and it shows.
+      </p>
+    </div>
+  </section>
+
+  <!-- 06 — TRYOUTS & CAMPS -->
+  <section class="section reveal">
+    <div class="section-num">06 — Lock Your Calendar</div>
+    <h2 class="h-display">
+      Tryouts &amp;<br>
+      <span class="italic-accent" style="font-family:'Playfair Display',serif; font-style:italic;">Camps.</span>
+    </h2>
+    <p class="lead" style="margin-top:24px;">
+      Mark the calendar. Spots fill fast.
+    </p>
+
+    <!-- BTB EAST PILOT ANNOUNCEMENT -->
+    <div class="east-card">
+      <div class="east-tag">★ Coming Next Week</div>
+      <div class="east-pilot-badge">PILOT PROGRAM</div>
+      <h3 class="east-title">
+        BTB <span style="font-family:'Playfair Display',serif; font-style:italic; font-weight:900;">East.</span>
+      </h3>
+      <p class="east-subtitle">A new chapter for the club.</p>
+      <p class="east-desc">
+        We're thrilled to announce that <strong>BTB East tryouts drop next week</strong> — the official launch of our East pilot program. Expanding the BTB Standard, building new opportunities, reaching more players and families. More details coming in days.
+      </p>
+      <div class="east-coming-soon">
+        <span class="east-coming-soon-label">Stay Tuned</span>
+        <span class="east-coming-soon-arrow">→</span>
+      </div>
+    </div>
+
+    <!-- TRYOUTS -->
+    <div class="tryout-card">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--btb-red); letter-spacing:0.25em; text-transform:uppercase; font-weight:700; margin-bottom:14px;">
+        Tryouts · Boys &amp; Girls
+      </div>
+      <h3 class="tryout-name">2026<br>Tryouts</h3>
+
+      <div class="tryout-sessions">
+        <div class="tryout-session">
+          <div class="tryout-session-label">Session 1</div>
+          <div class="tryout-session-date">July 15–17</div>
+        </div>
+        <div class="tryout-session">
+          <div class="tryout-session-label">Session 2</div>
+          <div class="tryout-session-date">July 20–22</div>
+        </div>
+      </div>
+
+      <p class="tryout-info">
+        <strong>📍 Plainedge HS</strong><br>
+        241 Wyngate Dr, North Massapequa, NY 11758<br>
+        <span style="color:var(--btb-text-muted); font-style:italic; font-size:13px;">Times assigned by grad year</span>
+      </p>
+
+      <div style="margin-top:24px;">
+        <a href="https://www.bethebestli.com/tryouts" class="btn">Register for Tryouts →</a>
+      </div>
+    </div>
+
+    <!-- CAMPS INTRO -->
+    <div class="camps-intro">
+      <div class="camps-intro-tag">Summer Camps · 3 Tracks</div>
+      <p class="camps-intro-text">
+        Three camps. Sign up for any consecutive days that fit your schedule.
+      </p>
+    </div>
+
+    <!-- CAMP 1: MAIN CAMP -->
+    <div class="camp-card featured">
+      <div class="camp-header">
+        <div class="camp-tagline">🏆 The Flagship</div>
+        <h3 class="camp-name">Main<br>Camp</h3>
+        <div class="camp-eligibility">All eligible BTB athletes</div>
+      </div>
+      <p class="camp-desc">
+        Four days of full-field development. Stick skills, team concepts, small-sided games, and the BTB Standard. The summer's signature camp.
+      </p>
+      <div class="camp-meta">
+        <div class="camp-meta-item">
+          <div class="camp-meta-label">Dates · 4 Days</div>
+          <div class="camp-meta-value">June 30–July 3</div>
+          <div class="camp-meta-sub">Any consecutive</div>
+        </div>
+        <div class="camp-meta-item">
+          <div class="camp-meta-label">Time &amp; Place</div>
+          <div class="camp-meta-value" style="font-size:22px;">9 AM–2 PM</div>
+          <div class="camp-meta-sub">Plainedge Park</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMP 2: POSITIONAL -->
+    <div class="camp-card">
+      <div class="camp-header">
+        <div class="camp-tagline">🎯 Master Your Spot</div>
+        <h3 class="camp-name">Positional<br>Camp</h3>
+        <div class="camp-eligibility">Position-focused players ready to specialize</div>
+      </div>
+      <p class="camp-desc">
+        Three days dedicated to your position. Attack, midfield, defense, FOGO, LSM, and goalies each get their own track with position-specialist coaches.
+      </p>
+      <div class="camp-meta">
+        <div class="camp-meta-item">
+          <div class="camp-meta-label">Dates · 3 Days</div>
+          <div class="camp-meta-value">July 28–30</div>
+          <div class="camp-meta-sub">Any consecutive</div>
+        </div>
+        <div class="camp-meta-item">
+          <div class="camp-meta-label">Time &amp; Place</div>
+          <div class="camp-meta-value" style="font-size:22px;">9–11 AM</div>
+          <div class="camp-meta-sub">Plainedge Park</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMP 3: FUTURES -->
+    <div class="camp-card">
+      <div class="camp-header">
+        <div class="camp-tagline">👥 Build the Foundation</div>
+        <h3 class="camp-name">Futures<br>Camp</h3>
+        <div class="camp-eligibility">Classes of 2034–2037</div>
+      </div>
+      <p class="camp-desc">
+        Three days built for the next generation. High-energy, fundamentals-first coaching from the same pros who lead our travel teams. Fun, but serious.
+      </p>
+      <div class="camp-meta">
+        <div class="camp-meta-item">
+          <div class="camp-meta-label">Dates · 3 Days</div>
+          <div class="camp-meta-value">Aug 18–20</div>
+          <div class="camp-meta-sub">Any consecutive</div>
+        </div>
+        <div class="camp-meta-item">
+          <div class="camp-meta-label">Time &amp; Place</div>
+          <div class="camp-meta-value" style="font-size:22px;">9–11 AM</div>
+          <div class="camp-meta-sub">Plainedge Park</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:32px;">
+      <a href="https://www.bethebestli.com/camps" class="btn btn-light">Register for Camps →</a>
+    </div>
+  </section>
+
+  <!-- MEET COACH B -->
+  <section class="coach-b-section reveal">
+    <div class="coach-b-grid">
+      <div class="coach-b-image-wrap">
+        <img src="/newsletter/assets/btb-newsletter-coach-b-pumped.png" alt="Coach B - BTB Lacrosse Mascot" class="coach-b-image">
+      </div>
+      <div class="coach-b-content">
+        <div class="coach-b-tag">★ One More Thing</div>
+        <h2 class="coach-b-name">
+          Meet<br>
+          <span class="coach-b-name-accent">Coach B.</span>
+        </h2>
+        <p class="coach-b-quote">
+          "Hey BTB family — I'm <strong>Coach B</strong>, and I'm <em>pumped</em> to meet all our players, future players, and the families that make this club what it is."
+        </p>
+        <p class="coach-b-byline">— Coach B, Official BTB Mascot</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHIVE CTA -->
+  <div class="archive-cta">
+    <div class="archive-tag">Newsletter Archive</div>
+    <h3 class="archive-title">
+      Read every issue.<br>Anytime.
+    </h3>
+    <a href="https://www.bethebestli.com/newsletter" class="btn">Visit the Archive →</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <img src="/newsletter/assets/btb-newsletter-footer-shield.png" alt="Be The Best Lacrosse Club" class="footer-shield">
+    <div class="footer-tag">Be The Best Lacrosse Club · Long Island, NY</div>
+    <div class="footer-links">
+      <a href="https://www.bethebestli.com">Website</a>
+      <span class="footer-divider">·</span>
+      <a href="https://www.instagram.com/bethebestli">Instagram</a>
+      <span class="footer-divider">·</span>
+      <a href="mailto:info@bethebestli.com">Contact</a>
+    </div>
+    <p class="footer-copy">
+      © 2026 Be The Best Lacrosse Club. All rights reserved.<br>
+      <a href="*|UNSUB|*">Unsubscribe</a>
+    </p>
+  </div>
+
+</div>
+
+<!-- Interactive engine -->
+<script>
+  // === SCROLL REVEAL ===
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // === COUNT UP ANIMATION ===
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.count);
+        const duration = 1400;
+        const start = performance.now();
+        const ease = (t) => 1 - Math.pow(1 - t, 3);
+        const update = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          el.textContent = Math.floor(ease(progress) * target);
+          if (progress < 1) requestAnimationFrame(update);
+          else el.textContent = target;
+        };
+        requestAnimationFrame(update);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-count]').forEach(el => countObserver.observe(el));
+
+  // === MOUSE TILT EFFECT (desktop only) ===
+  if (window.matchMedia('(min-width: 900px) and (hover: hover)').matches) {
+    const tiltCards = document.querySelectorAll('.launch-card, .partner-card, .pillar, .tier-step, .east-card, .bentz-card, .wof-card, .camp-card, .tryout-session');
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rx = ((y - cy) / cy) * -3;
+        const ry = ((x - cx) / cx) * 3;
+        card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  // === HEADLINE LETTER ANIMATION ON LOAD ===
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.style.opacity = '0';
+    requestAnimationFrame(() => {
+      document.body.style.transition = 'opacity 0.6s ease';
+      document.body.style.opacity = '1';
+    });
+  });
+</script>
+
+</body>
+</html>

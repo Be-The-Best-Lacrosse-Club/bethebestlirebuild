@@ -1,0 +1,60 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+site_url: "https://www.bethebestli.com"
+display_url: "https://www.bethebestli.com"
+logo_url: "/images/THE NEW SHIELD_clean.png"
+
+collections:
+  - name: "home"
+    label: "Home Page"
+    files:
+      - name: "home"
+        label: "Home Page Content"
+        file: "src/content/home.json"
+        format: "json"
+        fields:
+          - { label: "Social Share Image", name: "seoImage", widget: "image", required: false }
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Hero Background Image", name: "backgroundImage", widget: "image", required: false }
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Headline Line 1", name: "headlineLine1", widget: "string" }
+              - { label: "Headline Line 2 Prefix", name: "headlineLine2Prefix", widget: "string" }
+              - { label: "Headline Red Word", name: "headlineLine2Accent", widget: "string" }
+              - { label: "Description", name: "description", widget: "string" }
+              - { label: "Supporting Line", name: "supportingLine", widget: "string" }
+              - { label: "Primary Button Text", name: "primaryCta", widget: "string" }
+              - { label: "Primary Button Link", name: "primaryCtaUrl", widget: "string" }
+              - { label: "Secondary Button Text", name: "secondaryCta", widget: "string" }
+              - { label: "Secondary Button Link", name: "secondaryCtaUrl", widget: "string" }
+              - label: "Top Data Strip"
+                name: "hudItems"
+                widget: "list"
+                field: { label: "Item", name: "item", widget: "string" }
+              - label: "Stats"
+                name: "stats"
+                widget: "list"
+                fields:
+                  - { label: "Value", name: "value", widget: "string" }
+                  - { label: "Label", name: "label", widget: "string" }
+
+  - name: "site_images"
+    label: "Image Notes"
+    folder: "src/content/image-notes"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Where This Should Be Used", name: "usage", widget: "text", required: false }
+      - { label: "Notes", name: "body", widget: "markdown", required: false }

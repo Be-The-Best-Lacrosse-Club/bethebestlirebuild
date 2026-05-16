@@ -55,7 +55,7 @@ export function Results() {
       <div className="max-w-[1100px] mx-auto relative z-10">
         <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-12 md:mb-24 gap-6 md:gap-8 pb-8 md:pb-12 border-b border-white/10 text-center md:text-left">
           <div className="max-w-[600px]">
-            <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-[1.05rem] tracking-[5px] mb-6 flex items-center gap-3">
               <Activity size={12} className="animate-pulse" />
               SOCIAL_PROOF // FIELD_REPORTS
             </div>
@@ -63,7 +63,7 @@ export function Results() {
               The Parent <br /> <span className="text-[var(--btb-red)]">Perspective.</span>
             </h2>
           </div>
-          <p className="text-white/40 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+          <p className="text-white/90 text-[1.05rem] leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
             Authentic feedback from the families who live the BTB Standard every weekend. Real development. Real results.
           </p>
         </div>
@@ -80,7 +80,7 @@ export function Results() {
             </p>
             <div className="flex items-center gap-4">
               <div className="w-12 h-px bg-white/30" />
-              <div className="text-[0.75rem] font-black uppercase tracking-[3px] text-black/60">{parentTestimonials[0].role}</div>
+              <div className="text-[1.05rem] font-black uppercase tracking-[3px] text-black/60">{parentTestimonials[0].role}</div>
             </div>
           </div>
         </div>
@@ -93,14 +93,14 @@ export function Results() {
               className="reveal-child group relative p-10 bg-black hover:bg-neutral-900 transition-all duration-300"
             >
               <div className="text-[10px] font-mono text-[var(--btb-red)] mb-8">{t.spec}</div>
-              <p className="text-[1rem] text-white/60 leading-relaxed mb-10 italic group-hover:text-white/90 transition-colors">
+              <p className="text-[1rem] text-white/90 leading-relaxed mb-10 italic group-hover:text-white/90 transition-colors">
                 "{t.quote}"
               </p>
               <div className="pt-6 border-t border-white/5">
                 <div className="font-display text-lg text-white uppercase tracking-wider">
                   {t.role}
                 </div>
-                <div className="text-[0.6rem] font-mono text-white/20 uppercase tracking-[1px] mt-1">
+                <div className="text-[1.05rem] font-mono text-white/90 uppercase tracking-[1px] mt-1">
                   Verified_Feedback
                 </div>
               </div>
