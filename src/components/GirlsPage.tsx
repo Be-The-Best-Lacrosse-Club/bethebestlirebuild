@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight, Video, Users, BookOpen, Target, TrendingUp, Shield } from "lucide-react"
 
 const benefits = [
-  { icon: Users, title: "Small-Group Training", stat: "8:1", text: "Max 8 players per coach. Every player gets real reps, real corrections, and real coaching attention every session." },
+  { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Every player gets real reps, real corrections, and real coaching attention every session." },
   { icon: Video, title: "Weekly Film Study", stat: "Required", text: "Watch your own footage with a coach who breaks down positioning, decision-making, and what to fix — every single week." },
   { icon: BookOpen, title: "Girls-Specific Curriculum", stat: "16 Weeks", text: "A development plan built specifically for the girls' game — draw controls, free position, defensive positioning, transition speed." },
   { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie. Training is built around your role and what your position actually demands in game situations." },

@@ -4,7 +4,7 @@
 - **React 19** + TypeScript (strict) + Vite
 - **Tailwind CSS** + **shadcn/ui** (Radix primitives)
 - **React Router v6** — SPA routing
-- **Netlify** — auto-deploys from GitHub `rebuild` branch
+- **Netlify** — auto-deploys from GitHub `main` branch
 - Domain: **bethebestli.com**
 
 ## Commands
@@ -60,14 +60,14 @@ netlify.toml           — Netlify config (redirects, headers, build)
 - Same BTB branding: red #D22630, Bebas Neue, Montserrat
 
 ## Deployment
-- **Branch:** `rebuild` is production. Create feature branches off `rebuild`.
-- **Merging to `rebuild`** triggers Netlify auto-deploy
+- **Branch:** `main` is production (protected — requires PR + passing checks). Create feature branches off `main`.
+- **Merging to `main`** triggers Netlify auto-deploy
 - **Always `npm run build`** locally before pushing — TypeScript errors break deploys
 - **netlify.toml:** SPA catch-all redirect `/* → /index.html` is critical
 - **Never commit secrets** — use Netlify env vars for API keys
 
 ## Git Workflow
-- Create feature branches off `rebuild`
+- Create feature branches off `main`
 - Open PRs with clear titles via `gh pr create`
 - Netlify creates deploy previews on PRs automatically
-- Merge to `rebuild` for production deploy
+- Merge to `main` for production deploy (protected branch — requires PR)

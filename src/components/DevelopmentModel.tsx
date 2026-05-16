@@ -1,5 +1,4 @@
 import { useReveal } from "@/hooks/useReveal"
-import { SectionHeader } from "@/components/shared/SectionHeader"
 
 const phases = [
   {
@@ -25,26 +24,34 @@ const phases = [
 ]
 
 const pillars = [
-  { stat: "8:1", label: "Max player-to-coach ratio" },
+  { stat: "2+ per team", label: "Dedicated coaches" },
   { stat: "16", label: "Week development cycle" },
   { stat: "50+", label: "Documented drills" },
-  { stat: "100%", label: "Written practice plans" },
+  { stat: "100%", label: "Guaranteed individual and team progress" },
 ]
 
 export function DevelopmentModel() {
   const gridRef = useReveal({ className: "reveal-stagger" })
 
   return (
-    <section className="bg-neutral-50 py-28 px-6" id="development">
-      <div className="max-w-[1000px] mx-auto">
+    <section className="bg-black py-14 md:py-28 px-4 md:px-6 relative overflow-hidden border-t border-white/5" id="development">
+      {/* Ghost Typography */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
+        <span className="font-display text-[22vw] leading-none text-white select-none">PROCESS</span>
+      </div>
+
+      <div className="max-w-[1000px] mx-auto relative z-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-          <SectionHeader
-            number="03"
-            label="Development"
-            title={"How We Actually\nBuild Players"}
-            light
-          />
-          <p className="text-[0.86rem] text-neutral-400 max-w-[300px] leading-relaxed md:text-right md:pb-2">
+          <div className="max-w-[600px]">
+            <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
+              <div className="w-8 h-px bg-[var(--btb-red)]" />
+              DEVELOPMENT_MODEL // 16-WEEK_CYCLE
+            </div>
+            <h2 className="font-display text-[clamp(2rem,8vw,5rem)] uppercase leading-[0.85] text-white">
+              How We Actually<br /><span className="text-[var(--btb-red)]">Build Players.</span>
+            </h2>
+          </div>
+          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-6">
             A 16-week repeatable cycle designed around four phases of skill progression.
           </p>
         </div>
@@ -53,26 +60,26 @@ export function DevelopmentModel() {
           {phases.map((p, i) => (
             <div
               key={p.num}
-              className={`reveal-child relative rounded-2xl border p-7 overflow-hidden group transition-all duration-300 card-hover ${
+              className={`reveal-child relative border p-7 overflow-hidden group transition-all duration-300 ${
                 i === 1
-                  ? "border-[var(--btb-red)]/20 bg-white hover:border-[var(--btb-red)]/40"
-                  : "border-neutral-200 bg-white hover:border-neutral-300"
+                  ? "border-[var(--btb-red)]/30 bg-[var(--btb-red)]/5 hover:border-[var(--btb-red)]/50"
+                  : "border-white/10 bg-neutral-950 hover:border-white/20"
               }`}
             >
-              <div className="absolute right-5 top-3 font-display text-[5rem] text-black/[0.04] leading-none select-none">{p.num}</div>
+              <div className="absolute right-5 top-3 font-display text-[5rem] text-white/[0.04] leading-none select-none">{p.num}</div>
 
               <div className="flex items-start justify-between mb-5">
                 <div>
                   <div className="text-[0.6rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
-                  <div className="font-display text-xl uppercase tracking-wide text-black">{p.phase}</div>
+                  <div className="font-display text-xl uppercase tracking-wide text-white">{p.phase}</div>
                 </div>
               </div>
 
-              <p className="font-display text-[1.1rem] text-neutral-400 mb-5 uppercase tracking-wide">{p.title}</p>
+              <p className="font-display text-[1.2rem] text-white/70 mb-5 uppercase tracking-wide">{p.title}</p>
 
               <ul className="space-y-2">
                 {p.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[0.8rem] text-neutral-500">
+                  <li key={item} className="flex items-start gap-2.5 text-[0.92rem] text-white/65">
                     <span className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-2 shrink-0" />
                     {item}
                   </li>
@@ -82,14 +89,14 @@ export function DevelopmentModel() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 border border-neutral-200 rounded-xl overflow-hidden bg-white">
+        <div className="grid grid-cols-2 md:grid-cols-4 border border-white/10 overflow-hidden bg-neutral-950">
           {pillars.map((p, i) => (
             <div
               key={p.stat}
-              className={`py-8 text-center ${i < pillars.length - 1 ? "border-r border-neutral-200" : ""}`}
+              className={`py-8 text-center ${i < pillars.length - 1 ? "border-r border-white/10" : ""}`}
             >
               <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{p.stat}</div>
-              <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-neutral-400 mt-2">{p.label}</div>
+              <div className="text-[0.75rem] font-semibold uppercase tracking-[1.5px] text-white/60 mt-2">{p.label}</div>
             </div>
           ))}
         </div>

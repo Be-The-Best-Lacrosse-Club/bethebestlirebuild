@@ -79,7 +79,7 @@ export function ProofSection() {
               <div key={i} className="flex items-center gap-12">
                 <span className="text-white/20 font-display text-4xl uppercase tracking-[10px]">BTB_ELITE_ACADEMY</span>
                 <span className="text-[var(--btb-red)] font-display text-4xl uppercase tracking-[10px]">//</span>
-                <span className="text-white/20 font-display text-4xl uppercase tracking-[10px]">8:1_COACH_RATIO</span>
+                <span className="text-white/20 font-display text-4xl uppercase tracking-[10px]">2+_COACHES_PER_TEAM</span>
                 <span className="text-[var(--btb-red)] font-display text-4xl uppercase tracking-[10px]">//</span>
                 <span className="text-white/20 font-display text-4xl uppercase tracking-[10px]">PRO_LEVEL_FILM</span>
                 <span className="text-[var(--btb-red)] font-display text-4xl uppercase tracking-[10px]">//</span>

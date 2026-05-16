@@ -7,7 +7,7 @@ const pillars = [
   {
     title: "Hard Work",
     icon: Hammer,
-    text: "We don't sell shortcuts. Every spot on our 24 teams is earned through grit and consistent effort. Our athletes embrace the grind because they know it's the only path to the top."
+    text: "We don't sell shortcuts. Every spot on our 22 teams is earned through grit and consistent effort. Our athletes embrace the grind because they know it's the only path to the top."
   },
   {
     title: "Accountability",
@@ -17,7 +17,7 @@ const pillars = [
   {
     title: "Development",
     icon: TrendingUp,
-    text: "We are an Academy first, a club second. With 8:1 player-to-coach ratios and a 16-week structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
+    text: "We are an Academy first, a club second. With 2+ coaches per team and a 16-week structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
   }
 ];
 
@@ -28,7 +28,7 @@ export function TheStandard() {
   const bgWordRef = useParallax(0.15);
 
   return (
-    <section className="relative bg-[#D22630] py-32 px-6 overflow-hidden">
+    <section className="relative bg-[#D22630] py-16 md:py-32 px-4 md:px-6 overflow-hidden">
       {/* Background Texture & Ghost Type */}
       <div className="absolute inset-0 z-0 opacity-10">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
@@ -48,7 +48,7 @@ export function TheStandard() {
           <div className="inline-block px-4 py-1.5 bg-black text-white text-[0.65rem] font-black uppercase tracking-[4px] rounded-sm mb-6">
             The Difference
           </div>
-          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2.8rem,6vw,4.5rem)] uppercase tracking-tight text-white leading-[0.95]">
+          <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase tracking-tight text-white leading-[0.95]">
             Culture Built on <br />
             <span className="text-black/40">The Standard.</span>
           </h2>
@@ -65,7 +65,7 @@ export function TheStandard() {
               </div>
               
               <h3 className="font-display text-2xl uppercase tracking-wider mb-5">{p.title}</h3>
-              <p className="text-white/50 text-[0.92rem] leading-relaxed group-hover:text-white/80 transition-colors font-medium">
+              <p className="text-white/60 text-[1rem] leading-relaxed group-hover:text-white/90 transition-colors font-medium">
                 {p.text}
               </p>
             </div>
