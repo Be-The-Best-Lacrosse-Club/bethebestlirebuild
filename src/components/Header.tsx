@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { useNavigate, useLocation } from "react-router-dom"
 import { Menu, X, ChevronDown, Lock, LogOut, Layout } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
@@ -74,131 +75,131 @@ export function Header() {
   }`
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
-    }`}>
-      <div className="max-w-[1320px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+    <>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+      }`}>
+        <div className="max-w-[1320px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
-        {/* Logo */}
-        <button onClick={() => go("/")} className="flex items-center gap-2 md:gap-3 group flex-shrink-0">
-          <img
-            src="/assets/brand/btb-circle-logo.png"
-            alt="BTB Lacrosse Club"
-            className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover group-hover:scale-105 transition-transform"
-          />
-          <div className={`font-display text-lg md:text-2xl tracking-tight uppercase transition-colors ${scrolled ? "text-black" : "text-white"}`}>
-            Be The <span className="text-[var(--btb-red)]">Best</span>
-          </div>
-        </button>
-
-        {/* Desktop Nav — only at xl (1280px+) */}
-        <nav className="hidden xl:flex items-center gap-1" ref={dropdownRef}>
-
-
-          <div className="relative">
-            <button onClick={() => setDropdown(dropdown === "programs" ? null : "programs")} className={navItemClass("/programs")}>
-              Programs <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "programs" ? "rotate-180" : ""}`} />
-            </button>
-            {dropdown === "programs" && (
-              <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
-                {programLinks.map(link => (
-                  <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[0.7rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="relative">
-            <button onClick={() => setDropdown(dropdown === "teams" ? null : "teams")} className={navItemClass("/teams")}>
-              Teams <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "teams" ? "rotate-180" : ""}`} />
-            </button>
-            {dropdown === "teams" && (
-              <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-black/5 rounded-xl shadow-2xl py-3 grid grid-cols-2 animate-in fade-in slide-in-from-top-2">
-                <div className="px-4 pb-2 col-span-2 text-[0.6rem] font-black text-black/20 uppercase tracking-[2px]">Boys Program</div>
-                {teamLinks("boys").map(link => (
-                  <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
-                    {link.label}
-                  </button>
-                ))}
-                <div className="px-4 py-2 col-span-2 border-t border-black/5 mt-2 text-[0.6rem] font-black text-black/20 uppercase tracking-[2px]">Girls Program</div>
-                {teamLinks("girls").map(link => (
-                  <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <button onClick={() => go("/register-tryouts")} className="ml-2 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
-            Tryouts 2026
+          {/* Logo */}
+          <button onClick={() => go("/")} className="flex items-center gap-2 md:gap-3 group flex-shrink-0">
+            <img
+              src="/assets/brand/btb-circle-logo.png"
+              alt="BTB Lacrosse Club"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover group-hover:scale-105 transition-transform"
+            />
+            <div className={`font-display text-lg md:text-2xl tracking-tight uppercase transition-colors ${scrolled ? "text-black" : "text-white"}`}>
+              Be The <span className="text-[var(--btb-red)]">Best</span>
+            </div>
           </button>
 
-          <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
+          {/* Desktop Nav — only at xl (1280px+) */}
+          <nav className="hidden xl:flex items-center gap-1" ref={dropdownRef}>
 
-          <button onClick={() => go("/coach-tools")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
-
-          <a href="/newsletter" className={navItemClass("/newsletter")}>Newsletter</a>
-
-          <a href="/academy-info" className={navItemClass("/academy-info")}>Academy</a>
-
-          <button onClick={() => go("/contact")} className={navItemClass("/contact")}>Contact</button>
-
-          <div className={`w-px h-5 mx-3 ${scrolled ? "bg-black/10" : "bg-white/10"}`} />
-
-          {isAuthenticated ? (
-            <div className="flex items-center gap-3">
-              <button onClick={() => go("/family-hub")} className="flex items-center gap-2 px-4 py-2 bg-black text-white text-[0.7rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all">
-                <Layout size={14} /> Family Hub
+            <div className="relative">
+              <button onClick={() => setDropdown(dropdown === "programs" ? null : "programs")} className={navItemClass("/programs")}>
+                Programs <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "programs" ? "rotate-180" : ""}`} />
               </button>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--btb-red)] to-red-700 flex items-center justify-center font-display text-white text-xs border-2 border-white/20">
-                  {user?.name?.[0]}
+              {dropdown === "programs" && (
+                <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
+                  {programLinks.map(link => (
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[0.7rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
+                      {link.label}
+                    </button>
+                  ))}
                 </div>
-                <button onClick={handleLogout} className={`p-2 transition-colors ${scrolled ? "text-black/30 hover:text-black" : "text-white/30 hover:text-white"}`}>
-                  <LogOut size={14} />
+              )}
+            </div>
+
+            <div className="relative">
+              <button onClick={() => setDropdown(dropdown === "teams" ? null : "teams")} className={navItemClass("/teams")}>
+                Teams <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "teams" ? "rotate-180" : ""}`} />
+              </button>
+              {dropdown === "teams" && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-black/5 rounded-xl shadow-2xl py-3 grid grid-cols-2 animate-in fade-in slide-in-from-top-2">
+                  <div className="px-4 pb-2 col-span-2 text-[0.6rem] font-black text-black/20 uppercase tracking-[2px]">Boys Program</div>
+                  {teamLinks("boys").map(link => (
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
+                      {link.label}
+                    </button>
+                  ))}
+                  <div className="px-4 py-2 col-span-2 border-t border-black/5 mt-2 text-[0.6rem] font-black text-black/20 uppercase tracking-[2px]">Girls Program</div>
+                  {teamLinks("girls").map(link => (
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
+                      {link.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button onClick={() => go("/register-tryouts")} className="ml-2 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
+              Tryouts 2026
+            </button>
+
+            <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
+
+            <button onClick={() => go("/coach-tools")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
+
+            <a href="/newsletter" className={navItemClass("/newsletter")}>Newsletter</a>
+
+            <a href="/academy-info" className={navItemClass("/academy-info")}>Academy</a>
+
+            <button onClick={() => go("/contact")} className={navItemClass("/contact")}>Contact</button>
+
+            <div className={`w-px h-5 mx-3 ${scrolled ? "bg-black/10" : "bg-white/10"}`} />
+
+            {isAuthenticated ? (
+              <div className="flex items-center gap-3">
+                <button onClick={() => go("/family-hub")} className="flex items-center gap-2 px-4 py-2 bg-black text-white text-[0.7rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all">
+                  <Layout size={14} /> Family Hub
+                </button>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--btb-red)] to-red-700 flex items-center justify-center font-display text-white text-xs border-2 border-white/20">
+                    {user?.name?.[0]}
+                  </div>
+                  <button onClick={handleLogout} className={`p-2 transition-colors ${scrolled ? "text-black/30 hover:text-black" : "text-white/30 hover:text-white"}`}>
+                    <LogOut size={14} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button onClick={() => go("/login")} className={navItemClass("/login")}>
+                  <Lock size={11} className="inline mr-1" /> Login
+                </button>
+                <button onClick={() => go("/interest")} className={`px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
+                  Register
                 </button>
               </div>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <button onClick={() => go("/login")} className={navItemClass("/login")}>
-                <Lock size={11} className="inline mr-1" /> Login
-              </button>
-              <button onClick={() => go("/interest")} className={`px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
-                Register
-              </button>
-            </div>
-          )}
-        </nav>
+            )}
+          </nav>
 
-        {/* Mobile/Tablet toggle — shows below xl */}
-        <div className="xl:hidden flex items-center gap-3">
-          {/* Tryouts pill — always visible on mobile */}
-          <button
-            onClick={() => go("/register-tryouts")}
-            className="px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
-          >
-            Tryouts
-          </button>
-          <button
-            className={`z-[60] transition-colors p-1 ${scrolled || mobileOpen ? "text-black" : "text-white"}`}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Open menu"
-          >
-            {mobileOpen ? <X size={26} /> : <Menu size={26} />}
-          </button>
+          {/* Mobile/Tablet toggle — shows below xl */}
+          <div className="xl:hidden flex items-center gap-3">
+            {/* Tryouts pill — always visible on mobile */}
+            <button
+              onClick={() => go("/register-tryouts")}
+              className="px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
+            >
+              Tryouts
+            </button>
+            <button
+              className={`z-[60] transition-colors p-1 ${scrolled || mobileOpen ? "text-black" : "text-white"}`}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Open menu"
+            >
+              {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Menu Overlay */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black z-50 overflow-y-auto"
-          ref={(el) => { if (el) el.scrollTop = 0 }}
-        >
+      {/* Mobile Menu Overlay — rendered via portal so it escapes the header's
+          backdrop-filter stacking context, which was preventing fixed positioning
+          from covering the full viewport when the user had scrolled down. */}
+      {mobileOpen && createPortal(
+        <div className="fixed inset-0 bg-black z-[200] overflow-y-auto">
           {/* Header row */}
           <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
             <button onClick={() => go("/")} className="font-display text-xl text-white uppercase tracking-tight">
@@ -286,8 +287,9 @@ export function Header() {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
-    </header>
+    </>
   )
 }
