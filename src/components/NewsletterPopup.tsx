@@ -126,7 +126,7 @@ export function NewsletterPopup() {
           type="button"
           onClick={handleClose}
           aria-label="Close"
-          className="absolute right-4 top-4 w-8 h-8 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-colors"
+          className="absolute right-4 top-4 w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/5 transition-colors"
         >
           <X size={18} />
         </button>
@@ -137,20 +137,20 @@ export function NewsletterPopup() {
               <CheckCircle2 size={32} className="text-[var(--btb-red)]" />
             </div>
             <h2 className="font-display text-3xl text-white uppercase mb-3">You're In</h2>
-            <p className="text-white/50 text-[0.9rem] leading-relaxed mb-8">
+            <p className="text-white/78 text-[1.18rem] leading-relaxed mb-8">
               Welcome to the BTB list. Look out for news, events, and updates from the program.
             </p>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[0.7rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
+              className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[1.25rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
             >
               Continue
             </button>
           </div>
         ) : (
           <>
-            <div className="flex items-center gap-2 text-[var(--btb-red)] font-mono text-[0.6rem] tracking-[5px] mb-5">
+            <div className="flex items-center gap-2 text-[var(--btb-red)] font-mono text-[1.08rem] tracking-[5px] mb-5">
               <Mail size={12} />
               BTB_NEWSLETTER
             </div>
@@ -160,7 +160,7 @@ export function NewsletterPopup() {
             >
               Stay In The <span className="text-[var(--btb-red)]">Loop.</span>
             </h2>
-            <p className="text-white/50 text-[0.88rem] leading-relaxed mb-7">
+            <p className="text-white/78 text-[1.15rem] leading-relaxed mb-7">
               Join the BTB email list for news, events, tryouts, and program updates straight to your inbox.
             </p>
 
@@ -196,7 +196,7 @@ export function NewsletterPopup() {
                   placeholder="Your name (optional)"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[0.88rem] placeholder:text-white/25 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
+                  className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/25 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
                 />
               </div>
               <div>
@@ -212,7 +212,7 @@ export function NewsletterPopup() {
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[0.88rem] placeholder:text-white/25 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
+                  className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/25 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
                 />
               </div>
               <div>
@@ -221,14 +221,14 @@ export function NewsletterPopup() {
                   <button
                     type="button"
                     onClick={() => setGender("Boys")}
-                    className={`flex-1 h-12 rounded-lg text-[0.78rem] font-bold uppercase tracking-[1.5px] transition-all border ${gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/40 hover:border-white/30"}`}
+                    className={`flex-1 h-12 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1.5px] transition-all border ${gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/70 hover:border-white/30"}`}
                   >
                     Male
                   </button>
                   <button
                     type="button"
                     onClick={() => setGender("Girls")}
-                    className={`flex-1 h-12 rounded-lg text-[0.78rem] font-bold uppercase tracking-[1.5px] transition-all border ${gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/40 hover:border-white/30"}`}
+                    className={`flex-1 h-12 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1.5px] transition-all border ${gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/70 hover:border-white/30"}`}
                   >
                     Female
                   </button>
@@ -237,11 +237,11 @@ export function NewsletterPopup() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[0.7rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[1.25rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {submitting ? "Joining…" : "Join The List"}
               </button>
-              <p className="text-[0.7rem] text-white/30 text-center pt-1">
+              <p className="text-[1.25rem] text-white/85 text-center pt-1">
                 No spam. Unsubscribe anytime.
               </p>
             </form>

@@ -30,7 +30,7 @@ export function FilmStudy() {
       <div className="max-w-[1100px] mx-auto relative z-10">
         <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-12 md:mb-24 gap-6 md:gap-8 text-center md:text-left">
           <div className="max-w-[600px]">
-            <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 flex items-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center gap-3">
               <Search size={12} className="animate-pulse" />
               COGNITIVE_DEVELOPMENT // FILM_STUDY
             </div>
@@ -55,7 +55,7 @@ export function FilmStudy() {
               <Video className="text-white group-hover:text-[var(--btb-red)]" size={32} />
             </div>
             <h3 className="font-display text-4xl uppercase tracking-tight mb-4">THE_FILM_LAB</h3>
-            <p className="text-white/60 text-[0.85rem] font-black uppercase tracking-[4px] max-w-[400px]">
+            <p className="text-white/85 text-[1.1rem] font-black uppercase tracking-[4px] max-w-[400px]">
               Every Player. Every Week. Every Rep.
             </p>
           </div>
@@ -94,7 +94,7 @@ export function FilmStudy() {
             href="/film-breakdown.html"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-[var(--btb-red)] text-white text-[0.75rem] font-black uppercase tracking-[3px] rounded-sm overflow-hidden transition-all duration-300 hover:scale-[1.05] shadow-[0_15px_40px_rgba(210,38,48,0.3)]"
+            className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[3px] rounded-sm overflow-hidden transition-all duration-300 hover:scale-[1.05] shadow-[0_15px_40px_rgba(210,38,48,0.3)]"
           >
             <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             <Activity size={16} className="relative animate-pulse" />
@@ -104,7 +104,7 @@ export function FilmStudy() {
             onClick={() => navigate("/academy")}
             className="group flex items-center gap-4 text-white/65 hover:text-white transition-all"
           >
-            <span className="text-[0.65rem] font-black uppercase tracking-[4px]">Access E-Learning Portal</span>
+            <span className="text-[1.15rem] font-black uppercase tracking-[4px]">Access E-Learning Portal</span>
             <div className="w-10 h-px bg-white/20 group-hover:w-20 group-hover:bg-[var(--btb-red)] transition-all" />
           </button>
         </div>

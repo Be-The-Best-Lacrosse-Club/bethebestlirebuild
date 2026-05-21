@@ -129,18 +129,18 @@ export function FamilyHubPage() {
         {/* Header Section */}
         <div className="mb-12 border-b border-white/5 pb-12">
           <div className="flex items-center justify-between gap-4 mb-8">
-            <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px]">
+            <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px]">
               <Shield size={14} />
               BTB_FAMILY_HUB // COMMAND_CENTER
             </div>
             <div className="flex items-center gap-4">
                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[0.6rem] font-black uppercase tracking-[1px] text-emerald-500/80">Systems_Online</span>
+                  <span className="text-[1.08rem] font-black uppercase tracking-[1px] text-emerald-500/80">Systems_Online</span>
                </div>
                <button 
                 onClick={handleLogout}
-                className="text-[0.65rem] font-black uppercase tracking-[2px] text-white/30 hover:text-white transition-colors"
+                className="text-[1.15rem] font-black uppercase tracking-[2px] text-white/85 hover:text-white transition-colors"
                >
                  Logout
                </button>
@@ -152,7 +152,7 @@ export function FamilyHubPage() {
               <h1 className="font-display text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.85] text-white mb-6">
                 Family <br /> <span className="text-[var(--btb-red)]">Command Center.</span>
               </h1>
-              <p className="text-white/40 text-[1rem] leading-relaxed max-w-[540px]">
+              <p className="text-white/70 text-[1rem] leading-relaxed max-w-[540px]">
                 Welcome back, <span className="text-white/80 font-bold">{user?.name}</span>. 
                 Everything you need to manage your child's <span className="text-[var(--btb-red)] font-bold">{label} {user?.gradYear}</span> season is unified here. Schedule data is filtered to your player's assigned team.
               </p>
@@ -161,11 +161,11 @@ export function FamilyHubPage() {
             <div className="flex gap-4">
               <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 text-center min-w-[140px]">
                  <div className="text-3xl font-display text-[var(--btb-red)] mb-1">14</div>
-                 <div className="text-[0.6rem] font-black text-white/20 uppercase tracking-[1px]">Day Streak</div>
+                 <div className="text-[1.08rem] font-black text-white/45 uppercase tracking-[1px]">Day Streak</div>
               </div>
               <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 text-center min-w-[140px]">
                  <div className="text-3xl font-display text-white mb-1">68%</div>
-                 <div className="text-[0.6rem] font-black text-white/20 uppercase tracking-[1px]">Completion</div>
+                 <div className="text-[1.08rem] font-black text-white/45 uppercase tracking-[1px]">Completion</div>
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@ export function FamilyHubPage() {
           <section className="mb-12">
             <div className="flex items-end justify-between mb-6">
               <div>
-                <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.6rem] tracking-[4px] mb-2">
+                <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.08rem] tracking-[4px] mb-2">
                   <Calendar size={12} />
                   UPCOMING_SCHEDULE
                 </div>
@@ -200,19 +200,19 @@ export function FamilyHubPage() {
                 href="https://go.teamsnap.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[0.62rem] font-black uppercase tracking-[2px] text-white/30 hover:text-white transition-colors"
+                className="text-[1.1rem] font-black uppercase tracking-[2px] text-white/85 hover:text-white transition-colors"
               >
                 Open TeamSnap →
               </a>
             </div>
 
             {scheduleLoading ? (
-              <div className="flex items-center gap-3 text-white/40 text-[0.82rem] py-8">
+              <div className="flex items-center gap-3 text-white/70 text-[1.08rem] py-8">
                 <Loader2 size={16} className="animate-spin" />
                 Loading schedule…
               </div>
             ) : scheduleError ? (
-              <div className="text-white/40 text-[0.82rem] py-8">
+              <div className="text-white/70 text-[1.08rem] py-8">
                 Couldn't load schedule. <a href="https://go.teamsnap.com" target="_blank" rel="noopener noreferrer" className="text-[var(--btb-red)] hover:underline">Open TeamSnap</a> instead.
               </div>
             ) : hasSchedule ? (
@@ -233,7 +233,7 @@ export function FamilyHubPage() {
                     >
                       {/* Date column */}
                       <div className="text-center min-w-[60px] shrink-0">
-                        <div className="text-[0.6rem] font-black uppercase tracking-[1.5px] text-white/30">{fmt.day}</div>
+                        <div className="text-[1.08rem] font-black uppercase tracking-[1.5px] text-white/85">{fmt.day}</div>
                         <div className="font-display text-xl text-white leading-tight">{fmt.date}</div>
                       </div>
                       {/* Divider */}
@@ -241,13 +241,13 @@ export function FamilyHubPage() {
                       {/* Event details */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`text-[0.55rem] font-black uppercase tracking-[2px] px-2 py-0.5 rounded ${
-                            isGame ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]" : "bg-white/5 text-white/40"
+                          <span className={`text-[1.0rem] font-black uppercase tracking-[2px] px-2 py-0.5 rounded ${
+                            isGame ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]" : "bg-white/5 text-white/70"
                           }`}>
                             {isGame ? "GAME" : (evt.name || "").toLowerCase().includes("practice") ? "PRACTICE" : "EVENT"}
                           </span>
                           {evt.isCanceled && (
-                            <span className="text-[0.55rem] font-black uppercase tracking-[2px] text-amber-500/80">CANCELLED</span>
+                            <span className="text-[1.0rem] font-black uppercase tracking-[2px] text-amber-500/80">CANCELLED</span>
                           )}
                         </div>
                         <div className="font-display text-lg text-white uppercase tracking-wide truncate">
@@ -255,7 +255,7 @@ export function FamilyHubPage() {
                             ? `vs ${evt.opponentName}`
                             : evt.name || (isGame ? "Game" : "Practice")}
                         </div>
-                        <div className="flex items-center gap-4 text-[0.72rem] text-white/40 mt-1">
+                        <div className="flex items-center gap-4 text-[1.0rem] text-white/70 mt-1">
                           <span className="flex items-center gap-1.5">
                             <Clock size={11} /> {fmt.time}
                           </span>
@@ -294,22 +294,22 @@ export function FamilyHubPage() {
                   <div className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-all ${
                     isAcademy ? "bg-[var(--btb-red)]/10 border-[var(--btb-red)]/20 group-hover:bg-[var(--btb-red)]" : "bg-white/5 border-white/10 group-hover:border-[var(--btb-red)]/50"
                   }`}>
-                    <link.icon size={20} className={`${isAcademy ? "text-[var(--btb-red)] group-hover:text-white" : "text-white/30 group-hover:text-[var(--btb-red)]"} transition-colors`} />
+                    <link.icon size={20} className={`${isAcademy ? "text-[var(--btb-red)] group-hover:text-white" : "text-white/85 group-hover:text-[var(--btb-red)]"} transition-colors`} />
                   </div>
                   <div className={`text-[9px] font-black uppercase tracking-[2px] px-2 py-0.5 rounded ${
-                    isAcademy ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]" : "text-white/20 bg-white/5"
+                    isAcademy ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]" : "text-white/45 bg-white/5"
                   }`}>{link.tag}</div>
                 </div>
 
                 <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-3 relative z-10">{link.title}</h3>
-                <p className="text-white/40 text-[0.82rem] leading-relaxed mb-8 group-hover:text-white/60 transition-colors relative z-10">
+                <p className="text-white/70 text-[1.08rem] leading-relaxed mb-8 group-hover:text-white/85 transition-colors relative z-10">
                   {link.desc}
                 </p>
 
-                <div className={`flex items-center gap-2 text-[0.65rem] font-black uppercase tracking-[2px] transition-all relative z-10 ${
-                  isComingSoon ? "text-white/30"
+                <div className={`flex items-center gap-2 text-[1.15rem] font-black uppercase tracking-[2px] transition-all relative z-10 ${
+                  isComingSoon ? "text-white/85"
                   : isAcademy ? "text-[var(--btb-red)] group-hover:text-white"
-                  : "text-white/20 group-hover:text-[var(--btb-red)]"
+                  : "text-white/45 group-hover:text-[var(--btb-red)]"
                 }`}>
                   {isComingSoon ? "Coming Soon" : <>Open Portal <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" /></>}
                 </div>
@@ -340,11 +340,11 @@ export function FamilyHubPage() {
         <div className="mt-16 p-10 rounded-2xl bg-neutral-900 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h4 className="font-display text-2xl text-white uppercase tracking-wider mb-2">Need Operations Support?</h4>
-            <p className="text-white/30 text-[0.7rem] uppercase tracking-[2px] font-bold">Contact our administrative team for assistance.</p>
+            <p className="text-white/85 text-[1.25rem] uppercase tracking-[2px] font-bold">Contact our administrative team for assistance.</p>
           </div>
           <button 
             onClick={() => navigate("/interest")}
-            className="px-10 py-4 bg-white/5 border border-white/10 text-white text-[0.72rem] font-black uppercase tracking-[2px] rounded-xl hover:bg-white hover:text-black transition-all"
+            className="px-10 py-4 bg-white/5 border border-white/10 text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-xl hover:bg-white hover:text-black transition-all"
           >
             Submit Ticket
           </button>

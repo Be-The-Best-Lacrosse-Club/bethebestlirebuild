@@ -113,26 +113,26 @@ export function CampsPage() {
           }}
         />
         <div className="relative z-10 max-w-[900px] mx-auto pt-16">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
             BTB Summer Camps · 2026
           </div>
           <h1 className="font-display text-[clamp(3.2rem,8vw,6rem)] uppercase tracking-wide leading-[0.88] mb-8">
             Three Camps.<br />One Standard.
           </h1>
-          <p className="text-[0.92rem] text-white/40 max-w-[560px] leading-[1.9] mb-10">
+          <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
             Three intensive summer camps. Pick any consecutive days that fit your schedule. The Main Camp,
             Positional Camp, and Futures Camp — all run by the BTB pro staff.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a
               href="#camps"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
             >
               See the Camps <ArrowRight size={13} />
             </a>
             <a
               href="#included"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/50 text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
             >
               What's Included
             </a>
@@ -152,7 +152,7 @@ export function CampsPage() {
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{s.num}</div>
-                <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">
+                <div className="text-[1.1rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">
                   {s.label}
                 </div>
               </div>
@@ -164,13 +164,13 @@ export function CampsPage() {
       {/* Camps */}
       <section id="camps" className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[1100px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
             The Schedule
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Three Weeks.<br />Three Camps.
           </h2>
-          <p className="text-[0.84rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
+          <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
             Sign up for any consecutive days that fit your schedule.
           </p>
 
@@ -194,11 +194,11 @@ export function CampsPage() {
                       <c.icon
                         size={20}
                         strokeWidth={1.5}
-                        className={i === 0 ? "text-[var(--btb-red)]" : "text-white/40"}
+                        className={i === 0 ? "text-[var(--btb-red)]" : "text-white/70"}
                       />
                     </div>
                     <span
-                      className={`md:hidden text-[0.6rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full self-center ${
+                      className={`md:hidden text-[1.08rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full self-center ${
                         i === 0
                           ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]"
                           : "bg-white/[0.05] text-white/25"
@@ -211,10 +211,10 @@ export function CampsPage() {
                   <div>
                     <div className="hidden md:flex items-center gap-3 mb-3">
                       <span
-                        className={`text-[0.6rem] font-bold uppercase tracking-[2px] px-2.5 py-1 rounded-full ${
+                        className={`text-[1.08rem] font-bold uppercase tracking-[2px] px-2.5 py-1 rounded-full ${
                           i === 0
                             ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]"
-                            : "bg-white/[0.05] text-white/40"
+                            : "bg-white/[0.05] text-white/70"
                         }`}
                       >
                         {c.tagline}
@@ -223,15 +223,15 @@ export function CampsPage() {
                     <h3 className="font-display text-[clamp(1.6rem,3vw,2.2rem)] uppercase tracking-wide text-white mb-2">
                       {c.name}
                     </h3>
-                    <div className="text-[0.78rem] text-white/35 mb-5">{c.forWho}</div>
-                    <p className="text-[0.86rem] text-white/45 leading-relaxed mb-6 max-w-[560px]">
+                    <div className="text-[1.05rem] text-white/35 mb-5">{c.forWho}</div>
+                    <p className="text-[1.12rem] text-white/45 leading-relaxed mb-6 max-w-[560px]">
                       {c.description}
                     </p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {c.bullets.map((b) => (
                         <li
                           key={b}
-                          className="flex items-start gap-2 text-[0.8rem] text-white/45 leading-relaxed"
+                          className="flex items-start gap-2 text-[1.05rem] text-white/45 leading-relaxed"
                         >
                           <div className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-1.5 shrink-0" />
                           <span>{b}</span>
@@ -244,26 +244,26 @@ export function CampsPage() {
                     <div className="flex md:flex-col items-baseline md:items-end gap-2 md:gap-1">
                       <Calendar
                         size={14}
-                        className={`md:hidden ${i === 0 ? "text-[var(--btb-red)]" : "text-white/40"}`}
+                        className={`md:hidden ${i === 0 ? "text-[var(--btb-red)]" : "text-white/70"}`}
                       />
                       <div className="font-display text-[1.1rem] uppercase tracking-wide text-white leading-tight">
                         {c.dates}
                       </div>
                     </div>
-                    <div className="text-[0.65rem] font-bold uppercase tracking-[1.5px] text-white/30 mt-2">
+                    <div className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-white/85 mt-2">
                       {c.range}
                     </div>
-                    <div className="flex md:justify-end items-center gap-1.5 mt-3 text-[0.78rem] text-white/55">
-                      <Clock size={12} className={i === 0 ? "text-[var(--btb-red)]" : "text-white/40"} />
+                    <div className="flex md:justify-end items-center gap-1.5 mt-3 text-[1.05rem] text-white/55">
+                      <Clock size={12} className={i === 0 ? "text-[var(--btb-red)]" : "text-white/70"} />
                       {c.time}
                     </div>
-                    <div className="flex md:justify-end items-center gap-1.5 mt-1.5 text-[0.78rem] text-white/55">
-                      <MapPin size={12} className={i === 0 ? "text-[var(--btb-red)]" : "text-white/40"} />
+                    <div className="flex md:justify-end items-center gap-1.5 mt-1.5 text-[1.05rem] text-white/55">
+                      <MapPin size={12} className={i === 0 ? "text-[var(--btb-red)]" : "text-white/70"} />
                       {c.location}
                     </div>
                     <a
                       href={c.registerUrl}
-                      className={`mt-5 block text-center py-3 px-6 font-black text-[0.75rem] uppercase tracking-[2px] transition-all ${
+                      className={`mt-5 block text-center py-3 px-6 font-black text-[1.0rem] uppercase tracking-[2px] transition-all ${
                         i === 0
                           ? "bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)]"
                           : "border border-[var(--btb-red)] text-white hover:bg-[var(--btb-red)]"
@@ -282,7 +282,7 @@ export function CampsPage() {
       {/* What's Included */}
       <section id="included" className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
             Every Camp
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
@@ -327,14 +327,14 @@ export function CampsPage() {
               >
                 <div className="flex items-start justify-between mb-5">
                   <div className="w-10 h-10 rounded-lg bg-white/[0.05] flex items-center justify-center">
-                    <b.icon size={18} strokeWidth={1.5} className="text-white/40" />
+                    <b.icon size={18} strokeWidth={1.5} className="text-white/70" />
                   </div>
-                  <span className="text-[0.6rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full bg-white/[0.05] text-white/25">
+                  <span className="text-[1.08rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full bg-white/[0.05] text-white/25">
                     {b.stat}
                   </span>
                 </div>
                 <h4 className="font-display text-[1rem] uppercase tracking-wide mb-3">{b.title}</h4>
-                <p className="text-[0.8rem] text-white/30 leading-relaxed group-hover:text-white/45 transition-colors">
+                <p className="text-[1.05rem] text-white/85 leading-relaxed group-hover:text-white/45 transition-colors">
                   {b.text}
                 </p>
               </div>
@@ -349,26 +349,26 @@ export function CampsPage() {
           <div className="relative border border-[var(--btb-red)]/25 rounded-2xl px-10 py-14 overflow-hidden">
             <div className="absolute inset-0 bg-[var(--btb-red)]/[0.04]" />
             <div className="relative">
-              <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
+              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
                 Save Your Spot
               </div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 Lock In Your Camp.<br />
                 <span className="text-[var(--btb-red)]">Pick Your Days.</span>
               </h2>
-              <p className="text-[0.88rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
+              <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
                 Camps fill up. Reach out to confirm pricing, location, and reserve your athlete's spot.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="/interest"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200"
                 >
                   Reserve a Spot <ArrowRight size={13} />
                 </a>
                 <a
                   href="mailto:info@bethebestli.com"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/50 text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
                 >
                   Email Us
                 </a>

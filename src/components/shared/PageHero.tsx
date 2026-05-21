@@ -20,7 +20,7 @@ export function PageHero({ title, subtitle, eyebrow }: PageHeroProps) {
         {eyebrow && (
           <div className="animate-fade-up-delay-1 inline-flex items-center gap-3 mb-6">
             <div className="h-px w-8 bg-[var(--btb-red)]" />
-            <span className="text-[0.6rem] font-bold uppercase tracking-[4px] text-white/35">{eyebrow}</span>
+            <span className="text-[1.08rem] font-bold uppercase tracking-[4px] text-white/35">{eyebrow}</span>
             <div className="h-px w-8 bg-[var(--btb-red)]" />
           </div>
         )}
@@ -31,7 +31,7 @@ export function PageHero({ title, subtitle, eyebrow }: PageHeroProps) {
           {title}
         </h1>
         {subtitle && (
-          <p className="animate-fade-up-delay-3 mt-5 text-[0.95rem] leading-[1.8] text-white/40 max-w-[520px] mx-auto">
+          <p className="animate-fade-up-delay-3 mt-5 text-[1.25rem] leading-[1.8] text-white/70 max-w-[520px] mx-auto">
             {subtitle}
           </p>
         )}

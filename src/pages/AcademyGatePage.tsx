@@ -19,7 +19,7 @@ export function AcademyGatePage() {
         }} />
 
         <div className="relative z-10 w-full max-w-[900px] text-center">
-          <div className="text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6 uppercase">
+          <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 uppercase">
             BTB_DIGITAL_ACADEMY
           </div>
 
@@ -27,7 +27,7 @@ export function AcademyGatePage() {
             Choose Your <span className="text-[var(--btb-red)]">Program.</span>
           </h1>
 
-          <p className="text-white/40 text-sm mb-16 max-w-[400px] mx-auto">
+          <p className="text-white/70 text-sm mb-16 max-w-[400px] mx-auto">
             90+ lessons, position-specific tracks, film study, and skill progressions — built for serious players.
           </p>
 
@@ -37,10 +37,10 @@ export function AcademyGatePage() {
               onClick={() => navigate("/boys/players")}
               className="group p-12 bg-black hover:bg-neutral-900 transition-all duration-300 flex flex-col items-start text-left"
             >
-              <div className="text-[10px] font-mono text-white/20 group-hover:text-[var(--btb-red)] transition-colors mb-6 tracking-[3px]">PROGRAM // 001</div>
+              <div className="text-[10px] font-mono text-white/45 group-hover:text-[var(--btb-red)] transition-colors mb-6 tracking-[3px]">PROGRAM // 001</div>
               <h2 className="font-display text-4xl text-white uppercase tracking-wider mb-3 group-hover:translate-x-1 transition-transform">Boys</h2>
-              <p className="text-white/30 text-sm mb-8">Attack · Midfield · Defense · Goalie · FOGO</p>
-              <div className="mt-auto flex items-center gap-2 text-[0.65rem] font-black tracking-[2px] uppercase text-[var(--btb-red)] opacity-0 group-hover:opacity-100 transition-opacity">
+              <p className="text-white/85 text-sm mb-8">Attack · Midfield · Defense · Goalie · FOGO</p>
+              <div className="mt-auto flex items-center gap-2 text-[1.15rem] font-black tracking-[2px] uppercase text-[var(--btb-red)] opacity-0 group-hover:opacity-100 transition-opacity">
                 Enter Academy <ArrowRight size={12} />
               </div>
             </button>
@@ -50,10 +50,10 @@ export function AcademyGatePage() {
               onClick={() => navigate("/girls/players")}
               className="group p-12 bg-black hover:bg-neutral-900 transition-all duration-300 flex flex-col items-start text-left"
             >
-              <div className="text-[10px] font-mono text-white/20 group-hover:text-[var(--btb-red)] transition-colors mb-6 tracking-[3px]">PROGRAM // 002</div>
+              <div className="text-[10px] font-mono text-white/45 group-hover:text-[var(--btb-red)] transition-colors mb-6 tracking-[3px]">PROGRAM // 002</div>
               <h2 className="font-display text-4xl text-white uppercase tracking-wider mb-3 group-hover:translate-x-1 transition-transform">Girls</h2>
-              <p className="text-white/30 text-sm mb-8">Attack · Midfield · Defense · Goalie · Draw</p>
-              <div className="mt-auto flex items-center gap-2 text-[0.65rem] font-black tracking-[2px] uppercase text-[var(--btb-red)] opacity-0 group-hover:opacity-100 transition-opacity">
+              <p className="text-white/85 text-sm mb-8">Attack · Midfield · Defense · Goalie · Draw</p>
+              <div className="mt-auto flex items-center gap-2 text-[1.15rem] font-black tracking-[2px] uppercase text-[var(--btb-red)] opacity-0 group-hover:opacity-100 transition-opacity">
                 Enter Academy <ArrowRight size={12} />
               </div>
             </button>

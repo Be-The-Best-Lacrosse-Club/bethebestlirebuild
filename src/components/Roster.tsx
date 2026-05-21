@@ -38,9 +38,9 @@ export function Roster({ programId, teamName }: RosterProps) {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-white/10 bg-black">
+      <div className="flex flex-col items-center justify-center py-24 text-white/35 bg-black">
         <Loader2 className="animate-spin mb-4 text-[var(--btb-red)]" size={32} />
-        <p className="text-[0.6rem] font-mono uppercase tracking-[4px]">Initializing_Roster_Feed...</p>
+        <p className="text-[1.08rem] font-mono uppercase tracking-[4px]">Initializing_Roster_Feed...</p>
       </div>
     );
   }
@@ -59,17 +59,17 @@ export function Roster({ programId, teamName }: RosterProps) {
       <div className="max-w-[1100px] mx-auto relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-8 border-b border-white/10 gap-6">
           <div>
-            <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[4px] mb-4">
+            <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[4px] mb-4">
               <Activity size={12} className="animate-pulse" />
               LIVE_SYSTEM_SYNC // LEAGUEAPPS_V1
             </div>
             <h2 className="font-display text-[clamp(2.5rem,5vw,4rem)] uppercase tracking-tight text-white leading-none">
-              {teamName} <span className="text-white/20">Roster</span>
+              {teamName} <span className="text-white/45">Roster</span>
             </h2>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right hidden md:block">
-              <div className="text-[0.6rem] font-black text-white/30 uppercase tracking-[2px]">Verified Athletes</div>
+              <div className="text-[1.08rem] font-black text-white/85 uppercase tracking-[2px]">Verified Athletes</div>
               <div className="text-xl font-display text-white">{players.length}</div>
             </div>
             <div className="w-12 h-12 rounded-sm border border-white/10 flex items-center justify-center bg-white/[0.02]">
@@ -92,7 +92,7 @@ export function Roster({ programId, teamName }: RosterProps) {
                   <div className="font-display text-lg uppercase tracking-wider text-white group-hover:translate-x-1 transition-transform">
                     {player.firstName} {player.lastName}
                   </div>
-                  <div className="text-[0.6rem] font-mono text-white/20 uppercase tracking-[1px]">
+                  <div className="text-[1.08rem] font-mono text-white/45 uppercase tracking-[1px]">
                     Athlete_Profile // Active
                   </div>
                 </div>

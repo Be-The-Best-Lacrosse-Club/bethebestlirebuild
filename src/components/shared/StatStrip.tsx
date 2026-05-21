@@ -59,7 +59,7 @@ export function StatStrip({ stats, light = false }: StatStripProps) {
         {stats.map((s, i) => (
           <div key={i}>
             <AnimatedNumber value={s.value} suffix={s.suffix} />
-            <p className={`mt-1 text-[0.7rem] font-semibold uppercase tracking-[2px] ${light ? "text-black/35" : "text-white/30"}`}>
+            <p className={`mt-1 text-[1.25rem] font-semibold uppercase tracking-[2px] ${light ? "text-black/35" : "text-white/85"}`}>
               {s.label}
             </p>
           </div>

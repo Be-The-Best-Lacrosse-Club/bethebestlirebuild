@@ -138,8 +138,8 @@ export function InterestFormPage() {
     }
   }
 
-  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[0.88rem] placeholder:text-white/20 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
-  const labelClass = "block text-[0.65rem] font-black uppercase tracking-[2px] text-white/30 mb-2"
+  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
+  const labelClass = "block text-[1.15rem] font-black uppercase tracking-[2px] text-white/85 mb-2"
 
   if (submitted) {
     return (
@@ -149,12 +149,12 @@ export function InterestFormPage() {
             <CheckCircle2 size={40} className="text-[var(--btb-red)]" />
           </div>
           <h2 className="font-display text-4xl text-white uppercase mb-4">Interest Received</h2>
-          <p className="text-white/40 leading-relaxed mb-10">
+          <p className="text-white/70 leading-relaxed mb-10">
             Thanks for reaching out. Our team will review your information and follow up with the right next step for you.
           </p>
           <button
             onClick={() => (window.location.href = "/")}
-            className="w-full py-4 bg-[var(--btb-red)] text-white text-[0.75rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
+            className="w-full py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
           >
             Return Home
           </button>
@@ -173,14 +173,14 @@ export function InterestFormPage() {
 
       <div className="max-w-[820px] mx-auto">
         <div className="mb-12">
-          <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6">
+          <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6">
             <Shield size={14} />
             BTB_INTEREST_FORM
           </div>
           <h1 className="font-display text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.85] text-white mb-6">
             Tell Us What <br /> <span className="text-[var(--btb-red)]">You're After.</span>
           </h1>
-          <p className="text-white/40 text-[0.95rem] leading-relaxed max-w-[560px]">
+          <p className="text-white/70 text-[1.25rem] leading-relaxed max-w-[560px]">
             One form for everything — travel teams, camps, futures, tryouts, coaching. Pick what fits, give us your info, and we'll route your inquiry to the right person.
           </p>
         </div>
@@ -236,10 +236,10 @@ export function InterestFormPage() {
                   type="button"
                   key={c.id}
                   onClick={() => pickCategory(c.id)}
-                  className={`px-6 py-3 text-[0.78rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all ${
+                  className={`px-6 py-3 text-[1.05rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all ${
                     category === c.id
                       ? "bg-[var(--btb-red)] text-white"
-                      : "bg-white/[0.04] text-white/50 border border-white/10 hover:bg-white/[0.08] hover:text-white/80"
+                      : "bg-white/[0.04] text-white/78 border border-white/10 hover:bg-white/[0.08] hover:text-white/80"
                   }`}
                 >
                   {c.id}
@@ -250,7 +250,7 @@ export function InterestFormPage() {
             {/* Secondary: Boys / Girls (for categories that need it) */}
             {activeCategory?.hasProgram && (
               <div className="pl-4 border-l-2 border-[var(--btb-red)]/40 space-y-4">
-                <div className="text-[0.65rem] font-black uppercase tracking-[2px] text-white/40">
+                <div className="text-[1.15rem] font-black uppercase tracking-[2px] text-white/70">
                   {category} Program
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -259,10 +259,10 @@ export function InterestFormPage() {
                       type="button"
                       key={p}
                       onClick={() => pickProgram(p)}
-                      className={`px-6 py-3 text-[0.78rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all ${
+                      className={`px-6 py-3 text-[1.05rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all ${
                         program === p
                           ? "bg-[var(--btb-red)] text-white"
-                          : "bg-white/[0.04] text-white/50 border border-white/10 hover:bg-white/[0.08] hover:text-white/80"
+                          : "bg-white/[0.04] text-white/78 border border-white/10 hover:bg-white/[0.08] hover:text-white/80"
                       }`}
                     >
                       {p === "Boys" ? "Male" : "Female"}
@@ -275,7 +275,7 @@ export function InterestFormPage() {
             {/* Tertiary: team dropdown (Travel only) */}
             {activeCategory?.hasTeam && program && (
               <div className="pl-4 border-l-2 border-[var(--btb-red)]/40 space-y-4">
-                <div className="text-[0.65rem] font-black uppercase tracking-[2px] text-white/40">
+                <div className="text-[1.15rem] font-black uppercase tracking-[2px] text-white/70">
                   {program} Travel Team
                 </div>
                 <select
@@ -298,7 +298,7 @@ export function InterestFormPage() {
             <textarea
               name="notes"
               rows={3}
-              className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[0.88rem] placeholder:text-white/20 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
+              className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
               placeholder="Grad year, position, questions, scheduling constraints, etc."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -308,7 +308,7 @@ export function InterestFormPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-5 bg-[var(--btb-red)] text-white text-[0.8rem] font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50 flex items-center justify-center gap-3"
+            className="w-full py-5 bg-[var(--btb-red)] text-white text-[1.05rem] font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50 flex items-center justify-center gap-3"
           >
             <Send size={14} />
             {submitting ? "Submitting..." : "Submit Interest"}

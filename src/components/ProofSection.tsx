@@ -38,7 +38,7 @@ export function ProofSection() {
               Recruiting <br /> <span className="text-[var(--btb-red)]">Flagships.</span>
             </h2>
           </div>
-          <div className="text-white/30 text-[0.75rem] font-bold uppercase tracking-[2px] mb-4 border-l border-[var(--btb-red)] pl-6 max-w-[300px]">
+          <div className="text-white/85 text-[1.0rem] font-bold uppercase tracking-[2px] mb-4 border-l border-[var(--btb-red)] pl-6 max-w-[300px]">
             BTB 2028 Black and Girls 2030 Tidal Wave are our current flagship recruiting units, competing at the highest national level.
           </div>
         </div>
@@ -47,13 +47,13 @@ export function ProofSection() {
           {achievements.map((a, i) => (
             <div key={i} className="stagger-child group relative p-8 bg-black hover:bg-[var(--btb-red)] transition-all duration-300">
               {/* Corner Spec */}
-              <div className="absolute top-4 right-4 text-[10px] font-mono text-white/20 group-hover:text-white/60 transition-colors">
+              <div className="absolute top-4 right-4 text-[10px] font-mono text-white/45 group-hover:text-white/85 transition-colors">
                 {a.spec}
               </div>
               
               <div className="mb-12">
                 <div className="font-display text-xl uppercase tracking-wider text-white mb-1">{a.event}</div>
-                <div className="text-[0.65rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
+                <div className="text-[1.15rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
                   {a.team || a.player}
                 </div>
               </div>
@@ -77,11 +77,11 @@ export function ProofSection() {
           <div className="flex gap-12 animate-scroll-fast">
             {[...Array(10)].map((_, i) => (
               <div key={i} className="flex items-center gap-12">
-                <span className="text-white/20 font-display text-4xl uppercase tracking-[10px]">BTB_ELITE_ACADEMY</span>
+                <span className="text-white/45 font-display text-4xl uppercase tracking-[10px]">BTB_ELITE_ACADEMY</span>
                 <span className="text-[var(--btb-red)] font-display text-4xl uppercase tracking-[10px]">//</span>
-                <span className="text-white/20 font-display text-4xl uppercase tracking-[10px]">2+_COACHES_PER_TEAM</span>
+                <span className="text-white/45 font-display text-4xl uppercase tracking-[10px]">2+_COACHES_PER_TEAM</span>
                 <span className="text-[var(--btb-red)] font-display text-4xl uppercase tracking-[10px]">//</span>
-                <span className="text-white/20 font-display text-4xl uppercase tracking-[10px]">PRO_LEVEL_FILM</span>
+                <span className="text-white/45 font-display text-4xl uppercase tracking-[10px]">PRO_LEVEL_FILM</span>
                 <span className="text-[var(--btb-red)] font-display text-4xl uppercase tracking-[10px]">//</span>
               </div>
             ))}

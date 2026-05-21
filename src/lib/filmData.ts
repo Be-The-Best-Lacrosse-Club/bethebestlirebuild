@@ -20,7 +20,7 @@ export const filmCategoryColors: Record<FilmCategory, string> = {
   "Man-Up/Man-Down": "text-amber-400 border-amber-400/20 bg-amber-400/5",
   Goalie: "text-purple-400 border-purple-400/20 bg-purple-400/5",
   Drills: "text-orange-400 border-orange-400/20 bg-orange-400/5",
-  "Game Film": "text-white/60 border-white/20 bg-white/5",
+  "Game Film": "text-white/85 border-white/20 bg-white/5",
 }
 
 /** Background color for the video placeholder area */

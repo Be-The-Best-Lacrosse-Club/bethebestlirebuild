@@ -45,11 +45,11 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
       {/* Nav */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/[0.06]">
         <div className="max-w-[1100px] mx-auto px-6 h-16 flex items-center justify-between">
-          <button onClick={onBack} className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-[0.78rem] font-semibold uppercase tracking-[1.5px]">
+          <button onClick={onBack} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-[1.05rem] font-semibold uppercase tracking-[1.5px]">
             <ArrowLeft size={15} /> Back
           </button>
           <span className="font-display text-lg uppercase tracking-wide">BTB <span className="text-[var(--btb-red)]">Girls Lacrosse</span></span>
-          <a href="#apply-girls" className="px-5 py-2 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded hover:bg-[var(--btb-red-dark)] transition-colors">
+          <a href="#apply-girls" className="px-5 py-2 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded hover:bg-[var(--btb-red-dark)] transition-colors">
             Apply Now
           </a>
         </div>
@@ -64,18 +64,18 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
           background: "radial-gradient(ellipse 100% 80% at 50% 100%, rgba(210,38,48,0.15) 0%, transparent 65%)"
         }} />
         <div className="relative z-10 max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">Girls Program</div>
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">Girls Program</div>
           <h1 className="font-display text-[clamp(3.2rem,8vw,6rem)] uppercase tracking-wide leading-[0.88] mb-8">
             Same Standard.<br />Built for Her.
           </h1>
-          <p className="text-[0.92rem] text-white/40 max-w-[520px] leading-[1.9] mb-10">
+          <p className="text-[1.2rem] text-white/70 max-w-[520px] leading-[1.9] mb-10">
             The BTB Girls Program delivers the same structure, film study, and coaching standards as the boys' program — with a curriculum designed specifically for the women's game. Same commitment. Same accountability. Her development.
           </p>
           <div className="flex gap-3 flex-wrap">
-            <a href="#apply-girls" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
+            <a href="#apply-girls" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
               Apply for 2026 <ArrowRight size={13} />
             </a>
-            <a href="#age-groups" className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/50 text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
+            <a href="#age-groups" className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
               View Age Groups
             </a>
           </div>
@@ -89,7 +89,7 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
             {stats.map((s) => (
               <div key={s.label} className="text-center">
                 <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{s.num}</div>
-                <div className="text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">{s.label}</div>
+                <div className="text-[1.1rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">{s.label}</div>
               </div>
             ))}
           </div>
@@ -97,14 +97,14 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
           {/* Teams list */}
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             {teams.map((t) => (
-              <div key={t} className="px-4 py-2 border border-white/[0.08] rounded-full text-[0.72rem] font-bold uppercase tracking-[1.5px] text-white/40">
+              <div key={t} className="px-4 py-2 border border-white/[0.08] rounded-full text-[1.0rem] font-bold uppercase tracking-[1.5px] text-white/70">
                 Class of {t}
               </div>
             ))}
           </div>
 
           {/* Commits note */}
-          <p className="text-center text-[0.78rem] text-white/30 italic">
+          <p className="text-center text-[1.05rem] text-white/85 italic">
             College commits coming from future graduating classes — this program is just getting started.
           </p>
         </div>
@@ -113,11 +113,11 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
       {/* What You Get */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">The Program</div>
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">The Program</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             What Every BTB<br />Athlete Gets
           </h2>
-          <p className="text-[0.84rem] text-white/35 mb-14 max-w-[420px] leading-relaxed">
+          <p className="text-[1.1rem] text-white/35 mb-14 max-w-[420px] leading-relaxed">
             The same tools, the same coaching, the same accountability — built for the girls' game.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -131,14 +131,14 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                     i === 2 ? "bg-[var(--btb-red)]/20" : "bg-white/[0.05]"
                   }`}>
-                    <b.icon size={18} strokeWidth={1.5} className={i === 2 ? "text-[var(--btb-red)]" : "text-white/40"} />
+                    <b.icon size={18} strokeWidth={1.5} className={i === 2 ? "text-[var(--btb-red)]" : "text-white/70"} />
                   </div>
-                  <span className={`text-[0.6rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full ${
+                  <span className={`text-[1.08rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full ${
                     i === 2 ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]" : "bg-white/[0.05] text-white/25"
                   }`}>{b.stat}</span>
                 </div>
                 <h4 className="font-display text-[1rem] uppercase tracking-wide mb-3">{b.title}</h4>
-                <p className="text-[0.8rem] text-white/30 leading-relaxed group-hover:text-white/45 transition-colors">{b.text}</p>
+                <p className="text-[1.05rem] text-white/85 leading-relaxed group-hover:text-white/45 transition-colors">{b.text}</p>
               </div>
             ))}
           </div>
@@ -148,7 +148,7 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
       {/* Age Groups */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]" id="age-groups">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Age Groups</div>
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Age Groups</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
             Every Level.<br />One Standard.
           </h2>
@@ -159,12 +159,12 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
               }`}>
                 <div className="shrink-0 md:w-40">
                   <div className="font-display text-[1.1rem] uppercase tracking-wide text-white">{g.grad}</div>
-                  <div className={`text-[0.62rem] font-bold uppercase tracking-[1.5px] mt-1 ${
+                  <div className={`text-[1.1rem] font-bold uppercase tracking-[1.5px] mt-1 ${
                     i === 3 ? "text-[var(--btb-red)]" : "text-white/25"
                   }`}>{g.level}</div>
                 </div>
                 <div className="hidden md:block w-px self-stretch bg-white/[0.08]" />
-                <p className="text-[0.84rem] text-white/40 leading-relaxed">{g.description}</p>
+                <p className="text-[1.1rem] text-white/70 leading-relaxed">{g.description}</p>
               </div>
             ))}
           </div>
@@ -176,12 +176,12 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
         <div className="max-w-[900px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <div>
-              <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Model</div>
+              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Model</div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92]">
                 16-Week Cycle.<br />Four Phases.
               </h2>
             </div>
-            <p className="text-[0.84rem] text-white/35 max-w-[280px] leading-relaxed md:text-right">
+            <p className="text-[1.1rem] text-white/35 max-w-[280px] leading-relaxed md:text-right">
               The same repeatable development cycle — adapted for the girls' game at every phase.
             </p>
           </div>
@@ -191,11 +191,11 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
                 i === 1 ? "border-[var(--btb-red)]/30 bg-[var(--btb-red)]/5" : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12]"
               }`}>
                 <div className="absolute right-4 top-2 font-display text-[4.5rem] text-white/[0.03] leading-none select-none">{p.num}</div>
-                <div className="text-[0.6rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
+                <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
                 <div className="font-display text-xl uppercase tracking-wide mb-5">{p.phase}</div>
                 <ul className="space-y-2">
                   {p.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-[0.8rem] text-white/35">
+                    <li key={item} className="flex items-start gap-2.5 text-[1.05rem] text-white/35">
                       <span className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-2 shrink-0" />
                       {item}
                     </li>
@@ -214,18 +214,18 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
             <div className="absolute inset-0 bg-[var(--btb-red)]/[0.03]" />
             <div className="absolute top-0 left-0 w-1 h-full bg-[var(--btb-red)]" />
             <div className="relative p-10 md:p-14">
-              <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-5">Film Study</div>
+              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-5">Film Study</div>
               <h2 className="font-display text-[clamp(2rem,4vw,2.8rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 Not Optional.<br />Not Occasional.
               </h2>
-              <p className="text-[0.88rem] text-white/40 max-w-[520px] leading-[1.85] mb-8">
+              <p className="text-[1.15rem] text-white/70 max-w-[520px] leading-[1.85] mb-8">
                 Every BTB player studies film weekly with a coach. Your footage is captured, reviewed, and broken down into specific coaching points — draw control positioning, defensive slides, transition reads. Each clip ends with a correction and a drill to match it.
               </p>
               <div className="flex flex-wrap gap-6">
                 {["Your game on film", "Coach-led breakdown", "Specific corrections", "Drill-to-fix loop"].map((item) => (
                   <div key={item} className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)]" />
-                    <span className="text-[0.72rem] font-semibold uppercase tracking-[1px] text-white/50">{item}</span>
+                    <span className="text-[1.0rem] font-semibold uppercase tracking-[1px] text-white/78">{item}</span>
                   </div>
                 ))}
               </div>
@@ -237,7 +237,7 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
       {/* Results / Testimonials */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Results</div>
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Results</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
             Hear It From<br />BTB Athletes
           </h2>
@@ -247,7 +247,7 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
             <div className="absolute top-0 left-0 w-1 h-full bg-[var(--btb-red)]" />
             <div className="absolute top-4 right-6 font-display text-[6rem] text-white/[0.04] leading-none select-none">"</div>
             <div className="relative">
-              <span className="text-[0.62rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-5 inline-block">Commit Story</span>
+              <span className="text-[1.1rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-5 inline-block">Commit Story</span>
               <p className="font-display text-[clamp(1.1rem,2.5vw,1.5rem)] uppercase tracking-wide leading-[1.25] text-white mb-8 max-w-[600px]">
                 "{testimonials[1].quote}"
               </p>
@@ -255,7 +255,7 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
                 <div className="w-10 h-10 rounded-full bg-[var(--btb-red)] flex items-center justify-center font-bold text-sm">{testimonials[1].initials}</div>
                 <div>
                   <div className="font-semibold text-white text-sm">{testimonials[1].name}</div>
-                  <div className="text-white/35 text-[0.72rem]">{testimonials[1].role}</div>
+                  <div className="text-white/35 text-[1.0rem]">{testimonials[1].role}</div>
                 </div>
               </div>
             </div>
@@ -266,12 +266,12 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
             {[testimonials[0], testimonials[2]].map((t) => (
               <div key={t.initials} className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-7 hover:border-white/[0.12] transition-colors">
                 <div className="font-display text-3xl text-white/[0.08] leading-none mb-3">"</div>
-                <p className="text-[0.84rem] text-white/40 leading-[1.8] mb-6">{t.quote}</p>
+                <p className="text-[1.1rem] text-white/70 leading-[1.8] mb-6">{t.quote}</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-white/[0.07]">
-                  <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center font-bold text-[0.72rem] text-white shrink-0">{t.initials}</div>
+                  <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center font-bold text-[1.0rem] text-white shrink-0">{t.initials}</div>
                   <div>
-                    <div className="font-semibold text-white text-[0.82rem]">{t.name}</div>
-                    <div className="text-white/30 text-[0.7rem]">{t.role}</div>
+                    <div className="font-semibold text-white text-[1.08rem]">{t.name}</div>
+                    <div className="text-white/85 text-[1.25rem]">{t.role}</div>
                   </div>
                 </div>
               </div>
@@ -286,18 +286,18 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
           <div className="relative border border-[var(--btb-red)]/25 rounded-2xl px-10 py-14 overflow-hidden">
             <div className="absolute inset-0 bg-[var(--btb-red)]/[0.04]" />
             <div className="relative">
-              <div className="text-[0.65rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">Girls Program</div>
+              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">Girls Program</div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 Same Standard.<br /><span className="text-[var(--btb-red)]">Built for Her.</span>
               </h2>
-              <p className="text-[0.88rem] text-white/35 max-w-[440px] mx-auto leading-relaxed mb-10">
+              <p className="text-[1.15rem] text-white/35 max-w-[440px] mx-auto leading-relaxed mb-10">
                 BTB is selective because development requires commitment. We want athletes who are serious about their game and ready to put in the work.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#" className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
+                <a href="#" className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
                   Apply for 2026 <ArrowRight size={13} />
                 </a>
-                <a href="mailto:info@bethebestli.com" className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/50 text-[0.72rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
+                <a href="mailto:info@bethebestli.com" className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
                   Email Us
                 </a>
               </div>

@@ -83,13 +83,13 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
         <div className="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between gap-4">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-white/30 hover:text-white transition-colors text-[0.72rem] font-semibold uppercase tracking-[1.5px] flex-shrink-0"
+            className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-[1.0rem] font-semibold uppercase tracking-[1.5px] flex-shrink-0"
           >
             <ArrowLeft size={14} /> Back
           </button>
 
           <div className="flex-1 min-w-0 text-center">
-            <span className="font-display text-[0.95rem] uppercase tracking-wide truncate block">
+            <span className="font-display text-[1.25rem] uppercase tracking-wide truncate block">
               {course.title}
             </span>
           </div>
@@ -97,7 +97,7 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
           {/* Mobile sidebar toggle */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="md:hidden flex items-center gap-1.5 text-white/30 hover:text-white text-[0.7rem] font-bold uppercase tracking-[1.5px] flex-shrink-0"
+            className="md:hidden flex items-center gap-1.5 text-white/85 hover:text-white text-[1.25rem] font-bold uppercase tracking-[1.5px] flex-shrink-0"
           >
             <BookOpen size={14} /> Steps
           </button>
@@ -127,8 +127,8 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
           `}
         >
           <div className="p-5">
-            <div className="text-[0.6rem] font-bold uppercase tracking-[3px] text-white/20 mb-1">Progress</div>
-            <div className="text-[0.88rem] text-white/50 mb-4">
+            <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-white/45 mb-1">Progress</div>
+            <div className="text-[1.15rem] text-white/78 mb-4">
               {completedCount} of {course.steps.length} complete
             </div>
 
@@ -148,7 +148,7 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
                         : "border border-transparent hover:bg-white/[0.04]"
                     }`}
                   >
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[0.6rem] font-bold ${
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[1.08rem] font-bold ${
                       done
                         ? "bg-[var(--btb-red)] text-white"
                         : active
@@ -158,14 +158,14 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
                       {done ? <Check size={11} strokeWidth={3} /> : i + 1}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className={`text-[0.72rem] font-semibold truncate ${
-                        active ? "text-white" : done ? "text-white/50" : "text-white/30"
+                      <div className={`text-[1.0rem] font-semibold truncate ${
+                        active ? "text-white" : done ? "text-white/78" : "text-white/85"
                       }`}>
                         {s.title}
                       </div>
                       <div className="flex items-center gap-1.5 mt-0.5">
                         <Icon size={9} className="text-white/15" />
-                        <span className="text-[0.58rem] uppercase tracking-[1px] text-white/15">{s.type}</span>
+                        <span className="text-[1.05rem] uppercase tracking-[1px] text-white/15">{s.type}</span>
                       </div>
                     </div>
                   </button>
@@ -190,7 +190,7 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
             <div className="w-8 h-8 rounded-lg bg-[var(--btb-red)]/15 flex items-center justify-center">
               <StepIcon size={15} className="text-[var(--btb-red)]" />
             </div>
-            <span className="text-[0.6rem] font-bold uppercase tracking-[3px] text-white/20">
+            <span className="text-[1.08rem] font-bold uppercase tracking-[3px] text-white/45">
               Step {step.stepNumber} of {course.steps.length} &middot; {step.type}
             </span>
           </div>
@@ -229,7 +229,7 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
             <div className="mt-8 pt-6 border-t border-white/[0.07]">
               <button
                 onClick={advanceToNext}
-                className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
+                className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
               >
                 Next Step <ChevronRight size={14} />
               </button>
@@ -242,12 +242,12 @@ export function CourseView({ course, userId, onBack }: CourseViewProps) {
               <div className="font-display text-[1.3rem] uppercase tracking-wide text-[var(--btb-red)] mb-2">
                 Course Complete
               </div>
-              <p className="text-[0.82rem] text-white/40">
+              <p className="text-[1.08rem] text-white/70">
                 You have finished all {course.steps.length} steps. Nice work.
               </p>
               <button
                 onClick={onBack}
-                className="mt-5 px-6 py-2.5 border border-white/15 text-white/50 text-[0.7rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:border-white/40 hover:text-white transition-all"
+                className="mt-5 px-6 py-2.5 border border-white/15 text-white/78 text-[1.25rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:border-white/40 hover:text-white transition-all"
               >
                 Back to Dashboard
               </button>
@@ -276,17 +276,17 @@ function FilmContent({
       <div className="aspect-video bg-neutral-900 rounded-xl border border-white/[0.07] flex items-center justify-center mb-6">
         <div className="text-center">
           <div className="w-14 h-14 rounded-full bg-white/[0.05] flex items-center justify-center mx-auto mb-3">
-            <Play size={24} className="text-white/20 ml-1" />
+            <Play size={24} className="text-white/45 ml-1" />
           </div>
-          <p className="text-[0.72rem] text-white/20 uppercase tracking-[1.5px] font-semibold">Film Coming Soon</p>
+          <p className="text-[1.0rem] text-white/45 uppercase tracking-[1.5px] font-semibold">Film Coming Soon</p>
           {step.content.duration && (
-            <p className="text-[0.62rem] text-white/10 mt-1">{step.content.duration} min</p>
+            <p className="text-[1.1rem] text-white/35 mt-1">{step.content.duration} min</p>
           )}
         </div>
       </div>
 
       {step.content.description && (
-        <p className="text-[0.88rem] text-white/40 leading-relaxed mb-8">
+        <p className="text-[1.15rem] text-white/70 leading-relaxed mb-8">
           {step.content.description}
         </p>
       )}
@@ -294,14 +294,14 @@ function FilmContent({
       {!isComplete && (
         <button
           onClick={onMarkComplete}
-          className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
         >
           <Check size={14} /> Mark Complete
         </button>
       )}
 
       {isComplete && (
-        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[0.75rem] font-bold uppercase tracking-[1.5px]">
+        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[1.0rem] font-bold uppercase tracking-[1.5px]">
           <Check size={14} /> Completed
         </div>
       )}
@@ -360,15 +360,15 @@ function QuestionContent({
                 answerSubmitted || isComplete ? "cursor-default" : "cursor-pointer"
               }`}
             >
-              <div className={`w-7 h-7 rounded-full border flex items-center justify-center flex-shrink-0 text-[0.65rem] font-bold ${
+              <div className={`w-7 h-7 rounded-full border flex items-center justify-center flex-shrink-0 text-[1.15rem] font-bold ${
                 selectedOption === i
                   ? "border-[var(--btb-red)] text-[var(--btb-red)]"
                   : "border-white/15 text-white/25"
               }`}>
                 {String.fromCharCode(65 + i)}
               </div>
-              <span className={`text-[0.85rem] ${
-                selectedOption === i ? "text-white/80" : "text-white/40"
+              <span className={`text-[1.1rem] ${
+                selectedOption === i ? "text-white/80" : "text-white/70"
               }`}>
                 {opt}
               </span>
@@ -382,7 +382,7 @@ function QuestionContent({
         <button
           onClick={onSubmit}
           disabled={selectedOption === null}
-          className={`px-6 py-3 text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all duration-200 ${
+          className={`px-6 py-3 text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all duration-200 ${
             selectedOption !== null
               ? "bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red)]/80"
               : "bg-white/[0.05] text-white/15 cursor-not-allowed"
@@ -399,11 +399,11 @@ function QuestionContent({
               ? "border-green-500/30 bg-green-500/5"
               : "border-red-500/30 bg-red-500/5"
           }`}>
-            <p className={`text-[0.85rem] font-semibold ${
+            <p className={`text-[1.1rem] font-semibold ${
               isCorrect ? "text-green-400" : "text-red-400"
             }`}>
               {isCorrect ? "Correct!" : "Not quite."}{" "}
-              <span className="font-normal text-white/40">
+              <span className="font-normal text-white/70">
                 The answer is: {step.content.options?.[correctIdx]}
               </span>
             </p>
@@ -411,7 +411,7 @@ function QuestionContent({
 
           <button
             onClick={onMarkCompleteAndContinue}
-            className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
+            className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
           >
             <Check size={14} /> Mark Complete &amp; Continue
           </button>
@@ -419,7 +419,7 @@ function QuestionContent({
       )}
 
       {isComplete && (
-        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[0.75rem] font-bold uppercase tracking-[1.5px]">
+        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[1.0rem] font-bold uppercase tracking-[1.5px]">
           <Check size={14} /> Completed
         </div>
       )}
@@ -442,13 +442,13 @@ function DrillContent({
         {step.content.duration && (
           <div className="flex items-center gap-2 mb-4">
             <Dumbbell size={14} className="text-[var(--btb-red)]" />
-            <span className="text-[0.65rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
+            <span className="text-[1.15rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
               {step.content.duration} minutes
             </span>
           </div>
         )}
         {step.content.description && (
-          <p className="text-[0.88rem] text-white/40 leading-relaxed">
+          <p className="text-[1.15rem] text-white/70 leading-relaxed">
             {step.content.description}
           </p>
         )}
@@ -457,14 +457,14 @@ function DrillContent({
       {!isComplete && (
         <button
           onClick={onMarkComplete}
-          className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
         >
           <Check size={14} /> Mark Complete
         </button>
       )}
 
       {isComplete && (
-        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[0.75rem] font-bold uppercase tracking-[1.5px]">
+        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[1.0rem] font-bold uppercase tracking-[1.5px]">
           <Check size={14} /> Completed
         </div>
       )}
@@ -486,12 +486,12 @@ function ReadingContent({
       <div className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02] mb-8">
         <div className="flex items-center gap-2 mb-4">
           <FileText size={14} className="text-[var(--btb-red)]" />
-          <span className="text-[0.65rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
+          <span className="text-[1.15rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
             Reading
           </span>
         </div>
         {step.content.description && (
-          <p className="text-[0.88rem] text-white/45 leading-[1.8]">
+          <p className="text-[1.15rem] text-white/45 leading-[1.8]">
             {step.content.description}
           </p>
         )}
@@ -500,14 +500,14 @@ function ReadingContent({
       {!isComplete && (
         <button
           onClick={onMarkComplete}
-          className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:bg-[var(--btb-red)]/80 transition-colors"
         >
           <Check size={14} /> Mark Complete
         </button>
       )}
 
       {isComplete && (
-        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[0.75rem] font-bold uppercase tracking-[1.5px]">
+        <div className="flex items-center gap-2 text-[var(--btb-red)] text-[1.0rem] font-bold uppercase tracking-[1.5px]">
           <Check size={14} /> Completed
         </div>
       )}

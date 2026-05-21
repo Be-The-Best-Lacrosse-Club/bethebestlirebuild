@@ -23,7 +23,7 @@ export function SpecTicker({ items = [
               <span
                 key={j}
                 className={`font-display text-2xl uppercase tracking-[8px] ${
-                  j % 2 === 0 ? "text-white/10" : "text-[var(--btb-red)]"
+                  j % 2 === 0 ? "text-white/35" : "text-[var(--btb-red)]"
                 }`}
               >
                 {j % 2 === 0 ? item : "//"}

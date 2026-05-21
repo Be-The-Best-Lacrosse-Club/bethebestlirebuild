@@ -67,7 +67,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
     if (level === "Foundation") return "bg-green-500/10 text-green-400 border-green-500/20"
     if (level === "Intermediate") return "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
     if (level === "Advanced") return "bg-red-500/10 text-red-400 border-red-500/20"
-    return "bg-white/10 text-white/60 border-white/20"
+    return "bg-white/10 text-white/85 border-white/20"
   }
 
   return (
@@ -75,7 +75,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
       {/* Header */}
       <div className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/[0.06] px-6 py-4">
         <div className="max-w-[1000px] mx-auto flex items-center justify-between">
-          <button onClick={onBack} className="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors">
+          <button onClick={onBack} className="flex items-center gap-2 text-sm text-white/78 hover:text-white transition-colors">
             <ArrowLeft size={16} /> Back to Home
           </button>
           <span className="font-display text-lg uppercase tracking-tight">
@@ -89,7 +89,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
         <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] uppercase tracking-wide leading-none mb-4">
           Online <span className="text-[var(--btb-red)]">Programs</span>
         </h1>
-        <p className="text-white/45 max-w-[520px] mx-auto text-[0.95rem] leading-relaxed">
+        <p className="text-white/45 max-w-[520px] mx-auto text-[1.25rem] leading-relaxed">
           Film study modules, drill libraries, and recruiting prep — all built on the BTB development standard.
         </p>
       </div>
@@ -103,7 +103,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
             className={`px-5 py-2 text-xs font-bold uppercase tracking-[1.5px] rounded-full border transition-all ${
               filter === cat
                 ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white"
-                : "border-white/15 text-white/40 hover:border-white/30 hover:text-white/70"
+                : "border-white/15 text-white/70 hover:border-white/30 hover:text-white/70"
             }`}
           >
             {cat}
@@ -113,7 +113,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
 
       {/* Loading */}
       {loading && (
-        <div className="text-center py-20 text-white/30 text-sm">Loading programs...</div>
+        <div className="text-center py-20 text-white/85 text-sm">Loading programs...</div>
       )}
 
       {/* Programs Grid */}
@@ -134,15 +134,15 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <h3 className="font-display text-xl uppercase tracking-wide">{program.title}</h3>
-                    <span className={`text-[0.65rem] font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${levelColor(program.level)}`}>
+                    <span className={`text-[1.15rem] font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${levelColor(program.level)}`}>
                       {program.level}
                     </span>
                   </div>
                   <div
-                    className="text-[0.85rem] text-white/40 leading-relaxed line-clamp-2"
+                    className="text-[1.1rem] text-white/70 leading-relaxed line-clamp-2"
                     dangerouslySetInnerHTML={{ __html: program.description }}
                   />
-                  <div className="flex items-center gap-5 mt-3 text-[0.75rem] text-white/30">
+                  <div className="flex items-center gap-5 mt-3 text-[1.0rem] text-white/85">
                     <span className="flex items-center gap-1.5"><Users size={12} /> {program.position}</span>
                     <span className="flex items-center gap-1.5"><Play size={12} /> {program.totalSteps} steps</span>
                     {totalDuration > 0 && (
@@ -150,7 +150,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
                     )}
                   </div>
                 </div>
-                <div className="text-white/20 mt-2">
+                <div className="text-white/45 mt-2">
                   {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </div>
               </button>
@@ -165,18 +165,18 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
                         i < programSteps.length - 1 ? "border-b border-white/[0.04]" : ""
                       } hover:bg-white/[0.02] transition-colors`}
                     >
-                      <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center text-[0.7rem] font-bold text-white/30 flex-shrink-0 mt-0.5">
+                      <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center text-[1.25rem] font-bold text-white/85 flex-shrink-0 mt-0.5">
                         {step.stepNumber}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 className="text-[0.9rem] font-semibold text-white/80">{step.title}</h4>
+                          <h4 className="text-[1.18rem] font-semibold text-white/80">{step.title}</h4>
                         </div>
                         <div
-                          className="text-[0.8rem] text-white/35 leading-relaxed"
+                          className="text-[1.05rem] text-white/35 leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: step.description }}
                         />
-                        <div className="flex items-center gap-4 mt-2 text-[0.7rem] text-white/25">
+                        <div className="flex items-center gap-4 mt-2 text-[1.25rem] text-white/25">
                           <span className="flex items-center gap-1">{stepTypeIcon(step.stepType)} {step.stepType}</span>
                           <span className="flex items-center gap-1"><Clock size={11} /> {step.duration} min</span>
                         </div>
@@ -187,7 +187,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
               )}
 
               {isExpanded && programSteps.length === 0 && (
-                <div className="border-t border-white/[0.06] px-6 py-8 text-center text-white/20 text-sm">
+                <div className="border-t border-white/[0.06] px-6 py-8 text-center text-white/45 text-sm">
                   Steps coming soon.
                 </div>
               )}
