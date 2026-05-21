@@ -292,11 +292,11 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
             <button
               onClick={closeLesson}
-              className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm font-semibold"
+              className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-sm font-semibold"
             >
               <ArrowLeft size={16} /> Back to Course
             </button>
-            <span className="text-white/30 text-xs font-bold uppercase tracking-wider">
+            <span className="text-white/85 text-xs font-bold uppercase tracking-wider">
               Question {currentQuestionIndex + 1} / {activeLesson.questions.length}
             </span>
           </div>
@@ -326,7 +326,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                     allowFullScreen
                   />
                 </div>
-                <p className="text-white/30 text-xs mt-2 text-center uppercase tracking-wider">Watch the video, then answer below</p>
+                <p className="text-white/85 text-xs mt-2 text-center uppercase tracking-wider">Watch the video, then answer below</p>
               </div>
             ) : null
           })()}
@@ -398,7 +398,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                   <button
                     disabled={selectedAnswer === null}
                     onClick={submitAnswer}
-                    className="w-full py-4 bg-[#D22630] hover:bg-[#B01F28] disabled:bg-white/10 disabled:text-white/30 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors"
+                    className="w-full py-4 bg-[#D22630] hover:bg-[#B01F28] disabled:bg-white/10 disabled:text-white/85 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors"
                   >
                     Submit Answer
                   </button>
@@ -433,8 +433,8 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
           <h1 className="text-5xl font-bold mb-3" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.05em" }}>
             Lesson Complete
           </h1>
-          <p className="text-white/60 text-lg mb-2">{activeLesson.title}</p>
-          <p className="text-white/40 text-sm mb-8">{questionsCorrect} of {activeLesson.questions.length} answered correctly</p>
+          <p className="text-white/85 text-lg mb-2">{activeLesson.title}</p>
+          <p className="text-white/70 text-sm mb-8">{questionsCorrect} of {activeLesson.questions.length} answered correctly</p>
           <button
             onClick={closeLesson}
             className="px-8 py-4 bg-[#D22630] hover:bg-[#B01F28] text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors"
@@ -458,7 +458,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
             Course Complete
           </h1>
           <p className="text-white/70 text-lg mb-2">You finished the {activePillarCourse.tierLabel} {label} course</p>
-          <p className="text-white/40 text-sm mb-8">Add your name to the BTB Wall of Fame</p>
+          <p className="text-white/70 text-sm mb-8">Add your name to the BTB Wall of Fame</p>
           {!nameSubmitted ? (
             <div className="space-y-4">
               <input
@@ -471,11 +471,11 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
               <button
                 onClick={submitWallEntry}
                 disabled={!wallName.trim()}
-                className="w-full py-4 bg-[#D22630] hover:bg-[#B01F28] disabled:bg-white/10 disabled:text-white/30 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors"
+                className="w-full py-4 bg-[#D22630] hover:bg-[#B01F28] disabled:bg-white/10 disabled:text-white/85 text-white font-bold uppercase tracking-widest text-sm rounded-lg transition-colors"
               >
                 Add to Wall of Fame
               </button>
-              <button onClick={closeLesson} className="w-full py-3 text-white/50 hover:text-white text-sm font-semibold">
+              <button onClick={closeLesson} className="w-full py-3 text-white/78 hover:text-white text-sm font-semibold">
                 Skip
               </button>
             </div>
@@ -509,11 +509,11 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
           <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <button
               onClick={() => { setActivePillarCourse(null); setActivePillar("game") }}
-              className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm font-semibold"
+              className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-sm font-semibold"
             >
               <ArrowLeft size={16} /> Academy
             </button>
-            <button onClick={handleLogout} className="text-white/40 hover:text-white text-sm flex items-center gap-1.5">
+            <button onClick={handleLogout} className="text-white/70 hover:text-white text-sm flex items-center gap-1.5">
               <LogOut size={14} /> Logout
             </button>
           </div>
@@ -527,18 +527,18 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
           <h1 className="text-5xl font-bold mb-2" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.02em" }}>
             {label} {activePillarCourse.tierLabel} Academy
           </h1>
-          <p className="text-white/50 text-lg mb-6">{activePillarCourse.description}</p>
+          <p className="text-white/78 text-lg mb-6">{activePillarCourse.description}</p>
 
           {/* Overall progress */}
           <div className="bg-white/5 rounded-lg p-4 border border-white/10 mb-8">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-white/50">Overall Progress</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-white/78">Overall Progress</span>
               <span className="text-sm font-bold">{courseProgress}%</span>
             </div>
             <div className="h-2 bg-white/10 rounded-full overflow-hidden">
               <div className={`h-full bg-gradient-to-r ${TIER_COLORS[activePillarCourse.tier]} transition-all duration-700`} style={{ width: `${courseProgress}%` }} />
             </div>
-            <p className="text-white/30 text-xs mt-2">
+            <p className="text-white/85 text-xs mt-2">
               {academyProgress[activePillarCourse.id]?.completedLessons.length ?? 0} of {activePillarCourse.lessons.length} lessons complete
             </p>
           </div>
@@ -562,12 +562,12 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <PIcon size={16} className={isActive ? colors.text : "text-white/40"} />
-                    <span className={`text-xs font-bold uppercase tracking-wider ${isActive ? colors.text : "text-white/40"}`}>
+                    <PIcon size={16} className={isActive ? colors.text : "text-white/70"} />
+                    <span className={`text-xs font-bold uppercase tracking-wider ${isActive ? colors.text : "text-white/70"}`}>
                       {config.label}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/30 mb-1">
+                  <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-white/85 mb-1">
                     <span>{pDone}/{pLessons.length}</span>
                     <span>{pProg}%</span>
                   </div>
@@ -579,7 +579,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
             })}
           </div>
 
-          <p className="text-white/40 text-sm mb-5">{PILLAR_CONFIG[activePillar].description}</p>
+          <p className="text-white/70 text-sm mb-5">{PILLAR_CONFIG[activePillar].description}</p>
 
           {/* Position filter */}
           <div className="flex flex-wrap gap-2 mb-6">
@@ -587,10 +587,10 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
               <button
                 key={pos}
                 onClick={() => setActivePosition(pos)}
-                className={`px-3 py-1.5 rounded-full text-[0.68rem] font-bold uppercase tracking-[1px] transition-all ${
+                className={`px-3 py-1.5 rounded-full text-[1.2rem] font-bold uppercase tracking-[1px] transition-all ${
                   activePosition === pos
                     ? "bg-[#D22630] text-white"
-                    : "border border-white/10 text-white/40 hover:text-white/70 hover:border-white/25"
+                    : "border border-white/10 text-white/70 hover:text-white/70 hover:border-white/25"
                 }`}
               >
                 {POSITION_CONFIG[pos].label}
@@ -600,8 +600,8 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
 
           {pillarLessons.length === 0 && (
             <div className="py-12 text-center border border-white/[0.06] rounded-xl bg-white/[0.02]">
-              <p className="text-white/30 text-sm">No lessons for this position in this pillar yet.</p>
-              <p className="text-white/20 text-xs mt-1">More position-specific content coming soon.</p>
+              <p className="text-white/85 text-sm">No lessons for this position in this pillar yet.</p>
+              <p className="text-white/45 text-xs mt-1">More position-specific content coming soon.</p>
             </div>
           )}
 
@@ -631,7 +631,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                       </div>
                     ) : !unlocked ? (
                       <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                        <Lock size={16} className="text-white/20" />
+                        <Lock size={16} className="text-white/45" />
                       </div>
                     ) : (
                       <div className={`w-12 h-12 rounded-full ${colors.bg} border ${colors.border} flex items-center justify-center font-bold ${colors.text}`}>
@@ -641,12 +641,12 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-bold text-white">{lesson.title}</h3>
-                    <p className="text-white/40 text-sm mt-0.5">
+                    <p className="text-white/70 text-sm mt-0.5">
                       {lesson.videoUrl && <span className="text-[#D22630] mr-2">▶ Video</span>}
                       {lesson.questions.length} question{lesson.questions.length !== 1 ? "s" : ""}
                     </p>
                   </div>
-                  {unlocked && <ChevronRight size={18} className="text-white/20 shrink-0" />}
+                  {unlocked && <ChevronRight size={18} className="text-white/45 shrink-0" />}
                 </button>
               )
             })}
@@ -670,7 +670,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
         <div className="max-w-[1100px] mx-auto flex items-center justify-between px-6 py-3">
           <button
             onClick={() => navigate(`/${gender}`)}
-            className="flex items-center gap-2 text-white/30 hover:text-white transition-colors text-[0.72rem] font-semibold uppercase tracking-[1.5px]"
+            className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-[1.0rem] font-semibold uppercase tracking-[1.5px]"
           >
             <ArrowLeft size={14} /> Back
           </button>
@@ -679,7 +679,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
           </span>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 text-white/30 hover:text-white transition-colors text-[0.72rem] font-semibold uppercase tracking-[1.5px]"
+            className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-[1.0rem] font-semibold uppercase tracking-[1.5px]"
           >
             Logout <LogOut size={14} />
           </button>
@@ -690,13 +690,13 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
 
         {/* Welcome */}
         <div className="mb-10">
-          <div className="text-[0.62rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-3">Player Academy</div>
+          <div className="text-[1.1rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-3">Player Academy</div>
           <h1 className="font-display text-[clamp(2rem,5vw,3.2rem)] uppercase tracking-wide leading-[0.92] mb-3">
             Welcome back, <span className="text-[#D22630]">{user?.name?.split(" ")[0] ?? "Player"}</span>
           </h1>
-          <p className="text-[0.85rem] text-white/35 max-w-[480px] leading-relaxed">
+          <p className="text-[1.1rem] text-white/35 max-w-[480px] leading-relaxed">
             Your full development hub — pillar courses, film study, and progress tracking all in one place.
-            {user?.gradYear && <span className="ml-2 text-white/20">Class of {user.gradYear}</span>}
+            {user?.gradYear && <span className="ml-2 text-white/45">Class of {user.gradYear}</span>}
           </p>
         </div>
 
@@ -711,10 +711,10 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-[0.75rem] font-bold uppercase tracking-[1px] transition-all ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-[1.0rem] font-bold uppercase tracking-[1px] transition-all ${
                 activeTab === id
                   ? "bg-[#D22630] text-white"
-                  : "text-white/40 hover:text-white/70"
+                  : "text-white/70 hover:text-white/70"
               }`}
             >
               <Icon size={14} />
@@ -727,10 +727,10 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
         {activeTab === "academy" && (
           <div>
             <div className="mb-8">
-              <p className="text-white/40 text-sm max-w-xl leading-relaxed">
+              <p className="text-white/70 text-sm max-w-xl leading-relaxed">
                 Three pillars of development — The Game, Leadership, and Team. Complete your age-tier course to earn a spot on the Wall of Fame.
               </p>
-              <div className="flex items-center gap-6 mt-4 text-xs font-bold uppercase tracking-wider text-white/30">
+              <div className="flex items-center gap-6 mt-4 text-xs font-bold uppercase tracking-wider text-white/85">
                 <span className="flex items-center gap-1.5"><Swords size={13} className="text-blue-400" /> The Game</span>
                 <span className="flex items-center gap-1.5"><Crown size={13} className="text-amber-400" /> Leadership</span>
                 <span className="flex items-center gap-1.5"><Users size={13} className="text-emerald-400" /> Team</span>
@@ -763,7 +763,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                     </div>
 
                     <div className="p-5">
-                      <p className="text-white/50 text-sm mb-3 leading-relaxed">{course.description}</p>
+                      <p className="text-white/78 text-sm mb-3 leading-relaxed">{course.description}</p>
                       <p className="text-white/25 text-xs mb-4">{course.gradYears}</p>
 
                       {/* Per-pillar mini-progress */}
@@ -777,23 +777,23 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                           return (
                             <div key={pillar} className="flex items-center gap-2">
                               <PI size={11} className={pc.text} />
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-white/30 w-20">{PILLAR_CONFIG[pillar].label}</span>
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-white/85 w-20">{PILLAR_CONFIG[pillar].label}</span>
                               <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
                                 <div className={`h-full bg-gradient-to-r ${pc.gradient}`} style={{ width: `${pp}%` }} />
                               </div>
-                              <span className="text-[10px] font-bold text-white/30 w-6 text-right">{pd}/{pl.length}</span>
+                              <span className="text-[10px] font-bold text-white/85 w-6 text-right">{pd}/{pl.length}</span>
                             </div>
                           )
                         })}
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-[0.7rem] text-white/30">{course.lessons.length} lessons</span>
+                        <span className="text-[1.25rem] text-white/85">{course.lessons.length} lessons</span>
                         <div className="flex items-center gap-2">
                           <div className="h-1.5 w-20 bg-white/10 rounded-full overflow-hidden">
                             <div className={`h-full bg-gradient-to-r ${TIER_COLORS[course.tier]}`} style={{ width: `${pct}%` }} />
                           </div>
-                          <span className="text-[0.72rem] font-bold text-white/50">{pct}%</span>
+                          <span className="text-[1.0rem] font-bold text-white/78">{pct}%</span>
                         </div>
                       </div>
                     </div>
@@ -808,14 +808,14 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
         {activeTab === "courses" && (
           <div>
             <div className="mb-8">
-              <p className="text-white/40 text-sm max-w-xl leading-relaxed">
+              <p className="text-white/70 text-sm max-w-xl leading-relaxed">
                 Film study and skill progression courses for your grad year. Each course walks you through game film, drills, and key concepts with check-ins.
               </p>
             </div>
 
             {gradCourses.length === 0 ? (
               <div className="border border-white/[0.07] bg-white/[0.02] rounded-xl p-10 text-center">
-                <p className="text-white/30 text-[0.88rem]">No courses available yet. Check back soon.</p>
+                <p className="text-white/85 text-[1.15rem]">No courses available yet. Check back soon.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -840,24 +840,24 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                           </div>
                         )}
                       </div>
-                      <p className="text-[0.78rem] text-white/30 leading-relaxed mb-4 line-clamp-2">{course.description}</p>
+                      <p className="text-[1.05rem] text-white/85 leading-relaxed mb-4 line-clamp-2">{course.description}</p>
                       <div className="mb-4">
                         <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[0.65rem] font-bold uppercase tracking-[1.5px] text-white/20">Progress</span>
-                          <span className="text-[0.65rem] font-bold uppercase tracking-[1.5px] text-white/40">{pct}%</span>
+                          <span className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-white/45">Progress</span>
+                          <span className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-white/70">{pct}%</span>
                         </div>
                         <div className="h-[5px] bg-white/[0.08] rounded-full overflow-hidden">
                           <div className="h-full bg-[#D22630] rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[0.7rem] text-white/20">{course.steps.length} steps</span>
+                        <span className="text-[1.25rem] text-white/45">{course.steps.length} steps</span>
                         <button
                           onClick={() => setActiveCourse(course)}
-                          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-[0.7rem] font-bold uppercase tracking-[1.5px] transition-all ${
+                          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-[1.25rem] font-bold uppercase tracking-[1.5px] transition-all ${
                             started
                               ? "bg-[#D22630] text-white hover:bg-[#B01F28]"
-                              : "border border-white/15 text-white/50 hover:border-white/40 hover:text-white"
+                              : "border border-white/15 text-white/78 hover:border-white/40 hover:text-white"
                           }`}
                         >
                           <Play size={11} />
@@ -876,15 +876,15 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
         {activeTab === "wof" && (
           <div>
             <div className="mb-8">
-              <p className="text-white/40 text-sm max-w-xl leading-relaxed">
+              <p className="text-white/70 text-sm max-w-xl leading-relaxed">
                 Players who completed a full BTB Academy course. Finish your age-tier course to earn your spot.
               </p>
             </div>
 
             {wallEntries.length === 0 ? (
               <div className="border border-white/[0.07] bg-white/[0.02] rounded-xl p-12 text-center">
-                <Trophy size={36} className="text-white/10 mx-auto mb-4" />
-                <p className="text-white/30 text-sm">No entries yet. Be the first to complete a course.</p>
+                <Trophy size={36} className="text-white/35 mx-auto mb-4" />
+                <p className="text-white/85 text-sm">No entries yet. Be the first to complete a course.</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -895,9 +895,9 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                     </div>
                     <div className="min-w-0">
                       <p className="text-white text-sm font-bold truncate">{entry.name}</p>
-                      <p className="text-white/30 text-xs mt-0.5">
+                      <p className="text-white/85 text-xs mt-0.5">
                         {entry.tier === "youth" ? "Youth" : entry.tier === "middle" ? "Middle School" : "High School"}
-                        {entry.completedAt && <span className="ml-2 text-white/20">{entry.completedAt}</span>}
+                        {entry.completedAt && <span className="ml-2 text-white/45">{entry.completedAt}</span>}
                       </p>
                     </div>
                   </div>
@@ -912,7 +912,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
           return (
             <div>
               <div className="mb-8">
-                <p className="text-white/40 text-sm max-w-xl leading-relaxed">
+                <p className="text-white/70 text-sm max-w-xl leading-relaxed">
                   Hand-picked YouTube channels to keep leveling up between practices. Learn from the best in the game.
                 </p>
               </div>
@@ -930,7 +930,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                     }`}
                   >
                     {ch.badge && (
-                      <span className="inline-block bg-[#D22630] text-white text-[0.6rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded mb-3">
+                      <span className="inline-block bg-[#D22630] text-white text-[1.08rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded mb-3">
                         {ch.badge}
                       </span>
                     )}
@@ -938,7 +938,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                       {ch.name}
                     </p>
                     <p className="text-white/35 text-xs leading-relaxed">{ch.desc}</p>
-                    <p className="text-white/20 text-[0.65rem] font-semibold uppercase tracking-widest mt-3">
+                    <p className="text-white/45 text-[1.15rem] font-semibold uppercase tracking-widest mt-3">
                       Watch →
                     </p>
                   </a>

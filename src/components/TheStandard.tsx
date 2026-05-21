@@ -45,7 +45,7 @@ export function TheStandard() {
 
       <div className="relative z-10 max-w-[1000px] mx-auto">
         <div className="text-center mb-20">
-          <div className="inline-block px-4 py-1.5 bg-black text-white text-[0.65rem] font-black uppercase tracking-[4px] rounded-sm mb-6">
+          <div className="inline-block px-4 py-1.5 bg-black text-white text-[1.15rem] font-black uppercase tracking-[4px] rounded-sm mb-6">
             The Difference
           </div>
           <h2 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="font-display text-[clamp(2rem,6vw,4.5rem)] uppercase tracking-tight text-white leading-[0.95]">
@@ -65,7 +65,7 @@ export function TheStandard() {
               </div>
               
               <h3 className="font-display text-2xl uppercase tracking-wider mb-5">{p.title}</h3>
-              <p className="text-white/60 text-[1rem] leading-relaxed group-hover:text-white/90 transition-colors font-medium">
+              <p className="text-white/85 text-[1rem] leading-relaxed group-hover:text-white/90 transition-colors font-medium">
                 {p.text}
               </p>
             </div>

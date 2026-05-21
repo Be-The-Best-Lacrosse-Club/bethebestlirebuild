@@ -69,7 +69,7 @@ export function ComingSoon() {
           <span className="text-white font-semibold"> more than just lacrosse.</span>
         </p>
 
-        <p className="text-sm sm:text-base md:text-lg text-white/60 max-w-xl mb-10">
+        <p className="text-sm sm:text-base md:text-lg text-white/85 max-w-xl mb-10">
           New tools. New resources. A whole new experience for the BTB community.
         </p>
 
@@ -89,7 +89,7 @@ export function ComingSoon() {
         </div>
 
         {/* Footer */}
-        <div className="mt-16 text-xs sm:text-sm text-white/50 uppercase tracking-[0.2em]">
+        <div className="mt-16 text-xs sm:text-sm text-white/78 uppercase tracking-[0.2em]">
           Be The Best Lacrosse Club &middot; Long Island, NY
         </div>
       </div>

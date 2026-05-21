@@ -84,10 +84,10 @@ export function TryoutsPage() {
     }
   }
 
-  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[0.88rem] placeholder:text-white/20 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
-  const selectClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[0.88rem] focus:outline-none focus:border-[var(--btb-red)]/50 transition-all appearance-none cursor-pointer"
-  const labelClass = "block text-[0.65rem] font-black uppercase tracking-[2px] text-white/30 mb-2"
-  const textareaClass = "w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[0.88rem] placeholder:text-white/20 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
+  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
+  const selectClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] focus:outline-none focus:border-[var(--btb-red)]/50 transition-all appearance-none cursor-pointer"
+  const labelClass = "block text-[1.15rem] font-black uppercase tracking-[2px] text-white/85 mb-2"
+  const textareaClass = "w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
 
   if (submitted) {
     return (
@@ -97,12 +97,12 @@ export function TryoutsPage() {
             <CheckCircle2 size={40} className="text-[var(--btb-red)]" />
           </div>
           <h2 className="font-display text-4xl text-white uppercase mb-4">Submission Received</h2>
-          <p className="text-white/40 leading-relaxed mb-10">
+          <p className="text-white/70 leading-relaxed mb-10">
             Thank you for your interest in the BTB standard. Our coaching staff will review your information and reach out regarding upcoming evaluation dates for your age group.
           </p>
           <button 
             onClick={() => window.location.href = "/"}
-            className="w-full py-4 bg-[var(--btb-red)] text-white text-[0.75rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
+            className="w-full py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
           >
             Return Home
           </button>
@@ -132,7 +132,7 @@ export function TryoutsPage() {
           {/* Form Column */}
           <div>
             <div className="mb-12">
-              <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.65rem] tracking-[5px] mb-6">
+              <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6">
                 <Shield size={14} />
                 BTB_EVALUATION_REQUEST // 2026_SEASON
               </div>
@@ -145,13 +145,13 @@ export function TryoutsPage() {
                 <div className="flex border-b border-white/5">
                   <button 
                     onClick={() => setActiveTab("boys")}
-                    className={`flex-1 py-4 font-display text-lg uppercase tracking-wider transition-all ${activeTab === "boys" ? "bg-[var(--btb-red)] text-white" : "text-white/30 hover:text-white/50"}`}
+                    className={`flex-1 py-4 font-display text-lg uppercase tracking-wider transition-all ${activeTab === "boys" ? "bg-[var(--btb-red)] text-white" : "text-white/85 hover:text-white/78"}`}
                   >
                     Boys Tryouts
                   </button>
                   <button 
                     onClick={() => setActiveTab("girls")}
-                    className={`flex-1 py-4 font-display text-lg uppercase tracking-wider transition-all ${activeTab === "girls" ? "bg-[var(--btb-red)] text-white" : "text-white/30 hover:text-white/50"}`}
+                    className={`flex-1 py-4 font-display text-lg uppercase tracking-wider transition-all ${activeTab === "girls" ? "bg-[var(--btb-red)] text-white" : "text-white/85 hover:text-white/78"}`}
                   >
                     Girls Tryouts
                   </button>
@@ -160,29 +160,29 @@ export function TryoutsPage() {
                 <div className="p-8">
                   <div className="grid sm:grid-cols-2 gap-8">
                     <div>
-                      <div className="text-[0.6rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Location</div>
+                      <div className="text-[1.08rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Location</div>
                       <div className="flex items-start gap-3">
-                        <MapPin size={18} className="text-white/40 mt-1" />
+                        <MapPin size={18} className="text-white/70 mt-1" />
                         <div>
                           <div className="text-white font-bold uppercase tracking-wide">Plainedge HS</div>
-                          <div className="text-white/40 text-xs mt-1 leading-relaxed">241 Wyngate Dr, <br />North Massapequa, NY 11758</div>
+                          <div className="text-white/70 text-xs mt-1 leading-relaxed">241 Wyngate Dr, <br />North Massapequa, NY 11758</div>
                         </div>
                       </div>
                     </div>
                     <div>
-                      <div className="text-[0.6rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Dates & Times</div>
+                      <div className="text-[1.08rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Dates & Times</div>
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 text-white">
-                          <Calendar size={16} className="text-white/40" />
+                          <Calendar size={16} className="text-white/70" />
                           <span className="text-sm font-bold uppercase tracking-wide">July 15 - 17</span>
                         </div>
                         <div className="flex items-center gap-3 text-white">
-                          <Calendar size={16} className="text-white/40" />
+                          <Calendar size={16} className="text-white/70" />
                           <span className="text-sm font-bold uppercase tracking-wide">July 20 - 22</span>
                         </div>
-                        <div className="flex items-center gap-3 text-white/40">
+                        <div className="flex items-center gap-3 text-white/70">
                           <Activity size={14} />
-                          <span className="text-[0.7rem] uppercase tracking-wider font-bold italic">Times to be assigned by grad year</span>
+                          <span className="text-[1.25rem] uppercase tracking-wider font-bold italic">Times to be assigned by grad year</span>
                         </div>
                       </div>
                     </div>
@@ -235,7 +235,7 @@ export function TryoutsPage() {
                           setForm({...form, gender: "Boys"});
                           setActiveTab("boys");
                         }}
-                        className={`flex-1 rounded-lg font-display text-[0.9rem] uppercase tracking-widest transition-all border ${form.gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/30 hover:border-white/30"}`}
+                        className={`flex-1 rounded-lg font-display text-[1.18rem] uppercase tracking-widest transition-all border ${form.gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
                       >
                         Male
                       </button>
@@ -245,7 +245,7 @@ export function TryoutsPage() {
                           setForm({...form, gender: "Girls"});
                           setActiveTab("girls");
                         }}
-                        className={`flex-1 rounded-lg font-display text-[0.9rem] uppercase tracking-widest transition-all border ${form.gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/30 hover:border-white/30"}`}
+                        className={`flex-1 rounded-lg font-display text-[1.18rem] uppercase tracking-widest transition-all border ${form.gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
                       >
                         Female
                       </button>
@@ -265,7 +265,7 @@ export function TryoutsPage() {
                       <option value="" disabled>Year</option>
                       {GRAD_YEARS.map(yr => <option key={yr} value={yr} className="bg-black">{yr}</option>)}
                     </select>
-                    <ChevronDown size={14} className="absolute right-4 bottom-4 text-white/20 pointer-events-none" />
+                    <ChevronDown size={14} className="absolute right-4 bottom-4 text-white/45 pointer-events-none" />
                   </div>
                   <div className="relative">
                     <label className={labelClass}>Position</label>
@@ -277,7 +277,7 @@ export function TryoutsPage() {
                       <option value="" disabled>Position</option>
                       {POSITIONS.map(p => <option key={p} value={p} className="bg-black">{p}</option>)}
                     </select>
-                    <ChevronDown size={14} className="absolute right-4 bottom-4 text-white/20 pointer-events-none" />
+                    <ChevronDown size={14} className="absolute right-4 bottom-4 text-white/45 pointer-events-none" />
                   </div>
                 </div>
               </div>
@@ -354,7 +354,7 @@ export function TryoutsPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-5 bg-[var(--btb-red)] text-white text-[0.8rem] font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50"
+                className="w-full py-5 bg-[var(--btb-red)] text-white text-[1.05rem] font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50"
               >
                 {submitting ? "PROCESSING_REQUEST..." : "SUBMIT_EVALUATION_INTEREST"}
               </button>
@@ -362,13 +362,13 @@ export function TryoutsPage() {
               <div className="flex gap-3 pt-2">
                 <a
                   href="/register-boys-tryouts"
-                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[0.75rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
                 >
                   Register Boys →
                 </a>
                 <a
                   href="/register-girls-tryouts"
-                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[0.75rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
                 >
                   Register Girls →
                 </a>
@@ -383,10 +383,10 @@ export function TryoutsPage() {
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--btb-red)]/5 -skew-x-[45deg] translate-x-12 -translate-y-12" />
                 <Calendar className="text-[var(--btb-red)] mb-6" size={28} />
                 <h3 className="font-display text-xl text-white uppercase tracking-wider mb-4">2026 Evaluation Cycle</h3>
-                <p className="text-white/40 text-[0.85rem] leading-relaxed mb-6">
+                <p className="text-white/70 text-[1.1rem] leading-relaxed mb-6">
                   Formal tryouts for the 2026-2027 season typically occur in late June/July. However, we conduct rolling evaluations for specific roster openings year-round.
                 </p>
-                <div className="flex items-center gap-3 text-[var(--btb-red)] font-black text-[0.6rem] uppercase tracking-[2px]">
+                <div className="flex items-center gap-3 text-[var(--btb-red)] font-black text-[1.08rem] uppercase tracking-[2px]">
                   <Activity size={12} className="animate-pulse" />
                   Status: Accepting Inquiries
                 </div>
@@ -402,7 +402,7 @@ export function TryoutsPage() {
                     "Recruiting Path Guidance",
                     "Pro-Level Curriculum"
                   ].map(item => (
-                    <li key={item} className="flex items-center gap-3 text-[0.8rem] text-white/50">
+                    <li key={item} className="flex items-center gap-3 text-[1.05rem] text-white/78">
                       <div className="w-1 h-1 rounded-full bg-[var(--btb-red)]" />
                       {item}
                     </li>

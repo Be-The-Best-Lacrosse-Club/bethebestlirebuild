@@ -475,7 +475,7 @@ export function FieldDiagram({ spec }: { spec: FieldDiagramSpec }) {
       {/* Legend + caption */}
       <div className="max-w-lg mx-auto mt-3 space-y-2">
         {spec.legend && spec.legend.length > 0 && (
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-white/60">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-white/85">
             {spec.legend.map((item, i) => (
               <span key={i} className="flex items-center gap-1.5">
                 <span

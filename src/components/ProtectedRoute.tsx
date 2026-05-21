@@ -26,7 +26,7 @@ export function ProtectedRoute() {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white/30 text-sm uppercase tracking-[2px]">Loading...</div>
+        <div className="text-white/85 text-sm uppercase tracking-[2px]">Loading...</div>
       </div>
     )
   }
@@ -56,7 +56,7 @@ export function ProtectedRoute() {
             <h1 className="font-display text-3xl uppercase tracking-wide text-white mb-3">
               Access <span className="text-[var(--btb-red)]">Denied</span>
             </h1>
-            <p className="text-[0.88rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-[1.15rem] text-white/35 leading-relaxed mb-8">
               {genderMismatch
                 ? `Your account is assigned to the ${user.gender} program. You don't have access to ${pathGender} content.`
                 : "You don't have the required permissions to view this page. Contact your program director if you need access."
@@ -64,7 +64,7 @@ export function ProtectedRoute() {
             </p>
             <a
               href={user.role === "coach" ? `/${user.gender}/coaches-hub` : `/${user.gender}/players`}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.72rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors"
             >
               <ArrowLeft size={14} />
               Go to My Hub
