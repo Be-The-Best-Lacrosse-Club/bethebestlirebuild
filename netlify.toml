@@ -130,6 +130,11 @@
   to = "/register-girls-tryouts.html"
   status = 200
 
+[[redirects]]
+  from = "/register-boys-east-tryouts"
+  to = "/register-boys-east-tryouts.html"
+  status = 200
+
 # Newsletter static pages — must come BEFORE the SPA catch-all
 [[redirects]]
   from = "/newsletter"
