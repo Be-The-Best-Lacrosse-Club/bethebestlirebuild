@@ -16,15 +16,23 @@
   .details { font-size: 14px; color: #888; text-align: center; margin-bottom: 56px; line-height: 1.8; }
   .details strong { color: #ccc; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 560px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; width: 100%; max-width: 840px; }
   .btn { display: block; padding: 28px 24px; text-decoration: none; text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; transition: all 0.25s ease; border: 2px solid transparent; }
   .btn-boys { background: #D22630; color: #fff; }
   .btn-boys:hover { background: #b81e29; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(210,38,48,0.4); }
   .btn-girls { background: transparent; color: #fff; border-color: #D22630; }
   .btn-girls:hover { background: #D22630; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(210,38,48,0.4); }
+  .btn-east { background: transparent; color: #fff; border-color: #D22630; position: relative; overflow: hidden; }
+  .btn-east::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #D22630 0%, #8a0f18 100%); opacity: 0; transition: opacity 0.25s ease; }
+  .btn-east:hover::before { opacity: 1; }
+  .btn-east:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(210,38,48,0.4); }
+  .btn-east span { position: relative; z-index: 1; }
+  .btn-east .east-badge { display: block; font-size: 9px; letter-spacing: 3px; font-family: 'Montserrat', sans-serif; font-weight: 700; margin-bottom: 4px; color: #D22630; text-transform: uppercase; position: relative; z-index: 1; transition: color 0.25s; }
+  .btn-east:hover .east-badge { color: #fff; }
   .btn-label { display: block; font-size: 11px; letter-spacing: 2px; font-family: 'Montserrat', sans-serif; font-weight: 600; margin-top: 6px; opacity: 0.75; }
   .fee { display: inline-block; margin-top: 40px; font-size: 12px; color: #555; letter-spacing: 2px; text-transform: uppercase; }
-  @media (max-width: 480px) {
-    .grid { grid-template-columns: 1fr; max-width: 320px; }
+  @media (max-width: 640px) {
+    .grid, .grid-3 { grid-template-columns: 1fr; max-width: 320px; }
   }
 </style>
 </head>
@@ -38,13 +46,18 @@
     Plainedge HS · 241 Wyngate Dr, North Massapequa<br>
     Times assigned by grad year
   </div>
-  <div class="grid">
+  <div class="grid-3">
     <a href="/register-boys-tryouts" class="btn btn-boys">
       BOYS
       <span class="btn-label">Register →</span>
     </a>
     <a href="/register-girls-tryouts" class="btn btn-girls">
       GIRLS
+      <span class="btn-label">Register →</span>
+    </a>
+    <a href="/register-boys-east-tryouts" class="btn btn-east">
+      <span class="east-badge">▸ BTB East</span>
+      <span>BOYS<br>EAST</span>
       <span class="btn-label">Register →</span>
     </a>
   </div>
