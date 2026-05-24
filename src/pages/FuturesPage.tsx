@@ -98,8 +98,14 @@ export function FuturesPage() {
           </p>
           <div className="flex gap-3 flex-wrap">
             <a
-              href="#locations"
+              href="/futures-clinic"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
+            >
+              Register — It's Free <ArrowRight size={13} />
+            </a>
+            <a
+              href="#locations"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
             >
               See Locations <ArrowRight size={13} />
             </a>
