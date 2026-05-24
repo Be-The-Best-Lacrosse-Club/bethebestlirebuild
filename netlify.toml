@@ -151,6 +151,32 @@
   to = "/newsletter/:splat/index.html"
   status = 200
 
+# Parent-only recruiting hub — static Supabase-auth pages
+[[redirects]]
+  from = "/recruiting-hub"
+  to = "/recruiting-hub/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/recruiting-hub/"
+  to = "/recruiting-hub/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/recruiting-hub/hub"
+  to = "/recruiting-hub/hub/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/recruiting-hub/hub/"
+  to = "/recruiting-hub/hub/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/recruiting-hub/*"
+  to = "/recruiting-hub/:splat"
+  status = 200
+
 # SMS Policy — serve the static HTML so bots/scrapers (Twilio A2P reviewers, etc.)
 # see real content without requiring JS execution. Must come before the SPA catch-all.
 [[redirects]]

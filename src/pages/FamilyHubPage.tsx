@@ -49,6 +49,14 @@ const familyLinks = [
     tag: "E-LEARNING"
   },
   {
+    title: "Recruiting Hub",
+    icon: Award,
+    desc: "Open the protected 20-volume recruiting guide for BTB families.",
+    href: "/recruiting-hub/",
+    tag: "RECRUITING",
+    staticPage: true,
+  },
+  {
     title: "Waivers & Forms",
     icon: FileText,
     desc: "BTB standard waiver, medical forms, and code of conduct.",
@@ -326,6 +334,10 @@ export function FamilyHubPage() {
 
             return link.external ? (
               <a key={i} href={link.href} target="_blank" rel="noopener noreferrer" className="h-full">
+                {Content}
+              </a>
+            ) : "staticPage" in link && link.staticPage ? (
+              <a key={i} href={link.href} className="h-full">
                 {Content}
               </a>
             ) : (
