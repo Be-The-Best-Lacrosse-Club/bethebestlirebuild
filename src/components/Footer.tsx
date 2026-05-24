@@ -16,7 +16,7 @@ export function Footer() {
     if (SPA_ROUTES.has(href)) {
       navigate(href)
     } else {
-      window.location.href = href
+      window.location.assign(href)
     }
   }
 
