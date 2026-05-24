@@ -444,7 +444,6 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   if (activeLesson && activePillarCourse && !showLessonComplete && !showCourseComplete) {
     const currentQuestion = activeLesson.questions[currentQuestionIndex]
     const isCorrect = answerSubmitted && selectedAnswer === currentQuestion.correctAnswer
-    const isWrong   = answerSubmitted && selectedAnswer !== currentQuestion.correctAnswer
     const TopicIcon = TOPIC_ICONS[activeLesson.topic]
 
     return (

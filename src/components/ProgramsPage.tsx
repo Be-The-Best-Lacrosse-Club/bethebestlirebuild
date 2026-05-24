@@ -23,6 +23,16 @@ interface ProgramStep {
   duration: number
 }
 
+type WixDataEnvelope<T> = {
+  data?: T
+}
+
+function readWixData<T>(item: unknown): T {
+  const envelope = item as WixDataEnvelope<T>
+  return envelope.data ?? (item as T)
+}
+
+
 const stepTypeIcon = (type: string) => {
   if (type.toLowerCase().includes("drill")) return <Dumbbell size={14} />
   if (type.toLowerCase().includes("assignment") || type.toLowerCase().includes("worksheet") || type.toLowerCase().includes("template")) return <FileText size={14} />
@@ -44,10 +54,10 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
           wixClient.items.query("ProgramSteps").limit(100).find(),
         ])
         setPrograms(
-          (programsRes.items.map((i: any) => i.data) as Program[])
+          programsRes.items.map((item) => readWixData<Program>(item))
             .sort((a, b) => a.sortOrder - b.sortOrder)
         )
-        setSteps(stepsRes.items.map((i: any) => i.data) as ProgramStep[])
+        setSteps(stepsRes.items.map((item) => readWixData<ProgramStep>(item)))
       } catch (err) {
         console.error("Failed to fetch programs:", err)
       } finally {

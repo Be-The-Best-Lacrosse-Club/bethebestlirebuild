@@ -1,6 +1,6 @@
 import { useState, useEffect, type FormEvent } from "react"
 import { toast } from "sonner"
-import { Users, Send, ArrowRight, ChevronDown, CheckCircle2, Shield, Calendar, Activity, MapPin } from "lucide-react"
+import { ChevronDown, CheckCircle2, Shield, Calendar, Activity, MapPin } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
 
 type TryoutForm = {

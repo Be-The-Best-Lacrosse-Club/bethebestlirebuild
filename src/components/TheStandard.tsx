@@ -1,5 +1,4 @@
 import React from 'react';
-import { useReveal } from "@/hooks/useReveal";
 import { useWordSplit, useStaggerReveal, useParallax } from "@/hooks/useScrollAnimation";
 import { Hammer, ShieldAlert, TrendingUp } from 'lucide-react';
 
@@ -22,7 +21,6 @@ const pillars = [
 ];
 
 export function TheStandard() {
-  const ref = useReveal({ className: "reveal-stagger" });
   const titleRef = useWordSplit(50);
   const cardsRef = useStaggerReveal(90);
   const bgWordRef = useParallax(0.15);

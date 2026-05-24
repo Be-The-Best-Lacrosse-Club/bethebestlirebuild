@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { ArrowRight, ShieldCheck, FileText, Award } from "lucide-react"
+import { ArrowRight, ShieldCheck } from "lucide-react"
 import { programData } from "@/lib/programData"
 import { SEO } from "@/components/shared/SEO"
 import type { Gender } from "@/types"

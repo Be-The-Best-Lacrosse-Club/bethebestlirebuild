@@ -1,16 +1,12 @@
 import React from "react"
 import { ArrowRight, Phone } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { useReveal } from "@/hooks/useReveal"
-import { useWordSplit, useMagnetic, useFadeUp } from "@/hooks/useScrollAnimation"
+import { useWordSplit, useFadeUp } from "@/hooks/useScrollAnimation"
 
 export function CTASection() {
-  const ref = useReveal({ className: "reveal-scale" })
   const navigate = useNavigate()
   const titleRef = useWordSplit(60)
   const cardRef = useFadeUp(0)
-  const primaryRef = useMagnetic(0.3)
-  const secondaryRef = useMagnetic(0.25)
 
   return (
     <section className="bg-white py-14 md:py-28 px-4 md:px-6 relative overflow-hidden" id="apply">

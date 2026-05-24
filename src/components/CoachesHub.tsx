@@ -1,5 +1,5 @@
 import type React from "react"
-import { ArrowRight, ShieldCheck, BookOpen, Users, GraduationCap, Video, Star, Activity } from "lucide-react"
+import { ShieldCheck, BookOpen, Users, GraduationCap, Video, Star, Activity } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
 import { useWordSplit } from "@/hooks/useScrollAnimation"
 
@@ -45,7 +45,7 @@ export function CoachesHub() {
 
         {/* Cards */}
         <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0.5 bg-white/10 border border-white/10">
-          {cards.map((c, i) => (
+          {cards.map((c) => (
             <div
               key={c.title}
               className="reveal-child group relative p-10 bg-black hover:bg-[var(--btb-red)] transition-all duration-300"

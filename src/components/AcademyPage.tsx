@@ -24,7 +24,7 @@ const differentiators = [
   { num: "05", title: "Recruiting Preparation Included", text: "College prep isn't a separate add-on program. It's built into the senior program — highlight film packages, outreach guidance, school list strategy, and honest profile evaluation." },
 ]
 
-export function AcademyPage({ onBack }: { onBack?: () => void }) {
+export function AcademyPage() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
   return (

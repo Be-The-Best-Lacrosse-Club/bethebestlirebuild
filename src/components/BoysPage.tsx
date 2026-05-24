@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Video, Users, BookOpen, Target, TrendingUp, Shield, Star } from "lucide-react"
+import { ArrowLeft, ArrowRight, Video, Users, BookOpen, Target, TrendingUp, Shield } from "lucide-react"
 
 const benefits = [
   { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Real reps, real corrections, real coaching — not a number in a line drill." },

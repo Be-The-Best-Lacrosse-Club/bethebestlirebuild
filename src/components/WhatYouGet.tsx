@@ -1,5 +1,5 @@
 import type React from "react"
-import { Video, BookOpen, Target, TrendingUp, Activity, ArrowRight } from "lucide-react"
+import { Video, Target, TrendingUp, Activity, ArrowRight } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
 import { useWordSplit } from "@/hooks/useScrollAnimation"
 

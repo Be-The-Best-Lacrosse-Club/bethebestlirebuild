@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchRoster, type LARegistration } from '@/lib/leagueApps';
-import { Users, Loader2, ShieldCheck, Activity } from 'lucide-react';
+import { Loader2, ShieldCheck, Activity } from 'lucide-react';
 
 interface RosterProps {
   programId: number;
@@ -27,7 +27,7 @@ export function Roster({ programId, teamName }: RosterProps) {
           return numA - numB;
         });
         setPlayers(sorted);
-      } catch (err) {
+      } catch {
         setError('Failed to load roster data.');
       } finally {
         setLoading(false);

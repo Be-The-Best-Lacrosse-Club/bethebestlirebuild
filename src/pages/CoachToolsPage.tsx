@@ -285,7 +285,7 @@ export function CoachToolsPage() {
           </h2>
 
           <div className="space-y-6">
-            {tools.map((tool, i) => (
+            {tools.map((tool) => (
               <div key={tool.title} className="bg-white/[0.02] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-white/[0.14] transition-all group">
                 <div className="p-7">
                   <div className="flex items-start gap-5 mb-5">

@@ -24,7 +24,6 @@ import {
   Zap,
   CheckCircle2,
   Lock,
-  Play,
 } from "lucide-react"
 
 // ─── Data ─────────────────────────────────────────────────────────────
@@ -390,7 +389,7 @@ export function AcademyInfoPage() {
           </h2>
 
           <div className="space-y-0 border-t border-white/[0.07]">
-            {howItWorks.map((step, i) => (
+            {howItWorks.map((step) => (
               <div key={step.num} className="flex items-start gap-8 py-8 border-b border-white/[0.07] group">
                 <div className="font-display text-[1.25rem] text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5 w-6">
                   {step.num}

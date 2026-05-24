@@ -1,4 +1,4 @@
-import { Video, Users, BookOpen, Target, TrendingUp, Shield, Hammer, ShieldAlert } from "lucide-react"
+import { Video, Users, BookOpen, Target, TrendingUp, Shield } from "lucide-react"
 import type { StatItem, Benefit, AgeGroup, Phase, Testimonial, CoachProfile, TeamInfo } from "@/types"
 
 interface ProgramContent {

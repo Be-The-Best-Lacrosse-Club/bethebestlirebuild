@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { ArrowRight } from "lucide-react"
 import { useWordSplit, useMagnetic, useCursorParallax, ease } from "@/hooks/useScrollAnimation"
 

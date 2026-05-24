@@ -9,6 +9,7 @@ import { useEffect } from "react"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
+import { TryoutFlyers } from "@/components/TryoutFlyers"
 import { AudiencePaths } from "@/components/AudiencePaths"
 import { TheStandard } from "@/components/TheStandard"
 import { WhatYouGet } from "@/components/WhatYouGet"
@@ -23,13 +24,11 @@ import { Results } from "@/components/Results"
 import { CTASection } from "@/components/CTASection"
 
 // Pages
-import { AcademyPage } from "@/components/AcademyPage"
 import { LoginPage } from "@/pages/LoginPage"
 import { ParentPortalPage } from "@/pages/ParentPortalPage"
 import { TryoutsPage } from "@/pages/TryoutsPage"
 import { InterestFormPage } from "@/pages/InterestFormPage"
 import { ProgramPage } from "@/pages/ProgramPage"
-import { PlayerHubPage } from "@/pages/PlayerHubPage"
 import { DigitalAcademyHubPage } from "@/pages/DigitalAcademyHubPage"
 import { CoachesHubPage } from "@/pages/CoachesHubPage"
 import { TravelPage } from "@/pages/TravelPage"
@@ -63,6 +62,7 @@ function LandingPage() {
         ogImage={homeOgImage}
       />
       <Hero />
+      <TryoutFlyers />
       <AudiencePaths />
       <TheStandard />
       <FeaturedCoaches />

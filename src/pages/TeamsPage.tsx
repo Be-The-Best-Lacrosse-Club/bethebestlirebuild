@@ -13,17 +13,6 @@ export function TeamsPage({ gender }: { gender: Gender }) {
     window.scrollTo(0, 0)
   }, [])
 
-  // Level badge color mapping
-  const levelColor = (level: string) => {
-    switch (level) {
-      case "Elite": return "bg-[var(--btb-red)]/20 text-[var(--btb-red)] border-[var(--btb-red)]/30"
-      case "Competitive": return "bg-amber-500/15 text-amber-400 border-amber-500/25"
-      case "Development": return "bg-blue-500/15 text-blue-400 border-blue-500/25"
-      case "Youth": return "bg-emerald-500/15 text-emerald-400 border-emerald-500/25"
-      default: return "bg-white/[0.05] text-white/70 border-white/[0.1]"
-    }
-  }
-
   // Compute summary stats
   const totalTeams = data.teams.length
   const totalCoaches = data.teams.reduce((sum, t) => sum + t.coachCount, 0)

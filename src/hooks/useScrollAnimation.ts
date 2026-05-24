@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react"
+import { useEffect, useRef } from "react"
 
 // ─── Easing ───────────────────────────────────────────────────────────────
 export const ease = "cubic-bezier(0.16, 1, 0.3, 1)"

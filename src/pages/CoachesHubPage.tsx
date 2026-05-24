@@ -1,24 +1,15 @@
-import { useState, useEffect, useRef, useMemo } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { drills, drillCategories, practicePlans } from "@/lib/coachData"
 import { fetchCoachPayment, type CoachPaymentResponse } from "@/lib/paymentData"
 import {
-  films,
-  filmCategories,
-  filmCategoryColors,
-  filmCategoryBg,
-  filmLevelColors,
-  getRelatedFilms,
-} from "@/lib/filmData"
-import {
   COACH_MODULES,
   getCoachProgress,
   markCoachLessonComplete,
-  getModuleCompletionCount,
 } from "@/lib/coachLearningData"
 import { SEO } from "@/components/shared/SEO"
-import type { Drill, Gender, FilmEntry, FilmCategory, FilmLevel } from "@/types"
+import type { Drill, Gender } from "@/types"
 import {
   ArrowLeft,
   LogOut,
@@ -32,10 +23,6 @@ import {
   ExternalLink,
   CheckCircle2,
   Circle,
-  PlayCircle,
-  Search,
-  X,
-  Tag,
   ArrowRight,
   DollarSign,
   Users,
@@ -92,14 +79,6 @@ const certificationItems: CertItem[] = [
     description: "Submit your first written practice plan using the BTB template for review and approval.",
   },
 ]
-
-/* ------------------------------------------------------------------ */
-/*  Film level badge helper                                            */
-/* ------------------------------------------------------------------ */
-
-function filmLevelColor(level: FilmLevel) {
-  return filmLevelColors[level] || "text-white/70 border-white/20 bg-white/5"
-}
 
 /* ------------------------------------------------------------------ */
 /*  Dashboard card data                                                */
@@ -180,7 +159,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
   const [lessonView, setLessonView] = useState<"reading" | "quiz">("reading")
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({})
   const [quizSubmitted, setQuizSubmitted] = useState(false)
-  const [coachProgressTick, setCoachProgressTick] = useState(0)
+  const [, setCoachProgressTick] = useState(0)
 
   const refreshCoachProgress = () => setCoachProgressTick((t) => t + 1)
   const coachProgress = getCoachProgress()

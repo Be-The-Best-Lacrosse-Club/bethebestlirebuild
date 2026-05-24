@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, GraduationCap, ShieldCheck, Users, Star, Video, BookOpen } from "lucide-react"
+import { ArrowLeft, GraduationCap, ShieldCheck, Users, Star } from "lucide-react"
 
 const principles = [
   { num: "01", title: "Teach, Don't Just Correct", text: "Every correction comes with a coaching point and a path forward. We don't yell from the sideline — we explain the why behind every adjustment." },
