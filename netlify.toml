@@ -151,7 +151,7 @@
   to = "/newsletter/:splat/index.html"
   status = 200
 
-# Parent-only recruiting hub — static Supabase-auth pages
+# Parent-only recruiting hub — static pages with rotating access code
 [[redirects]]
   from = "/recruiting-hub"
   to = "/recruiting-hub/index.html"
