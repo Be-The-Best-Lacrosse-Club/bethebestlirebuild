@@ -1,8 +1,26 @@
 import { useNavigate } from "react-router-dom"
 
+// SPA routes handled by React Router
+const SPA_ROUTES = new Set([
+  "/", "/boys", "/boys/travel", "/boys/coaches", "/boys/teams",
+  "/girls", "/girls/travel", "/girls/coaches", "/girls/teams",
+  "/futures", "/camps", "/sms-policy", "/terms-and-conditions",
+  "/academy-info", "/recruiting", "/contact", "/interest",
+  "/login", "/parent-hub", "/coach-tools",
+])
+
 export function Footer() {
   const navigate = useNavigate()
-  const link = (href: string) => (e: React.MouseEvent) => { e.preventDefault(); navigate(href) }
+
+  function go(href: string) {
+    if (SPA_ROUTES.has(href)) {
+      navigate(href)
+    } else {
+      window.location.href = href
+    }
+  }
+
+  const link = (href: string) => (e: React.MouseEvent) => { e.preventDefault(); go(href) }
 
   return (
     <footer className="bg-black text-white border-t border-white/[0.06]">
@@ -61,6 +79,7 @@ export function Footer() {
 
           <div>
             <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">BTB</h4>
+            <a href="/newsletter" onClick={link("/newsletter")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Newsletter</a>
             <a href="/recruiting" onClick={link("/recruiting")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Recruiting</a>
             <a href="/coach-tools" onClick={link("/coach-tools")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coach Tools</a>
             <a href="/interest" onClick={link("/interest")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Interest Form</a>
