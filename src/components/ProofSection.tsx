@@ -1,7 +1,5 @@
 import React from "react"
-import { useReveal } from "@/hooks/useReveal"
-import { useWordSplit, useStaggerReveal, useCounter } from "@/hooks/useScrollAnimation"
-import { SectionHeader } from "@/components/shared/SectionHeader"
+import { useWordSplit, useStaggerReveal } from "@/hooks/useScrollAnimation"
 
 const achievements = [
   { event: "NXT Summer Inv.", team: "2028 Black", result: "Champions", spec: "DATA_REC // 001" },
@@ -15,7 +13,6 @@ const achievements = [
 ]
 
 export function ProofSection() {
-  const gridRef = useReveal({ className: "reveal-stagger" })
   const cardsRef = useStaggerReveal(60)
   const titleRef = useWordSplit(55)
 

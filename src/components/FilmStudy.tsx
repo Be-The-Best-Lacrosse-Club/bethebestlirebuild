@@ -1,5 +1,5 @@
 import type React from "react"
-import { ArrowRight, Video, Target, Users, Zap, ShieldCheck, Search, Activity } from "lucide-react"
+import { Video, Search, Activity } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
 import { useWordSplit } from "@/hooks/useScrollAnimation"
 import { useNavigate } from "react-router-dom"

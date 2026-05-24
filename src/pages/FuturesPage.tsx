@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { ArrowRight, MapPin, Clock, Users, Mic, Calendar } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
+import { TryoutFlyers } from "@/components/TryoutFlyers"
 
 type FuturesEvent = {
   location: string
@@ -16,21 +17,21 @@ const FUTURES_EVENTS: FuturesEvent[] = [
     location: "Stimson",
     venue: "Stimson",
     address: "Long Island, NY",
-    date: "Mid-May 2026 — TBD",
+    date: "Date TBD",
     time: "Time TBD · 2 Hours",
   },
   {
     location: "Nickerson",
     venue: "Nickerson",
     address: "Long Island, NY",
-    date: "Late May 2026 — TBD",
+    date: "Date TBD",
     time: "Time TBD · 2 Hours",
   },
   {
     location: "Seaford",
     venue: "Seaford High School",
     address: "Seaford, NY",
-    date: "June 2026 — TBD",
+    date: "Date TBD",
     time: "Time TBD · 2 Hours",
   },
 ]
@@ -39,7 +40,7 @@ const ITINERARY = [
   {
     block: "Hour 1",
     title: "On the Field — The Clinic",
-    detail: "Players (Classes of 2034–2037) work with the BTB pro coaching staff. Stick skills, footwork, small-sided games, and the BTB Standard in action.",
+    detail: "Players in kindergarten through second grade (classes of 2036–2039) work with the BTB pro coaching staff. Stick skills, footwork, small-sided games, and the BTB Standard in action.",
     icon: Users,
   },
   {
@@ -65,7 +66,7 @@ export function FuturesPage() {
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
         title="Futures Meet-Up | BTB Lacrosse Club"
-        description="Meet the BTB staff, work the BTB Standard, and hear from owner Dan Achatz. Three Long Island locations — Stimson, Nickerson, and Seaford — kicking off this May and June."
+        description="Meet the BTB staff, work the BTB Standard, and hear from owner Dan Achatz. Free Futures clinics for kindergarten through second grade players at Stimson, Nickerson, and Seaford."
         path="/futures"
       />
 
@@ -119,6 +120,8 @@ export function FuturesPage() {
         </div>
       </section>
 
+      <TryoutFlyers eyebrow="Futures + Tryouts" ctaHref="/futures-clinic" ctaLabel="Register Free Clinic" />
+
       {/* Stats strip */}
       <section className="py-14 px-6 bg-neutral-950 border-y border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
@@ -126,7 +129,7 @@ export function FuturesPage() {
             {[
               { num: "3", label: "Locations" },
               { num: "2 hrs", label: "Per Session" },
-              { num: "2034–37", label: "Grad Years" },
+              { num: "2036–39", label: "Grad Years" },
               { num: "Free", label: "To Attend" },
             ].map((s) => (
               <div key={s.label} className="text-center">

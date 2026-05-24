@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react"
+import { useCallback, useEffect, useState, type FormEvent } from "react"
 import { toast } from "sonner"
 import { X, Mail, CheckCircle2 } from "lucide-react"
 
@@ -51,6 +51,11 @@ export function NewsletterPopup() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
+  const handleClose = useCallback(() => {
+    if (!submitted) writeState("dismissed")
+    setOpen(false)
+  }, [submitted])
+
   useEffect(() => {
     if (readState()) return
     const timer = window.setTimeout(() => setOpen(true), SHOW_DELAY_MS)
@@ -69,12 +74,7 @@ export function NewsletterPopup() {
       document.removeEventListener("keydown", onKey)
       document.body.style.overflow = previousOverflow
     }
-  }, [open])
-
-  function handleClose() {
-    if (!submitted) writeState("dismissed")
-    setOpen(false)
-  }
+  }, [open, handleClose])
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()

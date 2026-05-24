@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useReveal } from "@/hooks/useReveal";
 import { useWordSplit } from "@/hooks/useScrollAnimation";
 import { ShieldCheck, Target, Users, Zap, PlayCircle, Quote } from 'lucide-react';
 
@@ -40,7 +39,6 @@ const pillars = [
 
 export function CharacterLab() {
   const [activePillar, setActivePillar] = useState(pillars[0]);
-  const ref = useReveal({ className: "reveal-stagger" });
   const titleRef = useWordSplit(55);
 
   return (

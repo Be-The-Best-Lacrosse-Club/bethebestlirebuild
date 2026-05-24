@@ -4,7 +4,7 @@ import { programData } from "@/lib/programData"
 import { SEO } from "@/components/shared/SEO"
 import type { Gender } from "@/types"
 
-export function ProgramPage({ programKey }: { programKey: string }) {
+export function ProgramPage({ programKey }: { programKey: Gender }) {
   const data = programData[programKey]
   const isGirls = programKey === "girls"
   const anchorId = `apply-${programKey}`
@@ -199,7 +199,7 @@ export function ProgramPage({ programKey }: { programKey: string }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {data.phases.map((p, i) => (
+            {data.phases.map((p) => (
               <div key={p.num} className="group relative">
                 {/* Vertical Progress Line */}
                 <div className="absolute top-0 left-0 w-px h-full bg-white/5 overflow-hidden">

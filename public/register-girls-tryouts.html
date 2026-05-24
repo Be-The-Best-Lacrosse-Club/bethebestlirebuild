@@ -117,21 +117,21 @@
   <div class="info-card">
     <strong>What's Included:</strong> BTB Pinnie, Evaluation System, Filmed Tryouts.<br><br>
     <strong>Eligibility:</strong> Open to all girls — current 2027–2037 graduates.<br>
-    <strong>Location & Dates:</strong> See bethebestli.com/camps for current sessions.
+    <strong>Location & Dates:</strong> Plainedge HS — July 15–17 &amp; July 20–22. Times assigned by grad year.
   </div>
 
   <div class="error-msg" id="errorMsg"></div>
 
   <form
-    name="camp-registration"
+    name="btb-girls-tryout-registration"
     method="POST"
     data-netlify="true"
     netlify-honeypot="bot-field"
     id="regForm"
   >
-    <input type="hidden" name="form-name" value="camp-registration">
-    <input type="hidden" name="program" value="Summer Camp">
-    <input type="hidden" name="amount" value="300">
+    <input type="hidden" name="form-name" value="btb-girls-tryout-registration">
+    <input type="hidden" name="program" value="BTB Girls Tryout">
+    <input type="hidden" name="amount" value="75">
     <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
 
     <div class="section-label">Player Information</div>
@@ -166,7 +166,6 @@
         <label>Gender<span class="req">*</span></label>
         <select name="program_gender" required>
           <option value="">Select</option>
-          <option value="Boys">Male</option>
           <option value="Girls">Female</option>
         </select>
       </div>
@@ -317,10 +316,10 @@
 
       const email = formData.get('parent_email');
       const playerName = `${formData.get('player_first_name')} ${formData.get('player_last_name')}`.trim();
-      const refId = `btb-camp-${Date.now()}`;
+      const refId = `btb-girls-tryout-${Date.now()}`;
 
       sessionStorage.setItem('btb_last_registration', JSON.stringify({
-        program: 'Summer Camp', player: playerName, email, refId, ts: Date.now()
+        program: 'BTB Girls Tryout', player: playerName, email, refId, ts: Date.now()
       }));
 
       window.location.href = PAYMENT_LINK;

@@ -6,8 +6,7 @@
 
 import { useState } from "react"
 import type React from "react"
-import { ArrowRight, Lock, Play, Video, Shield, ChevronRight } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { Lock, Play, Video, ChevronRight } from "lucide-react"
 import {
   ATTACK_LESSONS,
   DEFENSE_LESSONS,
@@ -57,7 +56,6 @@ function ytThumb(url?: string): string | null {
 export function DigitalAcademy() {
   const [active, setActive] = useState(0)
   const [fading, setFading] = useState(false)
-  const navigate = useNavigate()
 
   function switchTrack(i: number) {
     if (i === active || fading) return

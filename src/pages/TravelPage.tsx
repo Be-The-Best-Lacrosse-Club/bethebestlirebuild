@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { ArrowRight, MapPin, Calendar, Trophy, ChevronRight, Shield, Video } from "lucide-react"
+import { ArrowRight, MapPin, Calendar, Trophy, Shield, Video } from "lucide-react"
 import { programData } from "@/lib/programData"
 import { TOURNAMENT_DATA } from "@/lib/tournamentData"
 import { SEO } from "@/components/shared/SEO"

@@ -17,7 +17,6 @@ import { getCourses, getCoursesByGradYear } from "@/lib/courseData"
 import { CourseView } from "@/components/hubs/players/CourseView"
 import { SEO } from "@/components/shared/SEO"
 import {
-  getAcademyCourses,
   getAcademyCoursesWithPositions,
   getAcademyProgress,
   markLessonComplete,
@@ -130,15 +129,16 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
   const { getCourseCompletion } = useProgress(user?.id ?? "")
 
   const label = gender === "boys" ? "Boys" : "Girls"
+  const userGradYear = user?.gradYear
 
   // ── Tab state ───────────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState<Tab>("academy")
 
   // ── Grad-year courses ───────────────────────────────────────────────
   const gradCourses = useMemo(() => {
-    if (user?.gradYear) return getCoursesByGradYear(gender, user.gradYear)
+    if (userGradYear) return getCoursesByGradYear(gender, userGradYear)
     return getCourses(gender)
-  }, [gender, user?.gradYear])
+  }, [gender, userGradYear])
   const [activeCourse, setActiveCourse] = useState<Course | null>(null)
 
   // ── Academy (pillar courses) ─────────────────────────────────────────
@@ -283,7 +283,6 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
   if (activeLesson && activePillarCourse && !showLessonComplete && !showCourseComplete) {
     const currentQuestion = activeLesson.questions[currentQuestionIndex]
     const isCorrect = answerSubmitted && selectedAnswer === currentQuestion.correctAnswer
-    const isWrong   = answerSubmitted && selectedAnswer !== currentQuestion.correctAnswer
     const TopicIcon = TOPIC_ICONS[activeLesson.topic]
 
     return (

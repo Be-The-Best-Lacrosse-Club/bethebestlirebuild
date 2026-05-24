@@ -8,13 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; color: #fff; font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 20px; }
+  body { background: #0a0a0a; color: #fff; font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 32px 20px 48px; }
   .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; color: #D22630; margin-bottom: 8px; text-align: center; }
   .logo-sub { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #666; margin-bottom: 56px; text-align: center; }
   h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 10vw, 80px); letter-spacing: 2px; text-align: center; line-height: 1; margin-bottom: 12px; }
   .subtitle { font-size: 14px; color: #aaa; letter-spacing: 2px; text-transform: uppercase; text-align: center; margin-bottom: 16px; }
   .details { font-size: 14px; color: #888; text-align: center; margin-bottom: 56px; line-height: 1.8; }
   .details strong { color: #ccc; }
+  .flyers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; width: 100%; max-width: 940px; margin: 0 auto 32px; }
+  .flyer-link { display: block; background: #000; border: 1px solid rgba(255,255,255,0.14); overflow: hidden; text-decoration: none; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+  .flyer-link:hover { transform: translateY(-4px); border-color: #D22630; box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+  .flyer-link img { display: block; width: 100%; height: auto; }
+  .flyer-caption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.12); color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; }
+  .flyer-caption span { color: #D22630; }
   .btn-location { display: block; font-size: 10px; letter-spacing: 1.5px; font-family: 'Montserrat', sans-serif; font-weight: 600; margin-top: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; position: relative; z-index: 1; line-height: 1.6; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 560px; }
   .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; width: 100%; max-width: 840px; }
@@ -33,6 +39,7 @@
   .btn-label { display: block; font-size: 11px; letter-spacing: 2px; font-family: 'Montserrat', sans-serif; font-weight: 600; margin-top: 6px; opacity: 0.75; }
   .fee { display: inline-block; margin-top: 40px; font-size: 12px; color: #555; letter-spacing: 2px; text-transform: uppercase; }
   @media (max-width: 640px) {
+    .flyers { grid-template-columns: 1fr; max-width: 320px; }
     .grid, .grid-3 { grid-template-columns: 1fr; max-width: 320px; }
   }
 </style>
@@ -47,6 +54,20 @@
     Boys &amp; Girls: Plainedge HS · 241 Wyngate Dr, North Massapequa<br>
     BTB East: St. Joseph's University NY · 155 W Roe Blvd, Patchogue<br>
     Times assigned by grad year
+  </div>
+  <div class="flyers" aria-label="2026 BTB tryout flyers">
+    <a href="/register-boys-east-tryouts" class="flyer-link">
+      <img src="/images/tryouts/BTB_East_Tryouts_2026.jpg" alt="BTB East 2026 tryout flyer for graduation years 2032 through 2037" loading="eager" decoding="async">
+      <div class="flyer-caption">Boys East <span>Register →</span></div>
+    </a>
+    <a href="/register-boys-tryouts" class="flyer-link">
+      <img src="/images/tryouts/BTB_Boys_Tryouts_2026.jpg" alt="BTB boys 2026 tryout flyer for July 15-17 and July 20-22 at Plainedge High School" loading="lazy" decoding="async">
+      <div class="flyer-caption">Boys <span>Register →</span></div>
+    </a>
+    <a href="/register-girls-tryouts" class="flyer-link">
+      <img src="/images/tryouts/BTB_Girls_Tryouts_2026.jpg" alt="BTB girls 2026 tryout flyer for July 15-17 and July 20-22 at Plainedge High School" loading="lazy" decoding="async">
+      <div class="flyer-caption">Girls <span>Register →</span></div>
+    </a>
   </div>
   <div class="grid-3">
     <a href="/register-boys-tryouts" class="btn btn-boys">
