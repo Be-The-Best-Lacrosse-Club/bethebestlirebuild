@@ -50,11 +50,11 @@ const CAMPS: Camp[] = [
     location: "Plainedge Park",
     forWho: "Position-focused players ready to specialize",
     description:
-      "Three days dedicated to your position. Attack, midfield, defense, FOGO, LSM, and goalies each get their own track with position-specialist coaches.",
+      "Three days dedicated to your position. Attack, midfield, defense, goalies, boys FOGO, LSM, and girls draw control each get their own track with position-specialist coaches.",
     bullets: [
       "Position-specific masterclasses",
       "Goalie track with dedicated staff",
-      "FOGO / face-off intensive",
+      "Boys face-off and girls draw control intensive",
       "Written evaluation from a pro coach",
     ],
     icon: Target,
