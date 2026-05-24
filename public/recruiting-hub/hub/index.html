@@ -10,69 +10,43 @@
 
 </style>
 
-<!-- Supabase + Config -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/recruiting-hub/js/config.js"></script>
+<!-- Access Code Gate -->
 <script>
 (async function() {
-  const supabaseClient = window.supabase.createClient(
-    BTB_CONFIG.SUPABASE_URL,
-    BTB_CONFIG.SUPABASE_ANON_KEY
-  );
+  const ACCESS_STORAGE_KEY = 'btb_recruiting_access';
+  const ACCESS_ENDPOINT = '/.netlify/functions/recruiting-hub-access';
 
-  function redirectToLogin() {
-    window.location.href = '/recruiting-hub/?reason=' + encodeURIComponent(arguments[0] || 'auth_required');
+  function redirectToLogin(reason) {
+    window.location.href = '/recruiting-hub/?reason=' + encodeURIComponent(reason || 'auth_required');
   }
 
-  const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
-  if (sessionError || !session) {
-    redirectToLogin('no_session');
-    return;
-  }
-
-  const userId = session.user.id;
-  const savedFp = localStorage.getItem('btb_device_fp');
-
-  if (!savedFp) {
-    await supabaseClient.auth.signOut();
-    redirectToLogin('device_missing');
+  const token = localStorage.getItem(ACCESS_STORAGE_KEY);
+  if (!token) {
+    redirectToLogin('auth_required');
     return;
   }
 
   try {
-    const { data: device, error: devErr } = await supabaseClient
-      .from('user_devices')
-      .select('id, last_seen')
-      .eq('user_id', userId)
-      .eq('fingerprint', savedFp)
-      .maybeSingle();
+    const response = await fetch(ACCESS_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: token })
+    });
 
-    if (devErr || !device) {
-      await supabaseClient.auth.signOut();
-      localStorage.removeItem('btb_device_fp');
-      redirectToLogin('device_revoked');
+    if (!response.ok) {
+      localStorage.removeItem(ACCESS_STORAGE_KEY);
+      redirectToLogin('access_expired');
       return;
     }
-
-    await supabaseClient.from('user_devices').update({
-      last_seen: new Date().toISOString()
-    }).eq('id', device.id);
-
-    await supabaseClient.from('activity_log').insert({
-      user_id: userId,
-      event: 'view',
-      fingerprint: savedFp,
-      user_agent: navigator.userAgent
-    });
-  } catch (e) {
-    console.warn('Device verification error:', e);
+  } catch (error) {
+    redirectToLogin('network_error');
+    return;
   }
 
   document.getElementById('btb-auth-style').remove();
 
-  window.btbSignOut = async function() {
-    await supabaseClient.auth.signOut();
-    localStorage.removeItem('btb_device_fp');
+  window.btbSignOut = function() {
+    localStorage.removeItem(ACCESS_STORAGE_KEY);
     window.location.href = '/recruiting-hub/';
   };
 })();
