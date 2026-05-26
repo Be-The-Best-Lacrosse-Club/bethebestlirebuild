@@ -187,6 +187,12 @@
   to = "/recruiting-hub/:splat"
   status = 200
 
+# Brevo double opt-in confirmation landing page
+[[redirects]]
+  from = "/confirmed"
+  to = "/confirmed.html"
+  status = 200
+
 # SMS Policy — serve the static HTML so bots/scrapers (Twilio A2P reviewers, etc.)
 # see real content without requiring JS execution. Must come before the SPA catch-all.
 [[redirects]]
