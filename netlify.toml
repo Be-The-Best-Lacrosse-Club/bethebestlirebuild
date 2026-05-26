@@ -137,6 +137,16 @@
 
 # Newsletter static pages — must come BEFORE the SPA catch-all
 [[redirects]]
+  from = "/newsletter/confirmed"
+  to = "/newsletter/confirmed/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/newsletter/confirmed/"
+  to = "/newsletter/confirmed/index.html"
+  status = 200
+
+[[redirects]]
   from = "/newsletter"
   to = "/newsletter/index.html"
   status = 200

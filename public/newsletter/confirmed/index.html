@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're In — BTB Lacrosse</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .shield {
+      width: 80px;
+      height: auto;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-family: 'Anton', 'Arial Black', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #FF000A;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #ccc;
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    p strong { color: #fff; }
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: #FF000A;
+      margin: 24px auto;
+    }
+    a.btn {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 14px 36px;
+      background: #FF000A;
+      color: #fff;
+      font-family: 'Anton', 'Arial Black', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    a.btn:hover { background: #cc0008; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <img
+    src="/newsletter/assets/btb-newsletter-footer-shield.png"
+    alt="BTB Lacrosse"
+    class="shield"
+    onerror="this.style.display='none'"
+  />
+  <h1>You're In.</h1>
+  <div class="divider"></div>
+  <p>Thanks for signing up. <strong>Check your inbox</strong> — you'll hear from us when it matters.</p>
+  <p>No spam. Only real updates on tryouts, camps, recruiting, and what's happening inside the club.</p>
+  <a href="https://www.bethebestli.com" class="btn">Back to BTB →</a>
+</body>
+</html>
