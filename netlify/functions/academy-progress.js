@@ -32,19 +32,39 @@ async function atFetch(url, options = {}) {
   return JSON.parse(text)
 }
 
+// Escape double-quotes so user-supplied strings can't break out of the Airtable formula.
+function esc(s) { return String(s).replace(/"/g, '\\"') }
+
 async function findRecord(userId, courseId) {
-  let formula = `{userId} = "${userId}"`
-  if (courseId) formula = `AND({userId} = "${userId}", {courseId} = "${courseId}")`
+  let formula = `{userId} = "${esc(userId)}"`
+  if (courseId) formula = `AND({userId} = "${esc(userId)}", {courseId} = "${esc(courseId)}")`
   const url = `${API}?filterByFormula=${encodeURIComponent(formula)}&maxRecords=1`
   const data = await atFetch(url)
   return data.records?.[0] || null
 }
 
 async function findAllForUser(userId) {
-  const formula = `{userId} = "${userId}"`
+  const formula = `{userId} = "${esc(userId)}"`
   const url = `${API}?filterByFormula=${encodeURIComponent(formula)}`
   const data = await atFetch(url)
   return data.records || []
+}
+
+// Verify the caller's Netlify Identity JWT and return the verified user object, or null.
+async function verifyIdentity(event) {
+  const authHeader = event.headers.authorization || event.headers.Authorization || ""
+  const token = authHeader.replace(/^Bearer\s+/i, "")
+  if (!token) return null
+  const siteUrl = process.env.URL || "https://www.bethebestli.com"
+  try {
+    const res = await fetch(`${siteUrl}/.netlify/identity/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (!res.ok) return null
+    return await res.json()
+  } catch {
+    return null
+  }
 }
 
 // ── Response helpers ──────────────────────────────────────────────────
@@ -98,10 +118,17 @@ exports.handler = async (event) => {
 
     // ── POST (upsert) ─────────────────────────────────────────────────
     if (event.httpMethod === "POST") {
-      const body = JSON.parse(event.body || "{}")
-      const { userId, courseId, completedLessons, completedAt, playerName, playerEmail } = body
+      // Require a valid Netlify Identity JWT and force userId server-side
+      // so callers can only write their OWN progress, not someone else's.
+      const verifiedUser = await verifyIdentity(event)
+      if (!verifiedUser) return err(401, "Unauthorized — login required to save progress")
 
-      if (!userId || !courseId) return err(400, "userId and courseId are required")
+      const body = JSON.parse(event.body || "{}")
+      const { courseId, completedLessons, completedAt, playerName } = body
+      const userId = verifiedUser.id
+      const playerEmail = verifiedUser.email
+
+      if (!userId || !courseId) return err(400, "courseId is required")
 
       const fields = {
         userId,

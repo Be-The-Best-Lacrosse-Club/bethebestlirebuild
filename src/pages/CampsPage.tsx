@@ -84,6 +84,56 @@ const CAMPS: Camp[] = [
   },
 ]
 
+const CORE_VALUES = [
+  {
+    value: "Sportsmanship",
+    detail: "Showing courtesy and respect to opponents, coaches, and teammates.",
+  },
+  {
+    value: "Teamwork",
+    detail: "Learning to work with teammates, help teammates, and put the group first.",
+  },
+  {
+    value: "Dedication",
+    detail: "Demonstrating care for the team, the sport, and personal performance.",
+  },
+  {
+    value: "Improvement",
+    detail: "Working hard to develop skills, learn, and get better every day.",
+  },
+  {
+    value: "Hustle",
+    detail: "Giving your best effort all of the time.",
+  },
+  {
+    value: "MVP",
+    detail: "Never losing your cool and rising to the occasion under pressure.",
+  },
+]
+
+const POSITION_TRACKS = [
+  {
+    position: "Defense",
+    detail:
+      "Stick skills (left/right), footwork, holds, crease play, team defense, take away checks, shooting, stick protection, and off-ball play.",
+  },
+  {
+    position: "Midfield",
+    detail:
+      "Stick skills (left/right), shooting inside and outside, on-the-run shooting, split dodge, inside roll, question mark, COD, riding, stick protection, team offense, defensive play, intro to face-offs, passing, and off-ball play.",
+  },
+  {
+    position: "Attack",
+    detail:
+      "Stick skills (left/right), shooting inside and outside, on-the-run shooting, split dodge, inside roll, question mark, COD, riding, stick protection, team offense, passing, and off-ball play.",
+  },
+  {
+    position: "Goalie",
+    detail:
+      "Stance and position, grip on the stick, leadership, stick skills, communication, shot stopping, attitude, and proper warmup.",
+  },
+]
+
 export function CampsPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -275,6 +325,73 @@ export function CampsPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Athlete Core Values */}
+      <section id="camp-values" className="py-24 px-6 bg-black border-b border-white/[0.07]">
+        <div className="max-w-[1100px] mx-auto">
+          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+            BTB Lacrosse Athlete Core Values
+          </div>
+          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-5">
+            Values First.<br />Skills Every Day.
+          </h2>
+          <p className="text-[1.1rem] text-white/45 mb-14 max-w-[650px] leading-relaxed">
+            Our lacrosse camps teach athletes values and lacrosse skills while building relationships and
+            having fun. Each camper will be taught the standard we expect on and off the field.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+            {CORE_VALUES.map((item) => (
+              <div
+                key={item.value}
+                className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-7 hover:border-[var(--btb-red)]/35 hover:bg-[var(--btb-red)]/5 transition-all duration-300"
+              >
+                <div className="font-display text-[1.35rem] uppercase tracking-wide text-white mb-3">
+                  {item.value}
+                </div>
+                <p className="text-[1.05rem] text-white/50 leading-relaxed">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-14 items-start">
+            <div>
+              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+                Position Training
+              </div>
+              <h3 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-5">
+                Every Spot<br />Gets Better.
+              </h3>
+              <p className="text-[1.1rem] text-white/40 leading-relaxed">
+                Campers get position-specific work built around the demands of the game: stick skills,
+                footwork, decision-making, team concepts, and competitive reps.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {POSITION_TRACKS.map((track) => (
+                <div
+                  key={track.position}
+                  className="rounded-xl border border-white/[0.07] bg-neutral-950 p-6 hover:border-white/[0.14] transition-colors"
+                >
+                  <div className="font-display text-[1.15rem] uppercase tracking-wide text-white mb-2">
+                    {track.position}
+                  </div>
+                  <p className="text-[1.05rem] text-white/55 leading-relaxed">{track.detail}</p>
+                </div>
+              ))}
+              <div className="rounded-xl border border-[var(--btb-red)]/35 bg-[var(--btb-red)]/5 p-6">
+                <div className="font-display text-[1.15rem] uppercase tracking-wide text-white mb-2">
+                  FOGO / Draw Training
+                </div>
+                <p className="text-[1.05rem] text-white/65 leading-relaxed">
+                  Special guests will work specifically with players who take the faceoff or the draw.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

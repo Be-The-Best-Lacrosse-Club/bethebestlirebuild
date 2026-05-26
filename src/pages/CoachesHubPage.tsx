@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
+import { getAuthToken } from "@/lib/auth"
 import { drills, drillCategories, practicePlans } from "@/lib/coachData"
 import { fetchCoachPayment, type CoachPaymentResponse } from "@/lib/paymentData"
 import {
@@ -214,17 +215,26 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
   const [progressLoading, setProgressLoading] = useState(false)
   const [progressLoaded, setProgressLoaded] = useState(false)
 
-  const loadPlayerProgress = () => {
+  const loadPlayerProgress = async () => {
     if (progressLoaded) return
     setProgressLoading(true)
-    fetch(`/.netlify/functions/academy-coach-dashboard?gender=${gender}`)
-      .then(r => r.json())
-      .then(data => {
-        setPlayerProgress(data.players || [])
-        setProgressLoaded(true)
+    try {
+      const token = await getAuthToken()
+      if (!token) {
+        setProgressLoading(false)
+        return
+      }
+      const r = await fetch(`/.netlify/functions/academy-coach-dashboard?gender=${gender}`, {
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .catch(() => {})
-      .finally(() => setProgressLoading(false))
+      const data = await r.json()
+      setPlayerProgress(data.players || [])
+      setProgressLoaded(true)
+    } catch {
+      // swallow
+    } finally {
+      setProgressLoading(false)
+    }
   }
 
   const label = gender === "boys" ? "Boys" : "Girls"
