@@ -45,9 +45,33 @@ async function atFetch(path) {
   return res.json()
 }
 
+async function verifyCoachOrOwner(event) {
+  const authHeader = event.headers.authorization || event.headers.Authorization || ""
+  const token = authHeader.replace(/^Bearer\s+/i, "")
+  if (!token) return null
+
+  const siteUrl = process.env.URL || "https://www.bethebestli.com"
+  try {
+    const res = await fetch(`${siteUrl}/.netlify/identity/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    if (!res.ok) return null
+    const userData = await res.json()
+    const roles = userData.app_metadata?.roles || []
+    if (!roles.includes("coach") && !roles.includes("owner")) return null
+    return userData
+  } catch {
+    return null
+  }
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: cors, body: "" }
   if (event.httpMethod !== "GET") return err(405, "Method not allowed")
+
+  // Auth gate — only coaches and owners may view player progress data
+  const user = await verifyCoachOrOwner(event)
+  if (!user) return err(401, "Unauthorized — coach or owner role required")
 
   try {
     const { gender } = event.queryStringParameters || {}

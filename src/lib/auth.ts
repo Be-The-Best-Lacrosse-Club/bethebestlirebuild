@@ -126,3 +126,18 @@ export async function validateSession(): Promise<User | null> {
   const gotrueUser = await auth.validateCurrentSession()
   return mapNetlifyUser(gotrueUser)
 }
+
+/**
+ * Get a fresh JWT for the current user, refreshing if needed.
+ * Returns null if no user is logged in.
+ * Use this to authorize fetch calls to Netlify Functions that verify identity.
+ */
+export async function getAuthToken(): Promise<string | null> {
+  const current = auth.currentUser()
+  if (!current) return null
+  try {
+    return await current.jwt()
+  } catch {
+    return null
+  }
+}

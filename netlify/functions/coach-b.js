@@ -52,6 +52,64 @@ VOICE
 - Never use emojis unless the coach uses them first.`,
 };
 
+// ─── Abuse protection ─────────────────────────────────────────────
+// 1. Strict origin check — only requests from bethebestli.com (and localhost in dev)
+//    are accepted. Blocks direct curl-from-script abuse against the public endpoint.
+// 2. Per-IP rate limit — 20 requests per minute per IP, tracked in an in-memory
+//    map. Works per warm function instance (good enough to stop casual abuse;
+//    a determined attacker behind many IPs could still get through).
+//
+// Stronger defense (signed user tokens, distributed rate limiting via @netlify/blobs)
+// would require a bigger change. This is the minimum that prevents someone
+// from finding the endpoint and burning the Anthropic key overnight.
+
+const ALLOWED_ORIGINS = [
+  "https://www.bethebestli.com",
+  "https://bethebestli.com",
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
+const RATE_WINDOW_MS = 60_000;
+const RATE_LIMIT = 20;
+const ipBuckets = new Map(); // ip → number[] (timestamps in window)
+
+function isOriginAllowed(event) {
+  const origin = event.headers?.origin || event.headers?.Origin || "";
+  if (!origin) {
+    // Some browsers (and curl by default) don't send Origin. Fall back to Referer.
+    const referer = event.headers?.referer || event.headers?.Referer || "";
+    return ALLOWED_ORIGINS.some((o) => referer.startsWith(o + "/"));
+  }
+  return ALLOWED_ORIGINS.includes(origin);
+}
+
+function clientIp(event) {
+  return (
+    event.headers?.["x-nf-client-connection-ip"] ||
+    event.headers?.["client-ip"] ||
+    event.headers?.["x-forwarded-for"]?.split(",")[0]?.trim() ||
+    "unknown"
+  );
+}
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const cutoff = now - RATE_WINDOW_MS;
+  const hits = (ipBuckets.get(ip) || []).filter((t) => t > cutoff);
+  hits.push(now);
+  ipBuckets.set(ip, hits);
+  // Sweep stale buckets occasionally so the map doesn't grow forever.
+  if (ipBuckets.size > 1000) {
+    for (const [k, v] of ipBuckets) {
+      const live = v.filter((t) => t > cutoff);
+      if (live.length === 0) ipBuckets.delete(k);
+      else ipBuckets.set(k, live);
+    }
+  }
+  return hits.length <= RATE_LIMIT;
+}
+
 function postJson(hostname, path, body, apiKey) {
   return new Promise((resolve, reject) => {
     const payload = Buffer.from(body, "utf8");
@@ -94,6 +152,17 @@ exports.handler = async function (event) {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers, body: "" };
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, headers, body: JSON.stringify({ error: "Use POST." }) };
+  }
+
+  // Origin/Referer must be from bethebestli.com — blocks direct curl abuse.
+  if (!isOriginAllowed(event)) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: "Forbidden." }) };
+  }
+
+  // Per-IP rate limit — 20 messages/min per IP (per warm instance).
+  const ip = clientIp(event);
+  if (!checkRateLimit(ip)) {
+    return { statusCode: 429, headers, body: JSON.stringify({ error: "Too many messages. Slow down for a minute." }) };
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;

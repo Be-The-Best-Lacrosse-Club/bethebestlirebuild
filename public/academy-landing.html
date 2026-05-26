@@ -677,10 +677,16 @@ async function callCheckout(tier, email, name) {
   btn.disabled = true
 
   try {
+    // For member checkout, include the Netlify Identity JWT so the server
+    // can verify the user actually qualifies for the BTB rate.
+    let token = null
+    if (tier === 'btb' && currentUser && typeof currentUser.jwt === 'function') {
+      try { token = await currentUser.jwt() } catch (e) { /* fall through with no token */ }
+    }
     const res = await fetch('/.netlify/functions/academy-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tier, email, name })
+      body: JSON.stringify({ tier, email, name, token })
     })
     const data = await res.json()
     if (data.url) {

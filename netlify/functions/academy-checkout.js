@@ -45,17 +45,43 @@ export const handler = async (event) => {
     }
   }
 
-  let tier, email, name
+  let requestedTier, bodyEmail, bodyName, token
   try {
     const body = JSON.parse(event.body || "{}")
-    tier  = body.tier === "btb" ? "btb" : "public"
-    email = body.email || undefined
-    name  = body.name  || undefined
+    requestedTier = body.tier === "btb" ? "btb" : "public"
+    bodyEmail     = body.email || undefined
+    bodyName      = body.name  || undefined
+    token         = body.token || undefined
   } catch {
     return {
       statusCode: 400,
       headers: CORS_HEADERS,
       body: JSON.stringify({ error: "Invalid request body" }),
+    }
+  }
+
+  // If the caller asked for the BTB member rate, verify their identity server-side.
+  // Without a valid Netlify Identity JWT we downgrade to public pricing — never
+  // trust the client to claim membership on its own.
+  let tier  = "public"
+  let email = bodyEmail
+  let name  = bodyName
+
+  if (requestedTier === "btb" && token) {
+    const siteUrl = process.env.URL || "https://www.bethebestli.com"
+    try {
+      const idRes = await fetch(`${siteUrl}/.netlify/identity/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (idRes.ok) {
+        const verifiedUser = await idRes.json()
+        tier  = "btb"
+        email = verifiedUser.email || bodyEmail
+        name  = verifiedUser.user_metadata?.full_name || bodyName
+      }
+    } catch (err) {
+      console.error("identity verification failed:", err)
+      // Fall through with tier = "public"
     }
   }
 
