@@ -6,15 +6,17 @@ import { Inbox, RefreshCw, Filter, Search, ShieldX } from "lucide-react"
 
 interface Submission {
   id: string
-  "Form Name"?: string
-  Name?: string
-  Email?: string
-  Phone?: string
+  Source?: string
+  "Lead Name"?: string
+  "Contact Email"?: string
+  "Contact Phone"?: string
   Subject?: string
-  Message?: string
-  "Submitted At"?: string
+  Notes?: string
+  "Submission Date"?: string
   "Site URL"?: string
   "Raw Payload"?: string
+  Status?: string
+  "Communication Status"?: string
 }
 
 const FORM_LABELS: Record<string, string> = {
@@ -82,7 +84,7 @@ export function LeadsPage() {
   const formCounts = useMemo(() => {
     const counts: Record<string, number> = {}
     submissions.forEach((s) => {
-      const name = s["Form Name"] || "unknown"
+      const name = s.Source || "unknown"
       counts[name] = (counts[name] || 0) + 1
     })
     return counts
@@ -92,7 +94,7 @@ export function LeadsPage() {
     if (!search.trim()) return submissions
     const q = search.toLowerCase()
     return submissions.filter((s) =>
-      [s.Name, s.Email, s.Phone, s.Subject, s.Message, s["Form Name"]]
+      [s["Lead Name"], s["Contact Email"], s["Contact Phone"], s.Subject, s.Notes, s.Source]
         .some((v) => v && String(v).toLowerCase().includes(q)),
     )
   }, [submissions, search])
@@ -228,20 +230,23 @@ export function LeadsPage() {
                       className="w-full px-6 py-4 flex items-center gap-4 hover:bg-white/[0.04] transition-colors text-left"
                     >
                       <span className="inline-block px-3 py-1 text-[0.7rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)]/15 text-[var(--btb-red)] rounded">
-                        {formLabel(s["Form Name"])}
+                        {formLabel(s.Source)}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-white truncate">{s.Name || "—"}</div>
-                        <div className="text-white/55 text-[0.85rem] truncate">{s.Email || ""}{s.Phone ? ` · ${s.Phone}` : ""}</div>
+                        <div className="font-bold text-white truncate">{s["Lead Name"] || "—"}</div>
+                        <div className="text-white/55 text-[0.85rem] truncate">{s["Contact Email"] || ""}{s["Contact Phone"] ? ` · ${s["Contact Phone"]}` : ""}</div>
                       </div>
+                      {s.Status && (
+                        <span className="text-[0.7rem] font-bold uppercase tracking-[1.5px] text-white/55 bg-white/[0.06] border border-white/10 rounded px-2 py-1 hidden md:inline-block">{s.Status}</span>
+                      )}
                       <div className="text-white/40 text-[0.78rem] uppercase tracking-[1.5px] whitespace-nowrap">
-                        {relativeTime(s["Submitted At"])}
+                        {relativeTime(s["Submission Date"])}
                       </div>
                     </button>
                     {isOpen && (
                       <div className="px-6 pb-5 pt-1 border-t border-white/5 text-[0.95rem] space-y-3">
                         {s.Subject && <div><span className="text-white/45 text-[0.75rem] uppercase tracking-[1.5px] block mb-1">Subject</span><div>{s.Subject}</div></div>}
-                        {s.Message && <div><span className="text-white/45 text-[0.75rem] uppercase tracking-[1.5px] block mb-1">Message</span><div className="whitespace-pre-wrap">{s.Message}</div></div>}
+                        {s.Notes && <div><span className="text-white/45 text-[0.75rem] uppercase tracking-[1.5px] block mb-1">Message</span><div className="whitespace-pre-wrap">{s.Notes}</div></div>}
                         {raw && (
                           <div>
                             <span className="text-white/45 text-[0.75rem] uppercase tracking-[1.5px] block mb-1">All fields</span>
@@ -253,17 +258,17 @@ export function LeadsPage() {
                           </div>
                         )}
                         <div className="flex gap-2 pt-2">
-                          {s.Email && (
+                          {s["Contact Email"] && (
                             <a
-                              href={`mailto:${s.Email}?subject=Re: ${encodeURIComponent(s.Subject || "Your inquiry to BTB Lacrosse")}`}
+                              href={`mailto:${s["Contact Email"]}?subject=Re: ${encodeURIComponent(s.Subject || "Your inquiry to BTB Lacrosse")}`}
                               className="px-4 py-2 bg-[var(--btb-red)] text-white text-[0.78rem] font-bold uppercase tracking-[1.5px] rounded hover:bg-[var(--btb-red-dark)]"
                             >
                               Reply
                             </a>
                           )}
-                          {s.Phone && (
+                          {s["Contact Phone"] && (
                             <a
-                              href={`tel:${s.Phone}`}
+                              href={`tel:${s["Contact Phone"]}`}
                               className="px-4 py-2 bg-white/[0.06] border border-white/10 text-white text-[0.78rem] font-bold uppercase tracking-[1.5px] rounded hover:bg-white/[0.1]"
                             >
                               Call

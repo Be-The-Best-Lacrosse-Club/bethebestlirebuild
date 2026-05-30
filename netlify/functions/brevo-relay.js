@@ -23,8 +23,8 @@
  *   BREVO_LIST_INTEREST_FORM — Override list for form-name="interest-form"
  *   BREVO_LIST_TRYOUT        — Override list for form-name="tryout-interest" + registration forms
  *   AIRTABLE_FORMS_API_KEY   — Airtable PAT (falls back to AIRTABLE_OPS_API_KEY)
- *   AIRTABLE_FORMS_BASE_ID   — Base id for the submissions table
- *   AIRTABLE_FORMS_TABLE     — Table name (default: "Submissions")
+ *   AIRTABLE_FORMS_BASE_ID   — Base id (default target: BTB-OS = appGAETGobQBTwf7j)
+ *   AIRTABLE_FORMS_TABLE     — Table name (default: "Leads" — the existing BTB-OS lead workflow)
  */
 
 const https = require("https");
@@ -228,22 +228,23 @@ function escapeHtml(s) {
 async function airtableAppend({ formName, data, submissionTime, siteUrl }) {
   const apiKey = process.env.AIRTABLE_FORMS_API_KEY || process.env.AIRTABLE_OPS_API_KEY;
   const baseId = process.env.AIRTABLE_FORMS_BASE_ID;
-  const table = process.env.AIRTABLE_FORMS_TABLE || "Submissions";
+  const table = process.env.AIRTABLE_FORMS_TABLE || "Leads";
 
   if (!apiKey || !baseId) return { skipped: "airtable env vars missing" };
 
-  // Stringify the full submission payload — the Airtable table only needs core columns,
-  // and the raw JSON keeps every field around for later inspection.
+  // Maps to the existing BTB-OS "Leads" table so submissions land directly in
+  // the lead workflow (Status, Assigned Staff, Follow-up Logs already wired up).
+  // typecast: true lets Airtable auto-create new singleSelect choices for Source.
   const fields = {
-    "Form Name": formName,
-    Name: data.name || [data.firstName, data.lastName].filter(Boolean).join(" ") || data.parentName || "",
-    Email: data.email || data.parentEmail || "",
-    Phone: data.phone || data.parentPhone || "",
-    Subject: data.subject || "",
-    Message: data.message || data.notes || data.experience || "",
-    "Submitted At": submissionTime || new Date().toISOString(),
+    "Lead Name": data.name || [data.firstName, data.lastName].filter(Boolean).join(" ") || data.parentName || data.email || "(no name)",
+    "Contact Email": data.email || data.parentEmail || "",
+    "Contact Phone": data.phone || data.parentPhone || "",
+    "Submission Date": submissionTime || new Date().toISOString(),
+    Source: formName,
+    Subject: data.subject || data.interestCategory || "",
+    Notes: data.message || data.notes || data.experience || "",
     "Site URL": siteUrl || "",
-    "Raw Payload": JSON.stringify(data),
+    "Raw Payload": JSON.stringify(data, null, 2),
   };
 
   const body = JSON.stringify({ records: [{ fields }], typecast: true });

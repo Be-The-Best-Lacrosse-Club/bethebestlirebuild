@@ -57,7 +57,7 @@ exports.handler = async (event) => {
   }
 
   const baseId = process.env.AIRTABLE_FORMS_BASE_ID;
-  const table = process.env.AIRTABLE_FORMS_TABLE || "Submissions";
+  const table = process.env.AIRTABLE_FORMS_TABLE || "Leads";
   const apiKey = process.env.AIRTABLE_FORMS_API_KEY || process.env.AIRTABLE_OPS_API_KEY;
 
   if (!baseId || !apiKey) {
@@ -70,10 +70,10 @@ exports.handler = async (event) => {
 
   const airtableParams = {
     pageSize: String(limit),
-    "sort[0][field]": "Submitted At",
+    "sort[0][field]": "Submission Date",
     "sort[0][direction]": "desc",
   };
-  if (formName) airtableParams.filterByFormula = `{Form Name} = "${formName.replace(/"/g, '\\"')}"`;
+  if (formName) airtableParams.filterByFormula = `{Source} = "${formName.replace(/"/g, '\\"')}"`;
 
   try {
     const data = await airtableGet({ baseId, table, params: airtableParams });
