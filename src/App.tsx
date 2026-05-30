@@ -46,6 +46,7 @@ import { FamilyHubPage } from "@/pages/FamilyHubPage"
 import { ScrollDemoPage } from "@/pages/ScrollDemoPage"
 import { ContactPage } from "@/pages/ContactPage"
 import { CoachToolsPage } from "@/pages/CoachToolsPage"
+import { LeadsPage } from "@/pages/LeadsPage"
 import homeContent from "@/content/home.json"
 
 const SITE_URL = "https://bethebestli.com"
@@ -177,6 +178,7 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/scroll-demo" element={<ScrollDemoPage />} />
+            <Route path="/leads" element={<LeadsPage />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="/parent-hub" element={<ParentPortalPage />} />
