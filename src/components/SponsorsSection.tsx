@@ -19,6 +19,15 @@ const sponsors = [
     ctaLabel: "Visit Site",
   },
   {
+    name: "Lemon Strings",
+    category: "Stringing Partner",
+    detail: "Custom stringing, pocket work, and stick tune-ups for lacrosse players.",
+    icon: Handshake,
+    href: "https://www.instagram.com/_lemon_strings/",
+    ctaLabel: "View Profile",
+    image: "/images/sponsors/BTB_Lemon_Strings_Sponsor.jpeg",
+  },
+  {
     name: "Sponsor BTB",
     category: "Local Business Partners",
     detail: "Support Long Island lacrosse families, teams, clinics, events, and player development.",
@@ -50,7 +59,7 @@ export function SponsorsSection() {
           </p>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        <div ref={gridRef} className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
           {sponsors.map((sponsor) => {
             const Icon = sponsor.icon
             const content = (
@@ -63,7 +72,20 @@ export function SponsorsSection() {
                     {sponsor.category}
                   </div>
                 </div>
-                <div className="font-display text-[2.6rem] uppercase leading-[0.9] tracking-wide text-white">
+                {sponsor.image ? (
+                  <div className="mb-7 aspect-square overflow-hidden rounded bg-white p-3">
+                    <img
+                      src={sponsor.image}
+                      alt={`${sponsor.name} logo`}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                      decoding="async"
+                      width={886}
+                      height={886}
+                    />
+                  </div>
+                ) : null}
+                <div className="font-display text-[clamp(2.0rem,4vw,2.6rem)] uppercase leading-[0.9] tracking-wide text-white">
                   {sponsor.name}
                 </div>
                 <p className="mt-5 min-h-[84px] text-[1.0rem] leading-relaxed text-white/65">{sponsor.detail}</p>
