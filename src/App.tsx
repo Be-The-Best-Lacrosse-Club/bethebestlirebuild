@@ -22,6 +22,7 @@ import { SpecTicker } from "@/components/SpecTicker"
 import { FeaturedCoaches } from "@/components/FeaturedCoaches"
 import { Results } from "@/components/Results"
 import { CTASection } from "@/components/CTASection"
+import { SponsorsSection } from "@/components/SponsorsSection"
 
 // Pages
 import { LoginPage } from "@/pages/LoginPage"
@@ -75,6 +76,7 @@ function LandingPage() {
       <SpecTicker />
       <Results />
       <CTASection />
+      <SponsorsSection />
     </>
   )
 }
