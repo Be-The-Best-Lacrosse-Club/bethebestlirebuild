@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarDays, Handshake, ShoppingBag } from "lucide-react"
+import { ArrowRight, CalendarDays, Handshake, ShoppingBag, Trophy } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
 
 const sponsors = [
@@ -28,6 +28,14 @@ const sponsors = [
     image: "/images/sponsors/BTB_Lemon_Strings_Sponsor.jpeg",
   },
   {
+    name: "Apex Lacrosse Events",
+    category: "Event Partner",
+    detail: "Showcases, tournaments, and youth lacrosse events for players and families.",
+    icon: Trophy,
+    href: "https://apexlacrosseevents.com/",
+    ctaLabel: "Visit Site",
+  },
+  {
     name: "Sponsor BTB",
     category: "Local Business Partners",
     detail: "Support Long Island lacrosse families, teams, clinics, events, and player development.",
@@ -43,7 +51,7 @@ export function SponsorsSection() {
 
   return (
     <section className="bg-black px-4 py-14 text-white md:px-6 md:py-24 border-t border-white/[0.06]">
-      <div className="mx-auto max-w-[1100px]">
+      <div className="mx-auto max-w-[1280px]">
         <div className="mb-10 flex flex-col gap-6 border-b border-white/10 pb-8 md:mb-14 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="mb-4 flex items-center gap-3 text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)]">
@@ -59,7 +67,7 @@ export function SponsorsSection() {
           </p>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
+        <div ref={gridRef} className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {sponsors.map((sponsor) => {
             const Icon = sponsor.icon
             const content = (
@@ -85,7 +93,7 @@ export function SponsorsSection() {
                     />
                   </div>
                 ) : null}
-                <div className="font-display text-[clamp(2.0rem,4vw,2.6rem)] uppercase leading-[0.9] tracking-wide text-white">
+                <div className="font-display text-[clamp(1.75rem,3vw,2.5rem)] uppercase leading-[0.9] tracking-wide text-white">
                   {sponsor.name}
                 </div>
                 <p className="mt-5 min-h-[84px] text-[1.0rem] leading-relaxed text-white/65">{sponsor.detail}</p>
