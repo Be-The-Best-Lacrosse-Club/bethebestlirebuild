@@ -40,8 +40,8 @@ const flyers = [
     href: "/futures-clinic",
     image: "/images/tryouts/BTB_Girls_Futures_June_Clinic.jpg",
     alt: "BTB Girls Futures free June clinic series flyer for kindergarten through second grade players",
-    width: 640,
-    height: 960,
+    width: 1792,
+    height: 2400,
   },
   {
     title: "Boys Futures",
@@ -49,8 +49,8 @@ const flyers = [
     href: "/futures-clinic",
     image: "/images/tryouts/BTB_Boys_Futures_June_Clinic.jpg",
     alt: "BTB Boys Futures free June clinic series flyer for young boys lacrosse players",
-    width: 720,
-    height: 960,
+    width: 1290,
+    height: 1922,
   },
 ]
 
