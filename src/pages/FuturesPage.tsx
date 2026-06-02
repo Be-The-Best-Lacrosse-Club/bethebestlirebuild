@@ -11,28 +11,20 @@ type FuturesEvent = {
   time: string
 }
 
-// TODO: Confirm exact dates and times for each location.
 const FUTURES_EVENTS: FuturesEvent[] = [
   {
-    location: "Stimson",
-    venue: "Stimson",
-    address: "Long Island, NY",
-    date: "Date TBD",
-    time: "Time TBD · 2 Hours",
-  },
-  {
-    location: "Nickerson",
-    venue: "Nickerson",
-    address: "Long Island, NY",
-    date: "Date TBD",
-    time: "Time TBD · 2 Hours",
+    location: "Huntington",
+    venue: "Stimson Middle School",
+    address: "Huntington, NY",
+    date: "June 18, 2026",
+    time: "6:00 - 8:00 PM",
   },
   {
     location: "Seaford",
     venue: "Seaford High School",
     address: "Seaford, NY",
-    date: "Date TBD",
-    time: "Time TBD · 2 Hours",
+    date: "June 28, 2026",
+    time: "9:00 - 11:00 AM",
   },
 ]
 
@@ -40,7 +32,7 @@ const ITINERARY = [
   {
     block: "Hour 1",
     title: "On the Field — The Clinic",
-    detail: "Players in kindergarten through second grade (classes of 2036–2039) work with the BTB pro coaching staff. Stick skills, footwork, small-sided games, and the BTB Standard in action.",
+    detail: "Kindergarten through second grade players work with the BTB Futures staff and players. Stick skills, footwork, small-sided games, and the BTB Standard in action.",
     icon: Users,
   },
   {
@@ -65,8 +57,8 @@ export function FuturesPage() {
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
-        title="Futures Meet-Up | BTB Lacrosse Club"
-        description="Meet the BTB staff, work the BTB Standard, and hear from owner Dan Achatz. Free Futures clinics for kindergarten through second grade players at Stimson, Nickerson, and Seaford."
+        title="Futures Free Clinic Series | BTB Lacrosse Club"
+        description="Free BTB Boys and Girls Futures June clinic series for kindergarten through second grade players at Stimson Middle School in Huntington and Seaford High School."
         path="/futures"
       />
 
@@ -87,15 +79,15 @@ export function FuturesPage() {
         />
         <div className="relative z-10 max-w-[900px] mx-auto pt-16">
           <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
-            BTB Futures · Meet-Up Tour
+            BTB Futures · Free June Clinic Series
           </div>
           <h1 className="font-display text-[clamp(3.2rem,8vw,6rem)] uppercase tracking-wide leading-[0.88] mb-8">
             The Future<br />Starts Here.
           </h1>
           <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
-            Three locations. Two hours. One standard. Bring your player out for a free clinic with the BTB pro
-            staff while the parents meet the people running the program. Then hear directly from owner Dan Achatz
-            on the BTB culture and the path to tryouts.
+            Two free June clinics for boys and girls in kindergarten through second grade. Players get a high-energy
+            intro to BTB Futures while parents meet the people running the program, hear from ownership, and get the
+            next steps for the season.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a
@@ -127,9 +119,9 @@ export function FuturesPage() {
         <div className="max-w-[900px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { num: "3", label: "Locations" },
+              { num: "2", label: "June Clinics" },
               { num: "2 hrs", label: "Per Session" },
-              { num: "2036–39", label: "Grad Years" },
+              { num: "K-2", label: "Grade Range" },
               { num: "Free", label: "To Attend" },
             ].map((s) => (
               <div key={s.label} className="text-center">
@@ -150,13 +142,13 @@ export function FuturesPage() {
             Pick Your Spot
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Three Locations.<br />Same Standard.
+            Two Clinics.<br />Same Standard.
           </h2>
           <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
-            Show up to whichever location works for your family. Same staff, same content, same BTB.
+            Pick the date and location that works for your family. Same staff, same content, same BTB.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {FUTURES_EVENTS.map((e) => (
               <div
                 key={e.location}
@@ -239,8 +231,8 @@ export function FuturesPage() {
                 <span className="text-[var(--btb-red)]">See What BTB Is.</span>
               </h2>
               <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
-                Free to attend. Limited spots per location. Confirm your spot and we'll send the field address
-                and gear list a few days out.
+                Free to attend. Spots are limited. Confirm your player's clinic and we'll send any field, gear,
+                and weather updates before the session.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a

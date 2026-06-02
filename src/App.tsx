@@ -22,6 +22,7 @@ import { SpecTicker } from "@/components/SpecTicker"
 import { FeaturedCoaches } from "@/components/FeaturedCoaches"
 import { Results } from "@/components/Results"
 import { CTASection } from "@/components/CTASection"
+import { SponsorsSection } from "@/components/SponsorsSection"
 
 // Pages
 import { LoginPage } from "@/pages/LoginPage"
@@ -45,6 +46,7 @@ import { FamilyHubPage } from "@/pages/FamilyHubPage"
 import { ScrollDemoPage } from "@/pages/ScrollDemoPage"
 import { ContactPage } from "@/pages/ContactPage"
 import { CoachToolsPage } from "@/pages/CoachToolsPage"
+import { LeadsPage } from "@/pages/LeadsPage"
 import homeContent from "@/content/home.json"
 
 const SITE_URL = "https://bethebestli.com"
@@ -75,6 +77,7 @@ function LandingPage() {
       <SpecTicker />
       <Results />
       <CTASection />
+      <SponsorsSection />
     </>
   )
 }
@@ -175,6 +178,7 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/scroll-demo" element={<ScrollDemoPage />} />
+            <Route path="/leads" element={<LeadsPage />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="/parent-hub" element={<ParentPortalPage />} />
