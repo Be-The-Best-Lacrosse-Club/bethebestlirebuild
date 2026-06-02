@@ -1,18 +1,22 @@
-import { ArrowRight, Handshake, Target, Zap } from "lucide-react"
+import { ArrowRight, CalendarDays, Handshake, ShoppingBag } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
 
 const sponsors = [
   {
-    name: "SAB Training",
-    category: "Skill Development",
-    detail: "Position-specific stick skill, IQ, and player development led by Steve Bentz.",
-    icon: Target,
+    name: "Lacrosse Unlimited",
+    category: "Equipment Partner",
+    detail: "Lacrosse gear, apparel, sticks, heads, and player equipment for BTB families.",
+    icon: ShoppingBag,
+    href: "https://www.lacrosseunlimited.com/",
+    ctaLabel: "Visit Site",
   },
   {
-    name: "Ghost Athletics",
-    category: "Speed + Agility",
-    detail: "Lacrosse-specific athletic training built around first step, change of direction, and conditioning.",
-    icon: Zap,
+    name: "My Lacrosse Tournaments",
+    category: "Tournament Partner",
+    detail: "Tournament event information, schedules, and resources for lacrosse families.",
+    icon: CalendarDays,
+    href: "https://mylacrossetournaments.com/",
+    ctaLabel: "Visit Site",
   },
   {
     name: "Sponsor BTB",
@@ -20,6 +24,8 @@ const sponsors = [
     detail: "Support Long Island lacrosse families, teams, clinics, events, and player development.",
     icon: Handshake,
     href: "mailto:info@bethebestli.com?subject=BTB%20Sponsorship%20Inquiry",
+    ctaLabel: "Start a Conversation",
+    featured: true,
   },
 ]
 
@@ -40,7 +46,7 @@ export function SponsorsSection() {
             </h2>
           </div>
           <p className="max-w-[390px] text-[1.05rem] leading-relaxed text-white/65">
-            The businesses and training partners helping BTB build better athletes and stronger lacrosse families on Long Island.
+            The businesses and event partners helping BTB build better athletes and stronger lacrosse families on Long Island.
           </p>
         </div>
 
@@ -63,18 +69,26 @@ export function SponsorsSection() {
                 <p className="mt-5 min-h-[84px] text-[1.0rem] leading-relaxed text-white/65">{sponsor.detail}</p>
                 {sponsor.href ? (
                   <div className="mt-8 inline-flex items-center gap-2 text-[0.84rem] font-black uppercase tracking-[2px] text-[var(--btb-red)]">
-                    Start a Conversation <ArrowRight size={13} />
+                    {sponsor.ctaLabel} <ArrowRight size={13} />
                   </div>
                 ) : null}
               </>
             )
 
             if (sponsor.href) {
+              const isExternal = sponsor.href.startsWith("http")
+
               return (
                 <a
                   key={sponsor.name}
                   href={sponsor.href}
-                  className="reveal-child group block rounded border border-[var(--btb-red)]/35 bg-[var(--btb-red)]/[0.06] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--btb-red)] hover:bg-[var(--btb-red)]/[0.1]"
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noreferrer" : undefined}
+                  className={`reveal-child group block rounded p-7 transition-all duration-300 hover:-translate-y-1 ${
+                    sponsor.featured
+                      ? "border border-[var(--btb-red)]/35 bg-[var(--btb-red)]/[0.06] hover:border-[var(--btb-red)] hover:bg-[var(--btb-red)]/[0.1]"
+                      : "border border-white/[0.08] bg-white/[0.025] hover:border-white/20 hover:bg-white/[0.04]"
+                  }`}
                 >
                   {content}
                 </a>
