@@ -17,7 +17,6 @@ import { useAuth } from "@/context/AuthContext"
 import { useProgress } from "@/hooks/useProgress"
 import { getCourses, getCoursesByGradYear } from "@/lib/courseData"
 import { CourseView } from "@/components/hubs/players/CourseView"
-import { BentoDashboard } from "@/components/hubs/players/BentoDashboard"
 import { SEO } from "@/components/shared/SEO"
 import {
   getAcademyCoursesWithPositions,
@@ -911,21 +910,139 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
 
         {/* ── DASHBOARD TAB ──────────────────────────────────────────────── */}
         {activeTab === "dashboard" && (
-          <BentoDashboard
-            firstName={firstName}
-            streak={streak}
-            overallPct={overallPct}
-            completedLessons={completedLessons}
-            totalLessons={totalLessons}
-            gradCoursesCount={gradCourses.length}
-            badgesCount={academyCourses.filter(isCourseComplete).length}
-            setActiveTab={setActiveTab}
-            academyCourses={academyCourses}
-            getCourseProgress={getCourseProgress}
-            TIER_COLORS={TIER_COLORS}
-            PILLAR_COLORS={PILLAR_COLORS}
-            academyProgress={academyProgress}
-          />
+          <div>
+            {/* Welcome bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+              <div>
+                <h1 className="text-[clamp(1.8rem,4vw,2.8rem)] font-bold uppercase leading-none mb-1"
+                  style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                  What's up, <span className="text-[#D22630]">{firstName}.</span>
+                </h1>
+                {user?.gradYear && (
+                  <p className="text-[#888888] text-xs uppercase tracking-wider mt-1">Class of {user.gradYear}</p>
+                )}
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-[#141414] border border-[#1F1F1F] rounded-full">
+                <span className="text-lg">🔥</span>
+                <span className="text-white font-bold text-sm">{streak} Day Streak</span>
+              </div>
+            </div>
+
+            {/* Progress card */}
+            <div className="bg-[#0A0A0A] border border-[#1F1F1F] rounded-2xl p-6 mb-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <p className="text-[#888888] text-[1.15rem] font-bold uppercase tracking-[2px] mb-1">Development Track · Overall Progress</p>
+                  <p className="text-4xl font-bold" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif" }}>{overallPct}%</p>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-[#D22630]/10 border border-[#D22630]/30 rounded-lg">
+                  <Activity size={14} className="text-[#D22630]" />
+                  <span className="text-[#D22630] text-xs font-bold uppercase">Active</span>
+                </div>
+              </div>
+              <ProgressBar pct={overallPct} colorClass="bg-[#D22630]" height="h-2.5" />
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-5">
+                {[
+                  { label: "Lessons Done", value: `${completedLessons}/${totalLessons}` },
+                  { label: "Est. Time", value: `${Math.round(completedLessons * 8)} min` },
+                  { label: "Courses", value: `${gradCourses.length}` },
+                  { label: "Badges", value: `${academyCourses.filter(isCourseComplete).length}` },
+                ].map(({ label, value }) => (
+                  <div key={label} className="text-center">
+                    <p className="text-white font-bold text-lg">{value}</p>
+                    <p className="text-[#888888] text-[1.15rem] uppercase tracking-wider mt-0.5">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+              {[
+                { label: "Player IQ",       icon: Brain,          tab: "academy"   as Tab, color: "text-blue-400",    bg: "bg-blue-500/10",    border: "border-blue-500/20" },
+                { label: "Position School", icon: Target,         tab: "academy"   as Tab, color: "text-purple-400",  bg: "bg-purple-500/10",  border: "border-purple-500/20" },
+                { label: "Systems",         icon: Zap,            tab: "courses"   as Tab, color: "text-amber-400",   bg: "bg-amber-500/10",   border: "border-amber-500/20" },
+                { label: "Film Study",      icon: Film,           tab: "film"      as Tab, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+                { label: "Playbooks",       icon: Swords,         tab: "resources" as Tab, color: "text-red-400",      bg: "bg-red-500/10",     border: "border-red-500/20" },
+                { label: "Downloads",       icon: Download,       tab: "downloads" as Tab, color: "text-rose-400",    bg: "bg-rose-500/10",    border: "border-rose-500/20" },
+              ].map(({ label, icon: Icon, tab, color, bg, border }) => (
+                <button
+                  key={label}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex flex-col items-center justify-center gap-2 p-4 ${bg} border ${border} rounded-xl hover:scale-[1.03] transition-all group`}
+                >
+                  <Icon size={24} className={`${color} group-hover:scale-110 transition-transform`} />
+                  <span className="text-white text-xs font-bold uppercase tracking-wide text-center">{label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* 2-col panel */}
+            <div className="grid lg:grid-cols-2 gap-6">
+              {/* Continue Training */}
+              <div className="bg-[#0A0A0A] border border-[#1F1F1F] rounded-2xl p-6">
+                <div className="flex items-center gap-2 mb-5">
+                  <Play size={16} className="text-[#D22630]" />
+                  <h3 className="font-bold uppercase tracking-wider text-sm">Continue Training</h3>
+                </div>
+                <div className="space-y-4">
+                  {academyCourses.slice(0, 3).map((course) => {
+                    const pct = getCourseProgress(course)
+                    return (
+                      <button
+                        key={course.id}
+                        onClick={() => { setActivePillarCourse(course); setActivePillar("game") }}
+                        className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#141414] border border-[#1F1F1F] hover:border-[#2A2A2A] transition-all group text-left"
+                      >
+                        <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${TIER_COLORS[course.tier]} flex items-center justify-center shrink-0`}>
+                          <GraduationCap size={16} className="text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-sm font-bold truncate">{course.tierLabel} Academy</p>
+                          <ProgressBar pct={pct} colorClass="bg-[#D22630]" height="h-1 mt-1.5" />
+                        </div>
+                        <span className="text-[#888888] text-xs font-bold shrink-0">{pct}%</span>
+                        <ChevronRight size={14} className="text-[#888888] group-hover:text-white transition-colors shrink-0" />
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Recent Activity */}
+              <div className="bg-[#0A0A0A] border border-[#1F1F1F] rounded-2xl p-6">
+                <div className="flex items-center gap-2 mb-5">
+                  <Activity size={16} className="text-[#D22630]" />
+                  <h3 className="font-bold uppercase tracking-wider text-sm">Recent Activity</h3>
+                </div>
+                <div className="space-y-3">
+                  {completedLessons === 0 ? (
+                    <p className="text-[#888888] text-sm text-center py-6">No activity yet. Start a lesson to track your progress.</p>
+                  ) : (
+                    academyCourses.flatMap((course) =>
+                      (academyProgress[course.id]?.completedLessons ?? []).map((lessonId) => {
+                        const lesson = course.lessons.find((l) => l.id === lessonId)
+                        return lesson ? { course, lesson } : null
+                      }).filter(Boolean)
+                    ).slice(-5).reverse().map((item, idx) => {
+                      if (!item) return null
+                      const colors = PILLAR_COLORS[item.lesson.pillar]
+                      return (
+                        <div key={idx} className="flex items-center gap-3 py-2">
+                          <div className={`w-2 h-2 rounded-full ${colors.text.replace("text-", "bg-")} shrink-0`} />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-white text-sm font-semibold truncate">{item.lesson.title}</p>
+                            <p className="text-[#888888] text-xs">{item.course.tierLabel} Academy</p>
+                          </div>
+                          <Check size={14} className="text-[#00D26A] shrink-0" />
+                        </div>
+                      )
+                    })
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* ── ACADEMY TAB ────────────────────────────────────────────────── */}
