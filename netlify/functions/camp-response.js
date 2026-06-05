@@ -3,25 +3,31 @@
 // URL params: ?row=<sheet_row>&action=not_attending|pay_now&player=<name>
 
 const https = require("https");
-const querystring = require("querystring");
 
 const SHEET_ID = "1GKYBuDsEEf9KluyAlIvQ7-74DU-22IafebcuqSkW0vc";
-const CAMP_PAYMENT_URL = process.env.CAMP_PAYMENT_URL || "https://www.bethebestli.com/#programs";
+const CAMP_PAYMENT_URL = process.env.CAMP_PAYMENT_URL ||
+  "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1435d07c4e4244bca62765520c1a9168d86972f13c7f4e62b183da56e129c5038557bd7ed87d4922b8d1c13598c7c3f8?locale=EN_US&cta=paylinkbuybutton";
 
-function httpsPost(url, data, headers) {
+function post(url, formData, extraHeaders = {}) {
   return new Promise((resolve, reject) => {
-    const body = typeof data === "string" ? data : querystring.stringify(data);
+    const body = Object.entries(formData)
+      .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+      .join("&");
     const parsed = new URL(url);
-    const options = {
+    const opts = {
       hostname: parsed.hostname,
-      path: parsed.pathname + parsed.search,
+      path: parsed.pathname,
       method: "POST",
-      headers: { "Content-Length": Buffer.byteLength(body), ...headers },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": Buffer.byteLength(body),
+        ...extraHeaders,
+      },
     };
-    const req = https.request(options, (res) => {
+    const req = https.request(opts, (res) => {
       let d = "";
       res.on("data", (c) => (d += c));
-      res.on("end", () => resolve(JSON.parse(d)));
+      res.on("end", () => { try { resolve(JSON.parse(d)); } catch(e) { resolve(d); } });
     });
     req.on("error", reject);
     req.write(body);
@@ -29,24 +35,23 @@ function httpsPost(url, data, headers) {
   });
 }
 
-function httpsRequest(method, url, body, headers) {
+function sheetsRequest(method, path, accessToken, body) {
   return new Promise((resolve, reject) => {
-    const parsed = new URL(url);
     const bodyStr = body ? JSON.stringify(body) : "";
-    const options = {
-      hostname: parsed.hostname,
-      path: parsed.pathname + parsed.search,
+    const opts = {
+      hostname: "sheets.googleapis.com",
+      path,
       method,
       headers: {
+        "Authorization": `Bearer ${accessToken}`,
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(bodyStr),
-        ...headers,
       },
     };
-    const req = https.request(options, (res) => {
+    const req = https.request(opts, (res) => {
       let d = "";
       res.on("data", (c) => (d += c));
-      res.on("end", () => resolve(JSON.parse(d)));
+      res.on("end", () => { try { resolve(JSON.parse(d)); } catch(e) { resolve(d); } });
     });
     req.on("error", reject);
     if (bodyStr) req.write(bodyStr);
@@ -55,36 +60,26 @@ function httpsRequest(method, url, body, headers) {
 }
 
 async function getAccessToken() {
-  const creds = Buffer.from(
-    `${process.env.GOOGLE_CLIENT_ID}:${process.env.GOOGLE_CLIENT_SECRET}`
-  ).toString("base64");
-  const result = await httpsPost(
-    "https://oauth2.googleapis.com/token",
-    {
-      grant_type: "refresh_token",
-      refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
-    },
-    {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${creds}`,
-    }
-  );
-  if (!result.access_token) throw new Error("Token refresh failed: " + JSON.stringify(result));
+  // Google OAuth token refresh — client_id/secret go in the POST body, NOT Basic auth
+  const result = await post("https://oauth2.googleapis.com/token", {
+    client_id:     process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+    refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+    grant_type:    "refresh_token",
+  });
+  if (!result.access_token) {
+    throw new Error("Token refresh failed: " + JSON.stringify(result));
+  }
   return result.access_token;
 }
 
 async function updateSheet(accessToken, updates) {
-  // updates = [{range, value}]
-  const data = updates.map(({ range, value }) => ({
-    range,
-    values: [[value]],
-  }));
-  return httpsRequest(
-    "POST",
-    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values:batchUpdate`,
-    { valueInputOption: "USER_ENTERED", data },
-    { Authorization: `Bearer ${accessToken}` }
-  );
+  const data = updates.map(({ range, value }) => ({ range, values: [[value]] }));
+  const path = `/v4/spreadsheets/${SHEET_ID}/values:batchUpdate`;
+  return sheetsRequest("POST", path, accessToken, {
+    valueInputOption: "USER_ENTERED",
+    data,
+  });
 }
 
 exports.handler = async (event) => {
@@ -130,8 +125,9 @@ exports.handler = async (event) => {
     }
 
     return { statusCode: 400, body: "Unknown action." };
+
   } catch (err) {
-    console.error("camp-response error:", err);
+    console.error("camp-response error:", err.message);
     return {
       statusCode: 500,
       body: "Something went wrong. Please email info@bethebestli.com directly.",

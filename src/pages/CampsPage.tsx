@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { ArrowRight, Calendar, Clock, Target, Users, Trophy, MapPin } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
+import { SummerCampFlyer } from "@/components/SummerCampFlyer"
 
 type Camp = {
   key: string
@@ -189,6 +190,8 @@ export function CampsPage() {
           </div>
         </div>
       </section>
+
+      <SummerCampFlyer compact />
 
       {/* Stats strip */}
       <section className="py-14 px-6 bg-neutral-950 border-y border-white/[0.07]">
