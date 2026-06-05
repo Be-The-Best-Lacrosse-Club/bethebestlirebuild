@@ -9,6 +9,7 @@ import { useEffect } from "react"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
+import { SummerCampFlyer } from "@/components/SummerCampFlyer"
 import { TryoutFlyers } from "@/components/TryoutFlyers"
 import { AudiencePaths } from "@/components/AudiencePaths"
 import { TheStandard } from "@/components/TheStandard"
@@ -64,6 +65,7 @@ function LandingPage() {
         ogImage={homeOgImage}
       />
       <Hero />
+      <SummerCampFlyer />
       <TryoutFlyers />
       <AudiencePaths />
       <TheStandard />
