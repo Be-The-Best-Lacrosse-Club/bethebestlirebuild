@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>BTB Futures Clinic — Ad Graphic</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    background: #0a0a0a;
+  }
+
+  .ad {
+    width: 1080px; height: 1080px;
+    position: relative;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    background: #000;
+    overflow: hidden;
+  }
+
+  /* Diagonal red accent bar */
+  .diagonal {
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: #D22630;
+    transform: rotate(45deg);
+    opacity: 0.12;
+    z-index: 0;
+  }
+
+  /* Bottom diagonal */
+  .diagonal-2 {
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 300px; height: 300px;
+    background: #D22630;
+    transform: rotate(45deg);
+    opacity: 0.08;
+    z-index: 0;
+  }
+
+  /* Top red bar */
+  .top-bar {
+    width: 100%; height: 8px;
+    background: #D22630;
+    z-index: 10;
+    position: relative;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 6px;
+    color: #D22630;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .free-badge {
+    display: inline-block;
+    background: #D22630;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    letter-spacing: 8px;
+    padding: 12px 48px;
+    margin-bottom: 28px;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 92px;
+    line-height: 0.95;
+    letter-spacing: 4px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .headline span {
+    color: #D22630;
+  }
+
+  .sub {
+    font-size: 22px;
+    font-weight: 600;
+    color: #aaa;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .detail-row .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #D22630;
+    flex-shrink: 0;
+  }
+
+  .detail-row .label {
+    color: #D22630;
+    margin-right: 6px;
+  }
+
+  .cta {
+    display: inline-block;
+    background: #D22630;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 4px;
+    padding: 20px 72px;
+    text-transform: uppercase;
+    border: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  }
+
+  /* Bottom bar */
+  .bottom-bar {
+    background: #000;
+    border-top: 3px solid #1a1a1a;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  .bottom-bar .site {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: #555;
+  }
+
+  .bottom-bar .ig {
+    font-size: 16px;
+    font-weight: 700;
+    color: #D22630;
+    letter-spacing: 2px;
+  }
+
+  /* Decorative lines */
+  .lines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .lines::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 200px;
+    width: 1px; height: 100%;
+    background: linear-gradient(to bottom, transparent, #D22630 30%, #D22630 70%, transparent);
+    opacity: 0.08;
+  }
+
+  .lines::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 200px;
+    width: 1px; height: 100%;
+    background: linear-gradient(to bottom, transparent, #D22630 30%, #D22630 70%, transparent);
+    opacity: 0.08;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="diagonal"></div>
+  <div class="diagonal-2"></div>
+  <div class="lines"></div>
+
+  <div class="top-bar"></div>
+
+  <div class="content">
+    <div class="logo-text">Be The Best Lacrosse Club</div>
+
+    <div class="free-badge">FREE</div>
+
+    <h1 class="headline">FUTURES<br><span>CLINIC</span></h1>
+
+    <p class="sub">Kindergarten — 2nd Grade &nbsp;·&nbsp; Boys &amp; Girls</p>
+
+    <div class="details">
+      <div class="detail-row">
+        <div class="dot"></div>
+        <span><span class="label">June 18</span> Stimson MS, Huntington &nbsp;·&nbsp; 6–8 PM</span>
+      </div>
+      <div class="detail-row">
+        <div class="dot"></div>
+        <span><span class="label">June 28</span> Seaford High School &nbsp;·&nbsp; 9–11 AM</span>
+      </div>
+      <div class="detail-row">
+        <div class="dot"></div>
+        <span>No experience needed &nbsp;·&nbsp; No cost to attend</span>
+      </div>
+    </div>
+
+    <div class="cta">Register Free — Spots Limited</div>
+  </div>
+
+  <div class="bottom-bar">
+    <span class="site">BETHEBESTLI.COM/FUTURES-CLINIC</span>
+    <span class="ig">@BETHEBESTLI</span>
+  </div>
+</div>
+</body>
+</html>
