@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>BTB Tryouts 2026 — Ad Graphic</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+  }
+
+  .ad {
+    width: 1080px; height: 1080px;
+    position: relative;
+    background: #000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Big red slash accent */
+  .slash {
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 480px 480px 0;
+    border-color: transparent #D22630 transparent transparent;
+    opacity: 0.15;
+    z-index: 0;
+  }
+
+  .slash-2 {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 240px 0 0 240px;
+    border-color: transparent transparent transparent #D22630;
+    opacity: 0.08;
+    z-index: 0;
+  }
+
+  /* Horizontal red line accent */
+  .red-line {
+    position: absolute;
+    top: 340px; left: 0; right: 0;
+    height: 3px;
+    background: #D22630;
+    opacity: 0.3;
+    z-index: 1;
+  }
+
+  .top-bar {
+    width: 100%; height: 10px;
+    background: #D22630;
+    z-index: 10;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px 80px 40px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 8px;
+    color: #D22630;
+    margin-bottom: 16px;
+  }
+
+  .main-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 148px;
+    line-height: 0.88;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .main-text .red {
+    color: #D22630;
+    display: block;
+  }
+
+  .year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 6px;
+    color: #333;
+    margin-bottom: 40px;
+  }
+
+  .divider {
+    width: 80px; height: 4px;
+    background: #D22630;
+    margin-bottom: 36px;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 44px;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .detail-row .icon {
+    width: 36px; height: 36px;
+    border: 2px solid #D22630;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .detail-row .val {
+    color: #aaa;
+    font-weight: 500;
+    margin-left: 6px;
+  }
+
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .cta {
+    display: inline-block;
+    background: #D22630;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    padding: 18px 56px;
+    text-transform: uppercase;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  }
+
+  .fee {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: #555;
+  }
+
+  .bottom-bar {
+    background: #000;
+    border-top: 2px solid #111;
+    padding: 18px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  .bottom-bar .site {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: #444;
+  }
+
+  .bottom-bar .tag {
+    font-size: 14px;
+    font-weight: 700;
+    color: #D22630;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* Grid dots background */
+  .grid {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="grid"></div>
+  <div class="slash"></div>
+  <div class="slash-2"></div>
+  <div class="red-line"></div>
+
+  <div class="top-bar"></div>
+
+  <div class="content">
+    <p class="eyebrow">Be The Best Lacrosse Club &nbsp;·&nbsp; Long Island, NY</p>
+
+    <div class="main-text">
+      TRY<span class="red">OUTS</span>
+    </div>
+
+    <div class="year">2026–27 Season</div>
+
+    <div class="divider"></div>
+
+    <div class="details">
+      <div class="detail-row">
+        <div class="icon">📅</div>
+        <span>July 15–17 &amp; July 20–22<span class="val"> — Two evaluation windows</span></span>
+      </div>
+      <div class="detail-row">
+        <div class="icon">📍</div>
+        <span>Plainedge High School<span class="val"> — Bethpage, NY</span></span>
+      </div>
+      <div class="detail-row">
+        <div class="icon">🥍</div>
+        <span>Boys &amp; Girls<span class="val"> — Grad years 2028–2037</span></span>
+      </div>
+      <div class="detail-row">
+        <div class="icon">⚡</div>
+        <span>25 travel teams<span class="val"> — 45+ elite coaches</span></span>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="cta">Register Now</div>
+      <div class="fee">$75 Evaluation Fee</div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <span class="site">BETHEBESTLI.COM/REGISTER-TRYOUTS</span>
+    <span class="tag">Spots Filling Fast</span>
+  </div>
+</div>
+</body>
+</html>
