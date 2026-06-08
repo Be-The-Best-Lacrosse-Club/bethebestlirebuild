@@ -6,6 +6,20 @@
 <title>BTB 2026 Boys Tryout Registration | $75</title>
 <meta name="description" content="Register for BTB Lacrosse 2026 Tryouts. $75 evaluation fee. July 15–17 & July 20–22 at Plainedge HS.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '469853420309460');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+<script>fbq('track', 'ViewContent', { content_name: 'Boys Tryout Registration Page', content_category: 'Tryouts', value: 75, currency: 'USD' });</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Montserrat', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
@@ -322,6 +336,10 @@
         program: 'BTB Boys Tryout', player: playerName, email, refId, ts: Date.now()
       }));
 
+      // Meta Pixel — Lead event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', { content_name: 'Boys Tryout Registration', content_category: 'Tryouts', value: 75, currency: 'USD' });
+      }
       window.location.href = PAYMENT_LINK;
     } catch (err) {
       errorMsg.textContent = 'Something went wrong saving your registration. Please try again or email info@bethebestli.com.';

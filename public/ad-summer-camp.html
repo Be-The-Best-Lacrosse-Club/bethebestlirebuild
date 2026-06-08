@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>BTB Summer Camp 2026 — Ad Graphic</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+  }
+
+  .ad {
+    width: 1080px; height: 1080px;
+    position: relative;
+    background: #000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Red center stripe */
+  .center-stripe {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 3px;
+    background: linear-gradient(to bottom, transparent, #D22630 20%, #D22630 80%, transparent);
+    transform: translateX(-50%);
+    opacity: 0.15;
+    z-index: 1;
+  }
+
+  /* Large number background */
+  .bg-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 680px;
+    color: #111;
+    line-height: 1;
+    z-index: 0;
+    user-select: none;
+    letter-spacing: -20px;
+  }
+
+  .top-bar {
+    width: 100%; height: 10px;
+    background: #D22630;
+    z-index: 10;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 80px;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 8px;
+    color: #555;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .price-callout {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 24px;
+  }
+
+  .price-callout .amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: #D22630;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .price-callout .per {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: #fff;
+    align-self: flex-end;
+    padding-bottom: 16px;
+    padding-left: 12px;
+  }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 100px;
+    line-height: 0.92;
+    letter-spacing: 4px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .headline .red { color: #D22630; }
+
+  .tagline {
+    font-size: 18px;
+    font-weight: 600;
+    color: #777;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 44px;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 40px;
+    margin-bottom: 48px;
+    width: 100%;
+    max-width: 760px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    text-align: left;
+  }
+
+  .feature::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #D22630;
+    flex-shrink: 0;
+  }
+
+  .cta-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .cta {
+    display: inline-block;
+    background: #D22630;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 5px;
+    padding: 20px 80px;
+    text-transform: uppercase;
+    clip-path: polygon(14px 0%, 100% 0%, calc(100% - 14px) 100%, 0% 100%);
+  }
+
+  .cta-sub {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .bottom-bar {
+    background: #000;
+    border-top: 2px solid #111;
+    padding: 18px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  .bottom-bar .site {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: #444;
+  }
+
+  .bottom-bar .ig {
+    font-size: 14px;
+    font-weight: 700;
+    color: #D22630;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="center-stripe"></div>
+  <div class="bg-number">$</div>
+
+  <div class="top-bar"></div>
+
+  <div class="content">
+    <p class="eyebrow">Be The Best Lacrosse Club &nbsp;·&nbsp; Summer 2026</p>
+
+    <div class="price-callout">
+      <span class="amount">$300</span>
+      <span class="per">PER<br>PLAYER</span>
+    </div>
+
+    <h1 class="headline">SUMMER<br><span class="red">CAMP</span></h1>
+
+    <p class="tagline">One Full Week &nbsp;·&nbsp; Elite Coaching &nbsp;·&nbsp; Long Island</p>
+
+    <div class="features">
+      <div class="feature">Position-specific instruction</div>
+      <div class="feature">Guest college coaches</div>
+      <div class="feature">Live competition daily</div>
+      <div class="feature">Boys &amp; Girls programs</div>
+      <div class="feature">BTB swag included</div>
+      <div class="feature">All grad years welcome</div>
+    </div>
+
+    <div class="cta-section">
+      <div class="cta">Reserve Your Spot</div>
+      <p class="cta-sub">Limited spots available — fills every year</p>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <span class="site">BETHEBESTLI.COM/REGISTER-CAMP</span>
+    <span class="ig">@BETHEBESTLI</span>
+  </div>
+</div>
+</body>
+</html>
