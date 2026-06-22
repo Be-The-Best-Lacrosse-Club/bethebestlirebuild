@@ -14,10 +14,13 @@ const teamLinks = (gender: string) => [
 const programLinks = [
   { label: "Boys Lacrosse", href: "/boys" },
   { label: "Girls Lacrosse", href: "/girls" },
+  { label: "2026 Tryouts", href: "/tryouts" },
   { label: "BTB Futures (K-2)", href: "/futures" },
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Recruiting", href: "/recruiting" },
 ]
+
+const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-tryouts", "/register-boys-tryouts", "/register-girls-tryouts", "/register-boys-east-tryouts", "/register-camp", "/register-positional", "/register-futures"])
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -56,6 +59,10 @@ export function Header() {
   }, [mobileOpen])
 
   const go = (href: string) => {
+    if (staticLinks.has(href)) {
+      window.location.assign(href)
+      return
+    }
     navigate(href)
     setDropdown(null)
     setMobileOpen(false)
@@ -133,13 +140,13 @@ export function Header() {
               )}
             </div>
 
-            <button onClick={() => { window.location.href = "/register-tryouts" }} className="ml-2 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
+            <button onClick={() => go("/register-tryouts")} className="ml-2 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
               Tryouts 2026
             </button>
 
             <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
 
-            <button onClick={() => go("/coach-tools")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
+            <button onClick={() => go("/coach-tools.html")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
 
             <a href="/newsletter" className={navItemClass("/newsletter")}>Newsletter</a>
 
@@ -179,7 +186,7 @@ export function Header() {
           <div className="xl:hidden flex items-center gap-3">
             {/* Tryouts pill — always visible on mobile */}
             <button
-              onClick={() => { window.location.href = "/register-tryouts" }}
+              onClick={() => go("/register-tryouts")}
               className="px-3 py-1.5 text-[1.15rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
             >
               Tryouts
@@ -215,16 +222,16 @@ export function Header() {
             {/* Primary CTAs */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               <button
-                onClick={() => { window.location.href = "/register-tryouts" }}
+                onClick={() => go("/register-tryouts")}
                 className="py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
               >
                 Tryouts 2026
               </button>
               <button
                 onClick={() => go("/interest")}
-                className="py-4 border-2 border-white/20 text-white font-black text-sm uppercase tracking-[2px] rounded-xl col-span-2"
+                className="py-4 border-2 border-white/20 text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
               >
-                Register
+                Ask a Question
               </button>
             </div>
 
@@ -235,6 +242,7 @@ export function Header() {
                 links: [
                   { label: "Boys Program", href: "/boys" },
                   { label: "Girls Program", href: "/girls" },
+                  { label: "Tryouts", href: "/tryouts" },
                   { label: "BTB Futures", href: "/futures" },
                   { label: "Camps & Clinics", href: "/camps" },
                 ],
@@ -252,7 +260,7 @@ export function Header() {
                 label: "More",
                 links: [
                   { label: "Parent Hub", href: "/parent-hub" },
-                  { label: "Coaches Hub", href: "/coach-tools" },
+                  { label: "Coaches Hub", href: "/coach-tools.html" },
                   { label: "Newsletter", href: "/newsletter" },
                   { label: "Academy", href: "/academy-info" },
                   { label: "Recruiting", href: "/recruiting" },
