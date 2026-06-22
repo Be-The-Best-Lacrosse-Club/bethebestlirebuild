@@ -15,6 +15,24 @@
   status = 200
 
 [[redirects]]
+  from = "/coach-tools"
+  to = "/coach-tools.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/coach-hub"
+  to = "/coach-tools.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/coaches-hub"
+  to = "/coach-tools.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/film-breakdown.html"
   to = "/film-breakdown.html"
   status = 200
@@ -226,25 +244,8 @@
   to = "/registration-success.html"
   status = 200
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
-
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
 # Netlify Identity — route confirmation/recovery/invite tokens to the SPA
+# MUST be before the /* catch-all or they'll never be evaluated
 [[redirects]]
   from = "/confirmation"
   to = "/login#confirmation_token=:token"
@@ -262,3 +263,21 @@
   to = "/login#invite_token=:token"
   status = 302
   query = { token = ":token" }
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
