@@ -37,26 +37,144 @@
   to = "/film-breakdown.html"
   status = 200
 
-# Plainedge coach resources — serve static HTML directly
+# Old static site pages — 301 redirect to correct SPA routes, never serve again
 [[redirects]]
-  from = "/bethpage-scout.html"
-  to = "/bethpage-scout.html"
-  status = 200
+  from = "/coach-bios.html"
+  to = "/boys/coaches"
+  status = 301
+  force = true
 
 [[redirects]]
-  from = "/lynbrook-scout.html"
-  to = "/lynbrook-scout.html"
-  status = 200
+  from = "/coaches.html"
+  to = "/boys/coaches"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gallery.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gallery"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/faq.html"
+  to = "/contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/faq"
+  to = "/contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/testimonials.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/testimonials"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/world-series.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/world-series"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/site-architecture.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/spring-tournament-letter.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tournament-schedule.html"
+  to = "/recruiting"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/sms-policy"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/parent-portal.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/btb-links.html"
+  to = "/"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/10-man-ride.html"
-  to = "/10-man-ride.html"
-  status = 200
+  to = "/boys/players"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/bethpage-scout.html"
+  to = "/boys/players"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lynbrook-scout.html"
+  to = "/boys/players"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/long-beach-scout.html"
+  to = "/boys/players"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/defensive-playbook.html"
-  to = "/defensive-playbook.html"
-  status = 200
+  to = "/btb-boys-defense-playbook.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/academy-girls.html"
+  to = "/academy-landing.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/academy.html"
+  to = "/academy-landing.html"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/playbook-studio.html"
