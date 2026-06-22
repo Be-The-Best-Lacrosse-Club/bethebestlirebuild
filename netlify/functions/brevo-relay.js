@@ -215,6 +215,7 @@ function brevoListIdFor(formName) {
     "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
+    "lacrosse-iq-waitlist": process.env.BREVO_LIST_LACROSSE_IQ || "26",
   };
   const listId = map[formName] || process.env.BREVO_LIST_ID;
   return listId ? Number(listId) : null;
