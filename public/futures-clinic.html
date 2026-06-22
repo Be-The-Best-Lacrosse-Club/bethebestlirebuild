@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BTB Futures Clinic Registration | FREE</title>
-<meta name="description" content="Register your player for the free BTB Boys and Girls Futures June clinic series for kindergarten through second grade players.">
+<meta name="description" content="Register your player for the free BTB Boys and Girls Futures clinic at Seaford High School on June 28. Over 75 kids already registered — spots filling fast.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,6 +26,46 @@
   }
 
   .container { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* Success banner for Stimson */
+  .success-banner {
+    background: #0d2615; border: 1px solid #2a8a4a; border-left: 3px solid #2a8a4a;
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
+    font-size: 0.92rem; color: #8effb1;
+  }
+  .success-banner strong { color: #fff; }
+  .success-banner .banner-eyebrow {
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem;
+    letter-spacing: 2px; color: #2a8a4a; margin-bottom: 6px;
+  }
+
+  /* Urgency banner for Seaford */
+  .urgency-banner {
+    background: #1a0a0a; border: 1px solid #D22630; border-left: 3px solid #D22630;
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
+    font-size: 0.92rem; color: #ff8080;
+  }
+  .urgency-banner strong { color: #fff; }
+  .urgency-banner .banner-eyebrow {
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem;
+    letter-spacing: 2px; color: #D22630; margin-bottom: 6px;
+  }
+  .urgency-banner .count {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
+    color: #D22630; line-height: 1; display: block; margin: 6px 0 2px;
+  }
+
+  /* Point Lookout teaser */
+  .teaser-banner {
+    background: #111; border: 1px solid #2a2a2a; border-left: 3px solid #888;
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 28px;
+    font-size: 0.92rem; color: #aaa;
+  }
+  .teaser-banner strong { color: #fff; }
+  .teaser-banner .banner-eyebrow {
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem;
+    letter-spacing: 2px; color: #888; margin-bottom: 6px;
+  }
 
   .info-card {
     background: #141414; border: 1px solid #2a2a2a; border-left: 3px solid #D22630;
@@ -115,11 +155,29 @@
 
 <div class="container">
 
+  <!-- Stimson success -->
+  <div class="success-banner">
+    <div class="banner-eyebrow">✓ STIMSON CLINIC — COMPLETED</div>
+    <strong>Huge success at Stimson Middle School!</strong> Our Huntington clinic on June 18th was a blast — packed field, fired-up kids, and a great night for BTB Futures families. Thank you to everyone who came out.
+  </div>
+
+  <!-- Seaford urgency -->
+  <div class="urgency-banner">
+    <div class="banner-eyebrow">⚡ SEAFORD — JUNE 28 — REGISTER NOW</div>
+    <span class="count">75+ Kids Registered</span>
+    <strong>Don't miss out.</strong> Seaford High School on June 28th (9:00–11:00 AM) is filling up fast. Spots are limited — lock yours in below.
+  </div>
+
+  <!-- Point Lookout teaser -->
+  <div class="teaser-banner">
+    <div class="banner-eyebrow">🔜 COMING SOON — POINT LOOKOUT CLINIC</div>
+    <strong>Point Lookout clinic dropping soon.</strong> Stay tuned — announcement coming. Follow us on Instagram <strong>@bethebestli</strong> so you don't miss it.
+  </div>
+
   <div class="info-card">
     <strong>What is BTB Futures?</strong> Free clinic for new and developing lacrosse players to come learn what BTB is all about. Stickwork fundamentals, fun games, and an early taste of elite-level coaching.<br><br>
-    <strong>Clinic Dates:</strong><br>
-    June 18 — 6:00-8:00 PM at Stimson Middle School in Huntington<br>
-    June 28 — 9:00-11:00 AM at Seaford High School<br><br>
+    <strong>Next Clinic:</strong><br>
+    June 28 — 9:00–11:00 AM at Seaford High School<br><br>
     <strong>Eligibility:</strong> Open to boys and girls — Kindergarten through 2nd grade only. No prior experience needed.
   </div>
 
@@ -127,7 +185,7 @@
 
   <div class="success-msg" id="successMsg">
     <h2>You're Registered!</h2>
-    <p>Thanks for signing up for the BTB Futures Clinic. We'll send a confirmation to your email shortly with the clinic details and any field, gear, or weather updates.</p>
+    <p>Thanks for signing up for the BTB Futures Clinic at Seaford. We'll send a confirmation to your email shortly with the clinic details and any field, gear, or weather updates.</p>
     <p style="margin-top: 14px;"><a href="https://bethebestli.com" style="color:#D22630;text-decoration:none;font-weight:600;">← Back to bethebestli.com</a></p>
   </div>
 
@@ -149,8 +207,7 @@
       <label>Which clinic will you attend?<span class="req">*</span></label>
       <select name="clinic_location" required>
         <option value="">Select a clinic</option>
-        <option value="June 18 - Stimson Middle School - Huntington - 6:00-8:00 PM">June 18 — Stimson Middle School, Huntington — 6:00-8:00 PM</option>
-        <option value="June 28 - Seaford High School - 9:00-11:00 AM">June 28 — Seaford High School — 9:00-11:00 AM</option>
+        <option value="June 28 - Seaford High School - 9:00-11:00 AM" selected>June 28 — Seaford High School — 9:00–11:00 AM ⚡ 75+ Registered</option>
       </select>
     </div>
 
@@ -273,7 +330,7 @@
     </div>
 
     <button type="submit" class="submit-btn" id="submitBtn">
-      Register for Clinic — Free
+      Register for Seaford Clinic — Free
     </button>
 
     <div class="footer-note">
@@ -315,7 +372,7 @@
       errorMsg.textContent = 'Something went wrong. Please try again or email info@bethebestli.com.';
       errorMsg.classList.add('show');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Register for Clinic — Free';
+      submitBtn.textContent = 'Register for Seaford Clinic — Free';
     }
   });
 </script>
