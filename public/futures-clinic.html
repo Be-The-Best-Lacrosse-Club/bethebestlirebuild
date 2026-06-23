@@ -3,190 +3,428 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BTB Futures Clinic Registration | FREE</title>
-<meta name="description" content="Register your player for the free BTB Boys and Girls Futures clinic at Seaford High School on June 28. Over 75 kids already registered — spots filling fast.">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>BTB Futures Clinic — Seaford | Register Free</title>
+<meta name="description" content="Stimson was a huge success. Now Seaford is up — this Sunday, June 28. Register your player for the free BTB Futures Clinic. Kindergarten through 8th grade.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Montserrat', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
 
+  /* ── TOP BANNER ── */
+  .top-banner {
+    background: #D22630;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── HEADER ── */
   .header {
-    background: #000; border-bottom: 3px solid #D22630;
-    padding: 28px 20px; text-align: center;
+    background: #000;
+    border-bottom: 3px solid #D22630;
+    padding: 32px 20px 28px;
+    text-align: center;
   }
-  .header .eyebrow { color: #D22630; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; font-size: 0.95rem; }
+  .header .eyebrow {
+    color: #D22630;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
   .header h1 {
-    font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem;
-    letter-spacing: 3px; text-transform: uppercase; margin-top: 4px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 10px;
   }
-  .header .price {
-    margin-top: 10px; display: inline-block; padding: 6px 18px;
-    background: #D22630; color: #fff; font-weight: 700; border-radius: 6px;
-    font-size: 1.05rem; letter-spacing: 1px;
+  .header h1 span { color: #D22630; }
+  .header .tagline {
+    color: #ccc;
+    font-size: 0.95rem;
+    font-weight: 500;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
   }
-
-  .container { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
-
-  /* Success banner for Stimson */
-  .success-banner {
-    background: #0d2615; border: 1px solid #2a8a4a; border-left: 3px solid #2a8a4a;
-    border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
-    font-size: 0.92rem; color: #8effb1;
-  }
-  .success-banner strong { color: #fff; }
-  .success-banner .banner-eyebrow {
-    font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem;
-    letter-spacing: 2px; color: #2a8a4a; margin-bottom: 6px;
-  }
-
-  /* Urgency banner for Seaford */
-  .urgency-banner {
-    background: #1a0a0a; border: 1px solid #D22630; border-left: 3px solid #D22630;
-    border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
-    font-size: 0.92rem; color: #ff8080;
-  }
-  .urgency-banner strong { color: #fff; }
-  .urgency-banner .banner-eyebrow {
-    font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem;
-    letter-spacing: 2px; color: #D22630; margin-bottom: 6px;
-  }
-  .urgency-banner .count {
-    font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
-    color: #D22630; line-height: 1; display: block; margin: 6px 0 2px;
+  .free-badge {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 22px;
+    background: #D22630;
+    color: #fff;
+    font-weight: 900;
+    border-radius: 4px;
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 
-  /* Point Lookout teaser */
-  .teaser-banner {
-    background: #111; border: 1px solid #2a2a2a; border-left: 3px solid #888;
-    border-radius: 8px; padding: 16px 20px; margin-bottom: 28px;
-    font-size: 0.92rem; color: #aaa;
+  .container { max-width: 680px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* ── STIMSON SUCCESS ── */
+  .stimson-card {
+    background: #0a1a0d;
+    border: 1.5px solid #2d7a3a;
+    border-left: 5px solid #2d7a3a;
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
   }
-  .teaser-banner strong { color: #fff; }
-  .teaser-banner .banner-eyebrow {
-    font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem;
-    letter-spacing: 2px; color: #888; margin-bottom: 6px;
+  .stimson-card .sc-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: #4caf62;
+    margin-bottom: 8px;
+  }
+  .stimson-card .sc-title {
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .stimson-card .sc-body {
+    font-size: 0.9rem;
+    color: #b0d8b8;
+    line-height: 1.7;
   }
 
+  /* ── SEAFORD URGENCY ── */
+  .seaford-card {
+    background: #1a0a0a;
+    border: 2px solid #D22630;
+    border-radius: 10px;
+    padding: 22px 22px 18px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .seaford-card .sc-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: #D22630;
+    margin-bottom: 6px;
+  }
+  .seaford-card .sc-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 9vw, 4rem);
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .seaford-card .sc-big span { color: #D22630; }
+  .seaford-card .sc-details {
+    font-size: 1.0rem;
+    color: #ccc;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+  .seaford-card .sc-sub {
+    font-size: 0.82rem;
+    color: #888;
+    margin-top: 6px;
+  }
+  .registered-pill {
+    display: inline-block;
+    background: #D22630;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-top: 10px;
+  }
+
+  /* ── CLINIC SELECTION (single tab) ── */
+  .clinic-selection {
+    background: #111;
+    border: 2px solid #D22630;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+  }
+  .clinic-selection .cs-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: #D22630;
+    margin-bottom: 12px;
+  }
+  .clinic-tab {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #D22630;
+    border-radius: 7px;
+    padding: 14px 18px;
+  }
+  .clinic-tab .ct-check {
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 13px;
+    color: #D22630;
+    font-weight: 900;
+  }
+  .clinic-tab .ct-info { flex: 1; }
+  .clinic-tab .ct-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .clinic-tab .ct-detail {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .clinic-tab .ct-badge {
+    background: #fff;
+    color: #D22630;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  /* ── INFO CARD ── */
   .info-card {
-    background: #141414; border: 1px solid #2a2a2a; border-left: 3px solid #D22630;
-    border-radius: 8px; padding: 18px 20px; margin-bottom: 28px;
-    font-size: 0.92rem; color: #ccc;
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    border-left: 4px solid #D22630;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+    font-size: 0.92rem;
+    color: #ccc;
+    line-height: 1.8;
   }
   .info-card strong { color: #fff; }
 
+  /* ── SECTION LABEL ── */
   .section-label {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
-    color: #D22630; letter-spacing: 2px; text-transform: uppercase;
-    margin: 28px 0 14px; padding-bottom: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    color: #D22630;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 28px 0 14px;
+    padding-bottom: 8px;
     border-bottom: 1px solid #222;
   }
-  .section-label:first-of-type { margin-top: 8px; }
 
+  /* ── FORM ── */
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
-  @media (max-width: 600px) {
+  @media (max-width: 580px) {
     .row, .row-3 { grid-template-columns: 1fr; }
-    .header h1 { font-size: 2rem; }
   }
 
   .field { margin-bottom: 14px; }
   .field label {
-    display: block; font-size: 0.78rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 1px; color: #aaa; margin-bottom: 6px;
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #aaa;
+    margin-bottom: 6px;
   }
   .field label .req { color: #D22630; margin-left: 3px; }
 
   input, select, textarea {
-    width: 100%; padding: 11px 13px; background: #1a1a1a; border: 1px solid #2a2a2a;
-    border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.95rem;
+    width: 100%;
+    padding: 12px 14px;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
     transition: border-color 0.15s;
   }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: #D22630; }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #D22630;
+    background: #1e1e1e;
+  }
+  select option { background: #1a1a1a; }
   textarea { resize: vertical; min-height: 80px; }
 
   .checkbox-field {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: #141414; border: 1px solid #2a2a2a;
-    border-radius: 6px; padding: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    padding: 16px;
   }
-  .checkbox-field input { width: auto; margin-top: 2px; }
+  .checkbox-field input[type="checkbox"] { width: auto; margin-top: 3px; flex-shrink: 0; }
   .checkbox-field label {
-    text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 0.85rem;
-    color: #ccc; line-height: 1.5; margin: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+    font-size: 0.87rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin: 0;
   }
 
+  /* ── SUBMIT ── */
   .submit-btn {
-    width: 100%; padding: 18px; margin-top: 24px;
-    background: #D22630; color: #fff; border: none; border-radius: 8px;
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px;
-    text-transform: uppercase; cursor: pointer; transition: background 0.15s;
+    width: 100%;
+    padding: 20px;
+    margin-top: 24px;
+    background: #D22630;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
   }
-  .submit-btn:hover { background: #a01e26; }
-  .submit-btn:disabled { background: #444; cursor: not-allowed; }
+  .submit-btn:hover { background: #a01e26; transform: translateY(-1px); }
+  .submit-btn:disabled { background: #444; cursor: not-allowed; transform: none; }
 
   .footer-note {
-    margin-top: 18px; text-align: center; font-size: 0.78rem; color: #777;
+    margin-top: 18px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
   }
   .footer-note a { color: #D22630; text-decoration: none; }
 
+  /* ── MESSAGES ── */
   .error-msg, .success-msg {
-    padding: 14px 16px; border-radius: 6px; margin-bottom: 16px;
-    font-size: 0.9rem; display: none;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    display: none;
   }
   .error-msg { background: #2a1010; border: 1px solid #D22630; color: #ff8080; }
   .success-msg {
-    background: #0d2615; border: 1px solid #2a8a4a; color: #8effb1;
-    text-align: center; padding: 24px;
+    background: #0d2615;
+    border: 1px solid #2a8a4a;
+    color: #8effb1;
+    text-align: center;
+    padding: 32px 24px;
   }
   .success-msg.show, .error-msg.show { display: block; }
   .success-msg h2 {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
-    letter-spacing: 2px; margin-bottom: 8px; color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    color: #fff;
   }
+  .success-msg p { line-height: 1.8; margin-bottom: 8px; }
+
+  /* ── POINT LOOKOUT TEASER ── */
+  .teaser {
+    background: #111;
+    border: 1px dashed #333;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 28px;
+    text-align: center;
+  }
+  .teaser .t-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: #555;
+    margin-bottom: 4px;
+  }
+  .teaser .t-title { font-size: 0.95rem; font-weight: 700; color: #888; margin-bottom: 2px; }
+  .teaser .t-sub { font-size: 0.8rem; color: #555; }
 </style>
 </head>
 <body>
 
+<div class="top-banner">
+  ⚡ Seaford Futures Clinic — This Sunday, June 28 · 9:00–11:00 AM · FREE
+</div>
+
 <div class="header">
-  <div class="eyebrow">BE THE BEST LACROSSE CLUB</div>
-  <h1>Futures Clinic Registration</h1>
-  <div class="price">FREE — NO COST TO ATTEND</div>
+  <div class="eyebrow">Be The Best Lacrosse Club · Futures Clinic Series</div>
+  <h1>Seaford<br><span>Futures Clinic</span></h1>
+  <p class="tagline">Register and let us help your child learn the game of lacrosse — while having a great time doing it.</p>
+  <div class="free-badge">100% Free · No Cost to Attend</div>
 </div>
 
 <div class="container">
 
-  <!-- Stimson success -->
-  <div class="success-banner">
-    <div class="banner-eyebrow">✓ STIMSON CLINIC — COMPLETED</div>
-    <strong>Huge success at Stimson Middle School!</strong> Our Huntington clinic on June 18th was a blast — packed field, fired-up kids, and a great night for BTB Futures families. Thank you to everyone who came out.
+  <!-- STIMSON SUCCESS -->
+  <div class="stimson-card">
+    <div class="sc-eyebrow">✓ Stimson Clinic — June 18 — Huge Success</div>
+    <div class="sc-title">Stimson was absolutely incredible.</div>
+    <div class="sc-body">
+      The field was packed, the energy was through the roof, and every single kid left with a bigger smile than they came in with. Real coaching, real fun, real BTB. We can't wait to bring that same energy to Seaford this Sunday.
+    </div>
   </div>
 
-  <!-- Seaford urgency -->
-  <div class="urgency-banner">
-    <div class="banner-eyebrow">⚡ SEAFORD — JUNE 28 — REGISTER NOW</div>
-    <span class="count">75+ Kids Registered</span>
-    <strong>Don't miss out.</strong> Seaford High School on June 28th (9:00–11:00 AM) is filling up fast. Spots are limited — lock yours in below.
+  <!-- SEAFORD URGENCY -->
+  <div class="seaford-card">
+    <div class="sc-eyebrow">📍 Next Up — Seaford High School</div>
+    <div class="sc-big">This <span>Sunday.</span></div>
+    <div class="sc-details">June 28 · 9:00 AM – 11:00 AM · Seaford High School</div>
+    <div class="sc-sub">Same coaches. Same energy. Same giveaways. — Kindergarten through 8th grade welcome.</div>
+    <div><span class="registered-pill">75+ Kids Already Registered — Spots Filling Fast</span></div>
   </div>
 
-  <!-- Point Lookout teaser -->
-  <div class="teaser-banner">
-    <div class="banner-eyebrow">🔜 COMING SOON — POINT LOOKOUT CLINIC</div>
-    <strong>Point Lookout clinic dropping soon.</strong> Stay tuned — announcement coming. Follow us on Instagram <strong>@bethebestli</strong> so you don't miss it.
+  <!-- CLINIC SELECTION — SINGLE TAB -->
+  <div class="clinic-selection">
+    <div class="cs-label">📅 Your Clinic — Selected</div>
+    <div class="clinic-tab">
+      <div class="ct-check">✓</div>
+      <div class="ct-info">
+        <div class="ct-name">Seaford High School</div>
+        <div class="ct-detail">Sunday, June 28 · 9:00 AM – 11:00 AM · Seaford, NY</div>
+      </div>
+      <div class="ct-badge">This Sunday</div>
+    </div>
   </div>
 
+  <!-- INFO CARD -->
   <div class="info-card">
-    <strong>What is BTB Futures?</strong> Free clinic for new and developing lacrosse players to come learn what BTB is all about. Stickwork fundamentals, fun games, and an early taste of elite-level coaching.<br><br>
-    <strong>Next Clinic:</strong><br>
-    June 28 — 9:00–11:00 AM at Seaford High School<br><br>
-    <strong>Eligibility:</strong> Open to boys and girls — Kindergarten through 2nd grade only. No prior experience needed.
+    <strong>What to expect:</strong> Two hours of BTB-coached lacrosse — stickwork, small-sided games, fundamentals, and a whole lot of fun. Your child will learn the game in a welcoming, high-energy environment with BTB Futures staff and players on the field with them the entire time.<br><br>
+    <strong>Who is it for?</strong> Boys and girls, Kindergarten through 8th grade. No experience needed — first-timers are absolutely welcome.<br><br>
+    <strong>Cost:</strong> Free. Zero. Nothing.
   </div>
 
+  <!-- FORM -->
   <div class="error-msg" id="errorMsg"></div>
-
   <div class="success-msg" id="successMsg">
-    <h2>You're Registered!</h2>
-    <p>Thanks for signing up for the BTB Futures Clinic at Seaford. We'll send a confirmation to your email shortly with the clinic details and any field, gear, or weather updates.</p>
-    <p style="margin-top: 14px;"><a href="https://bethebestli.com" style="color:#D22630;text-decoration:none;font-weight:600;">← Back to bethebestli.com</a></p>
+    <h2>You're In! 🎉</h2>
+    <p>We've got <strong style="color:#fff;">[PLAYER_NAME]</strong> registered for the Seaford Futures Clinic this Sunday.</p>
+    <p>We'll send a confirmation to your email shortly with everything you need to know — field location, what to bring, and any updates before Sunday.</p>
+    <p style="margin-top:16px;">See you on the field.<br><strong style="color:#fff;">— BTB Lacrosse</strong></p>
+    <p style="margin-top:18px;"><a href="https://bethebestli.com" style="color:#4caf62;text-decoration:none;font-weight:700;">← Back to bethebestli.com</a></p>
   </div>
 
   <form
@@ -199,28 +437,19 @@
     <input type="hidden" name="form-name" value="futures-clinic-registration">
     <input type="hidden" name="program" value="Futures Clinic">
     <input type="hidden" name="amount" value="0">
+    <input type="hidden" name="clinic_location" value="June 28 - Seaford High School - 9:00-11:00 AM">
     <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
-
-    <div class="section-label">Clinic Location</div>
-
-    <div class="field">
-      <label>Which clinic will you attend?<span class="req">*</span></label>
-      <select name="clinic_location" required>
-        <option value="">Select a clinic</option>
-        <option value="June 28 - Seaford High School - 9:00-11:00 AM" selected>June 28 — Seaford High School — 9:00–11:00 AM ⚡ 75+ Registered</option>
-      </select>
-    </div>
 
     <div class="section-label">Player Information</div>
 
     <div class="row">
       <div class="field">
         <label>Player First Name<span class="req">*</span></label>
-        <input type="text" name="player_first_name" required>
+        <input type="text" name="player_first_name" required placeholder="First name">
       </div>
       <div class="field">
         <label>Player Last Name<span class="req">*</span></label>
-        <input type="text" name="player_last_name" required>
+        <input type="text" name="player_last_name" required placeholder="Last name">
       </div>
     </div>
 
@@ -230,12 +459,16 @@
         <input type="date" name="player_dob" required>
       </div>
       <div class="field">
-        <label>Grad Year<span class="req">*</span></label>
-        <select name="grad_year" required>
+        <label>Grad Year</label>
+        <select name="grad_year">
           <option value="">Select</option>
           <option>2036</option>
-          <option>2037</option>
-          <option>2038</option>
+          <option>2035</option>
+          <option>2034</option>
+          <option>2033</option>
+          <option>2032</option>
+          <option>2031</option>
+          <option>2030</option>
           <option>Not sure</option>
         </select>
       </div>
@@ -261,7 +494,7 @@
       </div>
       <div class="field">
         <label>School / Town</label>
-        <input type="text" name="school_town" placeholder="e.g. Massapequa">
+        <input type="text" name="school_town" placeholder="e.g. Seaford, Wantagh...">
       </div>
     </div>
 
@@ -270,22 +503,22 @@
     <div class="row">
       <div class="field">
         <label>Parent First Name<span class="req">*</span></label>
-        <input type="text" name="parent_first_name" required>
+        <input type="text" name="parent_first_name" required placeholder="First name">
       </div>
       <div class="field">
         <label>Parent Last Name<span class="req">*</span></label>
-        <input type="text" name="parent_last_name" required>
+        <input type="text" name="parent_last_name" required placeholder="Last name">
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <label>Email<span class="req">*</span></label>
-        <input type="email" name="parent_email" required>
+        <input type="email" name="parent_email" required placeholder="your@email.com">
       </div>
       <div class="field">
         <label>Phone<span class="req">*</span></label>
-        <input type="tel" name="parent_phone" required>
+        <input type="tel" name="parent_phone" required placeholder="(516) 555-0000">
       </div>
     </div>
 
@@ -294,30 +527,30 @@
     <div class="row">
       <div class="field">
         <label>Emergency Contact Name<span class="req">*</span></label>
-        <input type="text" name="emergency_name" required>
+        <input type="text" name="emergency_name" required placeholder="Full name">
       </div>
       <div class="field">
         <label>Emergency Contact Phone<span class="req">*</span></label>
-        <input type="tel" name="emergency_phone" required>
+        <input type="tel" name="emergency_phone" required placeholder="(516) 555-0000">
       </div>
     </div>
 
     <div class="field">
-      <label>Medical Conditions, Allergies, or Medications</label>
-      <textarea name="medical_notes" placeholder="None, or list any conditions BTB staff should know about"></textarea>
+      <label>Medical Notes / Allergies</label>
+      <textarea name="medical_notes" placeholder="None, or list anything BTB staff should know"></textarea>
     </div>
 
-    <div class="section-label">Final Step</div>
+    <div class="section-label">One Last Thing</div>
 
     <div class="field">
       <label>How did you hear about BTB?</label>
       <select name="how_heard">
         <option value="">Select</option>
         <option>Current BTB family</option>
-        <option>Coach / Teammate</option>
-        <option>Instagram / Social</option>
+        <option>Coach or teammate</option>
+        <option>Instagram / Social media</option>
         <option>School</option>
-        <option>Town league / Rec</option>
+        <option>Town league or rec</option>
         <option>Other</option>
       </select>
     </div>
@@ -325,18 +558,25 @@
     <div class="checkbox-field">
       <input type="checkbox" id="waiver" name="waiver_accepted" required value="Yes">
       <label for="waiver">
-        I acknowledge the BTB Lacrosse waiver and release. I authorize BTB staff to seek emergency medical treatment for my player if needed during the clinic.
+        I acknowledge the BTB Lacrosse participation waiver and release of liability. I authorize BTB staff to seek emergency medical treatment for my player if needed during the clinic.
       </label>
     </div>
 
     <button type="submit" class="submit-btn" id="submitBtn">
-      Register for Seaford Clinic — Free
+      Register for Sunday's Clinic — Free
     </button>
 
     <div class="footer-note">
-      Questions? <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+      Questions? <a href="mailto:info@bethebestli.com">info@bethebestli.com</a> · <a href="https://www.bethebestli.com">bethebestli.com</a>
     </div>
   </form>
+
+  <!-- POINT LOOKOUT TEASER -->
+  <div class="teaser">
+    <div class="t-eyebrow">👀 Keep Your Eyes Open</div>
+    <div class="t-title">Clinic 3 — Point Lookout — Coming Soon</div>
+    <div class="t-sub">Follow us at @bethebestli for the announcement.</div>
+  </div>
 
 </div>
 
@@ -346,13 +586,17 @@
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
 
-  form.addEventListener('submit', async function (e) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
     errorMsg.classList.remove('show');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
+    submitBtn.textContent = 'Registering...';
 
     const formData = new FormData(form);
+    const playerFirst = formData.get('player_first_name') || '';
+    const playerLast  = formData.get('player_last_name')  || '';
+    const playerName  = (playerFirst + ' ' + playerLast).trim();
+
     const params = new URLSearchParams();
     for (const [key, value] of formData.entries()) params.append(key, value);
 
@@ -365,14 +609,21 @@
 
       if (!response.ok) throw new Error('Network error');
 
+      // Personalize the success message
+      if (playerName) {
+        successMsg.innerHTML = successMsg.innerHTML.replace('[PLAYER_NAME]', playerName);
+      } else {
+        successMsg.innerHTML = successMsg.innerHTML.replace('<strong style="color:#fff;">[PLAYER_NAME]</strong> registered for', 'you\'re registered for');
+      }
+
       form.style.display = 'none';
       successMsg.classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
+    } catch(err) {
       errorMsg.textContent = 'Something went wrong. Please try again or email info@bethebestli.com.';
       errorMsg.classList.add('show');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Register for Seaford Clinic — Free';
+      submitBtn.textContent = 'Register for Sunday\'s Clinic — Free';
     }
   });
 </script>
