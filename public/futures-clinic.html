@@ -251,6 +251,12 @@
     margin-bottom: 6px;
   }
   .field label .req { color: #D22630; margin-left: 3px; }
+  .field-hint {
+    margin-top: 6px;
+    font-size: 0.76rem;
+    color: #777;
+    line-height: 1.45;
+  }
 
   input, select, textarea {
     width: 100%;
@@ -456,21 +462,25 @@
     <div class="row-3">
       <div class="field">
         <label>Date of Birth<span class="req">*</span></label>
-        <input type="date" name="player_dob" required>
+        <input type="date" name="player_dob" min="2011-12-02" max="2020-12-01" required>
+        <div class="field-hint">Clinic is for Kindergarten through 8th grade: grad years 2030-2038.</div>
       </div>
       <div class="field">
-        <label>Grad Year</label>
-        <select name="grad_year">
+        <label>Grad Year<span class="req">*</span></label>
+        <select name="grad_year" required>
           <option value="">Select</option>
-          <option>2036</option>
-          <option>2035</option>
-          <option>2034</option>
-          <option>2033</option>
-          <option>2032</option>
-          <option>2031</option>
           <option>2030</option>
+          <option>2031</option>
+          <option>2032</option>
+          <option>2033</option>
+          <option>2034</option>
+          <option>2035</option>
+          <option>2036</option>
+          <option>2037</option>
+          <option>2038</option>
           <option>Not sure</option>
         </select>
+        <div class="field-hint">Choose Not sure and we will match it to the DOB.</div>
       </div>
       <div class="field">
         <label>Gender<span class="req">*</span></label>
@@ -585,6 +595,62 @@
   const submitBtn = document.getElementById('submitBtn');
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
+  const SEAFORD_CLINIC_LOCATION = 'June 28 - Seaford High School - 9:00-11:00 AM';
+  const DOB_RANGES = {
+    '2030': { min: '2011-12-02', max: '2012-12-01' },
+    '2031': { min: '2012-12-02', max: '2013-12-01' },
+    '2032': { min: '2013-12-02', max: '2014-12-01' },
+    '2033': { min: '2014-12-02', max: '2015-12-01' },
+    '2034': { min: '2015-12-02', max: '2016-12-01' },
+    '2035': { min: '2016-12-02', max: '2017-12-01' },
+    '2036': { min: '2017-12-02', max: '2018-12-01' },
+    '2037': { min: '2018-12-02', max: '2019-12-01' },
+    '2038': { min: '2019-12-02', max: '2020-12-01' }
+  };
+
+  function parseIsoDate(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return null;
+    const [year, month, day] = value.split('-').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+    if (
+      date.getUTCFullYear() !== year ||
+      date.getUTCMonth() !== month - 1 ||
+      date.getUTCDate() !== day
+    ) return null;
+    return value;
+  }
+
+  function gradYearForDob(dobValue) {
+    const dob = parseIsoDate(dobValue);
+    if (!dob) return null;
+    for (const [gradYear, range] of Object.entries(DOB_RANGES)) {
+      if (dob >= range.min && dob <= range.max) return gradYear;
+    }
+    return null;
+  }
+
+  function validationErrorFor(formData) {
+    const clinicLocation = String(formData.get('clinic_location') || '');
+    if (clinicLocation !== SEAFORD_CLINIC_LOCATION) {
+      return 'This registration is only for the June 28 Seaford clinic.';
+    }
+
+    const dob = parseIsoDate(String(formData.get('player_dob') || ''));
+    if (!dob) return 'Enter a valid date of birth.';
+
+    const expectedGradYear = gradYearForDob(dob);
+    if (!expectedGradYear) {
+      return 'For this clinic, DOB must fall between Dec 2, 2011 and Dec 1, 2020.';
+    }
+
+    const gradYear = String(formData.get('grad_year') || '');
+    if (!gradYear) return 'Select a grad year.';
+    if (gradYear !== 'Not sure' && gradYear !== expectedGradYear) {
+      return `That DOB matches grad year ${expectedGradYear}. Please update Grad Year or choose Not sure.`;
+    }
+
+    return '';
+  }
 
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -593,6 +659,22 @@
     submitBtn.textContent = 'Registering...';
 
     const formData = new FormData(form);
+    formData.set('clinic_location', SEAFORD_CLINIC_LOCATION);
+    const validationError = validationErrorFor(formData);
+    if (validationError) {
+      errorMsg.textContent = validationError;
+      errorMsg.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Register for Sunday\'s Clinic — Free';
+      return;
+    }
+
+    const expectedGradYear = gradYearForDob(String(formData.get('player_dob') || ''));
+    if (String(formData.get('grad_year')) === 'Not sure' && expectedGradYear) {
+      formData.set('grad_year_entered', 'Not sure');
+      formData.set('grad_year', expectedGradYear);
+    }
+
     const playerFirst = formData.get('player_first_name') || '';
     const playerLast  = formData.get('player_last_name')  || '';
     const playerName  = (playerFirst + ' ' + playerLast).trim();
