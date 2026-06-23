@@ -95,6 +95,53 @@
     line-height: 1.7;
   }
 
+  /* ── STIMSON PHOTO GALLERY ── */
+  .stimson-gallery {
+    margin: 0 0 28px;
+  }
+  .stimson-gallery h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.1rem, 7vw, 3rem);
+    letter-spacing: 3px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .stimson-gallery .sg-sub {
+    color: #aaa;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .stimson-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .stimson-gallery-grid figure {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 7px;
+    border: 1px solid #242424;
+    background: #111;
+  }
+  .stimson-gallery-grid figure:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .stimson-gallery-grid img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  @media (max-width: 580px) {
+    .stimson-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .stimson-gallery-grid figure:first-child { grid-column: span 2; grid-row: span 1; }
+  }
+
   /* ── SEAFORD URGENCY ── */
   .seaford-card {
     background: #1a0a0a;
@@ -393,6 +440,24 @@
       The field was packed, the energy was through the roof, and every single kid left with a bigger smile than they came in with. Real coaching, real fun, real BTB. We can't wait to bring that same energy to Seaford this Sunday.
     </div>
   </div>
+
+  <section class="stimson-gallery" aria-label="Stimson Futures Clinic photos">
+    <h2>Stimson Futures Clinic</h2>
+    <p class="sg-sub">A look at the energy from the June 18 clinic.</p>
+    <div class="stimson-gallery-grid">
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1379.jpg" alt="BTB Futures players smiling at the Stimson clinic"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1376.jpg" alt="Young players working through a Futures drill at Stimson" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1377.jpg" alt="BTB coach leading Stimson Futures players" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1358.jpg" alt="Stimson Futures clinic group during a drill" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1356.jpg" alt="BTB Futures clinic moment at Stimson" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1156.jpg" alt="Players listening to coaches at the Stimson Futures clinic" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1155.jpg" alt="BTB Futures players running a Stimson drill" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1154.jpg" alt="Stimson Futures clinic action on the field" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1153.jpg" alt="Young BTB player at the Stimson Futures clinic" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1138.jpg" alt="BTB Futures clinic players and coaches at Stimson" loading="lazy"></figure>
+      <figure><img src="images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1137.jpg" alt="Stimson Futures Clinic group photo" loading="lazy"></figure>
+    </div>
+  </section>
 
   <!-- SEAFORD URGENCY -->
   <div class="seaford-card">
