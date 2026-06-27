@@ -28,6 +28,73 @@
  */
 
 const https = require("https");
+const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
+const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
+const FUTURES_CLINIC_DOB_RANGES = {
+  2030: { min: "2011-12-02", max: "2012-12-01" },
+  2031: { min: "2012-12-02", max: "2013-12-01" },
+  2032: { min: "2013-12-02", max: "2014-12-01" },
+  2033: { min: "2014-12-02", max: "2015-12-01" },
+  2034: { min: "2015-12-02", max: "2016-12-01" },
+  2035: { min: "2016-12-02", max: "2017-12-01" },
+  2036: { min: "2017-12-02", max: "2018-12-01" },
+  2037: { min: "2018-12-02", max: "2019-12-01" },
+  2038: { min: "2019-12-02", max: "2020-12-01" },
+};
+
+function parseIsoDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return null;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
+    return null;
+  }
+  return value;
+}
+
+function futuresClinicGradYearForDob(value) {
+  const dob = parseIsoDate(value);
+  if (!dob) return null;
+  for (const [gradYear, range] of Object.entries(FUTURES_CLINIC_DOB_RANGES)) {
+    if (dob >= range.min && dob <= range.max) return gradYear;
+  }
+  return null;
+}
+
+function validateFuturesClinicSubmission(data) {
+  const clinicLocation = String(data.clinic_location || "").trim();
+  if (clinicLocation !== SEAFORD_CLINIC_LOCATION) {
+    return { ok: false, reason: "wrong clinic location" };
+  }
+
+  const dob = parseIsoDate(String(data.player_dob || "").trim());
+  if (!dob) return { ok: false, reason: "invalid DOB" };
+
+  const expectedGradYear = futuresClinicGradYearForDob(dob);
+  if (!expectedGradYear) {
+    return { ok: false, reason: "DOB outside clinic range" };
+  }
+
+  const gradYear = String(data.grad_year || "").trim();
+  if (!gradYear) return { ok: false, reason: "missing grad year" };
+  if (gradYear !== "Not sure" && gradYear !== expectedGradYear) {
+    return { ok: false, reason: `DOB/grad year mismatch: expected ${expectedGradYear}` };
+  }
+
+  return {
+    ok: true,
+    data: {
+      ...data,
+      clinic_location: SEAFORD_CLINIC_LOCATION,
+      grad_year: expectedGradYear,
+      grad_year_entered: gradYear === "Not sure" ? "Not sure" : data.grad_year_entered,
+    },
+  };
+}
 
 // ─── HTTP helper ──────────────────────────────────────────────────────────────
 
@@ -273,7 +340,7 @@ const GIRLS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Girls_Future
 // Per-form confirmation config. Add new programs here as they're created.
 const CONFIRMATION_CONFIG = {
   "futures-clinic-registration": {
-    subject: (data) => `You're Registered — BTB ${data.program_gender || ""}  Futures Clinic | June 18 & 28`,
+    subject: (data) => `You're Registered — BTB ${data.program_gender || ""} Futures Clinic | June 28 Seaford`,
     getHtml: (data) => {
       const gender = (data.program_gender || "Boys").trim();
       const parentFirst = (data.parent_first_name || "BTB Family").trim();
@@ -289,28 +356,25 @@ const CONFIRMATION_CONFIG = {
     <tr><td style="padding:24px 20px;text-align:center;">
       <p style="margin:0 0 6px;color:#D22630;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;">BE THE BEST LACROSSE CLUB</p>
       <h1 style="margin:0;color:#fff;font-size:26px;letter-spacing:2px;text-transform:uppercase;font-weight:900;">You're Registered!</h1>
-      <p style="margin:8px 0 0;color:#D22630;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">${gender} Futures — June Free Clinic Series</p>
+      <p style="margin:8px 0 0;color:#D22630;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">${gender} Futures — June 28 Seaford Free Clinic</p>
     </td></tr>
   </table>
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
     <tr><td style="padding:28px 24px 0;background:#111;">
       <p style="font-size:16px;color:#ccc;line-height:1.7;margin:0 0 24px;">
         Hi ${parentFirst},<br><br>
-        We have <strong style="color:#fff;">${playerName}</strong> locked in for the BTB ${gender} Futures Free Clinic Series this June. See the flyer below for all the details — and please share it with a friend! <strong style="color:#fff;">Spots are limited and filling fast.</strong>
+        We have <strong style="color:#fff;">${playerName}</strong> locked in for the BTB ${gender} Futures Free Clinic on June 28 at Seaford High School. See the flyer below for the details — and please share it with a friend! <strong style="color:#fff;">Spots are limited and filling fast.</strong>
       </p>
     </td></tr>
     <tr><td style="padding:0 24px;background:#111;">
       <a href="https://www.bethebestli.com/futures-clinic" style="display:block;">
-        <img src="${flyerUrl}" alt="BTB ${gender} Futures June Free Clinic Series" width="100%" style="display:block;border-radius:8px;max-width:552px;" />
+        <img src="${flyerUrl}" alt="BTB ${gender} Futures June 28 Free Clinic" width="100%" style="display:block;border-radius:8px;max-width:552px;" />
       </a>
     </td></tr>
     <tr><td style="padding:24px 24px 40px;background:#111;">
       <div style="background:#1a1a1a;border-left:3px solid #D22630;border-radius:6px;padding:20px 22px;margin-bottom:22px;">
-        <p style="color:#D22630;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 14px;">CLINIC DATES & LOCATIONS</p>
-        <p style="color:#fff;font-size:15px;font-weight:700;margin:0 0 2px;">📍 Clinic 1 — June 18</p>
-        <p style="color:#ccc;font-size:14px;margin:0 0 4px;">6:00 – 8:00 PM</p>
-        <p style="color:#aaa;font-size:13px;margin:0 0 18px;">Stimson Middle School, Huntington NY</p>
-        <p style="color:#fff;font-size:15px;font-weight:700;margin:0 0 2px;">📍 Clinic 2 — June 28</p>
+        <p style="color:#D22630;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 14px;">CLINIC DATE & LOCATION</p>
+        <p style="color:#fff;font-size:15px;font-weight:700;margin:0 0 2px;">📍 Sunday, June 28</p>
         <p style="color:#ccc;font-size:14px;margin:0 0 4px;">9:00 – 11:00 AM</p>
         <p style="color:#aaa;font-size:13px;margin:0;">Seaford High School, Seaford NY</p>
       </div>
@@ -323,13 +387,13 @@ const CONFIRMATION_CONFIG = {
         <p style="color:#D22630;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;">WHAT TO EXPECT</p>
         <p style="color:#ccc;font-size:14px;line-height:1.8;margin:0;">
           ✅ Coached by BTB ${gender} Futures staff and players<br>
-          ✅ Stickwork fundamentals + fun drills (K–2nd grade)<br>
+          ✅ Stickwork fundamentals + fun drills (Kindergarten-8th grade)<br>
           ✅ Q&A with coaches — kids ask, coaches answer<br>
           ✅ Exclusive info shared only with registered families<br>
           ✅ No prior experience needed
         </p>
       </div>
-      <p style="font-size:13px;color:#777;line-height:1.7;margin:0 0 24px;text-align:center;">Wear athletic clothes and bring a stick if you have one — no worries if not.<br>We'll send field, gear, and weather updates closer to each date.</p>
+      <p style="font-size:13px;color:#777;line-height:1.7;margin:0 0 24px;text-align:center;">Wear athletic clothes and bring a stick if you have one — no worries if not.<br>We'll send any field, gear, or weather updates before June 28.</p>
       <p style="font-size:13px;color:#555;text-align:center;margin:0;">Questions? Reply to this email or reach us at <a href="mailto:info@bethebestli.com" style="color:#D22630;text-decoration:none;">info@bethebestli.com</a></p>
     </td></tr>
   </table>
@@ -494,9 +558,22 @@ exports.handler = async (event) => {
   // Netlify's outgoing webhook payload shape:
   // { form_name, data: {...}, created_at, site_url, ... }
   const formName = payload.form_name || payload.formName || "unknown";
-  const data = payload.data || payload.fields || payload;
+  let data = payload.data || payload.fields || payload;
   const submissionTime = payload.created_at || new Date().toISOString();
   const siteUrl = payload.site_url || "https://www.bethebestli.com";
+
+  if (formName === "futures-clinic-registration") {
+    const validation = validateFuturesClinicSubmission(data);
+    if (!validation.ok) {
+      console.warn(`Skipped invalid futures clinic relay: ${validation.reason}`);
+      return {
+        statusCode: 200,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formName, skipped: true, reason: validation.reason }),
+      };
+    }
+    data = validation.data;
+  }
 
   const results = { formName, brevoContact: null, brevoEmail: null, brevoConfirmation: null, airtable: null, errors: [] };
 
@@ -515,12 +592,17 @@ exports.handler = async (event) => {
     results.errors.push(`brevo contact: ${err.message}`);
   }
 
-  // Brevo: notification email to Dan
-  try {
-    results.brevoEmail = await brevoSendNotification({ formName, data, submissionTime, siteUrl });
-  } catch (err) {
-    console.error("brevo-relay email error:", err.message);
-    results.errors.push(`brevo email: ${err.message}`);
+  // Brevo: notification email to Dan. Futures Clinic keeps Netlify's built-in
+  // form notification as the single admin alert.
+  if (NETLIFY_ADMIN_NOTIFICATION_FORMS.has(formName)) {
+    results.brevoEmail = { skipped: "netlify form email handles admin notification" };
+  } else {
+    try {
+      results.brevoEmail = await brevoSendNotification({ formName, data, submissionTime, siteUrl });
+    } catch (err) {
+      console.error("brevo-relay email error:", err.message);
+      results.errors.push(`brevo email: ${err.message}`);
+    }
   }
 
   // Brevo: confirmation email to registrant
