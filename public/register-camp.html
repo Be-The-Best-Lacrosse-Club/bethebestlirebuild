@@ -123,7 +123,7 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
 <div class="header">
   <div class="eyebrow">BE THE BEST LACROSSE CLUB</div>
   <h1>Summer Camp Registration</h1>
-  <div class="price">$300 PER PLAYER</div>
+  <div class="price" id="priceBadge">$300 PER PLAYER</div>
 </div>
 
 <div class="container">
@@ -145,7 +145,7 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
   >
     <input type="hidden" name="form-name" value="camp-registration">
     <input type="hidden" name="program" value="Summer Camp">
-    <input type="hidden" name="amount" value="300">
+    <input type="hidden" name="amount" value="300" id="amountField">
     <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
 
     <div class="section-label">Player Information</div>
@@ -298,6 +298,15 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
       </select>
     </div>
 
+    <div class="field">
+      <label>Promo Code (optional)</label>
+      <div style="display:flex; gap:10px;">
+        <input type="text" id="promoInput" name="promo_code" placeholder="Enter code" autocapitalize="characters" autocomplete="off" style="text-transform:uppercase;">
+        <button type="button" id="applyPromoBtn" style="white-space:nowrap; padding:0 20px; background:#1a1a1a; border:1px solid #D22630; color:#fff; border-radius:6px; font-family:inherit; font-weight:600; cursor:pointer;">Apply</button>
+      </div>
+      <p id="promoStatus" style="font-size:0.82rem; margin-top:6px; display:none;"></p>
+    </div>
+
     <div class="checkbox-field">
       <input type="checkbox" id="waiver" name="waiver_accepted" required value="Yes">
       <label for="waiver">
@@ -317,14 +326,57 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
 </div>
 
 <script>
-  // ====== QUICKBOOKS PAYMENT LINK ======
-  // Linked to BTB Lacrosse Camp product in QuickBooks. Funds flow into QB.
-  const PAYMENT_LINK = "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1435d07c4e4244bca62765520c1a9168d86972f13c7f4e62b183da56e129c5038557bd7ed87d4922b8d1c13598c7c3f8?locale=EN_US&cta=paylinkbuybutton";
-  // ====================================
+  // ====== QUICKBOOKS PAYMENT LINKS ======
+  // Linked to BTB Lacrosse Camp products in QuickBooks. Funds flow into QB.
+  const PAYMENT_LINK = "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1435d07c4e4244bca62765520c1a9168d86972f13c7f4e62b183da56e129c5038557bd7ed87d4922b8d1c13598c7c3f8?locale=EN_US&cta=paylinkbuybutton"; // $300 full price
+  const PAYMENT_LINK_PROMO = "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-b691f96f85414805bce635cb1b2a86c81879c792943642aeb859d4ad6496f05055377de896a74610a7e79b219c7a2469-0?locale=EN_US&cta=paylinkbuybutton"; // $240 — verified charges $240 (BTBCAMP20)
+  // ======================================
+
+  // ====== CAMP20 PROMO (20% off, expires 6/29/2026 5:00 PM ET) ======
+  const PROMO_CODE = "CAMP20";
+  const PROMO_DEADLINE = new Date("2026-06-29T17:00:00-04:00");
+  const FULL_PRICE = 300;
+  const PROMO_PRICE = 240;
+  // Set PAYMENT_LINK_PROMO to "" above to instantly disable the promo (code stops applying).
+
+  let activeLink = PAYMENT_LINK;
+  let activeAmount = FULL_PRICE;
 
   const form = document.getElementById('regForm');
   const submitBtn = document.getElementById('submitBtn');
   const errorMsg = document.getElementById('errorMsg');
+  const promoInput = document.getElementById('promoInput');
+  const applyPromoBtn = document.getElementById('applyPromoBtn');
+  const promoStatus = document.getElementById('promoStatus');
+  const priceBadge = document.getElementById('priceBadge');
+  const amountField = document.getElementById('amountField');
+
+  function setPromoStatus(msg, ok) {
+    promoStatus.textContent = msg;
+    promoStatus.style.color = ok ? '#4ade80' : '#ff8080';
+    promoStatus.style.display = 'block';
+  }
+
+  function applyDiscount() {
+    activeLink = PAYMENT_LINK_PROMO;
+    activeAmount = PROMO_PRICE;
+    priceBadge.textContent = '$' + PROMO_PRICE + ' PER PLAYER';
+    amountField.value = PROMO_PRICE;
+    submitBtn.textContent = 'Continue to Payment — $' + PROMO_PRICE;
+    promoInput.disabled = true;
+    applyPromoBtn.disabled = true;
+    applyPromoBtn.style.opacity = '0.5';
+    setPromoStatus('✓ CAMP20 applied — 20% off! You’ll pay $' + PROMO_PRICE + '.', true);
+  }
+
+  applyPromoBtn.addEventListener('click', function () {
+    const code = (promoInput.value || '').trim().toUpperCase();
+    if (!code) { setPromoStatus('Enter a code first.', false); return; }
+    if (code !== PROMO_CODE) { setPromoStatus('That code isn’t valid.', false); return; }
+    if (new Date() > PROMO_DEADLINE) { setPromoStatus('This code expired on June 29 at 5:00 PM.', false); return; }
+    if (!PAYMENT_LINK_PROMO) { setPromoStatus('This promo isn’t active right now — email info@bethebestli.com.', false); return; }
+    applyDiscount();
+  });
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -353,15 +405,15 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
 
       // Meta Pixel — InitiateCheckout + Lead
       if (typeof fbq === 'function') {
-        fbq('track', 'InitiateCheckout', { content_name: 'Summer Camp', value: 300, currency: 'USD' });
-        fbq('track', 'Lead', { content_name: 'Summer Camp Registration', content_category: 'Camp', value: 300, currency: 'USD' });
+        fbq('track', 'InitiateCheckout', { content_name: 'Summer Camp', value: activeAmount, currency: 'USD' });
+        fbq('track', 'Lead', { content_name: 'Summer Camp Registration', content_category: 'Camp', value: activeAmount, currency: 'USD' });
       }
-      window.location.href = PAYMENT_LINK;
+      window.location.href = activeLink;
     } catch (err) {
       errorMsg.textContent = 'Something went wrong saving your registration. Please try again or email info@bethebestli.com.';
       errorMsg.classList.add('show');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Continue to Payment — $300';
+      submitBtn.textContent = 'Continue to Payment — $' + activeAmount;
     }
   });
 </script>
