@@ -178,7 +178,13 @@
       const resp = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ mode: "checkin", player_name: playerName }) });
       const data = await resp.json();
       if (!resp.ok || !data.ok) throw new Error(data.error || "Check-in failed");
-      showStatus(ciStatus, "ok", "✅ Checked in! You're all set — head on over.");
+      const msg =
+        data.matched === true
+          ? `✅ Found you, ${playerName}! You're checked in — head on over.`
+          : data.matched === false
+            ? "✅ Checked in. We didn't find a pre-registration under that name — if you already signed up, see staff. Otherwise use \"Walk Up & Register.\""
+            : "✅ Checked in! You're all set — head on over.";
+      showStatus(ciStatus, "ok", msg);
       ciForm.reset();
     } catch (err) {
       showStatus(ciStatus, "error", err.message || "Check-in failed. Tell staff and try again.");
