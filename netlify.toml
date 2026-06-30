@@ -271,6 +271,17 @@
   to = "/register-boys-east-tryouts.html"
   status = 200
 
+# Join list static pages — must come BEFORE the SPA catch-all
+[[redirects]]
+  from = "/join"
+  to = "/join.html"
+  status = 200
+
+[[redirects]]
+  from = "/join-success"
+  to = "/join-success.html"
+  status = 200
+
 # Newsletter static pages — must come BEFORE the SPA catch-all
 [[redirects]]
   from = "/newsletter/confirmed"
@@ -369,8 +380,45 @@
 
 [[redirects]]
   from = "/futures-clinic"
-  to = "/futures-clinic.html"
-  status = 200
+  to = "/futures"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/futures-clinic.html"
+  to = "/futures"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/futures-parent-overview"
+  to = "/futures"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/futures-info"
+  to = "/futures"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/futures-checkin"
+  to = "/futures"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/futures-coaches"
+  to = "/futures"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/futures-qr-sign"
+  to = "/futures"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/registration-success"

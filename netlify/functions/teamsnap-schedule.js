@@ -17,6 +17,7 @@
  */
 
 const https = require("https");
+const { getTeamSnapAccessToken } = require("./_teamsnap-auth");
 
 const TEAMSNAP_HOST = "api.teamsnap.com";
 const TEAMSNAP_BASE = "/v3";
@@ -30,9 +31,8 @@ const BTB_DIVISION_IDS = {
 // Teams to exclude from search results (duplicates / non-real teams).
 const EXCLUDED_TEAM_IDS = new Set([10427986, 10427987, 10427988, 10427984]);
 
-function tsRequest(path) {
-  const token = process.env.TEAMSNAP_ACCESS_TOKEN;
-  if (!token) return Promise.reject(new Error("TEAMSNAP_ACCESS_TOKEN not configured"));
+async function tsRequest(path) {
+  const token = await getTeamSnapAccessToken();
   return new Promise((resolve, reject) => {
     const req = https.request(
       {

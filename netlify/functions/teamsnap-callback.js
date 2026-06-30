@@ -1,10 +1,13 @@
 const https = require("https");
+const crypto = require("crypto");
+const { storeTeamSnapTokens } = require("./_netlify-env");
 
 const CLIENT_ID = process.env.TEAMSNAP_CLIENT_ID;
 const CLIENT_SECRET = process.env.TEAMSNAP_CLIENT_SECRET;
 const REDIRECT_URI =
   process.env.TEAMSNAP_REDIRECT_URI ||
   "https://www.bethebestli.com/.netlify/functions/teamsnap-callback";
+const STATE_SECRET = process.env.TEAMSNAP_OAUTH_STATE_SECRET || "";
 
 function httpsRequest({ hostname, path, method, headers, body }) {
   return new Promise((resolve, reject) => {
@@ -21,6 +24,27 @@ function httpsRequest({ hostname, path, method, headers, body }) {
     if (body) req.write(body);
     req.end();
   });
+}
+
+function verifyState(state) {
+  if (!state || !state.includes(".") || !STATE_SECRET) return false;
+  const [encoded, signature] = state.split(".");
+  if (!encoded || !signature) return false;
+
+  const expected = crypto.createHmac("sha256", STATE_SECRET).update(encoded).digest("base64url");
+  const left = Buffer.from(signature);
+  const right = Buffer.from(expected);
+  if (left.length !== right.length || !crypto.timingSafeEqual(left, right)) return false;
+
+  try {
+    const payload = JSON.parse(Buffer.from(encoded, "base64url").toString("utf8"));
+    return payload.v === 1
+      && payload.source === "btb-os"
+      && typeof payload.ts === "number"
+      && Date.now() - payload.ts <= 15 * 60 * 1000;
+  } catch {
+    return false;
+  }
 }
 
 function page(inner) {
@@ -110,33 +134,42 @@ exports.handler = async function (event) {
     }
 
     const tokens = JSON.parse(res.body);
+    const state = event.queryStringParameters?.state || "";
+    const signedReconnect = verifyState(state);
+    let autoStoreResult = null;
+    let autoStoreError = "";
+    if (signedReconnect) {
+      try {
+        autoStoreResult = await storeTeamSnapTokens(tokens);
+      } catch (err) {
+        autoStoreError = err.message || "Netlify token storage failed";
+      }
+    }
 
     let nextSteps = "";
-    if (tokens.refresh_token) {
+    if (autoStoreResult) {
       nextSteps = `
         <div class="box">
-          <div class="label">Step 1 — Copy this Refresh Token</div>
-          <code>${tokens.refresh_token}</code>
+          <div class="label">Netlify Updated</div>
+          <p>TeamSnap credentials were stored securely in both Netlify projects and fresh deploys were queued.</p>
+          <p><strong>Stored:</strong> ${autoStoreResult.stored.join(", ")}</p>
         </div>
         <div class="box">
-          <div class="label">Step 2 — Add to Netlify</div>
-          <p>Go to <strong>Netlify → Site settings → Environment variables</strong> and add:</p>
-          <ol>
-            <li>Key: <code>TEAMSNAP_REFRESH_TOKEN</code><br>Value: the token above</li>
-          </ol>
-          <p>Then: <strong>Deploys → Trigger deploy → Deploy site</strong></p>
-        </div>
+          <div class="label">Next</div>
+          <p>Return to BTB-OS and run TeamSnap Sync Now if you want to refresh Airtable immediately.</p>
+        </div>`;
+    } else if (signedReconnect && autoStoreError) {
+      nextSteps = `
         <div class="box">
-          <div class="label">Step 3 — Verify</div>
-          <p>Visit <a href="/tournament-schedule.html">tournament-schedule.html</a> and enter password <code style="display:inline;padding:2px 8px;">#BTBPARENT26</code>. You should see your TeamSnap games.</p>
+          <div class="label err">Netlify Auto-Update Failed</div>
+          <p>${autoStoreError.replace(/</g, "&lt;")}</p>
+          <p>Return to BTB-OS and try reconnecting again.</p>
         </div>`;
     } else {
       nextSteps = `
         <div class="box">
-          <div class="label warn">Only an Access Token was returned (no refresh token)</div>
-          <p>This token expires in ${tokens.expires_in || "unknown"} seconds.</p>
-          <code>${tokens.access_token}</code>
-          <p style="margin-top:12px;">Add it to Netlify as <code style="display:inline;padding:2px 8px;">TEAMSNAP_ACCESS_TOKEN</code> and redeploy. You'll need to re-authorize when it expires.</p>
+          <div class="label warn">Reconnect Required From BTB-OS</div>
+          <p>This callback no longer exposes TeamSnap tokens. Start from <strong>BTB-OS → Integrations → TeamSnap → Reconnect</strong> so the token can be stored in Netlify automatically.</p>
         </div>`;
     }
 

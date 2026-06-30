@@ -31,12 +31,6 @@ const https = require("https");
 const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
 const FUTURES_CLINIC_DOB_RANGES = {
-  2030: { min: "2011-12-02", max: "2012-12-01" },
-  2031: { min: "2012-12-02", max: "2013-12-01" },
-  2032: { min: "2013-12-02", max: "2014-12-01" },
-  2033: { min: "2014-12-02", max: "2015-12-01" },
-  2034: { min: "2015-12-02", max: "2016-12-01" },
-  2035: { min: "2016-12-02", max: "2017-12-01" },
   2036: { min: "2017-12-02", max: "2018-12-01" },
   2037: { min: "2018-12-02", max: "2019-12-01" },
   2038: { min: "2019-12-02", max: "2020-12-01" },
@@ -76,7 +70,7 @@ function validateFuturesClinicSubmission(data) {
 
   const expectedGradYear = futuresClinicGradYearForDob(dob);
   if (!expectedGradYear) {
-    return { ok: false, reason: "DOB outside clinic range" };
+    return { ok: false, reason: "DOB outside K-2 clinic range" };
   }
 
   const gradYear = String(data.grad_year || "").trim();
@@ -134,23 +128,48 @@ function brevoListIdFor(formName) {
   return listId ? Number(listId) : null;
 }
 
+function firstValue(data, keys) {
+  for (const key of keys) {
+    const value = data[key];
+    if (value !== undefined && value !== null && String(value).trim()) return String(value).trim();
+  }
+  return "";
+}
+
+function joinedName(data, keyPairs) {
+  for (const [firstKey, lastKey] of keyPairs) {
+    const name = [data[firstKey], data[lastKey]].filter(Boolean).join(" ").trim();
+    if (name) return name;
+  }
+  return "";
+}
+
 function brevoAttributesFromSubmission(formName, data) {
   // Map common field names to Brevo's conventional attributes (FIRSTNAME, LASTNAME, SMS).
   // Anything else gets passed through verbatim so you can create custom attributes in Brevo.
   const attrs = { LASTFORM: formName, LASTSOURCE: data.source || "website" };
 
-  const fullName = data.name || [data.firstName, data.lastName].filter(Boolean).join(" ").trim();
+  const fullName = firstValue(data, ["name"]) || joinedName(data, [
+    ["firstName", "lastName"],
+    ["parent_first_name", "parent_last_name"],
+    ["player_first_name", "player_last_name"],
+  ]);
   if (fullName) {
     const parts = fullName.trim().split(/\s+/);
     attrs.FIRSTNAME = parts.shift() || "";
     attrs.LASTNAME = parts.join(" ");
   }
-  if (data.parentName) attrs.PARENTNAME = data.parentName;
-  if (data.phone) attrs.SMS = normalizePhone(data.phone);
-  if (data.parentPhone) attrs.PARENTPHONE = normalizePhone(data.parentPhone);
+  const parentName = firstValue(data, ["parentName"]) || joinedName(data, [["parent_first_name", "parent_last_name"]]);
+  const phone = firstValue(data, ["phone", "parent_phone"]);
+  const parentPhone = firstValue(data, ["parentPhone", "parent_phone"]);
+  const gradYear = firstValue(data, ["gradYear", "grad_year"]);
+  const gender = firstValue(data, ["gender", "program_gender"]);
+  if (parentName) attrs.PARENTNAME = parentName;
+  if (phone) attrs.SMS = normalizePhone(phone);
+  if (parentPhone) attrs.PARENTPHONE = normalizePhone(parentPhone);
   if (data.address) attrs.ADDRESS = data.address;
-  if (data.gradYear) attrs.GRADYEAR = data.gradYear;
-  if (data.gender) attrs.GENDER = data.gender;
+  if (gradYear) attrs.GRADYEAR = gradYear;
+  if (gender) attrs.GENDER = gender;
   if (data.position) attrs.POSITION = data.position;
   if (data.currentClub) attrs.CURRENTCLUB = data.currentClub;
   if (data.interestCategory) attrs.INTEREST = data.interestCategory;
@@ -302,10 +321,17 @@ async function airtableAppend({ formName, data, submissionTime, siteUrl }) {
   // Maps to the existing BTB-OS "Leads" table so submissions land directly in
   // the lead workflow (Status, Assigned Staff, Follow-up Logs already wired up).
   // typecast: true lets Airtable auto-create new singleSelect choices for Source.
+  const leadName = firstValue(data, ["name"])
+    || joinedName(data, [["firstName", "lastName"], ["parent_first_name", "parent_last_name"], ["player_first_name", "player_last_name"]])
+    || firstValue(data, ["parentName", "email", "parentEmail", "parent_email"])
+    || "(no name)";
+  const contactEmail = firstValue(data, ["email", "parentEmail", "parent_email"]);
+  const contactPhone = firstValue(data, ["phone", "parentPhone", "parent_phone"]);
+
   const fields = {
-    "Lead Name": data.name || [data.firstName, data.lastName].filter(Boolean).join(" ") || data.parentName || data.email || "(no name)",
-    "Contact Email": data.email || data.parentEmail || "",
-    "Contact Phone": data.phone || data.parentPhone || "",
+    "Lead Name": leadName,
+    "Contact Email": contactEmail,
+    "Contact Phone": contactPhone,
     "Submission Date": submissionTime || new Date().toISOString(),
     Source: formName,
     Subject: data.subject || data.interestCategory || "",
@@ -387,7 +413,7 @@ const CONFIRMATION_CONFIG = {
         <p style="color:#D22630;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;">WHAT TO EXPECT</p>
         <p style="color:#ccc;font-size:14px;line-height:1.8;margin:0;">
           ✅ Coached by BTB ${gender} Futures staff and players<br>
-          ✅ Stickwork fundamentals + fun drills (Kindergarten-8th grade)<br>
+          ✅ Stickwork fundamentals + fun drills (Kindergarten-2nd grade)<br>
           ✅ Q&A with coaches — kids ask, coaches answer<br>
           ✅ Exclusive info shared only with registered families<br>
           ✅ No prior experience needed
@@ -579,7 +605,7 @@ exports.handler = async (event) => {
 
   // Brevo: upsert contact
   try {
-    const email = data.email || data.parentEmail;
+    const email = firstValue(data, ["email", "parentEmail", "parent_email"]);
     if (email) {
       const listId = brevoListIdFor(formName);
       const attributes = brevoAttributesFromSubmission(formName, data);

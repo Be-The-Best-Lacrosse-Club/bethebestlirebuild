@@ -5,8 +5,7 @@
 
 // ============= GOOGLE SHEET WEBHOOK CONFIG =============
 const BTB_CONFIG = {
-  webhookUrl: 'https://script.google.com/macros/s/AKfycbyLz8IzFau00mve4vCxSbtpGAKHmZRHFhXx-Dx6qUGrM9Yz8wqGU3HLiYeGxyvlXnEpCw/exec',
-  apiKey: 'BTB_SECRET_123',
+  filmStudyDataUrl: '/.netlify/functions/film-study-data',
   localServer: 'http://localhost:8765'
 };
 
@@ -697,10 +696,7 @@ function sheetEventsToVideos(events) {
 // Fetch events from Google Sheet and merge into VIDEO_LIBRARY
 async function loadSheetClips() {
   try {
-    const url = `${BTB_CONFIG.webhookUrl}?json=${encodeURIComponent(JSON.stringify({
-      api_key: BTB_CONFIG.apiKey,
-      action: 'list_events'
-    }))}`;
+    const url = `${BTB_CONFIG.filmStudyDataUrl}?action=list_events`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Sheet fetch failed');
     const data = await response.json();
@@ -729,7 +725,7 @@ async function loadSheetClips() {
 // ============= GOOGLE SHEET DATA FETCH =============
 async function fetchSheetData(program = 'all') {
   try {
-    const url = `${BTB_CONFIG.webhookUrl}?action=read&program=${program}&key=${BTB_CONFIG.apiKey}`;
+    const url = `${BTB_CONFIG.filmStudyDataUrl}?action=read&program=${encodeURIComponent(program)}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Sheet fetch failed');
     const data = await response.json();

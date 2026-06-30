@@ -3,243 +3,909 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BTB Coach Tools</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-<script>
-  (function () {
-    var key = 'btbCoachToolsUnlocked';
-    if (sessionStorage.getItem(key) === 'yes') return;
-    var pass = prompt('Enter BTB coach password:');
-    if (pass === '#BTBCOACH26') {
-      sessionStorage.setItem(key, 'yes');
-      return;
-    }
-    alert('Coach access required.');
-    window.location.href = '/login?redirect=/coach-tools.html';
-  })();
-</script>
+<title>BTB Coach Hub</title>
+<meta name="description" content="Password-gated BTB Coach Hub with practice plans, playbooks, drills, standards, terminology, film tools, and downloadable sideline resources.">
+<meta name="theme-color" content="#D22630">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --red: #D22630;
+    --red-dark: #a01e26;
+    --black: #000;
+    --ink: #080808;
+    --panel: #111;
+    --panel-2: #171717;
+    --line: rgba(255,255,255,.10);
+    --muted: rgba(255,255,255,.62);
+    --soft: rgba(255,255,255,.36);
+    --white: #fff;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Montserrat', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; }
-
-  .header {
-    background: #000; border-bottom: 3px solid #D22630;
-    padding: 24px 20px; text-align: center;
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
   }
-  .header h1 {
-    font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
-    letter-spacing: 3px; text-transform: uppercase;
+  body.locked { overflow: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font-family: inherit; }
+
+  .gate {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #000;
   }
-  .header h1 span { color: #D22630; }
-  .header p { color: #888; font-size: 0.85rem; margin-top: 4px; }
-
-  .container { max-width: 900px; margin: 0 auto; padding: 30px 20px 60px; }
-
-  .section-label {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
-    color: #D22630; letter-spacing: 2px; text-transform: uppercase;
-    margin: 30px 0 14px; padding-bottom: 6px;
-    border-bottom: 1px solid #222;
+  .gate-card {
+    width: min(100%, 460px);
+    border: 1px solid var(--line);
+    background: rgba(12,12,12,.96);
+    padding: 32px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.65);
   }
-  .section-label:first-of-type { margin-top: 10px; }
+  .gate-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .gate-logo img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; }
+  .gate-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 2px;
+    line-height: .9;
+    text-transform: uppercase;
+  }
+  .gate-title span { color: var(--red); }
+  .gate-kicker {
+    text-align: center;
+    color: var(--soft);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .gate-copy {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 22px;
+  }
+  .gate-field { display: grid; gap: 10px; }
+  .gate-field label {
+    color: rgba(255,255,255,.78);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .gate-field input {
+    height: 52px;
+    border: 1px solid var(--line);
+    background: #090909;
+    color: var(--white);
+    font-size: 16px;
+    letter-spacing: 1px;
+    padding: 0 14px;
+    outline: none;
+  }
+  .gate-field input:focus { border-color: rgba(210,38,48,.75); }
+  .gate-error {
+    min-height: 20px;
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .gate-submit {
+    width: 100%;
+    height: 54px;
+    margin-top: 14px;
+    border: 0;
+    background: var(--red);
+    color: var(--white);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .gate-submit:hover { background: var(--red-dark); }
+  .gate-note {
+    color: rgba(255,255,255,.32);
+    font-size: 11px;
+    line-height: 1.55;
+    margin-top: 16px;
+    text-align: center;
+  }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .locked #hub { display: none; }
+  .unlocked .gate { display: none; }
 
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--line);
+    background: rgba(0,0,0,.92);
+    backdrop-filter: blur(14px);
+  }
+  .topbar-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .brand img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .brand-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .brand-text span { color: var(--red); }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a, .unlock-btn {
+    border: 1px solid transparent;
+    color: rgba(255,255,255,.74);
+    background: transparent;
+    padding: 9px 11px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .nav a:hover, .unlock-btn:hover { color: #fff; border-color: var(--line); }
+  .nav a.primary {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #050505 0%, #000 100%);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .16;
+    background-image:
+      linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 86px 86px;
+  }
+  .hero-inner {
+    position: relative;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 76px 18px 58px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, .72fr);
+    gap: 34px;
+    align-items: end;
+  }
+  .kicker {
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  h1, h2, h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  h1 {
+    font-size: clamp(58px, 10vw, 126px);
+    letter-spacing: 1px;
+    line-height: .86;
+    max-width: 780px;
+  }
+  h1 span, h2 span { color: var(--red); }
+  .hero-copy {
+    color: rgba(255,255,255,.74);
+    max-width: 650px;
+    font-size: 17px;
+    line-height: 1.8;
+    margin-top: 22px;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    padding: 0 18px;
+    color: #fff;
+    background: rgba(255,255,255,.04);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .btn.red { background: var(--red); border-color: var(--red); }
+  .btn:hover { border-color: rgba(255,255,255,.34); transform: translateY(-1px); }
+  .btn.red:hover { background: var(--red-dark); border-color: var(--red-dark); }
+  .hero-panel {
+    border: 1px solid var(--line);
+    background: rgba(17,17,17,.82);
+    padding: 22px;
+  }
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .checklist { display: grid; gap: 10px; }
+  .check {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 10px;
+    color: rgba(255,255,255,.72);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .check b {
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .check-dot {
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(210,38,48,.85);
+    margin-top: 1px;
+    position: relative;
+  }
+  .check-dot::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid var(--red);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  main { background: #000; }
+  section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 58px 18px;
+  }
+  section + section { border-top: 1px solid var(--line); }
+  .section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 22px;
+    margin-bottom: 26px;
+  }
+  .section-head h2 {
+    font-size: clamp(42px, 6vw, 74px);
+    line-height: .88;
+    letter-spacing: 1px;
+  }
+  .section-head p {
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 420px;
+    font-size: 14px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card {
-    background: #141414; border: 1px solid #2a2a2a; border-radius: 12px;
-    padding: 22px 20px; text-decoration: none; color: #fff;
-    transition: all 0.2s; display: flex; flex-direction: column; gap: 8px;
-    position: relative; overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 22px;
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
   }
-  .card:hover { border-color: #D22630; transform: translateY(-2px); }
+  a.card:hover, button.card:hover {
+    border-color: rgba(210,38,48,.8);
+    background: #151515;
+  }
   .card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: #D22630; opacity: 0; transition: opacity 0.2s;
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--red);
+    opacity: 0;
   }
-  .card:hover::before { opacity: 1; }
-
-  .card-icon { font-size: 1.6rem; }
-  .card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
-  .card-desc { font-size: 0.82rem; color: #999; line-height: 1.4; }
-  .card-badge {
-    display: inline-block; padding: 2px 8px; border-radius: 4px;
-    font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-    align-self: flex-start;
+  a.card:hover::before, button.card:hover::before { opacity: 1; }
+  .tag {
+    display: inline-flex;
+    color: var(--red);
+    border: 1px solid rgba(210,38,48,.35);
+    padding: 4px 7px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
   }
-  .badge-staff { background: #1a2a1a; color: #6bff8a; }
-  .badge-local { background: #2a1a1a; color: #ff6b6b; }
-  .badge-sheet { background: #1a1a2a; color: #5b9aff; }
-  .badge-pass { background: #2a2a1a; color: #ffcc5b; }
-
-  .divider { height: 1px; background: #1a1a1a; margin: 10px 0; }
-
-  .password-note {
-    background: #1a1a1a; border: 1px solid #333; border-radius: 8px;
-    padding: 14px 18px; margin-top: 24px; font-size: 0.8rem; color: #888; line-height: 1.5;
+  .card h3 {
+    font-size: 27px;
+    letter-spacing: .8px;
+    line-height: 1;
+    margin-bottom: 10px;
   }
-  .password-note strong { color: #ccc; }
-  .password-note code { background: #222; padding: 2px 6px; border-radius: 3px; color: #D22630; font-size: 0.8rem; }
-
-  .footer-bar {
-    text-align: center; padding: 20px; color: #333; font-size: 0.75rem;
-    border-top: 1px solid #1a1a1a; margin-top: 40px;
+  .card p, .card li {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.62;
+  }
+  .card ul { padding-left: 18px; display: grid; gap: 6px; }
+  .card-link {
+    display: inline-flex;
+    margin-top: 18px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
   }
 
-  @media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
-    .header h1 { font-size: 1.8rem; }
+  .plan-row {
+    display: grid;
+    grid-template-columns: 92px 1fr auto;
+    gap: 18px;
+    align-items: center;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 18px;
+  }
+  .plan-row + .plan-row { margin-top: 10px; }
+  .phase-num {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--red);
+    font-size: 42px;
+    line-height: .85;
+  }
+  .plan-row h3 { font-size: 28px; margin-bottom: 4px; }
+  .plan-row p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+  .table-wrap {
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    background: var(--panel);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 760px; }
+  th, td {
+    padding: 15px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  th {
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    background: rgba(210,38,48,.06);
+  }
+  td { color: rgba(255,255,255,.72); }
+  td strong { color: #fff; }
+
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .tool-button {
+    min-height: 138px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+  .tool-button .card-link { color: var(--red); }
+
+  .footer {
+    border-top: 1px solid var(--line);
+    color: rgba(255,255,255,.42);
+    padding: 28px 18px 42px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 980px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .grid, .grid.two, .tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .section-head { display: block; }
+    .section-head p { margin-top: 14px; }
+  }
+  @media (max-width: 640px) {
+    .topbar-inner { align-items: flex-start; flex-direction: column; }
+    .nav { width: 100%; }
+    .hero-inner { padding-top: 48px; }
+    .grid, .grid.two, .tools { grid-template-columns: 1fr; }
+    .plan-row { grid-template-columns: 1fr; }
+    .plan-row .btn { width: 100%; }
+    .gate-card { padding: 24px; }
   }
 </style>
 </head>
-<body>
-
-<div class="header">
-  <h1><span>BTB</span> Coach Tools</h1>
-  <p>Everything your coaching staff needs — one page.</p>
-</div>
-
-<div class="container">
-
-  <div class="section-label">Film & Analysis</div>
-  <div class="grid">
-    <a class="card" href="/film-breakdown.html">
-      <div class="card-icon">🎬</div>
-      <div class="card-title">Film Breakdown</div>
-      <div class="card-desc">Paste a YouTube link → AI tags every play with timestamps, phases, and coaching points. Results save to Google Sheet.</div>
-      <span class="card-badge badge-staff">Staff Access</span>
-    </a>
-    <a class="card" href="/film-study-lab/">
-      <div class="card-icon">📚</div>
-      <div class="card-title">Film Study Lab</div>
-      <div class="card-desc">Full coaching video library organized by concept. POWLAX, D1 film, and tagged game clips at every level.</div>
-      <span class="card-badge badge-staff">Staff Access</span>
-    </a>
-    <a class="card" href="http://localhost:8765" target="_blank">
-      <div class="card-icon">🖥️</div>
-      <div class="card-title">Local Film Server</div>
-      <div class="card-desc">Hudl video upload + Whisper transcription. For processing game film from your Mac. Dan's machine only.</div>
-      <span class="card-badge badge-local">Dan's Mac Only</span>
-    </a>
+<body class="locked">
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <form class="gate-card" id="gateForm">
+      <div class="gate-logo">
+        <img src="/assets/brand/btb-circle-logo.png" alt="BTB">
+        <div class="gate-title" id="gateTitle">Coach <span>Hub</span></div>
+      </div>
+      <div class="gate-kicker">Staff Only</div>
+      <p class="gate-copy">Enter the BTB coach password to open practice plans, playbooks, standards, terminology, and sideline downloads.</p>
+      <div class="gate-field">
+        <label for="coachPassword">Coach Password</label>
+        <input id="coachPassword" type="password" autocomplete="current-password" autofocus>
+      </div>
+      <div class="gate-error" id="gateError" aria-live="polite"></div>
+      <button class="gate-submit" type="submit">Enter Coach Hub</button>
+      <p class="gate-note">Access is stored for this browser session only.</p>
+    </form>
   </div>
 
-  <div class="section-label">Playbooks</div>
-  <div class="grid">
-    <a class="card" href="/playbook-studio.html">
-      <div class="card-icon">🎨</div>
-      <div class="card-title">Playbook Studio</div>
-      <div class="card-desc">Build, edit, and organize BTB playbook pages, installs, diagrams, and teaching resources.</div>
-      <span class="card-badge badge-staff">Studio</span>
-    </a>
-    <a class="card" href="/btb-boys-offense-playbook.html">
-      <div class="card-icon">⚔️</div>
-      <div class="card-title">Boys Offense</div>
-      <div class="card-desc">Motion offense, fades, follows, cuts, picks, passing, and full systems with D1 film.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-boys-defense-playbook.html">
-      <div class="card-icon">🛡️</div>
-      <div class="card-title">Boys Defense</div>
-      <div class="card-desc">Slides, zone schemes, man-down packages, individual defense, and riding systems.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-boys-transition-playbook.html">
-      <div class="card-icon">🔄</div>
-      <div class="card-title">Boys Transition</div>
-      <div class="card-desc">Clears, rides, fast breaks, substitutions, and faceoff plays.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-girls-offense-playbook.html">
-      <div class="card-icon">⚔️</div>
-      <div class="card-title">Girls Motion Offense</div>
-      <div class="card-desc">Women's D1 film, spacing, fades, cuts, clear-throughs, follow actions, and picks.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-girls-defense-playbook.html">
-      <div class="card-icon">🛡️</div>
-      <div class="card-title">Girls Defense</div>
-      <div class="card-desc">Backer zone, slides, recovery, help defense, and individual positioning.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-girls-transition-playbook.html">
-      <div class="card-icon">🔄</div>
-      <div class="card-title">Girls Transition</div>
-      <div class="card-desc">Draw controls, clears, riding, fast breaks, and man-up offense.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
+  <div id="hub">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="/">
+          <img src="/assets/brand/btb-circle-logo.png" alt="BTB">
+          <div class="brand-text">BTB <span>Coach Hub</span></div>
+        </a>
+        <nav class="nav" aria-label="Coach Hub sections">
+          <a class="primary" href="#sideline">Downloads</a>
+          <a href="#practice">Practice</a>
+          <a href="#playbooks">Playbooks</a>
+          <a href="#drills">Drills</a>
+          <a href="#standards">Standards</a>
+          <a href="#terminology">Terms</a>
+          <button class="unlock-btn" type="button" onclick="lockHub()">Lock</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="kicker">BTB Staff System // Password Gated</div>
+          <h1>Practice Ready. <span>Game Ready.</span></h1>
+          <p class="hero-copy">One coach-facing hub for the BTB standard: practice plans, playbooks, drill progressions, terminology, staff expectations, film tools, and downloadable sideline sheets.</p>
+          <div class="hero-actions">
+            <a class="btn red" href="#sideline">Download Sideline Tools</a>
+            <a class="btn" href="/btb-boys-coaching-manual.html#s9">Boys Practice Plans</a>
+            <a class="btn" href="/btb-girls-coaching-manual.html#s8">Girls Practice Plans</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Game day checklist">
+          <div class="panel-title">Today Before Practice</div>
+          <div class="checklist">
+            <div class="check"><span class="check-dot"></span><div><b>Plan printed</b><br>Every minute assigned, every drill has a reason.</div></div>
+            <div class="check"><span class="check-dot"></span><div><b>Staff aligned</b><br>Assistants know segment ownership and coaching points.</div></div>
+            <div class="check"><span class="check-dot"></span><div><b>Standards set</b><br>Effort, pace, communication, and accountability are non-negotiable.</div></div>
+            <div class="check"><span class="check-dot"></span><div><b>Film loop active</b><br>Practice focus should connect to last game or next opponent.</div></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <main>
+      <section id="practice">
+        <div class="section-head">
+          <h2>Practice <span>Plans.</span></h2>
+          <p>Use the boys and girls manuals for full daily plans. Use the downloadable template when you need a field-ready one-page plan for tonight.</p>
+        </div>
+        <div class="plan-row">
+          <div class="phase-num">01</div>
+          <div>
+            <h3>Foundation</h3>
+            <p>Stickwork, footwork, ground balls, defensive body position, basic motion, standards, and film habits.</p>
+          </div>
+          <button class="btn" onclick="downloadTool('practice')">Download Template</button>
+        </div>
+        <div class="plan-row">
+          <div class="phase-num">02</div>
+          <div>
+            <h3>Connection</h3>
+            <p>Small-sided reads, 2-man game, rides and clears, communication, team concepts, and install retention.</p>
+          </div>
+          <a class="btn" href="/btb-boys-coaching-manual.html#s9">Open Boys Plans</a>
+        </div>
+        <div class="plan-row">
+          <div class="phase-num">03</div>
+          <div>
+            <h3>Expansion</h3>
+            <p>Live scenarios, opponent tendencies, self-scouting, transition, special teams, and pressure reps.</p>
+          </div>
+          <a class="btn" href="/btb-girls-coaching-manual.html#s8">Open Girls Plans</a>
+        </div>
+        <div class="plan-row">
+          <div class="phase-num">04</div>
+          <div>
+            <h3>Execution</h3>
+            <p>Game simulation, standards testing, situational lacrosse, film review, and next-cycle goal setting.</p>
+          </div>
+          <a class="btn" href="https://btb-os.netlify.app/?module=practice-plan" target="_blank" rel="noopener">BTB-OS Generator</a>
+        </div>
+      </section>
+
+      <section id="playbooks">
+        <div class="section-head">
+          <h2>Playbooks <span>By Program.</span></h2>
+          <p>Boys and girls resources are separated where the game, rules, or terminology differ. Start from the correct program before installing.</p>
+        </div>
+        <div class="grid">
+          <a class="card" href="/btb-boys-offense-playbook.html"><span class="tag">Boys</span><h3>Motion Offense</h3><p>Passing, fades, follow actions, cuts, picks, dodging decisions, and full-system offensive film.</p><span class="card-link">Open Playbook</span></a>
+          <a class="card" href="/btb-boys-defense-playbook.html"><span class="tag">Boys</span><h3>Defense</h3><p>Slides, recovery, defending picks, cutters, man-down, zone principles, and riding standards.</p><span class="card-link">Open Playbook</span></a>
+          <a class="card" href="/btb-boys-transition-playbook.html"><span class="tag">Boys</span><h3>Transition</h3><p>Rides, clears, substitutions, faceoff units, wing play, man-up, and man-down concepts.</p><span class="card-link">Open Playbook</span></a>
+          <a class="card" href="/btb-girls-offense-playbook.html"><span class="tag">Girls</span><h3>Motion Offense</h3><p>Spacing, cuts, clear-throughs, follow actions, picks, free-position thinking, and D1 film.</p><span class="card-link">Open Playbook</span></a>
+          <a class="card" href="/btb-girls-defense-playbook.html"><span class="tag">Girls</span><h3>Defense</h3><p>Backer zone, 1v1 approach, help positioning, shooting-space awareness, and recovery rules.</p><span class="card-link">Open Playbook</span></a>
+          <a class="card" href="/btb-girls-transition-playbook.html"><span class="tag">Girls</span><h3>Transition</h3><p>Draw control, fast breaks, clears, riding, substitution flow, and possession management.</p><span class="card-link">Open Playbook</span></a>
+        </div>
+      </section>
+
+      <section id="drills">
+        <div class="section-head">
+          <h2>Drill <span>Library.</span></h2>
+          <p>Use drills that match the phase, the team need, and the next game problem. Avoid filler reps.</p>
+        </div>
+        <div class="grid">
+          <div class="card"><span class="tag">Stickwork</span><h3>Wall Ball Ladder</h3><p>Right, left, alternating, quick-stick, cross-hand, and on-the-move throws. Finish with pressure catches.</p></div>
+          <div class="card"><span class="tag">Defense</span><h3>Slide + Recover</h3><p>4v3 or 5v4. Force direction, communicate hot, slide on time, fill inside, recover on pass.</p></div>
+          <div class="card"><span class="tag">Transition</span><h3>4v3 Break</h3><p>Push pace, read the first slide, move the ball twice, finish before the defense gets matched.</p></div>
+          <div class="card"><span class="tag">Boys Specific</span><h3>Clamp + Exit</h3><p>FOGO technical reps with wing reads. Clamp, rake, exit, protect, and start the break.</p></div>
+          <div class="card"><span class="tag">Girls Specific</span><h3>Draw + Wing Read</h3><p>Draw specialist placement with two wing reads. Win possession, secure, and attack space.</p></div>
+          <a class="card" href="/coaches.html"><span class="tag">Archive</span><h3>Full Drill Page</h3><p>Open the broader BTB drill and coaching resource archive.</p><span class="card-link">Open Archive</span></a>
+        </div>
+      </section>
+
+      <section id="standards">
+        <div class="section-head">
+          <h2>The BTB <span>Standard.</span></h2>
+          <p>Every coach should sound aligned. These are the non-negotiables that shape every practice and every sideline.</p>
+        </div>
+        <div class="grid">
+          <div class="card"><span class="tag">01</span><h3>Effort</h3><p>No walking between reps. Sprint to huddles. Finish ground balls. Compete through the whistle.</p></div>
+          <div class="card"><span class="tag">02</span><h3>Accountability</h3><p>Correct the behavior, then teach the fix. Standards are only real when they are enforced calmly and consistently.</p></div>
+          <div class="card"><span class="tag">03</span><h3>Pace</h3><p>Short lines, fast transitions, clear segment ownership, and water breaks that teach rather than drift.</p></div>
+          <div class="card"><span class="tag">04</span><h3>Communication</h3><p>Players must call ball, help, hot, two, release, and reset. Coaches should demand volume and clarity.</p></div>
+          <div class="card"><span class="tag">05</span><h3>Film Loop</h3><p>Game issues become practice priorities. Practice corrections become film checkpoints the next week.</p></div>
+          <div class="card"><span class="tag">06</span><h3>Safety</h3><p>Equipment checked, contact controlled, hydration managed, and age-appropriate contact at all times.</p></div>
+        </div>
+      </section>
+
+      <section id="terminology">
+        <div class="section-head">
+          <h2>Shared <span>Terminology.</span></h2>
+          <p>Use the same words so players hear one system across teams, coaches, practices, and film sessions.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Call</th><th>Meaning</th><th>Coach Usage</th><th>Program Note</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Ball</strong></td><td>On-ball defender announces matchup.</td><td>Demand it on every approach.</td><td>Both programs.</td></tr>
+              <tr><td><strong>Help</strong></td><td>Adjacent defenders announce support position.</td><td>Require early talk before the dodge.</td><td>Both programs.</td></tr>
+              <tr><td><strong>Hot</strong></td><td>First slide is responsible if the ball carrier wins.</td><td>Make the hot defender identify before live reps.</td><td>Both programs.</td></tr>
+              <tr><td><strong>Two</strong></td><td>Second slide or fill player.</td><td>Use in slide/recover drills and film review.</td><td>Both programs.</td></tr>
+              <tr><td><strong>Release</strong></td><td>Pressure is off, return to matchup or shape.</td><td>Call after pass, recovery, or failed dodge.</td><td>Both programs.</td></tr>
+              <tr><td><strong>GLE</strong></td><td>Goal line extended.</td><td>Use to define dodging, feeding, and slide timing.</td><td>Both programs.</td></tr>
+              <tr><td><strong>FOGO / Wing</strong></td><td>Faceoff unit roles and possession lanes.</td><td>Practice ten minutes minimum when faceoffs matter.</td><td>Boys specific.</td></tr>
+              <tr><td><strong>Draw / Circle</strong></td><td>Draw specialist and circle wing responsibility.</td><td>Train specialist placement, wing crash, and possession reads.</td><td>Girls specific.</td></tr>
+              <tr><td><strong>Shooting Space</strong></td><td>Illegal defensive positioning in the shooting lane.</td><td>Teach body position and legal help before contact.</td><td>Girls specific.</td></tr>
+              <tr><td><strong>Free Position</strong></td><td>Restart after a major foul.</td><td>Rehearse options, crash timing, and goalie communication.</td><td>Girls specific.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="film">
+        <div class="section-head">
+          <h2>Film + <span>Feedback.</span></h2>
+          <p>The hub connects the field to the classroom. Tag the game, identify the theme, then build the next practice around it.</p>
+        </div>
+        <div class="grid two">
+          <a class="card" href="/film-breakdown.html"><span class="tag">Film</span><h3>Film Breakdown</h3><p>Paste a YouTube link, tag moments, record teaching points, and turn game trends into practice priorities.</p><span class="card-link">Open Tool</span></a>
+          <a class="card" href="/film-study-lab/"><span class="tag">Library</span><h3>Film Study Lab</h3><p>Coaching video library organized by concept, position, teaching point, and development need.</p><span class="card-link">Open Library</span></a>
+        </div>
+      </section>
+
+      <section id="sideline">
+        <div class="section-head">
+          <h2>Sideline <span>Downloads.</span></h2>
+          <p>Print or save these before practice and games. Each download is generated from this hub and named with the BTB file prefix.</p>
+        </div>
+        <div class="tools">
+          <button class="card tool-button" onclick="downloadTool('practice')"><span class="tag">TXT</span><h3>Practice Plan</h3><p>One-page timed plan template with staff roles, segments, and post-practice notes.</p><span class="card-link">Download</span></button>
+          <button class="card tool-button" onclick="downloadTool('gameday')"><span class="tag">TXT</span><h3>Game Card</h3><p>Sideline game card for starters, special teams, timeouts, and halftime adjustments.</p><span class="card-link">Download</span></button>
+          <button class="card tool-button" onclick="downloadTool('subs')"><span class="tag">CSV</span><h3>Sub Tracker</h3><p>Simple substitution and playing-time tracker that opens in Excel, Numbers, or Sheets.</p><span class="card-link">Download</span></button>
+          <button class="card tool-button" onclick="downloadTool('film')"><span class="tag">TXT</span><h3>Film Review</h3><p>Postgame film review sheet for themes, clips, player notes, and next-practice priorities.</p><span class="card-link">Download</span></button>
+          <button class="card tool-button" onclick="downloadTool('standards')"><span class="tag">TXT</span><h3>Standards</h3><p>BTB standards checklist for coaches to review before practice and games.</p><span class="card-link">Download</span></button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>BTB Lacrosse Club</strong><br>
+      Our Culture Built Us. Our Hard Work Made Us.
+    </footer>
   </div>
 
-  <div class="section-label">Coaching Resources</div>
-  <div class="grid">
-    <a class="card" href="/btb-boys-coaching-manual.html#s3">
-      <div class="card-icon">🛡️</div>
-      <div class="card-title">Defensive System</div>
-      <div class="card-desc">Slides, riding, clearing, recovery rules, and defensive standards from the BTB manuals.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-boys-coaching-manual.html#s2">
-      <div class="card-icon">🎯</div>
-      <div class="card-title">Offensive System</div>
-      <div class="card-desc">Spacing, motion, dodging decisions, off-ball movement, and install teaching points.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-boys-coaching-manual.html#s9">
-      <div class="card-icon">🗓️</div>
-      <div class="card-title">Practice Plans</div>
-      <div class="card-desc">Boys and girls practice planning references tied to BTB phases and weekly standards.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-boys-coaching-manual">
-      <div class="card-icon">📋</div>
-      <div class="card-title">Boys Coaching Manual</div>
-      <div class="card-desc">Complete coaching reference — standards, systems, progressions, and practice plans.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-girls-coaching-manual">
-      <div class="card-icon">📋</div>
-      <div class="card-title">Girls Coaching Manual</div>
-      <div class="card-desc">Complete coaching reference for the girls program with age-appropriate progressions.</div>
-      <span class="card-badge badge-pass">Password</span>
-    </a>
-    <a class="card" href="/btb-coach-ai.html">
-      <div class="card-icon">🤖</div>
-      <div class="card-title">Coach AI Assistant</div>
-      <div class="card-desc">AI-powered coaching assistant for game planning, practice structure, and film review.</div>
-      <span class="card-badge badge-staff">Staff Access</span>
-    </a>
-    <a class="card" href="/btb-positionless-guru.html">
-      <div class="card-icon">🧠</div>
-      <div class="card-title">Positionless Guru</div>
-      <div class="card-desc">Teaching support for IQ, spacing, decision-making, and complete-player concepts.</div>
-      <span class="card-badge badge-staff">Staff Access</span>
-    </a>
-  </div>
+<script>
+  var PASS = '#BTBCOACH26';
+  var STORAGE_KEY = 'btbCoachHubUnlocked';
+  var body = document.body;
+  var form = document.getElementById('gateForm');
+  var input = document.getElementById('coachPassword');
+  var error = document.getElementById('gateError');
 
-  <div class="section-label">Data & Analytics</div>
-  <div class="grid">
-    <a class="card" href="https://docs.google.com/spreadsheets/d/1St_fFa2GU67ULc0uhukPa8iGiwEIwxA-FVAZBJtB7y2Tu1iWB_aaopuZ" target="_blank">
-      <div class="card-icon">📊</div>
-      <div class="card-title">Film Analytics Sheet</div>
-      <div class="card-desc">Google Sheet with tagged plays, player analytics, game summaries, teaching trends, and practice priorities.</div>
-      <span class="card-badge badge-sheet">Google Sheet</span>
-    </a>
-    <a class="card" href="https://btb-os.netlify.app" target="_blank">
-      <div class="card-icon">⚙️</div>
-      <div class="card-title">BTB-OS Dashboard</div>
-      <div class="card-desc">Operations dashboard — Airtable, TeamSnap, LeagueApps, staff management.</div>
-      <span class="card-badge badge-staff">Staff Access</span>
-    </a>
-  </div>
+  function unlockHub() {
+    sessionStorage.setItem(STORAGE_KEY, 'yes');
+    body.classList.remove('locked');
+    body.classList.add('unlocked');
+  }
 
-  <div class="password-note">
-    <strong>Access Info:</strong><br>
-    Player pages: <code>#BTBLAX26</code> &nbsp;|&nbsp; Coach pages: <code>#BTBCOACH26</code><br>
-    Film Breakdown + Film Study Lab use the coach password. Playbooks are password-gated on first visit.
-  </div>
+  function lockHub() {
+    sessionStorage.removeItem(STORAGE_KEY);
+    body.classList.add('locked');
+    body.classList.remove('unlocked');
+    setTimeout(function () { input.focus(); }, 50);
+  }
 
-  <div class="footer-bar">
-    BTB Lacrosse Club — Our Culture Built Us. Our Hard Work Made Us.
-  </div>
-</div>
+  if (sessionStorage.getItem(STORAGE_KEY) === 'yes') {
+    unlockHub();
+  }
 
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (input.value.trim() === PASS) {
+      error.textContent = '';
+      input.value = '';
+      unlockHub();
+      return;
+    }
+    error.textContent = 'Incorrect coach password.';
+    input.select();
+  });
+
+  var downloads = {
+    practice: {
+      filename: 'BTB_Practice_Plan_Template.txt',
+      type: 'text/plain',
+      content:
+`BTB PRACTICE PLAN TEMPLATE
+
+Team:
+Date:
+Phase:
+Practice Length:
+Primary Focus:
+Secondary Focus:
+
+STAFF ROLES
+Head Coach:
+Assistant 1:
+Assistant 2:
+Goalie/Position Lead:
+
+0:00-0:10 | Dynamic Warmup
+Purpose:
+Coach:
+Coaching Points:
+
+0:10-0:25 | Stickwork / Fundamentals
+Purpose:
+Coach:
+Coaching Points:
+
+0:25-0:45 | Skill Block
+Purpose:
+Coach:
+Coaching Points:
+
+0:45-1:05 | Team Concept / Install
+Purpose:
+Coach:
+Coaching Points:
+
+1:05-1:20 | Live / Competition
+Purpose:
+Coach:
+Coaching Points:
+
+1:20-1:30 | Wrap / Standards / Film Assignment
+BTB Standard of the Day:
+Film Assignment:
+One thing to fix next practice:
+`
+    },
+    gameday: {
+      filename: 'BTB_Game_Day_Sideline_Card.txt',
+      type: 'text/plain',
+      content:
+`BTB GAME DAY SIDELINE CARD
+
+Opponent:
+Date:
+Team:
+
+STARTERS
+Attack:
+Midfield:
+Defense:
+Goalie:
+
+SPECIAL TEAMS
+Man-Up / EMO:
+Man-Down:
+Ride Group:
+Clear Group:
+Faceoff / Draw Unit:
+
+TIMEOUT NOTES
+Timeout 1:
+Timeout 2:
+
+HALFTIME ADJUSTMENTS
+1.
+2.
+3.
+
+END OF GAME NOTES
+What worked:
+What broke down:
+Film clips to pull:
+Next practice priority:
+`
+    },
+    subs: {
+      filename: 'BTB_Substitution_Tracker.csv',
+      type: 'text/csv',
+      content:
+`Player,Position,Q1 Shift 1,Q1 Shift 2,Q2 Shift 1,Q2 Shift 2,Q3 Shift 1,Q3 Shift 2,Q4 Shift 1,Q4 Shift 2,Notes
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+`
+    },
+    film: {
+      filename: 'BTB_Film_Review_Sheet.txt',
+      type: 'text/plain',
+      content:
+`BTB FILM REVIEW SHEET
+
+Game:
+Team:
+Reviewer:
+
+TOP TEAM THEMES
+1.
+2.
+3.
+
+CLIPS TO SHOW TEAM
+Timestamp:
+Teaching Point:
+Correction:
+
+Timestamp:
+Teaching Point:
+Correction:
+
+PLAYER-SPECIFIC NOTES
+Player:
+Clip:
+Correction:
+
+NEXT PRACTICE PRIORITIES
+1.
+2.
+3.
+`
+    },
+    standards: {
+      filename: 'BTB_Coach_Standards_Checklist.txt',
+      type: 'text/plain',
+      content:
+`BTB COACH STANDARDS CHECKLIST
+
+Before Practice
+[ ] Plan written and timed
+[ ] Staff roles assigned
+[ ] Equipment ready
+[ ] Standards message chosen
+[ ] Film/practice connection clear
+
+During Practice
+[ ] No dead time
+[ ] Corrections are specific
+[ ] Players communicate
+[ ] Competition level is high
+[ ] Safety and contact managed
+
+After Practice
+[ ] One team takeaway
+[ ] One staff takeaway
+[ ] Film or homework assigned
+[ ] Next practice priority identified
+`
+    }
+  };
+
+  function downloadTool(id) {
+    var item = downloads[id];
+    if (!item) return;
+    var blob = new Blob([item.content], { type: item.type + ';charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = item.filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+</script>
 </body>
 </html>

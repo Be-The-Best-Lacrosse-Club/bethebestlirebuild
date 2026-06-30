@@ -1,6 +1,6 @@
 import { useState, useEffect, type FormEvent } from "react"
 import { toast } from "sonner"
-import { ChevronDown, CheckCircle2, Shield, Calendar, Activity, MapPin } from "lucide-react"
+import { ArrowRight, ChevronDown, CheckCircle2, Shield, Calendar, Activity, MapPin } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
 
 type TryoutForm = {
@@ -16,8 +16,33 @@ type TryoutForm = {
   experience: string
 }
 
-const GRAD_YEARS = Array.from({ length: 12 }, (_, i) => String(2026 + i))
+const BOYS_GRAD_YEARS = Array.from({ length: 10 }, (_, i) => String(2028 + i))
+const GIRLS_GRAD_YEARS = Array.from({ length: 8 }, (_, i) => String(2030 + i))
 const POSITIONS = ["Attack", "Midfield", "Defense", "Goalie", "FOGO", "LSM", "Draw Specialist"]
+
+const TRYOUT_OPTIONS = [
+  {
+    title: "Boys Tryouts",
+    subtitle: "Seaford HS",
+    detail: "2028-2037 grads · $75 evaluation",
+    dates: "July 13, 14, 16, 20, 21",
+    href: "/register-boys-tryouts",
+  },
+  {
+    title: "Girls Tryouts",
+    subtitle: "Seaford HS",
+    detail: "2030-2037 grads · $75 evaluation",
+    dates: "July 13, 14, 17, 21",
+    href: "/register-girls-tryouts",
+  },
+  {
+    title: "Boys East",
+    subtitle: "St. Joseph's University NY",
+    detail: "2032-2037 grads · $75 evaluation",
+    dates: "Dates coming soon · Patchogue",
+    href: "/register-boys-east-tryouts",
+  },
+]
 
 function encode(data: Record<string, string>) {
   return Object.keys(data)
@@ -88,6 +113,23 @@ export function TryoutsPage() {
   const selectClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] focus:outline-none focus:border-[var(--btb-red)]/50 transition-all appearance-none cursor-pointer"
   const labelClass = "block text-[1.15rem] font-black uppercase tracking-[2px] text-white/85 mb-2"
   const textareaClass = "w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
+  const activeDates = activeTab === "boys"
+    ? ["July 13", "July 14", "July 16", "July 20", "July 21"]
+    : ["July 13", "July 14", "July 17", "July 21"]
+  const activeRegistrationHref = activeTab === "boys" ? "/register-boys-tryouts" : "/register-girls-tryouts"
+  const activeGradYears = (form.gender === "Girls" || (!form.gender && activeTab === "girls"))
+    ? GIRLS_GRAD_YEARS
+    : BOYS_GRAD_YEARS
+
+  function selectGender(gender: "Boys" | "Girls") {
+    const validYears = gender === "Girls" ? GIRLS_GRAD_YEARS : BOYS_GRAD_YEARS
+    setForm({
+      ...form,
+      gender,
+      gradYear: validYears.includes(form.gradYear) ? form.gradYear : "",
+    })
+    setActiveTab(gender === "Boys" ? "boys" : "girls")
+  }
 
   if (submitted) {
     return (
@@ -115,7 +157,7 @@ export function TryoutsPage() {
     <div className="min-h-screen bg-black text-white pt-32 pb-24 px-6 relative overflow-hidden">
       <SEO 
         title="2026 Tryouts & Evaluations | BTB Lacrosse"
-        description="Apply for evaluations and tryouts for BTB Lacrosse Boys and Girls travel programs at Plainedge HS. July 15-17 & July 20-22."
+        description="Compare 2026 BTB Lacrosse tryout registration paths for boys, girls, and BTB East travel programs."
         path="/tryouts"
       />
       
@@ -127,18 +169,47 @@ export function TryoutsPage() {
       </div>
 
       <div className="max-w-[1100px] mx-auto relative z-10">
-        <div className="grid lg:grid-cols-[1fr_400px] gap-16">
+        <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_400px]">
           
           {/* Form Column */}
-          <div>
+          <div className="min-w-0">
             <div className="mb-12">
-              <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6">
+              <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.9rem] sm:text-[1.15rem] tracking-[3px] sm:tracking-[5px] mb-6">
                 <Shield size={14} />
-                BTB_EVALUATION_REQUEST // 2026_SEASON
+                BTB_TRYOUTS // 2026_SEASON
               </div>
               <h1 className="font-display text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.85] text-white mb-6">
                 Earn Your <br /> <span className="text-[var(--btb-red)]">Spot.</span>
               </h1>
+              <p className="text-white/70 text-[1.15rem] leading-relaxed max-w-[620px] mb-8">
+                Pick the right registration path first. Boys and girls tryouts are separate, and BTB East has its own Suffolk County registration.
+              </p>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3 mb-10" aria-label="2026 BTB tryout registration options">
+                {TRYOUT_OPTIONS.map((option) => (
+                  <a
+                    key={option.title}
+                    href={option.href}
+                    className="group flex min-h-[190px] flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--btb-red)]/60 hover:bg-[var(--btb-red)]/[0.06]"
+                  >
+                    <div className="mb-3 text-[0.72rem] font-black uppercase tracking-[2.5px] text-[var(--btb-red)]">
+                      {option.subtitle}
+                    </div>
+                    <h2 className="font-display text-[1.7rem] uppercase leading-none tracking-wide text-white">
+                      {option.title}
+                    </h2>
+                    <p className="mt-3 text-[0.9rem] font-semibold leading-relaxed text-white/70">
+                      {option.detail}
+                    </p>
+                    <div className="mt-3 text-[0.8rem] font-black uppercase tracking-[1.5px] text-white/45">
+                      {option.dates}
+                    </div>
+                    <div className="mt-auto flex items-center gap-2 pt-5 text-[0.82rem] font-black uppercase tracking-[2px] text-white">
+                      Register <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </a>
+                ))}
+              </div>
               
               {/* Info Tabs */}
               <div className="mt-12 bg-white/[0.03] border border-white/5 rounded-2xl overflow-hidden">
@@ -164,22 +235,20 @@ export function TryoutsPage() {
                       <div className="flex items-start gap-3">
                         <MapPin size={18} className="text-white/70 mt-1" />
                         <div>
-                          <div className="text-white font-bold uppercase tracking-wide">Plainedge HS</div>
-                          <div className="text-white/70 text-xs mt-1 leading-relaxed">241 Wyngate Dr, <br />North Massapequa, NY 11758</div>
+                          <div className="text-white font-bold uppercase tracking-wide">Seaford HS</div>
+                          <div className="text-white/70 text-xs mt-1 leading-relaxed">1575 Seamans Neck Rd, <br />Seaford, NY 11783</div>
                         </div>
                       </div>
                     </div>
                     <div>
                       <div className="text-[1.08rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Dates & Times</div>
                       <div className="space-y-4">
-                        <div className="flex items-center gap-3 text-white">
-                          <Calendar size={16} className="text-white/70" />
-                          <span className="text-sm font-bold uppercase tracking-wide">July 15 - 17</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-white">
-                          <Calendar size={16} className="text-white/70" />
-                          <span className="text-sm font-bold uppercase tracking-wide">July 20 - 22</span>
-                        </div>
+                        {activeDates.map((date) => (
+                          <div key={date} className="flex items-center gap-3 text-white">
+                            <Calendar size={16} className="text-white/70" />
+                            <span className="text-sm font-bold uppercase tracking-wide">{date}</span>
+                          </div>
+                        ))}
                         <div className="flex items-center gap-3 text-white/70">
                           <Activity size={14} />
                           <span className="text-[1.25rem] uppercase tracking-wider font-bold italic">Times to be assigned by grad year</span>
@@ -187,11 +256,29 @@ export function TryoutsPage() {
                       </div>
                     </div>
                   </div>
+                  <a
+                    href={activeRegistrationHref}
+                    className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--btb-red)] px-7 py-4 text-[0.95rem] font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)] sm:w-auto"
+                  >
+                    Register {activeTab === "boys" ? "Boys" : "Girls"} <ArrowRight size={13} />
+                  </a>
                 </div>
               </div>
             </div>
 
-            <form name="tryout-interest" method="POST" data-netlify="true" onSubmit={handleSubmit} className="space-y-8 mt-16">
+            <div className="mt-16 border-t border-white/10 pt-10">
+              <div className="text-[1.08rem] font-black uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
+                Not Ready to Register?
+              </div>
+              <h2 className="font-display text-[clamp(2rem,5vw,3.25rem)] uppercase leading-[0.9] text-white mb-4">
+                Send an <span className="text-[var(--btb-red)]">Inquiry.</span>
+              </h2>
+              <p className="text-white/65 text-[1.08rem] leading-relaxed max-w-[560px]">
+                Use this if you need help choosing Boys, Girls, BTB East, or a grad-year placement before registering.
+              </p>
+            </div>
+
+            <form name="tryout-interest" method="POST" data-netlify="true" onSubmit={handleSubmit} className="space-y-8 mt-8">
               <input type="hidden" name="form-name" value="tryout-interest" />
               <input type="hidden" name="requested_program" value={activeTab} />
 
@@ -231,23 +318,17 @@ export function TryoutsPage() {
                     <div className="flex gap-2 h-12">
                       <button
                         type="button"
-                        onClick={() => {
-                          setForm({...form, gender: "Boys"});
-                          setActiveTab("boys");
-                        }}
+                        onClick={() => selectGender("Boys")}
                         className={`flex-1 rounded-lg font-display text-[1.18rem] uppercase tracking-widest transition-all border ${form.gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
                       >
-                        Male
+                        Boys
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
-                          setForm({...form, gender: "Girls"});
-                          setActiveTab("girls");
-                        }}
+                        onClick={() => selectGender("Girls")}
                         className={`flex-1 rounded-lg font-display text-[1.18rem] uppercase tracking-widest transition-all border ${form.gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
                       >
-                        Female
+                        Girls
                       </button>
                     </div>
                     <p className="text-[10px] font-bold text-[var(--btb-red)] mt-2 uppercase tracking-tighter animate-pulse">
@@ -263,7 +344,7 @@ export function TryoutsPage() {
                       onChange={e => setForm({...form, gradYear: e.target.value})}
                     >
                       <option value="" disabled>Year</option>
-                      {GRAD_YEARS.map(yr => <option key={yr} value={yr} className="bg-black">{yr}</option>)}
+                      {activeGradYears.map(yr => <option key={yr} value={yr} className="bg-black">{yr}</option>)}
                     </select>
                     <ChevronDown size={14} className="absolute right-4 bottom-4 text-white/45 pointer-events-none" />
                   </div>
@@ -359,18 +440,24 @@ export function TryoutsPage() {
                 {submitting ? "PROCESSING_REQUEST..." : "SUBMIT_EVALUATION_INTEREST"}
               </button>
 
-              <div className="flex gap-3 pt-2">
+              <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
                 <a
                   href="/register-boys-tryouts"
-                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                  className="py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
                 >
                   Register Boys →
                 </a>
                 <a
                   href="/register-girls-tryouts"
-                  className="flex-1 py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                  className="py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
                 >
                   Register Girls →
+                </a>
+                <a
+                  href="/register-boys-east-tryouts"
+                  className="py-4 text-center bg-black border border-white/15 text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:border-[var(--btb-red)] hover:bg-[var(--btb-red)] transition-all"
+                >
+                  Boys East →
                 </a>
               </div>
             </form>
@@ -384,11 +471,11 @@ export function TryoutsPage() {
                 <Calendar className="text-[var(--btb-red)] mb-6" size={28} />
                 <h3 className="font-display text-xl text-white uppercase tracking-wider mb-4">2026 Evaluation Cycle</h3>
                 <p className="text-white/70 text-[1.1rem] leading-relaxed mb-6">
-                  Formal tryouts for the 2026-2027 season typically occur in late June/July. However, we conduct rolling evaluations for specific roster openings year-round.
+                  2026 tryout registration is open for Boys, Girls, and BTB East. Each evaluation includes a BTB pinnie, filmed tryout, and evaluation system.
                 </p>
                 <div className="flex items-center gap-3 text-[var(--btb-red)] font-black text-[1.08rem] uppercase tracking-[2px]">
                   <Activity size={12} className="animate-pulse" />
-                  Status: Accepting Inquiries
+                  Status: Registration Open
                 </div>
               </div>
 

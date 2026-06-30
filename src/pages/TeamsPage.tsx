@@ -8,6 +8,7 @@ export function TeamsPage({ gender }: { gender: Gender }) {
   const data = programData[gender]
   const label = gender === "boys" ? "Boys" : "Girls"
   const anchorId = `apply-teams-${gender}`
+  const tryoutHref = gender === "boys" ? "/register-boys-tryouts" : "/register-girls-tryouts"
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -41,7 +42,7 @@ export function TeamsPage({ gender }: { gender: Gender }) {
           <p className="text-[1.2rem] text-white/70 max-w-[520px] leading-[1.9] mb-10">
             {totalTeams} teams spanning every youth grad year. Every team runs the same curriculum, the same film study, the same standard.
           </p>
-          <a href={`#${anchorId}`} className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
+          <a href={tryoutHref} className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
             Apply Now <ArrowRight size={13} />
           </a>
         </div>
@@ -136,11 +137,11 @@ export function TeamsPage({ gender }: { gender: Gender }) {
                 {totalTeams} teams, one standard. Apply to join the {label.toLowerCase()} program and find the right team for your grad year.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/contact" className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
+                <a href={tryoutHref} className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
                   Apply for 2026 <ArrowRight size={13} />
                 </a>
-                <a href="mailto:info@bethebestli.com" className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
-                  Email Us
+                <a href="/tryouts" className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
+                  Tryout Details
                 </a>
               </div>
             </div>

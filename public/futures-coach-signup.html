@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Futures Clinic Coach Signup</title>
+<meta name="description" content="BTB Futures Clinic coach availability roster for Sunday morning at Seaford High School.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --red:#D22630; --green:#18a957; --black:#000; --line:rgba(255,255,255,.14); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #000; color: #fff; font-family: "Montserrat", Arial, sans-serif; }
+  body {
+    min-height: 100svh;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.75), #000 58%),
+      url("/images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1376.jpg") center top / cover no-repeat fixed;
+  }
+  .wrap { width: min(860px, 100%); margin: 0 auto; padding: 22px 14px 54px; }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 4px solid var(--red);
+    padding-bottom: 16px;
+  }
+  .brand img { width: 48px; height: 48px; object-fit: contain; }
+  .brand-name {
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 2px;
+    font-size: 1.45rem;
+    line-height: .9;
+    text-transform: uppercase;
+  }
+  .eyebrow {
+    margin-top: 26px;
+    color: var(--red);
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 10px 0 10px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(3.5rem, 14vw, 6.5rem);
+    line-height: .82;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .lede {
+    margin: 0;
+    max-width: 680px;
+    color: rgba(255,255,255,.76);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  .statusbar {
+    margin: 22px 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border: 1px solid var(--line);
+    background: rgba(0,0,0,.8);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .count {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: rgba(255,255,255,.78);
+  }
+  .count strong { color: var(--green); font-size: 1.18rem; }
+  .small { color: rgba(255,255,255,.5); font-size: .8rem; }
+  .roster {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(0,0,0,.86);
+    overflow: hidden;
+  }
+  .coach {
+    width: 100%;
+    min-height: 64px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    align-items: center;
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,.09);
+    background: transparent;
+    color: #fff;
+    text-align: left;
+    padding: 12px 14px;
+    cursor: pointer;
+  }
+  .coach:last-child { border-bottom: 0; }
+  .coach:hover { background: rgba(255,255,255,.04); }
+  .coach.available {
+    background: rgba(24,169,87,.18);
+    border-bottom-color: rgba(24,169,87,.35);
+  }
+  .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    border: 2px solid rgba(255,255,255,.35);
+    display: grid;
+    place-items: center;
+    color: transparent;
+    font-weight: 900;
+  }
+  .coach.available .circle {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+  .name {
+    display: block;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: .2px;
+  }
+  .message {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-weight: 800;
+  }
+  .message.show { display: block; }
+  .message.ok { background: rgba(24,169,87,.18); border: 1px solid rgba(24,169,87,.45); color: #c9ffdc; }
+  .message.error { background: rgba(210,38,48,.18); border: 1px solid rgba(210,38,48,.55); color: #ffd0d4; }
+  .footer {
+    margin-top: 24px;
+    text-align: center;
+    color: rgba(255,255,255,.48);
+    font-size: .78rem;
+    font-weight: 800;
+  }
+  @media (min-width: 720px) {
+    .roster { display: grid; grid-template-columns: 1fr 1fr; }
+    .coach:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.09); }
+  }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="brand">
+      <img src="/images/THE NEW SHIELD_clean.png" alt="BTB shield">
+      <div class="brand-name">Be The <span style="color:var(--red)">Best</span><br>Lacrosse Club</div>
+    </header>
+
+    <div class="eyebrow">Sunday · 8:30-10:30 AM · Seaford</div>
+    <h1>Futures Coach Signup</h1>
+    <p class="lede">Tap the circle next to your name if you can help. Your row turns green, and the Futures Coaches sheet updates automatically.</p>
+
+    <section class="statusbar" aria-live="polite">
+      <div class="count"><strong id="count">0</strong> coaches marked available</div>
+      <div class="small" id="sync">Loading roster...</div>
+    </section>
+
+    <section class="roster" id="roster" aria-label="Coach availability roster"></section>
+    <div class="message" id="message"></div>
+    <footer class="footer">Our Culture Built Us. Our Hard Work Made Us.</footer>
+  </main>
+
+<script>
+  const fallbackRoster = [
+    ["Dan Achatz", "Owner / Head Coach"], ["Sean Reynolds", "Boys Director"], ["Brad McLam", "Head Coach"],
+    ["Marisa D'Angelo", "Head Coach"], ["Aidan DeRupo", "Goalie Trainer"], ["Alex Leggio", "Assistant Coach"],
+    ["Alexa Adduci", "Assistant Coach"], ["Antonina Buscemi", "Assistant Coach"], ["Ava Hernandez", "Assistant Coach"],
+    ["Brian Gubelli", "Assistant Coach"], ["Brian Himberger", "Head Coach"], ["Chris Lehmann", "Assistant Coach"],
+    ["Chris Rumfield", "Assistant Coach"], ["Meg Gordon", "Co-Head Coach"], ["Dan Sciulla", "Assistant Coach"],
+    ["Danielle Carson", "Co-Head Coach"], ["Emma Mclam", "Assistant Coach"], ["Erynn Rocovich", "Head Coach"],
+    ["Frank Ingenito", "Head Coach"], ["Hunter Isnardi", "Assistant Coach"], ["Jaclyn Jackowski", "Assistant Coach"],
+    ["Jake Oemcke", "Assistant Coach"], ["James Rao", "Assistant Coach"], ["Jeff Schaefer", "Assistant Coach"],
+    ["JT Prior", "Assistant Coach"], ["Juliana Keenan", "Assistant Coach"], ["Kaitlyn Meyer", "Assistant Coach"],
+    ["Katie Dascher", "Assistant Coach"], ["Kerrin Heuser", "Assistant Coach"], ["Krista Ancona", "Assistant Coach"],
+    ["Leif Blomquist", "Assistant Coach"], ["Lily Bilello", "Assistant Coach"], ["Mike Guercio", "Futures Director / Assistant Coach"],
+    ["Nick Defelice", "Assistant Coach"], ["Nick Ebel", "Assistant Coach"], ["Nick Nicolosi", "Assistant Coach"],
+    ["Pat Frazer", "Assistant Coach"], ["Peter Ferrizz", "BTB Operations / Assistant Coach"], ["Peter Hespe", "Assistant Coach"],
+    ["Rob Valdez", "Assistant Coach"], ["Ryan O'Neill", "Assistant Coach"], ["Ryan Quinn", "Assistant Coach"],
+    ["Ryan Smith", "Assistant Coach"], ["Scott Bryan", "Assistant Coach"], ["Steven Romano", "Assistant Coach"],
+    ["Tara Babnik", "Co-Head Coach"], ["Tommy Brewer", "Assistant Coach"]
+  ].map(([name, role]) => ({ name, role, available: false }));
+
+  const rosterEl = document.getElementById("roster");
+  const countEl = document.getElementById("count");
+  const syncEl = document.getElementById("sync");
+  const messageEl = document.getElementById("message");
+  let roster = fallbackRoster;
+  let busy = false;
+
+  function showMessage(kind, text) {
+    messageEl.className = `message show ${kind}`;
+    messageEl.textContent = text;
+    setTimeout(() => { messageEl.className = "message"; }, 3500);
+  }
+
+  function render() {
+    rosterEl.innerHTML = "";
+    let count = 0;
+    roster.forEach((coach) => {
+      if (coach.available) count += 1;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `coach${coach.available ? " available" : ""}`;
+      button.dataset.name = coach.name;
+      button.setAttribute("aria-pressed", String(coach.available));
+      button.innerHTML = `
+        <span class="circle">${coach.available ? "✓" : ""}</span>
+        <span>
+          <span class="name">${coach.name}</span>
+        </span>
+      `;
+      button.addEventListener("click", () => toggleCoach(coach.name, !coach.available));
+      rosterEl.appendChild(button);
+    });
+    countEl.textContent = count;
+  }
+
+  async function loadRoster() {
+    render();
+    try {
+      const resp = await fetch("/.netlify/functions/futures-coach-availability");
+      const data = await resp.json();
+      if (!resp.ok || !data.ok) throw new Error(data.error || "Could not load roster");
+      roster = data.roster;
+      syncEl.textContent = "Synced";
+      render();
+    } catch (err) {
+      syncEl.textContent = "Offline view";
+      showMessage("error", "Could not load the live sheet yet. Try refreshing.");
+    }
+  }
+
+  async function toggleCoach(name, available) {
+    if (busy) return;
+    busy = true;
+    syncEl.textContent = "Saving...";
+    roster = roster.map((coach) => coach.name === name ? { ...coach, available } : coach);
+    render();
+    try {
+      const resp = await fetch("/.netlify/functions/futures-coach-availability", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ coach_name: name, available })
+      });
+      const data = await resp.json();
+      if (!resp.ok || !data.ok) throw new Error(data.error || "Save failed");
+      roster = data.roster;
+      syncEl.textContent = "Saved";
+      render();
+      showMessage("ok", available ? `${name} marked available.` : `${name} cleared.`);
+    } catch (err) {
+      syncEl.textContent = "Save failed";
+      showMessage("error", "Could not update the sheet. Try again.");
+      await loadRoster();
+    } finally {
+      busy = false;
+    }
+  }
+
+  loadRoster();
+</script>
+</body>
+</html>

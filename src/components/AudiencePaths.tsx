@@ -5,42 +5,42 @@ import { useNavigate } from "react-router-dom"
 
 const paths = [
   {
-    audience: "Players",
+    audience: "Boys",
     icon: Shield,
-    eyebrow: "PATH_01 // FOR_ATHLETES",
-    headline: "Train to Get Recruited.",
-    description: "Film study. Position-specific coaching. 2+ coaches per team. The BTB Academy gives you the tools college coaches are actually looking for.",
+    eyebrow: "PATH_01 // BOYS_PROGRAM",
+    headline: "Boys Travel + Development.",
+    description: "Youth through varsity prep teams with film study, position-specific coaching, recruiting guidance, and a clear development path by grad year.",
     links: [
-      { label: "Boys Program →", href: "/boys" },
-      { label: "Girls Program →", href: "/girls" },
+      { label: "Boys Overview →", href: "/boys" },
+      { label: "Boys Teams →", href: "/boys/teams" },
     ],
-    cta: { label: "See the Academy", href: "/academy-info" },
+    cta: { label: "Boys Tryouts", href: "/register-boys-tryouts" },
     bgHover: "hover:bg-[var(--btb-red)]",
   },
   {
-    audience: "Parents",
+    audience: "Girls",
     icon: Users,
-    eyebrow: "PATH_02 // FOR_FAMILIES",
-    headline: "The Right Club Makes the Difference.",
-    description: "Guaranteed progress. Film accountability. Certified coaches. We don't just develop players — we give you full transparency into your athlete's growth.",
+    eyebrow: "PATH_02 // GIRLS_PROGRAM",
+    headline: "Girls Program Built for Her Game.",
+    description: "The same BTB standard with girls-specific curriculum, draw and free-position work, film accountability, and coaches who understand the women's game.",
     links: [
-      { label: "Register 2026 →", href: "/register-tryouts" },
-      { label: "Parent Portal →", href: "/parent-portal" },
+      { label: "Girls Overview →", href: "/girls" },
+      { label: "Girls Teams →", href: "/girls/teams" },
     ],
-    cta: { label: "Learn About BTB", href: "/interest" },
+    cta: { label: "Girls Tryouts", href: "/register-girls-tryouts" },
     bgHover: "hover:bg-neutral-900",
   },
   {
-    audience: "Coaches",
+    audience: "Futures",
     icon: GraduationCap,
-    eyebrow: "PATH_03 // FOR_STAFF",
-    headline: "Built for Coaches Who Lead.",
-    description: "Practice plan tools, film analysis AI, shared drill library, and a curriculum built for real player development. Tools only BTB coaches have access to.",
+    eyebrow: "PATH_03 // YOUNG_PLAYERS",
+    headline: "Start With the Right Foundation.",
+    description: "K-2 and younger travel-path players get high-energy fundamentals, confidence, and the first habits that make the BTB standard easier to reach.",
     links: [
-      { label: "Coach Tools Preview →", href: "/coach-tools" },
-      { label: "Join Our Staff →", href: "/contact" },
+      { label: "Futures Program →", href: "/futures" },
+      { label: "Camps & Clinics →", href: "/camps" },
     ],
-    cta: { label: "See Coach Tools", href: "/coach-tools" },
+    cta: { label: "Tryouts + Clinics", href: "/tryouts" },
     bgHover: "hover:bg-neutral-900",
   },
 ]
@@ -51,7 +51,7 @@ export function AudiencePaths() {
   const navigate = useNavigate()
 
   return (
-    <section className="bg-black text-white py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5">
+    <section id="program-paths" className="bg-black text-white py-16 md:py-32 px-4 md:px-6 relative overflow-hidden border-t border-white/5">
       {/* Ghost */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-[0.025]">
         <span className="font-display text-[18vw] leading-none text-white select-none">YOUR_PATH</span>
@@ -62,17 +62,17 @@ export function AudiencePaths() {
           <div className="max-w-[600px]">
             <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
-              SELECT_YOUR_PATH // BTB_ECOSYSTEM
+              SELECT_YOUR_PATH // PARENT_START
             </div>
             <h2
               ref={titleRef as React.RefObject<HTMLHeadingElement>}
               className="font-display text-[clamp(2.2rem,8vw,5rem)] uppercase leading-[0.85] text-white"
             >
-              Who Is BTB <br /><span className="text-[var(--btb-red)]">Built For?</span>
+              Choose Your <br /><span className="text-[var(--btb-red)]">Program.</span>
             </h2>
           </div>
           <p className="text-white/65 text-[1rem] leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
-            Whether you're a player chasing a college offer, a parent evaluating clubs, or a coach looking for better tools — BTB was built with you in mind.
+            Start with the right side of the club. Boys and girls programs are separate, with different teams, coaches, and registration paths.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export function AudiencePaths() {
 
               {/* Audience tag */}
               <div className="text-[1.08rem] font-black uppercase tracking-[4px] text-[var(--btb-red)] group-hover:text-white/85 transition-colors mb-3">
-                For {p.audience}
+                {p.audience === "Futures" ? "Futures + Clinics" : `${p.audience} Path`}
               </div>
 
               {/* Headline */}

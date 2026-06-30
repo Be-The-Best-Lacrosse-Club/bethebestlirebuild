@@ -5,7 +5,7 @@ const SPA_ROUTES = new Set([
   "/", "/boys", "/boys/travel", "/boys/coaches", "/boys/teams",
   "/girls", "/girls/travel", "/girls/coaches", "/girls/teams",
   "/futures", "/camps", "/sms-policy", "/terms-and-conditions",
-  "/academy-info", "/recruiting", "/contact", "/interest",
+  "/academy-info", "/recruiting", "/contact", "/interest", "/tryouts",
   "/login", "/parent-hub", "/coach-tools",
 ])
 
@@ -79,9 +79,10 @@ export function Footer() {
 
           <div>
             <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">BTB</h4>
+            <a href="/tryouts" onClick={link("/tryouts")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Tryouts</a>
             <a href="/newsletter" onClick={link("/newsletter")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Newsletter</a>
             <a href="/recruiting" onClick={link("/recruiting")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Recruiting</a>
-            <a href="/coach-tools" onClick={link("/coach-tools")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coach Tools</a>
+            <a href="/coach-tools.html" onClick={link("/coach-tools.html")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coach Hub</a>
             <a href="/interest" onClick={link("/interest")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Interest Form</a>
             <a href="/contact" onClick={link("/contact")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Contact</a>
             <a href="/login" onClick={link("/login")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Login</a>

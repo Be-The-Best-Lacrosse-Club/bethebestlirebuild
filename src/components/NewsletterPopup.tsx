@@ -216,21 +216,21 @@ export function NewsletterPopup() {
                 />
               </div>
               <div>
-                <label className="sr-only">Gender</label>
+                <label className="sr-only">Program</label>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={() => setGender("Boys")}
                     className={`flex-1 h-12 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1.5px] transition-all border ${gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/70 hover:border-white/30"}`}
                   >
-                    Male
+                    Boys
                   </button>
                   <button
                     type="button"
                     onClick={() => setGender("Girls")}
                     className={`flex-1 h-12 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1.5px] transition-all border ${gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/70 hover:border-white/30"}`}
                   >
-                    Female
+                    Girls
                   </button>
                 </div>
               </div>

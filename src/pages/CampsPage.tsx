@@ -1,13 +1,13 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { ArrowRight, Calendar, Clock, Target, Users, Trophy, MapPin } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
-import { SummerCampFlyer } from "@/components/SummerCampFlyer"
 
 type Camp = {
   key: string
   name: string
   tagline: string
   dates: string
+  tabDates: string
   range: string
   time: string
   location: string
@@ -17,6 +17,8 @@ type Camp = {
   icon: typeof Trophy
   registerUrl: string
   price: string
+  flyerSrc: string
+  flyerAlt: string
 }
 
 const CAMPS: Camp[] = [
@@ -25,10 +27,11 @@ const CAMPS: Camp[] = [
     name: "Main Camp",
     tagline: "The Flagship.",
     dates: "June 30 – July 3",
+    tabDates: "Jun 30-Jul 3",
     range: "4 Days · Any Consecutive",
     time: "9 AM – 2 PM Daily",
     location: "Plainedge Park",
-    forWho: "All eligible BTB athletes",
+    forWho: "Boys & Girls K-8th",
     description:
       "Four days of full-field development. Stick skills, team concepts, small-sided games, and the BTB Standard. The summer's signature camp.",
     bullets: [
@@ -40,12 +43,15 @@ const CAMPS: Camp[] = [
     icon: Trophy,
     registerUrl: "/register-camp",
     price: "$300",
+    flyerSrc: "/images/tryouts/BTB_Summer_Camp_2026.jpg",
+    flyerAlt: "BTB Main Camp 2026 flyer for June 30 through July 3 at Plainedge Park",
   },
   {
     key: "positional",
     name: "Positional Camp",
     tagline: "Master Your Spot.",
     dates: "July 28 – July 30",
+    tabDates: "Jul 28-30",
     range: "3 Days · Any Consecutive",
     time: "9 – 11 AM Daily",
     location: "Plainedge Park",
@@ -61,12 +67,15 @@ const CAMPS: Camp[] = [
     icon: Target,
     registerUrl: "/register-positional",
     price: "$125",
+    flyerSrc: "/images/tryouts/BTB_Positional_Camp_2026.jpg",
+    flyerAlt: "BTB Positional Camp 2026 flyer for July 28 through July 30 at Plainedge Park",
   },
   {
     key: "futures",
     name: "Futures Camp",
     tagline: "Build the Foundation.",
     dates: "August 18 – August 20",
+    tabDates: "Aug 18-20",
     range: "3 Days · Any Consecutive",
     time: "9 – 11 AM Daily",
     location: "Plainedge Park",
@@ -82,6 +91,8 @@ const CAMPS: Camp[] = [
     icon: Users,
     registerUrl: "/register-futures",
     price: "$125",
+    flyerSrc: "/images/tryouts/BTB_Futures_Camp_2026.jpg",
+    flyerAlt: "BTB Futures Camp 2026 flyer for August 18 through August 20 at Plainedge Park",
   },
 ]
 
@@ -136,6 +147,10 @@ const POSITION_TRACKS = [
 ]
 
 export function CampsPage() {
+  const [activeCampKey, setActiveCampKey] = useState(CAMPS[0].key)
+  const activeCamp = CAMPS.find((camp) => camp.key === activeCampKey) ?? CAMPS[0]
+  const ActiveCampIcon = activeCamp.icon
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -149,7 +164,7 @@ export function CampsPage() {
       />
 
       {/* Hero */}
-      <section className="relative pt-24 pb-28 px-6 overflow-hidden">
+      <section className="relative px-4 pb-16 pt-24 overflow-hidden md:px-6 md:pb-20">
         <div
           className="absolute inset-0 z-[1]"
           style={{
@@ -163,35 +178,135 @@ export function CampsPage() {
               "radial-gradient(ellipse 100% 80% at 50% 100%, rgba(210,38,48,0.15) 0%, transparent 65%)",
           }}
         />
-        <div className="relative z-10 max-w-[900px] mx-auto pt-16">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
+        <div className="relative z-10 max-w-[1040px] mx-auto pt-10 md:pt-14">
+          <div className="text-[0.8rem] font-black uppercase tracking-[3px] text-[var(--btb-red)] mb-4 md:text-[1.0rem]">
             BTB Summer Camps · 2026
           </div>
-          <h1 className="font-display text-[clamp(3.2rem,8vw,6rem)] uppercase tracking-wide leading-[0.88] mb-8">
+          <h1 className="font-display text-[3.15rem] uppercase tracking-wide leading-[0.9] mb-5 md:text-[5.2rem]">
             Three Camps.<br />One Standard.
           </h1>
-          <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
-            Three intensive summer camps. Pick any consecutive days that fit your schedule. The Main Camp,
-            Positional Camp, and Futures Camp — all run by the BTB pro staff.
+          <p className="text-[1.02rem] text-white/70 max-w-[620px] leading-[1.75] mb-8 md:text-[1.16rem]">
+            Pick the camp that fits your athlete: full-day Main Camp, morning Positional Camp, or Futures
+            Camp for the next generation.
           </p>
-          <div className="flex gap-3 flex-wrap">
-            <a
-              href="#camps"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
+
+          <div className="max-w-[980px]" aria-label="BTB camp selector">
+            <div className="mb-3 text-[0.72rem] font-black uppercase tracking-[2.4px] text-white/40">
+              Choose Your Camp
+            </div>
+            <div role="tablist" aria-label="BTB summer camp options" className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              {CAMPS.map((camp) => {
+                const isActive = activeCamp.key === camp.key
+
+                return (
+                  <button
+                    key={camp.key}
+                    type="button"
+                    role="tab"
+                    id={`camp-tab-${camp.key}`}
+                    aria-selected={isActive}
+                    aria-controls={`camp-panel-${camp.key}`}
+                    onClick={() => setActiveCampKey(camp.key)}
+                    className={`min-h-[86px] border px-4 py-3 text-left transition-all duration-200 ${
+                      isActive
+                        ? "border-[var(--btb-red)] bg-[var(--btb-red)] text-white shadow-[0_18px_42px_rgba(210,38,48,0.2)]"
+                        : "border-white/10 bg-white/[0.035] text-white/80 hover:border-white/25 hover:bg-white/[0.06] hover:text-white"
+                    }`}
+                  >
+                    <span className="block font-display text-[1.2rem] uppercase tracking-wide leading-none">
+                      {camp.name}
+                    </span>
+                    <span
+                      className={`mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[0.72rem] font-black uppercase tracking-[1.4px] ${
+                        isActive ? "text-white" : "text-white/60"
+                      }`}
+                    >
+                      <span>{camp.tabDates}</span>
+                      <span>{camp.price}</span>
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+
+            <div
+              id={`camp-panel-${activeCamp.key}`}
+              role="tabpanel"
+              aria-labelledby={`camp-tab-${activeCamp.key}`}
+              className="mt-3 border border-white/10 bg-neutral-950/90 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.28)] md:p-6"
             >
-              See the Camps <ArrowRight size={13} />
-            </a>
-            <a
-              href="#included"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
-            >
-              What's Included
-            </a>
+              <div className="grid gap-5 md:grid-cols-[1fr_180px] md:items-start">
+                <div>
+                  <div className="mb-3 flex items-center gap-3">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--btb-red)]/15 text-[var(--btb-red)]">
+                      <ActiveCampIcon size={18} strokeWidth={1.7} />
+                    </span>
+                    <div>
+                      <div className="font-display text-[1.35rem] uppercase tracking-wide leading-none text-white">
+                        {activeCamp.name}
+                      </div>
+                      <div className="mt-1 text-[0.78rem] font-black uppercase tracking-[1.8px] text-[var(--btb-red)]">
+                        {activeCamp.tagline}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="max-w-[660px] text-[0.98rem] leading-relaxed text-white/62">
+                    {activeCamp.description}
+                  </p>
+
+                  <div className="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-4">
+                    {[
+                      { label: "Dates", value: activeCamp.dates, icon: Calendar },
+                      { label: "Time", value: activeCamp.time, icon: Clock },
+                      { label: "Price", value: activeCamp.price, icon: Trophy },
+                      { label: "Best For", value: activeCamp.forWho, icon: Users },
+                    ].map((item) => (
+                      <div key={item.label} className="border border-white/10 bg-white/[0.03] p-3">
+                        <div className="mb-2 flex items-center gap-2 text-[0.66rem] font-black uppercase tracking-[1.5px] text-white/35">
+                          <item.icon size={12} className="text-[var(--btb-red)]" />
+                          {item.label}
+                        </div>
+                        <div className="text-[0.82rem] font-bold leading-snug text-white/88">{item.value}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                    <a
+                      href={activeCamp.registerUrl}
+                      className="inline-flex items-center justify-center gap-2 bg-[var(--btb-red)] px-6 py-3 text-[0.9rem] font-black uppercase tracking-[1.8px] text-white transition-all duration-200 hover:bg-[var(--btb-red-dark)]"
+                    >
+                      Register · {activeCamp.price} <ArrowRight size={13} />
+                    </a>
+                    <a
+                      href="#camps"
+                      className="inline-flex items-center justify-center border border-white/15 px-6 py-3 text-[0.9rem] font-black uppercase tracking-[1.8px] text-white/75 transition-all duration-200 hover:border-white/35 hover:text-white"
+                    >
+                      Compare All Camps
+                    </a>
+                  </div>
+                </div>
+
+                <a
+                  href={activeCamp.registerUrl}
+                  className="hidden overflow-hidden border border-white/10 bg-black transition-all duration-200 hover:border-[var(--btb-red)]/60 md:block"
+                  aria-label={`Register for ${activeCamp.name}`}
+                >
+                  <img
+                    src={activeCamp.flyerSrc}
+                    alt={activeCamp.flyerAlt}
+                    width={798}
+                    height={1200}
+                    className="aspect-[3/4] w-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
-      <SummerCampFlyer compact />
 
       {/* Stats strip */}
       <section className="py-14 px-6 bg-neutral-950 border-y border-white/[0.07]">

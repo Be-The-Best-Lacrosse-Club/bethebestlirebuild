@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Futures Clinic Check-In</title>
+<meta name="description" content="BTB Futures Clinic mobile check-in and walk-up registration for the June 28 clinic at Seaford High School.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --red: #D22630; --dark-red: #a01e26; --black: #000; --white: #fff; --line: rgba(255,255,255,.14); }
+  * { box-sizing: border-box; }
+  html { background: #000; }
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,.74), #000 68%),
+      url("/images/futures-clinic/stimson/BTB_Stimson_Futures_IMG_1379.jpg") center top / cover no-repeat fixed;
+    background-color: #000;
+    color: #fff;
+    font-family: "Montserrat", Arial, sans-serif;
+  }
+  .wrap { width: min(720px, 100%); margin: 0 auto; padding: 22px 16px 48px; }
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0 18px;
+    border-bottom: 4px solid var(--red);
+  }
+  .brand-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .brand img { width: 48px; height: 48px; object-fit: contain; flex: 0 0 auto; }
+  .brand-title {
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 2px;
+    font-size: 1.45rem;
+    line-height: .9;
+    text-transform: uppercase;
+  }
+  .event {
+    margin-top: 24px;
+    color: var(--red);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: .78rem;
+  }
+  h1 {
+    margin: 10px 0 10px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(3.8rem, 17vw, 6.8rem);
+    line-height: .82;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .lede {
+    margin: 0;
+    color: rgba(255,255,255,.78);
+    font-size: 1rem;
+    line-height: 1.55;
+    max-width: 560px;
+  }
+  .tabs {
+    margin-top: 26px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(0,0,0,.82);
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,.38);
+  }
+  .tab-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--line);
+  }
+  .tab-btn {
+    min-height: 56px;
+    border: 0;
+    border-right: 1px solid var(--line);
+    background: #111;
+    color: rgba(255,255,255,.66);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    cursor: pointer;
+  }
+  .tab-btn:last-child { border-right: 0; }
+  .tab-btn.active { background: var(--red); color: #fff; }
+  .panel { display: none; padding: 22px; }
+  .panel.active { display: block; }
+  .label {
+    color: var(--red);
+    font-size: .72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  h2 {
+    margin: 0 0 12px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2.35rem;
+    line-height: .9;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .help { color: rgba(255,255,255,.66); margin: 0 0 18px; line-height: 1.5; }
+  label {
+    display: block;
+    margin-bottom: 7px;
+    color: rgba(255,255,255,.68);
+    font-size: .78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  input {
+    width: 100%;
+    min-height: 56px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.22);
+    background: #161616;
+    color: #fff;
+    font-size: 1.05rem;
+    padding: 0 14px;
+    outline: none;
+  }
+  input:focus { border-color: var(--red); }
+  .submit, .link-btn {
+    width: 100%;
+    min-height: 58px;
+    margin-top: 16px;
+    border: 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    background: var(--red);
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    cursor: pointer;
+  }
+  .submit:hover, .link-btn:hover { background: var(--dark-red); }
+  .submit:disabled { background: #444; cursor: wait; }
+  .secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.22);
+  }
+  .status {
+    display: none;
+    margin-top: 16px;
+    padding: 15px;
+    border-radius: 8px;
+    line-height: 1.45;
+    font-weight: 700;
+  }
+  .status.show { display: block; }
+  .status.ok { background: rgba(34, 160, 74, .14); border: 1px solid rgba(82, 217, 126, .42); color: #baffcc; }
+  .status.error { background: rgba(210, 38, 48, .14); border: 1px solid rgba(210, 38, 48, .52); color: #ffb6bb; }
+  .note {
+    margin-top: 14px;
+    color: rgba(255,255,255,.46);
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+  .overview {
+    margin-top: 26px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(0,0,0,.84);
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,.32);
+  }
+  .overview-head {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .overview-kicker {
+    color: var(--red);
+    font-size: .72rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .overview-head h2 {
+    margin-top: 8px;
+    margin-bottom: 6px;
+  }
+  .overview-head p {
+    margin: 0;
+    color: rgba(255,255,255,.68);
+    line-height: 1.5;
+  }
+  .carousel-shell {
+    position: relative;
+    touch-action: pan-y;
+  }
+  .slide {
+    display: none;
+    min-height: 520px;
+    padding: 22px;
+    background:
+      linear-gradient(135deg, rgba(210,38,48,.22), rgba(0,0,0,.18) 38%, rgba(0,0,0,.72)),
+      rgba(8,8,8,.92);
+  }
+  .slide.active { display: block; }
+  .slide-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .slide-count,
+  .slide-tag {
+    color: rgba(255,255,255,.62);
+    font-size: .7rem;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+  }
+  .slide-tag { color: var(--red); }
+  .slide h3 {
+    margin: 0 0 14px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(2.8rem, 12vw, 4.6rem);
+    line-height: .86;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .slide h3 span { color: var(--red); }
+  .slide-copy {
+    margin: 0;
+    color: rgba(255,255,255,.76);
+    font-size: .98rem;
+    line-height: 1.55;
+  }
+  .mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .mini {
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.42);
+    padding: 14px;
+  }
+  .mini b {
+    display: block;
+    color: #fff;
+    font-size: .76rem;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+  .mini span {
+    display: block;
+    margin-top: 7px;
+    color: rgba(255,255,255,.62);
+    font-size: .86rem;
+    line-height: 1.4;
+  }
+  .path-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .path-step {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    align-items: start;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.38);
+    padding: 12px;
+  }
+  .path-step strong {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    background: var(--red);
+    color: #fff;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+  .path-step b {
+    display: block;
+    font-size: .86rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .path-step span {
+    display: block;
+    margin-top: 4px;
+    color: rgba(255,255,255,.62);
+    font-size: .84rem;
+    line-height: 1.35;
+  }
+  .coach-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .coach {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(0,0,0,.38);
+    padding: 9px;
+  }
+  .coach-initials {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    background: #fff;
+    color: var(--red);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  .coach b {
+    display: block;
+    font-size: .82rem;
+    line-height: 1.15;
+  }
+  .coach span {
+    display: block;
+    margin-top: 2px;
+    color: rgba(255,255,255,.58);
+    font-size: .68rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .slide-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .slide-link {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--red);
+    color: #fff;
+    text-decoration: none;
+    font-size: .84rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .carousel-controls {
+    display: grid;
+    grid-template-columns: 84px 1fr 84px;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border-top: 1px solid var(--line);
+    background: #080808;
+  }
+  .carousel-control {
+    min-height: 42px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: #111;
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .carousel-control:hover { border-color: var(--red); }
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.28);
+    cursor: pointer;
+  }
+  .dot.active { background: var(--red); }
+  .footer {
+    padding: 24px 0 0;
+    color: rgba(255,255,255,.44);
+    text-align: center;
+    font-size: .78rem;
+    font-weight: 700;
+  }
+  @media (max-width: 430px) {
+    .wrap { padding-inline: 12px; }
+    .panel { padding: 18px; }
+    .brand-title { font-size: 1.18rem; }
+    .overview-head { padding: 18px; }
+    .slide { min-height: 560px; padding: 18px; }
+    .mini-grid,
+    .coach-grid { grid-template-columns: 1fr; }
+    .carousel-controls { grid-template-columns: 74px 1fr 74px; gap: 8px; }
+    .carousel-control { font-size: .72rem; }
+  }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="brand">
+      <div class="brand-left">
+        <img src="/images/THE NEW SHIELD_clean.png" alt="BTB shield">
+        <div class="brand-title">Be The <span style="color:var(--red)">Best</span><br>Lacrosse Club</div>
+      </div>
+    </header>
+
+    <div class="event">June 28 · Seaford HS · 9-11 AM</div>
+    <h1>Futures Clinic Check-In</h1>
+    <p class="lede">Use check-in if your player is already registered. Use register if your family is walking up and still needs to complete the waiver.</p>
+
+    <section class="tabs" aria-label="Clinic check-in or registration">
+      <div class="tab-nav">
+        <button class="tab-btn active" type="button" data-tab="checkin">Check In</button>
+        <button class="tab-btn" type="button" data-tab="register">Register</button>
+      </div>
+
+      <div class="panel active" id="panel-checkin">
+        <div class="label">Already registered</div>
+        <h2>Enter Child's Name.</h2>
+        <p class="help">We will match the name against the clinic registration list and mark the player checked in on the Google Sheet.</p>
+        <form id="checkinForm">
+          <label for="playerName">Child's First + Last Name</label>
+          <input id="playerName" name="player_name" autocomplete="name" placeholder="Example: Riley Smith" required>
+          <button class="submit" id="checkinBtn" type="submit">Check In Player</button>
+        </form>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+        <div class="note">If the name is not found, complete the registration form first so the waiver is on file, then check in again.</div>
+      </div>
+
+      <div class="panel" id="panel-register">
+        <div class="label">Walk-up family</div>
+        <h2>Register First.</h2>
+        <p class="help">New families still need the full clinic registration and waiver before the player steps on the field.</p>
+        <a class="link-btn" href="/futures-clinic?walkup=1">Open Registration Form</a>
+        <button class="link-btn secondary" type="button" data-tab-link="checkin">I Registered - Go To Check-In</button>
+        <div class="note">After submitting the registration form, return here and check in the player by name.</div>
+      </div>
+    </section>
+
+    <section class="overview" aria-label="BTB Futures parent overview carousel">
+      <div class="overview-head">
+        <div class="overview-kicker">Parent overview</div>
+        <h2>About BTB Futures.</h2>
+        <p>Swipe through the clinic presentation: culture, development path, coaches, practices, winter training, tournaments, and the next step.</p>
+      </div>
+
+      <div class="carousel-shell" data-overview-carousel>
+        <article class="slide active" data-overview-slide>
+          <div class="slide-top">
+            <div class="slide-count">01 / 06</div>
+            <div class="slide-tag">BTB Futures</div>
+          </div>
+          <h3>BTB Futures <span>Parent Overview.</span></h3>
+          <p class="slide-copy">A quick look at the culture, coaches, practices, winter plan, tournaments, recruiting path, and walk-up registration process for new BTB families.</p>
+          <div class="mini-grid">
+            <div class="mini"><b>Clinic</b><span>Sunday, June 28 at Seaford High School, 9:00-11:00 AM.</span></div>
+            <div class="mini"><b>Players</b><span>Boys and girls in Kindergarten through 2nd grade.</span></div>
+            <div class="mini"><b>Check-in</b><span>Registered families check in by child name.</span></div>
+            <div class="mini"><b>Walk-ups</b><span>Register first, complete the waiver, then check in.</span></div>
+          </div>
+        </article>
+
+        <article class="slide" data-overview-slide>
+          <div class="slide-top">
+            <div class="slide-count">02 / 06</div>
+            <div class="slide-tag">Culture</div>
+          </div>
+          <h3>Our Culture <span>Built Us.</span></h3>
+          <p class="slide-copy">BTB is family-first, but it is not casual. We expect effort, coachability, communication, and pride in doing things the right way.</p>
+          <div class="mini-grid">
+            <div class="mini"><b>Players</b><span>Effort before talent.</span></div>
+            <div class="mini"><b>Parents</b><span>Communication and accountability.</span></div>
+            <div class="mini"><b>Coaches</b><span>Energy, standards, and development.</span></div>
+            <div class="mini"><b>Program</b><span>Our Culture Built Us. Our Hard Work Made Us.</span></div>
+          </div>
+        </article>
+
+        <article class="slide" data-overview-slide>
+          <div class="slide-top">
+            <div class="slide-count">03 / 06</div>
+            <div class="slide-tag">The Futures Path</div>
+          </div>
+          <h3>From First Rep To <span>Recruiting Years.</span></h3>
+          <p class="slide-copy">The vision is to build players from their first catch and throw into the years when college coaches evaluate habits, decisions, toughness, and film.</p>
+          <div class="path-list">
+            <div class="path-step"><strong>01</strong><div><b>K-2 Futures</b><span>Fun, fundamentals, confidence, movement.</span></div></div>
+            <div class="path-step"><strong>02</strong><div><b>Development Teams</b><span>More consistent practices and team concepts.</span></div></div>
+            <div class="path-step"><strong>03</strong><div><b>Club Travel</b><span>Tournament weekends, team standards, film habits.</span></div></div>
+            <div class="path-step"><strong>04</strong><div><b>Recruiting Years</b><span>Placement, preparation, communication, exposure.</span></div></div>
+          </div>
+        </article>
+
+        <article class="slide" data-overview-slide>
+          <div class="slide-top">
+            <div class="slide-count">04 / 06</div>
+            <div class="slide-tag">Coaches</div>
+          </div>
+          <h3>The People Running <span>The Standard.</span></h3>
+          <p class="slide-copy">BTB is led by directors, teachers, varsity coaches, college alumni, specialists, and staff who run the club every day.</p>
+          <div class="coach-grid">
+            <div class="coach"><div class="coach-initials">DA</div><div><b>Dan Achatz</b><span>Founder · Girls Director · Plainedge Varsity</span></div></div>
+            <div class="coach"><div class="coach-initials">PF</div><div><b>Pete Ferrizz</b><span>Operations · Logistics · Family Support</span></div></div>
+            <div class="coach"><div class="coach-initials">SR</div><div><b>Sean Reynolds</b><span>Boys Director</span></div></div>
+            <div class="coach"><div class="coach-initials">MG</div><div><b>Mike Guercio</b><span>Boys Futures</span></div></div>
+            <div class="coach"><div class="coach-initials">MD</div><div><b>Marisa D'Angelo</b><span>Girls Futures</span></div></div>
+            <div class="coach"><div class="coach-initials">EM</div><div><b>Emma Mclam</b><span>Girls Draw + Development</span></div></div>
+            <div class="coach"><div class="coach-initials">BM</div><div><b>Brad Mclam</b><span>Development + Recruiting</span></div></div>
+            <div class="coach"><div class="coach-initials">40+</div><div><b>BTB Staff</b><span>Coaches, mentors, specialists</span></div></div>
+          </div>
+        </article>
+
+        <article class="slide" data-overview-slide>
+          <div class="slide-top">
+            <div class="slide-count">05 / 06</div>
+            <div class="slide-tag">Practices + Winter</div>
+          </div>
+          <h3>Year-Round <span>Development.</span></h3>
+          <p class="slide-copy">Final team calendars go out after roster placement, but the model stays consistent: written practices, skill blocks, small-sided play, and winter work before spring and summer.</p>
+          <div class="mini-grid">
+            <div class="mini"><b>Team Practices</b><span>Timed plans. Skill blocks. Clear coaching points.</span></div>
+            <div class="mini"><b>Winter Window</b><span>December through February indoor skills, position work, and small-sided play.</span></div>
+            <div class="mini"><b>Player Habits</b><span>Wall ball, ground balls, footwork, and film habits.</span></div>
+            <div class="mini"><b>Parent Clarity</b><span>Team-specific dates after rosters and venues are locked.</span></div>
+          </div>
+        </article>
+
+        <article class="slide" data-overview-slide>
+          <div class="slide-top">
+            <div class="slide-count">06 / 06</div>
+            <div class="slide-tag">Tournaments + Walk-Up</div>
+          </div>
+          <h3>Focused Competition. <span>Clear Next Step.</span></h3>
+          <p class="slide-copy">Tournament schedules depend on age and level. The standard is focused competition, not random weekends. As players get older, BTB enters events that prepare them for recruiting-year pace, pressure, film, and evaluation.</p>
+          <div class="mini-grid">
+            <div class="mini"><b>Top Events</b><span>We enter strong tournaments to prepare players for the environment ahead.</span></div>
+            <div class="mini"><b>Walk-up Families</b><span>Open the registration tab, complete the waiver, then check in.</span></div>
+          </div>
+          <div class="slide-actions">
+            <a class="slide-link" href="/futures-clinic?walkup=1">Register A Walk-Up Player</a>
+          </div>
+        </article>
+
+        <div class="carousel-controls" aria-label="Parent overview carousel controls">
+          <button class="carousel-control" type="button" data-overview-prev>Prev</button>
+          <div class="dots" data-overview-dots aria-label="Slide navigation"></div>
+          <button class="carousel-control" type="button" data-overview-next>Next</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">Our Culture Built Us. Our Hard Work Made Us.</footer>
+  </main>
+
+<script>
+  const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
+  const tabLinks = Array.from(document.querySelectorAll("[data-tab-link]"));
+  const panels = {
+    checkin: document.getElementById("panel-checkin"),
+    register: document.getElementById("panel-register")
+  };
+
+  function setTab(tab) {
+    tabButtons.forEach((button) => button.classList.toggle("active", button.dataset.tab === tab));
+    Object.entries(panels).forEach(([key, panel]) => panel.classList.toggle("active", key === tab));
+    if (history.replaceState) history.replaceState(null, "", `#${tab}`);
+  }
+
+  tabButtons.forEach((button) => button.addEventListener("click", () => setTab(button.dataset.tab)));
+  tabLinks.forEach((button) => button.addEventListener("click", () => setTab(button.dataset.tabLink)));
+
+  const initial = (location.hash || "").replace("#", "");
+  if (initial === "register" || initial === "checkin") setTab(initial);
+
+  const overviewSlides = Array.from(document.querySelectorAll("[data-overview-slide]"));
+  const overviewDots = document.querySelector("[data-overview-dots]");
+  let overviewIndex = 0;
+
+  overviewSlides.forEach((_, index) => {
+    const dot = document.createElement("button");
+    dot.className = `dot${index === 0 ? " active" : ""}`;
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Show overview slide ${index + 1}`);
+    dot.addEventListener("click", () => setOverviewSlide(index));
+    overviewDots.appendChild(dot);
+  });
+
+  const dots = Array.from(overviewDots.querySelectorAll(".dot"));
+
+  function setOverviewSlide(index) {
+    overviewIndex = (index + overviewSlides.length) % overviewSlides.length;
+    overviewSlides.forEach((slide, slideIndex) => {
+      slide.classList.toggle("active", slideIndex === overviewIndex);
+    });
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("active", dotIndex === overviewIndex);
+    });
+  }
+
+  document.querySelector("[data-overview-prev]").addEventListener("click", () => setOverviewSlide(overviewIndex - 1));
+  document.querySelector("[data-overview-next]").addEventListener("click", () => setOverviewSlide(overviewIndex + 1));
+
+  const carouselShell = document.querySelector("[data-overview-carousel]");
+  let touchStartX = 0;
+
+  carouselShell.addEventListener("touchstart", (event) => {
+    touchStartX = event.changedTouches[0].clientX;
+  }, { passive: true });
+
+  carouselShell.addEventListener("touchend", (event) => {
+    const touchEndX = event.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX;
+    if (Math.abs(deltaX) < 45) return;
+    setOverviewSlide(overviewIndex + (deltaX < 0 ? 1 : -1));
+  }, { passive: true });
+
+  const form = document.getElementById("checkinForm");
+  const button = document.getElementById("checkinBtn");
+  const statusBox = document.getElementById("status");
+
+  function showStatus(kind, message) {
+    statusBox.className = `status show ${kind}`;
+    statusBox.textContent = message;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const playerName = document.getElementById("playerName").value.trim();
+    if (!playerName) return;
+
+    button.disabled = true;
+    button.textContent = "Checking In...";
+    statusBox.className = "status";
+
+    try {
+      const resp = await fetch("/.netlify/functions/futures-clinic-checkin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_name: playerName })
+      });
+      const data = await resp.json();
+      if (!resp.ok || !data.ok) throw new Error(data.message || data.error || "Check-in failed");
+
+      const message =
+        data.status === "matched"
+          ? "Checked in. Registration matched and the Google Sheet was updated."
+          : data.status === "already_checked_in"
+            ? "Already checked in. The Google Sheet already had this player marked."
+            : "Checked in.";
+      showStatus("ok", message);
+      form.reset();
+    } catch (err) {
+      showStatus("error", err.message || "Check-in failed. Tell staff and try again.");
+    } finally {
+      button.disabled = false;
+      button.textContent = "Check In Player";
+    }
+  });
+</script>
+</body>
+</html>

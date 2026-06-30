@@ -11,6 +11,7 @@ import { useEffect } from "react"
 import { Hero } from "@/components/Hero"
 import { SummerCampFlyer } from "@/components/SummerCampFlyer"
 import { TryoutFlyers } from "@/components/TryoutFlyers"
+import { ChampionsShowcase } from "@/components/ChampionsShowcase"
 import { AudiencePaths } from "@/components/AudiencePaths"
 import { TheStandard } from "@/components/TheStandard"
 import { WhatYouGet } from "@/components/WhatYouGet"
@@ -67,6 +68,7 @@ function LandingPage() {
       <Hero />
       <SummerCampFlyer />
       <TryoutFlyers />
+      <ChampionsShowcase />
       <AudiencePaths />
       <TheStandard />
       <FeaturedCoaches />
