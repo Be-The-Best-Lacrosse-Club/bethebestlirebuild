@@ -353,6 +353,21 @@
   status = 200
 
 [[redirects]]
+  from = "/camp-checkin"
+  to = "/camp-checkin.html"
+  status = 200
+
+[[redirects]]
+  from = "/camp-qr-sign"
+  to = "/camp-checkin-qr-sign.html"
+  status = 200
+
+[[redirects]]
+  from = "/camp-checkin-qr-sign"
+  to = "/camp-checkin-qr-sign.html"
+  status = 200
+
+[[redirects]]
   from = "/futures-clinic"
   to = "/futures-clinic.html"
   status = 200
