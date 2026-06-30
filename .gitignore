@@ -14,6 +14,7 @@ _archive/
 Claude*.txt
 *conversation*.txt
 *transcript*.txt
+netlify_check.py
 
 # Large media files — served via Netlify CDN, not git
 public/assets/academy/*.mp4

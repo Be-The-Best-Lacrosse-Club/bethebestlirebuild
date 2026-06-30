@@ -12,7 +12,7 @@ type FuturesEvent = {
 }
 
 type FuturesEventExtended = FuturesEvent & {
-  status: "completed" | "open" | "coming_soon"
+  status: "completed" | "coming_soon"
   badge?: string
 }
 
@@ -24,7 +24,7 @@ const FUTURES_EVENTS: FuturesEventExtended[] = [
     date: "June 18, 2026",
     time: "6:00 - 8:00 PM",
     status: "completed",
-    badge: "✓ Completed — Great Turnout!",
+    badge: "Completed - Great Turnout",
   },
   {
     location: "Seaford",
@@ -32,8 +32,8 @@ const FUTURES_EVENTS: FuturesEventExtended[] = [
     address: "Seaford, NY",
     date: "June 28, 2026",
     time: "9:00 - 11:00 AM",
-    status: "open",
-    badge: "⚡ 75+ Registered — Don't Miss Out",
+    status: "completed",
+    badge: "Completed - Strong Turnout",
   },
   {
     location: "Point Lookout",
@@ -42,7 +42,7 @@ const FUTURES_EVENTS: FuturesEventExtended[] = [
     date: "Coming Soon",
     time: "Stay Tuned",
     status: "coming_soon",
-    badge: "🔜 Dropping Soon",
+    badge: "Next Date Coming Soon",
   },
 ]
 
@@ -75,8 +75,8 @@ export function FuturesPage() {
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
-        title="Futures Free Clinic Series | BTB Lacrosse Club"
-        description="Free BTB Boys and Girls Futures June clinic series for kindergarten through second grade players at Stimson Middle School in Huntington and Seaford High School."
+        title="BTB Futures | K-2 Lacrosse Development"
+        description="BTB Futures introduces kindergarten through second grade boys and girls to the BTB lacrosse development path."
         path="/futures"
       />
 
@@ -97,27 +97,27 @@ export function FuturesPage() {
         />
         <div className="relative z-10 max-w-[900px] mx-auto pt-16">
           <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
-            BTB Futures · Free Clinic Series
+            BTB Futures · K-2 Development Path
           </div>
           <h1 className="font-display text-[clamp(3.2rem,8vw,6rem)] uppercase tracking-wide leading-[0.88] mb-8">
             The Future<br />Starts Here.
           </h1>
           <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
-            Stimson was a massive success — now Seaford is up with over 75 kids already registered.
-            Point Lookout clinic dropping soon. Free for boys and girls in kindergarten through second grade.
+            Stimson and Seaford were both strong Futures events. The next clinic date will be announced soon.
+            For now, families can review the tryout path, camps, and club updates.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a
-              href="/futures-clinic"
+              href="/tryouts"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
             >
-              Register — It's Free <ArrowRight size={13} />
+              View Tryout Info <ArrowRight size={13} />
             </a>
             <a
-              href="#locations"
+              href="/camps"
               className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
             >
-              See Locations <ArrowRight size={13} />
+              Camps & Clinics <ArrowRight size={13} />
             </a>
             <a
               href="#itinerary"
@@ -129,14 +129,14 @@ export function FuturesPage() {
         </div>
       </section>
 
-      <TryoutFlyers eyebrow="Futures + Tryouts" ctaHref="/futures-clinic" ctaLabel="Register Free Clinic" />
+      <TryoutFlyers eyebrow="Futures + Tryouts" ctaHref="/tryouts" ctaLabel="View 2026 Tryouts" />
 
       {/* Stats strip */}
       <section className="py-14 px-6 bg-neutral-950 border-y border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { num: "75+", label: "Seaford Registered" },
+              { num: "2", label: "Clinics Completed" },
               { num: "2 hrs", label: "Per Session" },
               { num: "K-2", label: "Grade Range" },
               { num: "Free", label: "To Attend" },
@@ -156,13 +156,13 @@ export function FuturesPage() {
       <section id="locations" className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
-            Pick Your Spot
+            Recent Clinics
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Three Clinics.<br />Same Standard.
+            Futures Energy.<br />Same Standard.
           </h2>
           <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
-            Stimson done. Seaford is next — 75+ already locked in. Point Lookout coming soon.
+            Stimson and Seaford are complete. The next Futures date will be announced through the BTB list and social channels.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -172,18 +172,14 @@ export function FuturesPage() {
                 className={`group rounded-2xl border p-7 transition-all duration-300 ${
                   e.status === "completed"
                     ? "border-white/[0.05] bg-white/[0.01] opacity-60"
-                    : e.status === "coming_soon"
-                    ? "border-dashed border-white/[0.12] bg-white/[0.01]"
-                    : "border-[var(--btb-red)]/40 bg-[var(--btb-red)]/5 hover:bg-[var(--btb-red)]/8"
+                    : "border-dashed border-white/[0.12] bg-white/[0.01]"
                 }`}
               >
                 {e.badge && (
                   <div className={`inline-block text-[0.72rem] font-bold uppercase tracking-[1.5px] px-3 py-1 rounded-full mb-4 ${
                     e.status === "completed"
                       ? "bg-white/[0.08] text-white/40"
-                      : e.status === "coming_soon"
-                      ? "bg-white/[0.06] text-white/35"
-                      : "bg-[var(--btb-red)]/20 text-[var(--btb-red)]"
+                      : "bg-white/[0.06] text-white/35"
                   }`}>
                     {e.badge}
                   </div>
@@ -206,14 +202,6 @@ export function FuturesPage() {
                     {e.time}
                   </div>
                 </div>
-                {e.status === "open" && (
-                  <a
-                    href="/futures-clinic"
-                    className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.88rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200"
-                  >
-                    Register Free <ArrowRight size={12} />
-                  </a>
-                )}
               </div>
             ))}
           </div>
@@ -266,22 +254,21 @@ export function FuturesPage() {
             <div className="absolute inset-0 bg-[var(--btb-red)]/[0.04]" />
             <div className="relative">
               <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
-                Save Your Spot
+                Stay In The Loop
               </div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] uppercase tracking-wide leading-[0.92] mb-6">
-                Bring Your Player.<br />
-                <span className="text-[var(--btb-red)]">See What BTB Is.</span>
+                Next Clinic Date.<br />
+                <span className="text-[var(--btb-red)]">Sent First.</span>
               </h2>
               <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
-                Free to attend. Spots are limited. Confirm your player's clinic and we'll send any field, gear,
-                and weather updates before the session.
+                Join the BTB list for Futures clinic announcements, tryout updates, and the next chance to get your young player on the field.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="/futures-clinic"
+                  href="/join"
                   className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200"
                 >
-                  Register — It's Free <ArrowRight size={13} />
+                  Join The List <ArrowRight size={13} />
                 </a>
                 <a
                   href="/tryouts"

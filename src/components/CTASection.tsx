@@ -48,7 +48,7 @@ export function CTASection() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => navigate("/register-tryouts")}
+                onClick={() => navigate("/tryouts")}
                 className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 btn-glow transition-all duration-200"
               >
                 Request Evaluation <ArrowRight size={13} />

@@ -4,9 +4,7 @@
  * Fetches real-time roster and program data for the public site.
  */
 
-const SITE_ID = '55150';
-const API_KEY = '5bffdbe1c7887495552f285682df12';
-const BASE_URL = 'https://public.leagueapps.io';
+const ROSTER_ENDPOINT = '/.netlify/functions/leagueapps-roster';
 
 export interface LARegistration {
   id: number;
@@ -35,7 +33,7 @@ type RawRegistration = {
  */
 export async function fetchRoster(programId: number): Promise<LARegistration[]> {
   try {
-    const res = await fetch(`${BASE_URL}/v1/sites/${SITE_ID}/programs/${programId}/registrations?la-api-key=${API_KEY}`);
+    const res = await fetch(`${ROSTER_ENDPOINT}?programId=${encodeURIComponent(String(programId))}`);
     if (!res.ok) throw new Error(`LeagueApps Error: ${res.status}`);
 
     const data = await res.json();

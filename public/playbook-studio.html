@@ -3034,43 +3034,61 @@ const LIB_KEY = 'btb-playbook-library';
    SHARED STAFF LIBRARY (Airtable)
 ─────────────────────────────────────────────────────────────── */
 
-const AIRTABLE_BASE_ID = 'appvLo6AOYhFmBsQ9';
 const AIRTABLE_TABLE = 'Playbook Plays';
+const AIRTABLE_PROXY = null;
 
-// The Airtable PAT is written to localStorage by the BTB-OS React app at
-// startup (see App.tsx useEffect). Never embedded in source to keep it out
-// of git / public static files.
-function getAirtablePat() {
-  return localStorage.getItem('btb_airtable_pat') || '';
-}
-
-function airtableUrl(path = '') {
-  return `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}${path}`;
+function getBtbAuthHeaders() {
+  try {
+    const session = JSON.parse(localStorage.getItem('btb_os_session') || '{}');
+    return session.token ? { Authorization: `Bearer ${session.token}` } : {};
+  } catch {
+    return {};
+  }
 }
 
 async function airtableRequest(method, pathOrBody, body) {
-  const pat = getAirtablePat();
-  if (!pat) {
-    throw new Error('Airtable key not loaded yet — open BTB-OS once, then retry.');
-  }
+  if (!AIRTABLE_PROXY) throw new Error('Shared library saves are available in BTB-OS.');
+  const authHeaders = getBtbAuthHeaders();
+  if (!authHeaders.Authorization) throw new Error('Sign into BTB-OS, then retry.');
+
   const isPath = typeof pathOrBody === 'string';
   const path = isPath ? pathOrBody : '';
   const payload = isPath ? body : pathOrBody;
-  const res = await fetch(airtableUrl(path), {
-    method,
+  let url = AIRTABLE_PROXY;
+  let requestBody;
+
+  if (method === 'GET') {
+    url = `${AIRTABLE_PROXY}?module=${encodeURIComponent(AIRTABLE_TABLE)}`;
+  } else if (method === 'POST') {
+    requestBody = { action: 'create', module: AIRTABLE_TABLE, fields: payload.records?.[0]?.fields || {} };
+  } else if (method === 'PATCH') {
+    requestBody = {
+      action: 'update',
+      module: AIRTABLE_TABLE,
+      recordId: payload.records?.[0]?.id,
+      fields: payload.records?.[0]?.fields || {},
+    };
+  } else if (method === 'DELETE') {
+    requestBody = { action: 'delete', module: AIRTABLE_TABLE, recordId: path.replace(/^\//, '') };
+  }
+
+  const res = await fetch(url, {
+    method: method === 'GET' ? 'GET' : 'POST',
     headers: {
-      Authorization: `Bearer ${pat}`,
       'Content-Type': 'application/json',
+      ...authHeaders,
     },
-    body: payload ? JSON.stringify(payload) : undefined,
+    body: requestBody ? JSON.stringify(requestBody) : undefined,
   });
   if (!res.ok) {
     const text = await res.text();
-    const err = new Error(`Airtable ${method} failed (${res.status}): ${text}`);
+    const err = new Error(`Shared library ${method} failed (${res.status}): ${text}`);
     err.status = res.status;
     throw err;
   }
-  return res.json();
+  const data = await res.json();
+  if (method === 'GET') return data;
+  return data.records ? data : { records: [data] };
 }
 
 async function fetchSharedPlays() {
@@ -3168,8 +3186,7 @@ async function openSharedLibrary() {
     body.innerHTML = `<div class="empty-state">
       <h3>Can't reach shared library</h3>
       <p style="margin-top:8px;font-size:0.8rem;line-height:1.6;">
-        Create an Airtable table called <strong>${AIRTABLE_TABLE}</strong> in base
-        <code>${AIRTABLE_BASE_ID}</code> with fields:<br>
+        Create an Airtable table called <strong>${AIRTABLE_TABLE}</strong> in the Ops base with fields:<br>
         Name (text), Category, Brand, Gender, Author (text), Data (long text), UpdatedAt (date).
       </p>
       <p style="margin-top:12px;font-size:0.75rem;opacity:0.7;">${(e.message || '').slice(0, 200)}</p>

@@ -5,12 +5,6 @@
 const SHEET_ID = "1GKYBuDsEEf9KluyAlIvQ7-74DU-22IafebcuqSkW0vc";
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
 const DOB_RANGES = {
-  2030: { min: "2011-12-02", max: "2012-12-01" },
-  2031: { min: "2012-12-02", max: "2013-12-01" },
-  2032: { min: "2013-12-02", max: "2014-12-01" },
-  2033: { min: "2014-12-02", max: "2015-12-01" },
-  2034: { min: "2015-12-02", max: "2016-12-01" },
-  2035: { min: "2016-12-02", max: "2017-12-01" },
   2036: { min: "2017-12-02", max: "2018-12-01" },
   2037: { min: "2018-12-02", max: "2019-12-01" },
   2038: { min: "2019-12-02", max: "2020-12-01" },
@@ -50,7 +44,7 @@ function validateFuturesClinicSubmission(data) {
 
   const expectedGradYear = gradYearForDob(dob);
   if (!expectedGradYear) {
-    return { ok: false, reason: "DOB outside clinic range" };
+    return { ok: false, reason: "DOB outside K-2 clinic range" };
   }
 
   const gradYear = String(data.grad_year || "").trim();

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join BTB Lacrosse - Free Clinics, Tryout Alerts & Updates</title>
+  <meta name="description" content="Get BTB Lacrosse updates, free clinic alerts, tryout dates and more. Join 2,900+ Long Island families." />
+  <meta name="robots" content="index, follow" />
+
+  <!-- OG / IG preview -->
+  <meta property="og:title" content="Join BTB Lacrosse" />
+  <meta property="og:description" content="Free clinics. Tryout alerts. Exclusive BTB updates. Join the list." />
+  <meta property="og:image" content="https://www.bethebestli.com/images/tryouts/BTB_Boys_Tryouts_2026.png" />
+  <meta property="og:url" content="https://www.bethebestli.com/join" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #D22630;
+      --black: #000;
+      --dark: #0d0d0d;
+      --card: #111;
+      --border: #1e1e1e;
+      --text: #ccc;
+      --white: #fff;
+    }
+
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── TOP STRIPE ── */
+    .top-stripe {
+      width: 100%;
+      background: var(--red);
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      width: 100%;
+      max-width: 480px;
+      padding: 36px 24px 0;
+      text-align: center;
+    }
+
+    .logo-line {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 14px;
+    }
+
+    .brand-mark {
+      display: block;
+      width: 84px;
+      height: 84px;
+      object-fit: contain;
+      margin: 0 auto 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 14vw, 78px);
+      color: var(--red);
+      line-height: 0.9;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .hero h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(22px, 6vw, 34px);
+      color: var(--white);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .hero p strong { color: var(--white); }
+
+    /* ── SOCIAL PROOF ── */
+    .proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .proof-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--red);
+      letter-spacing: 1px;
+    }
+    .proof-text {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 24px 40px;
+    }
+
+    form {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 7px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 16px; /* 16px prevents iOS zoom */
+      font-family: 'Montserrat', sans-serif;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input[type="text"]::placeholder,
+    input[type="email"]::placeholder { color: #444; }
+    input[type="text"]:focus,
+    input[type="email"]:focus { border-color: var(--red); }
+
+    /* gender toggle */
+    .toggle-group {
+      display: flex;
+      gap: 10px;
+    }
+    .toggle-group input[type="radio"] { display: none; }
+    .toggle-group label {
+      flex: 1;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 13px 8px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      color: #666;
+      transition: all 0.15s;
+      margin: 0;
+    }
+    .toggle-group input[type="radio"]:checked + label {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 18px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity 0.2s;
+      -webkit-appearance: none;
+    }
+    .submit-btn:active { opacity: 0.85; }
+
+    .form-note {
+      font-size: 11px;
+      color: #444;
+      text-align: center;
+      margin-top: 14px;
+      letter-spacing: 1px;
+      line-height: 1.6;
+    }
+
+    /* ── PERKS ── */
+    .perks {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 24px 16px;
+    }
+    .perk-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .perk-row:last-child { border-bottom: none; }
+    .perk-icon {
+      width: 56px;
+      flex-shrink: 0;
+      border-left: 3px solid var(--red);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+      padding-left: 8px;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+    .perk-text { font-size: 14px; color: var(--text); font-weight: 600; line-height: 1.5; }
+    .perk-text strong { color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      width: 100%;
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: center;
+      margin-top: auto;
+    }
+    footer a {
+      color: var(--red);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    footer p {
+      font-size: 11px;
+      color: #444;
+      margin-top: 6px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-stripe">Be The Best Lacrosse Club - Long Island, NY</div>
+
+  <div class="hero">
+    <p class="logo-line">BTB Lacrosse</p>
+    <img class="brand-mark" src="/assets/brand/btb-circle-logo.png" alt="BTB Lacrosse Club" />
+    <h1>JOIN</h1>
+    <h2>THE BTB FAMILY</h2>
+    <p>
+      Free clinic alerts. Tryout dates. BTB updates.<br>
+      <strong>Be the first to know - before spots fill up.</strong>
+    </p>
+
+    <div class="proof">
+      <span class="proof-num">2,900+</span>
+      <span class="proof-text">Long Island<br>families already in</span>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <!-- Netlify form: relay fires on submission to Brevo list 23 -->
+    <form
+      name="newsletter"
+      method="POST"
+      action="/join-success"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="newsletter" />
+      <p style="display:none;">
+        <label>Don't fill this out: <input name="bot-field" /></label>
+      </p>
+
+      <div class="field">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="First Last" required autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email" inputmode="email" />
+      </div>
+
+      <div class="field">
+        <label>My Player Is</label>
+        <div class="toggle-group">
+          <input type="radio" name="program_gender" id="boys" value="Boys" />
+          <label for="boys">Boys</label>
+          <input type="radio" name="program_gender" id="girls" value="Girls" />
+          <label for="girls">Girls</label>
+          <input type="radio" name="program_gender" id="both" value="Both" checked />
+          <label for="both">Both</label>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">JOIN THE LIST</button>
+
+      <p class="form-note">
+        100% free. No spam. Unsubscribe anytime.<br>
+        Free clinics fill up fast - be first in line.
+      </p>
+    </form>
+  </div>
+
+  <!-- What you get -->
+  <div class="perks">
+    <div class="perk-row">
+      <span class="perk-icon">Free</span>
+      <span class="perk-text"><strong>Free Clinic Alerts</strong><br>First to know when a free BTB clinic drops - before it fills up</span>
+    </div>
+    <div class="perk-row">
+      <span class="perk-icon">Date</span>
+      <span class="perk-text"><strong>Tryout Dates & Info</strong><br>Get tryout windows, locations, and what to expect - early</span>
+    </div>
+    <div class="perk-row">
+      <span class="perk-icon">Gear</span>
+      <span class="perk-text"><strong>Giveaways & Exclusives</strong><br>BTB gear, insider updates, and stuff we only share with the list</span>
+    </div>
+    <div class="perk-row">
+      <span class="perk-icon">News</span>
+      <span class="perk-text"><strong>BTB Program News</strong><br>Championships, new teams, coaching hires - straight to your inbox</span>
+    </div>
+  </div>
+
+  <footer>
+    <a href="https://www.bethebestli.com">bethebestli.com</a>
+    <p>@bethebestli &nbsp;&middot;&nbsp; Be The Best Lacrosse Club</p>
+  </footer>
+
+</body>
+</html>

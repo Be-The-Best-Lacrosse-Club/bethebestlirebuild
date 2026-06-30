@@ -21,7 +21,7 @@ const flyers = [
     label: "Boys Tryouts",
     href: "/register-boys-tryouts",
     image: "/images/tryouts/BTB_Boys_Tryouts_2026.png",
-    alt: "BTB boys 2026 tryout flyer — Plainedge High School, North Massapequa NY",
+    alt: "BTB boys 2026 tryout flyer — Seaford High School, Seaford NY",
     width: 720,
     height: 540,
   },
@@ -30,34 +30,16 @@ const flyers = [
     label: "Girls Tryouts",
     href: "/register-girls-tryouts",
     image: "/images/tryouts/BTB_Girls_Tryouts_2026.png",
-    alt: "BTB girls 2026 tryout flyer — Plainedge High School",
+    alt: "BTB girls 2026 tryout flyer — Seaford High School",
     width: 820,
     height: 1464,
-  },
-  {
-    title: "Girls Futures",
-    label: "Free June Clinic Series",
-    href: "/futures-clinic",
-    image: "/images/tryouts/BTB_Girls_Futures_June_Clinic.jpg",
-    alt: "BTB Girls Futures free June clinic series flyer for kindergarten through second grade players",
-    width: 1792,
-    height: 2400,
-  },
-  {
-    title: "Boys Futures",
-    label: "Free June Clinic Series",
-    href: "/futures-clinic",
-    image: "/images/tryouts/BTB_Boys_Futures_June_Clinic.jpg",
-    alt: "BTB Boys Futures free June clinic series flyer for young boys lacrosse players",
-    width: 1290,
-    height: 1922,
   },
 ]
 
 export function TryoutFlyers({
-  eyebrow = "2026 Tryouts + Clinics",
-  ctaHref = "/register-tryouts",
-  ctaLabel = "Register Now",
+  eyebrow = "2026 Tryouts",
+  ctaHref = "/tryouts",
+  ctaLabel = "Compare Tryout Options",
 }: TryoutFlyersProps) {
   return (
     <section className="relative overflow-hidden bg-black px-4 py-14 text-white md:px-6 md:py-20">
@@ -84,8 +66,8 @@ export function TryoutFlyers({
         </div>
 
         <div
-          className="grid auto-cols-[82%] grid-flow-col gap-5 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [-webkit-overflow-scrolling:touch] md:auto-cols-auto md:grid-flow-row md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-5 lg:gap-5 [&::-webkit-scrollbar]:hidden"
-          aria-label="BTB 2026 tryout and clinic flyers"
+          className="grid auto-cols-[82%] grid-flow-col gap-5 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [-webkit-overflow-scrolling:touch] md:auto-cols-auto md:grid-flow-row md:grid-cols-3 md:overflow-visible md:pb-0 lg:gap-5 [&::-webkit-scrollbar]:hidden"
+          aria-label="BTB 2026 tryout flyers"
         >
           {flyers.map((flyer) => (
             <a

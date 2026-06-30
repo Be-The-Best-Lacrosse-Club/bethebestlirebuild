@@ -112,9 +112,7 @@ export function ContactPage() {
 
             {/* Register */}
             <a
-              href="/register-tryouts"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/tryouts"
               className="group relative p-12 bg-black hover:bg-[var(--btb-red)] transition-all duration-300"
             >
               <ArrowRight size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />

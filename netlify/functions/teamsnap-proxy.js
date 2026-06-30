@@ -12,12 +12,13 @@
  */
 
 const https = require("https");
+const { getTeamSnapAccessToken, hasTeamSnapCredentials } = require("./_teamsnap-auth");
 
 const TEAMSNAP_HOST = "api.teamsnap.com";
 const DEFAULT_BOYS_DIVISION = 1027769;
 
-function tsRequest(path) {
-  const token = process.env.TEAMSNAP_ACCESS_TOKEN;
+async function tsRequest(path) {
+  const token = await getTeamSnapAccessToken();
   return new Promise((resolve, reject) => {
     const req = https.request(
       {
@@ -71,8 +72,8 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: "Method not allowed" }) };
   }
 
-  if (!process.env.TEAMSNAP_ACCESS_TOKEN) {
-    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: "TEAMSNAP_ACCESS_TOKEN not configured" }) };
+  if (!hasTeamSnapCredentials()) {
+    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: "TeamSnap credentials not configured" }) };
   }
 
   const q = event.queryStringParameters || {};

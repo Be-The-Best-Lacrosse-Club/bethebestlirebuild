@@ -1,6 +1,7 @@
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useCallback } from "react"
 import { Navigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
+import { getAuthToken } from "@/lib/auth"
 import { SEO } from "@/components/shared/SEO"
 import { Inbox, RefreshCw, Filter, Search, ShieldX } from "lucide-react"
 
@@ -60,14 +61,18 @@ export function LeadsPage() {
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true)
     setErr(null)
     try {
       const url = activeFilter === "all"
         ? "/.netlify/functions/leads-list?limit=100"
         : `/.netlify/functions/leads-list?limit=100&formName=${encodeURIComponent(activeFilter)}`
-      const res = await fetch(url)
+      const token = await getAuthToken()
+      if (!token) throw new Error("Missing owner session")
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || `Failed (${res.status})`)
       setSubmissions(json.records || [])
@@ -77,9 +82,9 @@ export function LeadsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [activeFilter])
 
-  useEffect(() => { void load() }, [activeFilter])
+  useEffect(() => { void load() }, [load])
 
   const formCounts = useMemo(() => {
     const counts: Record<string, number> = {}

@@ -203,9 +203,13 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
 
   useEffect(() => {
     if (!user?.email) return
-    fetchCoachPayment(user.email).then((data) => {
+    async function loadPaymentData() {
+      const token = await getAuthToken()
+      if (!token || !user?.email) return
+      const data = await fetchCoachPayment(user.email, token)
       if (data) setPaymentData(data)
-    })
+    }
+    void loadPaymentData()
   }, [user?.email])
 
   // Player Progress state — names come from Airtable directly (stored on first lesson complete)

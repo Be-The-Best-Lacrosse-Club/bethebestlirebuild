@@ -57,9 +57,9 @@
 <div class="wrap">
   <div class="accent"></div>
   <h1>TeamSnap <span>Setup</span></h1>
-  <div class="sub">One-Time Authorization • Owner Only</div>
+  <div class="sub">TeamSnap Authorization • Owner Only</div>
 
-  <p>This page connects the BTB website to your TeamSnap account so the Parent Portal's tournament schedule can pull live data. You only need to do this <strong>once</strong>.</p>
+  <p>This page connects the BTB website to your TeamSnap account so the Parent Portal's tournament schedule can pull live data. The TeamSnap app registration is one-time; token refreshes now run through BTB-OS without manually editing Netlify.</p>
 
   <h2>Step 1 — Register a TeamSnap App</h2>
   <ol>
@@ -76,36 +76,16 @@
     <li>Submit. Copy the <strong>Client ID</strong> and <strong>Client Secret</strong> it gives you.</li>
   </ol>
 
-  <h2>Step 2 — Add Credentials to Netlify</h2>
-  <p>Go to <strong>Netlify → Site settings → Environment variables → Add a variable</strong>, and add both:</p>
-  <ul>
-    <li><code>TEAMSNAP_CLIENT_ID</code> = your Client ID</li>
-    <li><code>TEAMSNAP_CLIENT_SECRET</code> = your Client Secret</li>
-  </ul>
-  <p>Then: <strong>Deploys → Trigger deploy → Deploy site</strong>. Wait for it to finish before continuing.</p>
-
-  <h2>Step 3 — Authorize</h2>
-  <p>Paste the <strong>Client ID</strong> below and click Authorize. You'll be redirected to TeamSnap to approve the connection, then back here with your refresh token.</p>
-
+  <h2>Step 2 — Reconnect From BTB-OS</h2>
   <div class="box">
-    <div class="field">
-      <label>Client ID</label>
-      <input id="clientId" type="text" placeholder="Paste Client ID from TeamSnap">
-      <div class="hint">This is saved in your browser so you don't have to paste it again.</div>
-    </div>
-    <button class="btn" onclick="authorize()">Authorize with TeamSnap →</button>
+    <p>Token updates are now handled automatically from BTB-OS. Do not copy TeamSnap tokens into Netlify manually.</p>
+    <p>Go to <strong>BTB-OS → Integrations → TeamSnap → Reconnect</strong>. After you approve TeamSnap, both Netlify projects update and deploy automatically.</p>
+    <a class="btn" href="https://os.bethebestli.com" target="_blank" rel="noreferrer">Open BTB-OS →</a>
   </div>
-
-  <h2>After You Authorize</h2>
-  <p>TeamSnap will send you back to a page that displays your <strong>refresh token</strong>. Add it to Netlify:</p>
-  <ul>
-    <li><code>TEAMSNAP_REFRESH_TOKEN</code> = the token shown on the callback page</li>
-  </ul>
-  <p>Trigger another deploy. Then visit <a href="/tournament-schedule.html">tournament-schedule.html</a> to confirm the schedule loads.</p>
 
   <h2>Troubleshooting</h2>
   <ul>
-    <li><strong>"Not configured" error on the schedule page:</strong> The three env vars aren't all set. Double-check spelling.</li>
+    <li><strong>"Not configured" error on the schedule page:</strong> Use the BTB-OS reconnect flow to refresh TeamSnap credentials.</li>
     <li><strong>"Redirect URI mismatch" on TeamSnap:</strong> The URI in the TeamSnap app must match exactly, including <code>https://www.</code> (not bare <code>bethebestli.com</code>).</li>
     <li><strong>No events showing:</strong> Your TeamSnap events need <code>is_game = true</code> and dates in the range. The function fetches May/June/July of the current year by default.</li>
   </ul>
@@ -133,21 +113,6 @@
     }
   }
 
-  var saved = localStorage.getItem('btb_ts_client_id');
-  if (saved) document.getElementById('clientId').value = saved;
-
-  function authorize() {
-    var cid = document.getElementById('clientId').value.trim();
-    if (!cid) { alert('Paste your Client ID first.'); return; }
-    localStorage.setItem('btb_ts_client_id', cid);
-    var redirect = 'https://www.bethebestli.com/.netlify/functions/teamsnap-callback';
-    var url = 'https://auth.teamsnap.com/oauth/authorize' +
-      '?client_id=' + encodeURIComponent(cid) +
-      '&redirect_uri=' + encodeURIComponent(redirect) +
-      '&response_type=code' +
-      '&scope=read';
-    window.location.href = url;
-  }
 </script>
 
 </body>

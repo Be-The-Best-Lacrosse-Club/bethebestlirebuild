@@ -152,9 +152,7 @@ export function Hero() {
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full max-w-sm sm:max-w-none">
           <a
             ref={primaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="/register-tryouts"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/tryouts"
             className="relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] overflow-hidden group"
             style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
           >
@@ -170,10 +168,10 @@ export function Hero() {
 
           <a
             ref={secondaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="/academy-landing.html"
+            href="#program-paths"
             className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-[1.05rem] font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
           >
-            Academy Access
+            Choose Boys / Girls
           </a>
         </div>
 

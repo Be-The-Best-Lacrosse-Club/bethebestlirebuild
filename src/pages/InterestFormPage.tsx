@@ -104,7 +104,7 @@ export function InterestFormPage() {
       return
     }
     if (activeCategory?.hasProgram && !program) {
-      toast.error(`Please select Male or Female for ${category}.`)
+      toast.error(`Please select Boys or Girls for ${category}.`)
       return
     }
     if (activeCategory?.hasTeam && !team) {
@@ -265,7 +265,7 @@ export function InterestFormPage() {
                           : "bg-white/[0.04] text-white/78 border border-white/10 hover:bg-white/[0.08] hover:text-white/80"
                       }`}
                     >
-                      {p === "Boys" ? "Male" : "Female"}
+                      {p}
                     </button>
                   ))}
                 </div>

@@ -1,13 +1,13 @@
 /**
  * GET /.netlify/functions/leads-list?formName=<optional>&limit=<optional>
  *
- * Reads recent submissions from the Airtable "Submissions" table populated by
+ * Reads recent submissions from the Airtable "Leads" table populated by
  * brevo-relay. Powers the in-app /leads dashboard.
  *
  * Env vars (same as brevo-relay):
  *   AIRTABLE_FORMS_API_KEY (or fallback AIRTABLE_OPS_API_KEY)
  *   AIRTABLE_FORMS_BASE_ID
- *   AIRTABLE_FORMS_TABLE (default "Submissions")
+ *   AIRTABLE_FORMS_TABLE (default "Leads")
  */
 
 const https = require("https");
@@ -15,9 +15,29 @@ const https = require("https");
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Content-Type": "application/json",
+  "Cache-Control": "no-store",
 };
+
+async function verifyOwner(event) {
+  const authHeader = event.headers.authorization || event.headers.Authorization || "";
+  const token = authHeader.replace(/^Bearer\s+/i, "");
+  if (!token) return null;
+
+  const siteUrl = process.env.URL || "https://www.bethebestli.com";
+  try {
+    const res = await fetch(`${siteUrl}/.netlify/identity/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return null;
+    const userData = await res.json();
+    const roles = userData.app_metadata?.roles || [];
+    return roles.includes("owner") ? userData : null;
+  } catch {
+    return null;
+  }
+}
 
 function airtableGet({ baseId, table, params }) {
   const apiKey = process.env.AIRTABLE_FORMS_API_KEY || process.env.AIRTABLE_OPS_API_KEY;
@@ -54,6 +74,11 @@ exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
   if (event.httpMethod !== "GET") {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: "Method not allowed" }) };
+  }
+
+  const owner = await verifyOwner(event);
+  if (!owner) {
+    return { statusCode: 401, headers: CORS, body: JSON.stringify({ error: "Unauthorized" }) };
   }
 
   const baseId = process.env.AIRTABLE_FORMS_BASE_ID;
