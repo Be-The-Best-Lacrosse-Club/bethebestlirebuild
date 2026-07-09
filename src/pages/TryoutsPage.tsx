@@ -37,9 +37,10 @@ const TRYOUT_OPTIONS = [
   },
   {
     title: "Boys East",
-    subtitle: "St. Joseph's University NY",
-    detail: "2032-2037 grads · $75 evaluation",
-    dates: "Dates coming soon · Patchogue",
+    subtitle: "St. Joseph's University",
+    detail: "2032-2037 boys · $75 evaluation",
+    dates: "July 13 & 16 · 6:00-8:00 PM",
+    scheduleLines: ["2032 @ 6 PM", "2036/2037 @ 6 PM", "2035/2034 @ 7 PM"],
     href: "/register-boys-east-tryouts",
   },
 ]
@@ -157,7 +158,7 @@ export function TryoutsPage() {
     <div className="min-h-screen bg-black text-white pt-32 pb-24 px-6 relative overflow-hidden">
       <SEO 
         title="2026 Tryouts & Evaluations | BTB Lacrosse"
-        description="Compare 2026 BTB Lacrosse tryout registration paths for boys, girls, and BTB East travel programs."
+        description="Compare 2026 BTB Lacrosse tryout registration paths for boys, girls, and BTB East travel programs, including BTB East July 13 and 16 at St. Joseph's University."
         path="/tryouts"
       />
       
@@ -182,7 +183,7 @@ export function TryoutsPage() {
                 Earn Your <br /> <span className="text-[var(--btb-red)]">Spot.</span>
               </h1>
               <p className="text-white/70 text-[1.15rem] leading-relaxed max-w-[620px] mb-8">
-                Pick the right registration path first. Boys and girls tryouts are separate, and BTB East has its own Suffolk County registration.
+                Pick the right registration path first. Boys and girls tryouts are separate, and BTB East has its own Suffolk County registration for July 13 & 16 at St. Joseph's University.
               </p>
 
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3 mb-10" aria-label="2026 BTB tryout registration options">
@@ -204,6 +205,13 @@ export function TryoutsPage() {
                     <div className="mt-3 text-[0.8rem] font-black uppercase tracking-[1.5px] text-white/45">
                       {option.dates}
                     </div>
+                    {"scheduleLines" in option && option.scheduleLines ? (
+                      <div className="mt-3 space-y-1 text-[0.72rem] font-bold uppercase tracking-[1px] text-white/65">
+                        {option.scheduleLines.map((line) => (
+                          <div key={line}>{line}</div>
+                        ))}
+                      </div>
+                    ) : null}
                     <div className="mt-auto flex items-center gap-2 pt-5 text-[0.82rem] font-black uppercase tracking-[2px] text-white">
                       Register <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
                     </div>

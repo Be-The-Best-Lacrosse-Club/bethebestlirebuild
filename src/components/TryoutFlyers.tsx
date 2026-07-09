@@ -12,9 +12,9 @@ const flyers = [
     label: "Boys East Tryouts",
     href: "/register-boys-east-tryouts",
     image: "/images/tryouts/BTB_East_Tryouts_2026.jpg",
-    alt: "BTB East 2026 tryout flyer for graduation years 2032 through 2037",
-    width: 640,
-    height: 960,
+    alt: "BTB East 2026 tryout flyer for July 13 and 16 at St. Joseph's University",
+    width: 1024,
+    height: 1536,
   },
   {
     title: "Boys",
