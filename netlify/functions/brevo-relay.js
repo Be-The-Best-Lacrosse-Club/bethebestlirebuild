@@ -358,6 +358,389 @@ async function airtableAppend({ formName, data, submissionTime, siteUrl }) {
   throw new Error(`Airtable append ${res.status}: ${res.body.slice(0, 300)}`);
 }
 
+// ─── Tryout Google Sheet Live Sync ────────────────────────────────────────────
+
+const TRYOUT_ROSTER_SHEET_ID = "1Jqoh4hth_PhY-EgnBzpJ9J7bPvHv9hN53mZZJ3xRHF8";
+const TRYOUT_REGISTRATION_CONFIG = {
+  "btb-boys-tryout-registration": { program: "Boys Tryouts", tab: "Boys Roster" },
+  "btb-girls-tryout-registration": { program: "Girls Tryouts", tab: "Girls Roster" },
+  "btb-east-boys-tryout-registration": { program: "BTB East Boys Tryouts", tab: "East Roster" },
+};
+
+const TRYOUT_ROSTER_HEADERS = [
+  "Checked In", "Pinnie #", "Eval Group", "Grad Year", "Player Last Name", "Player First Name",
+  "Player Name", "Position", "School / Town", "Player DOB", "Parent Name", "Parent Email",
+  "Parent Phone", "Emergency Contact", "Emergency Phone", "Medical Notes", "Submission Count",
+  "Duplicate Flag", "Latest Submission Date", "Coach Notes",
+];
+const TRYOUT_RAW_HEADERS = [
+  "Program", "Form Source", "Submission Date", "Player First Name", "Player Last Name", "Player Name",
+  "Grad Year", "Gender", "Position", "School / Town", "Player DOB", "Parent Name", "Parent Email",
+  "Parent Phone", "Street", "City", "State", "Zip", "Emergency Contact", "Emergency Phone",
+  "Medical Notes", "How Heard", "Waiver Accepted", "Amount", "Payment Verified", "Referrer",
+  "Netlify Submission ID",
+];
+const TRYOUT_ALL_HEADERS = ["Program", ...TRYOUT_ROSTER_HEADERS];
+
+function clean(value) {
+  return String(value || "").replace(/\r/g, " ").replace(/\n/g, " ").trim();
+}
+
+function smartCase(value) {
+  const text = clean(value);
+  if (!text) return "";
+  return text === text.toLowerCase() || text === text.toUpperCase()
+    ? text.toLowerCase().replace(/\b[a-z]/g, (char) => char.toUpperCase())
+    : text;
+}
+
+function displayPhone(value) {
+  const text = clean(value);
+  const digits = text.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+  if (digits.length === 10) return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  return text;
+}
+
+function formatEtDateTime(value = new Date()) {
+  const date = new Date(value);
+  const safeDate = Number.isNaN(date.getTime()) ? new Date() : date;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  }).formatToParts(safeDate).reduce((acc, part) => {
+    acc[part.type] = part.value;
+    return acc;
+  }, {});
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute} ${parts.dayPeriod} ET`;
+}
+
+function playerFullName(data) {
+  return [smartCase(data.player_first_name), smartCase(data.player_last_name)].filter(Boolean).join(" ").trim();
+}
+
+function parentFullName(data) {
+  return [smartCase(data.parent_first_name), smartCase(data.parent_last_name)].filter(Boolean).join(" ").trim();
+}
+
+function tryoutRowsFromSubmission({ formName, data, submissionTime, submissionId }) {
+  const config = TRYOUT_REGISTRATION_CONFIG[formName];
+  const submitted = formatEtDateTime(submissionTime);
+  const firstName = smartCase(data.player_first_name);
+  const lastName = smartCase(data.player_last_name);
+  const playerName = playerFullName(data);
+  const gradYear = clean(data.grad_year);
+  const dob = clean(data.player_dob);
+  const parentEmail = clean(data.parent_email).toLowerCase();
+  const parentName = parentFullName(data);
+
+  const rawRow = [
+    config.program,
+    formName,
+    submitted,
+    firstName,
+    lastName,
+    playerName,
+    gradYear,
+    smartCase(data.program_gender),
+    smartCase(data.position),
+    clean(data.school_town),
+    dob,
+    parentName,
+    parentEmail,
+    displayPhone(data.parent_phone),
+    clean(data.address_street),
+    smartCase(data.address_city),
+    clean(data.address_state).toUpperCase(),
+    clean(data.address_zip),
+    smartCase(data.emergency_name),
+    displayPhone(data.emergency_phone),
+    clean(data.medical_notes),
+    clean(data.how_heard),
+    clean(data.waiver_accepted),
+    clean(data.amount),
+    "",
+    clean(data.referrer),
+    clean(submissionId),
+  ];
+
+  const rosterRow = [
+    "",
+    "",
+    "",
+    gradYear,
+    lastName,
+    firstName,
+    playerName,
+    smartCase(data.position),
+    clean(data.school_town),
+    dob,
+    parentName,
+    parentEmail,
+    displayPhone(data.parent_phone),
+    smartCase(data.emergency_name),
+    displayPhone(data.emergency_phone),
+    clean(data.medical_notes),
+    1,
+    "",
+    submitted,
+    "",
+  ];
+
+  return {
+    rawRow,
+    rosterRow,
+    allRow: [config.program, ...rosterRow],
+    key: `${config.program.toLowerCase()}|${playerName.toLowerCase()}|${dob}|${gradYear}`,
+    rawFallbackKey: `${config.program.toLowerCase()}|${playerName.toLowerCase()}|${dob}|${gradYear}|${submitted}`,
+  };
+}
+
+async function googleAccessToken() {
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error("Google Sheet env vars missing");
+  }
+
+  const response = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+    }),
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok || !body.access_token) {
+    throw new Error(`Google token refresh failed: ${response.status}`);
+  }
+  return body.access_token;
+}
+
+async function sheetsFetch(token, range, { method = "GET", values } = {}) {
+  const encodedRange = encodeURIComponent(range);
+  const query = method === "GET" ? "" : "?valueInputOption=USER_ENTERED";
+  const response = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${TRYOUT_ROSTER_SHEET_ID}/values/${encodedRange}${query}`,
+    {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: method === "GET" ? undefined : JSON.stringify({ values }),
+    }
+  );
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`Sheets ${method} ${range} failed: ${response.status} ${JSON.stringify(body).slice(0, 160)}`);
+  }
+  return body.values || [];
+}
+
+async function sheetsAppend(token, range, values) {
+  const encodedRange = encodeURIComponent(range);
+  const response = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${TRYOUT_ROSTER_SHEET_ID}/values/${encodedRange}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ values }),
+    }
+  );
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`Sheets append ${range} failed: ${response.status} ${JSON.stringify(body).slice(0, 160)}`);
+  }
+  return body;
+}
+
+function columnLetter(index) {
+  let n = index;
+  let value = "";
+  while (n > 0) {
+    const remainder = (n - 1) % 26;
+    value = String.fromCharCode(65 + remainder) + value;
+    n = Math.floor((n - 1) / 26);
+  }
+  return value;
+}
+
+function rosterKey(row, program) {
+  return `${program.toLowerCase()}|${clean(row[6]).toLowerCase()}|${clean(row[9])}|${clean(row[3])}`;
+}
+
+function allRosterKey(row) {
+  return `${clean(row[0]).toLowerCase()}|${clean(row[7]).toLowerCase()}|${clean(row[10])}|${clean(row[4])}`;
+}
+
+function rawSubmissionSeen(rawRows, submissionId, fallbackKey) {
+  const id = clean(submissionId);
+  return rawRows.slice(1).some((row) => {
+    if (id && clean(row[26]) === id) return true;
+    const rowFallbackKey = `${clean(row[0]).toLowerCase()}|${clean(row[5]).toLowerCase()}|${clean(row[10])}|${clean(row[6])}|${clean(row[2])}`;
+    return rowFallbackKey === fallbackKey;
+  });
+}
+
+function mergeRosterRow(existing, next) {
+  const merged = next.slice();
+  merged[0] = existing[0] || "";
+  merged[1] = existing[1] || "";
+  merged[2] = existing[2] || "";
+  const count = Math.max(Number(existing[16]) || 1, 1) + 1;
+  merged[16] = count;
+  merged[17] = "Review";
+  merged[19] = existing[19] || "";
+  return merged;
+}
+
+function mergeAllRosterRow(existing, next) {
+  const merged = next.slice();
+  merged[1] = existing[1] || "";
+  merged[2] = existing[2] || "";
+  merged[3] = existing[3] || "";
+  const count = Math.max(Number(existing[17]) || 1, 1) + 1;
+  merged[17] = count;
+  merged[18] = "Review";
+  merged[20] = existing[20] || "";
+  return merged;
+}
+
+async function ensureTryoutHeaders(token, tabName, existingRows, headers) {
+  if (existingRows.length > 0) return existingRows;
+  await sheetsFetch(token, `${tabName}!A1:${columnLetter(headers.length)}1`, {
+    method: "PUT",
+    values: [headers],
+  });
+  return [headers];
+}
+
+async function updateTryoutSummary(token) {
+  const [rawRows, boysRows, girlsRows, eastRows, interestRows] = await Promise.all([
+    sheetsFetch(token, "Raw Submissions!A:AA"),
+    sheetsFetch(token, "Boys Roster!A:T"),
+    sheetsFetch(token, "Girls Roster!A:T"),
+    sheetsFetch(token, "East Roster!A:T"),
+    sheetsFetch(token, "Interest Only!A:P"),
+  ]);
+
+  const rosterCounts = {
+    "Boys Tryouts": Math.max(boysRows.length - 1, 0),
+    "Girls Tryouts": Math.max(girlsRows.length - 1, 0),
+    "BTB East Boys Tryouts": Math.max(eastRows.length - 1, 0),
+  };
+  const rawCounts = {
+    "Boys Tryouts": 0,
+    "Girls Tryouts": 0,
+    "BTB East Boys Tryouts": 0,
+  };
+  const latest = {
+    "Boys Tryouts": "",
+    "Girls Tryouts": "",
+    "BTB East Boys Tryouts": "",
+  };
+
+  for (const row of rawRows.slice(1)) {
+    const program = clean(row[0]);
+    if (!(program in rawCounts)) continue;
+    rawCounts[program] += 1;
+    if (clean(row[2])) latest[program] = clean(row[2]);
+  }
+
+  const programs = ["Boys Tryouts", "Girls Tryouts", "BTB East Boys Tryouts"];
+  const programRows = programs.map((program) => [
+    program,
+    rawCounts[program],
+    rosterCounts[program],
+    rawCounts[program] - rosterCounts[program],
+    latest[program],
+    "Clean roster keeps latest registration per player.",
+  ]);
+  const totalLive = programs.reduce((sum, program) => sum + rawCounts[program], 0);
+  const totalUnique = programs.reduce((sum, program) => sum + rosterCounts[program], 0);
+
+  await sheetsFetch(token, "Summary!A3:F11", {
+    method: "PUT",
+    values: [
+      ["Generated", formatEtDateTime()],
+      ["Source", "Live Netlify Forms API + registration webhook - bethebestli.com"],
+      [],
+      ["Program", "Live Submissions", "Clean Unique Players", "Duplicate Extra Rows", "Latest Submission", "Notes"],
+      ...programRows,
+      ["TOTAL OFFICIAL TRYOUTS", totalLive, totalUnique, totalLive - totalUnique, "", ""],
+      ["Tryout Interest Only", Math.max(interestRows.length - 1, 0), "Not official registrations", "", "", "Shown on separate reference tab."],
+    ],
+  });
+}
+
+async function syncTryoutRosterSheet({ formName, data, submissionTime, submissionId }) {
+  const config = TRYOUT_REGISTRATION_CONFIG[formName];
+  if (!config) return { skipped: "not a tryout registration form" };
+
+  const token = await googleAccessToken();
+  const { rawRow, rosterRow, allRow, key, rawFallbackKey } = tryoutRowsFromSubmission({
+    formName,
+    data,
+    submissionTime,
+    submissionId,
+  });
+
+  const [rawInitial, programInitial, allInitial] = await Promise.all([
+    sheetsFetch(token, "Raw Submissions!A:AA"),
+    sheetsFetch(token, `${config.tab}!A:T`),
+    sheetsFetch(token, "All Clean Rosters!A:U"),
+  ]);
+  const rawRows = await ensureTryoutHeaders(token, "Raw Submissions", rawInitial, TRYOUT_RAW_HEADERS);
+  const programRows = await ensureTryoutHeaders(token, config.tab, programInitial, TRYOUT_ROSTER_HEADERS);
+  const allRows = await ensureTryoutHeaders(token, "All Clean Rosters", allInitial, TRYOUT_ALL_HEADERS);
+
+  if (rawSubmissionSeen(rawRows, submissionId, rawFallbackKey)) {
+    return { ok: true, skipped: "submission already synced" };
+  }
+
+  await sheetsAppend(token, "Raw Submissions!A:AA", [rawRow]);
+
+  const rosterIndex = programRows.findIndex((row, index) => index > 0 && rosterKey(row, config.program) === key);
+  if (rosterIndex === -1) {
+    await sheetsAppend(token, `${config.tab}!A:T`, [rosterRow]);
+  } else {
+    await sheetsFetch(token, `${config.tab}!A${rosterIndex + 1}:T${rosterIndex + 1}`, {
+      method: "PUT",
+      values: [mergeRosterRow(programRows[rosterIndex], rosterRow)],
+    });
+  }
+
+  const allIndex = allRows.findIndex((row, index) => index > 0 && allRosterKey(row) === key);
+  if (allIndex === -1) {
+    await sheetsAppend(token, "All Clean Rosters!A:U", [allRow]);
+  } else {
+    await sheetsFetch(token, `All Clean Rosters!A${allIndex + 1}:U${allIndex + 1}`, {
+      method: "PUT",
+      values: [mergeAllRosterRow(allRows[allIndex], allRow)],
+    });
+  }
+
+  await updateTryoutSummary(token);
+  return {
+    ok: true,
+    sheet: "BTB Tryout Rosters - Dan Pete - Live Netlify",
+    program: config.program,
+    player: playerFullName(data),
+  };
+}
+
 // ─── Registrant Confirmation Email ────────────────────────────────────────────
 
 const BOYS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Boys_Futures_June_Clinic.jpg";
@@ -475,7 +858,7 @@ const CONFIRMATION_CONFIG = {
     getHtml: (data) => {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
-      return confirmationBase({ parentFirst, playerName, program: "BTB East Boys Tryouts 2026", details: "Location: St. Joseph's University New York — Suffolk Campus, 155 West Roe Blvd, Patchogue, NY 11772. We'll send your specific time slot closer to the date.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
+      return confirmationBase({ parentFirst, playerName, program: "BTB East Boys Tryouts 2026", details: "Location: Seaford High School, 1575 Seamans Neck Rd, Seaford, NY 11783. We'll send your specific time slot closer to the date.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
     },
   },
 };
@@ -601,7 +984,7 @@ exports.handler = async (event) => {
     data = validation.data;
   }
 
-  const results = { formName, brevoContact: null, brevoEmail: null, brevoConfirmation: null, airtable: null, errors: [] };
+  const results = { formName, brevoContact: null, brevoEmail: null, brevoConfirmation: null, airtable: null, tryoutRosterSheet: null, errors: [] };
 
   // Brevo: upsert contact
   try {
@@ -645,6 +1028,15 @@ exports.handler = async (event) => {
   } catch (err) {
     console.error("brevo-relay airtable error:", err.message);
     results.errors.push(`airtable: ${err.message}`);
+  }
+
+  // Google Sheet: keep Dan/Pete's tryout roster current as registrations land.
+  try {
+    const submissionId = payload.id || payload.submission_id || payload.submissionId || "";
+    results.tryoutRosterSheet = await syncTryoutRosterSheet({ formName, data, submissionTime, submissionId });
+  } catch (err) {
+    console.error("brevo-relay tryout sheet error:", err.message);
+    results.errors.push(`tryout sheet: ${err.message}`);
   }
 
   // Always 200 so Netlify doesn't retry — partial success is recorded in the response body

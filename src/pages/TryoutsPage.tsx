@@ -19,6 +19,7 @@ type TryoutForm = {
 const BOYS_GRAD_YEARS = Array.from({ length: 10 }, (_, i) => String(2028 + i))
 const GIRLS_GRAD_YEARS = Array.from({ length: 8 }, (_, i) => String(2030 + i))
 const POSITIONS = ["Attack", "Midfield", "Defense", "Goalie", "FOGO", "LSM", "Draw Specialist"]
+const LAST_UPDATED = "July 12, 2026"
 
 const TRYOUT_OPTIONS = [
   {
@@ -37,7 +38,7 @@ const TRYOUT_OPTIONS = [
   },
   {
     title: "Boys East",
-    subtitle: "St. Joseph's University",
+    subtitle: "Seaford HS",
     detail: "2032-2037 boys · $75 evaluation",
     dates: "July 13 & 16 · 6:00-8:00 PM",
     scheduleLines: ["2032 @ 6 PM", "2036/2037 @ 6 PM", "2035/2034 @ 7 PM"],
@@ -158,7 +159,7 @@ export function TryoutsPage() {
     <div className="min-h-screen bg-black text-white pt-32 pb-24 px-6 relative overflow-hidden">
       <SEO 
         title="2026 Tryouts & Evaluations | BTB Lacrosse"
-        description="Compare 2026 BTB Lacrosse tryout registration paths for boys, girls, and BTB East travel programs, including BTB East July 13 and 16 at St. Joseph's University."
+        description="Compare 2026 BTB Lacrosse tryout registration paths for boys, girls, and BTB East travel programs, including BTB East July 13 and 16 at Seaford High School."
         path="/tryouts"
       />
       
@@ -183,8 +184,11 @@ export function TryoutsPage() {
                 Earn Your <br /> <span className="text-[var(--btb-red)]">Spot.</span>
               </h1>
               <p className="text-white/70 text-[1.15rem] leading-relaxed max-w-[620px] mb-8">
-                Pick the right registration path first. Boys and girls tryouts are separate, and BTB East has its own Suffolk County registration for July 13 & 16 at St. Joseph's University.
+                Pick the right registration path first. Boys and girls tryouts are separate, and BTB East now reports to Seaford High School for July 13 & 16.
               </p>
+              <div className="mb-8 inline-flex rounded-full border border-[var(--btb-red)]/40 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] text-white/70">
+                Registration open · Updated {LAST_UPDATED}
+              </div>
 
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3 mb-10" aria-label="2026 BTB tryout registration options">
                 {TRYOUT_OPTIONS.map((option) => (

@@ -139,9 +139,16 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
   .location-badge {
     display: flex; align-items: center; gap: 8px;
     background: #141414; border: 1px solid #2a2a2a; border-left: 3px solid #D22630;
-    border-radius: 6px; padding: 12px 16px; margin-bottom: 28px; font-size: 0.9rem; color: #ccc;
+    border-radius: 6px; padding: 12px 16px; margin-bottom: 12px; font-size: 0.9rem; color: #ccc;
   }
   .location-badge strong { color: #fff; }
+  .status-note {
+    background: #111; border: 1px solid #2a2a2a;
+    border-radius: 6px; padding: 12px 16px; margin-bottom: 28px;
+    font-size: 0.82rem; color: #aaa;
+  }
+  .status-note strong { color: #fff; }
+  .status-note a { color: #D22630; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -162,6 +169,10 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
   <!-- Location -->
   <div class="location-badge">
     📍 <span><strong>Seaford High School</strong> — 1575 Seamans Neck Rd, Seaford, NY &nbsp;|&nbsp; <strong>$75 per player</strong> — includes BTB pinnie, filmed evaluation, evaluation system</span>
+  </div>
+
+  <div class="status-note">
+    <strong>Registration is open.</strong> Updated July 12, 2026. Questions or grad-year placement help: <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
   </div>
 
   <!-- Schedule -->
@@ -245,7 +256,7 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
     <div class="row-3">
       <div class="field">
         <label>Date of Birth<span class="req">*</span></label>
-        <input type="date" name="player_dob" required>
+        <input type="date" name="player_dob" min="2008-01-01" max="2020-12-31" required>
       </div>
       <div class="field">
         <label>Grad Year<span class="req">*</span></label>
@@ -301,32 +312,32 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
     <div class="row">
       <div class="field">
         <label>Email<span class="req">*</span></label>
-        <input type="email" name="parent_email" required>
+        <input type="email" name="parent_email" autocomplete="email" required>
       </div>
       <div class="field">
         <label>Phone<span class="req">*</span></label>
-        <input type="tel" name="parent_phone" required>
+        <input type="tel" name="parent_phone" inputmode="tel" autocomplete="tel" placeholder="(516) 555-1234" required>
         <p class="sms-consent">By providing your phone number you consent to receive transactional SMS from Be The Best Lacrosse Club — practice reminders, game day info, schedule changes, and urgent announcements. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for assistance. <a href="/sms-policy" target="_blank">SMS Policy</a></p>
       </div>
     </div>
 
     <div class="field">
       <label>Street Address</label>
-      <input type="text" name="address_street">
+      <input type="text" name="address_street" autocomplete="street-address">
     </div>
 
     <div class="row-3">
       <div class="field">
         <label>City</label>
-        <input type="text" name="address_city">
+        <input type="text" name="address_city" autocomplete="address-level2">
       </div>
       <div class="field">
         <label>State</label>
-        <input type="text" name="address_state" maxlength="2" placeholder="NY">
+        <input type="text" name="address_state" maxlength="2" placeholder="NY" autocomplete="address-level1">
       </div>
       <div class="field">
         <label>Zip</label>
-        <input type="text" name="address_zip">
+        <input type="text" name="address_zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}(-[0-9]{4})?" placeholder="11758">
       </div>
     </div>
 
@@ -339,7 +350,7 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
       </div>
       <div class="field">
         <label>Emergency Contact Phone<span class="req">*</span></label>
-        <input type="tel" name="emergency_phone" required>
+        <input type="tel" name="emergency_phone" inputmode="tel" placeholder="(516) 555-1234" required>
       </div>
     </div>
 
@@ -390,6 +401,26 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
   const form = document.getElementById('regForm');
   const submitBtn = document.getElementById('submitBtn');
   const errorMsg = document.getElementById('errorMsg');
+  const ALLOWED_GRAD_YEARS = ['2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037'];
+
+  function digitsOnly(value) {
+    return String(value || '').replace(/\D/g, '');
+  }
+
+  function getValidationError(formData) {
+    const gradYear = String(formData.get('grad_year') || '');
+    const dob = String(formData.get('player_dob') || '');
+    const dobDate = new Date(`${dob}T00:00:00`);
+
+    if (!ALLOWED_GRAD_YEARS.includes(gradYear)) return 'Please choose a valid boys grad year.';
+    if (!dob || Number.isNaN(dobDate.getTime())) return 'Please enter a valid date of birth.';
+    if (dobDate < new Date('2008-01-01T00:00:00') || dobDate > new Date('2020-12-31T00:00:00')) {
+      return 'Please check the date of birth. If your player needs a special placement, email info@bethebestli.com.';
+    }
+    if (digitsOnly(formData.get('parent_phone')).length < 10) return 'Please enter a valid parent phone number.';
+    if (digitsOnly(formData.get('emergency_phone')).length < 10) return 'Please enter a valid emergency contact phone number.';
+    return '';
+  }
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -398,8 +429,17 @@ src="https://www.facebook.com/tr?id=469853420309460&ev=PageView&noscript=1"/></n
     submitBtn.textContent = 'Saving...';
 
     const formData = new FormData(form);
+    const validationError = getValidationError(formData);
+    if (validationError) {
+      errorMsg.textContent = validationError;
+      errorMsg.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Continue to Payment — $75';
+      return;
+    }
+
     const params = new URLSearchParams();
-    for (const [key, value] of formData.entries()) params.append(key, value);
+    for (const [key, value] of formData.entries()) params.append(key, String(value).trim());
 
     try {
       await fetch('/', {
