@@ -100,8 +100,8 @@ export function Header() {
             </div>
           </button>
 
-          {/* Desktop Nav — only at xl (1280px+) */}
-          <nav className="hidden xl:flex items-center gap-1" ref={dropdownRef}>
+          {/* Desktop Nav — only when the full menu has room */}
+          <nav className="hidden min-[1380px]:flex items-center gap-1" ref={dropdownRef}>
 
             <div className="relative">
               <button onClick={() => setDropdown(dropdown === "programs" ? null : "programs")} className={navItemClass("/programs")}>
@@ -150,7 +150,7 @@ export function Header() {
 
             <a href="/newsletter" className={navItemClass("/newsletter")}>Newsletter</a>
 
-            <a href="/academy-info" className={navItemClass("/academy-info")}>Academy</a>
+            <a href="/academy" className={navItemClass("/academy")}>Academy</a>
 
             <button onClick={() => go("/contact")} className={navItemClass("/contact")}>Contact</button>
 
@@ -182,8 +182,8 @@ export function Header() {
             )}
           </nav>
 
-          {/* Mobile/Tablet toggle — shows below xl */}
-          <div className="xl:hidden flex items-center gap-3">
+          {/* Mobile/Tablet toggle — shows until the full menu has room */}
+          <div className="min-[1380px]:hidden flex items-center gap-3">
             {/* Tryouts pill — always visible on mobile */}
             <button
               onClick={() => go("/tryouts")}
@@ -262,7 +262,7 @@ export function Header() {
                   { label: "Parent Hub", href: "/parent-hub" },
                   { label: "Coaches Hub", href: "/coach-tools.html" },
                   { label: "Newsletter", href: "/newsletter" },
-                  { label: "Academy", href: "/academy-info" },
+                  { label: "Academy", href: "/academy" },
                   { label: "Recruiting", href: "/recruiting" },
                   { label: "Contact", href: "/contact" },
                   { label: "Login", href: "/login" },

@@ -166,13 +166,19 @@
 
 [[redirects]]
   from = "/academy-girls.html"
-  to = "/academy-landing.html"
+  to = "/academy"
   status = 301
   force = true
 
 [[redirects]]
   from = "/academy.html"
-  to = "/academy-landing.html"
+  to = "/academy"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/academy-landing.html"
+  to = "/academy"
   status = 301
   force = true
 
@@ -195,7 +201,7 @@
 
 [[redirects]]
   from = "/academy.html"
-  to = "/academy-landing.html"
+  to = "/academy"
   status = 302
   force = true
 

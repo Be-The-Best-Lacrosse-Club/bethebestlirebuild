@@ -1,7 +1,6 @@
 /**
  * DigitalAcademy — Homepage section
- * Design language: academy-btb.netlify.app
- * Anton font, #FF000A red, black/charcoal cards, aggressive uppercase copy
+ * BTB Online Academy homepage preview
  */
 
 import { useState } from "react"
@@ -16,8 +15,8 @@ import {
 } from "@/lib/academyData"
 import type { AcademyLesson } from "@/lib/academyData"
 
-// ─── Design tokens (matching academy-btb) ───────────────────────────────────
-const RED   = "#FF000A"
+// ─── Design tokens ──────────────────────────────────────────────────────────
+const RED   = "#D22630"
 const CHAR  = "#141414"
 const STEEL = "#1F1F1F"
 const IRON  = "#2A2A2A"
@@ -69,7 +68,7 @@ export function DigitalAcademy() {
   return (
     <section
       id="digital-academy"
-      style={{ background: "#000", fontFamily: "'Inter', system-ui, sans-serif" }}
+      style={{ background: "#000", fontFamily: "'Montserrat', system-ui, sans-serif" }}
       className="relative overflow-hidden py-24 md:py-36 px-4 md:px-6"
     >
       {/* Red top border */}
@@ -103,7 +102,7 @@ export function DigitalAcademy() {
               <div style={{ width: 24, height: 24, background: RED, display: "flex", alignItems: "center", justifyContent: "center", transform: "skew(-8deg)" }}>
                 <span style={{ fontFamily: "'Anton', sans-serif", fontSize: 13, color: "#fff" }}>B</span>
               </div>
-              BTB_DIGITAL_ACADEMY &nbsp;·&nbsp; FILM / IQ / SYSTEMS / EXECUTION
+              BTB_ONLINE_ACADEMY &nbsp;·&nbsp; MINI LESSONS / FILM / IQ / CULTURE
             </div>
             <h2 style={{
               fontFamily: "'Anton', 'Bebas Neue', sans-serif",
@@ -114,22 +113,22 @@ export function DigitalAcademy() {
               color: "#fff",
               margin: 0,
             }}>
-              TRAIN<br />
-              LIKE THE{" "}
+              LEARN<br />
+              THE{" "}
               <span style={{
                 color: RED,
                 display: "inline-block",
                 borderBottom: "4px solid #fff",
                 paddingBottom: 2,
-              }}>BEST</span>
+              }}>GAME</span>
             </h2>
           </div>
           <p style={{ color: MUTE, fontSize: 14, lineHeight: 1.7, maxWidth: 300, borderLeft: `1px solid ${STEEL}`, paddingLeft: 24 }}>
-            90+ lessons. 6 position-specific tracks. Film study, skill progressions,
-            and knowledge checks — available 24/7 to every BTB player.
+            Short lessons, film study, position education, and BTB culture work
+            for club members and non-club players.
             <br /><br />
             <span style={{ color: RED, fontWeight: 700, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-              Launching Sept 1, 2026
+              Boys and girls tracks stay separated
             </span>
           </p>
         </div>
@@ -138,10 +137,10 @@ export function DigitalAcademy() {
         <div className="grid grid-cols-2 md:grid-cols-4 mb-10"
           style={{ gap: 2, background: STEEL }}>
           {[
-            { num: "340+", label: "Active Players" },
-            { num: "125",  label: "Hours of Film" },
-            { num: "48",   label: "Coaching Modules" },
-            { num: "6",    label: "Position-Specific Tracks" },
+            { num: "90+", label: "Mini Lessons" },
+            { num: "2",   label: "Separate Academies" },
+            { num: "6",   label: "Position Tracks" },
+            { num: "24/7", label: "Player Access" },
           ].map(s => (
             <div key={s.label} style={{ background: "#000", padding: "28px 24px", textAlign: "center" }}>
               <div style={{
@@ -292,10 +291,10 @@ export function DigitalAcademy() {
                   + {track.total - 3} more lessons locked
                 </span>
                 <a
-                  href="/academy-info"
+                  href="/academy"
                   style={{ display: "flex", alignItems: "center", gap: 6, color: RED, fontSize: 10, fontWeight: 900, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none" }}
                 >
-                  More Info <ChevronRight size={12} />
+                  Explore <ChevronRight size={12} />
                 </a>
               </div>
             </div>
@@ -309,11 +308,11 @@ export function DigitalAcademy() {
                 Film Study
               </div>
               <p style={{ color: MUTE, fontSize: 13, maxWidth: 360, lineHeight: 1.7 }}>
-                125 hours of curated college and elite club film — tagged by concept, position, and team. Launching with Academy Access Sept 1, 2026.
+                Curated film concepts, BTB coaching points, and player IQ lessons are organized by program, position, and development stage.
               </p>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 24, color: IRON, fontSize: 10, fontFamily: "monospace", letterSpacing: "0.3em" }}>
                 <div style={{ width: 32, height: 1, background: IRON }} />
-                LAUNCHING SEPT 1, 2026
+                BUILT FOR REPEAT STUDY
                 <div style={{ width: 32, height: 1, background: IRON }} />
               </div>
             </div>
@@ -329,12 +328,12 @@ export function DigitalAcademy() {
               YOU SEE IT LIVE.
             </div>
             <div style={{ color: MUTE, fontSize: 12, marginTop: 8, letterSpacing: "0.05em" }}>
-              $30 BTB members · $75 non-members · Launches Sept 1, 2026
+              BTB member access and public player access available through the Academy.
             </div>
           </div>
           <div style={{ display: "flex", gap: 10, flexShrink: 0, flexWrap: "wrap" }}>
             <a
-              href="/interest?category=Digital%20Academy&notes=Interested%20in%20BTB%20Digital%20Academy%20access"
+              href="/academy"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 10,
                 background: RED, color: "#fff",
@@ -345,10 +344,10 @@ export function DigitalAcademy() {
               onMouseEnter={e => (e.currentTarget.style.background = "#fff", e.currentTarget.style.color = "#000")}
               onMouseLeave={e => (e.currentTarget.style.background = RED, e.currentTarget.style.color = "#fff")}
             >
-              Join Interest List ▸
+              Explore Academy ▸
             </a>
             <a
-              href="/academy-info"
+              href="/interest?category=Digital%20Academy&notes=Interested%20in%20BTB%20Online%20Academy%20access"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 10,
                 border: `1px solid ${STEEL}`, color: "#fff",
@@ -359,7 +358,7 @@ export function DigitalAcademy() {
               onMouseEnter={e => (e.currentTarget.style.borderColor = "#fff")}
               onMouseLeave={e => (e.currentTarget.style.borderColor = STEEL)}
             >
-              Learn More ▸
+              Request Access ▸
             </a>
           </div>
         </div>

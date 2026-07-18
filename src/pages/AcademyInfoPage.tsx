@@ -1,194 +1,202 @@
-/**
- * AcademyInfoPage — public-facing "About the Academy" page at /academy-info
- *
- * Explains what the BTB Online Academy is, who it's for, what's inside,
- * how it works, and how to get access. Visible to anyone — no login required.
- * Links to /login (which redirects to /boys/players or /girls/players post-auth).
- */
-
-import { useEffect } from "react"
+import { useEffect, type ReactNode } from "react"
 import { useNavigate } from "react-router-dom"
-import { SEO } from "@/components/shared/SEO"
 import {
   ArrowRight,
-  GraduationCap,
-  Swords,
-  Crown,
-  Users,
-  Trophy,
+  BadgeCheck,
   BookOpen,
-  Video,
-  Target,
   Brain,
-  Shield,
-  Zap,
   CheckCircle2,
+  ClipboardCheck,
+  Dumbbell,
+  Film,
+  GraduationCap,
   Lock,
+  PlayCircle,
+  Shield,
+  Sparkles,
+  Target,
+  Trophy,
+  Users,
+  Video,
+  Zap,
+  type LucideIcon,
 } from "lucide-react"
+import { SEO } from "@/components/shared/SEO"
 
-// ─── Data ─────────────────────────────────────────────────────────────
+type IconBlock = {
+  icon: LucideIcon
+  title: string
+  body: string
+}
+
+const interestUrl =
+  "/interest?category=Digital%20Academy&notes=Interested%20in%20BTB%20Online%20Academy%20access"
+
+const nonMemberInterestUrl =
+  "/interest?category=Digital%20Academy&notes=Interested%20in%20non-member%20BTB%20Online%20Academy%20access"
 
 const stats = [
-  { num: "90+",  label: "Academy Lessons" },
-  { num: "6",    label: "Position Tracks" },
-  { num: "3",    label: "Age Tiers" },
-  { num: "4",    label: "Coach Modules" },
+  { value: "90+", label: "Mini Lessons" },
+  { value: "2", label: "Separate Academies" },
+  { value: "6", label: "Position Tracks" },
+  { value: "24/7", label: "Player Access" },
 ]
 
-const pillars = [
+const academyPaths = [
   {
-    icon: Swords,
-    color: "text-blue-400",
-    bg: "bg-blue-500/10",
-    border: "border-blue-500/20",
-    label: "The Game",
-    desc: "Fundamentals, positions, lacrosse IQ, offensive systems, defensive slides, film study, and college recruiting. The technical knowledge to compete at the next level.",
-  },
-  {
-    icon: Crown,
-    color: "text-amber-400",
-    bg: "bg-amber-500/10",
-    border: "border-amber-500/20",
-    label: "Leadership",
-    desc: "The habits, mindset, and character of leaders. The BTB Standard, mental game, captaincy, elite preparation, and how to compete when things get hard.",
+    icon: Shield,
+    eyebrow: "BTB Club Members",
+    title: "Member Academy",
+    body: "Rostered BTB players get the full club learning path: boys or girls curriculum, position school, film study, culture standards, quizzes, downloads, and progress tracking.",
+    points: [
+      "Connected to the BTB player hub",
+      "Boys and girls content stays separated",
+      "Includes BTB terminology, standards, and team education",
+      "Built to reinforce what coaches teach on the field",
+    ],
+    cta: "Member Login",
+    action: "login",
   },
   {
     icon: Users,
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10",
-    border: "border-emerald-500/20",
-    label: "Team",
-    desc: "What makes teams win. Trust, sacrifice, chemistry, accountability, and what it means to be part of something bigger than yourself.",
-  },
-]
-
-const positions = [
-  { icon: Target,    label: "Attack",   desc: "Dodging, feeding, playing X, finishing under pressure." },
-  { icon: Zap,       label: "Midfield", desc: "Transition, rides and clears, off-ball defense, conditioning." },
-  { icon: Shield,    label: "Defense",  desc: "On-ball technique, slides, communication, clearing." },
-  { icon: Users,     label: "Goalie",   desc: "Arc positioning, mindset, communication, leading from the crease." },
-  { icon: Brain,     label: "FOGO",     desc: "Clamp mechanics, counters, scouting, the mental game of faceoffs." },
-  { icon: BookOpen,  label: "All",      desc: "Every lesson with no filter — the full curriculum in sequence." },
-]
-
-const tiers = [
-  {
-    label: "Youth",
-    ages: "Ages 8–10",
-    gradYears: "Grad Years 2034–2036",
-    color: "from-emerald-500 to-emerald-700",
+    eyebrow: "Non-Club Members",
+    title: "Public Academy",
+    body: "Players outside BTB can request access to the development curriculum: skill education, IQ lessons, film concepts, position work, and BTB culture lessons without private team-only playbooks.",
     points: [
-      "Cradling, catching, and throwing — the actual mechanics",
-      "Where to be on the field and why",
-      "Being a great teammate and what the BTB Standard means",
-      "Why teams win and how you fit into them",
+      "Great for players who want to learn the game the right way",
+      "Short lessons built for repeat study",
+      "Field homework after every learning block",
+      "Clear path into BTB tryouts, camps, and programs",
     ],
-  },
-  {
-    label: "Middle School",
-    ages: "Ages 11–13",
-    gradYears: "Grad Years 2031–2033",
-    color: "from-blue-500 to-blue-700",
-    points: [
-      "Positions and their roles — where you fit on the field",
-      "Dodging fundamentals and defensive footwork",
-      "Reading the field and making smart decisions under pressure",
-      "Mental toughness, leading your team, and owning your role",
-    ],
-  },
-  {
-    label: "High School",
-    ages: "Ages 14–17",
-    gradYears: "Grad Years 2027–2030",
-    color: "from-[#D22630] to-[#8B0000]",
-    points: [
-      "Advanced offensive sets and team defense slide packages",
-      "How to watch film like a coach and build real lacrosse IQ",
-      "The college recruiting process — what actually moves the needle",
-      "Elite mental game, captaincy, and the legacy you leave",
-    ],
+    cta: "Request Public Access",
+    action: "public",
   },
 ]
 
-const howItWorks = [
+const lessonFormat: IconBlock[] = [
   {
-    num: "01",
-    title: "Request Access",
-    desc: "BTB Academy is for rostered BTB players and coaches. Apply for your program, register, and you'll receive an invitation link from BTB.",
+    icon: Video,
+    title: "Watch",
+    body: "Every lesson starts with a short teaching video or film example. Players see the concept before they are asked to execute it.",
   },
   {
-    num: "02",
-    title: "Create Your Account",
-    desc: "Click your invite link to set up a secure Netlify Identity account. Takes 60 seconds. Your progress is tied to your account — not your device.",
+    icon: BookOpen,
+    title: "Learn",
+    body: "The coaching notes explain the why: footwork, spacing, decision-making, timing, communication, and the standard behind the rep.",
   },
   {
-    num: "03",
-    title: "Pick Your Track",
-    desc: "Log in and land on your Academy hub. Select your age tier, choose your position track (Attack, Midfield, Defense, Goalie, or FOGO), and start your first lesson.",
+    icon: Dumbbell,
+    title: "Train",
+    body: "Each block ends with a field assignment players can do at home, at practice, or before their next team session.",
   },
   {
-    num: "04",
-    title: "Learn, Watch, Prove It",
-    desc: "Each lesson has a coaching video from elite sources, written content, and a quiz you must pass to advance. No skipping. No guessing and moving on.",
-  },
-  {
-    num: "05",
-    title: "Earn the Wall of Fame",
-    desc: "Finish every lesson in your age tier and you earn a spot on the BTB Wall of Fame — visible to every player and coach in the program.",
+    icon: ClipboardCheck,
+    title: "Prove It",
+    body: "Players answer a short quiz or reflection so coaches know the lesson landed before the next piece unlocks.",
   },
 ]
 
-const coaches = [
+const curriculum = [
   {
-    num: "01",
-    title: "BTB Coaching Philosophy",
-    desc: "What BTB stands for, the standard, and how to build a culture that produces great players and great people.",
+    title: "The Game",
+    icon: Target,
+    body: "Stickwork, dodging, defense, shooting, riding, clearing, transition, slides, spacing, and game IQ.",
   },
   {
-    num: "02",
-    title: "Practice Planning and Design",
-    desc: "The 16-week development cycle, how to write a BTB practice plan, and what separates intentional practice from wasted time.",
+    title: "Position School",
+    icon: Zap,
+    body: "Attack, midfield, defense, goalie, boys FOGO, and girls draw control taught with position-specific detail.",
   },
   {
-    num: "03",
-    title: "Film Study for Coaches",
-    desc: "How to run a film session, what to look for, how to give feedback that sticks, and how to build lacrosse IQ in your players.",
+    title: "Film Study",
+    icon: Film,
+    body: "Players learn what to watch, how to pause a clip, and how to turn film into a better next rep.",
   },
   {
-    num: "04",
-    title: "Player Development and Communication",
-    desc: "How to coach different personality types, build trust, give honest feedback, and develop leaders within your program.",
+    title: "BTB Culture",
+    icon: Trophy,
+    body: "Accountability, preparation, teammate standards, toughness, response to failure, and leadership.",
   },
+  {
+    title: "Recruiting IQ",
+    icon: GraduationCap,
+    body: "For older players: highlight film habits, communication, school fit, timelines, and how coaches evaluate.",
+  },
+  {
+    title: "Coach Connection",
+    icon: Brain,
+    body: "Lessons give players the same language their coaches use, so the classroom and field finally match.",
+  },
+]
+
+const programTracks = [
+  {
+    label: "Boys Academy",
+    accent: "text-blue-300",
+    line: "Attack - Midfield - Defense - Goalie - FOGO",
+    body: "Built around the boys game: contact, two-man actions, faceoffs, defensive packages, clearing, riding, and college-style film habits.",
+  },
+  {
+    label: "Girls Academy",
+    accent: "text-pink-300",
+    line: "Attack - Midfield - Defense - Goalie - Draw",
+    body: "Built for the girls game: draw controls, 8-meter decisions, transition, defensive help, crease play, shooting lanes, and girls-specific film.",
+  },
+]
+
+const sampleLessons = [
+  "How to watch film without just watching the ball",
+  "The first three reads every dodger must make",
+  "Off-ball movement: timing, spacing, and purpose",
+  "Ground ball habits that travel to every level",
+  "Defensive approach, hips, and recovery footwork",
+  "What BTB means by culture, accountability, and response",
 ]
 
 const faqs = [
   {
-    q: "Who has access to BTB Academy?",
-    a: "BTB Academy is invite-only for rostered players and credentialed coaches. If you are currently registered with a BTB team, you are eligible. Contact info@bethebestli.com to request your invite link.",
+    q: "Is this only for BTB players?",
+    a: "No. The Academy now supports two paths: a member path for rostered BTB players and a public path for non-club players who want structured lacrosse education. Private team systems stay inside member access.",
   },
   {
-    q: "Does my progress save across devices?",
-    a: "Yes. Your progress is stored in Airtable and tied to your account — not your browser. Log in from your phone, tablet, or laptop and your progress is always current.",
+    q: "Are boys and girls lessons mixed together?",
+    a: "No. The Academy keeps boys and girls content separated when the rules, positions, terminology, film, or development needs are different.",
   },
   {
-    q: "Can I skip lessons or go out of order?",
-    a: "Within each pillar, lessons unlock sequentially — you must pass the quiz to advance. This isn't arbitrary. It mirrors how we coach: fundamentals before systems, repetition before execution.",
+    q: "How long are the lessons?",
+    a: "Most lessons are built to be short enough for players to finish between practices: video, coaching points, a quick check for understanding, and field homework.",
   },
   {
-    q: "What happens if I get a quiz question wrong?",
-    a: "You try again. There's no penalty, no time limit, and no grade. The quiz exists to make sure you actually learned the content — not to trip you up.",
-  },
-  {
-    q: "How long does each lesson take?",
-    a: "Most lessons take 10–15 minutes: watch the video, read the coaching content, answer 2–3 questions. Some high school lessons with longer film breakdowns run 20 minutes.",
-  },
-  {
-    q: "When will my own BTB film content be added?",
-    a: "Dan Achatz and the BTB coaching staff are building original lesson content to be added throughout the 2026 season. All new content is added to your account automatically — no reinstalls or updates needed.",
+    q: "What makes this different from YouTube drills?",
+    a: "The Academy is organized by a BTB development path. Players are not hunting for random drills. They are learning the game in the order coaches want them to understand it.",
   },
 ]
 
-// ─── Component ────────────────────────────────────────────────────────
+function ActionButton({ action, children }: { action: string; children: ReactNode }) {
+  const navigate = useNavigate()
+
+  if (action === "login") {
+    return (
+      <button
+        onClick={() => navigate("/login")}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#D22630] px-5 py-3 text-sm font-black uppercase text-white transition hover:bg-[#a01e26] sm:w-auto"
+      >
+        {children}
+        <ArrowRight size={16} />
+      </button>
+    )
+  }
+
+  return (
+    <a
+      href={action === "public" ? nonMemberInterestUrl : interestUrl}
+      className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-5 py-3 text-sm font-black uppercase text-white transition hover:border-[#D22630]/60 hover:bg-[#D22630]/10 sm:w-auto"
+    >
+      {children}
+      <ArrowRight size={16} />
+    </a>
+  )
+}
 
 export function AcademyInfoPage() {
   useEffect(() => { window.scrollTo(0, 0) }, [])
@@ -197,256 +205,134 @@ export function AcademyInfoPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <SEO
-        title="BTB Online Academy | Learn the Game. Develop the Player."
-        description="BTB Academy is Long Island's only lacrosse program with a full online learning platform — 90+ lessons across 3 age tiers, 6 position tracks, and a dedicated coach education curriculum."
-        path="/academy-info"
+        title="BTB Online Academy | Mini Lessons for Club and Non-Club Players"
+        description="BTB Online Academy delivers mini lessons, film study, position education, and BTB culture for club members and non-club players."
+        path="/academy"
       />
 
-      {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="pt-28 pb-20 px-6 border-b border-white/[0.07] relative overflow-hidden">
-        {/* background glow */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px]"
-            style={{ background: "radial-gradient(ellipse 100% 70% at 50% 100%, rgba(210,38,48,0.18) 0%, transparent 70%)" }} />
-        </div>
+      <section className="relative flex min-h-[86svh] items-end overflow-hidden border-b border-white/10 px-5 pb-16 pt-28 sm:px-8">
+        <video
+          className="absolute inset-0 h-full w-full object-cover opacity-30"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/assets/academy/btb-academy-intro-poster-v2.jpg"
+        >
+          <source src="/assets/academy/btb-academy-intro-v6-dan-music.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black via-black/95 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:56px_56px] opacity-25" />
 
-        <div className="max-w-[960px] mx-auto relative z-10">
-          <div className="inline-flex items-center gap-3 mb-8">
-            <div className="h-px w-10 bg-[#D22630]" />
-            <span className="text-[1.1rem] font-bold uppercase tracking-[4px] text-white/85">
-              BTB Online Academy · Long Island
-            </span>
-            <div className="h-px w-10 bg-[#D22630]" />
+        <div className="relative z-10 mx-auto w-full max-w-[1160px]">
+          <div className="mb-5 inline-flex items-center gap-3 rounded-md border border-[#D22630]/40 bg-[#D22630]/10 px-4 py-2 text-xs font-black uppercase text-white">
+            <Sparkles size={15} className="text-[#D22630]" />
+            Online player education for BTB and public athletes
           </div>
 
-          <h1
-            className="font-display uppercase leading-[0.88] tracking-wide mb-8"
-            style={{ fontSize: "clamp(3.2rem,8vw,6.5rem)" }}
-          >
-            Learn the Game.<br />
-            <span className="text-[#D22630]">Develop the Player.</span>
+          <h1 className="font-display text-6xl uppercase leading-none text-white sm:text-7xl md:text-8xl lg:text-9xl">
+            BTB Online
+            <span className="block text-[#D22630]">Academy</span>
           </h1>
 
-          <p className="text-[1.2rem] text-white/70 max-w-[540px] leading-[1.9] mb-4">
-            BTB Academy is the only online lacrosse learning platform built
-            specifically for BTB players and coaches. Not generic drills.
-            Not YouTube compilations. A structured curriculum — the same
-            coaching philosophy we use on the field, now available on any device, any time.
-          </p>
-          <p className="text-[1.1rem] text-white/85 font-semibold mb-12">
-            90+ lessons. 6 position tracks. 3 age tiers. Coach curriculum.
-            Progress that follows you across every device.
-          </p>
+          <div className="mt-7 max-w-[680px] space-y-4">
+            <p className="text-lg font-semibold leading-relaxed text-white md:text-xl">
+              Mini lessons that teach players how to think, train, study film, and compete inside the Be The Best standard.
+            </p>
+            <p className="text-base leading-relaxed text-white/75">
+              This is not a random video library. It is the BTB learning system: short lessons, coaching points, quizzes, field homework, boys and girls tracks, and a culture-first development path for club members and non-club players.
+            </p>
+          </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <button
               onClick={() => navigate("/login")}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#D22630] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-[#D22630] px-6 py-4 text-sm font-black uppercase text-white transition hover:bg-[#a01e26]"
             >
-              Access Your Academy <ArrowRight size={13} />
+              Member Login <ArrowRight size={16} />
             </button>
             <a
-              href="mailto:info@bethebestli.com"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 bg-white/5 text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:bg-white/10 transition-all duration-200"
+              href={nonMemberInterestUrl}
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 bg-black/35 px-6 py-4 text-sm font-black uppercase text-white transition hover:border-white/45 hover:bg-white/10"
             >
-              Request Access
+              Non-Member Access <ArrowRight size={16} />
             </a>
           </div>
         </div>
       </section>
 
-      {/* ── STATS ─────────────────────────────────────────────────────── */}
-      <section className="py-14 px-6 bg-neutral-950 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 border border-white/[0.07] rounded-xl overflow-hidden">
-            {stats.map((s, i) => (
-              <div key={s.label} className={`py-10 text-center ${i < stats.length - 1 ? "border-r border-white/[0.07]" : ""}`}>
-                <div className="font-display text-[2.5rem] text-[#D22630] leading-none">{s.num}</div>
-                <div className="text-[1.1rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">{s.label}</div>
-              </div>
-            ))}
-          </div>
+      <section className="border-b border-white/10 bg-[#070707] px-5 py-8 sm:px-8">
+        <div className="mx-auto grid max-w-[1160px] grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 md:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="bg-black px-4 py-8 text-center">
+              <div className="font-display text-5xl leading-none text-[#D22630]">{stat.value}</div>
+              <div className="mt-2 text-xs font-black uppercase text-white/55">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ── THREE PILLARS ─────────────────────────────────────────────── */}
-      <section className="py-24 px-6 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
-            The Curriculum
-          </div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Three Pillars.<br />Every Level.
-          </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[520px] leading-relaxed mb-14">
-            Every lesson in BTB Academy lives inside one of three pillars.
-            The pillars are designed to develop the whole player — not just
-            the one holding the stick.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-5 mb-10">
-            {pillars.map((p) => (
-              <div key={p.label} className={`p-7 rounded-xl border ${p.bg} ${p.border}`}>
-                <div className={`w-11 h-11 rounded-lg ${p.bg} border ${p.border} flex items-center justify-center mb-5`}>
-                  <p.icon size={20} className={p.color} />
-                </div>
-                <h3 className="font-display text-[1.1rem] uppercase tracking-wide mb-3">{p.label}</h3>
-                <p className="text-[1.05rem] text-white/45 leading-relaxed">{p.desc}</p>
-              </div>
-            ))}
+      <section className="border-b border-white/10 px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[1160px]">
+          <div className="mb-12 max-w-[720px]">
+            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">Two Access Paths</div>
+            <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
+              Built for our players.
+              <span className="block text-white/45">Open to serious learners.</span>
+            </h2>
           </div>
 
-          <p className="text-[1.05rem] text-white/25 text-center">
-            Leadership and Team lessons apply to every position at every age.
-            The Game pillar adapts its content by tier and position track.
-          </p>
-        </div>
-      </section>
-
-      {/* ── POSITION TRACKS ───────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
-            Position Tracks
-          </div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Your Position.<br />Your Curriculum.
-          </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[500px] leading-relaxed mb-14">
-            BTB Academy has a dedicated lesson track for every position.
-            Filter to your role and get coaching that's actually relevant to how you play.
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {positions.map((pos) => (
-              <div
-                key={pos.label}
-                className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.05] transition-all group"
-              >
-                <div className="w-9 h-9 rounded-lg bg-[#D22630]/10 flex items-center justify-center mb-4 group-hover:bg-[#D22630]/20 transition-colors">
-                  <pos.icon size={16} className="text-[#D22630]" />
-                </div>
-                <h4 className="font-display text-[1.25rem] uppercase tracking-wide mb-2">{pos.label}</h4>
-                <p className="text-[1.0rem] text-white/35 leading-relaxed">{pos.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── AGE TIERS ─────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
-            Age Tiers
-          </div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Right Content.<br />Right Age.
-          </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[500px] leading-relaxed mb-14">
-            The curriculum is not the same for every player. Content is written
-            specifically for each age group — language, complexity, and focus
-            all match where a player actually is in their development.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-5">
-            {tiers.map((tier) => (
-              <div key={tier.label} className="rounded-2xl border border-white/[0.07] overflow-hidden">
-                {/* Header band */}
-                <div className={`h-24 bg-gradient-to-br ${tier.color} p-5 flex items-end`}>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {academyPaths.map((path) => (
+              <div key={path.title} className="rounded-lg border border-white/10 bg-white/[0.03] p-6 transition hover:border-[#D22630]/45 md:p-8">
+                <div className="mb-7 flex items-start justify-between gap-5">
                   <div>
-                    <p className="text-white/70 text-[1.15rem] font-bold uppercase tracking-wider mb-1">{tier.ages}</p>
-                    <h3 className="font-display text-2xl uppercase tracking-wide text-white">{tier.label}</h3>
+                    <div className="text-sm font-black uppercase text-[#D22630]">{path.eyebrow}</div>
+                    <h3 className="mt-2 font-display text-4xl uppercase leading-none text-white">{path.title}</h3>
+                  </div>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-[#D22630]/30 bg-[#D22630]/10">
+                    <path.icon size={24} className="text-[#D22630]" />
                   </div>
                 </div>
-                {/* Content */}
-                <div className="p-5 bg-white/[0.02]">
-                  <p className="text-[1.1rem] font-bold uppercase tracking-[2px] text-white/25 mb-4">{tier.gradYears}</p>
-                  <ul className="space-y-2.5">
-                    {tier.points.map((pt, i) => (
-                      <li key={i} className="flex items-start gap-2.5">
-                        <CheckCircle2 size={13} className="text-[#D22630] shrink-0 mt-0.5" />
-                        <span className="text-[1.05rem] text-white/45 leading-snug">{pt}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <p className="mb-7 text-base leading-relaxed text-white/75">{path.body}</p>
+                <div className="mb-8 grid gap-3">
+                  {path.points.map((point) => (
+                    <div key={point} className="flex gap-3 text-sm leading-relaxed text-white/70">
+                      <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#D22630]" />
+                      <span>{point}</span>
+                    </div>
+                  ))}
                 </div>
+                <ActionButton action={path.action}>{path.cta}</ActionButton>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ──────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
-            How It Works
-          </div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
-            Start to Wall of Fame.<br />
-            <span className="text-white/45">Five Steps.</span>
-          </h2>
-
-          <div className="space-y-0 border-t border-white/[0.07]">
-            {howItWorks.map((step) => (
-              <div key={step.num} className="flex items-start gap-8 py-8 border-b border-white/[0.07] group">
-                <div className="font-display text-[1.25rem] text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5 w-6">
-                  {step.num}
-                </div>
-                <div>
-                  <h4 className="font-display text-[1.05rem] uppercase tracking-wide text-white group-hover:text-[#D22630] transition-colors mb-2">
-                    {step.title}
-                  </h4>
-                  <p className="text-[1.1rem] text-white/35 leading-relaxed">{step.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── LESSON FORMAT ─────────────────────────────────────────────── */}
-      <section className="py-24 px-6 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+      <section className="border-b border-white/10 bg-[#070707] px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[1160px]">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div>
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
-                Lesson Format
-              </div>
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-6">
-                Watch. Read.<br />Prove You Learned It.
+              <div className="mb-3 text-sm font-black uppercase text-[#D22630]">Mini Lesson Model</div>
+              <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
+                Short enough to finish.
+                <span className="block text-[#D22630]">Strong enough to matter.</span>
               </h2>
-              <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
-                Every lesson follows the same format. It's not random — it mirrors
-                how elite coaches actually teach: watch first, context second,
-                prove comprehension third. The quiz isn't optional and it isn't easy to fake.
-                You must answer correctly to advance.
-              </p>
-              <p className="text-[1.05rem] text-white/25 leading-relaxed">
-                Wrong answer? You get the explanation and try again.
-                No penalties, no timers. Just mastery before progress.
+              <p className="mt-6 text-base leading-relaxed text-white/70">
+                Players do not need another hour-long lecture. They need clear teaching, a tight focus, and something they can take to the field the same day.
               </p>
             </div>
 
-            <div className="space-y-4">
-              {[
-                { icon: Video,     step: "Step 1", title: "Video",   desc: "A curated clip from elite coaches, college programs, or pro film. Chosen specifically for the lesson topic." },
-                { icon: BookOpen,  step: "Step 2", title: "Content", desc: "Written coaching breakdown — the concepts, the mechanics, the reasoning. Typically 300–600 words of real coaching substance." },
-                { icon: Brain,     step: "Step 3", title: "Quiz",    desc: "2–3 questions on the material. You must answer correctly to mark the lesson complete and unlock the next." },
-                { icon: Trophy,    step: "Finish", title: "Progress", desc: "Completion is tracked in real time. Finish your tier and earn a spot on the BTB Wall of Fame." },
-              ].map((item) => (
-                <div key={item.title} className="flex items-start gap-4 p-5 rounded-xl border border-white/[0.07] bg-white/[0.02]">
-                  <div className="w-9 h-9 rounded-lg bg-[#D22630]/10 flex items-center justify-center shrink-0">
-                    <item.icon size={15} className="text-[#D22630]" />
+            <div className="grid gap-3 sm:grid-cols-2">
+              {lessonFormat.map((item) => (
+                <div key={item.title} className="rounded-lg border border-white/10 bg-black p-5">
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-[#D22630]/10">
+                    <item.icon size={20} className="text-[#D22630]" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-[#D22630]">{item.step}</span>
-                      <span className="font-display text-[1.18rem] uppercase tracking-wide">{item.title}</span>
-                    </div>
-                    <p className="text-[1.0rem] text-white/35 leading-relaxed">{item.desc}</p>
-                  </div>
+                  <h3 className="font-display text-3xl uppercase leading-none text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/65">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -454,122 +340,127 @@ export function AcademyInfoPage() {
         </div>
       </section>
 
-      {/* ── COACH CURRICULUM ──────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
-            For Coaches
+      <section className="border-b border-white/10 px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[1160px]">
+          <div className="mb-12 max-w-[720px]">
+            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">Curriculum</div>
+            <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
+              Skill. IQ. Culture.
+              <span className="block text-white/45">All in one development path.</span>
+            </h2>
           </div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Coach Learning<br />Built In.
-          </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[520px] leading-relaxed mb-14">
-            BTB coaches have their own curriculum inside the Coaches Hub — four
-            full modules covering philosophy, practice design, film study, and
-            player development. It's not a certification checklist. It's actual education.
-          </p>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-10">
-            {coaches.map((c) => (
-              <div key={c.num} className="flex items-start gap-6 p-6 rounded-xl border border-white/[0.07] bg-white/[0.02] group hover:border-white/[0.14] transition-all">
-                <div className="font-display text-[1.25rem] text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5">
-                  {c.num}
+          <div className="grid gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+            {curriculum.map((item) => (
+              <div key={item.title} className="bg-black p-6 transition hover:bg-[#101010]">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-md bg-white/[0.05]">
+                  <item.icon size={20} className="text-[#D22630]" />
                 </div>
-                <div>
-                  <h4 className="font-display text-[1.25rem] uppercase tracking-wide mb-2 group-hover:text-[#D22630] transition-colors">
-                    {c.title}
-                  </h4>
-                  <p className="text-[1.05rem] text-white/35 leading-relaxed">{c.desc}</p>
-                </div>
+                <h3 className="font-display text-3xl uppercase leading-none text-white">{item.title}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-white/65">{item.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 bg-[#070707] px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[1160px]">
+          <div className="grid gap-4 md:grid-cols-2">
+            {programTracks.map((track) => (
+              <div key={track.label} className="rounded-lg border border-white/10 bg-black p-7">
+                <div className={`mb-3 text-sm font-black uppercase ${track.accent}`}>{track.line}</div>
+                <h2 className="font-display text-5xl uppercase leading-none text-white">{track.label}</h2>
+                <p className="mt-5 text-base leading-relaxed text-white/70">{track.body}</p>
               </div>
             ))}
           </div>
 
-          <div className="p-6 rounded-xl border border-[#D22630]/20 bg-[#D22630]/[0.04] flex items-start gap-4">
-            <Lock size={16} className="text-[#D22630] shrink-0 mt-0.5" />
-            <p className="text-[1.05rem] text-white/70 leading-relaxed">
-              Coach curriculum is available exclusively to BTB-credentialed coaches.
-              If you're on staff and need access, contact{" "}
-              <a href="mailto:info@bethebestli.com" className="text-[#D22630] hover:underline">
-                info@bethebestli.com
-              </a>.
+          <div className="mt-5 rounded-lg border border-[#D22630]/25 bg-[#D22630]/[0.06] p-5">
+            <div className="flex gap-3">
+              <Lock size={19} className="mt-0.5 shrink-0 text-[#D22630]" />
+              <p className="text-sm leading-relaxed text-white/75">
+                Public players can learn the BTB development language. Roster-specific scouting, private team playbooks, and internal coaching notes stay inside member access.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 px-5 py-20 sm:px-8">
+        <div className="mx-auto grid max-w-[1160px] gap-12 lg:grid-cols-[1fr_1fr] lg:items-start">
+          <div>
+            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">Sample Lessons</div>
+            <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
+              Every lesson has a job.
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-white/70">
+              The Academy is built to answer the questions players usually do not know how to ask. The result is better practice habits, better film habits, and better conversations with coaches.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* ── FAQ ───────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 border-b border-white/[0.07]">
-        <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
-            Questions
-          </div>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
-            Common Questions
-          </h2>
-
-          <div className="space-y-0 border-t border-white/[0.07]">
-            {faqs.map((faq, i) => (
-              <div key={i} className="py-8 border-b border-white/[0.07]">
-                <h4 className="font-display text-[1rem] uppercase tracking-wide text-white mb-3">{faq.q}</h4>
-                <p className="text-[1.1rem] text-white/70 leading-relaxed">{faq.a}</p>
+          <div className="overflow-hidden rounded-lg border border-white/10">
+            {sampleLessons.map((lesson, index) => (
+              <div key={lesson} className="flex items-center gap-4 border-b border-white/10 bg-[#070707] p-4 last:border-b-0">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#D22630] font-display text-xl leading-none text-white">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs font-black uppercase text-white/35">Mini Lesson</div>
+                  <div className="mt-1 text-base font-bold text-white">{lesson}</div>
+                </div>
+                <PlayCircle size={22} className="ml-auto shrink-0 text-white/25" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6">
-        <div className="max-w-[960px] mx-auto">
-          <div className="relative border border-[#D22630]/25 rounded-2xl px-10 py-16 overflow-hidden text-center">
-            <div className="absolute inset-0 bg-[#D22630]/[0.04]" />
-            <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
-              <span className="font-display text-[22vw] leading-none text-white select-none">
-                BTB
-              </span>
-            </div>
+      <section className="border-b border-white/10 bg-[#070707] px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[960px]">
+          <div className="mb-10 text-center">
+            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">Questions</div>
+            <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
+              What families need to know.
+            </h2>
+          </div>
 
-            <div className="relative z-10">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D22630]/10 border border-[#D22630]/25 mb-8">
-                <GraduationCap size={28} className="text-[#D22630]" />
+          <div className="divide-y divide-white/10 overflow-hidden rounded-lg border border-white/10 bg-black">
+            {faqs.map((faq) => (
+              <div key={faq.q} className="p-6">
+                <h3 className="font-display text-3xl uppercase leading-none text-white">{faq.q}</h3>
+                <p className="mt-3 text-base leading-relaxed text-white/70">{faq.a}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-6">
-                Invite Only
-              </div>
-              <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] uppercase tracking-wide leading-[0.92] mb-6">
-                This Is for<br />BTB Players Only.
-              </h2>
-              <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
-                BTB Academy is not a public product. It's a tool we built for
-                our players and coaches because we believe in-season education
-                is just as important as in-season practice. If you're on a BTB
-                team, your access is already waiting.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={() => navigate("/login")}
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#D22630] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
-                >
-                  Log In to Academy <ArrowRight size={13} />
-                </button>
-                <a
-                  href="mailto:info@bethebestli.com"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
-                >
-                  Request Access
-                </a>
-              </div>
-
-              <p className="text-[1.2rem] text-white/45 mt-8">
-                Not a BTB player yet?{" "}
-                <a href="/boys" className="text-[#D22630] hover:underline">View the Boys Program</a>
-                {" · "}
-                <a href="/girls" className="text-[#D22630] hover:underline">View the Girls Program</a>
-              </p>
-            </div>
+      <section className="px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[1160px] text-center">
+          <div className="mx-auto mb-7 flex h-16 w-16 items-center justify-center rounded-lg border border-[#D22630]/30 bg-[#D22630]/10">
+            <BadgeCheck size={31} className="text-[#D22630]" />
+          </div>
+          <h2 className="font-display text-5xl uppercase leading-none text-white md:text-8xl">
+            Our Culture Built Us.
+            <span className="block text-[#D22630]">Our Hard Work Made Us.</span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-[680px] text-base leading-relaxed text-white/70">
+            The Online Academy turns that standard into a learning system players can carry home, study on their own, and bring back to the field.
+          </p>
+          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+            <a
+              href={interestUrl}
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-[#D22630] px-6 py-4 text-sm font-black uppercase text-white transition hover:bg-[#a01e26]"
+            >
+              Request Academy Access <ArrowRight size={16} />
+            </a>
+            <button
+              onClick={() => navigate("/login")}
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-6 py-4 text-sm font-black uppercase text-white transition hover:border-white/45 hover:bg-white/10"
+            >
+              Member Login <ArrowRight size={16} />
+            </button>
           </div>
         </div>
       </section>

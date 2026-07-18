@@ -160,7 +160,7 @@ function App() {
           <Routes>
             <Route element={<PublicLayout />}>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/academy" element={<AcademyGatePage />} />
+              <Route path="/academy" element={<AcademyInfoPage />} />
               <Route path="/tryouts" element={<TryoutsPage />} />
               <Route path="/interest" element={<InterestFormPage />} />
               <Route path="/boys" element={<ProgramPage programKey="boys" />} />
@@ -175,7 +175,8 @@ function App() {
               <Route path="/camps" element={<CampsPage />} />
               <Route path="/sms-policy" element={<SmsPolicyPage />} />
               <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
-              <Route path="/academy-info" element={<AcademyInfoPage />} />
+              <Route path="/academy-info" element={<Navigate to="/academy" replace />} />
+              <Route path="/academy-access" element={<AcademyGatePage />} />
               <Route path="/recruiting" element={<RecruitingPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </Route>

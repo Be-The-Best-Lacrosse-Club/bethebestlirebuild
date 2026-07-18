@@ -45,7 +45,7 @@ const portalLinks = [
     title: "Digital Academy",
     icon: Video,
     desc: "Access player film study, position tracks, skill progressions, and academy curriculum.",
-    href: "/academy-landing.html",
+    href: "/academy",
     tag: "ACADEMY",
   },
   {
