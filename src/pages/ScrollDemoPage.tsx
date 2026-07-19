@@ -416,7 +416,7 @@ export function ScrollDemoPage() {
                 We build it. Every player who walks through our doors gets the same thing — a system, a coach, a film room, and a standard. The rest is up to them.
               </p>
               <p className="scale-body" style={{ marginTop: 16, fontSize: 14, color: "rgba(255,255,255,0.4)" }}>
-                Founded in 2021 by Dan Achatz. Now home to 23 teams, 400+ players, and one of the most respected development pipelines on Long Island.
+                Founded in 2021 by Dan Achatz. Now home to 22 teams, 400+ players, and one of the most respected development pipelines on Long Island.
               </p>
             </div>
             <div className="scale-img-wrap">
@@ -535,7 +535,7 @@ export function ScrollDemoPage() {
               num: "01",
               title: "Player Development",
               kicker: "On the field",
-              desc: "23 teams running the same offensive system, same defensive language, same expectations. When a 2028 kid plays up, they already know the calls.",
+              desc: "22 teams running the same offensive system, same defensive language, same expectations. When a 2028 kid plays up, they already know the calls.",
               bullets: ["Position-specific coaching", "Weekly skill blocks", "Game-speed reps"],
               img: IMG.training,
             },
@@ -635,7 +635,7 @@ export function ScrollDemoPage() {
         </div>
         <div ref={hTrackRef} className="hscroll-track">
           {[
-            { num: "01", tag: "Travel", title: "Elite Teams", desc: "23 teams across all age groups, Boys + Girls.", img: IMG.team },
+            { num: "01", tag: "Travel", title: "Elite Teams", desc: "22 teams across all age groups, Boys + Girls.", img: IMG.team },
             { num: "02", tag: "Digital", title: "Player IQ", desc: "On-demand modules. Read defenses, beat slides.", img: IMG.film },
             { num: "03", tag: "Film", title: "Film Study", desc: "College + PLL footage, annotated weekly.", img: IMG.defense },
             { num: "04", tag: "Coaching", title: "Coaching Staff", desc: "40+ coaches. D1 alums + certified trainers.", img: IMG.training },

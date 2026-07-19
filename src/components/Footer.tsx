@@ -92,7 +92,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 pt-8 border-t border-white/[0.05] text-[1.08rem] text-white/55">
-          <span>&copy; 2026 Be The Best Lacrosse Academy. All rights reserved.</span>
+          <span>&copy; 2026 Be The Best Lacrosse Club. All rights reserved.</span>
           <div className="flex gap-6">
              <a href="mailto:info@bethebestli.com" className="hover:text-white/85 transition-colors">info@bethebestli.com</a>
              <span className="text-white/45 uppercase tracking-[1px]">Long Island, NY</span>

@@ -1,26 +1,28 @@
 {
   "seoImage": "/images/BTB_social_share_2026.png",
   "hero": {
-    "backgroundImage": "/images/BTB_social_share_2026.png",
-    "eyebrow": "Long Island · Est. 2021",
-    "headlineLine1": "Train Here.",
-    "headlineLine2Prefix": "Get",
-    "headlineLine2Accent": "Recruited.",
-    "description": "The Most Complete Player Development Program on Long Island.",
-    "supportingLine": "Film study. Small-group training. Real coaching. Real results.",
-    "primaryCta": "Register for 2026",
-    "primaryCtaUrl": "/register-tryouts",
-    "secondaryCta": "Academy Access",
-    "secondaryCtaUrl": "/academy-landing.html",
     "hudItems": [
-      "FLAGSHIP: BOYS_2028",
-      "FLAGSHIP: GIRLS_2030",
-      "RECRUITING_PHASE: ACTIVE",
-      "SEASON: 25-26"
+      { "text": "FLAGSHIP: BOYS_2028", "dotColor": "var(--btb-red)", "pulse": true, "delay": "0s", "desktopOnly": false },
+      { "text": "FLAGSHIP: GIRLS_2030", "dotColor": "var(--btb-red)", "pulse": true, "delay": "0.3s", "desktopOnly": false },
+      { "text": "RECRUITING_PHASE: ACTIVE", "dotColor": "#34d399", "pulse": true, "delay": "0.6s", "desktopOnly": true },
+      { "text": "SEASON: 25–26", "dotColor": "rgba(255,255,255,0.2)", "pulse": false, "delay": "0s", "desktopOnly": true }
     ],
+    "eyebrow": "Long Island · Est. 2021",
+    "headline": {
+      "line1": "Built By ",
+      "accent": "Culture.",
+      "line2": "Proven By Work."
+    },
+    "subheadline": {
+      "text": "The Most Complete Player Development Program",
+      "accent": "on Long Island."
+    },
+    "supportingLine": "Film study. Small-group training. Real coaching. Real results.",
+    "primaryCta": { "label": "Register for 2026", "url": "/tryouts" },
+    "secondaryCta": { "label": "Choose Boys / Girls", "url": "#program-paths" },
     "stats": [
       { "value": "450+", "label": "Players" },
-      { "value": "25", "label": "Teams" },
+      { "value": "22", "label": "Teams" },
       { "value": "45+", "label": "Coaches" }
     ]
   }

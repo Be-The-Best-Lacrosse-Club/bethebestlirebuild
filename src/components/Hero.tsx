@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react"
 import { ArrowRight } from "lucide-react"
 import { useWordSplit, useMagnetic, useCursorParallax, ease } from "@/hooks/useScrollAnimation"
+import homeContent from "@/content/home.json"
+
+const { hero } = homeContent
 
 export function Hero() {
   const headlineRef = useWordSplit(65)
@@ -96,29 +99,22 @@ export function Hero() {
           ref={hud1Ref}
           className="flex flex-wrap justify-center gap-3 md:gap-6 mb-8 md:mb-10 font-mono text-[1.05rem] md:text-[1.05rem] tracking-[2px] text-white/90 uppercase"
         >
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" />
-            FLAGSHIP: BOYS_2028
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)] animate-pulse" style={{ animationDelay: "0.3s" }} />
-            FLAGSHIP: GIRLS_2030
-          </div>
-          <div className="hidden md:flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" style={{ animationDelay: "0.6s" }} />
-            RECRUITING_PHASE: ACTIVE
-          </div>
-          <div className="hidden md:flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
-            SEASON: 25–26
-          </div>
+          {hero.hudItems.map((item) => (
+            <div key={item.text} className={`${item.desktopOnly ? "hidden md:flex" : "flex"} items-center gap-2`}>
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${item.pulse ? "animate-pulse" : ""}`}
+                style={{ backgroundColor: item.dotColor, animationDelay: item.delay }}
+              />
+              {item.text}
+            </div>
+          ))}
         </div>
 
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-3 mb-8 md:mb-10">
           <div className="h-px w-8 bg-[var(--btb-red)]" />
           <span className="text-[1.05rem] font-bold uppercase tracking-[4px] text-white/90">
-            Long Island · Est. 2021
+            {hero.eyebrow}
           </span>
           <div className="h-px w-8 bg-[var(--btb-red)]" />
         </div>
@@ -129,10 +125,10 @@ export function Hero() {
           className="font-display uppercase leading-[0.88] tracking-wide mb-6 md:mb-8 w-full"
           style={{ fontSize: "clamp(3rem, 14vw, 8rem)" }}
         >
-          Built By{" "}
-          <span style={{ color: "var(--btb-red)" }}>Culture.</span>
+          {hero.headline.line1}
+          <span style={{ color: "var(--btb-red)" }}>{hero.headline.accent}</span>
           <br />
-          Proven By Work.
+          {hero.headline.line2}
         </h1>
 
         {/* Sub lines */}
@@ -140,19 +136,19 @@ export function Hero() {
           ref={subRef}
           className="relative font-display uppercase text-[1.55rem] sm:text-[1.9rem] md:text-[2.25rem] leading-[0.95] tracking-[1px] text-white max-w-[720px] mx-auto mb-5 drop-shadow-[0_4px_18px_rgba(0,0,0,0.85)]"
         >
-          The Most Complete Player Development Program
-          <span className="block text-[var(--btb-red)]">on Long Island.</span>
+          {hero.subheadline.text}
+          <span className="block text-[var(--btb-red)]">{hero.subheadline.accent}</span>
           <span className="block w-24 h-1 bg-[var(--btb-red)] mx-auto mt-5" />
         </p>
         <p className="text-[1.05rem] md:text-[1rem] text-white/95 font-semibold mb-10 md:mb-12">
-          Film study. Small-group training. Real coaching. Real results.
+          {hero.supportingLine}
         </p>
 
         {/* CTAs */}
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full max-w-sm sm:max-w-none">
           <a
             ref={primaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="/tryouts"
+            href={hero.primaryCta.url}
             className="relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] overflow-hidden group"
             style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
           >
@@ -162,28 +158,24 @@ export function Hero() {
               style={{ transitionTimingFunction: ease }}
             />
             <span className="relative z-10 group-hover:text-black transition-colors duration-300 flex items-center gap-2">
-              Register for 2026 <ArrowRight size={13} />
+              {hero.primaryCta.label} <ArrowRight size={13} />
             </span>
           </a>
 
           <a
             ref={secondaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="#program-paths"
+            href={hero.secondaryCta.url}
             className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-[1.05rem] font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
           >
-            Choose Boys / Girls
+            {hero.secondaryCta.label}
           </a>
         </div>
 
         {/* Stats strip */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 mt-12 md:mt-16 pt-8 md:pt-10 border-t border-white/[0.06] w-full max-w-[700px]">
-          {[
-            { val: "450+", label: "Players" },
-            { val: "22", label: "Teams" },
-            { val: "45+", label: "Coaches" },
-          ].map(({ val, label }) => (
+          {hero.stats.map(({ value, label }) => (
             <div key={label} className="text-center">
-              <div className="font-display text-3xl text-[var(--btb-red)] leading-none">{val}</div>
+              <div className="font-display text-3xl text-[var(--btb-red)] leading-none">{value}</div>
               <div className="text-[1.05rem] font-bold uppercase tracking-[2px] text-white/90 mt-1">{label}</div>
             </div>
           ))}
