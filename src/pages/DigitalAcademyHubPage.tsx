@@ -29,7 +29,7 @@ import {
   PILLAR_CONFIG,
   PILLAR_ORDER,
   POSITION_CONFIG,
-  POSITION_ORDER,
+  getPositionOrder,
   type AcademyCourse,
   type AcademyLesson,
   type WallOfFameEntry,
@@ -38,6 +38,16 @@ import {
   type AcademyProgress,
   type Position,
 } from "@/lib/academyData"
+import {
+  academyPhaseMap,
+  academySystemPillars,
+  coachCertificationLevels,
+  gameDayCard,
+  parentPortalModules,
+  playerHomeworkAssignments,
+  standardizedDrillCards,
+  videoLibraryFolders,
+} from "@/lib/academySystem"
 import {
   ArrowLeft,
   LogOut,
@@ -63,12 +73,16 @@ import {
   Zap,
   Activity,
   FileText,
+  CalendarDays,
+  ClipboardList,
+  Rocket,
+  Dumbbell,
 } from "lucide-react"
 import type { Gender, Course } from "@/types"
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
-type Tab = "dashboard" | "academy" | "courses" | "film" | "resources" | "downloads" | "wof"
+type Tab = "dashboard" | "academy" | "courses" | "film" | "resources" | "downloads" | "wof" | "launch"
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -87,9 +101,25 @@ const PILLAR_COLORS: Record<Pillar, { gradient: string; text: string; bg: string
 }
 
 const TIER_COLORS: Record<AgeTier, string> = {
-  youth:  "from-emerald-500 to-emerald-700",
-  middle: "from-blue-500 to-blue-700",
-  high:   "from-[#D22630] to-[#8B0000]",
+  foundation:  "from-emerald-500 to-emerald-700",
+  development: "from-blue-500 to-blue-700",
+  advanced:    "from-violet-500 to-violet-700",
+  elite:       "from-[#D22630] to-[#8B0000]",
+}
+
+const TIER_LABELS: Record<AgeTier, string> = {
+  foundation: "Foundation",
+  development: "Development",
+  advanced: "Advanced",
+  elite: "Elite",
+}
+
+const getTierLabel = (tier: string) => {
+  if (tier in TIER_LABELS) return TIER_LABELS[tier as AgeTier]
+  if (tier === "youth") return "Foundation"
+  if (tier === "middle") return "Development"
+  if (tier === "high") return "Elite"
+  return "Academy"
 }
 
 const TOPIC_ICONS: Record<string, typeof BookOpen> = {
@@ -106,25 +136,47 @@ const TOPIC_COLORS: Record<string, string> = {
   Character:     "text-amber-400 bg-amber-500/10 border-amber-500/30",
 }
 
-const FILM_POSITIONS = ["All", "Attack", "Midfield", "Defense", "Goalie", "FOGO"] as const
-type FilmPosition = typeof FILM_POSITIONS[number]
+type FilmPosition = "All" | "Attack" | "Midfield" | "Defense" | "Goalie" | "FOGO" | "Draw"
 
-const STATIC_DOWNLOADS = [
-  // Drill Sheets — gender-neutral
-  { id: "d3", name: "Ground Ball Drill Sheet",        category: "Drill Sheets",  gender: "all",   size: "540 KB",  ext: "PDF" },
-  { id: "d4", name: "Wall Ball 30-Day Program",       category: "Drill Sheets",  gender: "all",   size: "320 KB",  ext: "PDF" },
-  { id: "d5", name: "BTB Footwork Ladder Circuit",    category: "Drill Sheets",  gender: "all",   size: "280 KB",  ext: "PDF" },
-  // Mental Game — gender-neutral
-  { id: "d6", name: "Mental Performance Journal",     category: "Mental Game",   gender: "all",   size: "1.1 MB",  ext: "PDF" },
-  { id: "d7", name: "Pressure Performance Protocol",  category: "Mental Game",   gender: "all",   size: "420 KB",  ext: "PDF" },
-  // Recruiting — gender-neutral
-  { id: "d8", name: "Recruiting Preparation Guide",   category: "Recruiting",    gender: "all",   size: "890 KB",  ext: "PDF" },
-  { id: "d9", name: "College Lacrosse Email Templates", category: "Recruiting",  gender: "all",   size: "180 KB",  ext: "PDF" },
-  { id: "d10", name: "Highlight Film Checklist",      category: "Recruiting",    gender: "all",   size: "210 KB",  ext: "PDF" },
-]
+const getFilmPositions = (gender: Gender): FilmPosition[] =>
+  gender === "girls"
+    ? ["All", "Attack", "Midfield", "Defense", "Goalie", "Draw"]
+    : ["All", "Attack", "Midfield", "Defense", "Goalie", "FOGO"]
 
 const DOWNLOAD_CATEGORIES = ["Playbooks", "Drill Sheets", "Mental Game", "Recruiting"] as const
 type DownloadCategory = typeof DOWNLOAD_CATEGORIES[number]
+
+type AcademyDownload = {
+  id: string
+  name: string
+  category: DownloadCategory
+  gender: Gender | "all"
+  size: string
+  ext: string
+  href: string
+}
+
+const STATIC_DOWNLOADS: AcademyDownload[] = [
+  // Playbooks
+  { id: "pb-boys-offense", name: "Boys Motion Offense Playbook", category: "Playbooks", gender: "boys", size: "Interactive", ext: "HTML", href: "/btb-boys-offense-playbook.html" },
+  { id: "pb-boys-defense", name: "Boys Defensive Playbook", category: "Playbooks", gender: "boys", size: "Interactive", ext: "HTML", href: "/btb-boys-defense-playbook.html" },
+  { id: "pb-boys-transition", name: "Boys Transition & Special Teams", category: "Playbooks", gender: "boys", size: "Interactive", ext: "HTML", href: "/btb-boys-transition-playbook.html" },
+  { id: "pb-girls-offense", name: "Girls Motion Offense Playbook", category: "Playbooks", gender: "girls", size: "Interactive", ext: "HTML", href: "/btb-girls-offense-playbook.html" },
+  { id: "pb-girls-defense", name: "Girls Defensive Playbook", category: "Playbooks", gender: "girls", size: "Interactive", ext: "HTML", href: "/btb-girls-defense-playbook.html" },
+  { id: "pb-girls-transition", name: "Girls Transition & Special Teams", category: "Playbooks", gender: "girls", size: "Interactive", ext: "HTML", href: "/btb-girls-transition-playbook.html" },
+  { id: "pb-positionless", name: "Positionless Guru Study Guide", category: "Playbooks", gender: "all", size: "Interactive", ext: "HTML", href: "/btb-positionless-guru.html" },
+  // Drill Sheets — gender-neutral
+  { id: "d3", name: "Ground Ball Drill Sheet",        category: "Drill Sheets",  gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#ground-ball" },
+  { id: "d4", name: "Wall Ball 30-Day Program",       category: "Drill Sheets",  gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#wall-ball" },
+  { id: "d5", name: "BTB Footwork Ladder Circuit",    category: "Drill Sheets",  gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#footwork" },
+  // Mental Game — gender-neutral
+  { id: "d6", name: "Mental Performance Journal",     category: "Mental Game",   gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#mental-journal" },
+  { id: "d7", name: "Pressure Performance Protocol",  category: "Mental Game",   gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#pressure" },
+  // Recruiting — gender-neutral
+  { id: "d8", name: "Recruiting Preparation Guide",   category: "Recruiting",    gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#recruiting" },
+  { id: "d9", name: "College Lacrosse Email Templates", category: "Recruiting",  gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#emails" },
+  { id: "d10", name: "Highlight Film Checklist",      category: "Recruiting",    gender: "all",   size: "Print",  ext: "HTML", href: "/academy-downloads/BTB_Academy_Training_Packets.html#highlight" },
+]
 
 const CATEGORY_COLORS: Record<DownloadCategory, string> = {
   Playbooks:    "bg-blue-500/10 text-blue-400 border-blue-500/30",
@@ -192,6 +244,42 @@ const PLAYER_RESOURCES = [
   },
 ]
 
+const LAUNCH_PHASES = [
+  {
+    phase: "Platform Foundation",
+    dates: "July 18-24",
+    status: "In Progress",
+    body: "Separate boys and girls hubs, four BTB development tiers, lesson progress, quizzes, Wall of Fame, and working resource access.",
+  },
+  {
+    phase: "Curriculum Completion",
+    dates: "July 25-August 7",
+    status: "Next",
+    body: "Finish the mini lesson sequence for Skill, IQ, Physical preparation, and Character with boys/girls-specific position schools.",
+  },
+  {
+    phase: "Member + Public Access",
+    dates: "August 8-16",
+    status: "Next",
+    body: "Finalize rostered member accounts, non-member access flow, pricing language, coach visibility, and launch support.",
+  },
+  {
+    phase: "QA + Family Rollout",
+    dates: "August 17-31",
+    status: "Target",
+    body: "Mobile testing, coach review, parent communication, launch checklist, and final content cleanup before end-of-August release.",
+  },
+]
+
+const LAUNCH_CHECKLIST = [
+  { label: "Boys and girls Academy routes", status: "Live", detail: "Separate player hubs and public Academy entry points are active." },
+  { label: "Four-tier BTB curriculum map", status: "Live", detail: "Foundation, Development, Advanced, and Elite tracks are now reflected in the hub." },
+  { label: "Position school separation", status: "Live", detail: "Boys FOGO and girls Draw are treated as different position tracks." },
+  { label: "Download/resource packets", status: "Live", detail: "Playbooks and printable training packets now open from the Downloads tab." },
+  { label: "Final video/content audit", status: "Build", detail: "Next sprint: review every lesson video, quiz, and field assignment." },
+  { label: "Accounts and launch roster", status: "Build", detail: "Next sprint: prepare member access and the non-member request flow." },
+]
+
 // ─── Subcomponents ──────────────────────────────────────────────────────────
 
 function ProgressBar({ pct, colorClass = "bg-[#D22630]", height = "h-1.5" }: { pct: number; colorClass?: string; height?: string }) {
@@ -210,7 +298,7 @@ function ProgressBar({ pct, colorClass = "bg-[#D22630]", height = "h-1.5" }: { p
 export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const { getCourseCompletion } = useProgress(user?.id ?? "")
+  const { getProgress, getCourseCompletion } = useProgress(user?.id ?? "")
 
   // ── Gender state ─────────────────────────────────────────────────────────
   const [gender, setGender] = useState<Gender>(() => {
@@ -224,6 +312,11 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   })
 
   const setAndStoreGender = (g: Gender) => {
+    if (genderProp && g !== genderProp) {
+      try { localStorage.setItem(GENDER_STORAGE_KEY, g) } catch { /* ignore */ }
+      navigate(`/${g}/players`)
+      return
+    }
     setGender(g)
     try { localStorage.setItem(GENDER_STORAGE_KEY, g) } catch { /* ignore */ }
   }
@@ -265,6 +358,11 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   // ── Downloads ─────────────────────────────────────────────────────────────
   const [downloadCategory, setDownloadCategory] = useState<DownloadCategory | "All">("All")
 
+  const isPublicAcademyUser = user?.academyAccess === "public"
+  const canViewLaunchPlan = !isPublicAcademyUser && (user?.role === "owner" || user?.role === "coach")
+  const positionOrder = useMemo(() => getPositionOrder(gender), [gender])
+  const filmPositions = useMemo(() => getFilmPositions(gender), [gender])
+
   // ── On mount: sync progress + load WoF ───────────────────────────────────
   useEffect(() => {
     if (user?.id) {
@@ -275,11 +373,24 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
 
   // Reset gender when user changes
   useEffect(() => {
+    if (genderProp) {
+      setGender(genderProp)
+      return
+    }
     if (user?.gender) {
       const stored = localStorage.getItem(GENDER_STORAGE_KEY)
       if (!stored) setGender(user.gender as Gender)
     }
-  }, [user?.gender])
+  }, [genderProp, user?.gender])
+
+  useEffect(() => {
+    if (!positionOrder.includes(activePosition)) setActivePosition("all")
+    if (!filmPositions.includes(filmPositionFilter)) setFilmPositionFilter("All")
+    if (activeTab === "launch" && !canViewLaunchPlan) setActiveTab("dashboard")
+    if (isPublicAcademyUser && ["academy", "resources", "downloads", "wof", "launch"].includes(activeTab)) {
+      setActiveTab("dashboard")
+    }
+  }, [activePosition, activeTab, canViewLaunchPlan, filmPositionFilter, filmPositions, isPublicAcademyUser, positionOrder])
 
   const handleLogout = async () => {
     await logout()
@@ -384,6 +495,62 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   const completedLessons = academyCourses.reduce((s, c) =>
     s + (academyProgress[c.id]?.completedLessons.length ?? 0), 0)
   const overallPct = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0
+  const publicCoursePct = gradCourses.length > 0
+    ? Math.round(gradCourses.reduce((sum, course) => sum + getCourseCompletion(course.id, course.steps.length), 0) / gradCourses.length)
+    : 0
+  const publicCompletedCourses = gradCourses.filter((course) => getCourseCompletion(course.id, course.steps.length) === 100).length
+  const publicLearningSteps = gradCourses.reduce((sum, course) => sum + course.steps.length, 0)
+  const publicFilmLessons = gradCourses.reduce((sum, course) => sum + course.steps.filter((step) => step.type === "film").length, 0)
+  const publicCompletedSteps = gradCourses.flatMap((course) =>
+    getProgress(course.id).completedSteps.map((stepId) => {
+      const step = course.steps.find((s) => s.id === stepId)
+      return step ? { course, step } : null
+    }).filter(Boolean)
+  )
+  const dashboardPct = isPublicAcademyUser ? publicCoursePct : overallPct
+  const navTabs = isPublicAcademyUser
+    ? [
+        { id: "dashboard" as Tab, icon: LayoutDashboard, label: "Dashboard" },
+        { id: "courses" as Tab, icon: BookOpen, label: "Learning" },
+        { id: "film" as Tab, icon: Film, label: "Video" },
+      ]
+    : [
+        { id: "dashboard" as Tab, icon: LayoutDashboard, label: "Dashboard" },
+        { id: "academy" as Tab, icon: GraduationCap, label: "Academy" },
+        { id: "courses" as Tab, icon: BookOpen, label: "Courses" },
+        { id: "film" as Tab, icon: Film, label: "Film Study" },
+        { id: "resources" as Tab, icon: Swords, label: "Playbooks" },
+        { id: "downloads" as Tab, icon: Download, label: "Downloads" },
+        { id: "wof" as Tab, icon: Trophy, label: "Wall of Fame" },
+        ...(canViewLaunchPlan ? [{ id: "launch" as Tab, icon: ClipboardList, label: "System" }] : []),
+      ]
+  const dashboardStats = isPublicAcademyUser
+    ? [
+        { label: "Courses Done", value: `${publicCompletedCourses}/${gradCourses.length}` },
+        { label: "Steps", value: `${publicLearningSteps}` },
+        { label: "Film Lessons", value: `${publicFilmLessons}` },
+        { label: "Access", value: "Public" },
+      ]
+    : [
+        { label: "Lessons Done", value: `${completedLessons}/${totalLessons}` },
+        { label: "Est. Time", value: `${Math.round(completedLessons * 8)} min` },
+        { label: "Courses", value: `${gradCourses.length}` },
+        { label: "Badges", value: `${academyCourses.filter(isCourseComplete).length}` },
+      ]
+  const quickActions = isPublicAcademyUser
+    ? [
+        { label: "Video Lessons", icon: Play, tab: "courses" as Tab, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
+        { label: "Learning Path", icon: BookOpen, tab: "courses" as Tab, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+        { label: "Film Study", icon: Film, tab: "film" as Tab, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+      ]
+    : [
+        { label: "Player IQ", icon: Brain, tab: "academy" as Tab, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+        { label: "Position School", icon: Target, tab: "academy" as Tab, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
+        { label: "Systems", icon: Zap, tab: "courses" as Tab, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+        { label: "Film Study", icon: Film, tab: "film" as Tab, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+        { label: "Playbooks", icon: Swords, tab: "resources" as Tab, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
+        { label: "Downloads", icon: Download, tab: "downloads" as Tab, color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20" },
+      ]
 
   // Streak (simple: count distinct days in localStorage progress)
   const streak = useMemo(() => {
@@ -441,7 +608,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   }
 
   // ─── LESSON VIEW ──────────────────────────────────────────────────────────
-  if (activeLesson && activePillarCourse && !showLessonComplete && !showCourseComplete) {
+  if (!isPublicAcademyUser && activeLesson && activePillarCourse && !showLessonComplete && !showCourseComplete) {
     const currentQuestion = activeLesson.questions[currentQuestionIndex]
     const isCorrect = answerSubmitted && selectedAnswer === currentQuestion.correctAnswer
     const TopicIcon = TOPIC_ICONS[activeLesson.topic]
@@ -578,7 +745,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   }
 
   // ─── LESSON COMPLETE ───────────────────────────────────────────────────────
-  if (showLessonComplete && activeLesson && activePillarCourse) {
+  if (!isPublicAcademyUser && showLessonComplete && activeLesson && activePillarCourse) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center px-6">
         <div className="text-center max-w-md">
@@ -602,7 +769,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   }
 
   // ─── COURSE COMPLETE ───────────────────────────────────────────────────────
-  if (showCourseComplete && activePillarCourse) {
+  if (!isPublicAcademyUser && showCourseComplete && activePillarCourse) {
     const genderLabel = gender === "boys" ? "Boys" : "Girls"
     return (
       <div className="min-h-screen bg-black flex items-center justify-center px-6 py-12">
@@ -651,7 +818,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   }
 
   // ─── PILLAR COURSE DETAIL VIEW ─────────────────────────────────────────────
-  if (activePillarCourse && !activeLesson) {
+  if (!isPublicAcademyUser && activePillarCourse && !activeLesson) {
     const genderLabel = gender === "boys" ? "Boys" : "Girls"
     const courseProgress = getCourseProgress(activePillarCourse)
     const allPillarLessons = getLessonsByPillar(activePillarCourse, activePillar)
@@ -735,7 +902,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
           <p className="text-[#888888] text-sm mb-5">{PILLAR_CONFIG[activePillar].description}</p>
 
           <div className="flex flex-wrap gap-2 mb-6">
-            {POSITION_ORDER.map((pos) => (
+            {positionOrder.map((pos) => (
               <button
                 key={pos}
                 onClick={() => setActivePosition(pos)}
@@ -837,69 +1004,84 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
 
       {/* ── Sticky Topbar ─────────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur border-b border-[#1F1F1F]">
-        <div className="max-w-[1400px] mx-auto px-6 py-0 flex items-center justify-between h-14 gap-4">
+        <div className="mx-auto grid h-16 max-w-[1400px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-3 sm:px-5">
 
           {/* Logo */}
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 shrink-0 group"
+            className="group flex h-10 items-center gap-2"
+            aria-label="BTB home"
           >
-            <div className="w-8 h-8 bg-[#D22630] flex items-center justify-center font-bold text-white text-sm -skew-x-6 group-hover:scale-105 transition-transform"
+            <div className="flex h-9 w-9 -skew-x-6 items-center justify-center bg-[#D22630] text-sm font-bold text-white transition-transform group-hover:scale-105"
               style={{ fontFamily: "'Anton', sans-serif" }}>B</div>
-            <span className="font-bold uppercase tracking-wide text-sm text-white hidden sm:block"
+            <span className="hidden text-sm font-bold uppercase tracking-wide text-white sm:block"
               style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif" }}>
               BTB <span className="text-[#D22630]">Academy</span>
             </span>
           </button>
 
-          {/* Nav Tabs — horizontal scrollable */}
-          <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide flex-1 justify-center">
-            {([
-              { id: "dashboard" as Tab, icon: LayoutDashboard, label: "Dashboard" },
-              { id: "academy"   as Tab, icon: GraduationCap,   label: "Academy" },
-              { id: "courses"   as Tab, icon: BookOpen,         label: "Courses" },
-              { id: "film"      as Tab, icon: Film,             label: "Film Study" },
-              { id: "resources" as Tab, icon: Swords,           label: "Playbooks" },
-              { id: "downloads" as Tab, icon: Download,         label: "Downloads" },
-              { id: "wof"       as Tab, icon: Trophy,           label: "Wall of Fame" },
-            ] as const).map(({ id, icon: Icon, label }) => (
-              <button
-                key={id}
-                onClick={() => setActiveTab(id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[1.25rem] font-bold uppercase tracking-[0.8px] whitespace-nowrap transition-all ${
-                  activeTab === id
-                    ? "bg-[#D22630] text-white"
-                    : "text-[#888888] hover:text-white hover:bg-[#141414]"
-                }`}
-              >
-                <Icon size={13} />
-                <span className="hidden md:inline">{label}</span>
-              </button>
-            ))}
+          {/* Nav Tabs */}
+          <div className="min-w-0">
+            <div
+              role="tablist"
+              aria-label="Academy sections"
+              className="mx-auto flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-md border border-[#1F1F1F] bg-[#0A0A0A] p-1 scrollbar-hide"
+            >
+              {navTabs.map(({ id, icon: Icon, label }) => {
+                const isActive = activeTab === id
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-label={label}
+                    title={label}
+                    onClick={() => setActiveTab(id)}
+                    className={`flex h-9 min-w-9 items-center justify-center gap-2 rounded-[6px] px-2.5 text-[11px] font-black uppercase tracking-[0.08em] whitespace-nowrap transition-colors md:px-3 ${
+                      isActive
+                        ? "bg-[#D22630] text-white [box-shadow:0_0_0_1px_rgba(210,38,48,0.35)]"
+                        : "text-white/45 hover:bg-white/[0.05] hover:text-white"
+                    }`}
+                  >
+                    <Icon size={15} strokeWidth={2} />
+                    <span className="hidden lg:inline">{label}</span>
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Right: gender toggle + logout */}
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="flex items-center gap-0.5 bg-[#141414] rounded-lg p-0.5 border border-[#1F1F1F]">
+          <div className="flex shrink-0 items-center gap-2">
+            <div className="flex h-9 items-center gap-1 rounded-md border border-[#1F1F1F] bg-[#0A0A0A] p-1">
               {(["boys", "girls"] as Gender[]).map((g) => (
                 <button
                   key={g}
+                  type="button"
                   onClick={() => setAndStoreGender(g)}
-                  className={`px-2.5 py-1 rounded text-[1.15rem] font-black uppercase tracking-[1px] transition-all ${
+                  className={`h-7 rounded-[5px] px-2 text-[10px] font-black uppercase tracking-[0.08em] transition-colors ${
                     gender === g
                       ? "bg-[#D22630] text-white"
-                      : "text-[#888888] hover:text-white"
+                      : "text-white/45 hover:bg-white/[0.05] hover:text-white"
                   }`}
                 >
-                  {g}
+                  <span className="sm:hidden">{g === "boys" ? "B" : "G"}</span>
+                  <span className="hidden sm:inline">{g}</span>
                 </button>
               ))}
             </div>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#D22630] to-red-700 flex items-center justify-center font-bold text-white text-xs border border-[#1F1F1F]">
+            <div className="hidden h-9 w-9 items-center justify-center rounded-md border border-[#1F1F1F] bg-[#141414] text-xs font-bold text-white sm:flex">
               {user?.name?.[0] ?? "P"}
             </div>
-            <button onClick={handleLogout} className="text-[#888888] hover:text-white transition-colors hidden sm:flex items-center gap-1 text-xs font-semibold">
-              <LogOut size={13} />
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="hidden h-9 w-9 items-center justify-center rounded-md border border-[#1F1F1F] text-white/45 transition-colors hover:border-white/20 hover:bg-white/[0.05] hover:text-white md:flex"
+              aria-label="Logout"
+              title="Logout"
+            >
+              <LogOut size={15} />
             </button>
           </div>
         </div>
@@ -932,22 +1114,19 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
             <div className="bg-[#0A0A0A] border border-[#1F1F1F] rounded-2xl p-6 mb-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className="text-[#888888] text-[1.15rem] font-bold uppercase tracking-[2px] mb-1">Development Track · Overall Progress</p>
-                  <p className="text-4xl font-bold" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif" }}>{overallPct}%</p>
+                  <p className="text-[#888888] text-[1.15rem] font-bold uppercase tracking-[2px] mb-1">
+                    {isPublicAcademyUser ? "Public Video Learning · Overall Progress" : "Development Track · Overall Progress"}
+                  </p>
+                  <p className="text-4xl font-bold" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif" }}>{dashboardPct}%</p>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-[#D22630]/10 border border-[#D22630]/30 rounded-lg">
                   <Activity size={14} className="text-[#D22630]" />
                   <span className="text-[#D22630] text-xs font-bold uppercase">Active</span>
                 </div>
               </div>
-              <ProgressBar pct={overallPct} colorClass="bg-[#D22630]" height="h-2.5" />
+              <ProgressBar pct={dashboardPct} colorClass="bg-[#D22630]" height="h-2.5" />
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-5">
-                {[
-                  { label: "Lessons Done", value: `${completedLessons}/${totalLessons}` },
-                  { label: "Est. Time", value: `${Math.round(completedLessons * 8)} min` },
-                  { label: "Courses", value: `${gradCourses.length}` },
-                  { label: "Badges", value: `${academyCourses.filter(isCourseComplete).length}` },
-                ].map(({ label, value }) => (
+                {dashboardStats.map(({ label, value }) => (
                   <div key={label} className="text-center">
                     <p className="text-white font-bold text-lg">{value}</p>
                     <p className="text-[#888888] text-[1.15rem] uppercase tracking-wider mt-0.5">{label}</p>
@@ -956,16 +1135,50 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
               </div>
             </div>
 
+            {isPublicAcademyUser && (
+              <div className="mb-6 rounded-2xl border border-[#D22630]/30 bg-[#D22630]/[0.08] p-5">
+                <div className="flex gap-4">
+                  <Lock size={18} className="mt-0.5 shrink-0 text-[#D22630]" />
+                  <div>
+                    <p className="text-sm font-bold uppercase tracking-[2px] text-white">Public Learning Academy</p>
+                    <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/65">
+                      This account includes general video lessons, film study, and player education. BTB terminology, team playbooks, team systems, downloads, Wall of Fame, and internal team resources are member-only.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {canViewLaunchPlan && (
+              <button
+                onClick={() => setActiveTab("launch")}
+                className="mb-6 w-full rounded-2xl border border-[#D22630]/30 bg-[#D22630]/[0.08] p-5 text-left transition hover:border-[#D22630]/60 hover:bg-[#D22630]/[0.12]"
+              >
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#D22630]">
+                      <Rocket size={21} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="text-[1.1rem] font-black uppercase tracking-[2px] text-[#D22630]">Academy System</p>
+                      <h3 className="mt-1 text-xl font-bold uppercase text-white" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                        4 phases, 3 pillars, one shared language
+                      </h3>
+                      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/65">
+                        Open the internal build map for curriculum, coach certification, drill cards, parent education, homework, and rollout.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="inline-flex items-center gap-2 text-[1.15rem] font-black uppercase tracking-[2px] text-white">
+                    Open System <ChevronRight size={15} />
+                  </div>
+                </div>
+              </button>
+            )}
+
             {/* Quick grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-              {[
-                { label: "Player IQ",       icon: Brain,          tab: "academy"   as Tab, color: "text-blue-400",    bg: "bg-blue-500/10",    border: "border-blue-500/20" },
-                { label: "Position School", icon: Target,         tab: "academy"   as Tab, color: "text-purple-400",  bg: "bg-purple-500/10",  border: "border-purple-500/20" },
-                { label: "Systems",         icon: Zap,            tab: "courses"   as Tab, color: "text-amber-400",   bg: "bg-amber-500/10",   border: "border-amber-500/20" },
-                { label: "Film Study",      icon: Film,           tab: "film"      as Tab, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-                { label: "Playbooks",       icon: Swords,         tab: "resources" as Tab, color: "text-red-400",      bg: "bg-red-500/10",     border: "border-red-500/20" },
-                { label: "Downloads",       icon: Download,       tab: "downloads" as Tab, color: "text-rose-400",    bg: "bg-rose-500/10",    border: "border-rose-500/20" },
-              ].map(({ label, icon: Icon, tab, color, bg, border }) => (
+              {quickActions.map(({ label, icon: Icon, tab, color, bg, border }) => (
                 <button
                   key={label}
                   onClick={() => setActiveTab(tab)}
@@ -985,40 +1198,79 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                   <Play size={16} className="text-[#D22630]" />
                   <h3 className="font-bold uppercase tracking-wider text-sm">Continue Training</h3>
                 </div>
-                <div className="space-y-4">
-                  {academyCourses.slice(0, 3).map((course) => {
-                    const pct = getCourseProgress(course)
-                    return (
-                      <button
-                        key={course.id}
-                        onClick={() => { setActivePillarCourse(course); setActivePillar("game") }}
-                        className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#141414] border border-[#1F1F1F] hover:border-[#2A2A2A] transition-all group text-left"
-                      >
-                        <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${TIER_COLORS[course.tier]} flex items-center justify-center shrink-0`}>
-                          <GraduationCap size={16} className="text-white" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-bold truncate">{course.tierLabel} Academy</p>
-                          <ProgressBar pct={pct} colorClass="bg-[#D22630]" height="h-1 mt-1.5" />
-                        </div>
-                        <span className="text-[#888888] text-xs font-bold shrink-0">{pct}%</span>
-                        <ChevronRight size={14} className="text-[#888888] group-hover:text-white transition-colors shrink-0" />
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
+	                <div className="space-y-4">
+	                  {isPublicAcademyUser
+	                    ? gradCourses.slice(0, 3).map((course) => {
+	                        const pct = getCourseCompletion(course.id, course.steps.length)
+	                        return (
+	                          <button
+	                            key={course.id}
+	                            onClick={() => setActiveCourse(course)}
+	                            className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#141414] border border-[#1F1F1F] hover:border-[#2A2A2A] transition-all group text-left"
+	                          >
+	                            <div className="w-10 h-10 rounded-lg bg-[#D22630] flex items-center justify-center shrink-0">
+	                              <Play size={16} className="text-white" />
+	                            </div>
+	                            <div className="flex-1 min-w-0">
+	                              <p className="text-white text-sm font-bold truncate">{course.title}</p>
+	                              <ProgressBar pct={pct} colorClass="bg-[#D22630]" height="h-1 mt-1.5" />
+	                            </div>
+	                            <span className="text-[#888888] text-xs font-bold shrink-0">{pct}%</span>
+	                            <ChevronRight size={14} className="text-[#888888] group-hover:text-white transition-colors shrink-0" />
+	                          </button>
+	                        )
+	                      })
+	                    : academyCourses.slice(0, 3).map((course) => {
+	                        const pct = getCourseProgress(course)
+	                        return (
+	                          <button
+	                            key={course.id}
+	                            onClick={() => { setActivePillarCourse(course); setActivePillar("game") }}
+	                            className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#141414] border border-[#1F1F1F] hover:border-[#2A2A2A] transition-all group text-left"
+	                          >
+	                            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${TIER_COLORS[course.tier]} flex items-center justify-center shrink-0`}>
+	                              <GraduationCap size={16} className="text-white" />
+	                            </div>
+	                            <div className="flex-1 min-w-0">
+	                              <p className="text-white text-sm font-bold truncate">{course.tierLabel} Academy</p>
+	                              <ProgressBar pct={pct} colorClass="bg-[#D22630]" height="h-1 mt-1.5" />
+	                            </div>
+	                            <span className="text-[#888888] text-xs font-bold shrink-0">{pct}%</span>
+	                            <ChevronRight size={14} className="text-[#888888] group-hover:text-white transition-colors shrink-0" />
+	                          </button>
+	                        )
+	                      })}
+	                </div>
+	              </div>
 
               {/* Recent Activity */}
               <div className="bg-[#0A0A0A] border border-[#1F1F1F] rounded-2xl p-6">
                 <div className="flex items-center gap-2 mb-5">
                   <Activity size={16} className="text-[#D22630]" />
                   <h3 className="font-bold uppercase tracking-wider text-sm">Recent Activity</h3>
-                </div>
-                <div className="space-y-3">
-                  {completedLessons === 0 ? (
-                    <p className="text-[#888888] text-sm text-center py-6">No activity yet. Start a lesson to track your progress.</p>
-                  ) : (
+	                </div>
+	                <div className="space-y-3">
+	                  {isPublicAcademyUser ? (
+	                    publicCompletedSteps.length === 0 ? (
+	                      <p className="text-[#888888] text-sm text-center py-6">No activity yet. Start a video lesson to track your progress.</p>
+	                    ) : (
+	                      publicCompletedSteps.slice(-5).reverse().map((item, idx) => {
+	                        if (!item) return null
+	                        return (
+	                          <div key={`${item.course.id}-${item.step.id}-${idx}`} className="flex items-center gap-3 py-2">
+	                            <div className="w-2 h-2 rounded-full bg-[#D22630] shrink-0" />
+	                            <div className="flex-1 min-w-0">
+	                              <p className="text-white text-sm font-semibold truncate">{item.step.title}</p>
+	                              <p className="text-[#888888] text-xs">{item.course.title}</p>
+	                            </div>
+	                            <Check size={14} className="text-[#00D26A] shrink-0" />
+	                          </div>
+	                        )
+	                      })
+	                    )
+	                  ) : completedLessons === 0 ? (
+	                    <p className="text-[#888888] text-sm text-center py-6">No activity yet. Start a lesson to track your progress.</p>
+	                  ) : (
                     academyCourses.flatMap((course) =>
                       (academyProgress[course.id]?.completedLessons ?? []).map((lessonId) => {
                         const lesson = course.lessons.find((l) => l.id === lessonId)
@@ -1046,7 +1298,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
         )}
 
         {/* ── ACADEMY TAB ────────────────────────────────────────────────── */}
-        {activeTab === "academy" && (
+        {!isPublicAcademyUser && activeTab === "academy" && (
           <div>
             <div className="mb-8">
               <h2 className="text-3xl font-bold uppercase mb-2"
@@ -1214,7 +1466,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
               </p>
               {/* Position filter */}
               <div className="flex flex-wrap gap-2">
-                {FILM_POSITIONS.map((pos) => (
+                {filmPositions.map((pos) => (
                   <button
                     key={pos}
                     onClick={() => setFilmPositionFilter(pos)}
@@ -1287,7 +1539,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
         )}
 
         {/* ── PLAYBOOK RESOURCES TAB ─────────────────────────────────────── */}
-        {activeTab === "resources" && (
+        {!isPublicAcademyUser && activeTab === "resources" && (
           <div>
             <div className="mb-8">
               <h2 className="text-3xl font-bold uppercase mb-2"
@@ -1329,7 +1581,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
         )}
 
         {/* ── DOWNLOADS TAB ──────────────────────────────────────────────── */}
-        {activeTab === "downloads" && (
+        {!isPublicAcademyUser && activeTab === "downloads" && (
           <div>
             <div className="mb-6">
               <h2 className="text-3xl font-bold uppercase mb-2"
@@ -1361,8 +1613,9 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
               {filteredDownloads.map((item) => (
                 <a
                   key={item.id}
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex items-center gap-4 p-5 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl hover:border-[#D22630]/40 hover:bg-[#141414] transition-all"
                 >
                   <div className="w-12 h-12 rounded-lg bg-[#D22630]/10 border border-[#D22630]/20 flex items-center justify-center shrink-0 group-hover:bg-[#D22630]/20 transition-colors">
@@ -1375,6 +1628,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                         {item.category}
                       </span>
                       <span className="text-[#888888] text-[1.15rem]">{item.size}</span>
+                      <span className="text-white/30 text-[1.15rem]">{item.ext}</span>
                     </div>
                   </div>
                   <Download size={18} className="text-[#888888] group-hover:text-[#D22630] shrink-0 transition-colors" />
@@ -1384,8 +1638,297 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
           </div>
         )}
 
+        {/* ── SYSTEM TAB ───────────────────────────────────────────────── */}
+        {activeTab === "launch" && canViewLaunchPlan && (
+          <div>
+            <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-[#D22630]/30 bg-[#D22630]/10 px-3 py-1 text-[1.05rem] font-black uppercase tracking-[2px] text-[#D22630]">
+                  <ClipboardList size={13} />
+                  Academy Operating System
+                </div>
+                <h2 className="text-4xl font-bold uppercase leading-none md:text-5xl"
+                  style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                  BTB Development System
+                  <span className="block text-[#D22630]">16 Weeks · 3 Pillars</span>
+                </h2>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[#888888]">
+                  Internal source of truth for the online Academy: player learning, coach certification, parent education, drill cards, homework, video folders, and rollout.
+                </p>
+              </div>
+              <div className="grid grid-cols-4 gap-2 rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-3 text-center">
+                {[
+                  { label: "Phases", value: academyPhaseMap.length },
+                  { label: "Certs", value: coachCertificationLevels.length },
+                  { label: "Drills", value: standardizedDrillCards.length },
+                  { label: "Lessons", value: totalLessons },
+                ].map((item) => (
+                  <div key={item.label} className="min-w-[86px] rounded-xl bg-[#141414] px-4 py-3">
+                    <div className="font-display text-3xl text-white">{item.value}</div>
+                    <div className="text-[1.05rem] font-black uppercase tracking-[1.5px] text-[#888888]">{item.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-3">
+              {academySystemPillars.map((pillar) => (
+                <div key={pillar.title} className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                  <p className="text-[1.05rem] font-black uppercase tracking-[2px] text-[#D22630]">{pillar.audience}</p>
+                  <h3 className="mt-2 text-2xl font-bold uppercase text-white" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#888888]">{pillar.promise}</p>
+                  <div className="mt-5 space-y-2">
+                    {pillar.items.map((item) => (
+                      <div key={item} className="flex items-start gap-2 text-sm text-white/65">
+                        <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-[#D22630]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+              <div className="mb-5 flex items-center gap-2">
+                <CalendarDays size={17} className="text-[#D22630]" />
+                <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">4-Phase Master Curriculum</h3>
+              </div>
+              <div className="grid gap-3 xl:grid-cols-4">
+                {academyPhaseMap.map((phase, index) => (
+                  <div key={phase.phase} className="rounded-xl border border-[#1F1F1F] bg-black p-5">
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D22630] font-display text-2xl text-white">
+                        {String(index + 1).padStart(2, "0")}
+                      </div>
+                      <span className="rounded-full bg-white/[0.06] px-3 py-1 text-[1.0rem] font-black uppercase tracking-[1px] text-white/55">
+                        {phase.weeks}
+                      </span>
+                    </div>
+                    <h4 className="text-2xl font-bold uppercase text-white" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                      {phase.phase}
+                    </h4>
+                    <p className="mt-3 text-sm font-semibold leading-relaxed text-[#D22630]">{phase.identity}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-[#888888]">{phase.focus}</p>
+                    <div className="mt-5 space-y-3">
+                      {phase.systems.map((system) => (
+                        <div key={`${phase.phase}-${system.name}`} className="rounded-lg border border-white/[0.06] bg-white/[0.025] p-3">
+                          <div className="mb-1 text-[1.0rem] font-black uppercase tracking-[1.5px] text-white">{system.name}</div>
+                          <p className="text-xs leading-relaxed text-white/55"><span className="text-white/85">HS:</span> {system.highSchool}</p>
+                          <p className="mt-1 text-xs leading-relaxed text-white/55"><span className="text-white/85">Youth:</span> {system.youth}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-5 grid gap-5 xl:grid-cols-[0.85fr_1.15fr]">
+              <div className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                <div className="mb-5 flex items-center gap-2">
+                  <Award size={17} className="text-[#D22630]" />
+                  <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">Coach Certification Pathway</h3>
+                </div>
+                <div className="space-y-3">
+                  {coachCertificationLevels.map((level) => (
+                    <div key={level.level} className="rounded-xl border border-[#1F1F1F] bg-black p-5">
+                      <div className="mb-2 flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[1.05rem] font-black uppercase tracking-[2px] text-[#D22630]">{level.level} · {level.phase}</p>
+                          <h4 className="mt-1 text-xl font-bold uppercase text-white" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                            {level.title}
+                          </h4>
+                        </div>
+                        <span className="rounded-full bg-amber-500/15 px-3 py-1 text-[1.0rem] font-black uppercase tracking-[1px] text-amber-400">
+                          {level.deliverable}
+                        </span>
+                      </div>
+                      <p className="text-sm leading-relaxed text-[#888888]">{level.requirement}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {level.keyTopics.map((topic) => (
+                          <span key={topic} className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[1.0rem] font-bold uppercase tracking-[1px] text-white/60">
+                            {topic}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                <div className="mb-5 flex items-center gap-2">
+                  <BookOpen size={17} className="text-[#D22630]" />
+                  <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">Standardized Drill Cards</h3>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {standardizedDrillCards.map((drill) => (
+                    <div key={drill.name} className="rounded-xl border border-[#1F1F1F] bg-black p-4">
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-[#D22630]/15 px-2.5 py-1 text-[1.0rem] font-black uppercase tracking-[1px] text-[#D22630]">{drill.phase}</span>
+                        <span className="rounded-full bg-white/[0.06] px-2.5 py-1 text-[1.0rem] font-black uppercase tracking-[1px] text-white/55">{drill.system}</span>
+                      </div>
+                      <h4 className="text-lg font-bold text-white">{drill.name}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-[#888888]">{drill.purpose}</p>
+                      <div className="mt-4 text-xs leading-relaxed text-white/55">
+                        <span className="font-bold text-white/85">Diagram:</span> {drill.diagram}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 grid gap-5 xl:grid-cols-3">
+              <div className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                <div className="mb-5 flex items-center gap-2">
+                  <Users size={17} className="text-[#D22630]" />
+                  <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">Parent Portal Modules</h3>
+                </div>
+                <div className="space-y-3">
+                  {parentPortalModules.map((module) => (
+                    <div key={module.title} className="rounded-xl border border-[#1F1F1F] bg-black p-4">
+                      <p className="text-[1.0rem] font-black uppercase tracking-[1.5px] text-[#D22630]">{module.audience}</p>
+                      <h4 className="mt-1 text-lg font-bold text-white">{module.title}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-[#888888]">{module.outcome}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                <div className="mb-5 flex items-center gap-2">
+                  <Dumbbell size={17} className="text-[#D22630]" />
+                  <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">Player Homework</h3>
+                </div>
+                <div className="space-y-3">
+                  {playerHomeworkAssignments.map((assignment) => (
+                    <div key={assignment.phase} className="rounded-xl border border-[#1F1F1F] bg-black p-4">
+                      <div className="mb-1 text-[1.0rem] font-black uppercase tracking-[1.5px] text-[#D22630]">{assignment.weeks}</div>
+                      <h4 className="text-lg font-bold text-white">{assignment.phase}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-[#888888]">{assignment.theme}</p>
+                      <p className="mt-3 text-xs leading-relaxed text-white/55"><span className="text-white/85">Challenge:</span> {assignment.iqChallenge}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                <div className="mb-5 flex items-center gap-2">
+                  <ClipboardList size={17} className="text-[#D22630]" />
+                  <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">Game Day Card</h3>
+                </div>
+                <div className="space-y-3">
+                  {gameDayCard.halftime.map((item) => (
+                    <div key={item.problem} className="rounded-xl border border-[#1F1F1F] bg-black p-4">
+                      <p className="text-sm font-bold text-white">{item.problem}</p>
+                      <p className="mt-2 text-xs leading-relaxed text-[#888888]">{item.adjustment}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5 rounded-xl border border-[#1F1F1F] bg-black p-4">
+                  <p className="mb-3 text-[1.0rem] font-black uppercase tracking-[1.5px] text-[#D22630]">Video Library Folders</p>
+                  <div className="flex flex-wrap gap-2">
+                    {videoLibraryFolders.map((folder) => (
+                      <span key={folder} className="rounded-full bg-white/[0.06] px-3 py-1 text-[1.0rem] font-bold uppercase tracking-[1px] text-white/55">
+                        {folder}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-5 xl:grid-cols-[1.15fr_0.85fr]">
+              <div className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                <div className="mb-6 flex items-center gap-2">
+                  <CalendarDays size={17} className="text-[#D22630]" />
+                  <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">Launch Phases</h3>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {LAUNCH_PHASES.map((phase) => (
+                    <div key={phase.phase} className="rounded-xl border border-[#1F1F1F] bg-black p-5">
+                      <div className="mb-4 flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[1.05rem] font-black uppercase tracking-[2px] text-[#888888]">{phase.dates}</p>
+                          <h4 className="mt-1 text-xl font-bold uppercase text-white" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                            {phase.phase}
+                          </h4>
+                        </div>
+                        <span className={`rounded-full px-3 py-1 text-[1.0rem] font-black uppercase tracking-[1px] ${
+                          phase.status === "In Progress"
+                            ? "bg-[#D22630]/15 text-[#D22630]"
+                            : phase.status === "Target"
+                              ? "bg-emerald-500/15 text-emerald-400"
+                              : "bg-white/[0.06] text-white/55"
+                        }`}>
+                          {phase.status}
+                        </span>
+                      </div>
+                      <p className="text-sm leading-relaxed text-[#888888]">{phase.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+                <div className="mb-6 flex items-center gap-2">
+                  <ClipboardList size={17} className="text-[#D22630]" />
+                  <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">Readiness Checklist</h3>
+                </div>
+                <div className="space-y-3">
+                  {LAUNCH_CHECKLIST.map((item) => (
+                    <div key={item.label} className="rounded-xl border border-[#1F1F1F] bg-black p-4">
+                      <div className="mb-2 flex items-center justify-between gap-3">
+                        <p className="text-sm font-bold text-white">{item.label}</p>
+                        <span className={`rounded-full px-2.5 py-1 text-[1.0rem] font-black uppercase tracking-[1px] ${
+                          item.status === "Live"
+                            ? "bg-emerald-500/15 text-emerald-400"
+                            : "bg-amber-500/15 text-amber-400"
+                        }`}>
+                          {item.status}
+                        </span>
+                      </div>
+                      <p className="text-xs leading-relaxed text-[#888888]">{item.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-[#1F1F1F] bg-[#0A0A0A] p-6">
+              <div className="mb-5 flex items-center gap-2">
+                <GraduationCap size={17} className="text-[#D22630]" />
+                <h3 className="text-sm font-bold uppercase tracking-[2px] text-white">{gender === "boys" ? "Boys" : "Girls"} Curriculum Map</h3>
+              </div>
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                {academyCourses.map((course) => (
+                  <button
+                    key={course.id}
+                    onClick={() => { setActivePillarCourse(course); setActivePillar("game") }}
+                    className="rounded-xl border border-[#1F1F1F] bg-black p-5 text-left transition hover:border-[#D22630]/45 hover:bg-[#141414]"
+                  >
+                    <div className={`mb-4 h-2 rounded-full bg-gradient-to-r ${TIER_COLORS[course.tier]}`} />
+                    <p className="text-[1.05rem] font-black uppercase tracking-[2px] text-[#888888]">{course.gradYears}</p>
+                    <h4 className="mt-1 text-2xl font-bold uppercase text-white" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+                      {course.tierLabel}
+                    </h4>
+                    <p className="mt-3 text-sm leading-relaxed text-[#888888]">{course.description}</p>
+                    <div className="mt-5 inline-flex items-center gap-2 text-[1.05rem] font-black uppercase tracking-[2px] text-[#D22630]">
+                      Review Lessons <ChevronRight size={13} />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ── WALL OF FAME TAB ───────────────────────────────────────────── */}
-        {activeTab === "wof" && (
+        {!isPublicAcademyUser && activeTab === "wof" && (
           <div>
             <div className="mb-8">
               <h2 className="text-3xl font-bold uppercase mb-2"
@@ -1406,13 +1949,13 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {wallEntries.map((entry, i) => (
                   <div key={i} className="bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl p-5 flex items-center gap-4 hover:border-[#2A2A2A] transition-colors">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br ${TIER_COLORS[(entry.tier as AgeTier)] || TIER_COLORS.youth}`}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br ${TIER_COLORS[(entry.tier as AgeTier)] || TIER_COLORS.foundation}`}>
                       <Trophy size={16} className="text-white" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-white text-sm font-bold truncate">{entry.name}</p>
                       <p className="text-[#888888] text-xs mt-0.5">
-                        {entry.tier === "youth" ? "Youth" : entry.tier === "middle" ? "Middle School" : "High School"}
+                        {getTierLabel(entry.tier)}
                         {entry.completedAt && <span className="ml-2 text-white/45">{entry.completedAt}</span>}
                       </p>
                     </div>

@@ -1,6 +1,7 @@
 import { useReveal } from "@/hooks/useReveal"
 import { Calendar, FileText, CreditCard, Video, BookOpen, ArrowRight, Shield, Link as LinkIcon, Smartphone, MessageSquare } from "lucide-react"
 import { Link } from "react-router-dom"
+import { academyPhaseMap, parentPortalModules } from "@/lib/academySystem"
 
 const portalLinks = [
   {
@@ -116,6 +117,53 @@ export function ParentPortalPage() {
             )
           })}
         </div>
+
+        <section className="mt-24 border border-white/10 bg-white/[0.02] p-8 md:p-10">
+          <div className="mb-10 max-w-[650px]">
+            <div className="mb-4 text-[1.05rem] font-black uppercase tracking-[4px] text-[var(--btb-red)]">
+              BTB Way
+            </div>
+            <h2 className="font-display text-[clamp(2.2rem,5vw,4rem)] uppercase leading-[0.9] text-white">
+              Four phases.
+              <br />
+              One development path.
+            </h2>
+            <p className="mt-5 text-[1.05rem] leading-relaxed text-white/60">
+              The Academy gives families a clearer view of what players are learning and why the season builds in a specific order.
+            </p>
+          </div>
+
+          <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2 xl:grid-cols-4">
+            {academyPhaseMap.map((phase, index) => (
+              <div key={phase.phase} className="bg-black p-5">
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="font-display text-3xl text-[var(--btb-red)]">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="text-[1.0rem] font-black uppercase tracking-[1.5px] text-white/30">{phase.weeks}</span>
+                </div>
+                <h3 className="font-display text-2xl uppercase tracking-wide text-white">{phase.phase}</h3>
+                <p className="mt-3 text-[1.0rem] leading-relaxed text-white/60">{phase.identity}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-10 grid gap-4 md:grid-cols-3">
+          {parentPortalModules.map((module) => (
+            <div key={module.title} className="border border-white/10 bg-white/[0.02] p-6">
+              <div className="mb-3 text-[1.0rem] font-black uppercase tracking-[3px] text-[var(--btb-red)]">{module.audience}</div>
+              <h3 className="font-display text-2xl uppercase tracking-wide text-white">{module.title}</h3>
+              <p className="mt-3 text-[1.0rem] leading-relaxed text-white/60">{module.outcome}</p>
+              <div className="mt-5 grid gap-2">
+                {module.items.map((item) => (
+                  <div key={item} className="flex items-center gap-2 text-[1.0rem] text-white/65">
+                    <Shield size={12} className="shrink-0 text-[var(--btb-red)]" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
 
         {/* Support Section */}
         <div className="mt-24 p-12 bg-white/[0.02] border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">

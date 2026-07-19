@@ -64,7 +64,7 @@ export function CoachingStaffPage({ gender }: { gender: Gender }) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {data.coaches.map((coach) => (
-              <div key={coach.name + coach.title} className="group rounded-2xl border border-white/[0.07] bg-white/[0.02] p-8 hover:border-white/[0.15] transition-all duration-300">
+              <div key={coach.name + coach.title} className="group rounded-2xl border border-white/[0.09] bg-white/[0.025] p-8 hover:border-white/[0.16] transition-all duration-300">
                 {/* Initials avatar */}
                 <div className="flex items-start gap-5 mb-6">
                   <div className="w-14 h-14 rounded-full bg-[var(--btb-red)] flex items-center justify-center font-display text-lg uppercase tracking-wide text-white shrink-0">
@@ -79,14 +79,14 @@ export function CoachingStaffPage({ gender }: { gender: Gender }) {
                 {/* Credentials */}
                 <div className="flex flex-wrap gap-2 mb-5">
                   {coach.credentials.map((cred) => (
-                    <span key={cred} className="text-[1.05rem] font-bold uppercase tracking-[1px] px-3 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] text-white/35">
+                    <span key={cred} className="text-[1.05rem] font-bold uppercase tracking-[1px] px-3 py-1.5 rounded-full border border-white/[0.10] bg-white/[0.04] text-white/60">
                       {cred}
                     </span>
                   ))}
                 </div>
 
                 {/* Bio */}
-                <p className="text-[1.1rem] text-white/35 leading-relaxed group-hover:text-white/45 transition-colors">{coach.bio}</p>
+                <p className="text-[1.05rem] leading-[1.75] text-white/65 transition-colors group-hover:text-white/80">{coach.bio}</p>
               </div>
             ))}
           </div>

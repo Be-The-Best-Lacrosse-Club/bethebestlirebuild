@@ -59,7 +59,7 @@ exports.handler = async (event) => {
         .map(r => ({
           name:        r.fields.Name        || "",
           gender:      r.fields.gender      || "boys",
-          tier:        r.fields.tier        || "youth",
+          tier:        r.fields.tier        || "foundation",
           courseId:    r.fields.courseId    || "",
           completedAt: r.fields.completedAt || "",
         }))

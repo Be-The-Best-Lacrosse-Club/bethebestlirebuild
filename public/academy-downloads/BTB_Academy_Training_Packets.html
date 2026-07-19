@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BTB Academy Training Packets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #D22630;
+      --dark-red: #a01e26;
+      --black: #000;
+      --graphite: #0A0A0A;
+      --charcoal: #141414;
+      --steel: #1F1F1F;
+      --text: #fff;
+      --muted: rgba(255,255,255,.68);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--black);
+      color: var(--text);
+      font-family: "Montserrat", system-ui, sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 22px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      background: rgba(0,0,0,.92);
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+    }
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      background: var(--red);
+      transform: skewX(-8deg);
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 26px;
+      line-height: 1;
+    }
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .btn {
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: #fff;
+      border-radius: 6px;
+      padding: 10px 13px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn.primary { background: var(--red); border-color: var(--red); }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 80px 22px 50px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      background:
+        linear-gradient(135deg, rgba(210,38,48,.2), rgba(0,0,0,0) 38%),
+        radial-gradient(circle at top right, rgba(255,255,255,.08), transparent 32%),
+        var(--black);
+    }
+    .hero-inner, .content {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+    .eyebrow {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 {
+      margin: 0;
+      font-family: "Bebas Neue", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      line-height: .95;
+    }
+    h1 {
+      max-width: 850px;
+      font-size: clamp(58px, 11vw, 132px);
+    }
+    h1 span, h2 span { color: var(--red); }
+    .hero p {
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 16px;
+      margin: 22px 0 0;
+    }
+    .quick-nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      margin: 28px 0 0;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .quick-nav a {
+      background: var(--graphite);
+      padding: 14px;
+      text-decoration: none;
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .content {
+      padding: 46px 22px 70px;
+    }
+    .packet {
+      scroll-margin-top: 90px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: var(--graphite);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .packet-header {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 72px 1fr;
+      padding: 22px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      background: linear-gradient(90deg, rgba(210,38,48,.16), rgba(255,255,255,.02));
+    }
+    .num {
+      display: grid;
+      place-items: center;
+      height: 72px;
+      background: var(--red);
+      color: #fff;
+      border-radius: 6px;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 42px;
+      line-height: 1;
+    }
+    .packet h2 {
+      font-size: clamp(34px, 6vw, 64px);
+    }
+    .packet-summary {
+      color: var(--muted);
+      margin: 8px 0 0;
+      max-width: 760px;
+      font-size: 14px;
+    }
+    .packet-body {
+      display: grid;
+      gap: 16px;
+      padding: 22px;
+    }
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .box {
+      border: 1px solid rgba(255,255,255,.1);
+      background: var(--charcoal);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 100%;
+    }
+    h3 {
+      color: #fff;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .label {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    ul, ol {
+      margin: 10px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    li { margin: 7px 0; }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.1);
+      font-size: 13px;
+    }
+    .table th, .table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      vertical-align: top;
+      text-align: left;
+    }
+    .table th {
+      color: #fff;
+      background: rgba(210,38,48,.15);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .table td { color: var(--muted); }
+    .callout {
+      border-left: 4px solid var(--red);
+      background: rgba(210,38,48,.08);
+      padding: 14px 16px;
+      color: rgba(255,255,255,.82);
+      font-size: 14px;
+      font-weight: 600;
+    }
+	    .print-note {
+	      color: rgba(255,255,255,.45);
+	      text-align: center;
+	      font-size: 12px;
+	      margin-top: 28px;
+	    }
+	    body.is-locked > :not(.access-denied) { display: none !important; }
+	    body:not(.is-locked) .access-denied { display: none !important; }
+	    .access-denied {
+	      min-height: 100vh;
+	      display: flex;
+	      align-items: center;
+	      justify-content: center;
+	      background: #000;
+	      color: #fff;
+	      padding: 24px;
+	      text-align: center;
+	    }
+	    .access-denied div { max-width: 520px; }
+	    .access-denied .locked-label {
+	      color: var(--red);
+	      font-size: 12px;
+	      font-weight: 900;
+	      letter-spacing: .18em;
+	      text-transform: uppercase;
+	      margin-bottom: 14px;
+	    }
+	    .access-denied h1 { font-family: "Bebas Neue", sans-serif; font-size: 48px; }
+	    .access-denied p { color: var(--muted); line-height: 1.6; }
+	    .access-denied a {
+	      display: inline-flex;
+	      margin-top: 22px;
+	      background: var(--red);
+	      color: #fff;
+	      text-decoration: none;
+	      padding: 12px 18px;
+	      border-radius: 6px;
+	      font-size: 12px;
+	      font-weight: 900;
+	      text-transform: uppercase;
+	    }
+	    @media (max-width: 760px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .quick-nav, .grid.two, .grid.three { grid-template-columns: 1fr; }
+      .packet-header { grid-template-columns: 1fr; }
+      .num { width: 72px; }
+    }
+    @media print {
+      body { background: #fff; color: #000; }
+      .topbar, .quick-nav, .btn, .print-note { display: none !important; }
+      .hero { padding: 24px 0; background: #fff; color: #000; }
+      .content { padding: 0; }
+      .packet { page-break-inside: avoid; border-color: #ddd; background: #fff; }
+      .packet-header, .box, .callout { background: #fff; color: #000; }
+      .packet-summary, .hero p, ul, ol, .table td { color: #111; }
+      h1, h2, h3, .table th { color: #000; }
+    }
+  </style>
+</head>
+<body class="is-locked">
+  <script>
+    (function () {
+      var storageKey = "btb-academy-member-downloads"
+      var requiredPassword = "#BTBLAX26"
+      var allowed = false
+      try {
+        if (sessionStorage.getItem(storageKey) === "1") {
+          allowed = true
+        } else {
+          var entered = window.prompt("BTB member password required")
+          if (entered === requiredPassword) {
+            sessionStorage.setItem(storageKey, "1")
+            allowed = true
+          }
+        }
+      } catch (error) {
+        // If storage is blocked, still require the password for this visit.
+        var fallback = window.prompt("BTB member password required")
+        if (fallback === requiredPassword) allowed = true
+      }
+
+      if (allowed) {
+        document.body.classList.remove("is-locked")
+        return
+      }
+
+      document.body.insertAdjacentHTML("afterbegin", '<main class="access-denied"><div><div class="locked-label">Member Only</div><h1>BTB Academy Downloads</h1><p>These training packets are reserved for rostered BTB members. Public Academy accounts include video lessons and general learning access only.</p><a href="/academy">Back to Academy</a></div></main>')
+    })()
+  </script>
+  <header class="topbar">
+    <a class="brand" href="/academy">
+      <span class="mark">B</span>
+      <span>BTB Digital Academy</span>
+    </a>
+    <div class="top-actions">
+      <a class="btn" href="/academy">Academy Home</a>
+      <button class="btn primary" onclick="window.print()">Print Packet</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">BTB Member Academy Downloads</div>
+      <h1>Training <span>Packets</span></h1>
+      <p>Printable player resources for the Digital Academy: skill work, field assignments, mental performance, recruiting prep, and highlight film habits. Built for players to use between practices.</p>
+      <nav class="quick-nav">
+        <a href="#ground-ball">Ground Ball Drill Sheet</a>
+        <a href="#wall-ball">Wall Ball 30-Day Program</a>
+        <a href="#footwork">Footwork Ladder Circuit</a>
+        <a href="#mental-journal">Mental Performance Journal</a>
+        <a href="#pressure">Pressure Protocol</a>
+        <a href="#recruiting">Recruiting Guide</a>
+        <a href="#emails">College Email Templates</a>
+        <a href="#highlight">Highlight Film Checklist</a>
+      </nav>
+    </div>
+  </section>
+
+  <main class="content">
+    <section class="packet" id="ground-ball">
+      <div class="packet-header">
+        <div class="num">01</div>
+        <div>
+          <h2>Ground Ball Drill Sheet</h2>
+          <p class="packet-summary">Ground balls are not random. They reward body position, commitment, communication, and the first clean exit after possession.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <div class="grid three">
+          <div class="box">
+            <div class="label">Technique</div>
+            <ul>
+              <li>Approach through the ball, not to the ball.</li>
+              <li>Butt low, chest over stick, top hand near plastic.</li>
+              <li>Scoop through and accelerate for three steps.</li>
+              <li>Protect first, then move the ball.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="label">Daily Reps</div>
+            <ul>
+              <li>20 stationary scoops each hand.</li>
+              <li>20 rolling scoops right side.</li>
+              <li>20 rolling scoops left side.</li>
+              <li>10 scoop, roll away, pass reps.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="label">Coach Standard</div>
+            <ul>
+              <li>Call "ball" early.</li>
+              <li>Do not reach from behind.</li>
+              <li>Win the ball with your feet.</li>
+              <li>Make the first pass simple.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout">BTB cue: ground balls are culture reps. The player who commits first usually wins.</div>
+      </div>
+    </section>
+
+    <section class="packet" id="wall-ball">
+      <div class="packet-header">
+        <div class="num">02</div>
+        <div>
+          <h2>Wall Ball 30-Day Program</h2>
+          <p class="packet-summary">A simple progression players can repeat at home. Quality beats rushing. Track makes, not throws.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <table class="table">
+          <thead><tr><th>Days</th><th>Right</th><th>Left</th><th>Combo</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td>1-7</td><td>50</td><td>50</td><td>25 quick sticks</td><td>Clean mechanics</td></tr>
+            <tr><td>8-14</td><td>75</td><td>75</td><td>25 cross-hand</td><td>Better off-hand comfort</td></tr>
+            <tr><td>15-21</td><td>100</td><td>100</td><td>50 catch-switch-throw</td><td>No body catches</td></tr>
+            <tr><td>22-30</td><td>125</td><td>125</td><td>50 on the move</td><td>Game-speed hands</td></tr>
+          </tbody>
+        </table>
+        <div class="grid two">
+          <div class="box">
+            <h3>Rules</h3>
+            <ol>
+              <li>Use both hands every day.</li>
+              <li>Misses do not count as makes.</li>
+              <li>Keep your feet active.</li>
+              <li>Finish with ten perfect reps.</li>
+            </ol>
+          </div>
+          <div class="box">
+            <h3>Player Log</h3>
+            <ul>
+              <li>Date:</li>
+              <li>Total makes:</li>
+              <li>Best hand today:</li>
+              <li>One thing to improve tomorrow:</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="packet" id="footwork">
+      <div class="packet-header">
+        <div class="num">03</div>
+        <div>
+          <h2>BTB Footwork Ladder Circuit</h2>
+          <p class="packet-summary">Footwork should connect directly to lacrosse movement: approach, recover, dodge, rotate, and re-accelerate.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <div class="grid three">
+          <div class="box">
+            <h3>Block A</h3>
+            <ul>
+              <li>Two feet in each box.</li>
+              <li>Ickey shuffle.</li>
+              <li>Lateral in-in-out-out.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Block B</h3>
+            <ul>
+              <li>Approach and drop step.</li>
+              <li>Split dodge foot switch.</li>
+              <li>Roll dodge pivot and escape.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Block C</h3>
+            <ul>
+              <li>Five-yard burst after every pattern.</li>
+              <li>Catch and throw after footwork.</li>
+              <li>Finish with a ground ball.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout">BTB cue: fast feet only matter when they help you make the next lacrosse play.</div>
+      </div>
+    </section>
+
+    <section class="packet" id="mental-journal">
+      <div class="packet-header">
+        <div class="num">04</div>
+        <div>
+          <h2>Mental Performance Journal</h2>
+          <p class="packet-summary">Use this after practices, games, and Academy lessons. The goal is honest reflection that leads to better next actions.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <div class="grid two">
+          <div class="box">
+            <h3>After Practice</h3>
+            <ul>
+              <li>What did I do with full effort today?</li>
+              <li>Where did I lose focus?</li>
+              <li>What coaching point do I need to apply next?</li>
+              <li>Who did I make better today?</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>After Games</h3>
+            <ul>
+              <li>What was my best response to adversity?</li>
+              <li>What mistake do I need to own?</li>
+              <li>What pattern did I see on film or in the game?</li>
+              <li>What is my next rep target?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="packet" id="pressure">
+      <div class="packet-header">
+        <div class="num">05</div>
+        <div>
+          <h2>Pressure Performance Protocol</h2>
+          <p class="packet-summary">Pressure does not disappear. Players need a repeatable reset they can use during games.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <div class="grid three">
+          <div class="box">
+            <h3>Reset</h3>
+            <ol>
+              <li>Exhale once.</li>
+              <li>Touch stick or glove.</li>
+              <li>Name the next job.</li>
+            </ol>
+          </div>
+          <div class="box">
+            <h3>Refocus</h3>
+            <ol>
+              <li>Find ball.</li>
+              <li>Find matchup.</li>
+              <li>Communicate one clear call.</li>
+            </ol>
+          </div>
+          <div class="box">
+            <h3>Respond</h3>
+            <ol>
+              <li>Sprint to the next spot.</li>
+              <li>Win the next small play.</li>
+              <li>Do not carry the last mistake.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="callout">BTB cue: the next play is the only one you can still affect.</div>
+      </div>
+    </section>
+
+    <section class="packet" id="recruiting">
+      <div class="packet-header">
+        <div class="num">06</div>
+        <div>
+          <h2>Recruiting Preparation Guide</h2>
+          <p class="packet-summary">For older players: recruiting starts with fit, grades, honest evaluation, and clear communication.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <div class="grid three">
+          <div class="box">
+            <h3>Profile</h3>
+            <ul>
+              <li>Grad year, position, club team.</li>
+              <li>GPA and academic interests.</li>
+              <li>Height, dominant hand, key strengths.</li>
+              <li>Coach contact information.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>School List</h3>
+            <ul>
+              <li>Academic fit.</li>
+              <li>Roster fit.</li>
+              <li>Location and campus size.</li>
+              <li>Realistic playing opportunity.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Outreach</h3>
+            <ul>
+              <li>Short email.</li>
+              <li>Clear subject line.</li>
+              <li>Highlight film link.</li>
+              <li>Upcoming tournament schedule.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="packet" id="emails">
+      <div class="packet-header">
+        <div class="num">07</div>
+        <div>
+          <h2>College Email Templates</h2>
+          <p class="packet-summary">Keep emails clear, respectful, and useful. Coaches need the information fast.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <div class="box">
+          <div class="label">Initial Email Template</div>
+          <p>Subject: [Grad Year] [Position] - [Name] - [Club Team]</p>
+          <p>Coach [Last Name],</p>
+          <p>My name is [Name]. I am a [grad year] [position] with Be The Best Lacrosse Club on Long Island. I am interested in [school] because [specific academic or lacrosse fit].</p>
+          <p>Here is my highlight film: [link]. My upcoming schedule is below. I would appreciate the opportunity to be evaluated.</p>
+          <p>Thank you,<br>[Name]<br>[Phone optional]<br>[Club coach contact]</p>
+        </div>
+        <div class="box">
+          <div class="label">Follow-Up Template</div>
+          <p>Coach [Last Name],</p>
+          <p>I wanted to follow up and share my updated film and upcoming schedule. I will be playing at [event] on [dates] with [team]. My jersey number is [number].</p>
+          <p>Updated film: [link]</p>
+          <p>Thank you for your time,<br>[Name]</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="packet" id="highlight">
+      <div class="packet-header">
+        <div class="num">08</div>
+        <div>
+          <h2>Highlight Film Checklist</h2>
+          <p class="packet-summary">A strong film is short, organized, and honest. Show the plays that translate to the next level.</p>
+        </div>
+      </div>
+      <div class="packet-body">
+        <div class="grid two">
+          <div class="box">
+            <h3>Must Include</h3>
+            <ul>
+              <li>Name, grad year, position, jersey number.</li>
+              <li>Best plays in the first 30 seconds.</li>
+              <li>Off-ball plays, not only goals.</li>
+              <li>Ground balls, defense, rides, clears, and decisions.</li>
+              <li>Easy-to-see player marker before each clip.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Avoid</h3>
+            <ul>
+              <li>Long intro graphics.</li>
+              <li>Slow-motion only clips.</li>
+              <li>Music that distracts from the play.</li>
+              <li>Ten clips of the same exact skill.</li>
+              <li>Film longer than coaches will watch.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout">BTB cue: highlight film should prove how you help a team win, not just that you can score.</div>
+      </div>
+    </section>
+
+    <p class="print-note">Use the Print Packet button to save this page as a PDF from your browser.</p>
+  </main>
+</body>
+</html>

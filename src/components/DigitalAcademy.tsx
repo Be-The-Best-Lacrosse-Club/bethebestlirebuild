@@ -12,6 +12,7 @@ import {
   MIDFIELD_LESSONS,
   GOALIE_LESSONS,
   FOGO_LESSONS,
+  DRAW_LESSONS,
 } from "@/lib/academyData"
 import type { AcademyLesson } from "@/lib/academyData"
 
@@ -38,8 +39,9 @@ const TRACKS: Track[] = [
   { id: "midfield", label: "Midfield",    num: "02", tagline: "Transition reads, ground balls, and two-way play. Be dangerous in every phase.",  lessons: MIDFIELD_LESSONS.slice(0, 3), total: MIDFIELD_LESSONS.length },
   { id: "defense",  label: "Defense",     num: "03", tagline: "Slides, communication, and containment. Build a lock-down mentality.",            lessons: DEFENSE_LESSONS.slice(0, 3),  total: DEFENSE_LESSONS.length },
   { id: "goalie",   label: "Goalie",      num: "04", tagline: "Save mechanics, outlets, and leadership. Own the cage.",                          lessons: GOALIE_LESSONS.slice(0, 3),   total: GOALIE_LESSONS.length },
-  { id: "fogo",     label: "FOGO / Draw", num: "05", tagline: "The most specialized position. Dominated by the most prepared.",                  lessons: FOGO_LESSONS.slice(0, 3),     total: FOGO_LESSONS.length },
-  { id: "film",     label: "Film Study",  num: "06", tagline: "125 hours of curated film. Watch, break down, and learn like a coach.",           lessons: [],                           total: 0 },
+  { id: "fogo",     label: "FOGO",        num: "05", tagline: "Clamp, exit, wings, possession decisions, and the faceoff mindset.",              lessons: FOGO_LESSONS.slice(0, 3),     total: FOGO_LESSONS.length },
+  { id: "draw",     label: "Draw",        num: "06", tagline: "Control possession in the girls game through setup, snap, reads, and counters.",  lessons: DRAW_LESSONS.slice(0, 3),     total: DRAW_LESSONS.length },
+  { id: "film",     label: "Film Study",  num: "07", tagline: "125 hours of curated film. Watch, break down, and learn like a coach.",           lessons: [],                           total: 0 },
 ]
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -102,7 +104,7 @@ export function DigitalAcademy() {
               <div style={{ width: 24, height: 24, background: RED, display: "flex", alignItems: "center", justifyContent: "center", transform: "skew(-8deg)" }}>
                 <span style={{ fontFamily: "'Anton', sans-serif", fontSize: 13, color: "#fff" }}>B</span>
               </div>
-              BTB_ONLINE_ACADEMY &nbsp;·&nbsp; MINI LESSONS / FILM / IQ / CULTURE
+              BTB_ONLINE_ACADEMY &nbsp;·&nbsp; MINI LESSONS / FILM / IQ / PLAYER DEVELOPMENT
             </div>
             <h2 style={{
               fontFamily: "'Anton', 'Bebas Neue', sans-serif",
@@ -124,8 +126,8 @@ export function DigitalAcademy() {
             </h2>
           </div>
           <p style={{ color: MUTE, fontSize: 14, lineHeight: 1.7, maxWidth: 300, borderLeft: `1px solid ${STEEL}`, paddingLeft: 24 }}>
-            Short lessons, film study, position education, and BTB culture work
-            for club members and non-club players.
+            Short lessons, film study, and position education for rostered BTB players,
+            with public video learning for non-club players.
             <br /><br />
             <span style={{ color: RED, fontWeight: 700, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
               Boys and girls tracks stay separated
@@ -308,7 +310,7 @@ export function DigitalAcademy() {
                 Film Study
               </div>
               <p style={{ color: MUTE, fontSize: 13, maxWidth: 360, lineHeight: 1.7 }}>
-                Curated film concepts, BTB coaching points, and player IQ lessons are organized by program, position, and development stage.
+                Curated film concepts, coaching points, and player IQ lessons are organized by program, position, and development stage.
               </p>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 24, color: IRON, fontSize: 10, fontFamily: "monospace", letterSpacing: "0.3em" }}>
                 <div style={{ width: 32, height: 1, background: IRON }} />
@@ -328,7 +330,7 @@ export function DigitalAcademy() {
               YOU SEE IT LIVE.
             </div>
             <div style={{ color: MUTE, fontSize: 12, marginTop: 8, letterSpacing: "0.05em" }}>
-              BTB member access and public player access available through the Academy.
+              BTB member Academy access and public video access available.
             </div>
           </div>
           <div style={{ display: "flex", gap: 10, flexShrink: 0, flexWrap: "wrap" }}>

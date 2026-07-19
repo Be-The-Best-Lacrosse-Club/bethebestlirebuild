@@ -49,6 +49,7 @@ export interface TeamInfo {
 
 // Auth types
 export type UserRole = "player" | "coach" | "owner"
+export type AcademyAccess = "member" | "public"
 
 export interface User {
   id: string
@@ -57,6 +58,7 @@ export interface User {
   role: UserRole
   gender: Gender
   gradYear?: string
+  academyAccess?: AcademyAccess
 }
 
 export interface AuthState {

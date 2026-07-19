@@ -33,7 +33,7 @@ export function AcademyGatePage() {
           </h1>
 
           <p className="text-white/70 text-sm mb-12 max-w-[520px] mx-auto">
-            Rostered BTB players should enter the boys or girls player hub below. Non-club players can request public Academy access from the public Academy page.
+            Rostered BTB players should enter the boys or girls player hub below. Non-club players can request public video learning access from the public Academy page.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-0.5 bg-white/10 border border-white/10">
@@ -76,10 +76,10 @@ export function AcademyGatePage() {
               Public Academy Page <ArrowRight size={12} />
             </button>
             <a
-              href="/interest?category=Digital%20Academy&notes=Interested%20in%20non-member%20BTB%20Online%20Academy%20access"
+              href="/interest?category=Digital%20Academy&notes=Interested%20in%20Public%20Video%20Academy%20access"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[0.9rem] font-black uppercase rounded hover:bg-[var(--btb-red-dark)] transition-all"
             >
-              Non-Member Access <ArrowRight size={12} />
+              Public Video Access <ArrowRight size={12} />
             </a>
           </div>
         </div>

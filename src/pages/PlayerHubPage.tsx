@@ -34,7 +34,7 @@ import {
   type AcademyProgress,
   type Position,
   POSITION_CONFIG,
-  POSITION_ORDER,
+  getPositionOrder,
 } from "@/lib/academyData"
 import {
   ArrowLeft,
@@ -73,9 +73,25 @@ const PILLAR_COLORS: Record<Pillar, { gradient: string; text: string; bg: string
 }
 
 const TIER_COLORS: Record<AgeTier, string> = {
-  youth:  "from-emerald-500 to-emerald-700",
-  middle: "from-blue-500 to-blue-700",
-  high:   "from-[#D22630] to-[#8B0000]",
+  foundation:  "from-emerald-500 to-emerald-700",
+  development: "from-blue-500 to-blue-700",
+  advanced:    "from-violet-500 to-violet-700",
+  elite:       "from-[#D22630] to-[#8B0000]",
+}
+
+const TIER_LABELS: Record<AgeTier, string> = {
+  foundation: "Foundation",
+  development: "Development",
+  advanced: "Advanced",
+  elite: "Elite",
+}
+
+const getTierLabel = (tier: string) => {
+  if (tier in TIER_LABELS) return TIER_LABELS[tier as AgeTier]
+  if (tier === "youth") return "Foundation"
+  if (tier === "middle") return "Development"
+  if (tier === "high") return "Elite"
+  return "Academy"
 }
 
 const TOPIC_ICONS: Record<string, typeof BookOpen> = {
@@ -143,6 +159,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
 
   // ── Academy (pillar courses) ─────────────────────────────────────────
   const academyCourses = useMemo(() => getAcademyCoursesWithPositions(gender), [gender])
+  const positionOrder = useMemo(() => getPositionOrder(gender), [gender])
   const [academyProgress, setAcademyProgress] = useState<AcademyProgress>(getAcademyProgress())
   const [activePillarCourse, setActivePillarCourse] = useState<AcademyCourse | null>(null)
   const [activePillar, setActivePillar] = useState<Pillar>("game")
@@ -169,6 +186,10 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
     }
     getWallOfFame().then(setWallEntries)
   }, [user?.id])
+
+  useEffect(() => {
+    if (!positionOrder.includes(activePosition)) setActivePosition("all")
+  }, [activePosition, positionOrder])
 
   const handleLogout = async () => {
     await logout()
@@ -582,7 +603,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
 
           {/* Position filter */}
           <div className="flex flex-wrap gap-2 mb-6">
-            {POSITION_ORDER.map((pos) => (
+            {positionOrder.map((pos) => (
               <button
                 key={pos}
                 onClick={() => setActivePosition(pos)}
@@ -889,13 +910,13 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {wallEntries.map((entry, i) => (
                   <div key={i} className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-5 flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br ${TIER_COLORS[entry.tier as AgeTier] || TIER_COLORS.youth}`}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br ${TIER_COLORS[entry.tier as AgeTier] || TIER_COLORS.foundation}`}>
                       <Trophy size={16} className="text-white" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-white text-sm font-bold truncate">{entry.name}</p>
                       <p className="text-white/85 text-xs mt-0.5">
-                        {entry.tier === "youth" ? "Youth" : entry.tier === "middle" ? "Middle School" : "High School"}
+                        {getTierLabel(entry.tier)}
                         {entry.completedAt && <span className="ml-2 text-white/45">{entry.completedAt}</span>}
                       </p>
                     </div>

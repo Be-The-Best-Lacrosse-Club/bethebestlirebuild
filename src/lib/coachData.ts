@@ -2,7 +2,7 @@ import type { Drill, PracticePlan } from "@/types"
 
 export const drillCategories = [
   "Wall Ball", "Footwork & Mechanics", "Attack", "Defense",
-  "Midfield", "FOGO", "Goalie", "Team Concepts",
+  "Midfield", "FOGO", "Goalie", "Riding & Clearing", "Team Concepts",
 ]
 
 export const drills: Drill[] = [
@@ -26,16 +26,55 @@ export const drills: Drill[] = [
   { id: "gk-1", title: "Arc Positioning Drill", category: "Goalie", description: "Arc movement tracking ball around the perimeter.", setup: "5 cones in arc around crease. Shooters at each position.", execution: ["Ball moves to cone 1 — goalie tracks", "Step to ball, hands set", "Ball moves to cone 2 — adjust arc", "Random shot from any cone", "3 rounds of all 5 positions"], coachingPoints: ["Lead with top hand", "Stay on balls of feet", "Reset to center of arc between shots"], difficulty: "beginner", duration: 12 },
   // Team Concepts
   { id: "tc-1", title: "Settled 6v6 Read Drill", category: "Team Concepts", description: "Full-field settled offense with defensive read emphasis.", setup: "Full 6v6 on half field. Ball starts at top.", execution: ["Run base offense for 30 seconds", "Defense communicates every switch", "Score or turnover = reset", "5 possessions per side"], coachingPoints: ["Talk on every movement", "Off-ball players: cut with purpose", "Reset rather than force a bad shot"], difficulty: "advanced", duration: 20 },
+  { id: "att-dodge-reads-alley", title: "Dodge Reads (Alley Isolation)", category: "Attack", description: "Phase 1 offense drill teaching dodgers to read defender hips and win without forcing a feed.", setup: "Use one alley. Place a cone up top and a cone on the wing. Run 1 offensive player against 1 defender.", execution: ["Offense dodges hard toward the alley", "Read defender hips: roll back or attack topside if they over-commit", "Attack the low side if the defender stays flat", "If fully covered, step away and move it or re-attack"], coachingPoints: ["Eyes up", "Quiet stick", "Protect hands", "Win topside when available"], difficulty: "intermediate", duration: 12 },
+  { id: "def-adjacent-slide-3v2", title: "Adjacent Slide (3v2)", category: "Defense", description: "Phase 2 defense drill connecting the on-ball defender, Hot slide, and recovery to the hole.", setup: "Half-field set with 3 offensive players and 2 defenders. Ball starts up top or on the wing.", execution: ["On-ball defender forces the dodge down the planned angle", "Adjacent defender calls Hot early and slides to stop the ball", "Beaten defender recovers inside to cover the most dangerous threat", "Rotate on the pass and reset the shell"], coachingPoints: ["Call Hot early", "Slide on an angle", "Recover inside first", "No jogging after a slide"], difficulty: "intermediate", duration: 15 },
+  { id: "rnc-4v3-fast-break", title: "4v3 Fast Break", category: "Riding & Clearing", description: "Phase 2 transition drill teaching middle-first decision-making before the defense recovers.", setup: "Start at midfield or half field with 4 offensive players against 3 defenders and a goalie.", execution: ["Point player attacks the middle to force the first defensive decision", "If defense slides, move it to the open player", "If defense holds, shoot with balance", "Look for one more pass before the defense gets set"], coachingPoints: ["Middle first", "Head up early", "Move it before recovery", "Finish with balance"], difficulty: "intermediate", duration: 12 },
+  { id: "rnc-2v1-trap-box", title: "2v1 Trap Box", category: "Riding & Clearing", description: "Phase 1 riding drill teaching safe double teams using the sideline as an extra defender.", setup: "Mark a 10x10 yard box near the sideline with 1 clearer and 2 riders.", execution: ["Rider 1 angles the ball carrier toward the sideline", "Rider 2 cuts off the escape angle", "Both riders close the gate and take away hands", "Force a turnover or rushed pass without fouling"], coachingPoints: ["Angle approach", "Sideline is help", "Sticks high", "Second rider arrives under control"], difficulty: "beginner", duration: 10 },
+  { id: "fw-cone-lateral-cradle", title: "Cone Lateral Cradle", category: "Footwork & Mechanics", description: "Youth Phase 1 ball-protection drill for changing direction with a vertical stick.", setup: "Four cones in a short zig-zag lane. Every player has a ball.", execution: ["Cradle through the cones with two hands", "Switch hands at the midway cone", "Keep body between the ball and pressure side", "Sprint out of the final cone"], coachingPoints: ["Vertical stick", "Protect with body", "Change speed", "Eyes up"], difficulty: "beginner", duration: 10 },
+  { id: "tc-sharks-minnows-protection", title: "Sharks and Minnows Protection", category: "Team Concepts", description: "Youth protection game for carrying under pressure in a confined space.", setup: "Use a confined grid. Minnows carry balls across while sharks use controlled poke checks.", execution: ["Minnows cradle across the grid without dropping the ball", "Sharks try to dislodge with controlled stick checks only", "If a player drops, they reset and re-enter", "Rotate sharks every round"], coachingPoints: ["Two hands", "Body between defender and stick", "No swinging checks", "Keep moving"], difficulty: "beginner", duration: 12 },
 ]
 
 export const practicePlans: PracticePlan[] = [
+  {
+    id: "pp-foundation-hs-90",
+    title: "Foundation Phase - High School 90",
+    phase: "Foundation",
+    ageGroup: "High School",
+    duration: 90,
+    description: "Phase 1 high school practice focused on individual skill, 1v1 competitiveness, and installing shared terminology.",
+    segments: [
+      { time: "0-10 min", activity: "Dynamic + Partner Passing", detail: "High knees, butt kicks, open gate, right/left passing, quick sticks. Cue: snap the wrist, target to target." },
+      { time: "10-30 min", activity: "Indy Skills", detail: "Offense runs Dodge Reads in the alley. Defense runs 1v1 Approach with drop-step and force-alley cues." },
+      { time: "30-45 min", activity: "Connection Intro", detail: "Defense runs 2v1 Trap Box. Offense runs 2v1 ground balls in the alley. Emphasize sideline help and scoop-through habits." },
+      { time: "45-60 min", activity: "Transition", detail: "Continuous 4v3 fast breaks. Point man attacks middle first. Offense looks for one more pass before the defense recovers." },
+      { time: "60-75 min", activity: "Ride/Clear", detail: "Goalie save, scan, outlet to wing. Middies run wide lanes. Attack drops into ride shape immediately on turnover." },
+      { time: "75-85 min", activity: "Competition", detail: "Half-field 6v6. Constraint: one completed pass before shooting. Coach starts with ground ball or spot feed." },
+      { time: "85-90 min", activity: "Culture Review", detail: "Review Foundation word of the week and shout out one player who executed the 1v1 approach standard." },
+    ],
+  },
+  {
+    id: "pp-foundation-youth-75",
+    title: "Foundation Phase - Youth 75",
+    phase: "Foundation",
+    ageGroup: "Youth",
+    duration: 75,
+    description: "Phase 1 youth practice built around fundamentals through movement, high reps, and low standing around.",
+    segments: [
+      { time: "0-10 min", activity: "Line Drills", detail: "Full-field movement with ball in stick. Whistle means change direction or speed. Cue: two hands, protect the ball." },
+      { time: "10-25 min", activity: "Skill Station 1", detail: "Cone Lateral Cradle through four cones. Switch hands at midpoint. Cue: vertical stick, body between defender and ball." },
+      { time: "25-40 min", activity: "Skill Station 2", detail: "Poke Check and Recovery with partners. No swinging. Cue: feet first, stick second." },
+      { time: "40-55 min", activity: "Small Game", detail: "2v1 ground balls. Win the scoop, make one pass, shoot. Cue: scoop through, do not rake." },
+      { time: "55-70 min", activity: "Fun Competition", detail: "Sharks and Minnows with controlled checks. Focus on ball protection under pressure." },
+      { time: "70-75 min", activity: "Team Huddle", detail: "Ask what the group learned today. Target answer: protecting the ball." },
+    ],
+  },
   {
     id: "pp-foundation",
     title: "Foundation Phase Template",
     phase: "Foundation",
     ageGroup: "All",
     duration: 75,
-    description: "Weeks 1–4 practice plan focused on fundamentals and habit building.",
+    description: "Weeks 1-3 practice plan focused on fundamentals and habit building.",
     segments: [
       { time: "0–10 min", activity: "Dynamic Warmup", detail: "Position-specific activation. Goalies to cage, field players through footwork ladder." },
       { time: "10–25 min", activity: "Wall Ball & Stick Skills", detail: "Structured wall ball sequence: right, left, cross-hand, quick-stick. Coach walks the line correcting." },
@@ -51,7 +90,7 @@ export const practicePlans: PracticePlan[] = [
     phase: "Connection",
     ageGroup: "All",
     duration: 75,
-    description: "Weeks 5–8 practice plan focused on applying skills in game-like contexts.",
+    description: "Weeks 4-6 practice plan focused on applying skills in game-like contexts.",
     segments: [
       { time: "0–10 min", activity: "Dynamic Warmup", detail: "Increased pace. Partner passing on the move. Goalies: reaction saves warm-up." },
       { time: "10–25 min", activity: "Position-Specific Skill Block", detail: "Attackmen: dodge and feed. Middies: transition reads. Defenders: slide timing. Goalies: arc work." },
@@ -67,7 +106,7 @@ export const practicePlans: PracticePlan[] = [
     phase: "Expansion",
     ageGroup: "All",
     duration: 75,
-    description: "Weeks 9–12 practice plan focused on game-speed competition and pressure.",
+    description: "Weeks 7-10 practice plan focused on game-speed competition and pressure.",
     segments: [
       { time: "0–8 min", activity: "Dynamic Warmup", detail: "Game-speed activation. Competitive relay or timed footwork challenge." },
       { time: "8–20 min", activity: "Positional Refinement", detail: "Targeted skill work on areas identified from film. Individual focus areas." },

@@ -353,6 +353,25 @@ export const MASTER_COACHES: CoachProfile[] = [
   }
 ];
 
+const BOYS_COACH_EXCLUSIONS = new Set([
+  "Brad McLam",
+  "Aidan DeRupo",
+  "James Rao",
+  "Mike Guercio",
+  "Nick Nicolosi",
+  "Rob Valdez",
+])
+
+const GIRLS_COACH_EXCLUSIONS = new Set([
+  "Brad McLam",
+  "Alex Leggio",
+  "Antonina Buscemi",
+  "Jaclyn Jackowski",
+  "Kerrin Heuser",
+  "Lily Bilello",
+  "Ryan Smith",
+])
+
 export const programData: Record<string, ProgramContent> = {
   boys: {
     label: "Boys Program",
@@ -407,7 +426,7 @@ export const programData: Record<string, ProgramContent> = {
       { gradYear: "2036", teamName: "2036 Dawgs", coachCount: 2 },
       { gradYear: "2037", teamName: "Boys 2037 Futures", coachCount: 2 },
     ],
-    coaches: MASTER_COACHES.filter(c => c.bio.includes("BTB BOYS")),
+    coaches: MASTER_COACHES.filter(c => c.bio.includes("BTB BOYS") && !BOYS_COACH_EXCLUSIONS.has(c.name)),
     ctaHeadline: "Ready to Train\nLike You Mean It?",
     ctaSubheadline: "Boys Program",
     ctaText: "BTB is selective because development requires commitment. We want players who are serious about their game.",
@@ -465,7 +484,7 @@ export const programData: Record<string, ProgramContent> = {
       { gradYear: "2036", teamName: "2036 Avalanche", coachCount: 2, programId: 4681471 },
       { gradYear: "2037", teamName: "Girls 2037 Futures", coachCount: 2 },
     ],
-    coaches: MASTER_COACHES.filter(c => c.bio.includes("BTB GIRLS")),
+    coaches: MASTER_COACHES.filter(c => c.bio.includes("BTB GIRLS") && !GIRLS_COACH_EXCLUSIONS.has(c.name)),
     ctaHeadline: "Same Standard.\nBuilt for Her.",
     ctaSubheadline: "Girls Program",
     ctaText: "BTB is selective because development requires commitment. We want athletes who are serious about their game and ready to put in the work.",

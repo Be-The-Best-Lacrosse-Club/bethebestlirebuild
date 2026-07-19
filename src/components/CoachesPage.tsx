@@ -21,7 +21,7 @@ const drillCategories = [
   { category: "Attack", count: 9, description: "Dodge sequences, shot selection, feeding under pressure" },
   { category: "Defense", count: 8, description: "Slide timing, approach angles, recovery positioning" },
   { category: "Midfield", count: 6, description: "Transition reads, ground ball, 1v1 decisions" },
-  { category: "FOGO", count: 4, description: "Draw techniques, quick release, ground ball reads" },
+  { category: "FOGO", count: 4, description: "Faceoff technique, exits, wing reads, ground ball toughness" },
   { category: "Goalie", count: 5, description: "Arc positioning, reaction saves, outlet passing" },
   { category: "Team Concepts", count: 6, description: "Rides, clears, settled offense, EMO/man-down" },
 ]

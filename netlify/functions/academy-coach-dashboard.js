@@ -19,14 +19,22 @@
 const BASE_ID = process.env.AIRTABLE_BASE_ID
 const PAT     = process.env.AIRTABLE_PAT
 
-// Course totals — lesson counts per course (boys & girls, all tiers)
+// Course totals — lesson counts per course (10 core lessons + 15 position school lessons)
 const COURSE_TOTALS = {
-  "boys-youth":  10,
-  "boys-middle": 10,
-  "boys-high":   10,
-  "girls-youth": 10,
-  "girls-middle":10,
-  "girls-high":  10,
+  "boys-foundation":  25,
+  "boys-development": 25,
+  "boys-advanced":    25,
+  "boys-elite":       25,
+  "girls-foundation": 25,
+  "girls-development":25,
+  "girls-advanced":   25,
+  "girls-elite":      25,
+  "boys-youth":       25,
+  "boys-middle":      25,
+  "boys-high":        25,
+  "girls-youth":      25,
+  "girls-middle":     25,
+  "girls-high":       25,
 }
 
 const cors = {

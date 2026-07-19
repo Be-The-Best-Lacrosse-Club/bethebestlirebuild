@@ -4,6 +4,7 @@ type TryoutFlyersProps = {
   eyebrow?: string
   ctaHref?: string
   ctaLabel?: string
+  includeEast?: boolean
 }
 
 const flyers = [
@@ -40,7 +41,10 @@ export function TryoutFlyers({
   eyebrow = "2026 Tryouts",
   ctaHref = "/tryouts",
   ctaLabel = "Compare Tryout Options",
+  includeEast = true,
 }: TryoutFlyersProps) {
+  const visibleFlyers = includeEast ? flyers : flyers.filter((flyer) => flyer.title !== "BTB East")
+
   return (
     <section className="relative overflow-hidden bg-black px-4 py-14 text-white md:px-6 md:py-20">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(210,38,48,0.18),transparent_42%)]" />
@@ -66,32 +70,34 @@ export function TryoutFlyers({
         </div>
 
         <div
-          className="grid auto-cols-[82%] grid-flow-col gap-5 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [-webkit-overflow-scrolling:touch] md:auto-cols-auto md:grid-flow-row md:grid-cols-3 md:overflow-visible md:pb-0 lg:gap-5 [&::-webkit-scrollbar]:hidden"
+          className={`grid grid-cols-1 items-start gap-3 md:auto-cols-auto md:grid-flow-row md:gap-5 lg:gap-5 ${
+            visibleFlyers.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"
+          }`}
           aria-label="BTB 2026 tryout flyers"
         >
-          {flyers.map((flyer) => (
+          {visibleFlyers.map((flyer) => (
             <a
               key={flyer.title}
               href={flyer.href}
-              className="group block snap-center overflow-hidden border border-white/10 bg-neutral-950 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--btb-red)]/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.55)]"
+              className="group flex min-h-[132px] overflow-hidden border border-white/10 bg-neutral-950 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--btb-red)]/60 hover:shadow-[0_20px_50px_rgba(0,0,0,0.55)] md:block md:min-h-0"
             >
-              <div className="relative bg-black">
+              <div className="relative w-[112px] shrink-0 bg-white md:w-full md:bg-black">
                 <img
                   src={flyer.image}
                   alt={flyer.alt}
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="block h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02] md:h-auto"
                   loading="lazy"
                   decoding="async"
                   width={flyer.width}
                   height={flyer.height}
                 />
               </div>
-              <div className="flex items-center justify-between gap-4 border-t border-white/10 px-5 py-4">
+              <div className="flex flex-1 items-center justify-between gap-3 border-l border-white/10 px-4 py-3 md:border-l-0 md:border-t sm:px-5 sm:py-4">
                 <div>
-                  <div className="font-display text-2xl uppercase tracking-wide text-white">{flyer.title}</div>
-                  <div className="text-[0.72rem] font-black uppercase tracking-[2.5px] text-white/55">{flyer.label}</div>
+                  <div className="font-display text-[1.65rem] uppercase leading-none tracking-wide text-white sm:text-2xl">{flyer.title}</div>
+                  <div className="mt-1 text-[0.7rem] font-black uppercase leading-tight tracking-[2.2px] text-white/60">{flyer.label}</div>
                 </div>
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--btb-red)] text-white transition-transform duration-300 group-hover:translate-x-1">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-[var(--btb-red)] text-white transition-transform duration-300 group-hover:translate-x-1 sm:h-10 sm:w-10">
                   <ArrowRight size={15} />
                 </span>
               </div>

@@ -22,6 +22,7 @@
  *   BREVO_LIST_NEWSLETTER    — Override list for form-name="newsletter"
  *   BREVO_LIST_INTEREST_FORM — Override list for form-name="interest-form"
  *   BREVO_LIST_TRYOUT        — Override list for form-name="tryout-interest" + registration forms
+ *   BOYS_DIRECTOR_NOTIFY_EMAIL — Boys-side registration copy recipient
  *   AIRTABLE_FORMS_API_KEY   — Airtable PAT (falls back to AIRTABLE_OPS_API_KEY)
  *   AIRTABLE_FORMS_BASE_ID   — Base id (default target: BTB-OS = appGAETGobQBTwf7j)
  *   AIRTABLE_FORMS_TABLE     — Table name (default: "Leads" — the existing BTB-OS lead workflow)
@@ -29,6 +30,17 @@
 
 const https = require("https");
 const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
+const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "taylorjhoran26@gmail.com";
+const BOYS_REGISTRATION_FORMS = new Set([
+  "btb-boys-tryout-registration",
+  "btb-east-boys-tryout-registration",
+]);
+const PROGRAM_GENDER_REGISTRATION_FORMS = new Set([
+  "camp-registration",
+  "positional-registration",
+  "futures-registration",
+  "futures-clinic-registration",
+]);
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
 const FUTURES_CLINIC_DOB_RANGES = {
   2036: { min: "2017-12-02", max: "2018-12-01" },
@@ -233,17 +245,43 @@ async function brevoUpsertContact({ email, attributes, listId }) {
   throw new Error(`Brevo contact upsert ${res.status}: ${res.body.slice(0, 300)}`);
 }
 
-async function brevoSendNotification({ formName, data, submissionTime, siteUrl }) {
+function notificationEmailsFromEnv() {
+  return (process.env.BREVO_NOTIFY_EMAIL || "")
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean);
+}
+
+function isBoysSideRegistration(formName, data) {
+  const normalizedFormName = String(formName || "").toLowerCase();
+  if (BOYS_REGISTRATION_FORMS.has(normalizedFormName)) return true;
+  if (!PROGRAM_GENDER_REGISTRATION_FORMS.has(normalizedFormName)) return false;
+  return firstValue(data, ["program_gender", "gender"]).toLowerCase().includes("boy");
+}
+
+function uniqueRecipients(emails) {
+  const seen = new Set();
+  return emails
+    .map((email) => email.trim())
+    .filter(Boolean)
+    .filter((email) => {
+      const key = email.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .map((email) => ({ email }));
+}
+
+async function brevoSendNotification({ formName, data, submissionTime, siteUrl, includeDefaultRecipients = true }) {
   const apiKey = process.env.BREVO_API_KEY;
   const sender = {
     name: process.env.BREVO_SENDER_NAME || "BTB Website",
     email: process.env.BREVO_SENDER_EMAIL,
   };
-  const to = (process.env.BREVO_NOTIFY_EMAIL || "")
-    .split(",")
-    .map((e) => e.trim())
-    .filter(Boolean)
-    .map((email) => ({ email }));
+  const emails = includeDefaultRecipients ? notificationEmailsFromEnv() : [];
+  if (isBoysSideRegistration(formName, data)) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
+  const to = uniqueRecipients(emails);
 
   if (!apiKey || !sender.email || to.length === 0) {
     return { skipped: "brevo notification env vars missing" };
@@ -1001,13 +1039,22 @@ exports.handler = async (event) => {
     results.errors.push(`brevo contact: ${err.message}`);
   }
 
-  // Brevo: notification email to Dan. Futures Clinic keeps Netlify's built-in
-  // form notification as the single admin alert.
-  if (NETLIFY_ADMIN_NOTIFICATION_FORMS.has(formName)) {
+  // Brevo: notification email to admins. Futures Clinic keeps Netlify's built-in
+  // form notification as the default admin alert, but boys-side submissions still
+  // get copied to the boys director from this relay.
+  const netlifyHandlesDefaultAdminNotification = NETLIFY_ADMIN_NOTIFICATION_FORMS.has(formName);
+  const boysSideRegistration = isBoysSideRegistration(formName, data);
+  if (netlifyHandlesDefaultAdminNotification && !boysSideRegistration) {
     results.brevoEmail = { skipped: "netlify form email handles admin notification" };
   } else {
     try {
-      results.brevoEmail = await brevoSendNotification({ formName, data, submissionTime, siteUrl });
+      results.brevoEmail = await brevoSendNotification({
+        formName,
+        data,
+        submissionTime,
+        siteUrl,
+        includeDefaultRecipients: !netlifyHandlesDefaultAdminNotification,
+      });
     } catch (err) {
       console.error("brevo-relay email error:", err.message);
       results.errors.push(`brevo email: ${err.message}`);

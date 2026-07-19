@@ -107,9 +107,9 @@ export const handler = async (event) => {
 
   // Custom text showing what they're buying
   if (tier === "btb") {
-    params.set("custom_text[submit][message]", "You're getting the BTB member rate. Full academy access for the season.")
+    params.set("custom_text[submit][message]", "You're getting the BTB member rate. Full member Academy access for the season.")
   } else {
-    params.set("custom_text[submit][message]", "Full BTB Digital Academy access for the season. Film, IQ, Systems, Execution.")
+    params.set("custom_text[submit][message]", "Public Video Academy access for the season. General video lessons, film study, and player education only.")
   }
 
   try {

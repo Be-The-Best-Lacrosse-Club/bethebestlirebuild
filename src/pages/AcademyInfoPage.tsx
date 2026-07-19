@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BadgeCheck,
   BookOpen,
-  Brain,
   CheckCircle2,
   ClipboardCheck,
   Dumbbell,
@@ -22,6 +21,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
+import { academyPhaseMap, academySystemPillars } from "@/lib/academySystem"
 
 type IconBlock = {
   icon: LucideIcon
@@ -33,13 +33,13 @@ const interestUrl =
   "/interest?category=Digital%20Academy&notes=Interested%20in%20BTB%20Online%20Academy%20access"
 
 const nonMemberInterestUrl =
-  "/interest?category=Digital%20Academy&notes=Interested%20in%20non-member%20BTB%20Online%20Academy%20access"
+  "/interest?category=Digital%20Academy&notes=Interested%20in%20Public%20Video%20Academy%20access"
 
 const stats = [
-  { value: "90+", label: "Mini Lessons" },
+  { value: "16", label: "Week System" },
+  { value: "3", label: "Academy Pillars" },
   { value: "2", label: "Separate Academies" },
-  { value: "6", label: "Position Tracks" },
-  { value: "24/7", label: "Player Access" },
+  { value: "4", label: "Development Phases" },
 ]
 
 const academyPaths = [
@@ -60,15 +60,15 @@ const academyPaths = [
   {
     icon: Users,
     eyebrow: "Non-Club Members",
-    title: "Public Academy",
-    body: "Players outside BTB can request access to the development curriculum: skill education, IQ lessons, film concepts, position work, and BTB culture lessons without private team-only playbooks.",
+    title: "Public Video Academy",
+    body: "Players outside BTB can request a public learning path with general skill education, film concepts, player IQ, and video lessons. BTB terminology, team playbooks, team systems, downloads, culture standards, and team-related resources stay member-only.",
     points: [
       "Great for players who want to learn the game the right way",
       "Short lessons built for repeat study",
-      "Field homework after every learning block",
+      "General video courses and film-study concepts",
       "Clear path into BTB tryouts, camps, and programs",
     ],
-    cta: "Request Public Access",
+    cta: "Request Public Video Access",
     action: "public",
   },
 ]
@@ -87,7 +87,7 @@ const lessonFormat: IconBlock[] = [
   {
     icon: Dumbbell,
     title: "Train",
-    body: "Each block ends with a field assignment players can do at home, at practice, or before their next team session.",
+    body: "Each block ends with a simple player assignment they can use at home, on a field, or before their next workout.",
   },
   {
     icon: ClipboardCheck,
@@ -113,19 +113,19 @@ const curriculum = [
     body: "Players learn what to watch, how to pause a clip, and how to turn film into a better next rep.",
   },
   {
-    title: "BTB Culture",
+    title: "Member Standards",
     icon: Trophy,
-    body: "Accountability, preparation, teammate standards, toughness, response to failure, and leadership.",
+    body: "Rostered BTB members also get the club standards, terminology, team education, and culture work that support what coaches teach on the field.",
+  },
+  {
+    title: "Development Tiers",
+    icon: BadgeCheck,
+    body: "Foundation, Development, Advanced, and Elite tracks give players the right lesson path for their stage.",
   },
   {
     title: "Recruiting IQ",
     icon: GraduationCap,
     body: "For older players: highlight film habits, communication, school fit, timelines, and how coaches evaluate.",
-  },
-  {
-    title: "Coach Connection",
-    icon: Brain,
-    body: "Lessons give players the same language their coaches use, so the classroom and field finally match.",
   },
 ]
 
@@ -134,13 +134,13 @@ const programTracks = [
     label: "Boys Academy",
     accent: "text-blue-300",
     line: "Attack - Midfield - Defense - Goalie - FOGO",
-    body: "Built around the boys game: contact, two-man actions, faceoffs, defensive packages, clearing, riding, and college-style film habits.",
+    body: "Built around the boys game for rostered members, with public access limited to general video learning and film-study education.",
   },
   {
     label: "Girls Academy",
     accent: "text-pink-300",
     line: "Attack - Midfield - Defense - Goalie - Draw",
-    body: "Built for the girls game: draw controls, 8-meter decisions, transition, defensive help, crease play, shooting lanes, and girls-specific film.",
+    body: "Built around the girls game for rostered members, with public access limited to general video learning and film-study education.",
   },
 ]
 
@@ -150,17 +150,17 @@ const sampleLessons = [
   "Off-ball movement: timing, spacing, and purpose",
   "Ground ball habits that travel to every level",
   "Defensive approach, hips, and recovery footwork",
-  "What BTB means by culture, accountability, and response",
+  "How to turn film notes into your next workout",
 ]
 
 const faqs = [
   {
     q: "Is this only for BTB players?",
-    a: "No. The Academy now supports two paths: a member path for rostered BTB players and a public path for non-club players who want structured lacrosse education. Private team systems stay inside member access.",
+    a: "No. The Academy supports two paths: a member path for rostered BTB players and a public video path for non-club players who want structured lacrosse education. BTB terminology, team playbooks, team systems, downloads, culture standards, Wall of Fame, and team resources stay inside member access.",
   },
   {
     q: "Are boys and girls lessons mixed together?",
-    a: "No. The Academy keeps boys and girls content separated when the rules, positions, terminology, film, or development needs are different.",
+    a: "No. The Academy keeps boys and girls content separated when rules, positions, film, or development needs are different. Team-specific language remains member-only.",
   },
   {
     q: "How long are the lessons?",
@@ -168,9 +168,11 @@ const faqs = [
   },
   {
     q: "What makes this different from YouTube drills?",
-    a: "The Academy is organized by a BTB development path. Players are not hunting for random drills. They are learning the game in the order coaches want them to understand it.",
+    a: "The Academy is organized into a structured learning path. Players are not hunting for random drills. They are learning the game in an order that makes sense.",
   },
 ]
+
+const systemPillarIcons = [Target, ClipboardCheck, Users]
 
 function ActionButton({ action, children }: { action: string; children: ReactNode }) {
   const navigate = useNavigate()
@@ -206,7 +208,7 @@ export function AcademyInfoPage() {
     <div className="min-h-screen bg-black text-white">
       <SEO
         title="BTB Online Academy | Mini Lessons for Club and Non-Club Players"
-        description="BTB Online Academy delivers mini lessons, film study, position education, and BTB culture for club members and non-club players."
+        description="BTB Online Academy delivers member Academy access for rostered players and public video learning for non-club players."
         path="/academy"
       />
 
@@ -228,7 +230,7 @@ export function AcademyInfoPage() {
         <div className="relative z-10 mx-auto w-full max-w-[1160px]">
           <div className="mb-5 inline-flex items-center gap-3 rounded-md border border-[#D22630]/40 bg-[#D22630]/10 px-4 py-2 text-xs font-black uppercase text-white">
             <Sparkles size={15} className="text-[#D22630]" />
-            Online player education for BTB and public athletes
+            Member Academy and public video learning
           </div>
 
           <h1 className="font-display text-6xl uppercase leading-none text-white sm:text-7xl md:text-8xl lg:text-9xl">
@@ -238,10 +240,10 @@ export function AcademyInfoPage() {
 
           <div className="mt-7 max-w-[680px] space-y-4">
             <p className="text-lg font-semibold leading-relaxed text-white md:text-xl">
-              Mini lessons that teach players how to think, train, study film, and compete inside the Be The Best standard.
+              Mini lessons that teach players how to think, train, study film, and compete with a clearer plan.
             </p>
             <p className="text-base leading-relaxed text-white/75">
-              This is not a random video library. It is the BTB learning system: short lessons, coaching points, quizzes, field homework, boys and girls tracks, and a culture-first development path for club members and non-club players.
+              This is not a random video library. Rostered members get the full BTB Academy. Non-club players can request public video learning with general skill, IQ, and film-study lessons only.
             </p>
           </div>
 
@@ -256,7 +258,7 @@ export function AcademyInfoPage() {
               href={nonMemberInterestUrl}
               className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 bg-black/35 px-6 py-4 text-sm font-black uppercase text-white transition hover:border-white/45 hover:bg-white/10"
             >
-              Non-Member Access <ArrowRight size={16} />
+              Public Video Access <ArrowRight size={16} />
             </a>
           </div>
         </div>
@@ -270,6 +272,49 @@ export function AcademyInfoPage() {
               <div className="mt-2 text-xs font-black uppercase text-white/55">{stat.label}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[1160px]">
+          <div className="mb-12 max-w-[760px]">
+            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">The Academy System</div>
+            <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
+              Players, coaches, and parents.
+              <span className="block text-white/45">One connected development engine.</span>
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-white/70">
+              The Academy is built as a full club operating system: player learning, coach education, and parent alignment all point back to the same development model.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            {academySystemPillars.map((pillar, index) => {
+              const Icon = systemPillarIcons[index] ?? Target
+              return (
+                <div key={pillar.title} className="rounded-lg border border-white/10 bg-[#070707] p-6">
+                  <div className="mb-7 flex items-start justify-between gap-5">
+                    <div>
+                      <div className="text-xs font-black uppercase tracking-[2px] text-[#D22630]">{pillar.audience}</div>
+                      <h3 className="mt-2 font-display text-4xl uppercase leading-none text-white">{pillar.title}</h3>
+                    </div>
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-[#D22630]/10">
+                      <Icon size={21} className="text-[#D22630]" />
+                    </div>
+                  </div>
+                  <p className="mb-6 text-sm leading-relaxed text-white/70">{pillar.promise}</p>
+                  <div className="grid gap-2">
+                    {pillar.items.map((item) => (
+                      <div key={item} className="flex gap-2 text-sm text-white/60">
+                        <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-[#D22630]" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
 
@@ -313,6 +358,37 @@ export function AcademyInfoPage() {
 
       <section className="border-b border-white/10 bg-[#070707] px-5 py-20 sm:px-8">
         <div className="mx-auto max-w-[1160px]">
+          <div className="mb-12 max-w-[760px]">
+            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">16-Week Progression</div>
+            <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
+              Four phases.
+              <span className="block text-[#D22630]">No random development.</span>
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-white/70">
+              Players move from fundamentals to connection, then special situations, then full-speed execution. Coaches and families know what the phase is supposed to produce.
+            </p>
+          </div>
+
+          <div className="grid gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 md:grid-cols-2 xl:grid-cols-4">
+            {academyPhaseMap.map((phase, index) => (
+              <div key={phase.phase} className="bg-black p-6">
+                <div className="mb-5 flex items-center justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#D22630] font-display text-2xl leading-none text-white">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <div className="text-xs font-black uppercase tracking-[2px] text-white/35">{phase.weeks}</div>
+                </div>
+                <h3 className="font-display text-4xl uppercase leading-none text-white">{phase.phase}</h3>
+                <p className="mt-4 text-sm font-bold leading-relaxed text-[#D22630]">{phase.identity}</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{phase.focus}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-white/10 bg-[#070707] px-5 py-20 sm:px-8">
+        <div className="mx-auto max-w-[1160px]">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div>
               <div className="mb-3 text-sm font-black uppercase text-[#D22630]">Mini Lesson Model</div>
@@ -345,7 +421,7 @@ export function AcademyInfoPage() {
           <div className="mb-12 max-w-[720px]">
             <div className="mb-3 text-sm font-black uppercase text-[#D22630]">Curriculum</div>
             <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
-              Skill. IQ. Culture.
+              Skill. IQ. Film.
               <span className="block text-white/45">All in one development path.</span>
             </h2>
           </div>
@@ -380,7 +456,7 @@ export function AcademyInfoPage() {
             <div className="flex gap-3">
               <Lock size={19} className="mt-0.5 shrink-0 text-[#D22630]" />
               <p className="text-sm leading-relaxed text-white/75">
-                Public players can learn the BTB development language. Roster-specific scouting, private team playbooks, and internal coaching notes stay inside member access.
+                Public players receive general video lessons and learning academy access only. BTB terminology, team playbooks, team systems, downloads, culture standards, and team-related resources stay inside member access.
               </p>
             </div>
           </div>
@@ -395,7 +471,7 @@ export function AcademyInfoPage() {
               Every lesson has a job.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-white/70">
-              The Academy is built to answer the questions players usually do not know how to ask. The result is better practice habits, better film habits, and better conversations with coaches.
+              The Academy is built to answer the questions players usually do not know how to ask. The result is better practice habits, better film habits, and a clearer plan between reps.
             </p>
           </div>
 
@@ -446,14 +522,14 @@ export function AcademyInfoPage() {
             <span className="block text-[#D22630]">Our Hard Work Made Us.</span>
           </h2>
           <p className="mx-auto mt-6 max-w-[680px] text-base leading-relaxed text-white/70">
-            The Online Academy turns that standard into a learning system players can carry home, study on their own, and bring back to the field.
+            The Online Academy turns that standard into a member learning system, with a public video path for non-club players who want general lacrosse education.
           </p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
             <a
-              href={interestUrl}
+              href={nonMemberInterestUrl}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-[#D22630] px-6 py-4 text-sm font-black uppercase text-white transition hover:bg-[#a01e26]"
             >
-              Request Academy Access <ArrowRight size={16} />
+              Request Public Video Access <ArrowRight size={16} />
             </a>
             <button
               onClick={() => navigate("/login")}

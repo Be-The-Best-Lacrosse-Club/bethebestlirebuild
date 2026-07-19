@@ -415,6 +415,34 @@ footer {
   .video-info { padding: 1rem; }
 }
 </style>
+<script>
+(function () {
+  var storageKey = "btb-member-playbook-access"
+  var requiredPassword = "#BTBLAX26"
+  var allowed = false
+  try {
+    if (sessionStorage.getItem(storageKey) === "1") {
+      allowed = true
+    } else {
+      var entered = window.prompt("BTB member password required")
+      if (entered === requiredPassword) {
+        sessionStorage.setItem(storageKey, "1")
+        allowed = true
+      }
+    }
+  } catch (error) {
+    var fallback = window.prompt("BTB member password required")
+    if (fallback === requiredPassword) allowed = true
+  }
+  if (allowed) return
+  document.documentElement.classList.add("btb-playbook-locked")
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.innerHTML = '<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-family:Montserrat,Arial,sans-serif;padding:24px;text-align:center;"><div style="max-width:520px;"><div style="color:#D22630;font-weight:900;text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px;">Member Only</div><h1 style="font-family:Bebas Neue,Arial,sans-serif;font-size:48px;margin:0 0 12px;">BTB Playbooks</h1><p style="color:rgba(255,255,255,.68);line-height:1.6;">BTB terminology, team playbooks, and team systems are reserved for rostered BTB members. Public Academy accounts include video lessons and general learning access only.</p><a href="/academy" style="display:inline-flex;margin-top:22px;background:#D22630;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:900;text-transform:uppercase;font-size:12px;">Back to Academy</a></div></main>'
+    document.documentElement.classList.remove("btb-playbook-locked")
+  })
+})()
+</script>
+<style>html.btb-playbook-locked body{visibility:hidden;}</style>
 </head>
 <body>
 

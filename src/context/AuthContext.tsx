@@ -31,6 +31,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Localhost dev bypass — auto-login as owner so hubs are accessible without Netlify Identity
     const isDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     if (isDev) {
+      const devAcademyAccess = new URLSearchParams(window.location.search).get("academy_access") === "public"
+        ? "public"
+        : "member"
       setUser({
         id: "dev-owner",
         email: "dan@btb.dev",
@@ -38,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         role: "owner",
         gender: "boys",
         gradYear: "2036",
+        academyAccess: devAcademyAccess,
       })
       setLoading(false)
       return

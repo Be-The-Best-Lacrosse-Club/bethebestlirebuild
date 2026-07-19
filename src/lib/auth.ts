@@ -1,5 +1,5 @@
 import GoTrue, { User as GoTrueUser } from "gotrue-js"
-import type { User, UserRole, Gender } from "@/types"
+import type { User, UserRole, Gender, AcademyAccess } from "@/types"
 
 // Initialize GoTrue client — points to /.netlify/identity by default
 const auth = new GoTrue({
@@ -26,6 +26,11 @@ export function mapNetlifyUser(gotrueUser: GoTrueUser | null): User | null {
 
   const program = (gotrueUser.user_metadata?.program as string) || "boys"
   const gender: Gender = program === "girls" ? "girls" : "boys"
+  const rawAcademyAccess =
+    (gotrueUser.app_metadata?.academy_access as string | undefined) ||
+    (gotrueUser.user_metadata?.academy_access as string | undefined) ||
+    (gotrueUser.user_metadata?.academyAccess as string | undefined)
+  const academyAccess: AcademyAccess = rawAcademyAccess === "public" ? "public" : "member"
 
   return {
     id: gotrueUser.id ?? "",
@@ -34,6 +39,7 @@ export function mapNetlifyUser(gotrueUser: GoTrueUser | null): User | null {
     role,
     gender,
     gradYear: (gotrueUser.user_metadata?.grad_year as string) || undefined,
+    academyAccess,
   }
 }
 

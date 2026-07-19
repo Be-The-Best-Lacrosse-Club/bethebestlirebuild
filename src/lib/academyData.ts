@@ -3,7 +3,7 @@ import type { FieldDiagramSpec } from "@/components/academy/FieldDiagram"
 
 // ─── TYPES ────────────────────────────────────────────────────────────
 
-export type AgeTier = "youth" | "middle" | "high"
+export type AgeTier = "foundation" | "development" | "advanced" | "elite"
 export type Pillar = "game" | "leadership" | "team"
 
 export type QuizQuestionKind = "knowledge" | "scenario"
@@ -17,7 +17,7 @@ export interface QuizQuestion {
   scenario?: string // extra context for scenario questions
 }
 
-export type Position = "all" | "attack" | "midfield" | "defense" | "goalie" | "fogo"
+export type Position = "all" | "attack" | "midfield" | "defense" | "goalie" | "fogo" | "draw"
 
 export interface AcademyLesson {
   id: string
@@ -69,9 +69,19 @@ export const POSITION_CONFIG: Record<Position, { label: string; short: string }>
   defense:  { label: "Defense",       short: "DEF" },
   goalie:   { label: "Goalie",        short: "GK" },
   fogo:     { label: "FOGO",           short: "FO" },
+  draw:     { label: "Draw",           short: "DRW" },
 }
 
-export const POSITION_ORDER: Position[] = ["all", "attack", "midfield", "defense", "goalie", "fogo"]
+export const POSITION_ORDER: Position[] = ["all", "attack", "midfield", "defense", "goalie", "fogo", "draw"]
+
+export const POSITION_ORDER_BY_GENDER: Record<Gender, Position[]> = {
+  boys: ["all", "attack", "midfield", "defense", "goalie", "fogo"],
+  girls: ["all", "attack", "midfield", "defense", "goalie", "draw"],
+}
+
+export function getPositionOrder(gender: Gender): Position[] {
+  return POSITION_ORDER_BY_GENDER[gender]
+}
 
 // ─── API ENDPOINTS ────────────────────────────────────────────────────
 
@@ -211,9 +221,10 @@ export function markCourseComplete(courseId: string, userId?: string): void {
 // ─── COURSE DATA ──────────────────────────────────────────────────────
 
 const TIERS: { tier: AgeTier; label: string; ageRange: string; gradYears: string }[] = [
-  { tier: "youth", label: "Youth", ageRange: "Ages 8–10", gradYears: "Grad Years 2034–2036" },
-  { tier: "middle", label: "Middle School", ageRange: "Ages 11–13", gradYears: "Grad Years 2031–2033" },
-  { tier: "high", label: "High School", ageRange: "Ages 14–17", gradYears: "Grad Years 2027–2030" },
+  { tier: "foundation", label: "Foundation", ageRange: "Grades 4-5", gradYears: "Grad Years 2035-2036" },
+  { tier: "development", label: "Development", ageRange: "Grades 6-7", gradYears: "Grad Years 2033-2034" },
+  { tier: "advanced", label: "Advanced", ageRange: "Grades 8-9", gradYears: "Grad Years 2031-2032" },
+  { tier: "elite", label: "Elite", ageRange: "Grades 10-12", gradYears: "Grad Years 2028-2030" },
 ]
 
 // ─── BOYS LESSONS ─────────────────────────────────────────────────────
@@ -6141,8 +6152,18 @@ const GIRLS_HIGH_LESSONS: AcademyLesson[] = [
 export function getAcademyCourses(gender: Gender): AcademyCourse[] {
   const lessonsByTier: Record<AgeTier, AcademyLesson[]> =
     gender === "boys"
-      ? { youth: BOYS_YOUTH_LESSONS, middle: BOYS_MIDDLE_LESSONS, high: BOYS_HIGH_LESSONS }
-      : { youth: GIRLS_YOUTH_LESSONS, middle: GIRLS_MIDDLE_LESSONS, high: GIRLS_HIGH_LESSONS }
+      ? {
+          foundation: BOYS_YOUTH_LESSONS,
+          development: BOYS_MIDDLE_LESSONS,
+          advanced: BOYS_HIGH_LESSONS,
+          elite: BOYS_HIGH_LESSONS,
+        }
+      : {
+          foundation: GIRLS_YOUTH_LESSONS,
+          development: GIRLS_MIDDLE_LESSONS,
+          advanced: GIRLS_HIGH_LESSONS,
+          elite: GIRLS_HIGH_LESSONS,
+        }
 
   return TIERS.map((t) => ({
     id: `${gender}-${t.tier}`,
@@ -6158,12 +6179,14 @@ export function getAcademyCourses(gender: Gender): AcademyCourse[] {
 
 function getCourseDescription(tier: AgeTier): string {
   switch (tier) {
-    case "youth":
-      return "Build the foundation. Learn fundamentals, teamwork, and the BTB Standard."
-    case "middle":
-      return "Level up. Master positions, dodging, defense, and lacrosse IQ."
-    case "high":
-      return "Compete at the highest level. Advanced systems, film study, and college prep."
+    case "foundation":
+      return "Build the base. Learn fundamentals, teammate habits, and the BTB Standard."
+    case "development":
+      return "Level up. Master positions, dodging, defense, communication, and lacrosse IQ."
+    case "advanced":
+      return "Connect skill to systems. Study film, read slides, and compete with purpose."
+    case "elite":
+      return "Prepare for varsity and recruiting. Advanced systems, film habits, leadership, and college-ready standards."
   }
 }
 
@@ -6457,7 +6480,7 @@ Physical conditioning is non-negotiable. If you're the kind of midfielder who ne
 const MIDFIELD_LESSONS_EXTRA: AcademyLesson[] = [
   {
     id: "pos-midfield-l2",
-    videoUrl: "https://www.youtube.com/watch?v=mQi0UQz_8ls",
+    videoUrl: "https://www.youtube.com/watch?v=13lgO57WErA",
     lessonNumber: 108,
     title: "Reading the Ride and Clear",
     topic: "Lacrosse IQ",
@@ -6671,17 +6694,258 @@ SELF-SCOUTING: After every game, ask yourself three questions. Did I get back on
   },
 ]
 
-// ─── FOGO LESSONS (Draw Specialist — Girls) ─────────────────────
+// ─── FOGO LESSONS (Boys Faceoff Specialist) ─────────────────────
 
 export const FOGO_LESSONS: AcademyLesson[] = [
   {
     id: "pos-fogo-l1",
+    lessonNumber: 112,
+    title: "Why Faceoffs Control the Game",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "fogo",
+    description: `The faceoff is a possession battle. Every quarter starts there, every goal sends the game back there, and momentum can swing fast when one player controls the stripe.
+
+A FOGO is not just trying to win the clamp. The job is to win possession for the team. Sometimes that means winning the ball clean to yourself. Sometimes it means directing the ball to a wing. Sometimes it means tying the opponent up long enough for a teammate to arrive.
+
+Great faceoff players understand the whole possession. They know the wing matchups. They know the score and clock. They know when to push the pace, when to secure the ball, and when not to force a risky fast break.
+
+The best players at this position are technical, tough, and repeatable. You need a stance you can trust, hands that move first, feet that get underneath you, and a reset routine that keeps one loss from becoming three losses.`,
+    keyTakeaways: [
+      "The faceoff is about team possession, not just the clamp.",
+      "Know the score, clock, wing matchups, and field position before the whistle.",
+      "A good FOGO can win clean, direct to space, or create a scrum for help.",
+    ],
+    questions: [
+      {
+        question: "What is the real job of a FOGO?",
+        options: [
+          "Win the clamp and shoot every time",
+          "Create team possession from the faceoff",
+          "Only tie up the opponent",
+          "Stay on offense after every faceoff",
+        ],
+        correctAnswer: 1,
+        explanation: "The clamp matters, but the result that counts is team possession.",
+      },
+      {
+        question: "What should a faceoff player know before the whistle?",
+        options: [
+          "Only which hand he likes",
+          "Score, clock, wing matchups, and where the first outlet should be",
+          "Who scored the last goal",
+          "Which coach is watching",
+        ],
+        correctAnswer: 1,
+        explanation: "The best FOGOs make decisions before the ball is down.",
+      },
+      {
+        question: "If you cannot win the ball clean, what is still a good result?",
+        options: [
+          "Quit on the rep",
+          "Create a loose-ball battle your wings can win",
+          "Throw the ball backward blindly",
+          "Stand up and look for a flag",
+        ],
+        correctAnswer: 1,
+        explanation: "A tie-up or scrum can still become a win when your wings are ready.",
+      },
+    ],
+  },
+  {
+    id: "pos-fogo-l2",
+    lessonNumber: 113,
+    title: "Stance, Clamp, and First Step",
+    topic: "Fundamentals",
+    pillar: "game",
+    position: "fogo",
+    description: `Faceoff mechanics start before the whistle. Your stance has to be balanced enough to explode, low enough to win leverage, and repeatable enough that you do not change under pressure.
+
+SETUP
+Get your hands set, keep your weight loaded, and stay relaxed. Tension slows you down. Your first movement should be clean and direct: clamp through the ball, get your top hand over, and bring your feet with you.
+
+THE CLAMP
+The clamp is not a slap. It is a fast, controlled movement that gets your plastic over the ball and seals it. If your hands win but your feet stay behind, you are stuck. If your feet move but your hands are late, you lose the first race.
+
+FIRST STEP
+The first step decides the exit. Step to the space you want to own. If you are exiting forward, your body has to follow your hands. If you are exiting to a wing, your hips and shoulders need to point the ball where the help is coming from.
+
+Rep the same routine every time: stance, breath, whistle, clamp, feet, exit. Simple mechanics repeated under pressure beat fancy moves that only work when you are comfortable.`,
+    keyTakeaways: [
+      "Balanced stance and relaxed hands make the first movement faster.",
+      "Clamp through the ball, then bring your feet under you.",
+      "Your first step should match the exit you want.",
+    ],
+    questions: [
+      {
+        question: "Why does tension hurt a faceoff player?",
+        options: [
+          "It makes you too strong",
+          "It slows the first movement",
+          "It makes the referee reset the ball",
+          "It only matters in cold weather",
+        ],
+        correctAnswer: 1,
+        explanation: "Relaxed hands move faster. Tension creates delay.",
+      },
+      {
+        question: "What is the clamp supposed to do?",
+        options: [
+          "Slap the ball away",
+          "Seal the ball so you can create possession or an exit",
+          "Move only your feet",
+          "Let the wings handle the ball",
+        ],
+        correctAnswer: 1,
+        explanation: "The clamp wins control. The exit turns control into possession.",
+      },
+      {
+        question: "What should your first step match?",
+        options: [
+          "The exit you want",
+          "The nearest sideline",
+          "The other team's bench",
+          "The direction the referee points",
+        ],
+        correctAnswer: 0,
+        explanation: "Feet and hands need to work together toward the same exit.",
+      },
+    ],
+  },
+  {
+    id: "pos-fogo-l3",
+    lessonNumber: 114,
+    title: "Exits, Wings, and Possession Decisions",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "fogo",
+    description: `Winning the clamp is only part one. The next question is where the ball should go.
+
+FORWARD EXIT
+Use this when you win clean and have space. Your goal is to get the ball out, secure it, and push transition only if the numbers are there.
+
+BACK OR WING EXIT
+Use this when pressure is coming or your wing has the better angle. A controlled exit to a teammate is a win. The cleanest possession is often the one that looks boring.
+
+SCRUM DECISION
+If the ball is stuck, do not panic. Keep your body between the opponent and the ball, keep your stick protected, and communicate with your wings. Your job becomes turning a 50-50 ball into a team ground ball.
+
+GAME CONTEXT
+Late in a close game, a safe possession can be more valuable than a risky fast break. If your team just gave up a run, securing one calm possession can stop the swing. FOGOs who understand context earn trust from coaches.`,
+    keyTakeaways: [
+      "A controlled wing exit is just as valuable as a clean self-exit.",
+      "Scrums are won with body position, communication, and ground-ball toughness.",
+      "Score and clock should change your risk level.",
+    ],
+    questions: [
+      {
+        question: "When is a wing exit the right choice?",
+        options: [
+          "Never",
+          "When pressure is coming or your wing has the better angle",
+          "Only after a penalty",
+          "Only if you are losing",
+        ],
+        correctAnswer: 1,
+        explanation: "The best exit is the one that creates secure team possession.",
+      },
+      {
+        question: "What should a FOGO do in a scrum?",
+        options: [
+          "Stand up immediately",
+          "Protect the stick, use body position, and communicate with wings",
+          "Throw the ball blindly",
+          "Wait for the opponent to move first",
+        ],
+        correctAnswer: 1,
+        explanation: "Scrums are team ground-ball moments. Protection and communication matter.",
+      },
+      {
+        question: "Why does game context matter after a faceoff win?",
+        options: [
+          "It tells you whether to secure possession or take more risk",
+          "It changes the rules",
+          "It only matters for goalies",
+          "It decides who takes the next faceoff",
+        ],
+        correctAnswer: 0,
+        explanation: "A smart FOGO understands when the team needs speed and when it needs control.",
+      },
+    ],
+  },
+  {
+    id: "pos-fogo-l4",
+    lessonNumber: 115,
+    title: "The Faceoff Mindset",
+    topic: "Mental Game",
+    pillar: "leadership",
+    position: "fogo",
+    description: `Faceoff players live in visible pressure. Everyone sees the win or loss. The mistake is thinking every rep defines you. It does not. The next whistle is always the next battle.
+
+RESET FAST
+After a loss, reset your body first. Stand up, breathe, get the next call, and return to your routine. If you carry frustration into the next draw, your stance changes, your hands tighten, and the loss follows you.
+
+STUDY YOUR OPPONENT
+Every opponent gives information. What move does he trust? Where does he exit? Does he panic when tied up? Does he lean before the whistle? The best FOGOs scout while they compete.
+
+OWN THE WORK
+This position rewards hidden reps. Hand speed, stance reps, clamp reps, exit reps, ground balls, wing communication - all of it stacks up. You cannot fake preparation at the faceoff stripe.
+
+Leadership at this position is simple: compete, reset, communicate, and keep giving the team a chance at possession.`,
+    keyTakeaways: [
+      "One lost faceoff cannot affect the next whistle.",
+      "Scout tendencies during the game and adjust one thing at a time.",
+      "Hidden reps build confidence under visible pressure.",
+    ],
+    questions: [
+      {
+        question: "What should happen immediately after losing a faceoff?",
+        options: [
+          "Argue with the official",
+          "Reset your body, breathe, get the next call, and return to your routine",
+          "Change every technique",
+          "Avoid the next rep",
+        ],
+        correctAnswer: 1,
+        explanation: "A reset keeps one loss from turning into a run.",
+      },
+      {
+        question: "What should you study during the game?",
+        options: [
+          "Only the scoreboard",
+          "Opponent tendencies, exits, lean, and reaction under pressure",
+          "The other team's uniforms",
+          "The weather",
+        ],
+        correctAnswer: 1,
+        explanation: "Every faceoff gives data. Use it to make the next rep smarter.",
+      },
+      {
+        question: "What builds real confidence at the stripe?",
+        options: [
+          "Talking before the game",
+          "Hidden reps and repeatable preparation",
+          "Only natural quickness",
+          "Avoiding tough matchups",
+        ],
+        correctAnswer: 1,
+        explanation: "Preparation gives you something to trust when the pressure is visible.",
+      },
+    ],
+  },
+]
+
+// ─── DRAW LESSONS (Girls Draw Specialist) ─────────────────────
+
+export const DRAW_LESSONS: AcademyLesson[] = [
+  {
+    id: "pos-draw-l1",
     videoUrl: "https://www.youtube.com/watch?v=u9eYaW06iv0",
     lessonNumber: 112,
     title: "What Is the Draw and Why It Controls the Game",
     topic: "Lacrosse IQ",
     pillar: "game",
-    position: "fogo",
+    position: "draw",
     description: `The draw is the most underrated position in girls lacrosse. Every possession starts here. Every goal scored or prevented begins with who wins the draw — and the team that controls possession controls the game.
 
 In girls lacrosse, the draw happens at the center of the field between two players. Each draw specialist holds the ball between the two sticks at waist height, and on the whistle, both players draw their sticks up and back, trying to direct the ball toward their teammates. Winning the draw doesn't just mean touching the ball first — it means controlling where it goes.
@@ -6728,13 +6992,13 @@ This is one of the few positions in sports where one player can completely chang
     ],
   },
   {
-    id: "pos-fogo-l2",
+    id: "pos-draw-l2",
     videoUrl: "https://www.youtube.com/watch?v=r7jVWC4HeY0",
     lessonNumber: 113,
     title: "Draw Mechanics — Setup, Snap, and Control",
     topic: "Fundamentals",
     pillar: "game",
-    position: "fogo",
+    position: "draw",
     description: `Every draw starts with correct mechanics. Before you develop counters or advanced reads, the foundation has to be clean — because a technical mistake on the setup costs you the draw before the whistle even blows.
 
 SETUP POSITION
@@ -6788,13 +7052,13 @@ Draw mechanics become muscle memory only through repetition. With a partner: 10 
     ],
   },
   {
-    id: "pos-fogo-l3",
+    id: "pos-draw-l3",
     videoUrl: "https://www.youtube.com/watch?v=qkC3QUMjGBc",
     lessonNumber: 114,
     title: "Draw Counters and Reading Your Opponent",
     topic: "Lacrosse IQ",
     pillar: "game",
-    position: "fogo",
+    position: "draw",
     description: `Once your base mechanics are solid, the next level of draw mastery is reading and countering your opponent. Every draw specialist you face has tendencies — a preferred direction she snaps to, a setup tell, a timing pattern. Your job is to identify those tendencies and counter them before she executes.
 
 SCOUTING IN THE CIRCLE
@@ -6848,13 +7112,13 @@ Before every game: watch film if available. What direction does their draw speci
     ],
   },
   {
-    id: "pos-fogo-l4",
+    id: "pos-draw-l4",
     videoUrl: "https://www.youtube.com/watch?v=psBgWXV2mVs",
     lessonNumber: 115,
     title: "The Draw Specialist Mindset",
     topic: "Mental Game",
     pillar: "leadership",
-    position: "fogo",
+    position: "draw",
     description: `The draw specialist is one of the most mentally demanding roles in girls lacrosse. You compete one-on-one, in front of both teams, after every goal and at the start of every period. Every result — win or loss — is visible to everyone on the field. There is nowhere to hide.
 
 This visibility is a gift, not a burden. The draw specialists who thrive at the highest levels are the ones who learn to compete in that pressure rather than contract under it.
@@ -6916,60 +7180,772 @@ const BOYS_POSITION_LESSONS: AcademyLesson[] = [
   ...FOGO_LESSONS,
 ]
 
-// Girls position lessons: same structure, gender-appropriate videos
-const GIRLS_POSITION_LESSONS: AcademyLesson[] = [
-  // Goalie
+const GIRLS_GOALIE_LESSONS: AcademyLesson[] = [
   {
-    ...GOALIE_LESSONS[0],
     id: "pos-goalie-girls-l1",
-    videoUrl: "https://www.youtube.com/watch?v=wORmAJzdBMI",  // Women's Lacrosse Goalie Training
+    videoUrl: "https://www.youtube.com/watch?v=wORmAJzdBMI",
+    lessonNumber: 101,
+    title: "Owning the Crease",
+    topic: "Mental Game",
+    pillar: "leadership",
+    position: "goalie",
+    description: `The goalie is the loudest leader in the girls game because she sees every cutter, every slide, and every dangerous space before anyone else. Your job is not only to make saves. Your job is to organize the defense so fewer great shots ever happen.\n\nOWN THE SPACE\nYour crease is your home. You protect it with presence, communication, and calm body language. After a goal, take one breath, tap the pipe, reset your stance, and give the next call. The defense is watching your reaction. If you stay steady, they stay steady.\n\nTALK EARLY\nGreat goalie communication happens before the emergency. Call ball location, cutters, cutters behind, help side, and clears. A late call sounds loud but arrives too late. An early call gives your defender a chance to move while the play is still developing.\n\nBE A FIELD PLAYER AFTER THE SAVE\nA save is only half the play. After the save, scan wide first, then middle, then reset. Girls clears break down when everyone runs toward the goalie. Your voice has to send players into space: wide outlet, middle release, back reset.\n\nThe BTB goalie standard is simple: brave in the cage, calm after goals, loud for teammates, and clean on clears.`,
+    keyTakeaways: [
+      "A girls goalie leads the defense before the shot, not only after the save.",
+      "Reset after goals with a repeatable physical routine.",
+      "Use your voice to send clearing outlets into space.",
+    ],
+    questions: [
+      {
+        question: "What is the goalie responsible for beyond making saves?",
+        options: [
+          "Only staying inside the crease",
+          "Organizing the defense with early communication",
+          "Taking the draw after goals",
+          "Calling every offensive play",
+        ],
+        correctAnswer: 1,
+        explanation: "The goalie sees the whole field. Early communication prevents dangerous shots before they happen.",
+      },
+      {
+        question: "What should happen after a goal against?",
+        options: [
+          "Carry frustration into the next possession",
+          "Reset physically, get calm, and give the next defensive call",
+          "Blame the slide",
+          "Stop communicating for one possession",
+        ],
+        correctAnswer: 1,
+        explanation: "Goalies set the emotional tone. A quick reset keeps one goal from turning into a run.",
+      },
+      {
+        question: "Why should a goalie scan wide first after a save?",
+        options: [
+          "Wide outlets usually create safer clearing lanes away from pressure",
+          "It wastes time",
+          "The middle is never open",
+          "Only attackers can clear",
+        ],
+        correctAnswer: 0,
+        explanation: "Wide outlets stretch the ride and give the goalie a cleaner first pass.",
+      },
+    ],
   },
   {
-    ...GOALIE_LESSONS[1],
     id: "pos-goalie-girls-l2",
-    videoUrl: "https://www.youtube.com/watch?v=pgJzzpjrdFA",  // Ropes Video Shooting Space - Girls
+    videoUrl: "https://www.youtube.com/watch?v=pgJzzpjrdFA",
+    lessonNumber: 102,
+    title: "Angles, Arc, and Shooting Space",
+    topic: "Fundamentals",
+    pillar: "game",
+    position: "goalie",
+    description: `Girls goalies have to understand both shot angles and shooting-space rules. Your positioning affects the shooter, your defenders, and the official's view of the play.\n\nARC POSITION\nMove on an arc that keeps your body centered between the ball and the cage. At the top of the 8-meter, you can step higher to reduce the shooter's net. On the wings, shift with the ball and stay patient. From low angles, do not chase too far and open the back pipe.\n\nSHOT PATH AWARENESS\nInside the 8-meter, defenders cannot stand in the shooter's lane unless they are legally marking. As the goalie, you need to know when your defender is legal help and when she is accidentally screening you or creating shooting-space risk. Your call has to be clear: mark up, crash, hold, or recover.\n\nSAVE MECHANICS\nLead with your top hand and step to the ball. Do not fall backward. A backward save turns rebounds into second chances. A forward step lets you meet the ball, control the rebound, and start the clear.\n\nGoalie play in the girls game is technical and tactical. The best goalies know the rules well enough to help defenders play aggressive without giving free-position chances away.`,
+    keyTakeaways: [
+      "Stay centered on the ball-to-cage line.",
+      "Inside the 8-meter, defenders must mark legally and avoid shooting-space fouls.",
+      "Step to the ball so saves become controlled clears, not rebounds.",
+    ],
+    questions: [
+      {
+        question: "What is the purpose of moving on the goalie arc?",
+        options: [
+          "To stay centered between the ball and the cage",
+          "To leave the crease early",
+          "To hide behind defenders",
+          "To force the shooter behind the goal",
+        ],
+        correctAnswer: 0,
+        explanation: "The arc keeps the goalie square to the ball and reduces the open net.",
+      },
+      {
+        question: "Why does shooting-space awareness matter for a goalie?",
+        options: [
+          "It helps the goalie know when defenders are legal help or creating free-position risk",
+          "It only matters to officials",
+          "It lets the goalie ignore cutters",
+          "It changes the size of the cage",
+        ],
+        correctAnswer: 0,
+        explanation: "A goalie who understands shooting space can organize defenders without putting them in illegal lanes.",
+      },
+      {
+        question: "What should a goalie do on most saves?",
+        options: [
+          "Fall backward",
+          "Lead with the top hand and step toward the ball",
+          "Turn away from the shot",
+          "Wait for the rebound",
+        ],
+        correctAnswer: 1,
+        explanation: "Stepping to the ball improves save control and helps start the clear.",
+      },
+    ],
   },
-  // Attack
   {
-    ...ATTACK_LESSONS[0],
+    id: "pos-goalie-girls-l3",
+    lessonNumber: 103,
+    title: "Clearing Under Pressure",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "goalie",
+    description: `The clear is where goalies turn defense into offense. In the girls game, pressure comes fast after a save, so your first decision has to be clean.\n\nFIRST LOOKS\nYour first look is the safest wide outlet. Your second look is the middle release if the ride overcommits. Your third look is the reset behind or back to a defender. Do not stare at one teammate. Scan with your feet ready so you can step into the pass.\n\nCONTROL THE TEMPO\nIf the ride is disorganized, play fast. If your team is scattered, slow it down. A rushed bad pass after a great save gives the possession right back. A calm reset lets your team get shape.\n\nCOMMUNICATE THE LANES\nUse clear words: wide, middle, reverse, hold, and reset. Teammates need to know where you want them before they are open. The best clears are created by voice before they are completed by stick skill.\n\nAfter every practice, goalies should rep outlet passes like shots: wide right, wide left, middle, and pressure reset. Clearing is a goalie skill, not a bonus skill.`,
+    keyTakeaways: [
+      "Wide outlet, middle release, reset is the basic clearing scan.",
+      "The goalie controls tempo after a save.",
+      "Clear calls should tell teammates where to move before the pass is thrown.",
+    ],
+    questions: [
+      {
+        question: "What is the safest first look on most clears?",
+        options: [
+          "A wide outlet away from pressure",
+          "A forced pass through the middle every time",
+          "A shot at the other goal",
+          "No pass until the official counts",
+        ],
+        correctAnswer: 0,
+        explanation: "Wide outlets create cleaner passing lanes and stretch the ride.",
+      },
+      {
+        question: "When should a goalie slow the clear down?",
+        options: [
+          "When the team is scattered or the first option is covered",
+          "After every save no matter what",
+          "Only when winning",
+          "Never",
+        ],
+        correctAnswer: 0,
+        explanation: "A calm reset is better than forcing a turnover into pressure.",
+      },
+      {
+        question: "Why should goalies practice outlet passing every day?",
+        options: [
+          "Clearing is a goalie skill that turns saves into possessions",
+          "It replaces shot reps",
+          "Only goalies throw clears",
+          "It is less important than saves",
+        ],
+        correctAnswer: 0,
+        explanation: "A save without a clear is incomplete. Outlet passing has to be trained.",
+      },
+    ],
+  },
+]
+
+const GIRLS_ATTACK_LESSONS: AcademyLesson[] = [
+  {
     id: "pos-attack-girls-l1",
-    videoUrl: "https://www.youtube.com/watch?v=7deaRXF70Q8",  // Top 3 Dodge Moves Girls
+    videoUrl: "https://www.youtube.com/watch?v=7deaRXF70Q8",
+    lessonNumber: 104,
+    title: "Dodging in the Girls Game",
+    topic: "Fundamentals",
+    pillar: "game",
+    position: "attack",
+    description: `A good girls lacrosse dodge is not just a move. It is a read. You are trying to win an angle, make the defense shift, and either finish or move the ball before the slide arrives.\n\nWIN THE ANGLE\nStart your dodge with enough spacing to build speed. Attack the defender's top foot, sell one direction, then explode to the other. Your goal is to get your shoulder past her shoulder. Once you win that angle, protect your stick away from pressure and keep your feet moving.\n\nPROTECT LEGALLY\nGirls lacrosse rewards clean stick protection and footwork. Do not lower your head or initiate dangerous contact. Use your body as a shield by changing hands, keeping the stick away from the defender, and moving through space with balance.\n\nREAD THE SLIDE\nBefore you dodge, locate the first help defender. If she turns her head toward you, be ready to pass. If she stays with her player, keep attacking. The best attackers are not selfish or passive. They make the correct read fast.\n\nEvery dodge should create one of three results: a high-quality shot, a free-position foul because you attacked dangerous space, or an open teammate because the defense had to help.`,
+    keyTakeaways: [
+      "Attack the defender's top foot and win shoulder position.",
+      "Protect the stick with body position and hand changes, not contact.",
+      "Know where the slide is before you dodge.",
+    ],
+    questions: [
+      {
+        question: "What is the first goal of a dodge?",
+        options: [
+          "Win an angle with your shoulder past the defender",
+          "Run directly into traffic",
+          "Hold the ball as long as possible",
+          "Shoot before reading help",
+        ],
+        correctAnswer: 0,
+        explanation: "Winning the angle forces the defense to react and opens the finish or feed.",
+      },
+      {
+        question: "What should an attacker identify before dodging?",
+        options: [
+          "Where the first slide is coming from",
+          "Which parent is watching",
+          "The next timeout",
+          "Only the goalie",
+        ],
+        correctAnswer: 0,
+        explanation: "The slide read tells you whether to finish or move the ball.",
+      },
+      {
+        question: "What is clean stick protection in the girls game?",
+        options: [
+          "Using body position and hand changes to keep the stick away from pressure",
+          "Lowering the shoulder into a defender",
+          "Holding the stick out in front of the defender",
+          "Stopping your feet after contact",
+        ],
+        correctAnswer: 0,
+        explanation: "Girls attackers protect with skill, spacing, balance, and legal body position.",
+      },
+    ],
   },
   {
-    ...ATTACK_LESSONS[1],
     id: "pos-attack-girls-l2",
-    videoUrl: "https://www.youtube.com/watch?v=RwMQvpad-XE",  // Taylor Cummings Cutting
+    videoUrl: "https://www.youtube.com/watch?v=RwMQvpad-XE",
+    lessonNumber: 105,
+    title: "Cutting, Timing, and Finishing",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "attack",
+    description: `Off-ball attack is where goals are created before the pass is thrown. A great cutter makes the passer's job easy because she arrives in space on time, with her stick available, and her feet ready to finish.\n\nSET UP THE CUT\nDo not run in a straight line from where the defender can already see you. Walk her away, change speed, then cut hard to the space behind her head. The best cuts look quiet right before they become explosive.\n\nSHOW A TARGET\nYour stick is a target, not a decoration. Show the pocket early enough for the passer to see it, but do not drift into the crease or close the shooting angle. Catch with soft hands and turn the catch into a shot or quick pass.\n\nFINISH WITH A PLAN\nKnow your finish before the ball arrives. If the goalie is high, finish low. If the goalie drops, finish high. If the angle disappears, pull out and keep possession. A rushed bad shot is just a turnover with a different name.\n\nCutters who understand timing become impossible to guard because the defense has to watch the ball and the cutter at the same time.`,
+    keyTakeaways: [
+      "Walk the defender away before cutting hard into space.",
+      "Show a clear stick target and catch with soft hands.",
+      "Know the finish before the ball arrives.",
+    ],
+    questions: [
+      {
+        question: "What makes a cut hard to defend?",
+        options: [
+          "Changing speed after setting the defender up",
+          "Running at one speed in a straight line",
+          "Standing still near the crease",
+          "Cutting only when the coach yells",
+        ],
+        correctAnswer: 0,
+        explanation: "A setup plus speed change makes the defender react late.",
+      },
+      {
+        question: "Why should a cutter show her stick?",
+        options: [
+          "It gives the passer a clear target",
+          "It blocks the goalie",
+          "It slows the cut down",
+          "It replaces footwork",
+        ],
+        correctAnswer: 0,
+        explanation: "A visible target helps the passer lead the cutter into a scoring area.",
+      },
+      {
+        question: "What should a cutter do if the shooting angle disappears?",
+        options: [
+          "Force the shot anyway",
+          "Pull out, protect possession, and keep the offense moving",
+          "Run into the crease",
+          "Throw the ball away",
+        ],
+        correctAnswer: 1,
+        explanation: "Good attackers value possession. Not every catch has to become a shot.",
+      },
+    ],
   },
-  // Defense
   {
-    ...DEFENSE_LESSONS[0],
+    id: "pos-attack-girls-l3",
+    lessonNumber: 106,
+    title: "Playing Around the 8-Meter",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "attack",
+    description: `The 8-meter is the most dangerous and most rule-sensitive area in girls lacrosse. Attackers who understand it can create shots, draw fouls, and punish defenders who stand in illegal space.\n\nATTACK THE HASHES\nThe hashes are launch points. A dodge from a hash should attack a clear lane, not drift sideways into more defenders. If the lane is closed, move the ball and relocate. If the defender is late or out of position, attack the gap with speed.\n\nUNDERSTAND SHOOTING SPACE\nDefenders cannot stand in the shooting lane inside the 8-meter unless they are legally marking. That does not mean you hunt fouls instead of playing lacrosse. It means you attack dangerous space with your head up and force defenders to make legal decisions at full speed.\n\nFREE-POSITION COMPOSURE\nOn a free position, breathe before the whistle. Know your first step, your shot target, and your outlet if the defense crashes. Some free positions are shots. Some are passes. The best attackers decide before the whistle and execute calmly.\n\nThe 8-meter rewards players who combine skill with rule IQ.`,
+    keyTakeaways: [
+      "Use hashes as launch points, not standing spots.",
+      "Attack dangerous space with your head up and understand shooting-space rules.",
+      "On free positions, decide shot or pass before the whistle.",
+    ],
+    questions: [
+      {
+        question: "What should a dodge from the 8-meter hash attack?",
+        options: [
+          "A clear lane to goal",
+          "The nearest teammate's space",
+          "The sideline",
+          "A defender's body",
+        ],
+        correctAnswer: 0,
+        explanation: "A hash dodge should attack a lane with purpose, not drift into traffic.",
+      },
+      {
+        question: "What does shooting-space IQ help an attacker do?",
+        options: [
+          "Force defenders to make legal decisions while protecting safety",
+          "Ignore teammates",
+          "Stand still on the 8-meter",
+          "Avoid every dodge",
+        ],
+        correctAnswer: 0,
+        explanation: "Rule IQ lets attackers play fast and smart around dangerous shooting lanes.",
+      },
+      {
+        question: "What should happen before a free-position whistle?",
+        options: [
+          "Decide the first step, shot target, and outlet",
+          "Wait with no plan",
+          "Ask the defender what to do",
+          "Look only at the goalie",
+        ],
+        correctAnswer: 0,
+        explanation: "Pre-whistle composure makes the free position feel slower.",
+      },
+    ],
+  },
+  {
+    id: "pos-attack-girls-l4",
+    lessonNumber: 107,
+    title: "Feeding From Behind and Low Angles",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "attack",
+    description: `Behind the cage is a decision-making office. From low angles and X, an attacker can see slides, cutters, and goalie movement better than most players above the goal.\n\nFEED TO SPACE\nDo not feed to where a cutter is standing. Feed to the space where she is arriving. Lead her hands, not her feet. A good feed lets the cutter catch and finish without stopping.\n\nUSE LOW DODGES TO MOVE THE DEFENSE\nA drive from behind does not need to end in your shot. It can force the crease defender to help, pull the goalie to one pipe, and open the backside cutter. Your job is to make two defenders react to one ball.\n\nCHANGE SIDES WITH PURPOSE\nIf the near side is crowded, carry behind and change the point of attack. A quick re-dodge on the opposite side can catch defenders mid-rotation. Do not stand behind the cage waiting. Move with a purpose or move the ball.\n\nGreat low attackers make everyone else more dangerous because they see the field and deliver the ball on time.`,
+    keyTakeaways: [
+      "Feed cutters to where they are going, not where they are standing.",
+      "Low dodges can create shots for teammates by forcing help.",
+      "Changing sides behind the cage can shift the entire defense.",
+    ],
+    questions: [
+      {
+        question: "Where should a feed to a cutter go?",
+        options: [
+          "To the space where the cutter is arriving",
+          "At the defender's stick",
+          "Behind the cutter every time",
+          "Only to the crease",
+        ],
+        correctAnswer: 0,
+        explanation: "Leading the cutter creates catch-and-finish opportunities.",
+      },
+      {
+        question: "Why can a low dodge be valuable even without a shot?",
+        options: [
+          "It can force help and open a teammate",
+          "It stops the offense",
+          "It lets defenders rest",
+          "It avoids pressure forever",
+        ],
+        correctAnswer: 0,
+        explanation: "A good low dodge makes the defense rotate, creating open space elsewhere.",
+      },
+      {
+        question: "What is the danger of standing behind the cage too long?",
+        options: [
+          "The defense gets organized and the offense loses timing",
+          "The goalie leaves the crease",
+          "The draw restarts",
+          "The ball becomes dead",
+        ],
+        correctAnswer: 0,
+        explanation: "Behind the cage should create decisions, not stall the possession.",
+      },
+    ],
+  },
+]
+
+const GIRLS_DEFENSE_LESSONS: AcademyLesson[] = [
+  {
     id: "pos-defense-girls-l1",
-    videoUrl: "https://www.youtube.com/watch?v=3f3EEGr6WZk",  // Women's Lacrosse Defensive Footwork
+    videoUrl: "https://www.youtube.com/watch?v=3f3EEGr6WZk",
+    lessonNumber: 108,
+    title: "On-Ball Defense Without Fouling",
+    topic: "Fundamentals",
+    pillar: "game",
+    position: "defense",
+    description: `Girls defense starts with footwork, body position, and controlled stick work. The best defenders do not chase checks. They take away angles and make attackers uncomfortable without giving the official an easy whistle.\n\nAPPROACH WITH A PLAN\nClose out under control. Sprint the first two-thirds, break down early, and arrive with your hips low. Do not fly past the ball carrier. Your angle should force her toward help or away from the middle.\n\nCHECK WITH CONTROL\nStick checks in the girls game must be controlled, directed at the stick, and away from the head and body. A wild swing is not toughness. It is a foul and a free position. Use short lifts, pokes, and taps when the stick is exposed. If the check is not there, play feet first.\n\nDEFEND THE NEXT STEP\nWatch hips and shoulders, not the stick fake. When the attacker plants, drop step and beat her to the lane. If you get beat, recover inside and communicate help early.\n\nA defender who can pressure without fouling changes the game because she lets her team stay aggressive without giving away free shots.`,
+    keyTakeaways: [
+      "Close out fast, break down early, and force to help.",
+      "Controlled checks only: short, legal, and directed at the stick.",
+      "Watch hips and beat the attacker to the next step.",
+    ],
+    questions: [
+      {
+        question: "What should a defender do before reaching the ball carrier?",
+        options: [
+          "Break down early and arrive under control",
+          "Swing immediately",
+          "Run past the ball",
+          "Turn her back",
+        ],
+        correctAnswer: 0,
+        explanation: "A controlled closeout lets the defender dictate direction without fouling.",
+      },
+      {
+        question: "What makes a girls lacrosse check legal and useful?",
+        options: [
+          "It is short, controlled, and directed at the stick",
+          "It is a full swing through the body",
+          "It happens near the head",
+          "It ignores footwork",
+        ],
+        correctAnswer: 0,
+        explanation: "Controlled checks disrupt without creating dangerous fouls.",
+      },
+      {
+        question: "What should defenders watch during a dodge?",
+        options: [
+          "The attacker's hips and shoulders",
+          "Only the stick head",
+          "The sideline",
+          "The official",
+        ],
+        correctAnswer: 0,
+        explanation: "Hips and shoulders reveal the true direction better than stick fakes.",
+      },
+    ],
   },
   {
-    ...DEFENSE_LESSONS[1],
     id: "pos-defense-girls-l2",
-    videoUrl: "https://www.youtube.com/watch?v=2v4vfqctG88",  // Intro to Team Defense Adjacent Slides
+    videoUrl: "https://www.youtube.com/watch?v=2v4vfqctG88",
+    lessonNumber: 109,
+    title: "Slides, Crashes, and Recovery",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "defense",
+    description: `Team defense is a chain. When one defender gets beat, the next defender helps, the next defender fills, and the whole unit recovers together.\n\nHELP BEFORE PANIC\nThe first slide has to be early enough to stop the dodge but controlled enough to avoid a dangerous collision. Your call matters: help left, help right, crash, recover. Silence makes every slide late.\n\nPROTECT THE 8-METER\nInside the 8-meter, defenders must be careful with shooting space. Help cannot mean standing illegally in a shooting lane. Slide to the body angle, mark up, and recover with awareness of the shooter, goalie, and official's view.\n\nRECOVERY IS THE LESSON\nThe slide is only half the job. After the ball moves, recover to the next threat. Do not admire the first help. The best defensive teams slide, rotate, recover, and talk until the possession is over.\n\nEvery defender should know where help is coming from before the dodge starts. If you only learn the slide after you are beaten, you are late.`,
+    keyTakeaways: [
+      "Help calls must happen before the emergency.",
+      "Slides inside the 8-meter must respect shooting-space rules.",
+      "Slide, rotate, recover, and keep talking.",
+    ],
+    questions: [
+      {
+        question: "When should help communication start?",
+        options: [
+          "Before the dodge becomes an emergency",
+          "Only after a goal",
+          "When the ball is out of bounds",
+          "Never",
+        ],
+        correctAnswer: 0,
+        explanation: "Early help communication gives the slide time to arrive under control.",
+      },
+      {
+        question: "Why is the 8-meter different for team defense?",
+        options: [
+          "Defenders must avoid illegal shooting-space positions while helping",
+          "Defenders can stand anywhere",
+          "Slides are not allowed",
+          "Goalies cannot communicate",
+        ],
+        correctAnswer: 0,
+        explanation: "Help has to be legal and safe inside dangerous shooting lanes.",
+      },
+      {
+        question: "What happens after the first slide?",
+        options: [
+          "The defense rotates and recovers to the next threat",
+          "Everyone stops",
+          "The goalie takes the ball",
+          "The slider never moves again",
+        ],
+        correctAnswer: 0,
+        explanation: "Slides only work when the rest of the defense fills and recovers.",
+      },
+    ],
   },
-  // Midfield
   {
-    ...MIDFIELD_LESSONS[0],
+    id: "pos-defense-girls-l3",
+    lessonNumber: 110,
+    title: "Backer Zone Basics",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "defense",
+    description: `Backer zone is a major part of Long Island girls lacrosse. The idea is simple: one defender supports the dangerous middle while the rest of the unit pressures, passes off cutters, and protects high-value space.\n\nTHE BACKER'S JOB\nThe backer is not hiding. She is reading the ball, protecting the inside, and helping on dangerous drives. She has to communicate constantly because she sees both the dodger and the cutters moving behind the on-ball defender.\n\nTHE MARKING DEFENDERS\nThe defenders around the ball cannot relax because a backer exists. They still pressure, contain, and force direction. If they get beat, the backer helps. If they stand flat, the backer has too much ground to cover.\n\nPASSING OFF CUTTERS\nZone defense breaks when defenders stare at the ball and let cutters run free. Point, talk, pass cutters through, and pick them up as they enter your area. The backer protects the middle, but every player owns communication.\n\nBacker zone works when all seven defenders understand that it is active, connected defense - not a place to stand.`,
+    keyTakeaways: [
+      "The backer protects the dangerous middle and communicates early.",
+      "On-ball defenders still have to pressure and contain.",
+      "Passing off cutters requires constant pointing and talking.",
+    ],
+    questions: [
+      {
+        question: "What is the backer's main responsibility?",
+        options: [
+          "Protect the dangerous middle and support drives",
+          "Stand still behind the crease",
+          "Take every free position",
+          "Ignore cutters",
+        ],
+        correctAnswer: 0,
+        explanation: "The backer reads inside danger and supports the defense when the ball threatens the middle.",
+      },
+      {
+        question: "What mistake breaks a backer zone quickly?",
+        options: [
+          "Ball watching while cutters run free",
+          "Communicating too early",
+          "Forcing direction",
+          "Marking up inside",
+        ],
+        correctAnswer: 0,
+        explanation: "Zone defense still requires cutter awareness. Losing cutters gives up easy goals.",
+      },
+      {
+        question: "How should defenders around the ball play when there is a backer?",
+        options: [
+          "Pressure, contain, and force direction",
+          "Relax because the backer has everything",
+          "Stop talking",
+          "Only guard the crease",
+        ],
+        correctAnswer: 0,
+        explanation: "The backer is support, not a replacement for pressure and footwork.",
+      },
+    ],
+  },
+  {
+    id: "pos-defense-girls-l4",
+    lessonNumber: 111,
+    title: "Causing Turnovers the Smart Way",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "defense",
+    description: `Turnovers in the girls game usually come from pressure plus patience. You do not need a huge check to create a takeaway. You need to make the ball carrier uncomfortable, shrink her options, and attack the stick only when the opportunity is real.\n\nFORCE BAD DECISIONS\nA defender can create a turnover by forcing the ball carrier toward the sideline, denying the middle, and taking away the easy pass. When the attacker feels trapped, she throws rushed passes. Those turnovers count too.\n\nPICK YOUR CHECK\nOnly check when the stick is exposed and your feet are under you. If you miss a check and lose body position, the attacker wins. Short lift, quick poke, recover. The recover is part of the check.\n\nGROUND BALL FINISH\nA caused turnover is not complete until your team has the ball. After a deflection or bad pass, sprint through the ground ball, protect your stick, and make the first safe pass. Do not admire the check.\n\nSmart defenders create possessions, not just highlights.`,
+    keyTakeaways: [
+      "Pressure can force turnovers without a check.",
+      "Only check exposed sticks when your feet are set.",
+      "A turnover is complete only after the ground ball is secured.",
+    ],
+    questions: [
+      {
+        question: "How can a defender cause a turnover without checking?",
+        options: [
+          "Force the ball carrier into bad space and take away easy passes",
+          "Stop moving",
+          "Let the attacker dodge freely",
+          "Stand in the crease",
+        ],
+        correctAnswer: 0,
+        explanation: "Pressure and positioning force rushed decisions.",
+      },
+      {
+        question: "When should a defender throw a check?",
+        options: [
+          "When the stick is exposed and her feet are under her",
+          "Any time she is tired",
+          "When she is behind the play",
+          "After losing position",
+        ],
+        correctAnswer: 0,
+        explanation: "Checks are only valuable if the defender can recover and keep position.",
+      },
+      {
+        question: "When is a caused turnover complete?",
+        options: [
+          "When BTB secures the ground ball and makes the first safe pass",
+          "When the ball hits the ground",
+          "When the crowd reacts",
+          "When the defender swings hard",
+        ],
+        correctAnswer: 0,
+        explanation: "The point of a turnover is possession. Ground ball and outlet finish the play.",
+      },
+    ],
+  },
+]
+
+const GIRLS_MIDFIELD_LESSONS: AcademyLesson[] = [
+  {
     id: "pos-midfield-girls-l1",
-    videoUrl: "https://www.youtube.com/watch?v=IEt5iXnMtsw",  // NORTH 2-3-1 Motion
+    videoUrl: "https://www.youtube.com/watch?v=IEt5iXnMtsw",
+    lessonNumber: 112,
+    title: "The Girls Midfielder's Two-Way Standard",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "midfield",
+    description: `Midfield in the girls game is constant decision-making. You are part attacker, part defender, part draw support, part transition engine. Coaches trust midfielders who can change jobs instantly without needing a reminder.\n\nFIRST THREE STEPS\nAfter every turnover, your first three steps decide whether your team is safe. If BTB loses it, sprint back through the middle and find your matchup. If BTB wins it, get width and become an outlet. Jogging through the middle creates problems both ways.\n\nCONNECT THE FIELD\nA midfielder connects defense to attack. On clears, give a wide target or middle release. On offense, move the ball quickly, cut after passing, and keep defensive balance. On rides, pressure with control and make the opponent use time.\n\nPLAY TIRED AND SMART\nEveryone gets tired at midfield. The separator is who still communicates, gets back, and makes simple decisions late in a shift. The complete midfielder does not hide when the game gets fast.`,
+    keyTakeaways: [
+      "Transition starts with the first three steps after possession changes.",
+      "Midfielders connect clears, settled offense, rides, and defensive recovery.",
+      "The standard is to play tired without losing communication or decision-making.",
+    ],
+    questions: [
+      {
+        question: "What should a midfielder do immediately after BTB loses possession?",
+        options: [
+          "Sprint back through the middle and find her matchup",
+          "Stay on offense",
+          "Wait for the goalie",
+          "Walk to the sideline",
+        ],
+        correctAnswer: 0,
+        explanation: "The first recovery steps prevent numbers-down transition.",
+      },
+      {
+        question: "What does it mean to connect the field?",
+        options: [
+          "Support clears, offense, rides, and defensive recovery",
+          "Only score goals",
+          "Only take draws",
+          "Stay near midfield",
+        ],
+        correctAnswer: 0,
+        explanation: "Girls midfielders have to link every phase of the game.",
+      },
+      {
+        question: "What separates complete midfielders late in a shift?",
+        options: [
+          "They still communicate and make simple decisions while tired",
+          "They stop defending",
+          "They force low-percentage shots",
+          "They hide behind attackers",
+        ],
+        correctAnswer: 0,
+        explanation: "Fatigue reveals habits. Great midfielders stay useful when tired.",
+      },
+    ],
   },
   {
-    ...MIDFIELD_LESSONS[1],
     id: "pos-midfield-girls-l2",
-    videoUrl: "https://www.youtube.com/watch?v=dxvAw7zudVg",  // Charlotte North Shooting Drill
+    videoUrl: "https://www.youtube.com/watch?v=dxvAw7zudVg",
+    lessonNumber: 113,
+    title: "Transition Reads After the Draw",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "midfield",
+    description: `The seconds after a draw are some of the most dangerous seconds in girls lacrosse. The field is spread, matchups are unsettled, and one clean first pass can become a goal before the defense is organized.\n\nWIN THE NEXT BALL\nEven if you are not taking the draw, you are part of the draw unit. Read the ball flight, box out legally, and attack the ground ball through pressure. The draw is not over when the ball pops. It is over when your team owns possession.\n\nREAD NUMBERS FAST\nIf BTB wins clean and has numbers, push. If the defense is even, secure possession and let the offense form. If the ball is loose, communicate and swarm with control. Transition IQ is knowing when fast is right and when calm is better.\n\nFILL LANES\nDo not all run to the ball. One middie should carry or support, one should stretch wide, and one should fill middle or trail. Balanced lanes make the first pass easier and protect against turnovers going the other way.\n\nDraw transition is team speed plus team spacing.`,
+    keyTakeaways: [
+      "The draw is won when the team secures possession, not when the ball pops.",
+      "Read numbers before deciding to push or settle.",
+      "Fill balanced lanes instead of all running to the ball.",
+    ],
+    questions: [
+      {
+        question: "When is the draw actually won?",
+        options: [
+          "When your team secures possession",
+          "When the ball leaves the sticks",
+          "When the whistle blows",
+          "When the center touches it first",
+        ],
+        correctAnswer: 0,
+        explanation: "Possession is the result that matters.",
+      },
+      {
+        question: "What should midfielders read immediately after a draw win?",
+        options: [
+          "Numbers: push if advantaged, settle if even",
+          "Only the scoreboard",
+          "The sideline chairs",
+          "Who celebrated",
+        ],
+        correctAnswer: 0,
+        explanation: "Numbers tell the midfield whether to attack fast or secure possession.",
+      },
+      {
+        question: "Why should midfielders fill lanes instead of all running to the ball?",
+        options: [
+          "Balanced lanes create outlets and protect against turnovers",
+          "It slows everyone down",
+          "It avoids passing",
+          "Only attackers need spacing",
+        ],
+        correctAnswer: 0,
+        explanation: "Spacing creates a cleaner transition and better safety behind the play.",
+      },
+    ],
   },
-  ...(MIDFIELD_LESSONS_EXTRA.map((l, i) => ({
-    ...l,
-    id: `pos-midfield-girls-extra-l${i + 1}`,
-  }))),
-  // FOGO → Draw for girls
-  ...FOGO_LESSONS.map((l, i) => ({
+  {
+    id: "pos-midfield-girls-l3",
+    lessonNumber: 114,
+    title: "Riding and Clearing as a Midfielder",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "midfield",
+    description: `Midfielders decide whether rides and clears feel organized or chaotic. You are usually one pass away from the ball, one sprint away from pressure, and one decision away from creating or preventing a turnover.\n\nRIDING\nWhen BTB rides, pressure with a purpose. Take away the easiest outlet, angle the ball toward the sideline, and do not overrun. A smart ride does not need a reckless check. It needs controlled pressure and communication.\n\nCLEARING\nWhen BTB clears, get to space before you ask for the ball. Wide lanes stretch the ride. Middle lanes punish overpressure. If a defender is in trouble, move to a passing window instead of standing behind a rider.\n\nTIME AND SCORE\nLate in games, a midfielder has to know when possession matters more than speed. If BTB needs control, make the simple outlet and protect the ball. If BTB needs a goal and has numbers, push with confidence.\n\nRiding and clearing are not extra parts of the game. They are possession battles, and midfielders live in them.`,
+    keyTakeaways: [
+      "Ride with angles and controlled pressure.",
+      "Clear by getting to space before calling for the ball.",
+      "Time and score should change transition risk.",
+    ],
+    questions: [
+      {
+        question: "What is the goal of a smart ride?",
+        options: [
+          "Take away easy outlets and force the ball toward pressure",
+          "Run past the ball",
+          "Swing at every stick",
+          "Stand at midfield",
+        ],
+        correctAnswer: 0,
+        explanation: "Good riding uses pressure and angles to make the clear harder.",
+      },
+      {
+        question: "What should a midfielder do during a clear before asking for the ball?",
+        options: [
+          "Get to a real passing window",
+          "Stand still behind a rider",
+          "Run toward every teammate",
+          "Wait near the crease",
+        ],
+        correctAnswer: 0,
+        explanation: "Clearing outlets have to create space first.",
+      },
+      {
+        question: "Why does time and score matter in transition?",
+        options: [
+          "It tells you when to value control or take more risk",
+          "It changes the rules",
+          "It only matters to coaches",
+          "It decides who plays goalie",
+        ],
+        correctAnswer: 0,
+        explanation: "Smart midfielders know when the team needs calm possession and when it needs speed.",
+      },
+    ],
+  },
+  {
+    id: "pos-midfield-girls-l4",
+    lessonNumber: 115,
+    title: "Scoring Without Losing Defensive Balance",
+    topic: "Lacrosse IQ",
+    pillar: "game",
+    position: "midfield",
+    description: `Girls midfielders have to be scoring threats without leaving the team exposed. The best midfield units attack in layers: one dodges, one supports, one balances behind.\n\nATTACK THE GAP\nWhen you dodge from up top or the wing, attack a gap with speed. Do not drift sideways. If the slide comes, move it. If no slide comes, get to the 8-meter and finish with control.\n\nSUPPORT THE DODGER\nIf your teammate dodges, do not stand and watch. Fill behind her, become the outlet, or cut into the space her defender left. Support turns one dodge into team offense.\n\nBALANCE BEHIND\nEvery shot or turnover can become transition the other way. If two midfielders go below the goal line or crash the crease, somebody has to stay high and ready to recover. Balance is not passive. It is what lets the offense attack harder.\n\nA midfielder who can score and still protect transition earns trust in big games.`,
+    keyTakeaways: [
+      "Dodge north-south into gaps, not sideways into traffic.",
+      "Support the dodger with fill, outlet, or cut movement.",
+      "Somebody must balance behind the attack to stop transition.",
+    ],
+    questions: [
+      {
+        question: "What makes an up-top midfield dodge dangerous?",
+        options: [
+          "Attacking a gap with speed",
+          "Drifting sideways",
+          "Dodging with no support",
+          "Stopping at the 12-meter",
+        ],
+        correctAnswer: 0,
+        explanation: "North-south dodges force slides and create high-value chances.",
+      },
+      {
+        question: "What should off-ball midfielders do when a teammate dodges?",
+        options: [
+          "Fill, become an outlet, or cut into new space",
+          "Stand still",
+          "All crash at once",
+          "Leave the field",
+        ],
+        correctAnswer: 0,
+        explanation: "Support movement turns individual dodges into team offense.",
+      },
+      {
+        question: "Why does defensive balance matter during offense?",
+        options: [
+          "It prevents easy transition if the ball turns over",
+          "It stops all shooting",
+          "It keeps midfielders from scoring",
+          "It only matters when losing",
+        ],
+        correctAnswer: 0,
+        explanation: "Balanced offense lets the team attack while still protecting against fast breaks.",
+      },
+    ],
+  },
+]
+
+// Girls position lessons are written for the girls game first: draw, 8-meter,
+// shooting space, controlled checking, backer zone, and girls transition rules.
+const GIRLS_POSITION_LESSONS: AcademyLesson[] = [
+  ...GIRLS_GOALIE_LESSONS,
+  ...GIRLS_ATTACK_LESSONS,
+  ...GIRLS_DEFENSE_LESSONS,
+  ...GIRLS_MIDFIELD_LESSONS,
+  ...DRAW_LESSONS.map((l, i) => ({
     ...l,
     id: `pos-draw-girls-l${i + 1}`,
+    position: "draw" as const,
   })),
 ]
 

@@ -121,7 +121,7 @@ export function NewsletterPopup() {
         onClick={handleClose}
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
       />
-      <div className="relative w-full max-w-[480px] bg-black border border-white/10 rounded-2xl p-8 sm:p-10 shadow-2xl">
+      <div className="relative z-10 w-full max-w-[480px] bg-black border border-white/10 rounded-2xl p-8 sm:p-10 shadow-2xl">
         <button
           type="button"
           onClick={handleClose}
@@ -137,7 +137,7 @@ export function NewsletterPopup() {
               <CheckCircle2 size={32} className="text-[var(--btb-red)]" />
             </div>
             <h2 className="font-display text-3xl text-white uppercase mb-3">You're In</h2>
-            <p className="text-white/78 text-[1.18rem] leading-relaxed mb-8">
+            <p className="text-white/80 text-[1.18rem] leading-relaxed mb-8">
               Welcome to the BTB list. Look out for news, events, and updates from the program.
             </p>
             <button
@@ -160,7 +160,7 @@ export function NewsletterPopup() {
             >
               Stay In The <span className="text-[var(--btb-red)]">Loop.</span>
             </h2>
-            <p className="text-white/78 text-[1.15rem] leading-relaxed mb-7">
+            <p className="text-white/80 text-[1.15rem] leading-relaxed mb-7">
               Join the BTB email list for news, events, tryouts, and program updates straight to your inbox.
             </p>
 

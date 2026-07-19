@@ -54,13 +54,13 @@ h1 span{color:#D22630;}
   <h1>YOU'RE <span>IN.</span></h1>
 
   <p class="sub" id="subText">
-    Welcome to BTB Digital Academy. <strong>Film. IQ. Systems. Execution.</strong><br>
-    Your access is active — the full course library is waiting.
+    Welcome to the Public Video Academy. <strong>Film. IQ. Player education.</strong><br>
+    Your public learning access is active.
   </p>
 
   <div class="tier-badge" id="tierBadge">
     <span>✦</span>
-    <span id="tierLabel">BTB Academy Access</span>
+    <span id="tierLabel">Public Video Access</span>
   </div>
 
   <div class="whats-next">
@@ -68,22 +68,22 @@ h1 span{color:#D22630;}
     <div class="next-item">
       <div class="next-num">1</div>
       <div class="next-text">
-        <h4>Log in to BTB OS</h4>
-        <p>Your Digital Academy module is inside BTB OS. Log in with your BTB account to access all 48 modules, film library, and playbooks.</p>
+        <h4>Watch For Access Details</h4>
+        <p>Your receipt is active. Public accounts include general video lessons, film study, and player education only.</p>
       </div>
     </div>
     <div class="next-item">
       <div class="next-num">2</div>
       <div class="next-text">
-        <h4>Pick Your Program</h4>
-        <p>Use the Boys/Girls toggle at the top of the academy to filter content for your program. Shared courses like Player IQ show for both.</p>
+        <h4>Pick Your Learning Path</h4>
+        <p>Use the boys/girls learning path that matches your game. Public content stays focused on general player education.</p>
       </div>
     </div>
     <div class="next-item">
       <div class="next-num">3</div>
       <div class="next-text">
-        <h4>Start With Player IQ</h4>
-        <p>"The 6 Reads Every Player Makes" is the most impactful first module. 6 lessons, 45 minutes, and you'll see the game differently by the end.</p>
+        <h4>Start With Film Study</h4>
+        <p>Begin with the introductory video lessons, then move into skill and IQ concepts.</p>
       </div>
     </div>
     <div class="next-item">
@@ -96,7 +96,7 @@ h1 span{color:#D22630;}
   </div>
 
   <div class="actions">
-    <a href="https://btb-os.netlify.app" class="btn-main">Open BTB OS — Digital Academy ▸</a>
+    <a href="https://www.bethebestli.com/academy-access" class="btn-main">Open Academy Access ▸</a>
     <a href="https://www.bethebestli.com" class="btn-sec">Back to BTB</a>
   </div>
 
@@ -117,10 +117,11 @@ const sub   = document.getElementById('subText')
 if (tier === 'btb') {
   badge.className = 'tier-badge member'
   label.textContent = '✦ BTB Member Access'
-  sub.innerHTML = 'Welcome to BTB Digital Academy, <strong>BTB member.</strong> Film. IQ. Systems. Execution. Full access is live.'
+  sub.innerHTML = 'Welcome to BTB Digital Academy, <strong>BTB member.</strong> Full member Academy access is live.'
 } else {
   badge.className = 'tier-badge public'
-  label.textContent = '★ Digital Academy Access'
+  label.textContent = '★ Public Video Access'
+  sub.innerHTML = 'Welcome to the Public Video Academy. <strong>Film. IQ. Player education.</strong><br>BTB terminology, team playbooks, team systems, downloads, and team resources remain member-only.'
 }
 
 if (sessionId) {

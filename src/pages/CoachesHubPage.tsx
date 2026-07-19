@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext"
 import { getAuthToken } from "@/lib/auth"
 import { drills, drillCategories, practicePlans } from "@/lib/coachData"
 import { fetchCoachPayment, type CoachPaymentResponse } from "@/lib/paymentData"
+import { coachCertificationLevels } from "@/lib/academySystem"
 import {
   COACH_MODULES,
   getCoachProgress,
@@ -51,6 +52,12 @@ interface CertItem {
 /*  Certification data                                                 */
 /* ------------------------------------------------------------------ */
 
+const btbCertificationItems: CertItem[] = coachCertificationLevels.map((level) => ({
+  id: `cert-btb-${level.level.toLowerCase().replace(/\s+/g, "-")}`,
+  title: `BTB ${level.level}: ${level.title}`,
+  description: `${level.requirement} Required modules: ${level.modules.join(", ")}. Deliverable: ${level.deliverable}`,
+}))
+
 const certificationItems: CertItem[] = [
   {
     id: "cert-uslax",
@@ -69,15 +76,11 @@ const certificationItems: CertItem[] = [
     title: "Background Check",
     description: "Submit and clear the required background check through BTB's approved provider.",
   },
-  {
-    id: "cert-internal",
-    title: "BTB Internal Development Course",
-    description: "Complete the BTB internal coaching development module covering philosophy, practice planning, and film study standards.",
-  },
+  ...btbCertificationItems,
   {
     id: "cert-practice",
-    title: "Practice Plan Submission",
-    description: "Submit your first written practice plan using the BTB template for review and approval.",
+    title: "Phase 1 Practice Plan Submission",
+    description: "Submit a written Week 1 practice plan using only Foundation phase drills before your first session.",
   },
 ]
 
@@ -115,9 +118,9 @@ function difficultyColor(d: Drill["difficulty"]) {
 /* ------------------------------------------------------------------ */
 
 const phaseWeeks: Record<string, string> = {
-  Foundation: "Weeks 1-4",
-  Connection: "Weeks 5-8",
-  Expansion: "Weeks 9-12",
+  Foundation: "Weeks 1-3",
+  Connection: "Weeks 4-6",
+  Expansion: "Weeks 7-10",
   Execution: "Weeks 13-16",
 }
 
@@ -531,10 +534,10 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   >
                     <div className="flex-1">
                       <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">
-                        {phaseWeeks[plan.phase] || ""}
+                        {phaseWeeks[plan.phase] || ""} {plan.ageGroup !== "All" ? `// ${plan.ageGroup}` : ""}
                       </div>
                       <h4 className="font-display text-[1.1rem] uppercase tracking-wide text-white mb-2">
-                        {plan.phase}
+                        {plan.title}
                       </h4>
                       <div className="flex items-center gap-3 mb-3">
                         <span className="flex items-center gap-1 text-[1.0rem] text-white/85">
