@@ -110,7 +110,7 @@ export function Header() {
               {dropdown === "programs" && (
                 <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
                   {programLinks.map(link => (
-                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[1.25rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[1.15rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
                       {link.label}
                     </button>
                   ))}
@@ -158,7 +158,7 @@ export function Header() {
 
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
-                <button onClick={() => go("/family-hub")} className="flex items-center gap-2 px-4 py-2 bg-black text-white text-[1.25rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all">
+                <button onClick={() => go("/family-hub")} className="flex items-center gap-2 px-4 py-2 bg-black text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all">
                   <Layout size={14} /> Family Hub
                 </button>
                 <div className="flex items-center gap-2">
