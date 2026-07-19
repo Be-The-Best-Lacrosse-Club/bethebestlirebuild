@@ -71,14 +71,14 @@ export function ParentPortalPage() {
     <div className="bg-black min-h-screen pt-32 pb-24 px-6">
       <div className="max-w-[1100px] mx-auto">
         <div className="mb-16 border-b border-white/10 pb-12">
-          <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6">
+          <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-lg tracking-[5px] mb-6">
             <Shield size={14} />
             BTB_PARENT_PORTAL // SECURE_ACCESS
           </div>
           <h1 className="font-display text-[clamp(3rem,8vw,6rem)] uppercase leading-[0.85] text-white mb-6">
             Command <br /> <span className="text-[var(--btb-red)]">Center.</span>
           </h1>
-          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[560px]">
+          <p className="text-white/65 text-base leading-relaxed max-w-[560px]">
             The parent hub for TeamSnap schedules and rosters, BTB policy and waivers, important links, apps to download, payments, academy access, and family support.
           </p>
         </div>
@@ -95,11 +95,11 @@ export function ParentPortalPage() {
                 </div>
 
                 <h3 className="font-display text-2xl text-white uppercase tracking-wider mb-4">{link.title}</h3>
-                <p className="text-white/65 text-[1.25rem] leading-relaxed mb-10 group-hover:text-white/80 transition-colors">
+                <p className="text-white/65 text-xl leading-relaxed mb-10 group-hover:text-white/80 transition-colors">
                   {link.desc}
                 </p>
 
-                <div className="flex items-center gap-2 text-[1.15rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-2 text-lg font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:translate-x-1 transition-transform">
                   Open Resource <ArrowRight size={12} />
                 </div>
               </div>
@@ -121,9 +121,9 @@ export function ParentPortalPage() {
         <div className="mt-24 p-12 bg-white/[0.02] border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h4 className="font-display text-2xl text-white uppercase tracking-wider mb-2">Need Assistance?</h4>
-            <p className="text-white/85 text-[1.1rem] uppercase tracking-[1px] font-bold">Our operations team is standing by.</p>
+            <p className="text-white/85 text-lg uppercase tracking-[1px] font-bold">Our operations team is standing by.</p>
           </div>
-          <Link to="/contact" className="px-8 py-4 border border-white/10 text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-white hover:text-black transition-all">
+          <Link to="/contact" className="px-8 py-4 border border-white/10 text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-white hover:text-black transition-all">
             Contact Support
           </Link>
         </div>

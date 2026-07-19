@@ -96,32 +96,32 @@ export function FuturesPage() {
           }}
         />
         <div className="relative z-10 max-w-[900px] mx-auto pt-16">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
             BTB Futures · K-2 Development Path
           </div>
           <h1 className="font-display text-[clamp(3.2rem,8vw,6rem)] uppercase tracking-wide leading-[0.88] mb-8">
             The Future<br />Starts Here.
           </h1>
-          <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
+          <p className="text-xl text-white/70 max-w-[560px] leading-[1.9] mb-10">
             Stimson and Seaford were both strong Futures events. The next clinic date will be announced soon.
             For now, families can review the tryout path, camps, and club updates.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a
               href="/tryouts"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
             >
               View Tryout Info <ArrowRight size={13} />
             </a>
             <a
               href="/camps"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-base font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
             >
               Camps & Clinics <ArrowRight size={13} />
             </a>
             <a
               href="#itinerary"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-base font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
             >
               What Happens
             </a>
@@ -143,7 +143,7 @@ export function FuturesPage() {
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{s.num}</div>
-                <div className="text-[1.1rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">
+                <div className="text-lg font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">
                   {s.label}
                 </div>
               </div>
@@ -155,13 +155,13 @@ export function FuturesPage() {
       {/* Locations */}
       <section id="locations" className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[1100px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
             Recent Clinics
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Futures Energy.<br />Same Standard.
           </h2>
-          <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
+          <p className="text-lg text-white/35 mb-14 max-w-[480px] leading-relaxed">
             Stimson and Seaford are complete. The next Futures date will be announced through the BTB list and social channels.
           </p>
 
@@ -184,20 +184,20 @@ export function FuturesPage() {
                     {e.badge}
                   </div>
                 )}
-                <div className="flex items-center gap-2 text-[1.08rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)] mb-5">
+                <div className="flex items-center gap-2 text-base font-bold uppercase tracking-[2px] text-[var(--btb-red)] mb-5">
                   <MapPin size={12} />
                   {e.location}
                 </div>
                 <div className="font-display text-[1.4rem] uppercase tracking-wide text-white leading-tight mb-2">
                   {e.venue}
                 </div>
-                <div className="text-[1.05rem] text-white/35 mb-6">{e.address}</div>
+                <div className="text-base text-white/35 mb-6">{e.address}</div>
                 <div className="space-y-2 pt-5 border-t border-white/[0.07]">
-                  <div className="flex items-center gap-2 text-[1.05rem] text-white/55">
+                  <div className="flex items-center gap-2 text-base text-white/55">
                     <Calendar size={12} className="text-[var(--btb-red)]" />
                     {e.date}
                   </div>
-                  <div className="flex items-center gap-2 text-[1.05rem] text-white/55">
+                  <div className="flex items-center gap-2 text-base text-white/55">
                     <Clock size={12} className="text-[var(--btb-red)]" />
                     {e.time}
                   </div>
@@ -211,7 +211,7 @@ export function FuturesPage() {
       {/* Itinerary */}
       <section id="itinerary" className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
             What Happens In 2 Hours
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
@@ -232,14 +232,14 @@ export function FuturesPage() {
                   <div className="w-10 h-10 rounded-lg bg-[var(--btb-red)]/15 flex items-center justify-center mb-3">
                     <item.icon size={18} strokeWidth={1.5} className="text-[var(--btb-red)]" />
                   </div>
-                  <div className="font-display text-[1rem] uppercase tracking-wide text-white">{item.block}</div>
+                  <div className="font-display text-base uppercase tracking-wide text-white">{item.block}</div>
                 </div>
                 <div className="hidden md:block w-px self-stretch bg-white/[0.08]" />
                 <div className="flex-1">
-                  <div className="font-display text-[1.1rem] uppercase tracking-wide text-white mb-2">
+                  <div className="font-display text-lg uppercase tracking-wide text-white mb-2">
                     {item.title}
                   </div>
-                  <p className="text-[1.1rem] text-white/70 leading-relaxed">{item.detail}</p>
+                  <p className="text-lg text-white/70 leading-relaxed">{item.detail}</p>
                 </div>
               </div>
             ))}
@@ -253,26 +253,26 @@ export function FuturesPage() {
           <div className="relative border border-[var(--btb-red)]/25 rounded-2xl px-10 py-14 overflow-hidden">
             <div className="absolute inset-0 bg-[var(--btb-red)]/[0.04]" />
             <div className="relative">
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
+              <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
                 Stay In The Loop
               </div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 Next Clinic Date.<br />
                 <span className="text-[var(--btb-red)]">Sent First.</span>
               </h2>
-              <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
+              <p className="text-lg text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
                 Join the BTB list for Futures clinic announcements, tryout updates, and the next chance to get your young player on the field.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="/join"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200"
                 >
                   Join The List <ArrowRight size={13} />
                 </a>
                 <a
                   href="/tryouts"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-base font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
                 >
                   Tryout Info
                 </a>

@@ -213,7 +213,7 @@ export function AcademyInfoPage() {
         <div className="max-w-[960px] mx-auto relative z-10">
           <div className="inline-flex items-center gap-3 mb-8">
             <div className="h-px w-10 bg-[#D22630]" />
-            <span className="text-[1.1rem] font-bold uppercase tracking-[4px] text-white/85">
+            <span className="text-lg font-bold uppercase tracking-[4px] text-white/85">
               BTB Online Academy · Long Island
             </span>
             <div className="h-px w-10 bg-[#D22630]" />
@@ -227,13 +227,13 @@ export function AcademyInfoPage() {
             <span className="text-[#D22630]">Develop the Player.</span>
           </h1>
 
-          <p className="text-[1.2rem] text-white/70 max-w-[540px] leading-[1.9] mb-4">
+          <p className="text-xl text-white/70 max-w-[540px] leading-[1.9] mb-4">
             BTB Academy is the only online lacrosse learning platform built
             specifically for BTB players and coaches. Not generic drills.
             Not YouTube compilations. A structured curriculum — the same
             coaching philosophy we use on the field, now available on any device, any time.
           </p>
-          <p className="text-[1.1rem] text-white/85 font-semibold mb-12">
+          <p className="text-lg text-white/85 font-semibold mb-12">
             90+ lessons. 6 position tracks. 3 age tiers. Coach curriculum.
             Progress that follows you across every device.
           </p>
@@ -241,13 +241,13 @@ export function AcademyInfoPage() {
           <div className="flex flex-wrap gap-4">
             <button
               onClick={() => navigate("/login")}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#D22630] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#D22630] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
             >
               Access Your Academy <ArrowRight size={13} />
             </button>
             <a
               href="mailto:info@bethebestli.com"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 bg-white/5 text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:bg-white/10 transition-all duration-200"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 bg-white/5 text-white text-base font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:bg-white/10 transition-all duration-200"
             >
               Request Access
             </a>
@@ -262,7 +262,7 @@ export function AcademyInfoPage() {
             {stats.map((s, i) => (
               <div key={s.label} className={`py-10 text-center ${i < stats.length - 1 ? "border-r border-white/[0.07]" : ""}`}>
                 <div className="font-display text-[2.5rem] text-[#D22630] leading-none">{s.num}</div>
-                <div className="text-[1.1rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">{s.label}</div>
+                <div className="text-lg font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">{s.label}</div>
               </div>
             ))}
           </div>
@@ -272,13 +272,13 @@ export function AcademyInfoPage() {
       {/* ── THREE PILLARS ─────────────────────────────────────────────── */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
             The Curriculum
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Three Pillars.<br />Every Level.
           </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[520px] leading-relaxed mb-14">
+          <p className="text-lg text-white/35 max-w-[520px] leading-relaxed mb-14">
             Every lesson in BTB Academy lives inside one of three pillars.
             The pillars are designed to develop the whole player — not just
             the one holding the stick.
@@ -290,13 +290,13 @@ export function AcademyInfoPage() {
                 <div className={`w-11 h-11 rounded-lg ${p.bg} border ${p.border} flex items-center justify-center mb-5`}>
                   <p.icon size={20} className={p.color} />
                 </div>
-                <h3 className="font-display text-[1.1rem] uppercase tracking-wide mb-3">{p.label}</h3>
-                <p className="text-[1.05rem] text-white/45 leading-relaxed">{p.desc}</p>
+                <h3 className="font-display text-lg uppercase tracking-wide mb-3">{p.label}</h3>
+                <p className="text-base text-white/45 leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
 
-          <p className="text-[1.05rem] text-white/25 text-center">
+          <p className="text-base text-white/25 text-center">
             Leadership and Team lessons apply to every position at every age.
             The Game pillar adapts its content by tier and position track.
           </p>
@@ -306,13 +306,13 @@ export function AcademyInfoPage() {
       {/* ── POSITION TRACKS ───────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
             Position Tracks
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Your Position.<br />Your Curriculum.
           </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[500px] leading-relaxed mb-14">
+          <p className="text-lg text-white/35 max-w-[500px] leading-relaxed mb-14">
             BTB Academy has a dedicated lesson track for every position.
             Filter to your role and get coaching that's actually relevant to how you play.
           </p>
@@ -326,8 +326,8 @@ export function AcademyInfoPage() {
                 <div className="w-9 h-9 rounded-lg bg-[#D22630]/10 flex items-center justify-center mb-4 group-hover:bg-[#D22630]/20 transition-colors">
                   <pos.icon size={16} className="text-[#D22630]" />
                 </div>
-                <h4 className="font-display text-[1.25rem] uppercase tracking-wide mb-2">{pos.label}</h4>
-                <p className="text-[1.0rem] text-white/35 leading-relaxed">{pos.desc}</p>
+                <h4 className="font-display text-xl uppercase tracking-wide mb-2">{pos.label}</h4>
+                <p className="text-base text-white/35 leading-relaxed">{pos.desc}</p>
               </div>
             ))}
           </div>
@@ -337,13 +337,13 @@ export function AcademyInfoPage() {
       {/* ── AGE TIERS ─────────────────────────────────────────────────── */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
             Age Tiers
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Right Content.<br />Right Age.
           </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[500px] leading-relaxed mb-14">
+          <p className="text-lg text-white/35 max-w-[500px] leading-relaxed mb-14">
             The curriculum is not the same for every player. Content is written
             specifically for each age group — language, complexity, and focus
             all match where a player actually is in their development.
@@ -355,18 +355,18 @@ export function AcademyInfoPage() {
                 {/* Header band */}
                 <div className={`h-24 bg-gradient-to-br ${tier.color} p-5 flex items-end`}>
                   <div>
-                    <p className="text-white/70 text-[1.15rem] font-bold uppercase tracking-wider mb-1">{tier.ages}</p>
+                    <p className="text-white/70 text-lg font-bold uppercase tracking-wider mb-1">{tier.ages}</p>
                     <h3 className="font-display text-2xl uppercase tracking-wide text-white">{tier.label}</h3>
                   </div>
                 </div>
                 {/* Content */}
                 <div className="p-5 bg-white/[0.02]">
-                  <p className="text-[1.1rem] font-bold uppercase tracking-[2px] text-white/25 mb-4">{tier.gradYears}</p>
+                  <p className="text-lg font-bold uppercase tracking-[2px] text-white/25 mb-4">{tier.gradYears}</p>
                   <ul className="space-y-2.5">
                     {tier.points.map((pt, i) => (
                       <li key={i} className="flex items-start gap-2.5">
                         <CheckCircle2 size={13} className="text-[#D22630] shrink-0 mt-0.5" />
-                        <span className="text-[1.05rem] text-white/45 leading-snug">{pt}</span>
+                        <span className="text-base text-white/45 leading-snug">{pt}</span>
                       </li>
                     ))}
                   </ul>
@@ -380,7 +380,7 @@ export function AcademyInfoPage() {
       {/* ── HOW IT WORKS ──────────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
             How It Works
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
@@ -391,14 +391,14 @@ export function AcademyInfoPage() {
           <div className="space-y-0 border-t border-white/[0.07]">
             {howItWorks.map((step) => (
               <div key={step.num} className="flex items-start gap-8 py-8 border-b border-white/[0.07] group">
-                <div className="font-display text-[1.25rem] text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5 w-6">
+                <div className="font-display text-xl text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5 w-6">
                   {step.num}
                 </div>
                 <div>
-                  <h4 className="font-display text-[1.05rem] uppercase tracking-wide text-white group-hover:text-[#D22630] transition-colors mb-2">
+                  <h4 className="font-display text-base uppercase tracking-wide text-white group-hover:text-[#D22630] transition-colors mb-2">
                     {step.title}
                   </h4>
-                  <p className="text-[1.1rem] text-white/35 leading-relaxed">{step.desc}</p>
+                  <p className="text-lg text-white/35 leading-relaxed">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -411,19 +411,19 @@ export function AcademyInfoPage() {
         <div className="max-w-[960px] mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
+              <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
                 Lesson Format
               </div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 Watch. Read.<br />Prove You Learned It.
               </h2>
-              <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+              <p className="text-lg text-white/35 leading-relaxed mb-8">
                 Every lesson follows the same format. It's not random — it mirrors
                 how elite coaches actually teach: watch first, context second,
                 prove comprehension third. The quiz isn't optional and it isn't easy to fake.
                 You must answer correctly to advance.
               </p>
-              <p className="text-[1.05rem] text-white/25 leading-relaxed">
+              <p className="text-base text-white/25 leading-relaxed">
                 Wrong answer? You get the explanation and try again.
                 No penalties, no timers. Just mastery before progress.
               </p>
@@ -442,10 +442,10 @@ export function AcademyInfoPage() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-[#D22630]">{item.step}</span>
-                      <span className="font-display text-[1.18rem] uppercase tracking-wide">{item.title}</span>
+                      <span className="text-base font-bold uppercase tracking-[2px] text-[#D22630]">{item.step}</span>
+                      <span className="font-display text-lg uppercase tracking-wide">{item.title}</span>
                     </div>
-                    <p className="text-[1.0rem] text-white/35 leading-relaxed">{item.desc}</p>
+                    <p className="text-base text-white/35 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -457,13 +457,13 @@ export function AcademyInfoPage() {
       {/* ── COACH CURRICULUM ──────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
             For Coaches
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Coach Learning<br />Built In.
           </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[520px] leading-relaxed mb-14">
+          <p className="text-lg text-white/35 max-w-[520px] leading-relaxed mb-14">
             BTB coaches have their own curriculum inside the Coaches Hub — four
             full modules covering philosophy, practice design, film study, and
             player development. It's not a certification checklist. It's actual education.
@@ -472,14 +472,14 @@ export function AcademyInfoPage() {
           <div className="grid md:grid-cols-2 gap-4 mb-10">
             {coaches.map((c) => (
               <div key={c.num} className="flex items-start gap-6 p-6 rounded-xl border border-white/[0.07] bg-white/[0.02] group hover:border-white/[0.14] transition-all">
-                <div className="font-display text-[1.25rem] text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5">
+                <div className="font-display text-xl text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5">
                   {c.num}
                 </div>
                 <div>
-                  <h4 className="font-display text-[1.25rem] uppercase tracking-wide mb-2 group-hover:text-[#D22630] transition-colors">
+                  <h4 className="font-display text-xl uppercase tracking-wide mb-2 group-hover:text-[#D22630] transition-colors">
                     {c.title}
                   </h4>
-                  <p className="text-[1.05rem] text-white/35 leading-relaxed">{c.desc}</p>
+                  <p className="text-base text-white/35 leading-relaxed">{c.desc}</p>
                 </div>
               </div>
             ))}
@@ -487,7 +487,7 @@ export function AcademyInfoPage() {
 
           <div className="p-6 rounded-xl border border-[#D22630]/20 bg-[#D22630]/[0.04] flex items-start gap-4">
             <Lock size={16} className="text-[#D22630] shrink-0 mt-0.5" />
-            <p className="text-[1.05rem] text-white/70 leading-relaxed">
+            <p className="text-base text-white/70 leading-relaxed">
               Coach curriculum is available exclusively to BTB-credentialed coaches.
               If you're on staff and need access, contact{" "}
               <a href="mailto:info@bethebestli.com" className="text-[#D22630] hover:underline">
@@ -501,7 +501,7 @@ export function AcademyInfoPage() {
       {/* ── FAQ ───────────────────────────────────────────────────────── */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">
             Questions
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
@@ -511,8 +511,8 @@ export function AcademyInfoPage() {
           <div className="space-y-0 border-t border-white/[0.07]">
             {faqs.map((faq, i) => (
               <div key={i} className="py-8 border-b border-white/[0.07]">
-                <h4 className="font-display text-[1rem] uppercase tracking-wide text-white mb-3">{faq.q}</h4>
-                <p className="text-[1.1rem] text-white/70 leading-relaxed">{faq.a}</p>
+                <h4 className="font-display text-base uppercase tracking-wide text-white mb-3">{faq.q}</h4>
+                <p className="text-lg text-white/70 leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
@@ -535,13 +535,13 @@ export function AcademyInfoPage() {
                 <GraduationCap size={28} className="text-[#D22630]" />
               </div>
 
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-6">
+              <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-6">
                 Invite Only
               </div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 This Is for<br />BTB Players Only.
               </h2>
-              <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
+              <p className="text-lg text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
                 BTB Academy is not a public product. It's a tool we built for
                 our players and coaches because we believe in-season education
                 is just as important as in-season practice. If you're on a BTB
@@ -551,19 +551,19 @@ export function AcademyInfoPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => navigate("/login")}
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#D22630] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#D22630] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
                 >
                   Log In to Academy <ArrowRight size={13} />
                 </button>
                 <a
                   href="mailto:info@bethebestli.com"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-base font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
                 >
                   Request Access
                 </a>
               </div>
 
-              <p className="text-[1.2rem] text-white/45 mt-8">
+              <p className="text-xl text-white/45 mt-8">
                 Not a BTB player yet?{" "}
                 <a href="/boys" className="text-[#D22630] hover:underline">View the Boys Program</a>
                 {" · "}

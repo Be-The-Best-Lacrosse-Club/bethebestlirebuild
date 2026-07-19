@@ -53,7 +53,7 @@ export function CharacterLab() {
       <div className="max-w-[1100px] mx-auto relative z-10">
         <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-10 md:mb-24 gap-6 md:gap-8 text-center md:text-left">
           <div className="max-w-[600px]">
-            <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-lg tracking-[5px] mb-6 flex items-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               THE_BTB_BLUEPRINT // LEADERSHIP_LAB
             </div>
@@ -61,7 +61,7 @@ export function CharacterLab() {
               Building <br /> <span className="text-[var(--btb-red)]">Champions.</span>
             </h2>
           </div>
-          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
+          <p className="text-white/65 text-base leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
             Our character and leadership curriculum is not an add-on. It is the core of the BTB Standard. We develop the person first, then the player.
           </p>
         </div>
@@ -99,7 +99,7 @@ export function CharacterLab() {
           {/* Active Content */}
           <div className="lg:col-span-8 bg-white/[0.02] border border-white/5 p-10 md:p-14 relative overflow-hidden">
             {/* Technical Spec Marking */}
-            <div className="absolute top-6 right-6 font-mono text-[1.0rem] text-white/55 uppercase tracking-widest">
+            <div className="absolute top-6 right-6 font-mono text-base text-white/55 uppercase tracking-widest">
               MODULE // 0{pillars.indexOf(activePillar) + 1}
             </div>
 
@@ -108,7 +108,7 @@ export function CharacterLab() {
                 <div className="font-display text-[4rem] text-white/5 leading-none select-none">
                   0{pillars.indexOf(activePillar) + 1}
                 </div>
-                <div className="text-[var(--btb-red)] font-mono text-[1.25rem] font-bold uppercase tracking-[3px]">
+                <div className="text-[var(--btb-red)] font-mono text-xl font-bold uppercase tracking-[3px]">
                   {activePillar.subtitle}
                 </div>
               </div>
@@ -118,12 +118,12 @@ export function CharacterLab() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 border-t border-white/10">
                 <div>
-                  <div className="text-[1.0rem] font-black text-white/85 uppercase tracking-[3px] mb-6">Curriculum Highlights</div>
+                  <div className="text-base font-black text-white/85 uppercase tracking-[3px] mb-6">Curriculum Highlights</div>
                   <ul className="space-y-4">
                     {activePillar.lessons.map((lesson, i) => (
                       <li key={i} className="flex items-center gap-3 group/item cursor-pointer">
                         <PlayCircle size={16} className="text-[var(--btb-red)] group-hover/item:scale-110 transition-transform" />
-                        <span className="text-[1.2rem] font-bold text-white/65 group-hover/item:text-white transition-colors uppercase tracking-wide">
+                        <span className="text-xl font-bold text-white/65 group-hover/item:text-white transition-colors uppercase tracking-wide">
                           {lesson}
                         </span>
                       </li>
@@ -132,10 +132,10 @@ export function CharacterLab() {
                 </div>
                 <div className="bg-black/40 border border-white/5 p-8 rounded-sm">
                   <Quote className="text-[var(--btb-red)] mb-4 opacity-50" size={20} />
-                  <p className="text-[1.25rem] italic text-white/65 leading-relaxed">
+                  <p className="text-xl italic text-white/65 leading-relaxed">
                     "The Standard is what you do when nobody is watching. It's the daily decision to outwork your yesterday."
                   </p>
-                  <div className="mt-4 text-[1.08rem] font-black uppercase tracking-[2px] text-[var(--btb-red)]">
+                  <div className="mt-4 text-base font-black uppercase tracking-[2px] text-[var(--btb-red)]">
                     — The BTB Standard
                   </div>
                 </div>

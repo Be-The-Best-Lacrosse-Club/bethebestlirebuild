@@ -65,20 +65,20 @@ export function HubsSection() {
                     i === 1 ? "text-[var(--btb-red)]" : "text-white/85 group-hover:text-[var(--btb-red)]"
                   }`} />
                 </div>
-                <span className={`text-[1.05rem] font-bold uppercase tracking-[1px] px-2.5 py-1 rounded-full border transition-colors ${
+                <span className={`text-base font-bold uppercase tracking-[1px] px-2.5 py-1 rounded-full border transition-colors ${
                   i === 1
                     ? "bg-white/10 text-white/85 border-white/10"
                     : "bg-white text-white/85 border-neutral-200 group-hover:bg-white/10 group-hover:text-white/85 group-hover:border-white/10"
                 }`}>{h.tag}</span>
               </div>
-              <div className="text-[1.05rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-2">{h.label}</div>
-              <h3 className={`font-display text-[1.1rem] uppercase tracking-wide mb-3 transition-colors ${
+              <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-2">{h.label}</div>
+              <h3 className={`font-display text-lg uppercase tracking-wide mb-3 transition-colors ${
                 i === 1 ? "text-white" : "text-black group-hover:text-white"
               }`}>{h.headline}</h3>
-              <p className={`text-[1rem] leading-relaxed mb-6 transition-colors ${
+              <p className={`text-base leading-relaxed mb-6 transition-colors ${
                 i === 1 ? "text-white/85" : "text-white/85 group-hover:text-white/85"
               }`}>{h.text}</p>
-              <div className={`flex items-center gap-1.5 text-[1.05rem] font-bold uppercase tracking-[1.5px] transition-colors ${
+              <div className={`flex items-center gap-1.5 text-base font-bold uppercase tracking-[1.5px] transition-colors ${
                 i === 1 ? "text-white/85" : "text-black/25 group-hover:text-white/85"
               }`}>
                 Explore <ArrowRight size={11} />

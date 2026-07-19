@@ -35,7 +35,7 @@ export function ProofSection() {
               Recruiting <br /> <span className="text-[var(--btb-red)]">Flagships.</span>
             </h2>
           </div>
-          <div className="text-white/85 text-[1.0rem] font-bold uppercase tracking-[2px] mb-4 border-l border-[var(--btb-red)] pl-6 max-w-[300px]">
+          <div className="text-white/85 text-base font-bold uppercase tracking-[2px] mb-4 border-l border-[var(--btb-red)] pl-6 max-w-[300px]">
             BTB 2028 Black and Girls 2030 Tidal Wave are our current flagship recruiting units, competing at the highest national level.
           </div>
         </div>
@@ -50,7 +50,7 @@ export function ProofSection() {
               
               <div className="mb-12">
                 <div className="font-display text-xl uppercase tracking-wider text-white mb-1">{a.event}</div>
-                <div className="text-[1.15rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
+                <div className="text-lg font-bold uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
                   {a.team || a.player}
                 </div>
               </div>

@@ -60,7 +60,7 @@ export function AudiencePaths() {
       <div className="max-w-[1100px] mx-auto relative z-10">
         <div className="flex flex-col items-center md:items-end md:flex-row md:justify-between mb-10 md:mb-20 gap-6 md:gap-8 pb-8 md:pb-12 border-b border-white/10 text-center md:text-left">
           <div className="max-w-[600px]">
-            <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-lg tracking-[5px] mb-6 flex items-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               SELECT_YOUR_PATH // PARENT_START
             </div>
@@ -71,7 +71,7 @@ export function AudiencePaths() {
               Choose Your <br /><span className="text-[var(--btb-red)]">Program.</span>
             </h2>
           </div>
-          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
+          <p className="text-white/65 text-base leading-relaxed max-w-[380px] border-l border-white/10 pl-8">
             Start with the right side of the club. Boys and girls programs are separate, with different teams, coaches, and registration paths.
           </p>
         </div>
@@ -86,7 +86,7 @@ export function AudiencePaths() {
               className={`stagger-child group relative p-10 bg-black ${p.bgHover} transition-all duration-500 flex flex-col min-h-[480px]`}
             >
               {/* Eyebrow */}
-              <div className="text-[1.0rem] font-mono text-white/55 group-hover:text-white/75 transition-colors mb-8">
+              <div className="text-base font-mono text-white/55 group-hover:text-white/75 transition-colors mb-8">
                 {p.eyebrow}
               </div>
 
@@ -96,7 +96,7 @@ export function AudiencePaths() {
               </div>
 
               {/* Audience tag */}
-              <div className="text-[1.08rem] font-black uppercase tracking-[4px] text-[var(--btb-red)] group-hover:text-white/85 transition-colors mb-3">
+              <div className="text-base font-black uppercase tracking-[4px] text-[var(--btb-red)] group-hover:text-white/85 transition-colors mb-3">
                 {p.audience === "Futures" ? "Futures + Clinics" : `${p.audience} Path`}
               </div>
 
@@ -106,7 +106,7 @@ export function AudiencePaths() {
               </h3>
 
               {/* Body */}
-              <p className="text-[1rem] text-white/65 group-hover:text-white/85 leading-relaxed font-medium transition-colors flex-1 mb-8">
+              <p className="text-base text-white/65 group-hover:text-white/85 leading-relaxed font-medium transition-colors flex-1 mb-8">
                 {p.description}
               </p>
 
@@ -116,7 +116,7 @@ export function AudiencePaths() {
                   <div key={l.label}>
                     <button
                       onClick={() => navigate(l.href)}
-                      className="text-[1.05rem] font-black uppercase tracking-[2px] text-white/85 group-hover:text-white/80 hover:!text-white transition-colors block"
+                      className="text-base font-black uppercase tracking-[2px] text-white/85 group-hover:text-white/80 hover:!text-white transition-colors block"
                     >
                       {l.label}
                     </button>
@@ -127,7 +127,7 @@ export function AudiencePaths() {
               {/* CTA */}
               <button
                 onClick={() => navigate(p.cta.href)}
-                className="flex items-center gap-3 text-[1.08rem] font-black uppercase tracking-[2px] text-white/65 group-hover:text-white transition-colors border-t border-white/10 pt-6"
+                className="flex items-center gap-3 text-base font-black uppercase tracking-[2px] text-white/65 group-hover:text-white transition-colors border-t border-white/10 pt-6"
               >
                 {p.cta.label}
                 <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />

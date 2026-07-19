@@ -739,7 +739,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
               <button
                 key={pos}
                 onClick={() => setActivePosition(pos)}
-                className={`px-3 py-1.5 rounded-full text-[1.2rem] font-bold uppercase tracking-[1px] transition-all ${
+                className={`px-3 py-1.5 rounded-full text-xl font-bold uppercase tracking-[1px] transition-all ${
                   activePosition === pos
                     ? "bg-[#D22630] text-white"
                     : "border border-[#1F1F1F] text-[#888888] hover:text-white/70 hover:border-[#2A2A2A]"
@@ -866,7 +866,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[1.25rem] font-bold uppercase tracking-[0.8px] whitespace-nowrap transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xl font-bold uppercase tracking-[0.8px] whitespace-nowrap transition-all ${
                   activeTab === id
                     ? "bg-[#D22630] text-white"
                     : "text-[#888888] hover:text-white hover:bg-[#141414]"
@@ -885,7 +885,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                 <button
                   key={g}
                   onClick={() => setAndStoreGender(g)}
-                  className={`px-2.5 py-1 rounded text-[1.15rem] font-black uppercase tracking-[1px] transition-all ${
+                  className={`px-2.5 py-1 rounded text-lg font-black uppercase tracking-[1px] transition-all ${
                     gender === g
                       ? "bg-[#D22630] text-white"
                       : "text-[#888888] hover:text-white"
@@ -932,7 +932,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
             <div className="bg-[#0A0A0A] border border-[#1F1F1F] rounded-2xl p-6 mb-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className="text-[#888888] text-[1.15rem] font-bold uppercase tracking-[2px] mb-1">Development Track · Overall Progress</p>
+                  <p className="text-[#888888] text-lg font-bold uppercase tracking-[2px] mb-1">Development Track · Overall Progress</p>
                   <p className="text-4xl font-bold" style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif" }}>{overallPct}%</p>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-[#D22630]/10 border border-[#D22630]/30 rounded-lg">
@@ -950,7 +950,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                 ].map(({ label, value }) => (
                   <div key={label} className="text-center">
                     <p className="text-white font-bold text-lg">{value}</p>
-                    <p className="text-[#888888] text-[1.15rem] uppercase tracking-wider mt-0.5">{label}</p>
+                    <p className="text-[#888888] text-lg uppercase tracking-wider mt-0.5">{label}</p>
                   </div>
                 ))}
               </div>
@@ -1112,12 +1112,12 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-[1.25rem] text-[#888888]">{course.lessons.length} lessons</span>
+                        <span className="text-xl text-[#888888]">{course.lessons.length} lessons</span>
                         <div className="flex items-center gap-2">
                           <div className="h-1.5 w-20 bg-[#1F1F1F] rounded-full overflow-hidden">
                             <div className={`h-full bg-gradient-to-r ${TIER_COLORS[course.tier]}`} style={{ width: `${pct}%` }} />
                           </div>
-                          <span className="text-[1.0rem] font-bold text-[#888888]">{pct}%</span>
+                          <span className="text-base font-bold text-[#888888]">{pct}%</span>
                         </div>
                       </div>
                     </div>
@@ -1174,8 +1174,8 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                       <p className="text-xs text-[#888888] leading-relaxed mb-4 line-clamp-2">{course.description}</p>
                       <div className="mb-4">
                         <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-[#888888]">Progress</span>
-                          <span className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-white/85">{pct}%</span>
+                          <span className="text-lg font-bold uppercase tracking-[1.5px] text-[#888888]">Progress</span>
+                          <span className="text-lg font-bold uppercase tracking-[1.5px] text-white/85">{pct}%</span>
                         </div>
                         <ProgressBar pct={pct} colorClass="bg-[#D22630]" height="h-[5px]" />
                       </div>
@@ -1183,7 +1183,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                         <span className="text-xs text-[#888888]">{course.steps.length} steps</span>
                         <button
                           onClick={() => setActiveCourse(course)}
-                          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-[1.25rem] font-bold uppercase tracking-[1.5px] transition-all ${
+                          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-xl font-bold uppercase tracking-[1.5px] transition-all ${
                             started
                               ? "bg-[#D22630] text-white hover:bg-[#B01F28]"
                               : "border border-[#1F1F1F] text-[#888888] hover:border-[#2A2A2A] hover:text-white"
@@ -1218,7 +1218,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                   <button
                     key={pos}
                     onClick={() => setFilmPositionFilter(pos)}
-                    className={`px-4 py-1.5 rounded-full text-[1.25rem] font-bold uppercase tracking-[1px] transition-all ${
+                    className={`px-4 py-1.5 rounded-full text-xl font-bold uppercase tracking-[1px] transition-all ${
                       filmPositionFilter === pos
                         ? "bg-[#D22630] text-white"
                         : "border border-[#1F1F1F] text-[#888888] hover:text-white hover:border-[#2A2A2A]"
@@ -1270,7 +1270,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                           </div>
                         </div>
                         {/* Duration badge */}
-                        <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/80 rounded text-[1.08rem] font-bold text-white">
+                        <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/80 rounded text-base font-bold text-white">
                           {clip.duration} min
                         </div>
                       </div>
@@ -1310,7 +1310,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                     <div className="w-12 h-12 rounded-xl bg-[#D22630]/10 border border-[#D22630]/20 flex items-center justify-center group-hover:bg-[#D22630] transition-colors">
                       <resource.icon size={20} className="text-[#D22630] group-hover:text-white transition-colors" />
                     </div>
-                    <span className="text-[1.08rem] font-black uppercase tracking-[1.5px] text-[#888888] border border-[#1F1F1F] rounded-full px-3 py-1">
+                    <span className="text-base font-black uppercase tracking-[1.5px] text-[#888888] border border-[#1F1F1F] rounded-full px-3 py-1">
                       {resource.program}
                     </span>
                   </div>
@@ -1319,7 +1319,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                     {resource.title}
                   </h3>
                   <p className="text-[#888888] text-sm leading-relaxed mb-8">{resource.desc}</p>
-                  <div className="inline-flex items-center gap-2 text-[#D22630] text-[1.25rem] font-black uppercase tracking-[2px] group-hover:translate-x-1 transition-transform">
+                  <div className="inline-flex items-center gap-2 text-[#D22630] text-xl font-black uppercase tracking-[2px] group-hover:translate-x-1 transition-transform">
                     Open Resource <ChevronRight size={13} />
                   </div>
                 </a>
@@ -1345,7 +1345,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                   <button
                     key={cat}
                     onClick={() => setDownloadCategory(cat)}
-                    className={`px-4 py-1.5 rounded-full text-[1.25rem] font-bold uppercase tracking-[1px] transition-all ${
+                    className={`px-4 py-1.5 rounded-full text-xl font-bold uppercase tracking-[1px] transition-all ${
                       downloadCategory === cat
                         ? "bg-[#D22630] text-white"
                         : "border border-[#1F1F1F] text-[#888888] hover:text-white hover:border-[#2A2A2A]"
@@ -1371,10 +1371,10 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-bold text-sm leading-snug mb-1 truncate">{item.name}</p>
                     <div className="flex items-center gap-2">
-                      <span className={`inline-block px-2 py-0.5 rounded text-[1.05rem] font-bold uppercase tracking-wider border ${CATEGORY_COLORS[item.category as DownloadCategory]}`}>
+                      <span className={`inline-block px-2 py-0.5 rounded text-base font-bold uppercase tracking-wider border ${CATEGORY_COLORS[item.category as DownloadCategory]}`}>
                         {item.category}
                       </span>
-                      <span className="text-[#888888] text-[1.15rem]">{item.size}</span>
+                      <span className="text-[#888888] text-lg">{item.size}</span>
                     </div>
                   </div>
                   <Download size={18} className="text-[#888888] group-hover:text-[#D22630] shrink-0 transition-colors" />

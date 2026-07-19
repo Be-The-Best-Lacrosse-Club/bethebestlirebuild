@@ -43,7 +43,7 @@ export function DevelopmentModel() {
       <div className="max-w-[1000px] mx-auto relative z-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div className="max-w-[600px]">
-            <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-lg tracking-[5px] mb-6 flex items-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               DEVELOPMENT_MODEL // 16-WEEK_CYCLE
             </div>
@@ -51,7 +51,7 @@ export function DevelopmentModel() {
               How We Actually<br /><span className="text-[var(--btb-red)]">Build Players.</span>
             </h2>
           </div>
-          <p className="text-white/65 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-6">
+          <p className="text-white/65 text-base leading-relaxed max-w-[340px] border-l border-white/10 pl-6">
             A 16-week repeatable cycle designed around four phases of skill progression.
           </p>
         </div>
@@ -70,16 +70,16 @@ export function DevelopmentModel() {
 
               <div className="flex items-start justify-between mb-5">
                 <div>
-                  <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
+                  <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">{p.weeks}</div>
                   <div className="font-display text-xl uppercase tracking-wide text-white">{p.phase}</div>
                 </div>
               </div>
 
-              <p className="font-display text-[1.2rem] text-white/70 mb-5 uppercase tracking-wide">{p.title}</p>
+              <p className="font-display text-xl text-white/70 mb-5 uppercase tracking-wide">{p.title}</p>
 
               <ul className="space-y-2">
                 {p.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[1.2rem] text-white/65">
+                  <li key={item} className="flex items-start gap-2.5 text-xl text-white/65">
                     <span className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-2 shrink-0" />
                     {item}
                   </li>
@@ -96,7 +96,7 @@ export function DevelopmentModel() {
               className={`py-8 text-center ${i < pillars.length - 1 ? "border-r border-white/10" : ""}`}
             >
               <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{p.stat}</div>
-              <div className="text-[1.0rem] font-semibold uppercase tracking-[1.5px] text-white/85 mt-2">{p.label}</div>
+              <div className="text-base font-semibold uppercase tracking-[1.5px] text-white/85 mt-2">{p.label}</div>
             </div>
           ))}
         </div>

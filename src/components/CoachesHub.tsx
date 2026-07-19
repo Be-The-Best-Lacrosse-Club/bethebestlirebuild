@@ -30,7 +30,7 @@ export function CoachesHub() {
         {/* Header */}
         <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8 pb-12 border-b border-white/10">
           <div className="max-w-[600px]">
-            <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-lg tracking-[5px] mb-6 flex items-center gap-3">
               <Activity size={12} className="animate-pulse" />
               COACHING_STANDARD // OPS_PROTOCOL
             </div>
@@ -38,7 +38,7 @@ export function CoachesHub() {
               Real Coaches. <br /> <span className="text-[var(--btb-red)]">Real Standards.</span>
             </h2>
           </div>
-          <p className="text-white/70 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
+          <p className="text-white/70 text-base leading-relaxed max-w-[340px] border-l border-white/10 pl-8">
             Every BTB coach is held to the same standard as every player. Preparation and accountability are not optional.
           </p>
         </div>
@@ -61,7 +61,7 @@ export function CoachesHub() {
                 <h4 className="font-display text-2xl uppercase tracking-wider text-white mb-2">{c.title}</h4>
               </div>
 
-              <p className="text-[1rem] text-white/70 group-hover:text-white/80 leading-relaxed transition-colors font-medium">
+              <p className="text-base text-white/70 group-hover:text-white/80 leading-relaxed transition-colors font-medium">
                 {c.text}
               </p>
             </div>
@@ -73,7 +73,7 @@ export function CoachesHub() {
             href="/boys/coaches"
             className="group flex items-center justify-center gap-4 text-white/70 hover:text-white transition-all"
           >
-            <span className="text-[1.15rem] font-black uppercase tracking-[4px]">Access Full Academy Directory</span>
+            <span className="text-lg font-black uppercase tracking-[4px]">Access Full Academy Directory</span>
             <div className="w-10 h-px bg-white/20 group-hover:w-20 group-hover:bg-[var(--btb-red)] transition-all" />
           </a>
         </div>

@@ -97,7 +97,7 @@ export function Hero() {
         {/* HUD Data strip */}
         <div
           ref={hud1Ref}
-          className="flex flex-wrap justify-center gap-3 md:gap-6 mb-8 md:mb-10 font-mono text-[1.05rem] md:text-[1.05rem] tracking-[2px] text-white/90 uppercase"
+          className="flex flex-wrap justify-center gap-3 md:gap-6 mb-8 md:mb-10 font-mono text-base md:text-base tracking-[2px] text-white/90 uppercase"
         >
           {hero.hudItems.map((item) => (
             <div key={item.text} className={`${item.desktopOnly ? "hidden md:flex" : "flex"} items-center gap-2`}>
@@ -113,7 +113,7 @@ export function Hero() {
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-3 mb-8 md:mb-10">
           <div className="h-px w-8 bg-[var(--btb-red)]" />
-          <span className="text-[1.05rem] font-bold uppercase tracking-[4px] text-white/90">
+          <span className="text-base font-bold uppercase tracking-[4px] text-white/90">
             {hero.eyebrow}
           </span>
           <div className="h-px w-8 bg-[var(--btb-red)]" />
@@ -140,7 +140,7 @@ export function Hero() {
           <span className="block text-[var(--btb-red)]">{hero.subheadline.accent}</span>
           <span className="block w-24 h-1 bg-[var(--btb-red)] mx-auto mt-5" />
         </p>
-        <p className="text-[1.05rem] md:text-[1rem] text-white/95 font-semibold mb-10 md:mb-12">
+        <p className="text-base md:text-base text-white/95 font-semibold mb-10 md:mb-12">
           {hero.supportingLine}
         </p>
 
@@ -149,7 +149,7 @@ export function Hero() {
           <a
             ref={primaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
             href={hero.primaryCta.url}
-            className="relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] overflow-hidden group"
+            className="relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] overflow-hidden group"
             style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
           >
             {/* Fill sweep on hover */}
@@ -165,7 +165,7 @@ export function Hero() {
           <a
             ref={secondaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
             href={hero.secondaryCta.url}
-            className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-[1.05rem] font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-base font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
           >
             {hero.secondaryCta.label}
           </a>
@@ -176,7 +176,7 @@ export function Hero() {
           {hero.stats.map(({ value, label }) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl text-[var(--btb-red)] leading-none">{value}</div>
-              <div className="text-[1.05rem] font-bold uppercase tracking-[2px] text-white/90 mt-1">{label}</div>
+              <div className="text-base font-bold uppercase tracking-[2px] text-white/90 mt-1">{label}</div>
             </div>
           ))}
         </div>

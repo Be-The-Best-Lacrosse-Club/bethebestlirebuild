@@ -174,7 +174,7 @@ function EventTable({ events, gender }: { events: ShowcaseEvent[]; gender: "boys
               <h3 className={`font-display text-2xl uppercase tracking-wide ${tier.accent}`}>
                 {tier.label}
               </h3>
-              <span className="text-[1.15rem] font-bold uppercase tracking-[2px] text-white/70">
+              <span className="text-lg font-bold uppercase tracking-[2px] text-white/70">
                 {tierEvents.length} {tierEvents.length === 1 ? "event" : "events"}
               </span>
             </div>
@@ -186,30 +186,30 @@ function EventTable({ events, gender }: { events: ShowcaseEvent[]; gender: "boys
                   className={`relative p-5 rounded-xl border bg-white/[0.02] hover:bg-white/[0.04] transition-colors ${tier.border}`}
                 >
                   <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-r ${tier.bar}`} />
-                  <h4 className="font-display text-[1.05rem] uppercase tracking-wide text-white mb-1">
+                  <h4 className="font-display text-base uppercase tracking-wide text-white mb-1">
                     {evt.name}
                   </h4>
-                  <p className="text-[1.25rem] text-white/70 mb-3">
+                  <p className="text-xl text-white/70 mb-3">
                     {evt.format} · {evt.location}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-3 mb-3 text-[1.0rem]">
+                  <div className="grid grid-cols-2 gap-3 mb-3 text-base">
                     <div>
-                      <div className="text-[1.0rem] font-bold uppercase tracking-[2px] text-white/85 mb-0.5">Grad Years</div>
+                      <div className="text-base font-bold uppercase tracking-[2px] text-white/85 mb-0.5">Grad Years</div>
                       <div className="text-white/80 font-semibold">{evt.gradYears}</div>
                     </div>
                     <div>
-                      <div className="text-[1.0rem] font-bold uppercase tracking-[2px] text-white/85 mb-0.5">Date</div>
+                      <div className="text-base font-bold uppercase tracking-[2px] text-white/85 mb-0.5">Date</div>
                       <div className={`font-semibold ${tier.accent}`}>{evt.date}</div>
                     </div>
                   </div>
 
                   <div className="mb-3">
-                    <div className="text-[1.0rem] font-bold uppercase tracking-[2px] text-white/85 mb-0.5">Best For</div>
-                    <div className="text-[1.05rem] text-white/70">{evt.bestFor}</div>
+                    <div className="text-base font-bold uppercase tracking-[2px] text-white/85 mb-0.5">Best For</div>
+                    <div className="text-base text-white/70">{evt.bestFor}</div>
                   </div>
 
-                  <p className="text-[1.25rem] text-white/45 leading-relaxed border-t border-white/[0.06] pt-3">
+                  <p className="text-xl text-white/45 leading-relaxed border-t border-white/[0.06] pt-3">
                     {evt.notes}
                   </p>
                 </div>
@@ -245,7 +245,7 @@ export function RecruitingPage() {
           <div className="absolute inset-0 bg-gradient-to-br from-[var(--btb-red)]/[0.06] via-transparent to-transparent pointer-events-none" />
 
           <div className="max-w-[1100px] mx-auto relative">
-            <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-5">
+            <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-5">
               Be The Best Lacrosse Club
             </div>
             <h1 className="font-display text-[clamp(3rem,7vw,6rem)] uppercase tracking-tight leading-[0.92] mb-6">
@@ -257,7 +257,7 @@ export function RecruitingPage() {
               <span className="text-white/85">2026</span>
             </h1>
 
-            <p className="text-[1.05rem] text-white/55 max-w-[640px] leading-relaxed mb-10">
+            <p className="text-base text-white/55 max-w-[640px] leading-relaxed mb-10">
               The definitive guide to college recruiting showcases, ID camps, and tournaments — built for BTB families and tiered by exposure level, grad year, and fit.
             </p>
 
@@ -266,13 +266,13 @@ export function RecruitingPage() {
                 href="/btb-showcase-calendar-2026.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors"
+                className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors"
               >
                 <Download size={15} /> Download PDF
               </a>
               <button
                 onClick={() => navigate("/interest")}
-                className="flex items-center gap-2 px-6 py-3 border border-white/15 text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded-lg hover:border-white/30 hover:bg-white/[0.03] transition-colors"
+                className="flex items-center gap-2 px-6 py-3 border border-white/15 text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:border-white/30 hover:bg-white/[0.03] transition-colors"
               >
                 Talk to Your Coach <ArrowRight size={14} />
               </button>
@@ -283,7 +283,7 @@ export function RecruitingPage() {
               {stats.map((s) => (
                 <div key={s.label}>
                   <div className="font-display text-4xl md:text-5xl text-[var(--btb-red)] mb-1">{s.num}</div>
-                  <div className="text-[1.08rem] font-bold uppercase tracking-[2px] text-white/70">{s.label}</div>
+                  <div className="text-base font-bold uppercase tracking-[2px] text-white/70">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -294,14 +294,14 @@ export function RecruitingPage() {
         <section className="py-20 px-6 border-b border-white/[0.07]">
           <div className="max-w-[1100px] mx-auto">
             <div className="mb-10">
-              <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
+              <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
                 How to Use This Guide
               </div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.95] mb-4">
                 Cut Through<br />
                 <span className="text-white/85">the Noise.</span>
               </h2>
-              <p className="text-[1.25rem] text-white/55 max-w-[640px] leading-relaxed">
+              <p className="text-xl text-white/55 max-w-[640px] leading-relaxed">
                 Every showcase claims to deliver college exposure. Most don't. This calendar is built around actual coach attendance, recruiting weight, and fit for your player's grad year and trajectory.
               </p>
             </div>
@@ -314,7 +314,7 @@ export function RecruitingPage() {
                   <h3 className={`font-display text-xl uppercase tracking-wide mb-2 ${tier.accent}`}>
                     {tier.label}
                   </h3>
-                  <p className="text-[1.08rem] text-white/55 leading-relaxed">{tier.desc}</p>
+                  <p className="text-base text-white/55 leading-relaxed">{tier.desc}</p>
                 </div>
               ))}
             </div>
@@ -328,11 +328,11 @@ export function RecruitingPage() {
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 {buildSummerSteps.map((step) => (
                   <div key={step.num}>
-                    <div className="text-[1.08rem] font-bold text-[var(--btb-red)] mb-2">{step.num}</div>
+                    <div className="text-base font-bold text-[var(--btb-red)] mb-2">{step.num}</div>
                     <div className="font-display text-base uppercase tracking-wide text-white mb-2 leading-tight">
                       {step.title}
                     </div>
-                    <div className="text-[1.0rem] text-white/45 leading-relaxed">{step.body}</div>
+                    <div className="text-base text-white/45 leading-relaxed">{step.body}</div>
                   </div>
                 ))}
               </div>
@@ -345,7 +345,7 @@ export function RecruitingPage() {
           <div className="max-w-[1100px] mx-auto">
             <div className="flex items-end justify-between mb-10 pb-4 border-b border-white/[0.07]">
               <div>
-                <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">Boys</div>
+                <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">Boys</div>
                 <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.95]">
                   19 Boys Events
                 </h2>
@@ -361,7 +361,7 @@ export function RecruitingPage() {
           <div className="max-w-[1100px] mx-auto">
             <div className="flex items-end justify-between mb-10 pb-4 border-b border-white/[0.07]">
               <div>
-                <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">Girls</div>
+                <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">Girls</div>
                 <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.95]">
                   16 Girls Events
                 </h2>
@@ -375,14 +375,14 @@ export function RecruitingPage() {
         {/* ─── BTB Recruiting Philosophy ──────────────────────── */}
         <section className="py-20 px-6 border-b border-white/[0.07]">
           <div className="max-w-[1100px] mx-auto">
-            <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
+            <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
               BTB Recruiting Philosophy
             </div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] uppercase tracking-tight leading-[0.95] mb-6 max-w-[820px]">
               Exposure Follows<br />Development —
               <br /><span className="text-white/85">Not the Other Way Around.</span>
             </h2>
-            <p className="text-[1rem] text-white/55 max-w-[680px] leading-relaxed mb-12">
+            <p className="text-base text-white/55 max-w-[680px] leading-relaxed mb-12">
               The number one mistake families make is racing to showcases before the player is ready to be evaluated. Coaches don't remember kids who were "there" — they remember kids who stood out. Build the player first. The right showcase, at the right time, finishes the job.
             </p>
 
@@ -395,7 +395,7 @@ export function RecruitingPage() {
                 </div>
                 <ul className="space-y-3">
                   {btbDeliverables.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-[1.1rem] text-white/65 leading-relaxed">
+                    <li key={item} className="flex items-start gap-3 text-lg text-white/65 leading-relaxed">
                       <CheckCircle2 size={16} className="shrink-0 text-[var(--btb-red)] mt-0.5" />
                       <span>{item}</span>
                     </li>
@@ -411,7 +411,7 @@ export function RecruitingPage() {
                 </div>
                 <ul className="space-y-4">
                   {familyChecklist.map((item) => (
-                    <li key={item.title} className="text-[1.08rem]">
+                    <li key={item.title} className="text-base">
                       <div className="font-bold text-white mb-0.5">{item.title}</div>
                       <div className="text-white/55 leading-relaxed">{item.body}</div>
                     </li>
@@ -425,20 +425,20 @@ export function RecruitingPage() {
         {/* ─── Next Step CTA ──────────────────────────────────── */}
         <section className="py-24 px-6">
           <div className="max-w-[900px] mx-auto text-center">
-            <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-4">
+            <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-4">
               Next Step
             </div>
             <h2 className="font-display text-[clamp(2rem,5vw,3.75rem)] uppercase tracking-tight leading-[0.95] mb-6">
               Want a Personalized<br />
               <span className="text-white/85">Showcase Plan?</span>
             </h2>
-            <p className="text-[1rem] text-white/55 max-w-[600px] mx-auto leading-relaxed mb-10">
+            <p className="text-base text-white/55 max-w-[600px] mx-auto leading-relaxed mb-10">
               BTB builds individualized summer plans tied to grad year, position, target divisions, and current development stage. Reach out to your team's head coach or club director to start.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <a
                 href="mailto:info@bethebestli.com"
-                className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors"
+                className="flex items-center gap-2 px-6 py-3 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors"
               >
                 Email info@bethebestli.com
               </a>
@@ -446,13 +446,13 @@ export function RecruitingPage() {
                 href="/btb-showcase-calendar-2026.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 border border-white/15 text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded-lg hover:border-white/30 hover:bg-white/[0.03] transition-colors"
+                className="flex items-center gap-2 px-6 py-3 border border-white/15 text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:border-white/30 hover:bg-white/[0.03] transition-colors"
               >
                 <Download size={14} /> Download Calendar PDF
               </a>
             </div>
 
-            <div className="mt-12 pt-10 border-t border-white/[0.07] flex items-center justify-center gap-2 text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85">
+            <div className="mt-12 pt-10 border-t border-white/[0.07] flex items-center justify-center gap-2 text-lg font-bold uppercase tracking-[2px] text-white/85">
               <MapPin size={11} /> bethebestli.com · Published April 2026
             </div>
           </div>

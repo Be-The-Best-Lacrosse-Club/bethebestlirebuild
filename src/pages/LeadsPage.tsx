@@ -153,7 +153,7 @@ export function LeadsPage() {
                 <h1 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] uppercase leading-[0.85] text-white">
                   Form <br /><span className="text-[var(--btb-red)]">Submissions.</span>
                 </h1>
-                <p className="text-white/55 text-[1.05rem] mt-3">
+                <p className="text-white/55 text-base mt-3">
                   {submissions.length} record{submissions.length === 1 ? "" : "s"} · powered by Airtable + Brevo
                 </p>
               </div>
@@ -177,7 +177,7 @@ export function LeadsPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search name, email, message, form..."
-                className="w-full h-12 pl-12 pr-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.0rem] placeholder:text-white/35 focus:outline-none focus:border-[var(--btb-red)]/50"
+                className="w-full h-12 pl-12 pr-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-base placeholder:text-white/35 focus:outline-none focus:border-[var(--btb-red)]/50"
               />
             </div>
             <div className="flex items-center gap-2 flex-wrap">

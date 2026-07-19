@@ -49,7 +49,7 @@ export function TryoutFlyers({
       <div className="relative z-10 mx-auto max-w-[1180px]">
         <div className="mb-9 flex flex-col gap-5 border-b border-white/10 pb-7 md:mb-12 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-4 flex items-center gap-3 text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)]">
+            <div className="mb-4 flex items-center gap-3 text-base font-bold uppercase tracking-[4px] text-[var(--btb-red)]">
               <div className="h-px w-8 bg-[var(--btb-red)]" />
               {eyebrow}
             </div>
@@ -59,7 +59,7 @@ export function TryoutFlyers({
           </div>
           <a
             href={ctaHref}
-            className="inline-flex w-fit items-center justify-center gap-2 bg-[var(--btb-red)] px-7 py-4 text-[1.0rem] font-black uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)] hover:shadow-[0_14px_34px_rgba(210,38,48,0.34)]"
+            className="inline-flex w-fit items-center justify-center gap-2 bg-[var(--btb-red)] px-7 py-4 text-base font-black uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)] hover:shadow-[0_14px_34px_rgba(210,38,48,0.34)]"
           >
             {ctaLabel} <ArrowRight size={14} />
           </a>

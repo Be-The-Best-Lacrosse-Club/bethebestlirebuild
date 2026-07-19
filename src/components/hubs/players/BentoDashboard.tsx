@@ -84,7 +84,7 @@ export const BentoDashboard = ({
                 <span className="text-4xl font-bold font-bebas">{overallPct}%</span>
             </div>
         </div>
-        <p className="text-[#888888] text-[1.15rem] font-bold uppercase tracking-[2px]">Overall IQ</p>
+        <p className="text-[#888888] text-lg font-bold uppercase tracking-[2px]">Overall IQ</p>
       </div>
 
       {/* Quick Actions (Wide) */}

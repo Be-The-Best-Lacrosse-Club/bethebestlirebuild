@@ -255,7 +255,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
         <div className="max-w-[1100px] mx-auto px-6 h-16 flex items-center justify-between">
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-[1.05rem] font-semibold uppercase tracking-[1.5px]"
+            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-base font-semibold uppercase tracking-[1.5px]"
           >
             <ArrowLeft size={15} /> Back
           </button>
@@ -264,7 +264,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
           </span>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 border border-white/[0.1] text-white/70 hover:text-white hover:border-white/30 transition-colors text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded"
+            className="flex items-center gap-2 px-4 py-2 border border-white/[0.1] text-white/70 hover:text-white hover:border-white/30 transition-colors text-base font-bold uppercase tracking-[1.5px] rounded"
           >
             <LogOut size={14} /> Logout
           </button>
@@ -274,7 +274,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
       {/* ── Welcome Section ── */}
       <section className="pt-28 pb-16 px-6 border-b border-white/[0.07]">
         <div className="max-w-[1000px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
             Coaches Hub
           </div>
           <h1 className="font-display text-[clamp(2.4rem,6vw,4.5rem)] uppercase tracking-wide leading-[0.88] mb-4">
@@ -282,7 +282,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
             <br />
             <span className="text-[var(--btb-red)]">{user?.name || "Coach"}</span>
           </h1>
-          <p className="text-[1.15rem] text-white/35 max-w-[480px] leading-[1.8]">
+          <p className="text-lg text-white/35 max-w-[480px] leading-[1.8]">
             Your drills, film, practice plans, and certification progress — all in one place. Everything you
             need to prepare, coach, and develop.
           </p>
@@ -306,10 +306,10 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                     className="text-white/35 group-hover:text-[var(--btb-red)] transition-colors"
                   />
                 </div>
-                <h3 className="font-display text-[1rem] uppercase tracking-wide text-white mb-1">
+                <h3 className="font-display text-base uppercase tracking-wide text-white mb-1">
                   {card.title}
                 </h3>
-                <p className="text-[1.0rem] text-white/85 leading-relaxed group-hover:text-white/45 transition-colors">
+                <p className="text-base text-white/85 leading-relaxed group-hover:text-white/45 transition-colors">
                   {card.description}
                 </p>
               </button>
@@ -329,7 +329,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
         <div className="max-w-[1000px] mx-auto">
           {/* Header */}
           <div className="mb-10">
-            <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+            <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
               Drill Library
             </div>
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-3">
@@ -337,7 +337,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               <br />
               One Shared Playbook.
             </h2>
-            <p className="text-[1.1rem] text-white/35 max-w-[420px] leading-relaxed">
+            <p className="text-lg text-white/35 max-w-[420px] leading-relaxed">
               Every drill has a purpose, setup, execution steps, and coaching points. Consistent across all
               sessions and all coaches.
             </p>
@@ -352,7 +352,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   setActiveCategory(cat)
                   setExpandedDrill(null)
                 }}
-                className={`px-4 py-2 rounded-full text-[1.0rem] font-semibold uppercase tracking-[1px] transition-all duration-200 ${
+                className={`px-4 py-2 rounded-full text-base font-semibold uppercase tracking-[1px] transition-all duration-200 ${
                   activeCategory === cat
                     ? "bg-[var(--btb-red)] text-white"
                     : "border border-white/[0.1] text-white/70 hover:text-white/85 hover:border-white/20"
@@ -383,14 +383,14 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <h4 className="font-display text-[1rem] uppercase tracking-wide text-white">
+                        <h4 className="font-display text-base uppercase tracking-wide text-white">
                           {drill.title}
                         </h4>
-                        <span className="text-[1.08rem] font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border bg-white/[0.02]  text-[var(--btb-red)] border-[var(--btb-red)]/20">
+                        <span className="text-base font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border bg-white/[0.02]  text-[var(--btb-red)] border-[var(--btb-red)]/20">
                           {drill.category}
                         </span>
                         <span
-                          className={`text-[1.08rem] font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${difficultyColor(
+                          className={`text-base font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${difficultyColor(
                             drill.difficulty
                           )}`}
                         >
@@ -398,11 +398,11 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                         </span>
                       </div>
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="flex items-center gap-1 text-[1.0rem] text-white/85">
+                        <span className="flex items-center gap-1 text-base text-white/85">
                           <Clock size={12} /> {drill.duration} min
                         </span>
                       </div>
-                      <p className="text-[1.05rem] text-white/35 leading-relaxed">{drill.description}</p>
+                      <p className="text-base text-white/35 leading-relaxed">{drill.description}</p>
                     </div>
                     <div className="shrink-0 text-white/45 mt-1">
                       {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -415,21 +415,21 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                       <div className="pt-5 grid grid-cols-1 md:grid-cols-3 gap-6">
                         {/* Setup */}
                         <div>
-                          <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
+                          <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
                             Setup
                           </div>
-                          <p className="text-[1.05rem] text-white/70 leading-relaxed">{drill.setup}</p>
+                          <p className="text-base text-white/70 leading-relaxed">{drill.setup}</p>
                         </div>
 
                         {/* Execution */}
                         <div>
-                          <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
+                          <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
                             Execution
                           </div>
                           <ol className="space-y-1.5">
                             {drill.execution.map((step, i) => (
-                              <li key={i} className="flex items-start gap-2 text-[1.05rem] text-white/70 leading-relaxed">
-                                <span className="text-white/15 font-display text-[1.25rem] shrink-0 w-5">
+                              <li key={i} className="flex items-start gap-2 text-base text-white/70 leading-relaxed">
+                                <span className="text-white/15 font-display text-xl shrink-0 w-5">
                                   {String(i + 1).padStart(2, "0")}
                                 </span>
                                 {step}
@@ -440,12 +440,12 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
 
                         {/* Coaching Points */}
                         <div>
-                          <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
+                          <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
                             Coaching Points
                           </div>
                           <ul className="space-y-1.5">
                             {drill.coachingPoints.map((pt, i) => (
-                              <li key={i} className="flex items-start gap-2 text-[1.05rem] text-white/70 leading-relaxed">
+                              <li key={i} className="flex items-start gap-2 text-base text-white/70 leading-relaxed">
                                 <span className="text-[var(--btb-red)] mt-1.5 shrink-0">
                                   <Circle size={5} fill="currentColor" />
                                 </span>
@@ -462,7 +462,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
             })}
 
             {filteredDrills.length === 0 && (
-              <div className="text-center py-16 text-white/45 text-[1.1rem]">
+              <div className="text-center py-16 text-white/45 text-lg">
                 No drills found in this category.
               </div>
             )}
@@ -499,7 +499,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
       >
         <div className="max-w-[1000px] mx-auto">
           <div className="mb-10">
-            <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+            <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
               Practice Plans
             </div>
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-3">
@@ -507,7 +507,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               <br />
               One System.
             </h2>
-            <p className="text-[1.1rem] text-white/35 max-w-[440px] leading-relaxed">
+            <p className="text-lg text-white/35 max-w-[440px] leading-relaxed">
               Every practice follows a submitted written plan. Each phase builds on the last across the
               16-week development cycle.
             </p>
@@ -530,18 +530,18 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                     className="w-full text-left p-7 flex items-start justify-between gap-4"
                   >
                     <div className="flex-1">
-                      <div className="text-[1.08rem] font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">
+                      <div className="text-base font-bold uppercase tracking-[3px] text-[var(--btb-red)] mb-1">
                         {phaseWeeks[plan.phase] || ""}
                       </div>
-                      <h4 className="font-display text-[1.1rem] uppercase tracking-wide text-white mb-2">
+                      <h4 className="font-display text-lg uppercase tracking-wide text-white mb-2">
                         {plan.phase}
                       </h4>
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="flex items-center gap-1 text-[1.0rem] text-white/85">
+                        <span className="flex items-center gap-1 text-base text-white/85">
                           <Clock size={12} /> {plan.duration} min
                         </span>
                       </div>
-                      <p className="text-[1.05rem] text-white/35 leading-relaxed">{plan.description}</p>
+                      <p className="text-base text-white/35 leading-relaxed">{plan.description}</p>
                     </div>
                     <div className="shrink-0 text-white/45 mt-1">
                       {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -556,15 +556,15 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                             key={i}
                             className="flex gap-5 items-start p-4 rounded-lg border border-white/[0.05] bg-white/[0.02]"
                           >
-                            <div className="shrink-0 text-[1.2rem] font-bold text-[var(--btb-red)] uppercase tracking-[1px] w-24 pt-0.5">
+                            <div className="shrink-0 text-xl font-bold text-[var(--btb-red)] uppercase tracking-[1px] w-24 pt-0.5">
                               {seg.time}
                             </div>
                             <div className="w-px self-stretch bg-white/[0.08]" />
                             <div>
-                              <div className="font-display text-[1.15rem] uppercase tracking-wide text-white mb-1">
+                              <div className="font-display text-lg uppercase tracking-wide text-white mb-1">
                                 {seg.activity}
                               </div>
-                              <p className="text-[1.05rem] text-white/35 leading-relaxed">{seg.detail}</p>
+                              <p className="text-base text-white/35 leading-relaxed">{seg.detail}</p>
                             </div>
                           </div>
                         ))}
@@ -604,21 +604,21 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                 {/* Back nav */}
                 <button
                   onClick={() => { setActiveLessonId(null); setLessonView("reading"); setQuizAnswers({}); setQuizSubmitted(false) }}
-                  className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-[1.05rem] font-semibold uppercase tracking-[1.5px] mb-8"
+                  className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-base font-semibold uppercase tracking-[1.5px] mb-8"
                 >
                   <ArrowLeft size={15} /> Back to {mod.title}
                 </button>
 
                 {/* Lesson header */}
                 <div className="mb-8">
-                  <div className="text-[1.08rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-3">
+                  <div className="text-base font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-3">
                     {mod.title} · Lesson {lessonIdx + 1} of {mod.lessons.length}
                   </div>
                   <h2 className="font-display text-[clamp(1.8rem,4vw,2.8rem)] uppercase tracking-wide leading-[0.92] mb-4">
                     {lesson.title}
                   </h2>
                   {isComplete && (
-                    <span className="inline-flex items-center gap-1.5 text-[1.15rem] font-bold uppercase tracking-[2px] text-emerald-400/70 border border-emerald-400/20 bg-emerald-400/5 px-3 py-1 rounded-full">
+                    <span className="inline-flex items-center gap-1.5 text-lg font-bold uppercase tracking-[2px] text-emerald-400/70 border border-emerald-400/20 bg-emerald-400/5 px-3 py-1 rounded-full">
                       <CheckCircle2 size={12} /> Complete
                     </span>
                   )}
@@ -628,7 +628,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                 <div className="flex gap-1 mb-8 bg-white/[0.03] p-1 rounded-xl border border-white/[0.07] w-fit">
                   <button
                     onClick={() => setLessonView("reading")}
-                    className={`px-5 py-2 rounded-lg text-[1.0rem] font-bold uppercase tracking-[1.5px] transition-all ${
+                    className={`px-5 py-2 rounded-lg text-base font-bold uppercase tracking-[1.5px] transition-all ${
                       lessonView === "reading" ? "bg-white text-black" : "text-white/70 hover:text-white/70"
                     }`}
                   >
@@ -636,7 +636,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   </button>
                   <button
                     onClick={() => setLessonView("quiz")}
-                    className={`px-5 py-2 rounded-lg text-[1.0rem] font-bold uppercase tracking-[1.5px] transition-all ${
+                    className={`px-5 py-2 rounded-lg text-base font-bold uppercase tracking-[1.5px] transition-all ${
                       lessonView === "quiz" ? "bg-white text-black" : "text-white/70 hover:text-white/70"
                     }`}
                   >
@@ -648,13 +648,13 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                 {lessonView === "reading" && (
                   <div className="max-w-[720px]">
                     {lesson.description.split("\n\n").map((para, i) => (
-                      <p key={i} className="text-[1.2rem] text-white/85 leading-[1.9] mb-5">
+                      <p key={i} className="text-xl text-white/85 leading-[1.9] mb-5">
                         {para.trim()}
                       </p>
                     ))}
                     <button
                       onClick={() => { setLessonView("quiz"); setQuizAnswers({}); setQuizSubmitted(false) }}
-                      className="mt-4 flex items-center gap-3 px-6 py-3 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded-lg hover:opacity-90 transition-opacity"
+                      className="mt-4 flex items-center gap-3 px-6 py-3 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:opacity-90 transition-opacity"
                     >
                       Take the Quiz <ArrowRight size={15} />
                     </button>
@@ -666,7 +666,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   <div className="max-w-[720px] space-y-8">
                     {lesson.questions.map((q, qi) => (
                       <div key={qi} className="p-6 rounded-xl border border-white/[0.08] bg-white/[0.02]">
-                        <p className="text-[1.15rem] font-semibold text-white mb-4 leading-relaxed">
+                        <p className="text-lg font-semibold text-white mb-4 leading-relaxed">
                           <span className="text-[var(--btb-red)] font-display mr-2">{qi + 1}.</span>
                           {q.question}
                         </p>
@@ -687,7 +687,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                                 key={opt}
                                 disabled={quizSubmitted}
                                 onClick={() => setQuizAnswers(prev => ({ ...prev, [qi]: opt }))}
-                                className={`w-full text-left px-4 py-3 rounded-lg border text-[1.08rem] leading-relaxed transition-all duration-150 ${cls} disabled:cursor-default`}
+                                className={`w-full text-left px-4 py-3 rounded-lg border text-base leading-relaxed transition-all duration-150 ${cls} disabled:cursor-default`}
                               >
                                 {opt}
                               </button>
@@ -695,7 +695,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                           })}
                         </div>
                         {quizSubmitted && (
-                          <div className={`mt-4 p-4 rounded-lg border text-[1.05rem] leading-relaxed ${
+                          <div className={`mt-4 p-4 rounded-lg border text-base leading-relaxed ${
                             quizAnswers[qi] === q.correctAnswer
                               ? "border-emerald-400/20 bg-emerald-400/5 text-emerald-300/80"
                               : "border-amber-400/20 bg-amber-400/5 text-amber-300/80"
@@ -718,7 +718,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                             refreshCoachProgress()
                           }
                         }}
-                        className="w-full py-3 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-full py-3 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         Submit Answers
                       </button>
@@ -734,7 +734,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                             <p className="font-display text-lg uppercase tracking-wide text-white mb-1">
                               Lesson Complete
                             </p>
-                            <p className="text-[1.05rem] text-white/70">
+                            <p className="text-base text-white/70">
                               All answers correct. This lesson is marked complete.
                             </p>
                           </>
@@ -743,12 +743,12 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                             <p className="font-display text-lg uppercase tracking-wide text-white mb-1">
                               Review and Retry
                             </p>
-                            <p className="text-[1.05rem] text-white/70 mb-4">
+                            <p className="text-base text-white/70 mb-4">
                               Review the explanations above, then re-read the lesson and try again.
                             </p>
                             <button
                               onClick={() => { setQuizAnswers({}); setQuizSubmitted(false) }}
-                              className="px-5 py-2 border border-white/20 text-white/78 hover:text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-colors"
+                              className="px-5 py-2 border border-white/20 text-white/78 hover:text-white text-base font-bold uppercase tracking-[1.5px] rounded-lg transition-colors"
                             >
                               Retry Quiz
                             </button>
@@ -763,7 +763,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                               setQuizSubmitted(false)
                               window.scrollTo({ top: (sectionRefs.current["learning"]?.getBoundingClientRect().top ?? 0) + window.scrollY - 88, behavior: "smooth" })
                             }}
-                            className="mt-4 flex items-center gap-2 mx-auto px-5 py-2.5 bg-white text-black text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg hover:opacity-90 transition-opacity"
+                            className="mt-4 flex items-center gap-2 mx-auto px-5 py-2.5 bg-white text-black text-base font-bold uppercase tracking-[1.5px] rounded-lg hover:opacity-90 transition-opacity"
                           >
                             Next Lesson <ArrowRight size={14} />
                           </button>
@@ -784,19 +784,19 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               <div>
                 <button
                   onClick={() => setActiveModuleId(null)}
-                  className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-[1.05rem] font-semibold uppercase tracking-[1.5px] mb-8"
+                  className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-base font-semibold uppercase tracking-[1.5px] mb-8"
                 >
                   <ArrowLeft size={15} /> All Modules
                 </button>
 
                 <div className="mb-10">
-                  <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-3">
+                  <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-3">
                     {completed.length} of {mod.lessons.length} lessons complete
                   </div>
                   <h2 className="font-display text-[clamp(1.8rem,4vw,2.8rem)] uppercase tracking-wide leading-[0.92] mb-3">
                     {mod.icon} {mod.title}
                   </h2>
-                  <p className="text-[1.1rem] text-white/35 max-w-[540px] leading-relaxed">
+                  <p className="text-lg text-white/35 max-w-[540px] leading-relaxed">
                     {mod.description}
                   </p>
                   {/* Progress bar */}
@@ -830,23 +830,23 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                         }`}
                       >
                         <div className="flex items-start gap-4">
-                          <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[1.25rem] font-display mt-0.5 ${
+                          <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xl font-display mt-0.5 ${
                             done ? "bg-emerald-400/20 text-emerald-400" : "bg-white/[0.06] text-white/85"
                           }`}>
                             {done ? <CheckCircle2 size={16} /> : String(i + 1).padStart(2, "0")}
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex flex-wrap items-center gap-2 mb-1">
-                              <h4 className="font-display text-[1.28rem] uppercase tracking-wide text-white">
+                              <h4 className="font-display text-xl uppercase tracking-wide text-white">
                                 {lesson.title}
                               </h4>
                               {done && (
-                                <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-emerald-400/60 border border-emerald-400/15 px-2 py-0.5 rounded-full">
+                                <span className="text-base font-bold uppercase tracking-[2px] text-emerald-400/60 border border-emerald-400/15 px-2 py-0.5 rounded-full">
                                   Complete
                                 </span>
                               )}
                             </div>
-                            <p className="text-[1.05rem] text-white/85 leading-relaxed">
+                            <p className="text-base text-white/85 leading-relaxed">
                               {lesson.questions.length} quiz question{lesson.questions.length !== 1 ? "s" : ""}
                             </p>
                           </div>
@@ -862,7 +862,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
             /* ── Module Grid View ── */
             <div>
               <div className="mb-10">
-                <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+                <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
                   Coach Education
                 </div>
                 <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-3">
@@ -870,7 +870,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   <br />
                   Real Coaching Content.
                 </h2>
-                <p className="text-[1.1rem] text-white/35 max-w-[440px] leading-relaxed">
+                <p className="text-lg text-white/35 max-w-[440px] leading-relaxed">
                   Philosophy, practice planning, film study, and player development — the complete BTB coaching education curriculum.
                 </p>
               </div>
@@ -893,26 +893,26 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                       <div className="flex items-start justify-between mb-5">
                         <span className="text-3xl">{mod.icon}</span>
                         {pct === 100 ? (
-                          <span className="text-[1.08rem] font-bold uppercase tracking-[2px] text-emerald-400/70 border border-emerald-400/20 bg-emerald-400/5 px-2.5 py-1 rounded-full">
+                          <span className="text-base font-bold uppercase tracking-[2px] text-emerald-400/70 border border-emerald-400/20 bg-emerald-400/5 px-2.5 py-1 rounded-full">
                             Complete
                           </span>
                         ) : pct > 0 ? (
-                          <span className="text-[1.08rem] font-bold uppercase tracking-[2px] text-amber-400/60 border border-amber-400/15 bg-amber-400/5 px-2.5 py-1 rounded-full">
+                          <span className="text-base font-bold uppercase tracking-[2px] text-amber-400/60 border border-amber-400/15 bg-amber-400/5 px-2.5 py-1 rounded-full">
                             In Progress
                           </span>
                         ) : null}
                       </div>
-                      <h3 className="font-display text-[1.1rem] uppercase tracking-wide text-white mb-2">
+                      <h3 className="font-display text-lg uppercase tracking-wide text-white mb-2">
                         {mod.title}
                       </h3>
-                      <p className="text-[1.05rem] text-white/35 leading-relaxed mb-5">
+                      <p className="text-base text-white/35 leading-relaxed mb-5">
                         {mod.description}
                       </p>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[1.2rem] text-white/25 font-semibold uppercase tracking-[1px]">
+                        <span className="text-xl text-white/25 font-semibold uppercase tracking-[1px]">
                           {completed}/{total} lessons
                         </span>
-                        <span className="text-[1.2rem] text-white/25 font-semibold">{pct}%</span>
+                        <span className="text-xl text-white/25 font-semibold">{pct}%</span>
                       </div>
                       <div className="h-1 bg-white/[0.07] rounded-full overflow-hidden">
                         <div
@@ -940,7 +940,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
         <div className="max-w-[1000px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
             <div>
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+              <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
                 Certification
               </div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92]">
@@ -951,7 +951,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <div className="text-[1.08rem] font-bold uppercase tracking-[2px] text-white/25 mb-1">
+                <div className="text-base font-bold uppercase tracking-[2px] text-white/25 mb-1">
                   Progress
                 </div>
                 <div className="font-display text-2xl text-white">
@@ -1013,27 +1013,27 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="text-[1.08rem] font-bold text-white/15 font-display">
+                      <span className="text-base font-bold text-white/15 font-display">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <h4
-                        className={`font-display text-[1.25rem] uppercase tracking-wide transition-colors ${
+                        className={`font-display text-xl uppercase tracking-wide transition-colors ${
                           done ? "text-white/70 line-through" : "text-white"
                         }`}
                       >
                         {item.title}
                       </h4>
                       {done ? (
-                        <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-emerald-400/60 border border-emerald-400/15 bg-emerald-400/5 px-2.5 py-0.5 rounded-full">
+                        <span className="text-base font-bold uppercase tracking-[2px] text-emerald-400/60 border border-emerald-400/15 bg-emerald-400/5 px-2.5 py-0.5 rounded-full">
                           Complete
                         </span>
                       ) : (
-                        <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-amber-400/50 border border-amber-400/15 bg-amber-400/5 px-2.5 py-0.5 rounded-full">
+                        <span className="text-base font-bold uppercase tracking-[2px] text-amber-400/50 border border-amber-400/15 bg-amber-400/5 px-2.5 py-0.5 rounded-full">
                           Pending
                         </span>
                       )}
                     </div>
-                    <p className="text-[1.05rem] text-white/85 leading-relaxed">{item.description}</p>
+                    <p className="text-base text-white/85 leading-relaxed">{item.description}</p>
                   </div>
 
                   {/* External link */}
@@ -1065,7 +1065,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
       >
         <div className="max-w-[1000px] mx-auto">
           <div className="mb-10">
-            <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+            <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
               My Pay
             </div>
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92]">
@@ -1088,41 +1088,41 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               {/* Coach info + contract summary */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02]">
-                  <div className="text-[1.08rem] font-bold uppercase tracking-[2px] text-white/25 mb-2">
+                  <div className="text-base font-bold uppercase tracking-[2px] text-white/25 mb-2">
                     Season Contract
                   </div>
                   <div className="font-display text-[2.2rem] text-white leading-none">
                     ${coach.seasonContract.toLocaleString()}
                   </div>
-                  <div className="text-[1.0rem] text-white/85 mt-2">
+                  <div className="text-base text-white/85 mt-2">
                     {paymentData.season} &middot; {coach.title}
                   </div>
                   {coach.teamAssignment && (
-                    <div className="text-[1.25rem] text-white/45 mt-1">{coach.teamAssignment}</div>
+                    <div className="text-xl text-white/45 mt-1">{coach.teamAssignment}</div>
                   )}
                 </div>
 
                 <div className="p-6 rounded-xl border border-emerald-400/15 bg-emerald-400/[0.03]">
-                  <div className="text-[1.08rem] font-bold uppercase tracking-[2px] text-emerald-400/50 mb-2">
+                  <div className="text-base font-bold uppercase tracking-[2px] text-emerald-400/50 mb-2">
                     Paid
                   </div>
                   <div className="font-display text-[2.2rem] text-emerald-400 leading-none">
                     ${paidTotal.toLocaleString()}
                   </div>
-                  <div className="text-[1.0rem] text-white/85 mt-2">
+                  <div className="text-base text-white/85 mt-2">
                     {paidCount} of {installments.length} payments
                   </div>
                 </div>
 
                 <div className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02]">
-                  <div className="text-[1.08rem] font-bold uppercase tracking-[2px] text-white/25 mb-2">
+                  <div className="text-base font-bold uppercase tracking-[2px] text-white/25 mb-2">
                     Remaining
                   </div>
                   <div className="font-display text-[2.2rem] text-white leading-none">
                     ${remaining.toLocaleString()}
                   </div>
                   {nextInst && (
-                    <div className="text-[1.0rem] text-white/85 mt-2">
+                    <div className="text-base text-white/85 mt-2">
                       Next: {new Date(nextInst.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </div>
                   )}
@@ -1132,8 +1132,8 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               {/* Progress bar */}
               <div className="p-6 rounded-xl border border-white/[0.07] bg-white/[0.02]">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[1.0rem] font-semibold text-white/78">{paymentData.season} Progress</span>
-                  <span className="text-[1.0rem] text-white/85">
+                  <span className="text-base font-semibold text-white/78">{paymentData.season} Progress</span>
+                  <span className="text-base text-white/85">
                     ${paidTotal.toLocaleString()} of ${coach.seasonContract.toLocaleString()}
                   </span>
                 </div>
@@ -1164,7 +1164,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                     >
                       {/* Date block */}
                       <div className="text-center w-14 shrink-0">
-                        <div className="text-[1.0rem] font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
+                        <div className="text-base font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
                           {d.toLocaleDateString("en-US", { month: "short" })}
                         </div>
                         <div className="font-display text-2xl text-white leading-tight">
@@ -1175,22 +1175,22 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-[1.1rem] font-semibold text-white">{inst.label}</span>
+                          <span className="text-lg font-semibold text-white">{inst.label}</span>
                           {isPaid ? (
-                            <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-emerald-400/60 border border-emerald-400/15 bg-emerald-400/5 px-2.5 py-0.5 rounded-full">
+                            <span className="text-base font-bold uppercase tracking-[2px] text-emerald-400/60 border border-emerald-400/15 bg-emerald-400/5 px-2.5 py-0.5 rounded-full">
                               Paid
                             </span>
                           ) : isScheduled ? (
-                            <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-amber-400/60 border border-amber-400/15 bg-amber-400/5 px-2.5 py-0.5 rounded-full">
+                            <span className="text-base font-bold uppercase tracking-[2px] text-amber-400/60 border border-amber-400/15 bg-amber-400/5 px-2.5 py-0.5 rounded-full">
                               Scheduled
                             </span>
                           ) : (
-                            <span className="text-[1.05rem] font-bold uppercase tracking-[2px] text-white/25 border border-white/10 bg-white/[0.02] px-2.5 py-0.5 rounded-full">
+                            <span className="text-base font-bold uppercase tracking-[2px] text-white/25 border border-white/10 bg-white/[0.02] px-2.5 py-0.5 rounded-full">
                               Upcoming
                             </span>
                           )}
                         </div>
-                        <div className="text-[1.0rem] text-white/25 mt-1">
+                        <div className="text-base text-white/25 mt-1">
                           {d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
                         </div>
                       </div>
@@ -1210,8 +1210,8 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
           })() : (
             <div className="p-10 rounded-xl border border-white/[0.07] bg-white/[0.02] text-center">
               <DollarSign size={32} className="mx-auto text-white/15 mb-4" />
-              <p className="text-[1.1rem] text-white/70 mb-1">No payment record found</p>
-              <p className="text-[1.0rem] text-white/45">
+              <p className="text-lg text-white/70 mb-1">No payment record found</p>
+              <p className="text-base text-white/45">
                 Contact BTB operations if you believe this is an error.
               </p>
             </div>
@@ -1230,20 +1230,20 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
         <div className="max-w-[1000px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
             <div>
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
+              <div className="text-lg font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
                 Player Progress
               </div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-2">
                 Academy<br /><span className="text-white/45">Completion</span>
               </h2>
-              <p className="text-[1.08rem] text-white/35 max-w-[420px] leading-relaxed">
+              <p className="text-base text-white/35 max-w-[420px] leading-relaxed">
                 Live view of every player's academy progress — pulled from Airtable in real time.
               </p>
             </div>
             <button
               onClick={loadPlayerProgress}
               disabled={progressLoading}
-              className="flex items-center gap-2 px-5 py-2.5 border border-white/[0.1] text-white/78 hover:text-white hover:border-white/30 transition-colors text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-lg disabled:opacity-40"
+              className="flex items-center gap-2 px-5 py-2.5 border border-white/[0.1] text-white/78 hover:text-white hover:border-white/30 transition-colors text-base font-bold uppercase tracking-[1.5px] rounded-lg disabled:opacity-40"
             >
               <TrendingUp size={14} />
               {progressLoading ? "Loading..." : progressLoaded ? "Refresh" : "Load Progress"}
@@ -1253,28 +1253,28 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
           {!progressLoaded && !progressLoading && (
             <div className="p-12 rounded-xl border border-white/[0.07] bg-white/[0.02] text-center">
               <GraduationCap size={32} className="mx-auto text-white/35 mb-4" />
-              <p className="text-white/85 text-[1.1rem]">Click "Load Progress" to fetch live player data from Airtable.</p>
+              <p className="text-white/85 text-lg">Click "Load Progress" to fetch live player data from Airtable.</p>
             </div>
           )}
 
           {progressLoading && (
             <div className="p-12 rounded-xl border border-white/[0.07] bg-white/[0.02] text-center">
-              <p className="text-white/85 text-[1.1rem] animate-pulse">Fetching player progress...</p>
+              <p className="text-white/85 text-lg animate-pulse">Fetching player progress...</p>
             </div>
           )}
 
           {progressLoaded && playerProgress.length === 0 && (
             <div className="p-12 rounded-xl border border-white/[0.07] bg-white/[0.02] text-center">
               <Users size={32} className="mx-auto text-white/35 mb-4" />
-              <p className="text-white/85 text-[1.1rem]">No player progress recorded yet for {genderLabel} academy.</p>
-              <p className="text-white/45 text-[1.0rem] mt-1">Progress appears here as players complete lessons.</p>
+              <p className="text-white/85 text-lg">No player progress recorded yet for {genderLabel} academy.</p>
+              <p className="text-white/45 text-base mt-1">Progress appears here as players complete lessons.</p>
             </div>
           )}
 
           {progressLoaded && playerProgress.length > 0 && (
             <div className="space-y-3">
               {/* Header */}
-              <div className="grid grid-cols-[1fr_120px_80px] gap-4 px-5 py-2 text-[1.08rem] font-bold uppercase tracking-[2px] text-white/25">
+              <div className="grid grid-cols-[1fr_120px_80px] gap-4 px-5 py-2 text-base font-bold uppercase tracking-[2px] text-white/25">
                 <span>Player</span>
                 <span className="text-center">Courses</span>
                 <span className="text-right">Overall</span>
@@ -1288,8 +1288,8 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
                   {/* Player summary row */}
                   <div className="grid grid-cols-[1fr_120px_80px] gap-4 px-5 py-4 items-center">
                     <div>
-                      <p className="text-[1.08rem] font-semibold text-white truncate">{displayName}</p>
-                      <p className="text-[1.2rem] text-white/25 mt-0.5">
+                      <p className="text-base font-semibold text-white truncate">{displayName}</p>
+                      <p className="text-xl text-white/25 mt-0.5">
                         {displayEmail && <span className="mr-2 text-white/45">{displayEmail}</span>}
                         {player.courses.length} course{player.courses.length !== 1 ? "s" : ""} started
                         {player.lastActive && <span className="ml-2">· Last: {player.lastActive}</span>}
@@ -1321,7 +1321,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
               )
               })}
 
-              <p className="text-[1.2rem] text-white/45 text-center pt-4">
+              <p className="text-xl text-white/45 text-center pt-4">
                 {playerProgress.length} player{playerProgress.length !== 1 ? "s" : ""} with recorded progress · Open Airtable for full detail
               </p>
             </div>

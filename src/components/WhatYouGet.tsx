@@ -45,7 +45,7 @@ const benefits = [
 const stats = [
   { val: "450+", label: "Players Developed" },
   { val: "125hrs", label: "Film Library" },
-  { val: "22", label: "Elite Teams" },
+  { val: "23", label: "Elite Teams" },
   { val: "2021", label: "Est. Long Island" },
 ]
 
@@ -61,7 +61,7 @@ export function WhatYouGet() {
       <div className="max-w-[1200px] mx-auto px-4 md:px-6 pt-20 md:pt-32 pb-16 md:pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-end">
           <div>
-            <div className="text-[var(--btb-red)] font-mono text-[1.08rem] tracking-[5px] mb-6 flex items-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-base tracking-[5px] mb-6 flex items-center gap-3">
               <Activity size={11} className="animate-pulse" />
               ACADEMY_SYSTEM_SPECS
             </div>
@@ -74,13 +74,13 @@ export function WhatYouGet() {
             </h2>
           </div>
           <div className="md:pb-2">
-            <p className="text-white/65 text-[1.05rem] leading-relaxed border-l-2 border-[var(--btb-red)] pl-6 mb-8">
+            <p className="text-white/65 text-base leading-relaxed border-l-2 border-[var(--btb-red)] pl-6 mb-8">
               BTB is built as a development system. No guesswork. No generic drills.
               High-performance engineering for serious athletes.
             </p>
             <a
               href="/boys/players"
-              className="inline-flex items-center gap-3 text-[1.08rem] font-bold uppercase tracking-[3px] text-white/65 hover:text-white transition-colors group"
+              className="inline-flex items-center gap-3 text-base font-bold uppercase tracking-[3px] text-white/65 hover:text-white transition-colors group"
             >
               Explore the Platform
               <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
@@ -101,7 +101,7 @@ export function WhatYouGet() {
               className={`reveal-child py-10 md:py-14 px-6 md:px-10 flex flex-col gap-1 ${i < stats.length - 1 ? "border-r border-white/[0.06]" : ""}`}
             >
               <span className="font-display text-[clamp(2.4rem,5vw,4rem)] text-[var(--btb-red)] leading-none">{s.val}</span>
-              <span className="text-[1.0rem] font-bold uppercase tracking-[3px] text-white/85 mt-1">{s.label}</span>
+              <span className="text-base font-bold uppercase tracking-[3px] text-white/85 mt-1">{s.label}</span>
             </div>
           ))}
         </div>
@@ -131,23 +131,23 @@ export function WhatYouGet() {
 
             {/* Title block */}
             <div className="flex flex-col gap-3">
-              <div className="text-[1.05rem] font-mono text-[var(--btb-red)] tracking-[4px]">{b.tag}</div>
+              <div className="text-base font-mono text-[var(--btb-red)] tracking-[4px]">{b.tag}</div>
               <h3 className="font-display text-[1.6rem] md:text-[2rem] uppercase leading-[1] text-white tracking-wide">
                 {b.title}
               </h3>
-              <p className="text-[1.2rem] font-bold uppercase tracking-wider text-white/65 leading-relaxed">
+              <p className="text-xl font-bold uppercase tracking-wider text-white/65 leading-relaxed">
                 {b.what}
               </p>
             </div>
 
             {/* Detail + spec */}
             <div className="flex flex-col gap-4 pt-1">
-              <p className="text-[1rem] text-white/65 leading-[1.8] group-hover:text-white/80 transition-colors duration-300">
+              <p className="text-base text-white/65 leading-[1.8] group-hover:text-white/80 transition-colors duration-300">
                 {b.detail}
               </p>
               <div className="flex items-center gap-2 mt-auto pt-2">
                 <div className="h-px flex-1 bg-white/[0.06] group-hover:bg-[var(--btb-red)]/30 transition-colors" />
-                <span className="text-[1.25rem] font-mono text-white/78 tracking-[3px]">{b.spec}</span>
+                <span className="text-xl font-mono text-white/78 tracking-[3px]">{b.spec}</span>
               </div>
             </div>
           </div>
@@ -160,7 +160,7 @@ export function WhatYouGet() {
           {["FILM_STUDY", "IQ_DEVELOPMENT", "POSITION_SCHOOL", "RECRUITING_PREP", "MEMBER_EXCLUSIVE", "FILM_STUDY", "IQ_DEVELOPMENT", "POSITION_SCHOOL", "RECRUITING_PREP", "MEMBER_EXCLUSIVE"].map((item, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-6 px-10 font-mono text-[1.0rem] tracking-[4px] text-white/55"
+              className="inline-flex items-center gap-6 px-10 font-mono text-base tracking-[4px] text-white/55"
             >
               {item}
               <span className="w-1 h-1 rounded-full bg-[var(--btb-red)] flex-shrink-0" />

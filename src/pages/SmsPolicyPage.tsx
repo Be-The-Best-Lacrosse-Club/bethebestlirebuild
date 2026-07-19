@@ -6,7 +6,7 @@ export function SmsPolicyPage() {
       <div className="max-w-3xl mx-auto px-5 md:px-8 py-16 md:py-24">
         {/* Header */}
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-[1.25rem] uppercase tracking-[2.5px] text-[var(--btb-red)] font-bold mb-4">
+          <div className="flex items-center gap-2 text-xl uppercase tracking-[2.5px] text-[var(--btb-red)] font-bold mb-4">
             <MessageSquare size={14} /> SMS Policy &amp; Privacy Policy
           </div>
           <h1 className="font-display text-4xl md:text-5xl text-slate-900 uppercase tracking-tight mb-3 leading-[0.95]">
@@ -39,7 +39,7 @@ export function SmsPolicyPage() {
             </p>
             <p className="mb-2">No marketing. No promotional offers. No third-party content.</p>
             <p className="mb-2">Typical messages include:</p>
-            <ul className="list-disc pl-6 space-y-1 text-[1.25rem]">
+            <ul className="list-disc pl-6 space-y-1 text-xl">
               <li>Practice reminders with date, time, and location</li>
               <li>Game day logistics, including opponent, time, field, and check-in instructions</li>
               <li>Schedule or venue changes</li>
@@ -166,7 +166,7 @@ export function SmsPolicyPage() {
           <section>
             <h2 className="font-display text-xl uppercase tracking-wide text-slate-900 mb-2">Data Use</h2>
             <p className="mb-2">We may use SMS-related information to:</p>
-            <ul className="list-disc pl-6 space-y-1 text-[1.25rem] mb-2">
+            <ul className="list-disc pl-6 space-y-1 text-xl mb-2">
               <li>Send transactional and informational club messages</li>
               <li>Manage opt-ins and opt-outs</li>
               <li>Respond to HELP or INFO requests</li>
@@ -188,7 +188,7 @@ export function SmsPolicyPage() {
 
           <section>
             <h2 className="font-display text-xl uppercase tracking-wide text-slate-900 mb-2">Contact</h2>
-            <div className="space-y-1 text-[1.25rem]">
+            <div className="space-y-1 text-xl">
               <p>Be The Best Sportscamp d/b/a Be The Best Lacrosse Club</p>
               <p>364 North Iowa Ave</p>
               <p>Massapequa, NY 11758</p>

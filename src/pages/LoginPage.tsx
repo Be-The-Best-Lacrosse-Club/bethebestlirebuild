@@ -152,7 +152,7 @@ export function LoginPage() {
         path="/login"
       />
       <div className="w-full max-w-[400px]">
-        <button onClick={() => navigate("/")} className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-[1.05rem] font-semibold uppercase tracking-[1.5px] mb-12">
+        <button onClick={() => navigate("/")} className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-base font-semibold uppercase tracking-[1.5px] mb-12">
           <ArrowLeft size={15} /> Back to Home
         </button>
 
@@ -188,44 +188,44 @@ export function LoginPage() {
         {/* LOGIN VIEW */}
         {view === "login" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-lg text-white/35 leading-relaxed mb-8">
               Sign in to access your Players Hub or Coaches Hub. Course progress, film study, and resources are all inside.
             </p>
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={submitting}
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
                   placeholder="your@email.com"
                 />
               </div>
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={submitting}
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
                   placeholder="Password"
                 />
               </div>
 
               {error && (
-                <p className="text-[1.05rem] text-[var(--btb-red)] bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-lg px-4 py-3">{error}</p>
+                <p className="text-base text-[var(--btb-red)] bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-lg px-4 py-3">{error}</p>
               )}
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
@@ -241,14 +241,14 @@ export function LoginPage() {
             <div className="mt-6 text-center">
               <button
                 onClick={() => { setError(""); setView("forgot") }}
-                className="text-[1.0rem] text-white/85 hover:text-white/85 transition-colors"
+                className="text-base text-white/85 hover:text-white/85 transition-colors"
               >
                 Forgot your password?
               </button>
             </div>
 
             <div className="mt-8 pt-6 border-t border-white/[0.07] text-center">
-              <p className="text-[1.05rem] text-white/70 leading-relaxed">
+              <p className="text-base text-white/70 leading-relaxed">
                 BTB accounts are invite-only. Contact your program director if you need access.
               </p>
             </div>
@@ -258,7 +258,7 @@ export function LoginPage() {
         {/* SIGNUP VIEW */}
         {view === "signup" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-lg text-white/35 leading-relaxed mb-8">
               Create your BTB account to access the Players Hub, Academy courses, and program resources.
             </p>
 
@@ -278,33 +278,33 @@ export function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Full Name</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Full Name</label>
                 <input
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
                   disabled={submitting}
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
                   placeholder="First Last"
                 />
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={submitting}
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
                   placeholder="your@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
                 <input
                   type="password"
                   value={password}
@@ -312,18 +312,18 @@ export function LoginPage() {
                   required
                   minLength={8}
                   disabled={submitting}
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
                   placeholder="At least 8 characters"
                 />
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Program</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Program</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setProgram("boys")}
-                    className={`py-3 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1px] transition-colors ${
+                    className={`py-3 rounded-lg text-base font-bold uppercase tracking-[1px] transition-colors ${
                       program === "boys"
                         ? "bg-[var(--btb-red)] text-white"
                         : "bg-white/[0.05] text-white/78 border border-white/[0.1] hover:bg-white/[0.08]"
@@ -334,7 +334,7 @@ export function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setProgram("girls")}
-                    className={`py-3 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1px] transition-colors ${
+                    className={`py-3 rounded-lg text-base font-bold uppercase tracking-[1px] transition-colors ${
                       program === "girls"
                         ? "bg-[var(--btb-red)] text-white"
                         : "bg-white/[0.05] text-white/78 border border-white/[0.1] hover:bg-white/[0.08]"
@@ -346,12 +346,12 @@ export function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Graduation Year (Optional)</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Graduation Year (Optional)</label>
                 <select
                   value={gradYear}
                   onChange={(e) => setGradYear(e.target.value)}
                   disabled={submitting}
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-lg focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
                 >
                   <option value="">Select grad year</option>
                   {["2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036"].map((y) => (
@@ -363,13 +363,13 @@ export function LoginPage() {
               </div>
 
               {error && (
-                <p className="text-[1.05rem] text-[var(--btb-red)] bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-lg px-4 py-3">{error}</p>
+                <p className="text-base text-[var(--btb-red)] bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-lg px-4 py-3">{error}</p>
               )}
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
@@ -385,7 +385,7 @@ export function LoginPage() {
             <div className="mt-6 text-center">
               <button
                 onClick={() => { setError(""); setView("login") }}
-                className="text-[1.0rem] text-white/85 hover:text-white/85 transition-colors"
+                className="text-base text-white/85 hover:text-white/85 transition-colors"
               >
                 Already have an account? Sign in
               </button>
@@ -396,13 +396,13 @@ export function LoginPage() {
         {/* SIGNUP — EMAIL CONFIRMATION SENT */}
         {view === "signup-sent" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-lg text-white/35 leading-relaxed mb-8">
               We sent a confirmation link to <span className="text-white/85">{email}</span>. Click the link in that email to verify your account, then come back here to sign in.
             </p>
 
             <button
               onClick={() => { setError(""); setView("login") }}
-              className="w-full py-3.5 bg-white/[0.08] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-white/[0.12] transition-colors"
+              className="w-full py-3.5 bg-white/[0.08] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:bg-white/[0.12] transition-colors"
             >
               Back to Sign In
             </button>
@@ -412,32 +412,32 @@ export function LoginPage() {
         {/* FORGOT PASSWORD VIEW */}
         {view === "forgot" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-lg text-white/35 leading-relaxed mb-8">
               Enter your email address and we'll send you a link to reset your password.
             </p>
 
             <form onSubmit={handleForgotPassword} className="space-y-4">
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
+                <label className="block text-lg font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={submitting}
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
                   placeholder="your@email.com"
                 />
               </div>
 
               {error && (
-                <p className="text-[1.05rem] text-[var(--btb-red)] bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-lg px-4 py-3">{error}</p>
+                <p className="text-base text-[var(--btb-red)] bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-lg px-4 py-3">{error}</p>
               )}
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
@@ -453,7 +453,7 @@ export function LoginPage() {
             <div className="mt-6 text-center">
               <button
                 onClick={() => { setError(""); setView("login") }}
-                className="text-[1.0rem] text-white/85 hover:text-white/85 transition-colors"
+                className="text-base text-white/85 hover:text-white/85 transition-colors"
               >
                 Back to sign in
               </button>
@@ -464,13 +464,13 @@ export function LoginPage() {
         {/* FORGOT PASSWORD — EMAIL SENT */}
         {view === "forgot-sent" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-lg text-white/35 leading-relaxed mb-8">
               If an account exists for <span className="text-white/85">{email}</span>, you'll receive a password reset link shortly. Check your inbox and spam folder.
             </p>
 
             <button
               onClick={() => { setError(""); setView("login") }}
-              className="w-full py-3.5 bg-white/[0.08] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-white/[0.12] transition-colors"
+              className="w-full py-3.5 bg-white/[0.08] text-white text-base font-bold uppercase tracking-[2px] rounded-lg hover:bg-white/[0.12] transition-colors"
             >
               Back to Sign In
             </button>

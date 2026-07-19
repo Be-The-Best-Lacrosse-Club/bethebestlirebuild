@@ -109,10 +109,10 @@ export function TryoutsPage() {
     }
   }
 
-  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
-  const selectClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] focus:outline-none focus:border-[var(--btb-red)]/50 transition-all appearance-none cursor-pointer"
-  const labelClass = "block text-[1.15rem] font-black uppercase tracking-[2px] text-white/85 mb-2"
-  const textareaClass = "w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
+  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
+  const selectClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-lg focus:outline-none focus:border-[var(--btb-red)]/50 transition-all appearance-none cursor-pointer"
+  const labelClass = "block text-lg font-black uppercase tracking-[2px] text-white/85 mb-2"
+  const textareaClass = "w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-lg placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
   const activeDates = activeTab === "boys"
     ? ["July 13", "July 14", "July 16", "July 20", "July 21"]
     : ["July 13", "July 14", "July 17", "July 21"]
@@ -144,7 +144,7 @@ export function TryoutsPage() {
           </p>
           <button 
             onClick={() => window.location.href = "/"}
-            className="w-full py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
+            className="w-full py-4 bg-[var(--btb-red)] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all"
           >
             Return Home
           </button>
@@ -174,14 +174,14 @@ export function TryoutsPage() {
           {/* Form Column */}
           <div className="min-w-0">
             <div className="mb-12">
-              <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.9rem] sm:text-[1.15rem] tracking-[3px] sm:tracking-[5px] mb-6">
+              <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[0.9rem] sm:text-lg tracking-[3px] sm:tracking-[5px] mb-6">
                 <Shield size={14} />
                 BTB_TRYOUTS // 2026_SEASON
               </div>
               <h1 className="font-display text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.85] text-white mb-6">
                 Earn Your <br /> <span className="text-[var(--btb-red)]">Spot.</span>
               </h1>
-              <p className="text-white/70 text-[1.15rem] leading-relaxed max-w-[620px] mb-8">
+              <p className="text-white/70 text-lg leading-relaxed max-w-[620px] mb-8">
                 Pick the right registration path first. Boys and girls tryouts are separate, and BTB East has its own Suffolk County registration.
               </p>
 
@@ -231,7 +231,7 @@ export function TryoutsPage() {
                 <div className="p-8">
                   <div className="grid sm:grid-cols-2 gap-8">
                     <div>
-                      <div className="text-[1.08rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Location</div>
+                      <div className="text-base font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Location</div>
                       <div className="flex items-start gap-3">
                         <MapPin size={18} className="text-white/70 mt-1" />
                         <div>
@@ -241,7 +241,7 @@ export function TryoutsPage() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-[1.08rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Dates & Times</div>
+                      <div className="text-base font-black uppercase tracking-[2px] text-[var(--btb-red)] mb-4">Dates & Times</div>
                       <div className="space-y-4">
                         {activeDates.map((date) => (
                           <div key={date} className="flex items-center gap-3 text-white">
@@ -251,7 +251,7 @@ export function TryoutsPage() {
                         ))}
                         <div className="flex items-center gap-3 text-white/70">
                           <Activity size={14} />
-                          <span className="text-[1.25rem] uppercase tracking-wider font-bold italic">Times to be assigned by grad year</span>
+                          <span className="text-xl uppercase tracking-wider font-bold italic">Times to be assigned by grad year</span>
                         </div>
                       </div>
                     </div>
@@ -267,13 +267,13 @@ export function TryoutsPage() {
             </div>
 
             <div className="mt-16 border-t border-white/10 pt-10">
-              <div className="text-[1.08rem] font-black uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
+              <div className="text-base font-black uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
                 Not Ready to Register?
               </div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.25rem)] uppercase leading-[0.9] text-white mb-4">
                 Send an <span className="text-[var(--btb-red)]">Inquiry.</span>
               </h2>
-              <p className="text-white/65 text-[1.08rem] leading-relaxed max-w-[560px]">
+              <p className="text-white/65 text-base leading-relaxed max-w-[560px]">
                 Use this if you need help choosing Boys, Girls, BTB East, or a grad-year placement before registering.
               </p>
             </div>
@@ -319,14 +319,14 @@ export function TryoutsPage() {
                       <button
                         type="button"
                         onClick={() => selectGender("Boys")}
-                        className={`flex-1 rounded-lg font-display text-[1.18rem] uppercase tracking-widest transition-all border ${form.gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
+                        className={`flex-1 rounded-lg font-display text-lg uppercase tracking-widest transition-all border ${form.gender === "Boys" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
                       >
                         Boys
                       </button>
                       <button
                         type="button"
                         onClick={() => selectGender("Girls")}
-                        className={`flex-1 rounded-lg font-display text-[1.18rem] uppercase tracking-widest transition-all border ${form.gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
+                        className={`flex-1 rounded-lg font-display text-lg uppercase tracking-widest transition-all border ${form.gender === "Girls" ? "bg-[var(--btb-red)] border-[var(--btb-red)] text-white" : "bg-white/[0.04] border-white/10 text-white/85 hover:border-white/30"}`}
                       >
                         Girls
                       </button>
@@ -435,7 +435,7 @@ export function TryoutsPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-5 bg-[var(--btb-red)] text-white text-[1.05rem] font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50"
+                className="w-full py-5 bg-[var(--btb-red)] text-white text-base font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50"
               >
                 {submitting ? "PROCESSING_REQUEST..." : "SUBMIT_EVALUATION_INTEREST"}
               </button>
@@ -443,19 +443,19 @@ export function TryoutsPage() {
               <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
                 <a
                   href="/register-boys-tryouts"
-                  className="py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                  className="py-4 text-center bg-black border border-[var(--btb-red)] text-white text-base font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
                 >
                   Register Boys →
                 </a>
                 <a
                   href="/register-girls-tryouts"
-                  className="py-4 text-center bg-black border border-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
+                  className="py-4 text-center bg-black border border-[var(--btb-red)] text-white text-base font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all"
                 >
                   Register Girls →
                 </a>
                 <a
                   href="/register-boys-east-tryouts"
-                  className="py-4 text-center bg-black border border-white/15 text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:border-[var(--btb-red)] hover:bg-[var(--btb-red)] transition-all"
+                  className="py-4 text-center bg-black border border-white/15 text-white text-base font-black uppercase tracking-[2px] rounded-lg hover:border-[var(--btb-red)] hover:bg-[var(--btb-red)] transition-all"
                 >
                   Boys East →
                 </a>
@@ -470,10 +470,10 @@ export function TryoutsPage() {
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--btb-red)]/5 -skew-x-[45deg] translate-x-12 -translate-y-12" />
                 <Calendar className="text-[var(--btb-red)] mb-6" size={28} />
                 <h3 className="font-display text-xl text-white uppercase tracking-wider mb-4">2026 Evaluation Cycle</h3>
-                <p className="text-white/70 text-[1.1rem] leading-relaxed mb-6">
+                <p className="text-white/70 text-lg leading-relaxed mb-6">
                   2026 tryout registration is open for Boys, Girls, and BTB East. Each evaluation includes a BTB pinnie, filmed tryout, and evaluation system.
                 </p>
-                <div className="flex items-center gap-3 text-[var(--btb-red)] font-black text-[1.08rem] uppercase tracking-[2px]">
+                <div className="flex items-center gap-3 text-[var(--btb-red)] font-black text-base uppercase tracking-[2px]">
                   <Activity size={12} className="animate-pulse" />
                   Status: Registration Open
                 </div>
@@ -489,7 +489,7 @@ export function TryoutsPage() {
                     "Recruiting Path Guidance",
                     "Pro-Level Curriculum"
                   ].map(item => (
-                    <li key={item} className="flex items-center gap-3 text-[1.05rem] text-white/78">
+                    <li key={item} className="flex items-center gap-3 text-base text-white/78">
                       <div className="w-1 h-1 rounded-full bg-[var(--btb-red)]" />
                       {item}
                     </li>

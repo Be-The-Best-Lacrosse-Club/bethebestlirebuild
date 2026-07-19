@@ -361,7 +361,7 @@ export const programData: Record<string, ProgramContent> = {
     heroSubtitle: "The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 16-week curriculum, and 2+ coaches per team — for every age group.",
     stats: [
       { num: "450+", label: "Players Trained" },
-      { num: "22", label: "Elite Teams" },
+      { num: "23", label: "Elite Teams" },
       { num: "2+", label: "Coaches Per Team" },
       { num: "45+", label: "Certified Coaches" },
     ],

@@ -24,12 +24,12 @@ export function OurStandard() {
         <div ref={listRef} className="space-y-0 border-t border-white/[0.07] mb-14">
           {standards.map((s, i) => (
             <div key={i} className="reveal-child flex items-start gap-8 py-8 border-b border-white/[0.07] group">
-              <div className="font-display text-[1.25rem] text-white/15 group-hover:text-[var(--btb-red)] transition-colors shrink-0 pt-0.5 w-6">
+              <div className="font-display text-xl text-white/15 group-hover:text-[var(--btb-red)] transition-colors shrink-0 pt-0.5 w-6">
                 0{i + 1}
               </div>
               <div>
-                <h4 className="font-display text-[1.15rem] uppercase tracking-wide text-white group-hover:text-[var(--btb-red)] transition-colors mb-2">{s.title}</h4>
-                <p className="text-[1.1rem] text-white/35 leading-relaxed">{s.text}</p>
+                <h4 className="font-display text-lg uppercase tracking-wide text-white group-hover:text-[var(--btb-red)] transition-colors mb-2">{s.title}</h4>
+                <p className="text-lg text-white/35 leading-relaxed">{s.text}</p>
               </div>
             </div>
           ))}

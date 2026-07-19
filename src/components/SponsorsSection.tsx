@@ -54,7 +54,7 @@ export function SponsorsSection() {
       <div className="mx-auto max-w-[1280px]">
         <div className="mb-10 flex flex-col gap-6 border-b border-white/10 pb-8 md:mb-14 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-4 flex items-center gap-3 text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)]">
+            <div className="mb-4 flex items-center gap-3 text-base font-bold uppercase tracking-[4px] text-[var(--btb-red)]">
               <div className="h-px w-8 bg-[var(--btb-red)]" />
               Sponsors + Partners
             </div>
@@ -62,7 +62,7 @@ export function SponsorsSection() {
               Backing The <span className="text-[var(--btb-red)]">Standard.</span>
             </h2>
           </div>
-          <p className="max-w-[390px] text-[1.05rem] leading-relaxed text-white/65">
+          <p className="max-w-[390px] text-base leading-relaxed text-white/65">
             The businesses and event partners helping BTB build better athletes and stronger lacrosse families on Long Island.
           </p>
         </div>
@@ -96,7 +96,7 @@ export function SponsorsSection() {
                 <div className="font-display text-[clamp(1.75rem,3vw,2.5rem)] uppercase leading-[0.9] tracking-wide text-white">
                   {sponsor.name}
                 </div>
-                <p className="mt-5 min-h-[84px] text-[1.0rem] leading-relaxed text-white/65">{sponsor.detail}</p>
+                <p className="mt-5 min-h-[84px] text-base leading-relaxed text-white/65">{sponsor.detail}</p>
                 {sponsor.href ? (
                   <div className="mt-8 inline-flex items-center gap-2 text-[0.84rem] font-black uppercase tracking-[2px] text-[var(--btb-red)]">
                     {sponsor.ctaLabel} <ArrowRight size={13} />

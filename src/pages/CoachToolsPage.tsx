@@ -194,7 +194,7 @@ export function CoachToolsPage() {
         <div className="max-w-[960px] mx-auto relative z-10">
           <div className="inline-flex items-center gap-3 mb-8">
             <div className="h-px w-10 bg-[#D22630]" />
-            <span className="text-[1.1rem] font-bold uppercase tracking-[4px] text-white/85">BTB Coach Suite · Staff Only</span>
+            <span className="text-lg font-bold uppercase tracking-[4px] text-white/85">BTB Coach Suite · Staff Only</span>
             <div className="h-px w-10 bg-[#D22630]" />
           </div>
 
@@ -206,12 +206,12 @@ export function CoachToolsPage() {
             <span className="text-[#D22630]">Built Different.</span>
           </h1>
 
-          <p className="text-[1.2rem] text-white/70 max-w-[520px] leading-[1.9] mb-4">
+          <p className="text-xl text-white/70 max-w-[520px] leading-[1.9] mb-4">
             BTB coaches don't use generic drill apps or blank Google Docs for practice planning.
             The BTB coach suite is AI-powered, film-connected, and built around the same
             16-week curriculum that runs every team in the program.
           </p>
-          <p className="text-[1.1rem] text-white/85 font-semibold mb-12">
+          <p className="text-lg text-white/85 font-semibold mb-12">
             Playbook Studio · Practice Plans · Film Breakdown · Video Playbooks · Systems
           </p>
 
@@ -220,13 +220,13 @@ export function CoachToolsPage() {
               href="https://btb-os.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#D22630] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#D22630] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.35)]"
             >
               Open BTB-OS <ExternalLink size={13} />
             </a>
             <a
               href="mailto:info@bethebestli.com"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 bg-white/5 text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:bg-white/10 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 bg-white/5 text-white text-base font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:bg-white/10 transition-all"
             >
               Request Coach Access
             </a>
@@ -237,11 +237,11 @@ export function CoachToolsPage() {
       {/* ── CLICKABLE RESOURCE CARDS ─────────────────────────────────── */}
       <section className="py-24 px-6 border-b border-white/[0.07] bg-neutral-950">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Coach Resource Hub</div>
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Coach Resource Hub</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Playbooks. Systems.<br />Videos. Tools.
           </h2>
-          <p className="text-[1.18rem] text-white/55 max-w-[560px] leading-relaxed mb-12">
+          <p className="text-lg text-white/55 max-w-[560px] leading-relaxed mb-12">
             One coach-facing page for the resources staff need before practice, during install weeks, and after film review.
           </p>
 
@@ -257,17 +257,17 @@ export function CoachToolsPage() {
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04] transition-colors group-hover:border-[#D22630]/40 group-hover:bg-[#D22630]/15">
                     <card.icon size={20} className="text-[#D22630]" />
                   </div>
-                  <span className="rounded border border-white/[0.08] px-2.5 py-1 text-[1.08rem] font-bold uppercase tracking-[1.5px] text-white/45 group-hover:border-[#D22630]/40 group-hover:text-[#D22630]">
+                  <span className="rounded border border-white/[0.08] px-2.5 py-1 text-base font-bold uppercase tracking-[1.5px] text-white/45 group-hover:border-[#D22630]/40 group-hover:text-[#D22630]">
                     {card.tag}
                   </span>
                 </div>
                 <h3 className="font-display text-[1.35rem] uppercase tracking-wide text-white mb-3">
                   {card.title}
                 </h3>
-                <p className="text-[1.12rem] leading-relaxed text-white/55 group-hover:text-white/75">
+                <p className="text-lg leading-relaxed text-white/55 group-hover:text-white/75">
                   {card.desc}
                 </p>
-                <div className="mt-8 inline-flex items-center gap-2 text-[1.2rem] font-black uppercase tracking-[2px] text-[#D22630]">
+                <div className="mt-8 inline-flex items-center gap-2 text-xl font-black uppercase tracking-[2px] text-[#D22630]">
                   Open Resource <ExternalLink size={12} />
                 </div>
               </a>
@@ -279,7 +279,7 @@ export function CoachToolsPage() {
       {/* ── CORE TOOLS ───────────────────────────────────────────────── */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">The Suite</div>
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">The Suite</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
             Core Tools.<br />One System.
           </h2>
@@ -294,10 +294,10 @@ export function CoachToolsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <h3 className="font-display text-[1.2rem] uppercase tracking-wide">{tool.title}</h3>
-                        <span className={`text-[1.08rem] font-bold uppercase px-2.5 py-0.5 rounded-full ${tool.tagColor}`}>{tool.tag}</span>
+                        <h3 className="font-display text-xl uppercase tracking-wide">{tool.title}</h3>
+                        <span className={`text-base font-bold uppercase px-2.5 py-0.5 rounded-full ${tool.tagColor}`}>{tool.tag}</span>
                       </div>
-                      <p className="text-[1.1rem] text-white/70 leading-relaxed">{tool.desc}</p>
+                      <p className="text-lg text-white/70 leading-relaxed">{tool.desc}</p>
                     </div>
                   </div>
 
@@ -306,7 +306,7 @@ export function CoachToolsPage() {
                       {tool.features.map((f, j) => (
                         <li key={j} className="flex items-start gap-2.5">
                           <CheckCircle2 size={13} className="text-[#D22630] shrink-0 mt-0.5" />
-                          <span className="text-[1.05rem] text-white/78 leading-snug">{f}</span>
+                          <span className="text-base text-white/78 leading-snug">{f}</span>
                         </li>
                       ))}
                     </ul>
@@ -316,7 +316,7 @@ export function CoachToolsPage() {
                         href={tool.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-3 bg-white/[0.05] border border-white/[0.1] text-white text-[1.0rem] font-bold uppercase tracking-[1.5px] rounded-xl hover:bg-[#D22630] hover:border-[#D22630] transition-all group-hover:border-white/[0.2]"
+                        className="inline-flex items-center gap-2 px-5 py-3 bg-white/[0.05] border border-white/[0.1] text-white text-base font-bold uppercase tracking-[1.5px] rounded-xl hover:bg-[#D22630] hover:border-[#D22630] transition-all group-hover:border-white/[0.2]"
                       >
                         {tool.cta} <ExternalLink size={12} />
                       </a>
@@ -332,11 +332,11 @@ export function CoachToolsPage() {
       {/* ── HOW PRACTICE PLAN WORKS ──────────────────────────────────── */}
       <section className="py-24 px-6 bg-neutral-950 border-b border-white/[0.07]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Practice Plan Generator</div>
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Practice Plan Generator</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
             Input to PDF.<br /><span className="text-white/45">Five Steps.</span>
           </h2>
-          <p className="text-[1.1rem] text-white/35 max-w-[500px] leading-relaxed mb-14">
+          <p className="text-lg text-white/35 max-w-[500px] leading-relaxed mb-14">
             No more blank Google Docs. No more copying last season's plan and hoping it still makes sense. 
             The generator knows BTB's curriculum, your team's phase, and your focus areas — and builds a practice that actually matches all three.
           </p>
@@ -344,10 +344,10 @@ export function CoachToolsPage() {
           <div className="space-y-0 border-t border-white/[0.07]">
             {planFlow.map((step) => (
               <div key={step.step} className="flex items-start gap-8 py-7 border-b border-white/[0.07] group">
-                <div className="font-display text-[1.25rem] text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5 w-6">{step.step}</div>
+                <div className="font-display text-xl text-white/15 group-hover:text-[#D22630] transition-colors shrink-0 pt-0.5 w-6">{step.step}</div>
                 <div>
-                  <h4 className="font-display text-[1rem] uppercase tracking-wide text-white group-hover:text-[#D22630] transition-colors mb-1">{step.label}</h4>
-                  <p className="text-[1.1rem] text-white/35 leading-relaxed">{step.desc}</p>
+                  <h4 className="font-display text-base uppercase tracking-wide text-white group-hover:text-[#D22630] transition-colors mb-1">{step.label}</h4>
+                  <p className="text-lg text-white/35 leading-relaxed">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -360,16 +360,16 @@ export function CoachToolsPage() {
         <div className="max-w-[960px] mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Film → Practice</div>
+              <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-4">Film → Practice</div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 Watch Film.<br />Build The Week.
               </h2>
-              <p className="text-[1.1rem] text-white/35 leading-relaxed mb-6">
+              <p className="text-lg text-white/35 leading-relaxed mb-6">
                 The Film Breakdown tool doesn't just tag plays. After the AI analyzes your game film, 
                 it turns the teaching points into practice priorities, install notes, and staff talking points
                 tied to what actually happened in the game.
               </p>
-              <p className="text-[1.05rem] text-white/25 leading-relaxed mb-8">
+              <p className="text-base text-white/25 leading-relaxed mb-8">
                 Example: AI finds "12 plays where the slide arrived late." 
                 The breakdown returns the clips, the correction, and the practice emphasis for the week.
               </p>
@@ -377,7 +377,7 @@ export function CoachToolsPage() {
                 href="https://btb-os.netlify.app/?module=film-breakdown"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#D22630] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#D22630] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all"
               >
                 Open Film Breakdown <ExternalLink size={12} />
               </a>
@@ -394,8 +394,8 @@ export function CoachToolsPage() {
                     <item.icon size={15} className="text-[#D22630]" />
                   </div>
                   <div>
-                    <h4 className="font-display text-[1.18rem] uppercase tracking-wide mb-1">{item.step}</h4>
-                    <p className="text-[1.0rem] text-white/35 leading-relaxed">{item.desc}</p>
+                    <h4 className="font-display text-lg uppercase tracking-wide mb-1">{item.step}</h4>
+                    <p className="text-base text-white/35 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -413,12 +413,12 @@ export function CoachToolsPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D22630]/10 border border-[#D22630]/25 mb-8">
                 <Lock size={24} className="text-[#D22630]" />
               </div>
-              <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-6">Credentialed Coaches Only</div>
+              <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-6">Credentialed Coaches Only</div>
               <h2 className="font-display text-[clamp(2rem,5vw,3rem)] uppercase tracking-wide leading-[0.92] mb-6">
                 BTB-OS Is Coach-Facing.<br />
                 <span className="text-white/45">Not Public.</span>
               </h2>
-              <p className="text-[1.15rem] text-white/35 max-w-[440px] mx-auto leading-relaxed mb-10">
+              <p className="text-lg text-white/35 max-w-[440px] mx-auto leading-relaxed mb-10">
                 BTB-OS and the coach tools suite are for credentialed BTB coaches only.
                 If you're on staff and need access, contact Dan directly.
               </p>
@@ -427,13 +427,13 @@ export function CoachToolsPage() {
                   href="https://btb-os.netlify.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#D22630] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[#D22630] text-white text-base font-bold uppercase tracking-[2px] rounded hover:bg-[#B01F28] transition-all"
                 >
                   Open BTB-OS <ExternalLink size={13} />
                 </a>
                 <a
                   href="mailto:info@bethebestli.com"
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-base font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all"
                 >
                   Request Access
                 </a>

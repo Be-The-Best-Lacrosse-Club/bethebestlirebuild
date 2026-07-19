@@ -22,7 +22,7 @@
     "secondaryCta": { "label": "Choose Boys / Girls", "url": "#program-paths" },
     "stats": [
       { "value": "450+", "label": "Players" },
-      { "value": "22", "label": "Teams" },
+      { "value": "23", "label": "Teams" },
       { "value": "45+", "label": "Coaches" }
     ]
   }

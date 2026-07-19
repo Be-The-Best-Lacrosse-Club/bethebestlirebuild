@@ -86,7 +86,7 @@ export function FeaturedCoaches() {
             <h3 className="font-display text-[clamp(1.8rem,5vw,3.5rem)] uppercase leading-[0.95] text-white mb-6">
               I'm Dan Achatz — <span className="text-[var(--btb-red)]">founder of Be The Best.</span>
             </h3>
-            <div className="space-y-4 text-white/90 text-[1.02rem] leading-relaxed max-w-[640px]">
+            <div className="space-y-4 text-white/90 text-base leading-relaxed max-w-[640px]">
               <p>
                 Rutgers lacrosse alum, Plainedge varsity head coach, and the founder of Be The Best. I started BTB in 2021 with one team and one belief: that every kid who walks in deserves to be coached like the work matters. Because it does.
               </p>
@@ -102,7 +102,7 @@ export function FeaturedCoaches() {
             <div className="border-l-2 border-[var(--btb-red)] pl-6 space-y-5">
               {FOUNDER && FOUNDER.credentials.map((cred) => (
                 <div key={cred} className="flex flex-col">
-                  <span className="text-[1.05rem] font-black text-white/90 uppercase tracking-[3px] mb-1">
+                  <span className="text-base font-black text-white/90 uppercase tracking-[3px] mb-1">
                     Credential
                   </span>
                   <span className="font-display text-xl uppercase tracking-wider text-white leading-tight">
@@ -111,7 +111,7 @@ export function FeaturedCoaches() {
                 </div>
               ))}
               <div className="flex flex-col">
-                <span className="text-[1.05rem] font-black text-white/90 uppercase tracking-[3px] mb-1">
+                <span className="text-base font-black text-white/90 uppercase tracking-[3px] mb-1">
                   Currently Coaches
                 </span>
                 <span className="font-display text-xl uppercase tracking-wider text-white leading-tight">
@@ -141,7 +141,7 @@ export function FeaturedCoaches() {
             href="/boys/coaches"
             className="inline-flex items-center gap-4 text-white/90 hover:text-white transition-colors group"
           >
-            <span className="text-[1.05rem] font-black uppercase tracking-[4px]">
+            <span className="text-base font-black uppercase tracking-[4px]">
               View Full Staff Directory
             </span>
             <div className="w-10 h-px bg-white/20 group-hover:w-16 group-hover:bg-[var(--btb-red)] transition-all" />

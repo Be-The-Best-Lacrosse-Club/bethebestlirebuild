@@ -64,7 +64,7 @@ export function ContactPage() {
     }
   }
 
-  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.05rem] placeholder:text-white/40 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
+  const inputClass = "w-full h-12 px-4 bg-white/[0.04] border border-white/10 rounded-lg text-white text-base placeholder:text-white/40 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all"
   const labelClass = "block text-[0.95rem] font-black uppercase tracking-[2px] text-white/85 mb-2"
 
   return (
@@ -79,7 +79,7 @@ export function ContactPage() {
 
           {/* Header */}
           <div className="text-center mb-20">
-            <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center justify-center gap-3">
+            <div className="text-[var(--btb-red)] font-mono text-lg tracking-[5px] mb-6 flex items-center justify-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
               CONTACT_BTB
               <div className="w-8 h-px bg-[var(--btb-red)]" />
@@ -101,10 +101,10 @@ export function ContactPage() {
             >
               <Mail size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
               <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Email Us</h3>
-              <p className="text-white/70 group-hover:text-white/80 text-[1.1rem] font-medium transition-colors mb-6">
+              <p className="text-white/70 group-hover:text-white/80 text-lg font-medium transition-colors mb-6">
                 For general inquiries, program questions, and tryout info.
               </p>
-              <div className="flex items-center gap-2 text-[1.0rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
+              <div className="flex items-center gap-2 text-base font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
                 info@bethebestli.com
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
@@ -117,10 +117,10 @@ export function ContactPage() {
             >
               <ArrowRight size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
               <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Register Now</h3>
-              <p className="text-white/70 group-hover:text-white/80 text-[1.1rem] font-medium transition-colors mb-6">
+              <p className="text-white/70 group-hover:text-white/80 text-lg font-medium transition-colors mb-6">
                 Ready to join? Register for the 2026 season.
               </p>
-              <div className="flex items-center gap-2 text-[1.0rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
+              <div className="flex items-center gap-2 text-base font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
                 Register for 2026 Tryouts
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
@@ -130,7 +130,7 @@ export function ContactPage() {
             <div className="group relative p-12 bg-black hover:bg-neutral-900 transition-all duration-300">
               <MapPin size={28} className="text-[var(--btb-red)] mb-8" />
               <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Location</h3>
-              <p className="text-white/70 text-[1.1rem] font-medium leading-relaxed">
+              <p className="text-white/70 text-lg font-medium leading-relaxed">
                 Long Island, New York<br />
                 Training facilities across Nassau &amp; Suffolk County
               </p>
@@ -143,10 +143,10 @@ export function ContactPage() {
             >
               <Phone size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
               <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Interest Form</h3>
-              <p className="text-white/70 group-hover:text-white/80 text-[1.1rem] font-medium transition-colors mb-6">
+              <p className="text-white/70 group-hover:text-white/80 text-lg font-medium transition-colors mb-6">
                 Not ready to register? Fill out an interest form and we&apos;ll reach out.
               </p>
-              <div className="flex items-center gap-2 text-[1.0rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
+              <div className="flex items-center gap-2 text-base font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
                 Submit Interest Form
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
@@ -162,7 +162,7 @@ export function ContactPage() {
             <h2 className="font-display text-[clamp(2rem,5vw,3.25rem)] uppercase leading-[0.9] text-white mb-3">
               Or write us <br /> <span className="text-[var(--btb-red)]">directly.</span>
             </h2>
-            <p className="text-white/60 text-[1.05rem] leading-relaxed max-w-[560px] mb-10">
+            <p className="text-white/60 text-base leading-relaxed max-w-[560px] mb-10">
               Drop a note and we'll route it to the right coach or staff member. Replies usually go out within one business day.
             </p>
 
@@ -220,7 +220,7 @@ export function ContactPage() {
                     name="message"
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.05rem] placeholder:text-white/40 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
+                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-base placeholder:text-white/40 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
@@ -229,7 +229,7 @@ export function ContactPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50 flex items-center justify-center gap-3"
+                  className="w-full py-4 bg-[var(--btb-red)] text-white text-base font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50 flex items-center justify-center gap-3"
                 >
                   <Send size={14} />
                   {submitting ? "Sending..." : "Send Message"}
@@ -238,7 +238,7 @@ export function ContactPage() {
             )}
           </div>
 
-          <p className="text-center text-[1.0rem] text-white/45 uppercase tracking-[2px]">
+          <p className="text-center text-base text-white/45 uppercase tracking-[2px]">
             Be The Best Lacrosse Club · Long Island, NY · info@bethebestli.com
           </p>
         </div>

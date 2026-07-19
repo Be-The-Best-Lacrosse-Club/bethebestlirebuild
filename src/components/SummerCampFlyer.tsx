@@ -36,7 +36,7 @@ export function SummerCampFlyer({ compact = false }: SummerCampFlyerProps) {
         </a>
 
         <div>
-          <div className="mb-5 flex items-center gap-3 text-[1.0rem] font-black uppercase tracking-[4px] text-[var(--btb-red)]">
+          <div className="mb-5 flex items-center gap-3 text-base font-black uppercase tracking-[4px] text-[var(--btb-red)]">
             <span className="h-px w-8 bg-[var(--btb-red)]" />
             200+ Campers · Don't Miss Out
           </div>
@@ -46,7 +46,7 @@ export function SummerCampFlyer({ compact = false }: SummerCampFlyerProps) {
             <span className="text-[var(--btb-red)]">Camp Is Live.</span>
           </h2>
 
-          <p className="mt-6 max-w-[620px] text-[1.12rem] leading-relaxed text-white/70 md:text-[1.2rem]">
+          <p className="mt-6 max-w-[620px] text-lg leading-relaxed text-white/70 md:text-xl">
             Four days at Plainedge Park for boys and girls in K-8th grade. Skills, games, position work,
             competition, and summer fun with the BTB staff.
           </p>
@@ -75,13 +75,13 @@ export function SummerCampFlyer({ compact = false }: SummerCampFlyerProps) {
           <div className="flex flex-col gap-3 sm:flex-row">
             <a
               href={REGISTER_HREF}
-              className="inline-flex items-center justify-center gap-2 bg-[var(--btb-red)] px-8 py-4 text-[1.0rem] font-black uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)] hover:shadow-[0_14px_34px_rgba(210,38,48,0.34)]"
+              className="inline-flex items-center justify-center gap-2 bg-[var(--btb-red)] px-8 py-4 text-base font-black uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)] hover:shadow-[0_14px_34px_rgba(210,38,48,0.34)]"
             >
               Register for Camp <ArrowRight size={14} />
             </a>
             <a
               href="/camps"
-              className="inline-flex items-center justify-center border border-white/15 px-8 py-4 text-[1.0rem] font-black uppercase tracking-[2px] text-white/80 transition-all duration-200 hover:border-white/35 hover:text-white"
+              className="inline-flex items-center justify-center border border-white/15 px-8 py-4 text-base font-black uppercase tracking-[2px] text-white/80 transition-all duration-200 hover:border-white/35 hover:text-white"
             >
               Camp Details
             </a>

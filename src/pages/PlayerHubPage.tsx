@@ -586,7 +586,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
               <button
                 key={pos}
                 onClick={() => setActivePosition(pos)}
-                className={`px-3 py-1.5 rounded-full text-[1.2rem] font-bold uppercase tracking-[1px] transition-all ${
+                className={`px-3 py-1.5 rounded-full text-xl font-bold uppercase tracking-[1px] transition-all ${
                   activePosition === pos
                     ? "bg-[#D22630] text-white"
                     : "border border-white/10 text-white/70 hover:text-white/70 hover:border-white/25"
@@ -669,16 +669,16 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
         <div className="max-w-[1100px] mx-auto flex items-center justify-between px-6 py-3">
           <button
             onClick={() => navigate(`/${gender}`)}
-            className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-[1.0rem] font-semibold uppercase tracking-[1.5px]"
+            className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-base font-semibold uppercase tracking-[1.5px]"
           >
             <ArrowLeft size={14} /> Back
           </button>
-          <span className="font-display text-[1.1rem] uppercase tracking-wide">
+          <span className="font-display text-lg uppercase tracking-wide">
             BTB <span className="text-[#D22630]">{label}</span> Academy
           </span>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-[1.0rem] font-semibold uppercase tracking-[1.5px]"
+            className="flex items-center gap-2 text-white/85 hover:text-white transition-colors text-base font-semibold uppercase tracking-[1.5px]"
           >
             Logout <LogOut size={14} />
           </button>
@@ -689,11 +689,11 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
 
         {/* Welcome */}
         <div className="mb-10">
-          <div className="text-[1.1rem] font-bold uppercase tracking-[4px] text-[#D22630] mb-3">Player Academy</div>
+          <div className="text-lg font-bold uppercase tracking-[4px] text-[#D22630] mb-3">Player Academy</div>
           <h1 className="font-display text-[clamp(2rem,5vw,3.2rem)] uppercase tracking-wide leading-[0.92] mb-3">
             Welcome back, <span className="text-[#D22630]">{user?.name?.split(" ")[0] ?? "Player"}</span>
           </h1>
-          <p className="text-[1.1rem] text-white/35 max-w-[480px] leading-relaxed">
+          <p className="text-lg text-white/35 max-w-[480px] leading-relaxed">
             Your full development hub — pillar courses, film study, and progress tracking all in one place.
             {user?.gradYear && <span className="ml-2 text-white/45">Class of {user.gradYear}</span>}
           </p>
@@ -710,7 +710,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-[1.0rem] font-bold uppercase tracking-[1px] transition-all ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-base font-bold uppercase tracking-[1px] transition-all ${
                 activeTab === id
                   ? "bg-[#D22630] text-white"
                   : "text-white/70 hover:text-white/70"
@@ -787,12 +787,12 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-[1.25rem] text-white/85">{course.lessons.length} lessons</span>
+                        <span className="text-xl text-white/85">{course.lessons.length} lessons</span>
                         <div className="flex items-center gap-2">
                           <div className="h-1.5 w-20 bg-white/10 rounded-full overflow-hidden">
                             <div className={`h-full bg-gradient-to-r ${TIER_COLORS[course.tier]}`} style={{ width: `${pct}%` }} />
                           </div>
-                          <span className="text-[1.0rem] font-bold text-white/78">{pct}%</span>
+                          <span className="text-base font-bold text-white/78">{pct}%</span>
                         </div>
                       </div>
                     </div>
@@ -814,7 +814,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
 
             {gradCourses.length === 0 ? (
               <div className="border border-white/[0.07] bg-white/[0.02] rounded-xl p-10 text-center">
-                <p className="text-white/85 text-[1.15rem]">No courses available yet. Check back soon.</p>
+                <p className="text-white/85 text-lg">No courses available yet. Check back soon.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -832,28 +832,28 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                       }`}
                     >
                       <div className="flex items-start justify-between mb-3">
-                        <h3 className="font-display text-[1rem] uppercase tracking-wide leading-snug pr-4">{course.title}</h3>
+                        <h3 className="font-display text-base uppercase tracking-wide leading-snug pr-4">{course.title}</h3>
                         {completed && (
                           <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#D22630]/20 flex items-center justify-center">
                             <Trophy size={13} className="text-[#D22630]" />
                           </div>
                         )}
                       </div>
-                      <p className="text-[1.05rem] text-white/85 leading-relaxed mb-4 line-clamp-2">{course.description}</p>
+                      <p className="text-base text-white/85 leading-relaxed mb-4 line-clamp-2">{course.description}</p>
                       <div className="mb-4">
                         <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-white/45">Progress</span>
-                          <span className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-white/70">{pct}%</span>
+                          <span className="text-lg font-bold uppercase tracking-[1.5px] text-white/45">Progress</span>
+                          <span className="text-lg font-bold uppercase tracking-[1.5px] text-white/70">{pct}%</span>
                         </div>
                         <div className="h-[5px] bg-white/[0.08] rounded-full overflow-hidden">
                           <div className="h-full bg-[#D22630] rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[1.25rem] text-white/45">{course.steps.length} steps</span>
+                        <span className="text-xl text-white/45">{course.steps.length} steps</span>
                         <button
                           onClick={() => setActiveCourse(course)}
-                          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-[1.25rem] font-bold uppercase tracking-[1.5px] transition-all ${
+                          className={`flex items-center gap-2 px-5 py-2 rounded-lg text-xl font-bold uppercase tracking-[1.5px] transition-all ${
                             started
                               ? "bg-[#D22630] text-white hover:bg-[#B01F28]"
                               : "border border-white/15 text-white/78 hover:border-white/40 hover:text-white"
@@ -929,7 +929,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                     }`}
                   >
                     {ch.badge && (
-                      <span className="inline-block bg-[#D22630] text-white text-[1.08rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded mb-3">
+                      <span className="inline-block bg-[#D22630] text-white text-base font-bold uppercase tracking-widest px-2 py-0.5 rounded mb-3">
                         {ch.badge}
                       </span>
                     )}
@@ -937,7 +937,7 @@ export function PlayerHubPage({ gender }: { gender: Gender }) {
                       {ch.name}
                     </p>
                     <p className="text-white/35 text-xs leading-relaxed">{ch.desc}</p>
-                    <p className="text-white/45 text-[1.15rem] font-semibold uppercase tracking-widest mt-3">
+                    <p className="text-white/45 text-lg font-semibold uppercase tracking-widest mt-3">
                       Watch →
                     </p>
                   </a>

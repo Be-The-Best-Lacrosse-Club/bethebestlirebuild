@@ -99,7 +99,7 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
         <h1 className="font-display text-[clamp(2.5rem,5vw,4rem)] uppercase tracking-wide leading-none mb-4">
           Online <span className="text-[var(--btb-red)]">Programs</span>
         </h1>
-        <p className="text-white/45 max-w-[520px] mx-auto text-[1.25rem] leading-relaxed">
+        <p className="text-white/45 max-w-[520px] mx-auto text-xl leading-relaxed">
           Film study modules, drill libraries, and recruiting prep — all built on the BTB development standard.
         </p>
       </div>
@@ -144,15 +144,15 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <h3 className="font-display text-xl uppercase tracking-wide">{program.title}</h3>
-                    <span className={`text-[1.15rem] font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${levelColor(program.level)}`}>
+                    <span className={`text-lg font-bold uppercase tracking-[1.5px] px-2.5 py-0.5 rounded-full border ${levelColor(program.level)}`}>
                       {program.level}
                     </span>
                   </div>
                   <div
-                    className="text-[1.1rem] text-white/70 leading-relaxed line-clamp-2"
+                    className="text-lg text-white/70 leading-relaxed line-clamp-2"
                     dangerouslySetInnerHTML={{ __html: program.description }}
                   />
-                  <div className="flex items-center gap-5 mt-3 text-[1.0rem] text-white/85">
+                  <div className="flex items-center gap-5 mt-3 text-base text-white/85">
                     <span className="flex items-center gap-1.5"><Users size={12} /> {program.position}</span>
                     <span className="flex items-center gap-1.5"><Play size={12} /> {program.totalSteps} steps</span>
                     {totalDuration > 0 && (
@@ -175,18 +175,18 @@ export function ProgramsPage({ onBack }: { onBack: () => void }) {
                         i < programSteps.length - 1 ? "border-b border-white/[0.04]" : ""
                       } hover:bg-white/[0.02] transition-colors`}
                     >
-                      <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center text-[1.25rem] font-bold text-white/85 flex-shrink-0 mt-0.5">
+                      <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center text-xl font-bold text-white/85 flex-shrink-0 mt-0.5">
                         {step.stepNumber}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 className="text-[1.18rem] font-semibold text-white/80">{step.title}</h4>
+                          <h4 className="text-lg font-semibold text-white/80">{step.title}</h4>
                         </div>
                         <div
-                          className="text-[1.05rem] text-white/35 leading-relaxed"
+                          className="text-base text-white/35 leading-relaxed"
                           dangerouslySetInnerHTML={{ __html: step.description }}
                         />
-                        <div className="flex items-center gap-4 mt-2 text-[1.25rem] text-white/25">
+                        <div className="flex items-center gap-4 mt-2 text-xl text-white/25">
                           <span className="flex items-center gap-1">{stepTypeIcon(step.stepType)} {step.stepType}</span>
                           <span className="flex items-center gap-1"><Clock size={11} /> {step.duration} min</span>
                         </div>

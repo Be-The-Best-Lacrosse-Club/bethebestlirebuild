@@ -75,7 +75,7 @@ export function Header() {
 
   const isActive = (href: string) => location.pathname === href || (href !== "/" && location.pathname.startsWith(href))
 
-  const navItemClass = (href: string) => `px-3 py-2 text-[1.0rem] font-bold uppercase tracking-[1.5px] transition-colors rounded ${
+  const navItemClass = (href: string) => `px-3 py-2 text-base font-bold uppercase tracking-[1.5px] transition-colors rounded ${
     isActive(href)
       ? (scrolled ? "text-[var(--btb-red)] bg-[var(--btb-red)]/5" : "text-[var(--btb-red)] bg-white/10")
       : (scrolled ? "text-black/60 hover:text-black hover:bg-black/5" : "text-white/85 hover:text-white hover:bg-white/5")
@@ -110,7 +110,7 @@ export function Header() {
               {dropdown === "programs" && (
                 <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
                   {programLinks.map(link => (
-                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[1.15rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-lg font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
                       {link.label}
                     </button>
                   ))}
@@ -124,15 +124,15 @@ export function Header() {
               </button>
               {dropdown === "teams" && (
                 <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-black/5 rounded-xl shadow-2xl py-3 grid grid-cols-2 animate-in fade-in slide-in-from-top-2">
-                  <div className="px-4 pb-2 col-span-2 text-[1.08rem] font-black text-black/20 uppercase tracking-[2px]">Boys Program</div>
+                  <div className="px-4 pb-2 col-span-2 text-base font-black text-black/20 uppercase tracking-[2px]">Boys Program</div>
                   {teamLinks("boys").map(link => (
-                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[1.15rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-lg font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
                       {link.label}
                     </button>
                   ))}
-                  <div className="px-4 py-2 col-span-2 border-t border-black/5 mt-2 text-[1.08rem] font-black text-black/20 uppercase tracking-[2px]">Girls Program</div>
+                  <div className="px-4 py-2 col-span-2 border-t border-black/5 mt-2 text-base font-black text-black/20 uppercase tracking-[2px]">Girls Program</div>
                   {teamLinks("girls").map(link => (
-                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[1.15rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-lg font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
                       {link.label}
                     </button>
                   ))}
@@ -140,7 +140,7 @@ export function Header() {
               )}
             </div>
 
-            <button onClick={() => go("/tryouts")} className="ml-2 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
+            <button onClick={() => go("/tryouts")} className="ml-2 px-4 py-2 text-base font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
               Tryouts 2026
             </button>
 
@@ -158,7 +158,7 @@ export function Header() {
 
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
-                <button onClick={() => go("/family-hub")} className="flex items-center gap-2 px-4 py-2 bg-black text-white text-[1.0rem] font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all">
+                <button onClick={() => go("/family-hub")} className="flex items-center gap-2 px-4 py-2 bg-black text-white text-base font-black uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red)] transition-all">
                   <Layout size={14} /> Family Hub
                 </button>
                 <div className="flex items-center gap-2">
@@ -175,7 +175,7 @@ export function Header() {
                 <button onClick={() => go("/login")} className={navItemClass("/login")}>
                   <Lock size={11} className="inline mr-1" /> Login
                 </button>
-                <button onClick={() => go("/interest")} className={`px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
+                <button onClick={() => go("/interest")} className={`px-4 py-2 text-base font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
                   Register
                 </button>
               </div>
@@ -187,7 +187,7 @@ export function Header() {
             {/* Tryouts pill — always visible on mobile */}
             <button
               onClick={() => go("/tryouts")}
-              className="px-3 py-1.5 text-[1.15rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
+              className="px-3 py-1.5 text-lg font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
             >
               Tryouts
             </button>
@@ -270,7 +270,7 @@ export function Header() {
               },
             ].map((section) => (
               <div key={section.label} className="border-t border-white/10 py-5">
-                <div className="text-[1.15rem] font-black text-white/85 uppercase tracking-[4px] mb-4">{section.label}</div>
+                <div className="text-lg font-black text-white/85 uppercase tracking-[4px] mb-4">{section.label}</div>
                 <div className="grid grid-cols-2 gap-y-3 gap-x-4">
                   {section.links.map((l) => (
                     <button

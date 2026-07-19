@@ -6,7 +6,7 @@ export function TermsAndConditionsPage() {
       <div className="max-w-3xl mx-auto px-5 md:px-8 py-16 md:py-24">
         {/* Header */}
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-[1.25rem] uppercase tracking-[2.5px] text-[var(--btb-red)] font-bold mb-4">
+          <div className="flex items-center gap-2 text-xl uppercase tracking-[2.5px] text-[var(--btb-red)] font-bold mb-4">
             <FileText size={14} /> Terms and Conditions
           </div>
           <h1 className="font-display text-4xl md:text-5xl text-slate-900 uppercase tracking-tight mb-3 leading-[0.95]">
@@ -53,7 +53,7 @@ export function TermsAndConditionsPage() {
             <h2 className="font-display text-xl uppercase tracking-wide text-slate-900 mb-2">2. Website Use</h2>
             <p className="mb-2">You agree to use our website and online services only for lawful purposes.</p>
             <p className="mb-2">You may not:</p>
-            <ul className="list-disc pl-6 space-y-1 text-[1.25rem]">
+            <ul className="list-disc pl-6 space-y-1 text-xl">
               <li>Submit false or misleading information</li>
               <li>Interfere with the security or function of the website</li>
               <li>Attempt unauthorized access to any system or account</li>
@@ -85,7 +85,7 @@ export function TermsAndConditionsPage() {
               Be The Best Lacrosse Club may contact parents, guardians, coaches, and participants
               regarding club operations, including:
             </p>
-            <ul className="list-disc pl-6 space-y-1 text-[1.25rem] mb-2">
+            <ul className="list-disc pl-6 space-y-1 text-xl mb-2">
               <li>Registration status</li>
               <li>Practice schedules</li>
               <li>Game schedules</li>
@@ -113,7 +113,7 @@ export function TermsAndConditionsPage() {
             </p>
             <p className="mb-2">No marketing. No promotional offers. No third-party content.</p>
             <p className="mb-2">Messages may include:</p>
-            <ul className="list-disc pl-6 space-y-1 text-[1.25rem] mb-2">
+            <ul className="list-disc pl-6 space-y-1 text-xl mb-2">
               <li>Practice reminders with date, time, and location</li>
               <li>Game day logistics, including opponent, time, field, and check-in instructions</li>
               <li>Schedule or venue changes</li>
@@ -374,7 +374,7 @@ export function TermsAndConditionsPage() {
 
           <section>
             <h2 className="font-display text-xl uppercase tracking-wide text-slate-900 mb-2">21. Contact</h2>
-            <div className="space-y-1 text-[1.25rem]">
+            <div className="space-y-1 text-xl">
               <p>Be The Best Sportscamp d/b/a Be The Best Lacrosse Club</p>
               <p>364 North Iowa Ave</p>
               <p>Massapequa, NY 11758</p>

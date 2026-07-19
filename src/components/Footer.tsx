@@ -31,7 +31,7 @@ export function Footer() {
             <a href="/" onClick={link("/")} className="font-display text-xl text-white uppercase tracking-tight block mb-4">
               BTB <span className="text-[var(--btb-red)]">Lacrosse</span>
             </a>
-            <p className="text-[1.2rem] text-white/65 leading-relaxed max-w-[260px]">
+            <p className="text-xl text-white/65 leading-relaxed max-w-[260px]">
               A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.
             </p>
             <div className="flex gap-2.5 mt-6">
@@ -40,7 +40,7 @@ export function Footer() {
                 { label: "X", href: "https://x.com/bethebestli" },
                 { label: "YT", href: "https://www.youtube.com/@bethebestlacrosse" },
               ].map((s) => (
-                <a key={s.label} href={s.href} className="w-8 h-8 rounded border border-white/[0.08] flex items-center justify-center text-[1.0rem] font-bold text-white/65 hover:bg-[var(--btb-red)] hover:border-[var(--btb-red)] hover:text-white transition-all">
+                <a key={s.label} href={s.href} className="w-8 h-8 rounded border border-white/[0.08] flex items-center justify-center text-base font-bold text-white/65 hover:bg-[var(--btb-red)] hover:border-[var(--btb-red)] hover:text-white transition-all">
                   {s.label}
                 </a>
               ))}
@@ -48,50 +48,50 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">Boys</h4>
-            <a href="/boys" onClick={link("/boys")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
-            <a href="/boys/travel" onClick={link("/boys/travel")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Travel</a>
-            <a href="/boys/coaches" onClick={link("/boys/coaches")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coaches</a>
-            <a href="/boys/teams" onClick={link("/boys/teams")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Teams</a>
+            <h4 className="font-display text-white uppercase text-base tracking-[2.5px] mb-5">Boys</h4>
+            <a href="/boys" onClick={link("/boys")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
+            <a href="/boys/travel" onClick={link("/boys/travel")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Travel</a>
+            <a href="/boys/coaches" onClick={link("/boys/coaches")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Coaches</a>
+            <a href="/boys/teams" onClick={link("/boys/teams")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Teams</a>
           </div>
 
           <div>
-            <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">Girls</h4>
-            <a href="/girls" onClick={link("/girls")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
-            <a href="/girls/travel" onClick={link("/girls/travel")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Travel</a>
-            <a href="/girls/coaches" onClick={link("/girls/coaches")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coaches</a>
-            <a href="/girls/teams" onClick={link("/girls/teams")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Teams</a>
+            <h4 className="font-display text-white uppercase text-base tracking-[2.5px] mb-5">Girls</h4>
+            <a href="/girls" onClick={link("/girls")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
+            <a href="/girls/travel" onClick={link("/girls/travel")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Travel</a>
+            <a href="/girls/coaches" onClick={link("/girls/coaches")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Coaches</a>
+            <a href="/girls/teams" onClick={link("/girls/teams")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Teams</a>
           </div>
 
           <div>
-            <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">Futures</h4>
-            <a href="/futures" onClick={link("/futures")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
-            <a href="/futures" onClick={link("/futures")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Foundation</a>
-            <a href="/futures" onClick={link("/futures")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Enrollment</a>
+            <h4 className="font-display text-white uppercase text-base tracking-[2.5px] mb-5">Futures</h4>
+            <a href="/futures" onClick={link("/futures")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
+            <a href="/futures" onClick={link("/futures")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Foundation</a>
+            <a href="/futures" onClick={link("/futures")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Enrollment</a>
           </div>
 
           <div>
-            <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">Camps</h4>
-            <a href="/camps" onClick={link("/camps")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
-            <a href="/camps" onClick={link("/camps")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Clinics</a>
-            <a href="/camps" onClick={link("/camps")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Intensives</a>
+            <h4 className="font-display text-white uppercase text-base tracking-[2.5px] mb-5">Camps</h4>
+            <a href="/camps" onClick={link("/camps")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
+            <a href="/camps" onClick={link("/camps")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Clinics</a>
+            <a href="/camps" onClick={link("/camps")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Intensives</a>
           </div>
 
           <div>
-            <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">BTB</h4>
-            <a href="/tryouts" onClick={link("/tryouts")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Tryouts</a>
-            <a href="/newsletter" onClick={link("/newsletter")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Newsletter</a>
-            <a href="/recruiting" onClick={link("/recruiting")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Recruiting</a>
-            <a href="/coach-tools.html" onClick={link("/coach-tools.html")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coach Hub</a>
-            <a href="/interest" onClick={link("/interest")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Interest Form</a>
-            <a href="/contact" onClick={link("/contact")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Contact</a>
-            <a href="/login" onClick={link("/login")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Login</a>
-            <a href="/sms-policy" onClick={link("/sms-policy")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">SMS Policy &amp; Privacy Policy</a>
-            <a href="/terms-and-conditions" onClick={link("/terms-and-conditions")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Terms and Conditions</a>
+            <h4 className="font-display text-white uppercase text-base tracking-[2.5px] mb-5">BTB</h4>
+            <a href="/tryouts" onClick={link("/tryouts")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Tryouts</a>
+            <a href="/newsletter" onClick={link("/newsletter")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Newsletter</a>
+            <a href="/recruiting" onClick={link("/recruiting")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Recruiting</a>
+            <a href="/coach-tools.html" onClick={link("/coach-tools.html")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Coach Hub</a>
+            <a href="/interest" onClick={link("/interest")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Interest Form</a>
+            <a href="/contact" onClick={link("/contact")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Contact</a>
+            <a href="/login" onClick={link("/login")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Login</a>
+            <a href="/sms-policy" onClick={link("/sms-policy")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">SMS Policy &amp; Privacy Policy</a>
+            <a href="/terms-and-conditions" onClick={link("/terms-and-conditions")} className="block text-lg text-white/85 py-1.5 hover:text-white transition-colors">Terms and Conditions</a>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3 pt-8 border-t border-white/[0.05] text-[1.08rem] text-white/55">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 pt-8 border-t border-white/[0.05] text-base text-white/55">
           <span>&copy; 2026 Be The Best Lacrosse Club. All rights reserved.</span>
           <div className="flex gap-6">
              <a href="mailto:info@bethebestli.com" className="hover:text-white/85 transition-colors">info@bethebestli.com</a>

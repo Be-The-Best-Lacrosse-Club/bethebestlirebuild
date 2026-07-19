@@ -71,7 +71,7 @@ export function ChampionsShowcase() {
         </div>
 
         <div className="mt-5 flex flex-col gap-3 border-t border-white/10 pt-5 md:flex-row md:items-center md:justify-between">
-          <p className="max-w-[780px] text-[0.9rem] font-semibold leading-relaxed text-white/72 md:text-[1rem]">
+          <p className="max-w-[780px] text-[0.9rem] font-semibold leading-relaxed text-white/72 md:text-base">
             Congrats to the BTB teams already bringing home tournament titles. This wall stays up all season and grows every time another team wins.
           </p>
           <div className="text-[0.72rem] font-black uppercase tracking-[2.4px] text-white/55 md:text-right">
