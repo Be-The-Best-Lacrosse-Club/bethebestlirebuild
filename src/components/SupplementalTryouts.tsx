@@ -1,5 +1,8 @@
 import { ArrowRight, CalendarDays, Clock3, MapPin, Users } from "lucide-react"
 
+const THURSDAY_REGISTRATION_URL =
+  "/interest?source=thursday-evaluation&category=Tryouts&notes=Thursday%2020-minute%20supplemental%20evaluation"
+
 const tryoutDays = [
   {
     day: "Tuesday",
@@ -29,7 +32,7 @@ export function SupplementalTryouts() {
         <div>
           <div className="mb-5 flex items-start gap-3 text-sm font-black uppercase tracking-[3px] text-[var(--btb-red)] sm:items-center">
             <span className="mt-2 h-px w-8 shrink-0 bg-[var(--btb-red)] sm:mt-0" />
-            <span className="min-w-0">Girls Tuesday · Boys Wednesday</span>
+            <span className="min-w-0">Tuesday · Wednesday · Thursday</span>
           </div>
           <h2 className="font-display text-[clamp(3rem,7vw,5.5rem)] uppercase leading-[0.86] tracking-wide">
             Supplemental
@@ -73,6 +76,37 @@ export function SupplementalTryouts() {
                 </div>
               </div>
             ))}
+
+            <div className="border border-[var(--btb-red)]/40 bg-[var(--btb-red)]/[0.08] p-6 sm:col-span-2">
+              <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div>
+                  <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[2px] text-[var(--btb-red)]">
+                    <CalendarDays size={14} />
+                    July 30
+                  </div>
+                  <div className="font-display text-3xl uppercase tracking-wide text-white">
+                    Thursday · Open Evaluations
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs font-black uppercase tracking-[1.5px] text-white/55">
+                    <span className="flex items-center gap-2">
+                      <Users size={14} />
+                      Anyone Can Register
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <Clock3 size={14} className="text-[var(--btb-red)]" />
+                      20-Minute Evaluations
+                    </span>
+                  </div>
+                </div>
+                <a
+                  href={THURSDAY_REGISTRATION_URL}
+                  className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-6 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)]"
+                >
+                  Register
+                  <ArrowRight size={14} />
+                </a>
+              </div>
+            </div>
           </div>
           <a
             href="/tryouts"
