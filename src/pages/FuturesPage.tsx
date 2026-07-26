@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { ArrowRight, MapPin, Clock, Users, Mic, Calendar } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
-import { TryoutFlyers } from "@/components/TryoutFlyers"
+import { SupplementalTryouts } from "@/components/SupplementalTryouts"
 
 type FuturesEvent = {
   location: string
@@ -104,14 +104,15 @@ export function FuturesPage() {
           </h1>
           <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
             Stimson and Seaford were both strong Futures events. The next clinic date will be announced soon.
-            For now, families can review the tryout path, camps, and club updates.
+            Supplemental tryouts are Tuesday, July 28 at Plainedge Park.
+            Families can also review camps and club updates.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a
               href="/tryouts"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
             >
-              View Tryout Info <ArrowRight size={13} />
+              Supplemental Tryouts <ArrowRight size={13} />
             </a>
             <a
               href="/camps"
@@ -129,7 +130,7 @@ export function FuturesPage() {
         </div>
       </section>
 
-      <TryoutFlyers eyebrow="Futures + Tryouts" ctaHref="/tryouts" ctaLabel="View 2026 Tryouts" />
+      <SupplementalTryouts />
 
       {/* Stats strip */}
       <section className="py-14 px-6 bg-neutral-950 border-y border-white/[0.07]">

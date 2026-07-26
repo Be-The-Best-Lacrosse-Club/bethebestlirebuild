@@ -14,13 +14,13 @@ const teamLinks = (gender: string) => [
 const programLinks = [
   { label: "Boys Lacrosse", href: "/boys" },
   { label: "Girls Lacrosse", href: "/girls" },
-  { label: "2026 Tryouts", href: "/tryouts" },
+  { label: "Supplemental Tryouts", href: "/tryouts" },
   { label: "BTB Futures (K-2)", href: "/futures" },
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Recruiting", href: "/recruiting" },
 ]
 
-const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-tryouts", "/register-boys-tryouts", "/register-girls-tryouts", "/register-boys-east-tryouts", "/register-camp", "/register-positional", "/register-futures"])
+const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-camp", "/register-positional", "/register-futures"])
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -141,7 +141,7 @@ export function Header() {
             </div>
 
             <button onClick={() => go("/tryouts")} className="ml-2 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
-              Tryouts 2026
+              Supplemental Tryouts
             </button>
 
             <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
@@ -176,7 +176,7 @@ export function Header() {
                   <Lock size={11} className="inline mr-1" /> Login
                 </button>
                 <button onClick={() => go("/interest")} className={`px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
-                  Register
+                  Interest
                 </button>
               </div>
             )}
@@ -184,12 +184,12 @@ export function Header() {
 
           {/* Mobile/Tablet toggle — shows until the full menu has room */}
           <div className="min-[1380px]:hidden flex items-center gap-3">
-            {/* Tryouts pill — always visible on mobile */}
+            {/* Supplemental tryouts pill — always visible on mobile */}
             <button
               onClick={() => go("/tryouts")}
               className="px-3 py-1.5 text-[1.15rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
             >
-              Tryouts
+              Supplemental
             </button>
             <button
               className={`z-[60] transition-colors p-1 ${scrolled || mobileOpen ? "text-black" : "text-white"}`}
@@ -225,7 +225,7 @@ export function Header() {
                 onClick={() => go("/tryouts")}
                 className="py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
               >
-                Tryouts 2026
+                Supplemental Tryouts
               </button>
               <button
                 onClick={() => go("/interest")}
@@ -242,7 +242,7 @@ export function Header() {
                 links: [
                   { label: "Boys Program", href: "/boys" },
                   { label: "Girls Program", href: "/girls" },
-                  { label: "Tryouts", href: "/tryouts" },
+                  { label: "Supplemental Tryouts", href: "/tryouts" },
                   { label: "BTB Futures", href: "/futures" },
                   { label: "Camps & Clinics", href: "/camps" },
                 ],
