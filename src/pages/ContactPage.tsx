@@ -110,18 +110,18 @@ export function ContactPage() {
               </div>
             </a>
 
-            {/* Register */}
+            {/* Supplemental Tryouts */}
             <a
               href="/tryouts"
               className="group relative p-12 bg-black hover:bg-[var(--btb-red)] transition-all duration-300"
             >
               <ArrowRight size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
-              <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Register Now</h3>
+              <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Supplemental Tryouts</h3>
               <p className="text-white/70 group-hover:text-white/80 text-[1.1rem] font-medium transition-colors mb-6">
-                Ready to join? Register for the 2026 season.
+                View the updated boys and girls supplemental tryout schedule.
               </p>
               <div className="flex items-center gap-2 text-[1.0rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
-                Register for 2026 Tryouts
+                View Supplemental Tryouts
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </a>

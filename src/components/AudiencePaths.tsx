@@ -14,7 +14,7 @@ const paths = [
       { label: "Boys Overview →", href: "/boys" },
       { label: "Boys Teams →", href: "/boys/teams" },
     ],
-    cta: { label: "Boys Tryouts", href: "/register-boys-tryouts" },
+    cta: { label: "Boys Supplemental Tryouts", href: "/tryouts" },
     bgHover: "hover:bg-[var(--btb-red)]",
   },
   {
@@ -27,7 +27,7 @@ const paths = [
       { label: "Girls Overview →", href: "/girls" },
       { label: "Girls Teams →", href: "/girls/teams" },
     ],
-    cta: { label: "Girls Tryouts", href: "/register-girls-tryouts" },
+    cta: { label: "Girls Supplemental Tryouts", href: "/tryouts" },
     bgHover: "hover:bg-neutral-900",
   },
   {
@@ -40,7 +40,7 @@ const paths = [
       { label: "Futures Program →", href: "/futures" },
       { label: "Camps & Clinics →", href: "/camps" },
     ],
-    cta: { label: "Tryouts + Clinics", href: "/tryouts" },
+    cta: { label: "Supplemental Tryouts", href: "/tryouts" },
     bgHover: "hover:bg-neutral-900",
   },
 ]

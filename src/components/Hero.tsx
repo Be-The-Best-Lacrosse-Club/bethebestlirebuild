@@ -162,7 +162,7 @@ export function Hero() {
               style={{ transitionTimingFunction: ease }}
             />
             <span className="relative z-10 group-hover:text-black transition-colors duration-300 flex items-center gap-2">
-              Register for 2026 <ArrowRight size={13} />
+              Supplemental Tryouts <ArrowRight size={13} />
             </span>
           </a>
 

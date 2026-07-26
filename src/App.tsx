@@ -9,7 +9,7 @@ import { useEffect } from "react"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
-import { TryoutFlyers } from "@/components/TryoutFlyers"
+import { SupplementalTryouts } from "@/components/SupplementalTryouts"
 import { ChampionsShowcase } from "@/components/ChampionsShowcase"
 import { AudiencePaths } from "@/components/AudiencePaths"
 import { TheStandard } from "@/components/TheStandard"
@@ -65,7 +65,7 @@ function LandingPage() {
         ogImage={homeOgImage}
       />
       <Hero />
-      <TryoutFlyers includeEast={false} />
+      <SupplementalTryouts />
       <ChampionsShowcase />
       <AudiencePaths />
       <TheStandard />

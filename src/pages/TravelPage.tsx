@@ -9,7 +9,7 @@ export function TravelPage({ gender }: { gender: Gender }) {
   const data = programData[gender]
   const label = gender === "boys" ? "Boys" : "Girls"
   const anchorId = `apply-travel-${gender}`
-  const tryoutHref = gender === "boys" ? "/register-boys-tryouts" : "/register-girls-tryouts"
+  const tryoutHref = "/tryouts"
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -40,7 +40,7 @@ export function TravelPage({ gender }: { gender: Gender }) {
             BTB travel teams compete at the highest levels across Long Island and the Northeast. Every team carries a minimum 2-coach staff, runs the BTB curriculum, and requires weekly film study.
           </p>
           <a href={tryoutHref} className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
-            Apply for Travel <ArrowRight size={13} />
+            Supplemental Tryouts <ArrowRight size={13} />
           </a>
         </div>
       </section>
@@ -203,7 +203,7 @@ export function TravelPage({ gender }: { gender: Gender }) {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href={tryoutHref} className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
-                  Apply for Travel <ArrowRight size={13} />
+                  Supplemental Tryouts <ArrowRight size={13} />
                 </a>
                 <a href="/tryouts" className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
                   Tryout Details

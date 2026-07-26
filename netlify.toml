@@ -256,26 +256,90 @@
   to = "/admin/:splat"
   status = 200
 
-# Tryout registration form (QuickBooks $75 evaluation fee)
+# Retired tryout registration forms now point to the supplemental schedule.
 [[redirects]]
   from = "/register-tryouts"
-  to = "/register-tryouts.html"
-  status = 200
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-tryouts.html"
+  to = "/tryouts"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-boys-tryouts"
-  to = "/register-boys-tryouts.html"
-  status = 200
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-boys-tryouts.html"
+  to = "/tryouts"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-girls-tryouts"
-  to = "/register-girls-tryouts.html"
-  status = 200
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-girls-tryouts.html"
+  to = "/tryouts"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-boys-east-tryouts"
-  to = "/register-boys-east-tryouts.html"
-  status = 200
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-boys-east-tryouts.html"
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ad-tryouts.html"
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/tryouts/BTB_Boys_Tryouts_2026.jpg"
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/tryouts/BTB_Boys_Tryouts_2026.png"
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/tryouts/BTB_Girls_Tryouts_2026.jpg"
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/tryouts/BTB_Girls_Tryouts_2026.png"
+  to = "/tryouts"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/images/tryouts/BTB_East_Tryouts_2026.jpg"
+  to = "/tryouts"
+  status = 301
+  force = true
 
 # Join list static pages — must come BEFORE the SPA catch-all
 [[redirects]]
