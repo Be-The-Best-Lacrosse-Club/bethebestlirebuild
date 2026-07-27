@@ -19,6 +19,7 @@ import {
   CheckCircle2,
   ExternalLink,
   Lock,
+  PenTool,
 } from "lucide-react"
 
 // ─── Data ─────────────────────────────────────────────────────────────
@@ -63,6 +64,13 @@ const tools = [
 ]
 
 const resourceCards = [
+  {
+    title: "Coach's Whiteboard",
+    desc: "Interactive playbook generator — drop players on a half field, draw routes and passes, save plays, and export diagrams.",
+    href: "/coach-ed/whiteboard",
+    tag: "New",
+    icon: PenTool,
+  },
   {
     title: "Playbook Studio",
     desc: "Build, edit, and organize BTB playbook pages, installs, diagrams, and teaching resources.",

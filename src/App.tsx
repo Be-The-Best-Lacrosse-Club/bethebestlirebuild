@@ -5,7 +5,7 @@ import { PublicLayout } from "@/layouts/PublicLayout"
 import { HubLayout } from "@/layouts/HubLayout"
 import { ProtectedRoute } from "@/components/ProtectedRoute"
 import { SEO } from "@/components/shared/SEO"
-import { useEffect } from "react"
+import { lazy, Suspense, useEffect } from "react"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
@@ -47,6 +47,11 @@ import { FamilyHubPage } from "@/pages/FamilyHubPage"
 import { ScrollDemoPage } from "@/pages/ScrollDemoPage"
 import { ContactPage } from "@/pages/ContactPage"
 import { CoachToolsPage } from "@/pages/CoachToolsPage"
+
+// Lazy-loaded so konva/react-konva stay out of the main bundle
+const CoachWhiteboardPage = lazy(() =>
+  import("@/pages/CoachWhiteboardPage").then((m) => ({ default: m.CoachWhiteboardPage })),
+)
 import { LeadsPage } from "@/pages/LeadsPage"
 import homeContent from "@/content/home.json"
 
@@ -187,6 +192,20 @@ function App() {
               <Route path="/parent-hub" element={<ParentPortalPage />} />
               <Route path="/parent-portal" element={<ParentPortalPage />} />
               <Route path="/coach-tools" element={<CoachToolsPage />} />
+              <Route
+                path="/coach-ed/whiteboard"
+                element={
+                  <Suspense
+                    fallback={
+                      <div className="min-h-screen bg-black flex items-center justify-center">
+                        <div className="text-white/85 text-sm uppercase tracking-[2px]">Loading...</div>
+                      </div>
+                    }
+                  >
+                    <CoachWhiteboardPage />
+                  </Suspense>
+                }
+              />
               <Route element={<HubLayout />}>
                 <Route path="/boys/players" element={<DigitalAcademyHubPage gender="boys" />} />
                 <Route path="/boys/academy" element={<Navigate to="/boys/players" replace />} />
