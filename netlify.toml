@@ -256,42 +256,31 @@
   to = "/admin/:splat"
   status = 200
 
-# Retired tryout registration forms now point to the supplemental schedule.
+# Supplemental tryout registration form.
 [[redirects]]
   from = "/register-tryouts"
-  to = "/tryouts"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/register-tryouts.html"
-  to = "/tryouts"
-  status = 301
-  force = true
+  to = "/register-tryouts.html"
+  status = 200
 
 [[redirects]]
   from = "/register-boys-tryouts"
-  to = "/tryouts"
-  status = 301
-  force = true
+  to = "/register-tryouts.html"
+  status = 302
 
 [[redirects]]
   from = "/register-boys-tryouts.html"
-  to = "/tryouts"
-  status = 301
-  force = true
+  to = "/register-tryouts.html"
+  status = 302
 
 [[redirects]]
   from = "/register-girls-tryouts"
-  to = "/tryouts"
-  status = 301
-  force = true
+  to = "/register-tryouts.html"
+  status = 302
 
 [[redirects]]
   from = "/register-girls-tryouts.html"
-  to = "/tryouts"
-  status = 301
-  force = true
+  to = "/register-tryouts.html"
+  status = 302
 
 [[redirects]]
   from = "/register-boys-east-tryouts"

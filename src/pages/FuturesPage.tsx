@@ -104,7 +104,7 @@ export function FuturesPage() {
           </h1>
           <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
             Stimson and Seaford were both strong Futures events. The next clinic date will be announced soon.
-            Supplemental tryouts are Tuesday, July 28 at Plainedge Park.
+            Supplemental tryouts run Tuesday through Thursday, July 28–30, at Plainedge Park.
             Families can also review camps and club updates.
           </p>
           <div className="flex gap-3 flex-wrap">

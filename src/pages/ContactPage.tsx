@@ -118,7 +118,7 @@ export function ContactPage() {
               <ArrowRight size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
               <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Supplemental Tryouts</h3>
               <p className="text-white/70 group-hover:text-white/80 text-[1.1rem] font-medium transition-colors mb-6">
-                View the updated boys and girls supplemental tryout schedule.
+                View the Tuesday and Wednesday schedule or register for a Thursday evaluation.
               </p>
               <div className="flex items-center gap-2 text-[1.0rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
                 View Supplemental Tryouts

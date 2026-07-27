@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { ArrowRight, CalendarDays, Clock3, Mail, MapPin, Users } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
+import { SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL } from "@/lib/registrationLinks"
 
 const TRYOUT_DAYS = [
   {
@@ -44,7 +45,7 @@ export function TryoutsPage() {
     <div className="min-h-screen overflow-hidden bg-black text-white">
       <SEO
         title="Supplemental Tryouts | BTB Lacrosse"
-        description="BTB supplemental tryouts at Plainedge Park: girls on Tuesday, July 28, 2026 and boys on Wednesday, July 29, 2026."
+        description="BTB supplemental tryouts at Plainedge Park: girls Tuesday, boys Wednesday, and open-registration 20-minute evaluations Thursday."
         path="/tryouts"
       />
 
@@ -59,7 +60,7 @@ export function TryoutsPage() {
           <div className="mb-12 max-w-[870px] sm:mb-16">
             <div className="mb-6 flex items-start gap-3 font-mono text-sm font-bold uppercase tracking-[3px] text-[var(--btb-red)] sm:items-center sm:text-base sm:tracking-[5px]">
               <span className="mt-2 h-px w-8 shrink-0 bg-[var(--btb-red)] sm:mt-0" />
-              <span className="min-w-0">Girls Tuesday · Boys Wednesday</span>
+              <span className="min-w-0">Tuesday · Wednesday · Thursday</span>
             </div>
             <h1 className="font-display text-[clamp(3rem,10vw,7.5rem)] uppercase leading-[0.82] tracking-wide">
               Supplemental
@@ -67,12 +68,31 @@ export function TryoutsPage() {
               <span className="text-[var(--btb-red)]">Tryouts.</span>
             </h1>
             <p className="mt-8 max-w-[680px] text-lg font-medium leading-relaxed text-white/70 sm:text-xl">
-              Two mornings at Plainedge Park. Girls try out Tuesday and boys try out
-              Wednesday. Find your graduation-year time below.
+              Two group tryout mornings at Plainedge Park: girls Tuesday and boys
+              Wednesday. Thursday is open to anyone for individual 20-minute evaluations.
             </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
+                className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)]"
+              >
+                Register for Thursday
+                <ArrowRight size={14} />
+              </a>
+              <a
+                href="#supplemental-times"
+                className="inline-flex items-center justify-center gap-3 border border-white/20 px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:border-white/40 hover:bg-white/[0.06]"
+              >
+                View All Times
+                <Clock3 size={15} />
+              </a>
+            </div>
           </div>
 
-          <div className="grid overflow-hidden border border-white/10 bg-white/[0.025] lg:grid-cols-[0.68fr_1.32fr]">
+          <div
+            id="supplemental-times"
+            className="grid scroll-mt-28 overflow-hidden border border-white/10 bg-white/[0.025] lg:grid-cols-[0.68fr_1.32fr]"
+          >
             <div className="border-b border-white/10 p-7 sm:p-10 lg:border-b-0 lg:border-r">
               <div className="mb-10 space-y-7">
                 <div>
@@ -91,6 +111,14 @@ export function TryoutsPage() {
                         </div>
                       </div>
                     ))}
+                    <div>
+                      <div className="font-display text-3xl uppercase tracking-wide sm:text-4xl">
+                        Thursday
+                      </div>
+                      <div className="mt-1 text-sm font-bold uppercase tracking-[1.5px] text-white/55">
+                        July 30, 2026 · Open Registration
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -107,10 +135,13 @@ export function TryoutsPage() {
                 <div>
                   <div className="mb-3 flex items-center gap-3 text-sm font-black uppercase tracking-[2.5px] text-[var(--btb-red)]">
                     <Clock3 size={17} />
-                    Event Window
+                    Tuesday &amp; Wednesday
                   </div>
                   <div className="font-display text-[1.75rem] uppercase tracking-wide sm:text-4xl">
                     9:00–11:00 AM
+                  </div>
+                  <div className="mt-2 text-sm font-bold uppercase tracking-[1.5px] text-white/45">
+                    Thursday times confirmed after registration
                   </div>
                 </div>
               </div>
@@ -118,10 +149,11 @@ export function TryoutsPage() {
               <div className="border-t border-white/10 pt-7">
                 <div className="mb-2 flex items-center gap-2 text-sm font-black uppercase tracking-[2px] text-white">
                   <Users size={16} className="text-[var(--btb-red)]" />
-                  Girls &amp; Boys
+                  Three-Day Schedule
                 </div>
                 <p className="text-base leading-relaxed text-white/60">
-                  Girls graduation years 2037–2031. Boys graduation years 2037–2030.
+                  Scheduled group tryouts Tuesday and Wednesday. Open individual
+                  evaluations Thursday.
                 </p>
               </div>
             </div>
@@ -172,6 +204,41 @@ export function TryoutsPage() {
                     </div>
                   </div>
                 ))}
+
+                <div className="border border-[var(--btb-red)]/40 bg-[var(--btb-red)]/[0.08] p-6 sm:p-7">
+                  <div className="mb-5 flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-5">
+                    <div>
+                      <div className="font-mono text-sm font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
+                        Open Registration
+                      </div>
+                      <div className="mt-1 font-display text-3xl uppercase tracking-wide text-white sm:text-4xl">
+                        Thursday
+                      </div>
+                    </div>
+                    <div className="text-sm font-black uppercase tracking-[1.5px] text-white/45 sm:text-right">
+                      July 30, 2026
+                    </div>
+                  </div>
+
+                  <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-center">
+                    <div>
+                      <div className="font-display text-[1.9rem] uppercase leading-none tracking-wide text-white sm:text-[2.2rem]">
+                        20-Minute Evaluations
+                      </div>
+                      <p className="mt-3 max-w-[430px] text-base leading-relaxed text-white/60">
+                        Open to anyone. Register below and BTB will confirm your individual
+                        evaluation time.
+                      </p>
+                    </div>
+                    <a
+                      href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
+                      className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-6 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)]"
+                    >
+                      Register
+                      <ArrowRight size={14} />
+                    </a>
+                  </div>
+                </div>
               </div>
 
               <div className="mt-8 border-t border-white/10 pt-7">
