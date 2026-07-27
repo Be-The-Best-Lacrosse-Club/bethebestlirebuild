@@ -16,7 +16,11 @@ function getGenderFromPath(pathname: string): Gender | null {
  * Checks if a route is a coaches-hub route.
  */
 function isCoachRoute(pathname: string): boolean {
-  return pathname.includes("/coaches-hub") || pathname === "/coach-tools"
+  return (
+    pathname.includes("/coaches-hub") ||
+    pathname === "/coach-tools" ||
+    pathname.startsWith("/coach-ed")
+  )
 }
 
 export function ProtectedRoute() {
