@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/context/AuthContext"
-import { isSupabaseConfigured } from "@/lib/supabase"
 import {
   savePlay,
   listPlays,
@@ -137,8 +136,10 @@ export function Whiteboard() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [title, setTitle] = useState("")
   const [saving, setSaving] = useState(false)
+  const savingRef = useRef(false)
   const [plays, setPlays] = useState<SavedPlay[]>([])
   const [loadingPlays, setLoadingPlays] = useState(false)
+  const [cloudReady, setCloudReady] = useState(false)
 
   // Responsive stage scale
   const containerRef = useRef<HTMLDivElement>(null)
@@ -210,6 +211,32 @@ export function Whiteboard() {
     if (hitPlayerIds.size > 0) setPlayers(players.filter((p) => !hitPlayerIds.has(p.id)))
   }
 
+  // ── Gesture cancellation ──────────────────────────────────────────────────
+  // Konva never re-emits DOM touchcancel/pointercancel as Stage events, so an
+  // interrupted stroke (system gesture, rotation, notification shade) would
+  // leave drawingRef armed and later commit a phantom line. Reset on native
+  // cancel events and on every tool switch.
+
+  const cancelGesture = useCallback(() => {
+    drawingRef.current = false
+    erasingRef.current = false
+    setDraftLine(null)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener("pointercancel", cancelGesture)
+    window.addEventListener("touchcancel", cancelGesture)
+    return () => {
+      window.removeEventListener("pointercancel", cancelGesture)
+      window.removeEventListener("touchcancel", cancelGesture)
+    }
+  }, [cancelGesture])
+
+  const selectTool = (next: Tool) => {
+    cancelGesture()
+    setTool(next)
+  }
+
   // ── Stage pointer handlers (drawing + erasing) ────────────────────────────
 
   const getFieldPos = (): { x: number; y: number } | null => {
@@ -238,9 +265,10 @@ export function Whiteboard() {
     const pos = getFieldPos()
     if (!pos) return
     if (erasingRef.current) {
-      eraseAt(pos.x, pos.y)
+      if (tool === "erase") eraseAt(pos.x, pos.y)
       return
     }
+    if (tool !== "route" && tool !== "pass") return
     setDraftLine((prev) => {
       if (!prev) return prev
       const pts = prev.points
@@ -256,7 +284,7 @@ export function Whiteboard() {
     erasingRef.current = false
     if (!drawingRef.current) return
     drawingRef.current = false
-    if (draftLine && draftLine.points.length >= 4) {
+    if (draftLine && draftLine.points.length >= 4 && (tool === "route" || tool === "pass")) {
       pushHistory()
       setLines([...lines, draftLine])
     }
@@ -280,11 +308,18 @@ export function Whiteboard() {
     if (!user) return
     setLoadingPlays(true)
     try {
-      setPlays(await listPlays(user))
+      const result = await listPlays(user)
+      setPlays(result.plays)
+      setCloudReady(result.cloud)
     } finally {
       setLoadingPlays(false)
     }
   }, [user])
+
+  // Probe the cloud playbook on mount so the sync badge reflects reality
+  useEffect(() => {
+    void refreshPlays()
+  }, [refreshPlays])
 
   const openDialog = () => {
     setDialogOpen(true)
@@ -292,15 +327,20 @@ export function Whiteboard() {
   }
 
   const handleSave = async () => {
+    // Ref, not the `saving` state, so a second Enter during the same render
+    // can't slip through and insert a duplicate play
+    if (savingRef.current) return
     if (!user) return
     if (boardIsEmpty) {
       toast.error("Nothing to save yet — add players or draw a route first.")
       return
     }
+    savingRef.current = true
     setSaving(true)
     try {
       const state: CanvasState = { players, lines }
       const play = await savePlay(user, title.trim() || "Untitled Play", state)
+      if (play.source === "cloud") setCloudReady(true)
       toast.success(`"${play.title}" saved`, {
         description:
           play.source === "cloud" ? "Saved to your cloud playbook." : "Saved on this device.",
@@ -312,6 +352,7 @@ export function Whiteboard() {
         description: err instanceof Error ? err.message : undefined,
       })
     } finally {
+      savingRef.current = false
       setSaving(false)
     }
   }
@@ -387,8 +428,6 @@ export function Whiteboard() {
         : "bg-white/[0.04] border-white/[0.1] text-white/80 hover:border-white/30 hover:bg-white/[0.08]"
     }`
 
-  const cloudReady = isSupabaseConfigured()
-
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       {/* ── Toolbar ─────────────────────────────────────────────────────── */}
@@ -419,7 +458,7 @@ export function Whiteboard() {
           <div className="grid grid-cols-2 lg:grid-cols-1 gap-2" role="group" aria-label="Drawing tools">
             <button
               type="button"
-              onClick={() => setTool("select")}
+              onClick={() => selectTool("select")}
               className={toolButton(tool === "select")}
               aria-pressed={tool === "select"}
             >
@@ -427,7 +466,7 @@ export function Whiteboard() {
             </button>
             <button
               type="button"
-              onClick={() => setTool("route")}
+              onClick={() => selectTool("route")}
               className={toolButton(tool === "route")}
               aria-pressed={tool === "route"}
             >
@@ -435,7 +474,7 @@ export function Whiteboard() {
             </button>
             <button
               type="button"
-              onClick={() => setTool("pass")}
+              onClick={() => selectTool("pass")}
               className={toolButton(tool === "pass")}
               aria-pressed={tool === "pass"}
             >
@@ -443,7 +482,7 @@ export function Whiteboard() {
             </button>
             <button
               type="button"
-              onClick={() => setTool("erase")}
+              onClick={() => selectTool("erase")}
               className={toolButton(tool === "erase")}
               aria-pressed={tool === "erase"}
             >
@@ -597,7 +636,7 @@ export function Whiteboard() {
             <DialogDescription className="text-white/45">
               {cloudReady
                 ? "Plays are saved to your BTB cloud playbook and available on any device."
-                : "Cloud sync isn't configured — plays are saved in this browser."}
+                : "Cloud sync isn't available right now — plays are saved in this browser."}
             </DialogDescription>
           </DialogHeader>
 
@@ -606,10 +645,11 @@ export function Whiteboard() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") void handleSave()
+                if (e.key === "Enter" && !e.repeat) void handleSave()
               }}
               placeholder="Play name — e.g. 2-3-1 Backside Fade"
               aria-label="Play name"
+              disabled={saving}
               className="bg-white/5 border-white/15 text-white placeholder:text-white/30"
             />
             <button

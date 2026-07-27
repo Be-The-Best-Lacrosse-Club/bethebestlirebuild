@@ -1,15 +1,17 @@
 -- ─────────────────────────────────────────────────────────────────────────────
 -- BTB Lacrosse — Supabase schema
 --
--- Run this in the Supabase SQL editor (or `supabase db push`) for the project
--- referenced by VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY.
+-- Run this in the Supabase SQL editor (or `supabase db push`), then set
+-- SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY as Netlify site env vars so
+-- netlify/functions/playbook.js can reach the database. No Supabase key is
+-- ever shipped to the browser.
 -- ─────────────────────────────────────────────────────────────────────────────
 
 -- ── users ────────────────────────────────────────────────────────────────────
--- App-level profile row for every coach/player. The site currently signs users
--- in through Netlify Identity, so this table is keyed by that identity's UUID
--- rather than Supabase Auth. Rows are upserted lazily by the client the first
--- time a coach saves a play.
+-- App-level profile row for every coach/player. The site signs users in
+-- through Netlify Identity, so this table is keyed by that identity's UUID
+-- rather than Supabase Auth. Rows are upserted lazily by the playbook
+-- function the first time a coach saves a play.
 create table if not exists public.users (
   id         uuid primary key,
   email      text not null,
@@ -34,22 +36,14 @@ create index if not exists playbook_coach_id_created_at_idx
   on public.playbook (coach_id, created_at desc);
 
 -- ── Row Level Security ───────────────────────────────────────────────────────
+-- RLS is enabled with NO policies, so the public anon key gets zero access to
+-- these tables. All reads and writes go through netlify/functions/playbook.js,
+-- which verifies the caller's Netlify Identity JWT and uses the service-role
+-- key (the service role bypasses RLS). Never add `using (true)` policies here
+-- — that would let anyone holding the site's anon key read or delete every
+-- coach's plays. If the app later adopts Supabase Auth, add per-coach policies
+-- instead, e.g.:
+--   create policy "own plays" on public.playbook for all
+--     using (auth.uid() = coach_id) with check (auth.uid() = coach_id);
 alter table public.users    enable row level security;
 alter table public.playbook enable row level security;
-
--- The SPA authenticates via Netlify Identity, not Supabase Auth, so requests
--- arrive under the `anon` role. These policies allow the anon key to read and
--- write; scoping to a single coach happens in the client (coach_id filter).
--- If the site later moves to Supabase Auth, replace these with policies that
--- check `auth.uid() = coach_id` / `auth.uid() = id`.
-drop policy if exists "users upsert via anon key" on public.users;
-create policy "users upsert via anon key"
-  on public.users for all
-  using (true)
-  with check (true);
-
-drop policy if exists "playbook crud via anon key" on public.playbook;
-create policy "playbook crud via anon key"
-  on public.playbook for all
-  using (true)
-  with check (true);
