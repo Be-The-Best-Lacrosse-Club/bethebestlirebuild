@@ -1,7 +1,15 @@
 import { ArrowRight, CalendarDays, Clock3, MapPin, Users } from "lucide-react"
 import { SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL } from "@/lib/registrationLinks"
 
-const tryoutDays = [
+type TryoutDay = {
+  day: string
+  date: string
+  group: string
+  full?: boolean
+  slots: { time: string; years: string }[]
+}
+
+const tryoutDays: TryoutDay[] = [
   {
     day: "Tuesday",
     date: "July 28",
@@ -19,6 +27,13 @@ const tryoutDays = [
       { time: "9–10 AM", years: "2037–2034" },
       { time: "10–11 AM", years: "2033–2030" },
     ],
+  },
+  {
+    day: "Thursday",
+    date: "July 30",
+    group: "Open",
+    full: true,
+    slots: [{ time: "9–11 AM · 20-min slots", years: "2037–2030" }],
   },
 ]
 
@@ -48,7 +63,12 @@ export function SupplementalTryouts() {
         <div>
           <div className="grid gap-3 sm:grid-cols-2">
             {tryoutDays.map((tryoutDay) => (
-              <div key={tryoutDay.day} className="border border-white/10 bg-black/35 p-6">
+              <div
+                key={tryoutDay.day}
+                className={`border border-white/10 bg-black/35 p-6 ${
+                  tryoutDay.full ? "sm:col-span-2" : ""
+                }`}
+              >
                 <div className="mb-5 border-b border-white/10 pb-4">
                   <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[2px] text-[var(--btb-red)]">
                     <CalendarDays size={14} />
@@ -75,44 +95,23 @@ export function SupplementalTryouts() {
               </div>
             ))}
 
-            <div className="border border-[var(--btb-red)]/40 bg-[var(--btb-red)]/[0.08] p-6 sm:col-span-2">
-              <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-center">
-                <div>
-                  <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[2px] text-[var(--btb-red)]">
-                    <CalendarDays size={14} />
-                    July 30
-                  </div>
-                  <div className="font-display text-3xl uppercase tracking-wide text-white">
-                    Thursday · Open Evaluations
-                  </div>
-                  <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs font-black uppercase tracking-[1.5px] text-white/55">
-                    <span className="flex items-center gap-2">
-                      <Users size={14} />
-                      Anyone Can Register
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <Clock3 size={14} className="text-[var(--btb-red)]" />
-                      20-Minute Evaluations
-                    </span>
-                  </div>
-                </div>
-                <a
-                  href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
-                  className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-6 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)]"
-                >
-                  Register
-                  <ArrowRight size={14} />
-                </a>
-              </div>
-            </div>
           </div>
-          <a
-            href="/tryouts"
-            className="mt-4 inline-flex w-full items-center justify-center gap-3 bg-[var(--btb-red)] px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)] sm:w-auto"
-          >
-            View Full Schedule
-            <ArrowRight size={14} />
-          </a>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
+              className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)]"
+            >
+              Register
+              <ArrowRight size={14} />
+            </a>
+            <a
+              href="/tryouts"
+              className="inline-flex items-center justify-center gap-3 border border-white/20 px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:border-white/40 hover:bg-white/[0.06]"
+            >
+              View Full Schedule
+              <ArrowRight size={14} />
+            </a>
+          </div>
         </div>
       </div>
     </section>
