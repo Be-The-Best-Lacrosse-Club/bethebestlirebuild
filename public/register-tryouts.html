@@ -6,7 +6,7 @@
   <title>BTB Supplemental Tryout Registration | $75</title>
   <meta
     name="description"
-    content="Register for a BTB Lacrosse supplemental tryout evaluation on Thursday, July 30, 2026, at Plainedge Park."
+    content="Register for a BTB Lacrosse supplemental tryout at Plainedge Park. Choose your date and time: girls Tuesday July 28, boys Wednesday July 29, or an individual 20-minute evaluation Thursday July 30."
   >
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
@@ -213,6 +213,24 @@
       resize: vertical;
     }
 
+    select:disabled {
+      color: #6c6c6c;
+      background: #141414;
+      cursor: not-allowed;
+    }
+
+    .session-hint {
+      margin-top: 7px;
+      color: #888;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .session-hint.empty {
+      color: var(--red);
+      font-weight: 600;
+    }
+
     .sms-consent {
       margin-top: 7px;
       color: #777;
@@ -321,15 +339,15 @@
 
   <main class="container">
     <section class="event-card" aria-labelledby="event-title">
-      <h2 id="event-title">Thursday Open Evaluations</h2>
+      <h2 id="event-title">Supplemental Evaluations</h2>
       <p>
-        Open to boys and girls. Submit the player information below, complete the secure
-        QuickBooks payment, and BTB will confirm the individual evaluation time.
+        Open to boys and girls. Enter the player’s grad year and program below, choose the
+        date and time that works for you, then complete the secure QuickBooks payment.
       </p>
       <div class="event-facts">
         <div class="fact">
-          <div class="fact-label">Date</div>
-          <div class="fact-value">July 30, 2026</div>
+          <div class="fact-label">Dates</div>
+          <div class="fact-value">July 28–30, 2026</div>
         </div>
         <div class="fact">
           <div class="fact-label">Location</div>
@@ -337,7 +355,7 @@
         </div>
         <div class="fact">
           <div class="fact-label">Format</div>
-          <div class="fact-value">20 Minutes</div>
+          <div class="fact-value">Group or 1-on-1</div>
         </div>
       </div>
     </section>
@@ -365,7 +383,7 @@
       <input type="hidden" name="program" value="BTB Supplemental Tryouts">
       <input type="hidden" name="amount" value="75">
       <input type="hidden" name="payment_status" value="Pending QuickBooks payment">
-      <input type="hidden" name="registration_type" value="Thursday 20-minute supplemental evaluation">
+      <input type="hidden" name="registration_type" value="Supplemental tryout">
       <p hidden>
         <label>Do not fill this out: <input name="bot-field"></label>
       </p>
@@ -430,6 +448,20 @@
           <label for="schoolTown">School / Town</label>
           <input id="schoolTown" type="text" name="school_town" placeholder="e.g. Massapequa">
         </div>
+      </div>
+
+      <div class="section-label">Choose Your Date &amp; Time</div>
+
+      <div class="field">
+        <label for="session">Evaluation Session<span class="req">*</span></label>
+        <select id="session" name="session" required disabled>
+          <option value="">Select a grad year and program first</option>
+        </select>
+        <p class="session-hint" id="sessionHint">
+          Sessions are shown once you select the player’s grad year and program above.
+          Tuesday is girls, Wednesday is boys, and Thursday is open to everyone for
+          individual 20-minute evaluations.
+        </p>
       </div>
 
       <div class="section-label">Parent / Guardian</div>
@@ -541,6 +573,87 @@
     const form = document.getElementById("regForm");
     const submitBtn = document.getElementById("submitBtn");
     const errorMsg = document.getElementById("errorMsg");
+    const genderSelect = document.getElementById("gender");
+    const gradYearSelect = document.getElementById("gradYear");
+    const sessionSelect = document.getElementById("session");
+    const sessionHint = document.getElementById("sessionHint");
+
+    // Tuesday = girls group, Wednesday = boys group, Thursday = open 20-minute evaluations.
+    const THURSDAY_SLOTS = [
+      "9:00–9:20 AM",
+      "9:20–9:40 AM",
+      "9:40–10:00 AM",
+      "10:00–10:20 AM",
+      "10:20–10:40 AM",
+      "10:40–11:00 AM",
+    ];
+
+    const SESSIONS = [
+      { day: "Tuesday", date: "July 28", time: "9:00–10:00 AM", gender: "Girls", years: ["2034", "2035", "2036", "2037"], type: "Group tryout" },
+      { day: "Tuesday", date: "July 28", time: "10:00–11:00 AM", gender: "Girls", years: ["2031", "2032", "2033"], type: "Group tryout" },
+      { day: "Wednesday", date: "July 29", time: "9:00–10:00 AM", gender: "Boys", years: ["2034", "2035", "2036", "2037"], type: "Group tryout" },
+      { day: "Wednesday", date: "July 29", time: "10:00–11:00 AM", gender: "Boys", years: ["2030", "2031", "2032", "2033"], type: "Group tryout" },
+      ...THURSDAY_SLOTS.map((time) => ({
+        day: "Thursday",
+        date: "July 30",
+        time,
+        gender: "Any",
+        years: ALLOWED_GRAD_YEARS,
+        type: "20-minute individual evaluation",
+      })),
+    ];
+
+    function sessionLabel(session) {
+      const suffix = session.gender === "Any" ? "20-min evaluation" : `${session.gender} group`;
+      return `${session.day}, ${session.date} · ${session.time} · ${suffix}`;
+    }
+
+    function availableSessions(gender, gradYear) {
+      if (!gender || !gradYear) return [];
+      return SESSIONS.filter(
+        (session) =>
+          (session.gender === "Any" || session.gender === gender) &&
+          session.years.includes(gradYear)
+      );
+    }
+
+    function refreshSessions() {
+      const gender = genderSelect.value;
+      const gradYear = gradYearSelect.value;
+      const previous = sessionSelect.value;
+      const matches = availableSessions(gender, gradYear);
+
+      sessionSelect.innerHTML = "";
+      sessionHint.classList.remove("empty");
+
+      if (!matches.length) {
+        sessionSelect.disabled = true;
+        sessionSelect.appendChild(new Option("Select a grad year and program first", ""));
+        sessionHint.textContent =
+          "Sessions are shown once you select the player’s grad year and program above. " +
+          "Tuesday is girls, Wednesday is boys, and Thursday is open to everyone for " +
+          "individual 20-minute evaluations.";
+        return;
+      }
+
+      sessionSelect.disabled = false;
+      sessionSelect.appendChild(new Option("Select a date and time", ""));
+      for (const session of matches) {
+        const label = sessionLabel(session);
+        const option = new Option(label, label);
+        if (label === previous) option.selected = true;
+        sessionSelect.appendChild(option);
+      }
+
+      const groupDay = matches.find((session) => session.gender !== "Any");
+      sessionHint.textContent = groupDay
+        ? `${gradYear} ${gender.toLowerCase()} can attend the ${groupDay.day} group tryout or any open Thursday 20-minute evaluation.`
+        : `Thursday 20-minute evaluations are open to ${gradYear} ${gender.toLowerCase()}. Slots are first come, first served.`;
+    }
+
+    genderSelect.addEventListener("change", refreshSessions);
+    gradYearSelect.addEventListener("change", refreshSessions);
+    refreshSessions();
 
     function digitsOnly(value) {
       return String(value || "").replace(/\D/g, "");
@@ -551,7 +664,14 @@
       const dob = String(formData.get("player_dob") || "");
       const dobDate = new Date(`${dob}T00:00:00`);
 
+      const gender = String(formData.get("program_gender") || "");
+      const session = String(formData.get("session") || "");
+
       if (!ALLOWED_GRAD_YEARS.includes(gradYear)) return "Please select a valid graduation year.";
+      if (!session) return "Please choose an evaluation date and time.";
+      if (!availableSessions(gender, gradYear).some((item) => sessionLabel(item) === session)) {
+        return "That session is not available for the selected grad year and program. Please choose again.";
+      }
       if (!dob || Number.isNaN(dobDate.getTime())) return "Please enter a valid date of birth.";
       if (dobDate < new Date("2008-01-01T00:00:00") || dobDate > new Date("2020-12-31T00:00:00")) {
         return "Please check the date of birth. For placement help, email info@bethebestli.com.";
@@ -585,6 +705,16 @@
       formData.set("registration_reference", referenceId);
       formData.set("referrer", document.referrer || "direct");
 
+      const chosen = availableSessions(
+        String(formData.get("program_gender") || ""),
+        String(formData.get("grad_year") || "")
+      ).find((item) => sessionLabel(item) === String(formData.get("session") || ""));
+      if (chosen) {
+        formData.set("registration_type", chosen.type);
+        formData.set("session_day", `${chosen.day}, ${chosen.date}, 2026`);
+        formData.set("session_time", chosen.time);
+      }
+
       const params = new URLSearchParams();
       for (const [key, value] of formData.entries()) {
         params.append(key, String(value).trim());
@@ -605,6 +735,7 @@
           JSON.stringify({
             program: "BTB Supplemental Tryouts",
             player: playerName,
+            session: formData.get("session"),
             email: formData.get("parent_email"),
             refId: referenceId,
             paymentStatus: "pending",

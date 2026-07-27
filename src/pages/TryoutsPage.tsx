@@ -76,7 +76,7 @@ export function TryoutsPage() {
                 href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
                 className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)]"
               >
-                Register for Thursday
+                Register
                 <ArrowRight size={14} />
               </a>
               <a
@@ -141,7 +141,7 @@ export function TryoutsPage() {
                     9:00–11:00 AM
                   </div>
                   <div className="mt-2 text-sm font-bold uppercase tracking-[1.5px] text-white/45">
-                    Thursday times confirmed after registration
+                    Thursday 20-minute slots · 9:00–11:00 AM
                   </div>
                 </div>
               </div>
@@ -226,8 +226,8 @@ export function TryoutsPage() {
                         20-Minute Evaluations
                       </div>
                       <p className="mt-3 max-w-[430px] text-base leading-relaxed text-white/60">
-                        Open to anyone. Register below and BTB will confirm your individual
-                        evaluation time.
+                        Open to anyone, 9:00–11:00 AM. Pick your 20-minute slot when you
+                        register.
                       </p>
                     </div>
                     <a
