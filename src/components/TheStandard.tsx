@@ -6,7 +6,7 @@ const pillars = [
   {
     title: "Hard Work",
     icon: Hammer,
-    text: "We don't sell shortcuts. Every spot on our 22 teams is earned through grit and consistent effort. Our athletes embrace the grind because they know it's the only path to the top."
+    text: "We don't sell shortcuts. Every spot on our 23 teams is earned through grit and consistent effort. Our athletes embrace the grind because they know it's the only path to the top."
   },
   {
     title: "Accountability",

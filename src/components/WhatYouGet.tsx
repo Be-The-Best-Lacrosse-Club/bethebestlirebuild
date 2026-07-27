@@ -45,7 +45,7 @@ const benefits = [
 const stats = [
   { val: "450+", label: "Players Developed" },
   { val: "125hrs", label: "Film Library" },
-  { val: "22", label: "Elite Teams" },
+  { val: "23", label: "Elite Teams" },
   { val: "2021", label: "Est. Long Island" },
 ]
 

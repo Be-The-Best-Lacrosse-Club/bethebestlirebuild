@@ -91,7 +91,7 @@ export function FeaturedCoaches() {
                 Rutgers lacrosse alum, Plainedge varsity head coach, and the founder of Be The Best. I started BTB in 2021 with one team and one belief: that every kid who walks in deserves to be coached like the work matters. Because it does.
               </p>
               <p>
-                Five years later, we're 22 elite teams, 450+ players, and 45+ coaches — Boys and Girls, K through sophomore year. None of that happened because of me. It happened because of the players who kept showing up, the coaches who poured themselves into it, and the families who trusted us with something that matters more than lacrosse.
+                Five years later, we're 23 elite teams, 450+ players, and 45+ coaches — Boys and Girls, K through sophomore year. None of that happened because of me. It happened because of the players who kept showing up, the coaches who poured themselves into it, and the families who trusted us with something that matters more than lacrosse.
               </p>
               <p>
                 The culture we built on day one — show up early, own your reps, watch the film, lift each other — that's not something I invented. It's something we earned together. <span className="text-white">I'm proud of what this club has become. More than that, I'm proud of who it's become.</span> That's the thing we protect above everything else.

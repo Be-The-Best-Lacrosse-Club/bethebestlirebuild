@@ -31,7 +31,7 @@ const testimonials = [
 
 const stats = [
   { num: "450+", label: "Players Trained" },
-  { num: "22", label: "Elite Teams" },
+  { num: "23", label: "Elite Teams" },
   { num: "2+", label: "Coaches Per Team" },
   { num: "45+", label: "Certified Coaches" },
 ]
