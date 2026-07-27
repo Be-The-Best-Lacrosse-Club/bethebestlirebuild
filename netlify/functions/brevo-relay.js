@@ -551,7 +551,7 @@ function tryoutRowsFromSubmission({ formName, data, submissionTime, submissionId
   const rosterRow = [
     "",
     "",
-    "",
+    clean(data.session),
     gradYear,
     lastName,
     firstName,
@@ -678,7 +678,8 @@ function mergeRosterRow(existing, next) {
   const merged = next.slice();
   merged[0] = existing[0] || "";
   merged[1] = existing[1] || "";
-  merged[2] = existing[2] || "";
+  // Keep a staff-assigned eval group, but fall back to the session picked at registration.
+  merged[2] = existing[2] || next[2] || "";
   const count = Math.max(Number(existing[16]) || 1, 1) + 1;
   merged[16] = count;
   merged[17] = "Review";
@@ -690,7 +691,7 @@ function mergeAllRosterRow(existing, next) {
   const merged = next.slice();
   merged[1] = existing[1] || "";
   merged[2] = existing[2] || "";
-  merged[3] = existing[3] || "";
+  merged[3] = existing[3] || next[3] || "";
   const count = Math.max(Number(existing[17]) || 1, 1) + 1;
   merged[17] = count;
   merged[18] = "Review";
@@ -950,11 +951,15 @@ const CONFIRMATION_CONFIG = {
     getHtml: (data) => {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      const session = String(data.session || "").trim();
+      const sessionLine = session
+        ? `Session selected: ${session} at Plainedge Park. `
+        : "";
       return confirmationBase({
         parentFirst,
         playerName,
         program: "BTB Supplemental Tryouts 2026",
-        details: "Your registration details are saved. Complete the secure $75 QuickBooks payment to finalize registration. BTB will then confirm the individual 20-minute evaluation time.",
+        details: `${sessionLine}Your registration details are saved. Complete the secure $75 QuickBooks payment to finalize registration.`,
         cta: "COMPLETE PAYMENT",
         ctaUrl: "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-7970852e308b44d9aa7e9d9dc98e9546db991b33985344129932805af4b0c571c7bdd588f3a14c1093ca48e70401ddc6?locale=EN_US",
       });
