@@ -325,10 +325,11 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
   const [activeTab, setActiveTab] = useState<Tab>("dashboard")
 
   // ── Grad-year courses ─────────────────────────────────────────────────────
+  const gradYear = user?.gradYear
   const gradCourses = useMemo(() => {
-    if (user?.gradYear) return getCoursesByGradYear(gender, user.gradYear)
+    if (gradYear) return getCoursesByGradYear(gender, gradYear)
     return getCourses(gender)
-  }, [gender, user?.gradYear])
+  }, [gender, gradYear])
   const [activeCourse, setActiveCourse] = useState<Course | null>(null)
 
   // ── Academy (pillar courses) ──────────────────────────────────────────────

@@ -227,7 +227,7 @@ export function LeadsPage() {
               {filtered.map((s) => {
                 const isOpen = expanded === s.id
                 let raw: Record<string, unknown> | null = null
-                try { raw = s["Raw Payload"] ? JSON.parse(s["Raw Payload"]) : null } catch { raw = null }
+                try { raw = s["Raw Payload"] ? JSON.parse(s["Raw Payload"]) : null } catch { /* Ignore malformed archived payloads. */ }
                 return (
                   <div key={s.id} className="border border-white/8 bg-white/[0.02] rounded-xl overflow-hidden">
                     <button
