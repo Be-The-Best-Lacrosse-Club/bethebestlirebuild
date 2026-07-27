@@ -1,9 +1,7 @@
 import { useEffect } from "react"
 import { ArrowRight, CalendarDays, Clock3, Mail, MapPin, Users } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
-
-const THURSDAY_REGISTRATION_URL =
-  "/interest?source=thursday-evaluation&category=Tryouts&notes=Thursday%2020-minute%20supplemental%20evaluation"
+import { SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL } from "@/lib/registrationLinks"
 
 const TRYOUT_DAYS = [
   {
@@ -73,9 +71,28 @@ export function TryoutsPage() {
               Two group tryout mornings at Plainedge Park: girls Tuesday and boys
               Wednesday. Thursday is open to anyone for individual 20-minute evaluations.
             </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
+                className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)]"
+              >
+                Register for Thursday
+                <ArrowRight size={14} />
+              </a>
+              <a
+                href="#supplemental-times"
+                className="inline-flex items-center justify-center gap-3 border border-white/20 px-7 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:border-white/40 hover:bg-white/[0.06]"
+              >
+                View All Times
+                <Clock3 size={15} />
+              </a>
+            </div>
           </div>
 
-          <div className="grid overflow-hidden border border-white/10 bg-white/[0.025] lg:grid-cols-[0.68fr_1.32fr]">
+          <div
+            id="supplemental-times"
+            className="grid scroll-mt-28 overflow-hidden border border-white/10 bg-white/[0.025] lg:grid-cols-[0.68fr_1.32fr]"
+          >
             <div className="border-b border-white/10 p-7 sm:p-10 lg:border-b-0 lg:border-r">
               <div className="mb-10 space-y-7">
                 <div>
@@ -214,7 +231,7 @@ export function TryoutsPage() {
                       </p>
                     </div>
                     <a
-                      href={THURSDAY_REGISTRATION_URL}
+                      href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
                       className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-6 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)]"
                     >
                       Register

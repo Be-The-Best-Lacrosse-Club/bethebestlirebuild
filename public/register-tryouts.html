@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTB Supplemental Tryout Registration | $75</title>
+  <meta
+    name="description"
+    content="Register for a BTB Lacrosse supplemental tryout evaluation on Thursday, July 30, 2026, at Plainedge Park."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+  <style>
+    :root {
+      --red: #d22630;
+      --red-dark: #a61d25;
+      --black: #050505;
+      --panel: #121212;
+      --field: #1a1a1a;
+      --border: #2b2b2b;
+      --muted: #aaa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 78% 0%, rgba(210, 38, 48, 0.18), transparent 30%),
+        var(--black);
+      color: #fff;
+      font-family: "Montserrat", sans-serif;
+      line-height: 1.5;
+    }
+
+    .header {
+      border-bottom: 3px solid var(--red);
+      background: #000;
+      padding: 26px 20px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin-top: 4px;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(2.35rem, 7vw, 3.5rem);
+      font-weight: 400;
+      letter-spacing: 3px;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .price {
+      display: inline-block;
+      margin-top: 12px;
+      border-radius: 4px;
+      background: var(--red);
+      padding: 7px 18px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      width: min(760px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 34px 0 80px;
+    }
+
+    .event-card {
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: 7px;
+      background: rgba(18, 18, 18, 0.92);
+      padding: 20px;
+    }
+
+    .event-card h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.65rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .event-card p {
+      margin-top: 8px;
+      color: #c8c8c8;
+      font-size: 0.9rem;
+    }
+
+    .event-facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .fact {
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: #0c0c0c;
+      padding: 12px;
+    }
+
+    .fact-label {
+      color: var(--red);
+      font-size: 0.67rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .fact-value {
+      margin-top: 3px;
+      color: #fff;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .process-note {
+      margin-bottom: 28px;
+      border: 1px solid rgba(210, 38, 48, 0.4);
+      border-radius: 6px;
+      background: rgba(210, 38, 48, 0.08);
+      padding: 16px 18px;
+      color: #d5d5d5;
+      font-size: 0.84rem;
+      line-height: 1.65;
+    }
+
+    .process-note strong { color: #fff; }
+    .schedule-link {
+      color: var(--red);
+      font-weight: 800;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .section-label {
+      margin: 28px 0 14px;
+      border-bottom: 1px solid #242424;
+      padding-bottom: 8px;
+      color: var(--red);
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-label:first-of-type { margin-top: 6px; }
+
+    .row,
+    .row-3 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .row { grid-template-columns: 1fr 1fr; }
+    .row-3 { grid-template-columns: 1.35fr 0.85fr 0.8fr; }
+    .field { margin-bottom: 14px; }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .req { margin-left: 3px; color: var(--red); }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--field);
+      padding: 12px 13px;
+      color: #fff;
+      font: inherit;
+      font-size: 0.94rem;
+      transition: border-color 0.15s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--red);
+    }
+
+    textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    .sms-consent {
+      margin-top: 7px;
+      color: #777;
+      font-size: 0.67rem;
+      line-height: 1.5;
+    }
+
+    .sms-consent a,
+    .footer-note a {
+      color: var(--red);
+    }
+
+    .checkbox-field {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      padding: 15px;
+    }
+
+    .checkbox-field input {
+      width: auto;
+      margin-top: 3px;
+    }
+
+    .checkbox-field label {
+      margin: 0;
+      color: #c6c6c6;
+      font-size: 0.81rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.6;
+      text-transform: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 24px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--red);
+      padding: 18px;
+      color: #fff;
+      cursor: pointer;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .submit-btn:hover {
+      background: var(--red-dark);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-msg {
+      display: none;
+      margin-bottom: 16px;
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      background: #2a1010;
+      padding: 12px 14px;
+      color: #ff9b9b;
+      font-size: 0.84rem;
+    }
+
+    .error-msg.show { display: block; }
+
+    .footer-note {
+      margin-top: 18px;
+      color: #777;
+      font-size: 0.75rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .row,
+      .row-3,
+      .event-facts {
+        grid-template-columns: 1fr;
+      }
+
+      .container { width: min(100% - 28px, 760px); }
+      .header { padding: 22px 14px; }
+      .fact { display: grid; grid-template-columns: 90px 1fr; align-items: center; }
+      .fact-value { margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="eyebrow">Be The Best Lacrosse Club</div>
+    <h1>Supplemental Tryout Registration</h1>
+    <div class="price">$75 per player</div>
+  </header>
+
+  <main class="container">
+    <section class="event-card" aria-labelledby="event-title">
+      <h2 id="event-title">Thursday Open Evaluations</h2>
+      <p>
+        Open to boys and girls. Submit the player information below, complete the secure
+        QuickBooks payment, and BTB will confirm the individual evaluation time.
+      </p>
+      <div class="event-facts">
+        <div class="fact">
+          <div class="fact-label">Date</div>
+          <div class="fact-value">July 30, 2026</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Location</div>
+          <div class="fact-value">Plainedge Park</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Format</div>
+          <div class="fact-value">20 Minutes</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="process-note">
+      <strong>Two-step registration:</strong> this form securely saves the player to BTB’s
+      live registration Sheet and sends the confirmation record to staff. The next screen
+      collects the $75 fee through Intuit QuickBooks. Registration is finalized after payment.
+      <br>
+      <a class="schedule-link" href="/tryouts#supplemental-times">
+        View all Tuesday–Thursday supplemental times
+      </a>
+    </div>
+
+    <div class="error-msg" id="errorMsg" role="alert"></div>
+
+    <form
+      name="supplemental-tryouts-registration"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      id="regForm"
+    >
+      <input type="hidden" name="form-name" value="supplemental-tryouts-registration">
+      <input type="hidden" name="program" value="BTB Supplemental Tryouts">
+      <input type="hidden" name="amount" value="75">
+      <input type="hidden" name="payment_status" value="Pending QuickBooks payment">
+      <input type="hidden" name="registration_type" value="Thursday 20-minute supplemental evaluation">
+      <p hidden>
+        <label>Do not fill this out: <input name="bot-field"></label>
+      </p>
+
+      <div class="section-label">Player Information</div>
+
+      <div class="row">
+        <div class="field">
+          <label for="playerFirst">First Name<span class="req">*</span></label>
+          <input id="playerFirst" type="text" name="player_first_name" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="playerLast">Last Name<span class="req">*</span></label>
+          <input id="playerLast" type="text" name="player_last_name" autocomplete="family-name" required>
+        </div>
+      </div>
+
+      <div class="row-3">
+        <div class="field">
+          <label for="playerDob">Date of Birth<span class="req">*</span></label>
+          <input id="playerDob" type="date" name="player_dob" min="2008-01-01" max="2020-12-31" required>
+        </div>
+        <div class="field">
+          <label for="gradYear">Grad Year<span class="req">*</span></label>
+          <select id="gradYear" name="grad_year" required>
+            <option value="">Select</option>
+            <option>2030</option>
+            <option>2031</option>
+            <option>2032</option>
+            <option>2033</option>
+            <option>2034</option>
+            <option>2035</option>
+            <option>2036</option>
+            <option>2037</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="gender">Program<span class="req">*</span></label>
+          <select id="gender" name="program_gender" required>
+            <option value="">Select</option>
+            <option value="Boys">Boys</option>
+            <option value="Girls">Girls</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="position">Primary Position</label>
+          <select id="position" name="position">
+            <option value="">Select</option>
+            <option>Attack</option>
+            <option>Midfield</option>
+            <option>Defense</option>
+            <option>Goalie</option>
+            <option>FOGO / Draw</option>
+            <option>LSM</option>
+            <option>Unsure</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="schoolTown">School / Town</label>
+          <input id="schoolTown" type="text" name="school_town" placeholder="e.g. Massapequa">
+        </div>
+      </div>
+
+      <div class="section-label">Parent / Guardian</div>
+
+      <div class="row">
+        <div class="field">
+          <label for="parentFirst">Parent First Name<span class="req">*</span></label>
+          <input id="parentFirst" type="text" name="parent_first_name" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="parentLast">Parent Last Name<span class="req">*</span></label>
+          <input id="parentLast" type="text" name="parent_last_name" autocomplete="family-name" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="parentEmail">Email<span class="req">*</span></label>
+          <input id="parentEmail" type="email" name="parent_email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="parentPhone">Phone<span class="req">*</span></label>
+          <input
+            id="parentPhone"
+            type="tel"
+            name="parent_phone"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="(516) 555-1234"
+            required
+          >
+          <p class="sms-consent">
+            By providing your phone number, you consent to transactional SMS from Be The Best
+            Lacrosse Club about this registration, scheduling, and urgent updates. Message and
+            data rates may apply. Reply STOP to opt out. <a href="/sms-policy" target="_blank" rel="noopener">SMS Policy</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="section-label">Emergency &amp; Medical</div>
+
+      <div class="row">
+        <div class="field">
+          <label for="emergencyName">Emergency Contact<span class="req">*</span></label>
+          <input id="emergencyName" type="text" name="emergency_name" required>
+        </div>
+        <div class="field">
+          <label for="emergencyPhone">Emergency Phone<span class="req">*</span></label>
+          <input
+            id="emergencyPhone"
+            type="tel"
+            name="emergency_phone"
+            inputmode="tel"
+            placeholder="(516) 555-1234"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="medicalNotes">Medical Conditions, Allergies, Medications</label>
+        <textarea
+          id="medicalNotes"
+          name="medical_notes"
+          placeholder="None, or list anything BTB staff should know"
+        ></textarea>
+      </div>
+
+      <div class="section-label">Final Step</div>
+
+      <div class="field">
+        <label for="howHeard">How did you hear about BTB?</label>
+        <select id="howHeard" name="how_heard">
+          <option value="">Select</option>
+          <option>Current BTB family</option>
+          <option>Coach / Teammate</option>
+          <option>Instagram / Social</option>
+          <option>Tournament</option>
+          <option>School</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="checkbox-field">
+        <input id="waiver" type="checkbox" name="waiver_accepted" value="Yes" required>
+        <label for="waiver">
+          I acknowledge the BTB Lacrosse waiver and release. I understand registration is
+          finalized only after payment is completed on the next screen. I authorize BTB staff
+          to seek emergency medical treatment for my player if needed.
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        Save Registration &amp; Continue to Payment — $75
+      </button>
+
+      <div class="footer-note">
+        Secure checkout via Intuit QuickBooks. Questions?
+        <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const PAYMENT_LINK =
+      "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-7970852e308b44d9aa7e9d9dc98e9546db991b33985344129932805af4b0c571c7bdd588f3a14c1093ca48e70401ddc6?locale=EN_US";
+    const DEFAULT_BUTTON_TEXT = "Save Registration & Continue to Payment — $75";
+    const ALLOWED_GRAD_YEARS = ["2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037"];
+    const form = document.getElementById("regForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const errorMsg = document.getElementById("errorMsg");
+
+    function digitsOnly(value) {
+      return String(value || "").replace(/\D/g, "");
+    }
+
+    function validationError(formData) {
+      const gradYear = String(formData.get("grad_year") || "");
+      const dob = String(formData.get("player_dob") || "");
+      const dobDate = new Date(`${dob}T00:00:00`);
+
+      if (!ALLOWED_GRAD_YEARS.includes(gradYear)) return "Please select a valid graduation year.";
+      if (!dob || Number.isNaN(dobDate.getTime())) return "Please enter a valid date of birth.";
+      if (dobDate < new Date("2008-01-01T00:00:00") || dobDate > new Date("2020-12-31T00:00:00")) {
+        return "Please check the date of birth. For placement help, email info@bethebestli.com.";
+      }
+      if (digitsOnly(formData.get("parent_phone")).length < 10) {
+        return "Please enter a valid parent phone number.";
+      }
+      if (digitsOnly(formData.get("emergency_phone")).length < 10) {
+        return "Please enter a valid emergency contact phone number.";
+      }
+      return "";
+    }
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      errorMsg.classList.remove("show");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Saving registration...";
+
+      const formData = new FormData(form);
+      const error = validationError(formData);
+      if (error) {
+        errorMsg.textContent = error;
+        errorMsg.classList.add("show");
+        submitBtn.disabled = false;
+        submitBtn.textContent = DEFAULT_BUTTON_TEXT;
+        return;
+      }
+
+      const referenceId = `btb-supplemental-${Date.now()}`;
+      formData.set("registration_reference", referenceId);
+      formData.set("referrer", document.referrer || "direct");
+
+      const params = new URLSearchParams();
+      for (const [key, value] of formData.entries()) {
+        params.append(key, String(value).trim());
+      }
+
+      try {
+        const response = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: params.toString(),
+        });
+        if (!response.ok) throw new Error(`Registration save failed: ${response.status}`);
+
+        const playerName =
+          `${formData.get("player_first_name")} ${formData.get("player_last_name")}`.trim();
+        sessionStorage.setItem(
+          "btb_last_registration",
+          JSON.stringify({
+            program: "BTB Supplemental Tryouts",
+            player: playerName,
+            email: formData.get("parent_email"),
+            refId: referenceId,
+            paymentStatus: "pending",
+            ts: Date.now(),
+          })
+        );
+
+        window.location.assign(PAYMENT_LINK);
+      } catch (error) {
+        console.error(error);
+        errorMsg.textContent =
+          "We could not save the registration. Please try again or email info@bethebestli.com.";
+        errorMsg.classList.add("show");
+        submitBtn.disabled = false;
+        submitBtn.textContent = DEFAULT_BUTTON_TEXT;
+      }
+    });
+  </script>
+</body>
+</html>

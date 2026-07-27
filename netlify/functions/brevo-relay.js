@@ -23,6 +23,7 @@
  *   BREVO_LIST_INTEREST_FORM — Override list for form-name="interest-form"
  *   BREVO_LIST_TRYOUT        — Override list for form-name="tryout-interest" + registration forms
  *   BOYS_DIRECTOR_NOTIFY_EMAIL — Boys-side registration copy recipient
+ *   SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS — Comma-separated staff recipients for supplemental registrations
  *   AIRTABLE_FORMS_API_KEY   — Airtable PAT (falls back to AIRTABLE_OPS_API_KEY)
  *   AIRTABLE_FORMS_BASE_ID   — Base id (default target: BTB-OS = appGAETGobQBTwf7j)
  *   AIRTABLE_FORMS_TABLE     — Table name (default: "Leads" — the existing BTB-OS lead workflow)
@@ -40,7 +41,14 @@ const PROGRAM_GENDER_REGISTRATION_FORMS = new Set([
   "positional-registration",
   "futures-registration",
   "futures-clinic-registration",
+  "supplemental-tryouts-registration",
 ]);
+const DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS = [
+  "info@bethebestli.com",
+  "btblacrosseteams@gmail.com",
+  "btb.director.reynolds@gmail.com",
+  "taylorjhoran26@gmail.com",
+];
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
 const FUTURES_CLINIC_DOB_RANGES = {
   2036: { min: "2017-12-02", max: "2018-12-01" },
@@ -131,6 +139,7 @@ function brevoListIdFor(formName) {
     "btb-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
+    "supplemental-tryouts-registration": process.env.BREVO_LIST_TRYOUT,
     "camp-registration": process.env.BREVO_LIST_TRYOUT,
     "positional-registration": process.env.BREVO_LIST_TRYOUT,
     "futures-registration": process.env.BREVO_LIST_TRYOUT,
@@ -252,6 +261,20 @@ function notificationEmailsFromEnv() {
     .filter(Boolean);
 }
 
+function supplementalTryoutNotificationEmails() {
+  const configured = (process.env.SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS || "")
+    .split(",")
+    .map((email) => email.trim())
+    .filter(Boolean);
+  const seen = new Set();
+  return [...DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS, ...configured].filter((email) => {
+    const key = email.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function isBoysSideRegistration(formName, data) {
   const normalizedFormName = String(formName || "").toLowerCase();
   if (BOYS_REGISTRATION_FORMS.has(normalizedFormName)) return true;
@@ -281,6 +304,9 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   };
   const emails = includeDefaultRecipients ? notificationEmailsFromEnv() : [];
   if (isBoysSideRegistration(formName, data)) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
+  if (formName === "supplemental-tryouts-registration") {
+    emails.push(...supplementalTryoutNotificationEmails());
+  }
   const to = uniqueRecipients(emails);
 
   if (!apiKey || !sender.email || to.length === 0) {
@@ -292,14 +318,21 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
     .map(([k, v]) => `<tr><td style="padding:6px 12px;border-bottom:1px solid #eee;font-weight:600;color:#555;text-transform:uppercase;font-size:12px;letter-spacing:1px">${escapeHtml(k)}</td><td style="padding:6px 12px;border-bottom:1px solid #eee;color:#111">${escapeHtml(String(v ?? ""))}</td></tr>`)
     .join("");
 
-  const subject = `New ${prettyFormName(formName)} submission — ${data.name || data.parentName || data.email || "unknown"}`;
+  const playerName = [data.player_first_name, data.player_last_name].filter(Boolean).join(" ").trim();
+  const isSupplementalTryout = formName === "supplemental-tryouts-registration";
+  const subject = isSupplementalTryout
+    ? `Supplemental Tryout Registration Confirmed — ${playerName || data.parent_email || "unknown"}`
+    : `New ${prettyFormName(formName)} submission — ${data.name || data.parentName || data.email || "unknown"}`;
+  const emailEyebrow = isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
+  const emailHeading = isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
 <!doctype html><html><body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f7;padding:24px;margin:0">
   <div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden">
     <div style="background:#D22630;color:#fff;padding:20px 28px">
-      <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:0.85">BTB Website Form</div>
-      <h1 style="margin:6px 0 0;font-size:22px;font-weight:700">${escapeHtml(prettyFormName(formName))}</h1>
+      <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:0.85">${escapeHtml(emailEyebrow)}</div>
+      <h1 style="margin:6px 0 0;font-size:22px;font-weight:700">${escapeHtml(emailHeading)}</h1>
     </div>
+    ${isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
     <table style="width:100%;border-collapse:collapse;font-size:14px">${rows}</table>
     <div style="padding:16px 28px;color:#888;font-size:12px;background:#fafafa;border-top:1px solid #eee">
       Submitted ${escapeHtml(submissionTime || new Date().toISOString())} · ${escapeHtml(siteUrl || "bethebestli.com")}
@@ -310,7 +343,15 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   const body = JSON.stringify({
     sender,
     to,
-    replyTo: data.email ? { email: data.email, name: data.name || data.email } : undefined,
+    replyTo: firstValue(data, ["email", "parent_email"])
+      ? {
+          email: firstValue(data, ["email", "parent_email"]),
+          name:
+            firstValue(data, ["name", "parentName"]) ||
+            joinedName(data, [["parent_first_name", "parent_last_name"]]) ||
+            firstValue(data, ["email", "parent_email"]),
+        }
+      : undefined,
     subject,
     htmlContent,
   });
@@ -403,6 +444,7 @@ const TRYOUT_REGISTRATION_CONFIG = {
   "btb-boys-tryout-registration": { program: "Boys Tryouts", tab: "Boys Roster" },
   "btb-girls-tryout-registration": { program: "Girls Tryouts", tab: "Girls Roster" },
   "btb-east-boys-tryout-registration": { program: "BTB East Boys Tryouts", tab: "East Roster" },
+  "supplemental-tryouts-registration": { program: "Supplemental Tryouts", tab: "Supplemental Roster" },
 };
 
 const TRYOUT_ROSTER_HEADERS = [
@@ -666,11 +708,12 @@ async function ensureTryoutHeaders(token, tabName, existingRows, headers) {
 }
 
 async function updateTryoutSummary(token) {
-  const [rawRows, boysRows, girlsRows, eastRows, interestRows] = await Promise.all([
+  const [rawRows, boysRows, girlsRows, eastRows, supplementalRows, interestRows] = await Promise.all([
     sheetsFetch(token, "Raw Submissions!A:AA"),
     sheetsFetch(token, "Boys Roster!A:T"),
     sheetsFetch(token, "Girls Roster!A:T"),
     sheetsFetch(token, "East Roster!A:T"),
+    sheetsFetch(token, "Supplemental Roster!A:T"),
     sheetsFetch(token, "Interest Only!A:P"),
   ]);
 
@@ -678,16 +721,19 @@ async function updateTryoutSummary(token) {
     "Boys Tryouts": Math.max(boysRows.length - 1, 0),
     "Girls Tryouts": Math.max(girlsRows.length - 1, 0),
     "BTB East Boys Tryouts": Math.max(eastRows.length - 1, 0),
+    "Supplemental Tryouts": Math.max(supplementalRows.length - 1, 0),
   };
   const rawCounts = {
     "Boys Tryouts": 0,
     "Girls Tryouts": 0,
     "BTB East Boys Tryouts": 0,
+    "Supplemental Tryouts": 0,
   };
   const latest = {
     "Boys Tryouts": "",
     "Girls Tryouts": "",
     "BTB East Boys Tryouts": "",
+    "Supplemental Tryouts": "",
   };
 
   for (const row of rawRows.slice(1)) {
@@ -697,7 +743,7 @@ async function updateTryoutSummary(token) {
     if (clean(row[2])) latest[program] = clean(row[2]);
   }
 
-  const programs = ["Boys Tryouts", "Girls Tryouts", "BTB East Boys Tryouts"];
+  const programs = ["Boys Tryouts", "Girls Tryouts", "BTB East Boys Tryouts", "Supplemental Tryouts"];
   const programRows = programs.map((program) => [
     program,
     rawCounts[program],
@@ -709,7 +755,7 @@ async function updateTryoutSummary(token) {
   const totalLive = programs.reduce((sum, program) => sum + rawCounts[program], 0);
   const totalUnique = programs.reduce((sum, program) => sum + rosterCounts[program], 0);
 
-  await sheetsFetch(token, "Summary!A3:F11", {
+  await sheetsFetch(token, "Summary!A3:F12", {
     method: "PUT",
     values: [
       ["Generated", formatEtDateTime()],
@@ -897,6 +943,21 @@ const CONFIRMATION_CONFIG = {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
       return confirmationBase({ parentFirst, playerName, program: "BTB East Boys Tryouts 2026", details: "Location: Seaford High School, 1575 Seamans Neck Rd, Seaford, NY 11783. We'll send your specific time slot closer to the date.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
+    },
+  },
+  "supplemental-tryouts-registration": {
+    subject: () => "Registration Received — BTB Supplemental Tryouts 2026",
+    getHtml: (data) => {
+      const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
+      const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      return confirmationBase({
+        parentFirst,
+        playerName,
+        program: "BTB Supplemental Tryouts 2026",
+        details: "Your registration details are saved. Complete the secure $75 QuickBooks payment to finalize registration. BTB will then confirm the individual 20-minute evaluation time.",
+        cta: "COMPLETE PAYMENT",
+        ctaUrl: "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-7970852e308b44d9aa7e9d9dc98e9546db991b33985344129932805af4b0c571c7bdd588f3a14c1093ca48e70401ddc6?locale=EN_US",
+      });
     },
   },
 };

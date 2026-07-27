@@ -1,7 +1,5 @@
 import { ArrowRight, CalendarDays, Clock3, MapPin, Users } from "lucide-react"
-
-const THURSDAY_REGISTRATION_URL =
-  "/interest?source=thursday-evaluation&category=Tryouts&notes=Thursday%2020-minute%20supplemental%20evaluation"
+import { SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL } from "@/lib/registrationLinks"
 
 const tryoutDays = [
   {
@@ -99,7 +97,7 @@ export function SupplementalTryouts() {
                   </div>
                 </div>
                 <a
-                  href={THURSDAY_REGISTRATION_URL}
+                  href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
                   className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-6 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)]"
                 >
                   Register
