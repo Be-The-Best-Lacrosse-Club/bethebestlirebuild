@@ -3,7 +3,15 @@ import { ArrowRight, CalendarDays, Clock3, Mail, MapPin, Users } from "lucide-re
 import { SEO } from "@/components/shared/SEO"
 import { SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL } from "@/lib/registrationLinks"
 
-const TRYOUT_DAYS = [
+type TryoutDay = {
+  day: string
+  date: string
+  group: string
+  note?: string
+  slots: { time: string; gradYears: string }[]
+}
+
+const TRYOUT_DAYS: TryoutDay[] = [
   {
     day: "Tuesday",
     date: "July 28, 2026",
@@ -31,6 +39,18 @@ const TRYOUT_DAYS = [
       {
         time: "10:00–11:00 AM",
         gradYears: "2033–2030",
+      },
+    ],
+  },
+  {
+    day: "Thursday",
+    date: "July 30, 2026",
+    group: "Boys & Girls",
+    note: "Individual 20-minute evaluations, open to every grad year. Choose your slot when you register.",
+    slots: [
+      {
+        time: "9:00–11:00 AM",
+        gradYears: "2037–2030",
       },
     ],
   },
@@ -111,14 +131,6 @@ export function TryoutsPage() {
                         </div>
                       </div>
                     ))}
-                    <div>
-                      <div className="font-display text-3xl uppercase tracking-wide sm:text-4xl">
-                        Thursday
-                      </div>
-                      <div className="mt-1 text-sm font-bold uppercase tracking-[1.5px] text-white/55">
-                        July 30, 2026 · Open Registration
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -135,13 +147,13 @@ export function TryoutsPage() {
                 <div>
                   <div className="mb-3 flex items-center gap-3 text-sm font-black uppercase tracking-[2.5px] text-[var(--btb-red)]">
                     <Clock3 size={17} />
-                    Tuesday &amp; Wednesday
+                    All Three Days
                   </div>
                   <div className="font-display text-[1.75rem] uppercase tracking-wide sm:text-4xl">
                     9:00–11:00 AM
                   </div>
                   <div className="mt-2 text-sm font-bold uppercase tracking-[1.5px] text-white/45">
-                    Thursday 20-minute slots · 9:00–11:00 AM
+                    Thursday runs in 20-minute slots
                   </div>
                 </div>
               </div>
@@ -202,43 +214,13 @@ export function TryoutsPage() {
                         </div>
                       ))}
                     </div>
+                    {tryoutDay.note && (
+                      <p className="mt-5 border-t border-white/10 pt-5 text-base leading-relaxed text-white/60">
+                        {tryoutDay.note}
+                      </p>
+                    )}
                   </div>
                 ))}
-
-                <div className="border border-[var(--btb-red)]/40 bg-[var(--btb-red)]/[0.08] p-6 sm:p-7">
-                  <div className="mb-5 flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-5">
-                    <div>
-                      <div className="font-mono text-sm font-bold uppercase tracking-[2px] text-[var(--btb-red)]">
-                        Open Registration
-                      </div>
-                      <div className="mt-1 font-display text-3xl uppercase tracking-wide text-white sm:text-4xl">
-                        Thursday
-                      </div>
-                    </div>
-                    <div className="text-sm font-black uppercase tracking-[1.5px] text-white/45 sm:text-right">
-                      July 30, 2026
-                    </div>
-                  </div>
-
-                  <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-center">
-                    <div>
-                      <div className="font-display text-[1.9rem] uppercase leading-none tracking-wide text-white sm:text-[2.2rem]">
-                        20-Minute Evaluations
-                      </div>
-                      <p className="mt-3 max-w-[430px] text-base leading-relaxed text-white/60">
-                        Open to anyone, 9:00–11:00 AM. Pick your 20-minute slot when you
-                        register.
-                      </p>
-                    </div>
-                    <a
-                      href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
-                      className="inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-6 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)]"
-                    >
-                      Register
-                      <ArrowRight size={14} />
-                    </a>
-                  </div>
-                </div>
               </div>
 
               <div className="mt-8 border-t border-white/10 pt-7">
@@ -255,6 +237,23 @@ export function TryoutsPage() {
                 </a>
               </div>
             </div>
+          </div>
+
+          <div className="mt-12 border border-[var(--btb-red)]/40 bg-[var(--btb-red)]/[0.08] p-8 text-center sm:p-10">
+            <div className="font-display text-[clamp(2rem,4.5vw,3rem)] uppercase leading-[0.9] tracking-wide text-white">
+              Ready to Tryout?
+            </div>
+            <p className="mx-auto mt-4 max-w-[540px] text-base leading-relaxed text-white/60">
+              One registration covers all three days. Pick the date and time that works for
+              your player — $75 per player, finalized after payment.
+            </p>
+            <a
+              href={SUPPLEMENTAL_TRYOUTS_REGISTRATION_URL}
+              className="mt-7 inline-flex items-center justify-center gap-3 bg-[var(--btb-red)] px-8 py-4 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--btb-red-dark)]"
+            >
+              Register
+              <ArrowRight size={14} />
+            </a>
           </div>
         </div>
       </section>
