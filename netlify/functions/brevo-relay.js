@@ -29,7 +29,7 @@
  *   AIRTABLE_FORMS_TABLE     — Table name (default: "Leads" — the existing BTB-OS lead workflow)
  */
 
-const https = require("https");
+import https from "node:https";
 const RETIRED_FORM_NAMES = new Set(["camp-registration"]);
 const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
 const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "taylorjhoran26@gmail.com";
@@ -1054,7 +1054,7 @@ async function brevoSendConfirmation({ formName, data }) {
 
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, body: "" };
   }
