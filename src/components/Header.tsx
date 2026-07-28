@@ -20,7 +20,7 @@ const programLinks = [
   { label: "Recruiting", href: "/recruiting" },
 ]
 
-const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-camp", "/register-positional", "/register-futures"])
+const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-positional", "/register-futures"])
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)

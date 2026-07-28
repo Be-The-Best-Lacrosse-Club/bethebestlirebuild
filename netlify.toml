@@ -406,12 +406,20 @@
   to = "/sms-policy.html"
   status = 200
 
-# Camp / training registration forms (Stripe-connected)
+# Main Camp registration is retired.
 [[redirects]]
   from = "/register-camp"
-  to = "/register-camp.html"
-  status = 200
+  to = "/camps"
+  status = 301
+  force = true
 
+[[redirects]]
+  from = "/register-camp.html"
+  to = "/camps"
+  status = 301
+  force = true
+
+# Active camp / training registration forms
 [[redirects]]
   from = "/register-positional"
   to = "/register-positional.html"
