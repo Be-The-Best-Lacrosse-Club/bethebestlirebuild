@@ -30,6 +30,7 @@
  */
 
 const https = require("https");
+const RETIRED_FORM_NAMES = new Set(["camp-registration"]);
 const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
 const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "taylorjhoran26@gmail.com";
 const BOYS_REGISTRATION_FORMS = new Set([
@@ -1074,6 +1075,20 @@ exports.handler = async (event) => {
   let data = payload.data || payload.fields || payload;
   const submissionTime = payload.created_at || new Date().toISOString();
   const siteUrl = payload.site_url || "https://www.bethebestli.com";
+
+  // Main Camp is retired. Ignore late webhook retries or submissions from a
+  // cached registration page so they cannot create contacts or send emails.
+  if (RETIRED_FORM_NAMES.has(formName)) {
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        formName,
+        skipped: true,
+        reason: "registration retired",
+      }),
+    };
+  }
 
   if (formName === "futures-clinic-registration") {
     const validation = validateFuturesClinicSubmission(data);
