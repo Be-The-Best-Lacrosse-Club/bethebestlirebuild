@@ -248,3 +248,15 @@ export default async (req) => {
     return new Response("", { status: 200 });
   }
 };
+
+
+// Netlify enforces this rule at the edge before a background invocation is
+// queued, so concurrent cold instances share the same per-domain-and-IP limit.
+export const config = {
+  path: "/.netlify/functions/visual-analyze-background",
+  rateLimit: {
+    windowLimit: 10,
+    windowSize: 60,
+    aggregateBy: ["ip", "domain"],
+  },
+};
