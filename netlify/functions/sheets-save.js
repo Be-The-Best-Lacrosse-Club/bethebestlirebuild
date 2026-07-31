@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 function postJsonFollowRedirects(url, bodyStr, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ function postJsonFollowRedirects(url, bodyStr, maxRedirects = 5) {
   });
 }
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",

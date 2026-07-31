@@ -2,7 +2,7 @@
 // Handles "Not Attending" and "Pay Now" link clicks from summer camp payment emails.
 // URL params: ?row=<sheet_row>&action=not_attending|pay_now&player=<name>
 
-const https = require("https");
+import https from "node:https";
 
 const SHEET_ID = "1GKYBuDsEEf9KluyAlIvQ7-74DU-22IafebcuqSkW0vc";
 const CAMP_PAYMENT_URL = process.env.CAMP_PAYMENT_URL ||
@@ -82,7 +82,7 @@ async function updateSheet(accessToken, updates) {
   });
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const { row, action, player } = event.queryStringParameters || {};
 
   if (!row || !action) {

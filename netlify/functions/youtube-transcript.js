@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 function fetch(url) {
   return new Promise((resolve, reject) => {
@@ -228,7 +228,7 @@ function getCaptionUrlViaInnertube(videoId) {
   });
 }
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",

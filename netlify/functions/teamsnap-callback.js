@@ -1,6 +1,6 @@
-const https = require("https");
-const crypto = require("crypto");
-const { storeTeamSnapTokens } = require("./_netlify-env");
+import https from "node:https";
+import crypto from "node:crypto";
+import { storeTeamSnapTokens } from "./_netlify-env.js";
 
 const CLIENT_ID = process.env.TEAMSNAP_CLIENT_ID;
 const CLIENT_SECRET = process.env.TEAMSNAP_CLIENT_SECRET;
@@ -66,7 +66,7 @@ function page(inner) {
 </style></head><body><div class="wrap">${inner}</div></body></html>`;
 }
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
   const headers = { "Content-Type": "text/html" };
 
   if (!CLIENT_ID || !CLIENT_SECRET) {

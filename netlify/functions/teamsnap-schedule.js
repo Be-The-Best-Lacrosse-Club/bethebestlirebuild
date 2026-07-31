@@ -16,8 +16,8 @@
  *   - events is empty when no team matched
  */
 
-const https = require("https");
-const { getTeamSnapAccessToken } = require("./_teamsnap-auth");
+import https from "node:https";
+import { getTeamSnapAccessToken } from "./_teamsnap-auth.js";
 
 const TEAMSNAP_HOST = "api.teamsnap.com";
 const TEAMSNAP_BASE = "/v3";
@@ -90,7 +90,7 @@ function filterByGradYear(teams, gradYear) {
   return teams.filter((t) => (t.name || "").includes(year));
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const headers = {
     "Content-Type": "application/json",
     "Cache-Control": "public, max-age=300", // 5 min — TeamSnap data is slow-moving

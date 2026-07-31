@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 const CLIENT_ID = process.env.TEAMSNAP_CLIENT_ID;
 const CLIENT_SECRET = process.env.TEAMSNAP_CLIENT_SECRET;
@@ -69,4 +69,4 @@ async function getTeamSnapAccessToken() {
   throw new Error("TeamSnap credentials not configured");
 }
 
-module.exports = { getTeamSnapAccessToken, hasTeamSnapCredentials };
+export { getTeamSnapAccessToken, hasTeamSnapCredentials };

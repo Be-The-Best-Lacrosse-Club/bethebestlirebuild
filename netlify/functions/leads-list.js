@@ -10,7 +10,7 @@
  *   AIRTABLE_FORMS_TABLE (default "Leads")
  */
 
-const https = require("https");
+import https from "node:https";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -70,7 +70,7 @@ function airtableGet({ baseId, table, params }) {
   });
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
   if (event.httpMethod !== "GET") {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: "Method not allowed" }) };

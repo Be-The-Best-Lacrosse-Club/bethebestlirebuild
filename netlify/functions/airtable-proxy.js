@@ -5,7 +5,7 @@
  * Replaces the previous client-side src/lib/airtable.ts that bundled a PAT.
  */
 
-const https = require("https");
+import https from "node:https";
 
 function airtableGet(baseId, table) {
   const apiKey = process.env.AIRTABLE_OPS_API_KEY;
@@ -57,7 +57,7 @@ const CORS = {
   "Content-Type": "application/json",
 };
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
   if (event.httpMethod !== "GET") {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: "Method not allowed" }) };
