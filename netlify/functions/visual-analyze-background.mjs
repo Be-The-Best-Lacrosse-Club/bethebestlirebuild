@@ -15,6 +15,7 @@
  */
 
 import { getStore } from "@netlify/blobs";
+import { guardRequest } from "./_guard.js";
 
 const VISUAL_PROMPT = `You are an expert lacrosse film analyst for BTB Lacrosse Club on Long Island, NY.
 Watch this lacrosse game video and identify EVERY notable play — not just the highlights.
@@ -84,6 +85,12 @@ export default async (req) => {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  // Each invocation spends the server's Gemini key on a long-running visual
+  // analysis, and Netlify answers 202 before any of it runs — so an unguarded
+  // caller could queue expensive work faster than it is visible.
+  const rejected = guardRequest(req, { limit: 10, windowMs: 60_000 });
+  if (rejected) return rejected;
 
   let body;
   try { body = await req.json(); } catch {

@@ -1,6 +1,12 @@
 import https from "node:https";
+import { guard } from "./_guard.js";
 
 const MODEL = "gemini-2.5-flash";
+
+// Every call spends the server's Gemini key, so the limit is well below the
+// default. Called from public/film-breakdown.html, which is interactive — a
+// real user does not need more than this.
+const RATE = { limit: 10, windowMs: 60_000 };
 
 function postJson(hostname, path, body) {
   return new Promise((resolve, reject) => {
@@ -33,15 +39,19 @@ function postJson(hostname, path, body) {
 
 export const handler = async function (event) {
   const headers = {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "https://www.bethebestli.com",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Vary": "Origin",
     "Content-Type": "application/json",
   };
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers, body: "" };
   }
+
+  const rejected = guard(event, headers, RATE);
+  if (rejected) return rejected;
 
   if (event.httpMethod !== "POST") {
     return {

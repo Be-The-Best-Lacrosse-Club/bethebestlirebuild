@@ -1,9 +1,36 @@
 const FORM_ID = "6a5927b2a23a8c0008064c0c";
 
+// This endpoint drives NETLIFY_API_TOKEN against the Netlify forms API and
+// returns the attendee list. Nothing in the site calls it — it is opened by
+// hand — so an Origin check would block the only real use of it (a top-level
+// browser navigation sends no Origin). A shared key in the query string is
+// what fits that workflow.
+//
+// Fails closed: with RSVP_EXPORT_KEY unset the endpoint is disabled rather
+// than open. Set it with:
+//   netlify env:set RSVP_EXPORT_KEY "$(openssl rand -hex 16)"
+// then fetch /.netlify/functions/311-rsvp-attendees-csv?key=<value>
+function isAuthorized(event) {
+  const expected = process.env.RSVP_EXPORT_KEY;
+  if (!expected) return false;
+  const supplied =
+    (event.queryStringParameters && event.queryStringParameters.key) ||
+    event.headers?.["x-export-key"] ||
+    "";
+  if (supplied.length !== expected.length) return false;
+  // Constant-time-ish compare so the key can't be recovered a byte at a time.
+  let diff = 0;
+  for (let i = 0; i < expected.length; i += 1) {
+    diff |= supplied.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": "https://www.bethebestli.com",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, X-Export-Key",
+  "Vary": "Origin",
 };
 
 function clean(value) {
@@ -76,6 +103,14 @@ export const handler = async (event) => {
       statusCode: 405,
       headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
       body: JSON.stringify({ error: "Method not allowed" }),
+    };
+  }
+
+  if (!isAuthorized(event)) {
+    return {
+      statusCode: 401,
+      headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+      body: JSON.stringify({ error: "Unauthorized" }),
     };
   }
 
