@@ -205,7 +205,7 @@ async function markCoach(accessToken, coachName, available) {
   }
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return json(204, {});
   if (!["GET", "POST"].includes(event.httpMethod)) {
     return json(405, { ok: false, error: "Method not allowed" });

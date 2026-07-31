@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzZEaoj0tR6juiV_K-OTlah5NbeaClFPu0zW3OKK7psjnIC_E_XAqML3UhyxQL4Id_Kjw/exec";
@@ -61,7 +61,7 @@ function ok(payload) {
   };
 }
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
   if (event.httpMethod !== "POST") {
     return ok({ method: event.httpMethod });
   }

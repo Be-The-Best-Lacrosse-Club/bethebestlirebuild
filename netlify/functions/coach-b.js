@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 const MODEL = "claude-haiku-4-5-20251001";
 const MAX_TOKENS = 1024;
@@ -141,7 +141,7 @@ function postJson(hostname, path, body, apiKey) {
   });
 }
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",

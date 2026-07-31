@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 const MODEL = "gemini-2.5-flash";
 
@@ -31,7 +31,7 @@ function postJson(hostname, path, body) {
   });
 }
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",

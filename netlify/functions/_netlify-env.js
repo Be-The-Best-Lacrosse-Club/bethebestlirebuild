@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 const NETLIFY_API_TOKEN = process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_AUTH_TOKEN || "";
 const NETLIFY_ACCOUNT_ID = process.env.NETLIFY_ACCOUNT_ID || "";
@@ -119,4 +119,4 @@ async function storeTeamSnapTokens(tokens) {
   };
 }
 
-module.exports = { storeTeamSnapTokens };
+export { storeTeamSnapTokens };

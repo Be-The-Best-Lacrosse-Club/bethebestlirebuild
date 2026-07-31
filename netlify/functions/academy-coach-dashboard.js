@@ -73,7 +73,7 @@ async function verifyCoachOrOwner(event) {
   }
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: cors, body: "" }
   if (event.httpMethod !== "GET") return err(405, "Method not allowed")
 

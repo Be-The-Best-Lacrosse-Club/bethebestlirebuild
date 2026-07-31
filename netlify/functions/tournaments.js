@@ -1,4 +1,4 @@
-const https = require("https");
+import https from "node:https";
 
 const CLIENT_ID = process.env.TEAMSNAP_CLIENT_ID;
 const CLIENT_SECRET = process.env.TEAMSNAP_CLIENT_SECRET;
@@ -82,7 +82,7 @@ function collectionItems(res) {
   return (res && res.collection && res.collection.items) || [];
 }
 
-exports.handler = async function (event) {
+export const handler = async function (event) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",

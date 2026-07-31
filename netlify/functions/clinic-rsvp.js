@@ -13,7 +13,7 @@ const LOCATION_DETAILS = {
   seaford: { name: "Seaford High School", date: "June 28, 2026 · 9:00–11:00 AM" },
 };
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const cors = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, OPTIONS",

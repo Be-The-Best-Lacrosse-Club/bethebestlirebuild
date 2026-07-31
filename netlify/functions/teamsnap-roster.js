@@ -4,8 +4,9 @@
  * Returns roster for a BTB team, looked up by gender + gradYear.
  */
 
-const https = require("https");
-const { getTeamSnapAccessToken } = require("./_teamsnap-auth");
+import https from "node:https";
+import { getTeamSnapAccessToken } from "./_teamsnap-auth.js";
+import { guard } from "./_guard.js";
 
 const TEAMSNAP_HOST = "api.teamsnap.com";
 const TEAMSNAP_BASE = "/v3";
@@ -73,22 +74,31 @@ function filterByGradYear(teams, gradYear) {
   return teams.filter((t) => (t.name || "").includes(year));
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const headers = {
     "Content-Type": "application/json",
     "Cache-Control": "public, max-age=3600", // 1 hour
   };
 
+  // This returns youth athlete names and jersey numbers, so it is closed to
+  // callers that are not one of our own pages. If a server-side consumer needs
+  // it, add its origin to ALLOWED_ORIGINS in _guard.js rather than removing this.
+  const rejected = guard(event, headers);
+  if (rejected) return rejected;
+
   try {
     const params = event.queryStringParameters || {};
     const gender = (params.gender || "").toLowerCase();
     const gradYear = (params.gradYear || "").trim();
-    const teamId = params.teamId ? Number(params.teamId) : null;
 
-    let targetTeamId = teamId;
+    // A caller-supplied teamId used to short-circuit the lookup below, which
+    // meant any team id the TeamSnap token could reach was readable — including
+    // other organizations' teams. The only way in now is gender + gradYear,
+    // which is resolved inside our own divisions and honors EXCLUDED_TEAM_IDS.
+    let targetTeamId = null;
     let teamName = "";
 
-    if (!targetTeamId) {
+    {
       if (!gender || !gradYear) {
         return {
           statusCode: 400,

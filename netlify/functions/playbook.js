@@ -64,7 +64,7 @@ const err = (s, m) => ({ statusCode: s,   headers: { ...cors, "Content-Type": "a
 
 // ── Handler ───────────────────────────────────────────────────────────
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: cors, body: "" }
   if (!SUPABASE_URL || !SERVICE_KEY) return err(503, "Cloud playbook is not configured")
 

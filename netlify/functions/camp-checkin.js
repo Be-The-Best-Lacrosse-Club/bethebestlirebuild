@@ -122,7 +122,7 @@ async function fetchCampRoster() {
   return names;
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return response(204, {});
   if (event.httpMethod !== "POST") return response(405, { ok: false, error: "Method not allowed" });
 
