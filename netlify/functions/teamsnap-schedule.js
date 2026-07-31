@@ -31,6 +31,31 @@ const BTB_DIVISION_IDS = {
 // Teams to exclude from search results (duplicates / non-real teams).
 const EXCLUDED_TEAM_IDS = new Set([10427986, 10427987, 10427988, 10427984]);
 
+let btbTeamCache = null;
+let btbTeamCacheAt = 0;
+const BTB_TEAM_CACHE_MS = 10 * 60 * 1000;
+
+async function btbTeamsById() {
+  if (btbTeamCache && Date.now() - btbTeamCacheAt < BTB_TEAM_CACHE_MS) {
+    return btbTeamCache;
+  }
+
+  const byId = new Map();
+  for (const divisionId of Object.values(BTB_DIVISION_IDS)) {
+    const json = await tsRequest(`/teams/search?division_id=${divisionId}`);
+    for (const team of parseCollection(json)) {
+      const id = Number(team.id);
+      if (Number.isSafeInteger(id) && !EXCLUDED_TEAM_IDS.has(id)) {
+        byId.set(String(id), { ...team, id });
+      }
+    }
+  }
+
+  btbTeamCache = byId;
+  btbTeamCacheAt = Date.now();
+  return byId;
+}
+
 async function tsRequest(path) {
   const token = await getTeamSnapAccessToken();
   return new Promise((resolve, reject) => {
@@ -103,11 +128,32 @@ export const handler = async (event) => {
     const teamId = params.teamId ? Number(params.teamId) : null;
     const limit = Math.min(Number(params.limit) || 8, 50);
 
-    // Direct team-id mode skips lookup
+    if (params.teamId && (!Number.isSafeInteger(teamId) || teamId <= 0)) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: "Invalid teamId" }),
+      };
+    }
+
+    // Direct team-id mode is used by the in-page team picker, but the ID must
+    // still belong to one of BTB's two divisions before any events are read.
     if (teamId) {
+      const team = (await btbTeamsById()).get(String(teamId));
+      if (!team) {
+        return {
+          statusCode: 403,
+          headers,
+          body: JSON.stringify({ error: "teamId is not a BTB team" }),
+        };
+      }
       const eventsJson = await tsRequest(`/events/search?team_id=${teamId}`);
       const events = filterUpcoming(parseCollection(eventsJson)).slice(0, limit);
-      return { statusCode: 200, headers, body: JSON.stringify({ team: { id: teamId }, events }) };
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ team: { id: team.id, name: team.name }, events }),
+      };
     }
 
     if (!gender || !gradYear) {
@@ -129,7 +175,7 @@ export const handler = async (event) => {
 
     // 1. Find the team(s) for this gender + gradYear
     const teamsJson = await tsRequest(`/teams/search?division_id=${divisionId}`);
-    const allTeams = parseCollection(teamsJson).filter((t) => !EXCLUDED_TEAM_IDS.has(t.id));
+    const allTeams = parseCollection(teamsJson).filter((t) => !EXCLUDED_TEAM_IDS.has(Number(t.id)));
     const matches = filterByGradYear(allTeams, gradYear);
 
     if (matches.length === 0) {
