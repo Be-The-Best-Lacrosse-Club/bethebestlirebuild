@@ -9,18 +9,9 @@ import { lazy, Suspense, useEffect } from "react"
 
 // Landing page sections
 import { Hero } from "@/components/Hero"
-import { SupplementalTryouts } from "@/components/SupplementalTryouts"
 import { ChampionsShowcase } from "@/components/ChampionsShowcase"
 import { AudiencePaths } from "@/components/AudiencePaths"
-import { TheStandard } from "@/components/TheStandard"
-import { WhatYouGet } from "@/components/WhatYouGet"
-import { DevelopmentModel } from "@/components/DevelopmentModel"
-import { CharacterLab } from "@/components/CharacterLab"
-import { FilmStudy } from "@/components/FilmStudy"
-import { DigitalAcademy } from "@/components/DigitalAcademy"
-import { EliteCircuit } from "@/components/EliteCircuit"
-import { SpecTicker } from "@/components/SpecTicker"
-import { FeaturedCoaches } from "@/components/FeaturedCoaches"
+import { ScrollStory3D } from "@/components/ScrollStory3D"
 import { Results } from "@/components/Results"
 import { CTASection } from "@/components/CTASection"
 import { SponsorsSection } from "@/components/SponsorsSection"
@@ -46,6 +37,7 @@ import { CampsPage } from "@/pages/CampsPage"
 import { FamilyHubPage } from "@/pages/FamilyHubPage"
 import { ScrollDemoPage } from "@/pages/ScrollDemoPage"
 import { ContactPage } from "@/pages/ContactPage"
+import { PlayersWantedPage } from "@/pages/PlayersWantedPage"
 import { CoachToolsPage } from "@/pages/CoachToolsPage"
 
 // Lazy-loaded so konva/react-konva stay out of the main bundle
@@ -70,18 +62,9 @@ function LandingPage() {
         ogImage={homeOgImage}
       />
       <Hero />
-      <SupplementalTryouts />
       <ChampionsShowcase />
       <AudiencePaths />
-      <TheStandard />
-      <FeaturedCoaches />
-      <WhatYouGet />
-      <DevelopmentModel />
-      <CharacterLab />
-      <FilmStudy />
-      <DigitalAcademy />
-      <EliteCircuit />
-      <SpecTicker />
+      <ScrollStory3D />
       <Results />
       <CTASection />
       <SponsorsSection />
@@ -182,6 +165,7 @@ function App() {
               <Route path="/academy-access" element={<AcademyGatePage />} />
               <Route path="/recruiting" element={<RecruitingPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/players-wanted" element={<PlayersWantedPage />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />

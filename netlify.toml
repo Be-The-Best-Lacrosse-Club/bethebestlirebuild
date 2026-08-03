@@ -256,31 +256,42 @@
   to = "/admin/:splat"
   status = 200
 
-# Supplemental tryout registration form.
+# Retired tryout registration URLs.
 [[redirects]]
   from = "/register-tryouts"
-  to = "/register-tryouts.html"
-  status = 200
+  to = "/contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-tryouts.html"
+  to = "/contact"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-boys-tryouts"
-  to = "/register-tryouts.html"
-  status = 302
+  to = "/contact"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-boys-tryouts.html"
-  to = "/register-tryouts.html"
-  status = 302
+  to = "/contact"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-girls-tryouts"
-  to = "/register-tryouts.html"
-  status = 302
+  to = "/contact"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-girls-tryouts.html"
-  to = "/register-tryouts.html"
-  status = 302
+  to = "/contact"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-boys-east-tryouts"
@@ -419,11 +430,18 @@
   status = 301
   force = true
 
-# Active camp / training registration forms
+# Retired positional camp URL; Futures registration remains active.
 [[redirects]]
   from = "/register-positional"
-  to = "/register-positional.html"
-  status = 200
+  to = "/futures"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-positional.html"
+  to = "/futures"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-futures"
@@ -432,18 +450,21 @@
 
 [[redirects]]
   from = "/camp-checkin"
-  to = "/camp-checkin.html"
-  status = 200
+  to = "/futures"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/camp-qr-sign"
-  to = "/camp-checkin-qr-sign.html"
-  status = 200
+  to = "/futures"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/camp-checkin-qr-sign"
-  to = "/camp-checkin-qr-sign.html"
-  status = 200
+  to = "/futures"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/futures-clinic"
