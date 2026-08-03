@@ -534,6 +534,11 @@
   query = { token = ":token" }
 
 [[redirects]]
+  from = "/"
+  to = "/homepage.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
