@@ -14,13 +14,13 @@ const teamLinks = (gender: string) => [
 const programLinks = [
   { label: "Boys Lacrosse", href: "/boys" },
   { label: "Girls Lacrosse", href: "/girls" },
-  { label: "Supplemental Tryouts", href: "/tryouts" },
+  { label: "Players Wanted", href: "/players-wanted" },
   { label: "BTB Futures (K-2)", href: "/futures" },
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Recruiting", href: "/recruiting" },
 ]
 
-const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-positional", "/register-futures"])
+const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-futures"])
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -140,10 +140,6 @@ export function Header() {
               )}
             </div>
 
-            <button onClick={() => go("/tryouts")} className="ml-2 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
-              Supplemental Tryouts
-            </button>
-
             <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
 
             <button onClick={() => go("/coach-tools.html")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
@@ -184,13 +180,6 @@ export function Header() {
 
           {/* Mobile/Tablet toggle — shows until the full menu has room */}
           <div className="min-[1380px]:hidden flex items-center gap-3">
-            {/* Supplemental tryouts pill — always visible on mobile */}
-            <button
-              onClick={() => go("/tryouts")}
-              className="px-3 py-1.5 text-[1.15rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
-            >
-              Supplemental
-            </button>
             <button
               className={`z-[60] transition-colors p-1 ${scrolled || mobileOpen ? "text-black" : "text-white"}`}
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -222,10 +211,10 @@ export function Header() {
             {/* Primary CTAs */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               <button
-                onClick={() => go("/tryouts")}
+                onClick={() => go("/boys")}
                 className="py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
               >
-                Supplemental Tryouts
+                Boys Program
               </button>
               <button
                 onClick={() => go("/interest")}
@@ -242,7 +231,7 @@ export function Header() {
                 links: [
                   { label: "Boys Program", href: "/boys" },
                   { label: "Girls Program", href: "/girls" },
-                  { label: "Supplemental Tryouts", href: "/tryouts" },
+                  { label: "Players Wanted", href: "/players-wanted" },
                   { label: "BTB Futures", href: "/futures" },
                   { label: "Camps & Clinics", href: "/camps" },
                 ],
