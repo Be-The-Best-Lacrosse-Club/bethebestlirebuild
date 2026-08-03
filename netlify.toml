@@ -537,6 +537,7 @@
   from = "/"
   to = "/homepage.html"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/*"
