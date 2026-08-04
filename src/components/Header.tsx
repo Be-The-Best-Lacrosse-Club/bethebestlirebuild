@@ -1,23 +1,17 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { createPortal } from "react-dom"
 import { useNavigate, useLocation } from "react-router-dom"
-import { Menu, X, ChevronDown, Lock, LogOut, Layout } from "lucide-react"
+import { Menu, X, Lock, LogOut, Layout } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 
-const teamLinks = (gender: string) => [
-  { label: `${gender.charAt(0).toUpperCase() + gender.slice(1)} Overview`, href: `/${gender}` },
-  { label: "Travel Teams", href: `/${gender}/travel` },
-  { label: "Coaching Staff", href: `/${gender}/coaches` },
-  { label: "Rosters", href: `/${gender}/teams` },
-]
-
-const programLinks = [
-  { label: "Boys Lacrosse", href: "/boys" },
-  { label: "Girls Lacrosse", href: "/girls" },
-  { label: "2026 Tryouts", href: "/tryouts" },
-  { label: "BTB Futures (K-2)", href: "/futures" },
-  { label: "Camps & Clinics", href: "/camps" },
-  { label: "Recruiting", href: "/recruiting" },
+const mainNavLinks = [
+  { label: "Boys", href: "/boys" },
+  { label: "Girls", href: "/girls" },
+  { label: "Tryouts", href: "/tryouts" },
+  { label: "Futures", href: "/futures" },
+  { label: "Camps", href: "/camps" },
+  { label: "Staff", href: "/boys/coaches" },
+  { label: "Academy", href: "/academy" },
 ]
 
 const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-tryouts", "/register-boys-tryouts", "/register-girls-tryouts", "/register-boys-east-tryouts", "/register-camp", "/register-positional", "/register-futures"])
@@ -25,8 +19,6 @@ const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-tryo
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [dropdown, setDropdown] = useState<string | null>(null)
-  const dropdownRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const location = useLocation()
   const { isAuthenticated, user, logout } = useAuth()
@@ -38,17 +30,6 @@ export function Header() {
   }, [])
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdown(null)
-      }
-    }
-    document.addEventListener("mousedown", handler)
-    return () => document.removeEventListener("mousedown", handler)
-  }, [])
-
-  useEffect(() => {
-    setDropdown(null)
     setMobileOpen(false)
   }, [location.pathname])
 
@@ -64,7 +45,6 @@ export function Header() {
       return
     }
     navigate(href)
-    setDropdown(null)
     setMobileOpen(false)
   }
 
@@ -75,10 +55,10 @@ export function Header() {
 
   const isActive = (href: string) => location.pathname === href || (href !== "/" && location.pathname.startsWith(href))
 
-  const navItemClass = (href: string) => `px-3 py-2 text-[1.0rem] font-bold uppercase tracking-[1.5px] transition-colors rounded ${
+  const navItemClass = (href: string) => `px-2.5 py-2 text-[0.72rem] font-black uppercase tracking-[1.8px] transition-colors ${
     isActive(href)
-      ? (scrolled ? "text-[var(--btb-red)] bg-[var(--btb-red)]/5" : "text-[var(--btb-red)] bg-white/10")
-      : (scrolled ? "text-black/60 hover:text-black hover:bg-black/5" : "text-white/85 hover:text-white hover:bg-white/5")
+      ? "text-[var(--btb-red)]"
+      : (scrolled ? "text-black/[0.62] hover:text-black" : "text-white/[0.82] hover:text-white")
   }`
 
   return (
@@ -100,61 +80,14 @@ export function Header() {
             </div>
           </button>
 
-          {/* Desktop Nav — only when the full menu has room */}
-          <nav className="hidden min-[1380px]:flex items-center gap-1" ref={dropdownRef}>
-
-            <div className="relative">
-              <button onClick={() => setDropdown(dropdown === "programs" ? null : "programs")} className={navItemClass("/programs")}>
-                Programs <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "programs" ? "rotate-180" : ""}`} />
+          <nav className="hidden lg:flex items-center gap-1">
+            {mainNavLinks.map((link) => (
+              <button key={link.href} onClick={() => go(link.href)} className={navItemClass(link.href)}>
+                {link.label}
               </button>
-              {dropdown === "programs" && (
-                <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
-                  {programLinks.map(link => (
-                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[1.25rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
-                      {link.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            ))}
 
-            <div className="relative">
-              <button onClick={() => setDropdown(dropdown === "teams" ? null : "teams")} className={navItemClass("/teams")}>
-                Teams <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "teams" ? "rotate-180" : ""}`} />
-              </button>
-              {dropdown === "teams" && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-black/5 rounded-xl shadow-2xl py-3 grid grid-cols-2 animate-in fade-in slide-in-from-top-2">
-                  <div className="px-4 pb-2 col-span-2 text-[1.08rem] font-black text-black/20 uppercase tracking-[2px]">Boys Program</div>
-                  {teamLinks("boys").map(link => (
-                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[1.15rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
-                      {link.label}
-                    </button>
-                  ))}
-                  <div className="px-4 py-2 col-span-2 border-t border-black/5 mt-2 text-[1.08rem] font-black text-black/20 uppercase tracking-[2px]">Girls Program</div>
-                  {teamLinks("girls").map(link => (
-                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2 text-[1.15rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] transition-all">
-                      {link.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <button onClick={() => go("/tryouts")} className="ml-2 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)] shadow-lg shadow-red-500/20">
-              Tryouts 2026
-            </button>
-
-            <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
-
-            <button onClick={() => go("/coach-tools.html")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
-
-            <a href="/newsletter" className={navItemClass("/newsletter")}>Newsletter</a>
-
-            <a href="/academy" className={navItemClass("/academy")}>Academy</a>
-
-            <button onClick={() => go("/contact")} className={navItemClass("/contact")}>Contact</button>
-
-            <div className={`w-px h-5 mx-3 ${scrolled ? "bg-black/10" : "bg-white/10"}`} />
+            <div className={`w-px h-5 mx-2 ${scrolled ? "bg-black/10" : "bg-white/[0.14]"}`} />
 
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
@@ -175,15 +108,15 @@ export function Header() {
                 <button onClick={() => go("/login")} className={navItemClass("/login")}>
                   <Lock size={11} className="inline mr-1" /> Login
                 </button>
-                <button onClick={() => go("/interest")} className={`px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
+                <button onClick={() => go("/interest")} className="px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] transition-all bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)]">
                   Register
                 </button>
               </div>
             )}
           </nav>
 
-          {/* Mobile/Tablet toggle — shows until the full menu has room */}
-          <div className="min-[1380px]:hidden flex items-center gap-3">
+          {/* Mobile/Tablet toggle */}
+          <div className="lg:hidden flex items-center gap-3">
             {/* Tryouts pill — always visible on mobile */}
             <button
               onClick={() => go("/tryouts")}

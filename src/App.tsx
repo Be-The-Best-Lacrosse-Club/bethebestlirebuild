@@ -4,28 +4,10 @@ import { AuthProvider } from "@/context/AuthContext"
 import { PublicLayout } from "@/layouts/PublicLayout"
 import { HubLayout } from "@/layouts/HubLayout"
 import { ProtectedRoute } from "@/components/ProtectedRoute"
-import { SEO } from "@/components/shared/SEO"
 import { useEffect } from "react"
 
-// Landing page sections
-import { Hero } from "@/components/Hero"
-import { TryoutFlyers } from "@/components/TryoutFlyers"
-import { ChampionsShowcase } from "@/components/ChampionsShowcase"
-import { AudiencePaths } from "@/components/AudiencePaths"
-import { TheStandard } from "@/components/TheStandard"
-import { WhatYouGet } from "@/components/WhatYouGet"
-import { DevelopmentModel } from "@/components/DevelopmentModel"
-import { CharacterLab } from "@/components/CharacterLab"
-import { FilmStudy } from "@/components/FilmStudy"
-import { DigitalAcademy } from "@/components/DigitalAcademy"
-import { EliteCircuit } from "@/components/EliteCircuit"
-import { SpecTicker } from "@/components/SpecTicker"
-import { FeaturedCoaches } from "@/components/FeaturedCoaches"
-import { Results } from "@/components/Results"
-import { CTASection } from "@/components/CTASection"
-import { SponsorsSection } from "@/components/SponsorsSection"
-
 // Pages
+import { HomePage } from "@/pages/HomePage"
 import { LoginPage } from "@/pages/LoginPage"
 import { ParentPortalPage } from "@/pages/ParentPortalPage"
 import { TryoutsPage } from "@/pages/TryoutsPage"
@@ -48,41 +30,6 @@ import { ScrollDemoPage } from "@/pages/ScrollDemoPage"
 import { ContactPage } from "@/pages/ContactPage"
 import { CoachToolsPage } from "@/pages/CoachToolsPage"
 import { LeadsPage } from "@/pages/LeadsPage"
-import homeContent from "@/content/home.json"
-
-const SITE_URL = "https://bethebestli.com"
-const homeOgImage = homeContent.seoImage.startsWith("http")
-  ? homeContent.seoImage
-  : `${SITE_URL}${homeContent.seoImage}`
-
-function LandingPage() {
-  return (
-    <>
-      <SEO
-        title="BTB Lacrosse Club | Be The Best"
-        description="Be The Best Lacrosse Club — Long Island's premier youth lacrosse development program for boys and girls."
-        path="/"
-        ogImage={homeOgImage}
-      />
-      <Hero />
-      <TryoutFlyers includeEast={false} />
-      <ChampionsShowcase />
-      <AudiencePaths />
-      <TheStandard />
-      <FeaturedCoaches />
-      <WhatYouGet />
-      <DevelopmentModel />
-      <CharacterLab />
-      <FilmStudy />
-      <DigitalAcademy />
-      <EliteCircuit />
-      <SpecTicker />
-      <Results />
-      <CTASection />
-      <SponsorsSection />
-    </>
-  )
-}
 
 
 function App() {
@@ -157,7 +104,7 @@ function App() {
         <div className="min-h-screen bg-black" style={{ fontFamily: "'Montserrat', sans-serif" }}>
           <Routes>
             <Route element={<PublicLayout />}>
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/academy" element={<AcademyInfoPage />} />
               <Route path="/tryouts" element={<TryoutsPage />} />
               <Route path="/interest" element={<InterestFormPage />} />

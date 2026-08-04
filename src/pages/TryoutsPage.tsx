@@ -19,7 +19,7 @@ type TryoutForm = {
 const BOYS_GRAD_YEARS = Array.from({ length: 10 }, (_, i) => String(2028 + i))
 const GIRLS_GRAD_YEARS = Array.from({ length: 8 }, (_, i) => String(2030 + i))
 const POSITIONS = ["Attack", "Midfield", "Defense", "Goalie", "FOGO", "LSM", "Draw Specialist"]
-const LAST_UPDATED = "July 12, 2026"
+const LAST_UPDATED = "August 4, 2026"
 
 const TRYOUT_OPTIONS = [
   {
@@ -159,7 +159,7 @@ export function TryoutsPage() {
     <div className="min-h-screen bg-black text-white pt-32 pb-24 px-6 relative overflow-hidden">
       <SEO 
         title="2026 Tryouts & Evaluations | BTB Lacrosse"
-        description="Compare 2026 BTB Lacrosse tryout registration paths for boys, girls, and BTB East travel programs, including BTB East July 13 and 16 at Seaford High School."
+        description="Request a 2026 BTB Lacrosse supplemental tryout by appointment for boys or girls teams. Roster opportunities remain available by grad year and team need."
         path="/tryouts"
       />
       
@@ -184,11 +184,50 @@ export function TryoutsPage() {
                 Earn Your <br /> <span className="text-[var(--btb-red)]">Spot.</span>
               </h1>
               <p className="text-white/70 text-[1.15rem] leading-relaxed max-w-[620px] mb-8">
-                Pick the right registration path first. Boys and girls tryouts are separate, and BTB East now reports to Seaford High School for July 13 & 16.
+                The main tryout dates have passed, but team placement is still open. Boys and girls players can request a supplemental evaluation by appointment.
               </p>
               <div className="mb-8 inline-flex rounded-full border border-[var(--btb-red)]/40 px-4 py-2 text-[0.72rem] font-black uppercase tracking-[2px] text-white/70">
-                Registration open · Updated {LAST_UPDATED}
+                Supplemental evaluations available · Updated {LAST_UPDATED}
               </div>
+
+              <section
+                id="supplemental-tryouts"
+                className="mb-12 overflow-hidden border border-[var(--btb-red)]/35 bg-[var(--btb-red)]/[0.06]"
+              >
+                <div className="grid md:grid-cols-[minmax(0,1fr)_300px] md:items-stretch">
+                  <div className="flex flex-col justify-center p-6 sm:p-8">
+                    <div className="text-[0.72rem] font-black uppercase tracking-[2.5px] text-[var(--btb-red)]">
+                      Team Placement Still Open
+                    </div>
+                    <h2 className="mt-3 font-display text-[clamp(2.25rem,5vw,3.6rem)] uppercase leading-[0.92] tracking-wide text-white">
+                      Supplemental Tryouts By Appointment
+                    </h2>
+                    <p className="mt-5 max-w-[560px] text-[1rem] font-semibold leading-7 text-white/70">
+                      Missed the main evaluation dates? Families can still inquire about a private supplemental tryout. Our staff will match each player with the right boys or girls evaluation based on grad year and current team openings.
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-2 text-[0.7rem] font-black uppercase tracking-[1.5px] text-white/80">
+                      <span className="border border-white/15 px-3 py-2">Boys + Girls</span>
+                      <span className="border border-white/15 px-3 py-2">All Skill Levels</span>
+                      <span className="border border-white/15 px-3 py-2">By Appointment</span>
+                    </div>
+                    <a
+                      href="#tryout-interest"
+                      className="mt-7 inline-flex w-full items-center justify-center gap-2 bg-[var(--btb-red)] px-6 py-4 text-[0.85rem] font-black uppercase tracking-[2px] text-white transition hover:bg-[var(--btb-red-dark)] sm:w-fit"
+                    >
+                      Request A Supplemental Tryout <ArrowRight size={14} />
+                    </a>
+                  </div>
+                  <img
+                    src="/images/events/BTB_Supplemental_Tryout_2026.jpg"
+                    alt="BTB supplemental tryout by appointment flyer"
+                    width={1254}
+                    height={1254}
+                    className="h-full w-full border-t border-white/10 object-cover md:border-l md:border-t-0"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              </section>
 
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3 mb-10" aria-label="2026 BTB tryout registration options">
                 {TRYOUT_OPTIONS.map((option) => (
@@ -280,17 +319,17 @@ export function TryoutsPage() {
 
             <div className="mt-16 border-t border-white/10 pt-10">
               <div className="text-[1.08rem] font-black uppercase tracking-[3px] text-[var(--btb-red)] mb-3">
-                Not Ready to Register?
+                Missed The Main Tryouts?
               </div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.25rem)] uppercase leading-[0.9] text-white mb-4">
-                Send an <span className="text-[var(--btb-red)]">Inquiry.</span>
+                Request A <span className="text-[var(--btb-red)]">Supplemental Tryout.</span>
               </h2>
               <p className="text-white/65 text-[1.08rem] leading-relaxed max-w-[560px]">
-                Use this if you need help choosing Boys, Girls, BTB East, or a grad-year placement before registering.
+                Complete the form below and a BTB coach will follow up about an evaluation for the right boys or girls team.
               </p>
             </div>
 
-            <form name="tryout-interest" method="POST" data-netlify="true" onSubmit={handleSubmit} className="space-y-8 mt-8">
+            <form id="tryout-interest" name="tryout-interest" method="POST" data-netlify="true" onSubmit={handleSubmit} className="scroll-mt-28 space-y-8 mt-8">
               <input type="hidden" name="form-name" value="tryout-interest" />
               <input type="hidden" name="requested_program" value={activeTab} />
 
@@ -481,13 +520,13 @@ export function TryoutsPage() {
               <div className="p-8 bg-white/[0.02] border border-white/5 rounded-2xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--btb-red)]/5 -skew-x-[45deg] translate-x-12 -translate-y-12" />
                 <Calendar className="text-[var(--btb-red)] mb-6" size={28} />
-                <h3 className="font-display text-xl text-white uppercase tracking-wider mb-4">2026 Evaluation Cycle</h3>
+                <h3 className="font-display text-xl text-white uppercase tracking-wider mb-4">Supplemental Evaluation Cycle</h3>
                 <p className="text-white/70 text-[1.1rem] leading-relaxed mb-6">
-                  2026 tryout registration is open for Boys, Girls, and BTB East. Each evaluation includes a BTB pinnie, filmed tryout, and evaluation system.
+                  Supplemental evaluations are available for boys and girls by appointment. Staff will follow up based on grad year, program fit, and current roster openings.
                 </p>
                 <div className="flex items-center gap-3 text-[var(--btb-red)] font-black text-[1.08rem] uppercase tracking-[2px]">
                   <Activity size={12} className="animate-pulse" />
-                  Status: Registration Open
+                  Status: Team Placement Open
                 </div>
               </div>
 

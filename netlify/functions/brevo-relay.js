@@ -784,6 +784,11 @@ async function syncTryoutRosterSheet({ formName, data, submissionTime, submissio
 const BOYS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Boys_Futures_June_Clinic.jpg";
 const GIRLS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Girls_Futures_June_Clinic.jpg";
 
+const CONFIRMATION_DISABLED_FORMS = new Set([
+  "camp-registration",
+  "positional-registration",
+]);
+
 // Per-form confirmation config. Add new programs here as they're created.
 const CONFIRMATION_CONFIG = {
   "futures-clinic-registration": {
@@ -948,6 +953,10 @@ async function brevoSendConfirmation({ formName, data }) {
   const apiKey = process.env.BREVO_API_KEY;
   const senderEmail = process.env.BREVO_SENDER_EMAIL;
   const senderName = process.env.BREVO_SENDER_NAME || "BTB Lacrosse";
+
+  if (CONFIRMATION_DISABLED_FORMS.has(formName)) {
+    return { skipped: `confirmation disabled for ${formName}` };
+  }
 
   const config = CONFIRMATION_CONFIG[formName];
   if (!config) return { skipped: `no confirmation template for ${formName}` };
