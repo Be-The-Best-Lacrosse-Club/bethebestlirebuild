@@ -45,7 +45,11 @@
     .schedule-intro h2 { margin-top:8px; font-size:clamp(2.8rem,6vw,4.3rem); line-height:.95; }
     .schedule-intro p { max-width:430px; margin:0; color:#aaa; font-size:.86rem; font-weight:600; line-height:1.65; }
     .schedule { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:48px; }
-    .session { padding:22px; background:var(--panel); border:1px solid var(--line); border-top:4px solid var(--red); }
+    .session { position:relative; padding:22px; background:var(--panel); border:1px solid var(--line); border-top:4px solid var(--red); }
+    .session.sold-out { border-color:#333; border-top-color:#777; background:#0a0a0a; }
+    .session.sold-out .session-time,.session.sold-out .session-years,.session.sold-out .session-days { color:#777; }
+    .sold-out-badge { display:none; position:absolute; top:16px; right:16px; padding:7px 10px; color:#fff; background:var(--red); font-size:.65rem; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; }
+    .session.sold-out .sold-out-badge { display:inline-flex; }
     .session-time { font-family:"Bebas Neue",sans-serif; font-size:2.1rem; letter-spacing:1px; }
     .session-years { margin-top:5px; color:var(--red); font-size:.78rem; font-weight:900; letter-spacing:1.8px; text-transform:uppercase; }
     .session-days { margin-top:12px; color:#aaa; font-size:.75rem; font-weight:700; line-height:1.5; }
@@ -96,6 +100,7 @@
       .schedule-intro p { margin-top:14px; }
       .schedule { grid-template-columns:1fr; }
       .session { display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:14px; }
+      .sold-out-badge { position:static; grid-column:1/-1; width:fit-content; margin-bottom:8px; }
       .session-years { text-align:right; }
       .session-days { grid-column:1/-1; }
       .row-3 { grid-template-columns:1fr; gap:0; }
@@ -155,17 +160,20 @@
         <p>Each group trains at the same time on August 19, 20, and 21. Choose the player’s graduation year in the form and the correct session will be assigned automatically.</p>
       </div>
       <div class="schedule">
-        <article class="session">
+        <article class="session" data-group-year="2036">
+          <div class="sold-out-badge">Sold Out</div>
           <div class="session-time">5 PM–6 PM</div>
           <div class="session-years">2036 + 2035</div>
           <div class="session-days">Wednesday–Friday · August 19–21</div>
         </article>
-        <article class="session">
+        <article class="session" data-group-year="2034">
+          <div class="sold-out-badge">Sold Out</div>
           <div class="session-time">6 PM–7 PM</div>
           <div class="session-years">2034 + 2033</div>
           <div class="session-days">Wednesday–Friday · August 19–21</div>
         </article>
-        <article class="session">
+        <article class="session" data-group-year="2032">
+          <div class="sold-out-badge">Sold Out</div>
           <div class="session-time">7 PM–8 PM</div>
           <div class="session-years">2032 + 2031</div>
           <div class="session-days">Wednesday–Friday · August 19–21</div>
@@ -262,6 +270,11 @@
       "2034": "6:00 PM–7:00 PM", "2033": "6:00 PM–7:00 PM",
       "2032": "7:00 PM–8:00 PM", "2031": "7:00 PM–8:00 PM"
     };
+    const SESSION_GROUPS = [
+      { lookupYear:"2036", years:["2036","2035"] },
+      { lookupYear:"2034", years:["2034","2033"] },
+      { lookupYear:"2032", years:["2032","2031"] }
+    ];
     const form = document.getElementById("registration");
     const gradYear = document.getElementById("gradYear");
     const dob = document.getElementById("dob");
@@ -305,6 +318,42 @@
     function resetSubmitButton() {
       submitBtn.disabled = false;
       submitBtn.textContent = "Save Registration & Pay — $150";
+    }
+
+    function showGroupSoldOut(group, soldOut) {
+      const card = document.querySelector('[data-group-year="' + group.lookupYear + '"]');
+      if (card) card.classList.toggle("sold-out", soldOut);
+      group.years.forEach(function(year) {
+        const option = gradYear.querySelector('option[value="' + year + '"]');
+        if (!option) return;
+        option.disabled = soldOut;
+        option.textContent = soldOut ? year + " — Sold Out" : year;
+      });
+    }
+
+    async function refreshPublicAvailability() {
+      await Promise.all(SESSION_GROUPS.map(async function(group) {
+        try {
+          const response = await fetch(REGISTRATION_ENDPOINT + "?grad_year=" + group.lookupYear, {
+            headers: { "Accept":"application/json" }
+          });
+          const result = await response.json();
+          if (!response.ok) return;
+          const soldOut = result.available === false;
+          showGroupSoldOut(group, soldOut);
+          if (soldOut && group.years.includes(gradYear.value)) {
+            gradYear.value = "";
+            updateAssignment();
+            sessionAvailable = false;
+            errorMsg.textContent = "This session is currently full. Please email info@bethebestli.com for assistance.";
+            errorMsg.classList.add("show");
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Session Full";
+          }
+        } catch {
+          // Submission still performs the authoritative server-side capacity check.
+        }
+      }));
     }
 
     async function checkSessionAvailability() {
@@ -362,6 +411,7 @@
       void checkSessionAvailability();
     });
     dob.addEventListener("change", updateAssignment);
+    void refreshPublicAvailability();
 
     form.addEventListener("submit", async function(event) {
       event.preventDefault();

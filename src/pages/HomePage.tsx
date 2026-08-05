@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { ArrowRight, CalendarDays, GraduationCap, Shield, Users } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
@@ -56,6 +57,12 @@ const upcomingOpportunities = [
   },
 ]
 
+const miniCampGroups = [
+  { label: "2036/2035 · 5–6 PM", lookupYear: "2036" },
+  { label: "2034/2033 · 6–7 PM", lookupYear: "2034" },
+  { label: "2032/2031 · 7–8 PM", lookupYear: "2032" },
+]
+
 const paths = [
   {
     label: "Boys",
@@ -96,6 +103,34 @@ const coaches = [
 ]
 
 export function HomePage() {
+  const [soldOutMiniCampGroups, setSoldOutMiniCampGroups] = useState<string[]>([])
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    void Promise.all(
+      miniCampGroups.map(async (group) => {
+        try {
+          const response = await fetch(`/api/girls-mini-camp-register?grad_year=${group.lookupYear}`, {
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+          })
+          if (!response.ok) return null
+          const result = await response.json() as { available?: boolean }
+          return result.available === false ? group.label : null
+        } catch {
+          return null
+        }
+      }),
+    ).then((groups) => {
+      if (!controller.signal.aborted) setSoldOutMiniCampGroups(groups.filter((group): group is string => Boolean(group)))
+    })
+
+    return () => controller.abort()
+  }, [])
+
+  const allMiniCampGroupsSoldOut = soldOutMiniCampGroups.length === miniCampGroups.length
+
   return (
     <>
       <SEO
@@ -212,6 +247,15 @@ export function HomePage() {
                       <CalendarDays size={14} className="text-[var(--btb-red)]" />
                       {opportunity.date}
                     </div>
+                    {opportunity.href === "/register-girls-mini-camp" && soldOutMiniCampGroups.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-2" role="status" aria-label="Girls Mini Camp sold-out sessions">
+                        {soldOutMiniCampGroups.map((group) => (
+                          <span key={group} className="bg-[var(--btb-red)] px-3 py-2 text-[0.65rem] font-black uppercase tracking-[1.5px] text-white">
+                            {group} · Sold Out
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <p className="mt-4 text-sm font-semibold leading-7 text-white/[0.62]">
                       {opportunity.description}
                     </p>
@@ -219,7 +263,9 @@ export function HomePage() {
                       href={opportunity.href}
                       className="mt-6 inline-flex w-fit items-center gap-2 text-xs font-black uppercase tracking-[2px] text-white transition hover:text-[var(--btb-red)]"
                     >
-                      {opportunity.cta} <ArrowRight size={14} />
+                      {opportunity.href === "/register-girls-mini-camp" && allMiniCampGroupsSoldOut
+                        ? "All Sessions Sold Out"
+                        : opportunity.cta} <ArrowRight size={14} />
                     </a>
                   </div>
                 </article>
