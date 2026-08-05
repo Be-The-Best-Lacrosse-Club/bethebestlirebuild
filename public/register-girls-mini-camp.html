@@ -23,8 +23,11 @@
     .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
     .brand img { width:42px; height:42px; border-radius:50%; object-fit:cover; }
     .brand span { font-family:"Bebas Neue",sans-serif; font-size:1.45rem; letter-spacing:1px; }
+    .header-actions { display:flex; align-items:center; gap:16px; }
     .back-link { color:#ddd; font-size:.72rem; font-weight:900; letter-spacing:1.4px; text-decoration:none; text-transform:uppercase; }
     .back-link:hover { color:var(--red); }
+    .register-tab { padding:11px 17px; color:#fff; background:var(--red); font-size:.7rem; font-weight:900; letter-spacing:1.5px; text-decoration:none; text-transform:uppercase; transition:background .2s; }
+    .register-tab:hover { background:var(--dark-red); }
     .hero { padding:54px 20px 42px; border-bottom:1px solid #222; background:radial-gradient(circle at 80% 0,rgba(210,38,48,.22),transparent 38%),#080808; }
     .hero-inner { width:min(1160px,100%); margin:auto; display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,470px); gap:54px; align-items:center; }
     .eyebrow,.section-label { color:var(--red); font-size:.72rem; font-weight:900; letter-spacing:2.7px; text-transform:uppercase; }
@@ -100,7 +103,9 @@
     @media (max-width:560px) {
       .site-header { padding:11px 14px; }
       .brand span { font-size:1.2rem; }
-      .back-link { font-size:.58rem; }
+      .back-link { display:none; }
+      .header-actions { gap:8px; }
+      .register-tab { padding:10px 13px; font-size:.62rem; }
       .hero { padding-inline:16px; }
       .page { width:min(100% - 24px,960px); padding-top:42px; }
       .row { grid-template-columns:1fr; gap:0; }
@@ -115,7 +120,10 @@
       <img src="/assets/brand/btb-circle-logo.png" alt="BTB Lacrosse Club">
       <span>Be The <span style="color:var(--red)">Best</span></span>
     </a>
-    <a class="back-link" href="/">← Back to website</a>
+    <nav class="header-actions" aria-label="Mini Camp registration navigation">
+      <a class="back-link" href="/">← Back to website</a>
+      <a class="register-tab" href="#registration">Register</a>
+    </nav>
   </header>
 
   <section class="hero">
@@ -176,7 +184,7 @@
 
       <div class="form-head">
         <div class="section-label">Registration</div>
-        <h2>Reserve Her Spot</h2>
+        <h2>Registration Form</h2>
         <p>Complete the player information and waiver, then continue to secure $150 QuickBooks checkout.</p>
       </div>
 
