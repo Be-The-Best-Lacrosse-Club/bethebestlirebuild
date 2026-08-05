@@ -252,13 +252,13 @@ BTB programs should feel different from the moment a new player steps on the fie
     id: "module-practice-planning",
     title: "Practice Planning and Design",
     description:
-      "Learn how to design and run BTB practices with purpose — from the 16-week seasonal cycle to writing individual practice plans with precise timing, sharp transitions, and high-impact coaching points.",
+      "Learn how to design and run BTB practices with purpose — from the 10-month seasonal program to writing individual practice plans with precise timing, sharp transitions, and high-impact coaching points.",
     icon: "📋",
     color: "from-green-600 to-green-800",
     lessons: [
       {
         id: "lesson-16-week-cycle",
-        title: "The BTB 16-Week Seasonal Cycle",
+        title: "The BTB 10-Month Seasonal Program",
         description: `BTB organizes its training year into four phases: Foundation, Connection, Expansion, and Execution. Each phase has a clear purpose, and understanding that purpose allows you to choose the right drills, structure the right game situations, and make the right coaching points for where your team actually is in their development. Running the wrong content in the wrong phase is one of the most common coaching mistakes — it looks like work but doesn't produce real growth.
 
 The Foundation Phase (Weeks 1-3) is about fundamentals, habit-building, 1v1 reads, and core terminology. This is where you establish the standard, teach or re-teach the basics of stick skills, footwork, and positioning, and introduce the first ride/clear habits. Practice tempo in this phase is medium — you want enough repetition for habits to form, which means slowing down enough for players to execute correctly rather than just frantically. The coaching points in Foundation are about mechanics: "hands away from your body," "follow through to your target," "low hips on the defensive approach."

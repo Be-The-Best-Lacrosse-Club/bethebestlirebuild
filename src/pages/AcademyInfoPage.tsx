@@ -359,7 +359,7 @@ export function AcademyInfoPage() {
       <section className="border-b border-white/10 bg-[#070707] px-5 py-20 sm:px-8">
         <div className="mx-auto max-w-[1160px]">
           <div className="mb-12 max-w-[760px]">
-            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">16-Week Progression</div>
+            <div className="mb-3 text-sm font-black uppercase text-[#D22630]">10-Month Progression</div>
             <h2 className="font-display text-5xl uppercase leading-none text-white md:text-7xl">
               Four phases.
               <span className="block text-[#D22630]">No random development.</span>

@@ -6,7 +6,7 @@ export function SpecTicker({ items = [
   "BTB_ELITE_ACADEMY",
   "2+_COACHES_PER_TEAM",
   "PRO_LEVEL_FILM",
-  "16_WEEK_CURRICULUM",
+  "10_MONTH_PROGRAM",
   "LONG_ISLAND_NY",
   "30+_COACHES",
   "90+_LESSONS",

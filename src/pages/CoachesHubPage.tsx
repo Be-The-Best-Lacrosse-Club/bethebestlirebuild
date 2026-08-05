@@ -512,7 +512,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
             </h2>
             <p className="text-[1.1rem] text-white/35 max-w-[440px] leading-relaxed">
               Every practice follows a submitted written plan. Each phase builds on the last across the
-              16-week development cycle.
+              10-month development program.
             </p>
           </div>
 

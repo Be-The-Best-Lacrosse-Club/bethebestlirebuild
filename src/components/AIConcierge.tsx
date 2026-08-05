@@ -85,7 +85,7 @@ export const AIConcierge = () => {
     }
 
     if (q.includes("phase") || q.includes("training") || q.includes("cycle")) {
-      return `Our 16-week development cycle is what sets us apart: ${CLUB_DATA.phases.join(". ")}`;
+      return `Our 10-month development program is what sets us apart: ${CLUB_DATA.phases.join(". ")}`;
     }
 
     if (q.includes("philosophy") || q.includes("standard") || q.includes("pillar")) {

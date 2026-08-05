@@ -25,7 +25,7 @@ const phases = [
 
 const pillars = [
   { stat: "2+ per team", label: "Dedicated coaches" },
-  { stat: "16", label: "Week development cycle" },
+  { stat: "10", label: "Month development program" },
   { stat: "50+", label: "Documented drills" },
   { stat: "100%", label: "Guaranteed individual and team progress" },
 ]
@@ -45,14 +45,14 @@ export function DevelopmentModel() {
           <div className="max-w-[600px]">
             <div className="text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6 flex items-center gap-3">
               <div className="w-8 h-px bg-[var(--btb-red)]" />
-              DEVELOPMENT_MODEL // 16-WEEK_CYCLE
+              DEVELOPMENT_MODEL // 10-MONTH_PROGRAM
             </div>
             <h2 className="font-display text-[clamp(2rem,8vw,5rem)] uppercase leading-[0.85] text-white">
               How We Actually<br /><span className="text-[var(--btb-red)]">Build Players.</span>
             </h2>
           </div>
           <p className="text-white/65 text-[1rem] leading-relaxed max-w-[340px] border-l border-white/10 pl-6">
-            A 16-week repeatable cycle designed around four phases of skill progression.
+            A 10-month repeatable program designed around four phases of skill progression.
           </p>
         </div>
 

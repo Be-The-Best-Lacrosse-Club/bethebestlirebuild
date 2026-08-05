@@ -377,7 +377,7 @@ export const programData: Record<string, ProgramContent> = {
     label: "Boys Program",
     navLabel: "Boys",
     heroTagline: "Train Like You\nMean It.",
-    heroSubtitle: "The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 16-week curriculum, and 2+ coaches per team — for every age group.",
+    heroSubtitle: "The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 10-month curriculum, and 2+ coaches per team — for every age group.",
     stats: [
       { num: "450+", label: "Players Trained" },
       { num: "22", label: "Elite Teams" },
@@ -387,7 +387,7 @@ export const programData: Record<string, ProgramContent> = {
     benefits: [
       { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Real reps, real corrections, real coaching — not a number in a line drill." },
       { icon: Video, title: "Weekly Film Study", stat: "Required", text: "You'll watch your own footage with a coach who breaks down what you did right, what you missed, and how to fix it." },
-      { icon: BookOpen, title: "Structured Curriculum", stat: "16 Weeks", text: "Every practice follows a written plan with timed segments and specific skill targets. Nothing is improvised." },
+      { icon: BookOpen, title: "Structured Curriculum", stat: "10 Months", text: "Every practice follows a written plan with timed segments and specific skill targets. Nothing is improvised." },
       { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie, FOGO. Your training is built for your position and what you actually need." },
       { icon: TrendingUp, title: "Recruiting Preparation", stat: "College Track", text: "Highlight film packages, outreach guidance, school list strategy, and honest profile evaluation." },
       { icon: Shield, title: "Certified Coaching Staff", stat: "Verified", text: "Every coach is background-checked, US Lacrosse certified, SafeSport trained, and submits practice plans before every session." },
@@ -446,7 +446,7 @@ export const programData: Record<string, ProgramContent> = {
     benefits: [
       { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Every player gets real reps, real corrections, and real coaching attention every session." },
       { icon: Video, title: "Weekly Film Study", stat: "Required", text: "Watch your own footage with a coach who breaks down positioning, decision-making, and what to fix — every single week." },
-      { icon: BookOpen, title: "Girls-Specific Curriculum", stat: "16 Weeks", text: "A development plan built specifically for the girls' game — draw controls, free position, defensive positioning, transition speed." },
+      { icon: BookOpen, title: "Girls-Specific Curriculum", stat: "10 Months", text: "A development plan built specifically for the girls' game — draw controls, free position, defensive positioning, transition speed." },
       { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie. Training is built around your role and what your position actually demands in game situations." },
       { icon: TrendingUp, title: "Recruiting Preparation", stat: "College Track", text: "Highlight film packages, outreach coaching, school list strategy, and honest profile evaluation for players on the college track." },
       { icon: Shield, title: "Certified Coaching Staff", stat: "Verified", text: "Every coach is background-checked, US Lacrosse certified, SafeSport trained, and submits written practice plans before every session." },

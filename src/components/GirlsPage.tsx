@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Video, Users, BookOpen, Target, TrendingUp, Shie
 const benefits = [
   { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Every player gets real reps, real corrections, and real coaching attention every session." },
   { icon: Video, title: "Weekly Film Study", stat: "Required", text: "Watch your own footage with a coach who breaks down positioning, decision-making, and what to fix — every single week." },
-  { icon: BookOpen, title: "Girls-Specific Curriculum", stat: "16 Weeks", text: "A development plan built specifically for the girls' game — draw controls, free position, defensive positioning, transition speed." },
+  { icon: BookOpen, title: "Girls-Specific Curriculum", stat: "10 Months", text: "A development plan built specifically for the girls' game — draw controls, free position, defensive positioning, transition speed." },
   { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie. Training is built around your role and what your position actually demands in game situations." },
   { icon: TrendingUp, title: "Recruiting Preparation", stat: "College Track", text: "Highlight film packages, outreach coaching, school list strategy, and honest profile evaluation for players on the college track." },
   { icon: Shield, title: "Certified Coaching Staff", stat: "Verified", text: "Every coach is background-checked, US Lacrosse certified, SafeSport trained, and submits written practice plans before every session." },
@@ -171,14 +171,14 @@ export function GirlsPage({ onBack }: { onBack: () => void }) {
         </div>
       </section>
 
-      {/* 16-Week Development */}
+      {/* 10-Month Development */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <div>
               <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Model</div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92]">
-                16-Week Cycle.<br />Four Phases.
+                10-Month Program.<br />Four Phases.
               </h2>
             </div>
             <p className="text-[1.1rem] text-white/35 max-w-[280px] leading-relaxed md:text-right">

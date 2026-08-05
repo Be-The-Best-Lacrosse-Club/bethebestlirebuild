@@ -128,7 +128,7 @@ export const practicePlans: PracticePlan[] = [
       { time: "8–25 min", activity: "Standards Assessment", detail: "Timed skills test: wall ball accuracy, ground balls, shooting percentage. Record scores." },
       { time: "25–45 min", activity: "Game Simulation", detail: "Full 6v6 scrimmage scored and evaluated. Coaches chart individual performance." },
       { time: "45–55 min", activity: "Film Review: Highlight Reel", detail: "Players review best clips from the cycle for recruiting highlight film selection." },
-      { time: "55–65 min", activity: "Goal Setting", detail: "Individual meetings. Review progress, set targets for next 16-week cycle." },
+      { time: "55–65 min", activity: "Goal Setting", detail: "Individual meetings. Review progress, set targets for next 10-month program." },
       { time: "65–75 min", activity: "Cycle Wrap-Up", detail: "Team discussion. Recognize growth. Preview next phase." },
     ],
   },

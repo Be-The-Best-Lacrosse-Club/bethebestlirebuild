@@ -63,7 +63,7 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
             Your Development.<br />Your Film.<br /><span className="text-[var(--btb-red)]">Your Future.</span>
           </h1>
           <p className="text-[1.05rem] text-white/85 max-w-[520px] leading-[1.9]">
-            The BTB Players Hub is everything a serious athlete needs to understand their development — how film study works, what the 16-week cycle looks like, and how BTB prepares you for the next level.
+            The BTB Players Hub is everything a serious athlete needs to understand their development — how film study works, what the 10-month program looks like, and how BTB prepares you for the next level.
           </p>
         </div>
       </section>
@@ -98,7 +98,7 @@ export function PlayersPage({ onBack }: { onBack: () => void }) {
         <div className="max-w-[900px] mx-auto">
           <div className="text-[1.05rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Cycle</div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-14">
-            Your 16-Week<br />Development Path
+            Your 10-Month<br />Development Path
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {phases.map((p, i) => (
