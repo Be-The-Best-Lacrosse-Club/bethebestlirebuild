@@ -277,6 +277,11 @@
   to = "/register-boys-east-tryouts.html"
   status = 200
 
+[[redirects]]
+  from = "/register-girls-mini-camp"
+  to = "/register-girls-mini-camp.html"
+  status = 200
+
 # Join list static pages — must come BEFORE the SPA catch-all
 [[redirects]]
   from = "/join"

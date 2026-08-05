@@ -130,6 +130,7 @@ function brevoListIdFor(formName) {
     "tryout-interest": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-tryout-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-girls-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "camp-registration": process.env.BREVO_LIST_TRYOUT,
     "positional-registration": process.env.BREVO_LIST_TRYOUT,
@@ -894,6 +895,16 @@ const CONFIRMATION_CONFIG = {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
       return confirmationBase({ parentFirst, playerName, program: "BTB Girls Tryouts 2026", details: "Tryout times are assigned by grad year. We'll send your specific time slot and location details shortly.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
+    },
+  },
+  "btb-girls-mini-camp-registration": {
+    subject: (data) => `You're Registered — Girls Mini Camp | ${data.assigned_session || "August 19–21"}`,
+    getHtml: (data) => {
+      const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
+      const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      const assignedSession = data.assigned_session || "the session assigned to her graduation year";
+      const details = `August 19, 20, and 21 at ${assignedSession}. Momentum Sports, 10 Dunton Ave, Deer Park, NY. Registration is finalized after the $150 QuickBooks payment is completed.`;
+      return confirmationBase({ parentFirst, playerName, program: "BTB × Bearded Lax Girls Mini Camp", details, cta: "VIEW CAMP DETAILS", ctaUrl: "https://www.bethebestli.com/register-girls-mini-camp" });
     },
   },
   "btb-east-boys-tryout-registration": {

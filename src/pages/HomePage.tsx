@@ -22,15 +22,15 @@ const programLinks: ProgramLink[] = [
 
 const upcomingOpportunities = [
   {
-    title: "The Collab",
-    audience: "Boys + Girls Training",
-    date: "Coming This August · Dates TBA",
+    title: "Girls Mini Camp",
+    audience: "Girls · Classes 2031–2036",
+    date: "August 19–21 · Times by Grad Year",
     description:
-      "BTB and Bearded Lax join forces for elite training, player development, mindset work, and a dedicated girls development track at Momentum Sports.",
-    image: "/images/events/BTB_The_Collab_Training_2026.jpg",
-    alt: "The Collab training flyer featuring Coach Dan Achatz and Matt Mauro at Momentum Sports",
-    cta: "Join Interest List",
-    href: "/interest",
+      "Three nights of focused girls training with Coach Dan Achatz and Matt Mauro at Momentum Sports. Sessions are assigned by graduation year.",
+    image: "/images/events/BTB_Girls_Mini_Camp_2026.jpg",
+    alt: "BTB and Bearded Lax Girls Mini Camp flyer for August 19 through 21, 2026 at Momentum Sports",
+    cta: "Register · $150",
+    href: "/register-girls-mini-camp",
   },
   {
     title: "Full Circle Elite Training",

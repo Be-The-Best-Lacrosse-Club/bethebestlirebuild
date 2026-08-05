@@ -10,11 +10,12 @@ const mainNavLinks = [
   { label: "Tryouts", href: "/tryouts" },
   { label: "Futures", href: "/futures" },
   { label: "Camps", href: "/camps" },
+  { label: "Register for Girls Mini Camp", href: "/register-girls-mini-camp" },
   { label: "Staff", href: "/boys/coaches" },
   { label: "Academy", href: "/academy" },
 ]
 
-const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-tryouts", "/register-boys-tryouts", "/register-girls-tryouts", "/register-boys-east-tryouts", "/register-camp", "/register-positional", "/register-futures"])
+const staticLinks = new Set(["/newsletter", "/coach-tools.html", "/register-tryouts", "/register-boys-tryouts", "/register-girls-tryouts", "/register-boys-east-tryouts", "/register-girls-mini-camp", "/register-camp", "/register-positional", "/register-futures"])
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -117,12 +118,12 @@ export function Header() {
 
           {/* Mobile/Tablet toggle */}
           <div className="lg:hidden flex items-center gap-3">
-            {/* Tryouts pill — always visible on mobile */}
+            {/* Mini Camp registration — always visible on mobile */}
             <button
-              onClick={() => go("/tryouts")}
+              onClick={() => go("/register-girls-mini-camp")}
               className="px-3 py-1.5 text-[1.15rem] font-black uppercase tracking-[1.5px] bg-[var(--btb-red)] text-white rounded-md"
             >
-              Tryouts
+              Girls Mini Camp
             </button>
             <button
               className={`z-[60] transition-colors p-1 ${scrolled || mobileOpen ? "text-black" : "text-white"}`}
@@ -155,10 +156,10 @@ export function Header() {
             {/* Primary CTAs */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               <button
-                onClick={() => go("/tryouts")}
+                onClick={() => go("/register-girls-mini-camp")}
                 className="py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
               >
-                Tryouts 2026
+                Register Mini Camp
               </button>
               <button
                 onClick={() => go("/interest")}
@@ -178,6 +179,7 @@ export function Header() {
                   { label: "Tryouts", href: "/tryouts" },
                   { label: "BTB Futures", href: "/futures" },
                   { label: "Camps & Clinics", href: "/camps" },
+                  { label: "Register for Girls Mini Camp", href: "/register-girls-mini-camp" },
                 ],
               },
               {
