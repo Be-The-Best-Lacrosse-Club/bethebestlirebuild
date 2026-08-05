@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Girls Mini Camp Registration | BTB Lacrosse</title>
-  <meta name="description" content="Register for the BTB x Bearded Lax Girls Mini Camp, August 19–21, 2026 at Momentum Sports in Deer Park. $150 per player.">
+  <meta name="description" content="Register for the BTB x Bearded Lax Girls Mini Camp, August 19–21, 2026 at Momentum Sports in Deer Park. $150 per player with only 18 players per group.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -44,6 +44,9 @@
     .schedule-intro { display:flex; justify-content:space-between; gap:28px; align-items:end; margin-bottom:20px; }
     .schedule-intro h2 { margin-top:8px; font-size:clamp(2.8rem,6vw,4.3rem); line-height:.95; }
     .schedule-intro p { max-width:430px; margin:0; color:#aaa; font-size:.86rem; font-weight:600; line-height:1.65; }
+    .capacity-callout { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; padding:15px 18px; color:#fff; background:var(--red); }
+    .capacity-callout strong { font-family:"Bebas Neue",sans-serif; font-size:1.65rem; font-weight:400; letter-spacing:1.2px; text-transform:uppercase; }
+    .capacity-callout span { font-size:.72rem; font-weight:800; letter-spacing:1px; text-align:right; text-transform:uppercase; }
     .schedule { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:48px; }
     .session { position:relative; padding:22px; background:var(--panel); border:1px solid var(--line); border-top:4px solid var(--red); }
     .session.sold-out { border-color:#333; border-top-color:#777; background:#0a0a0a; }
@@ -98,6 +101,8 @@
       .flyer-card { order:2; width:min(500px,100%); margin:auto; }
       .schedule-intro { display:block; }
       .schedule-intro p { margin-top:14px; }
+      .capacity-callout { align-items:flex-start; flex-direction:column; gap:4px; }
+      .capacity-callout span { text-align:left; }
       .schedule { grid-template-columns:1fr; }
       .session { display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:14px; }
       .sold-out-badge { position:static; grid-column:1/-1; width:fit-content; margin-bottom:8px; }
@@ -158,6 +163,10 @@
           <h2 id="schedule-title">Find Her Time</h2>
         </div>
         <p>Each group trains at the same time on August 19, 20, and 21. Choose the player’s graduation year in the form and the correct session will be assigned automatically.</p>
+      </div>
+      <div class="capacity-callout" role="note">
+        <strong>Only 18 Players Per Group</strong>
+        <span>Focused reps · Limited availability</span>
       </div>
       <div class="schedule">
         <article class="session" data-group-year="2036">
