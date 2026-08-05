@@ -255,6 +255,7 @@
 
   <script>
     const PAYMENT_LINK = "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1c3a01704f2547cbb09f23abdebff4aa0bd6cfdac675404383577857b777c553ce3f1437feae469385772f1ce703ed23-0?locale=EN_US";
+    const REGISTRATION_ENDPOINT = "/api/girls-mini-camp-register";
     const CAMP_DATE = new Date("2026-08-19T12:00:00");
     const SESSIONS = {
       "2036": "5:00 PM–6:00 PM", "2035": "5:00 PM–6:00 PM",
@@ -271,6 +272,8 @@
     const assignmentDetail = document.getElementById("assignmentDetail");
     const submitBtn = document.getElementById("submitBtn");
     const errorMsg = document.getElementById("errorMsg");
+    let sessionAvailable = true;
+    let availabilityRequest = 0;
 
     function calculateAge(dateValue) {
       if (!dateValue) return "";
@@ -299,10 +302,54 @@
 
     function digitsOnly(value) { return String(value || "").replace(/\D/g, ""); }
 
+    function resetSubmitButton() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Save Registration & Pay — $150";
+    }
+
+    async function checkSessionAvailability() {
+      const year = gradYear.value;
+      const requestId = ++availabilityRequest;
+      errorMsg.classList.remove("show");
+
+      if (!SESSIONS[year]) {
+        sessionAvailable = true;
+        resetSubmitButton();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Checking Session…";
+
+      try {
+        const response = await fetch(REGISTRATION_ENDPOINT + "?grad_year=" + encodeURIComponent(year), {
+          headers: { "Accept": "application/json" }
+        });
+        const result = await response.json();
+        if (requestId !== availabilityRequest || year !== gradYear.value) return;
+        if (!response.ok) throw new Error("Availability check failed");
+
+        sessionAvailable = result.available !== false;
+        if (!sessionAvailable) {
+          errorMsg.textContent = "This session is currently full. Please email info@bethebestli.com for assistance.";
+          errorMsg.classList.add("show");
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Session Full";
+          return;
+        }
+      } catch {
+        if (requestId !== availabilityRequest || year !== gradYear.value) return;
+        sessionAvailable = true;
+      }
+
+      resetSubmitButton();
+    }
+
     function validationError(data) {
       const year = String(data.get("grad_year") || "");
       const age = Number(calculateAge(String(data.get("player_dob") || "")));
       if (!SESSIONS[year]) return "Please choose an eligible graduation year from 2031 through 2036.";
+      if (!sessionAvailable) return "This session is currently full. Please email info@bethebestli.com for assistance.";
       if (!Number.isFinite(age) || age < 6 || age > 16) return "Please check the player’s date of birth. For placement help, email info@bethebestli.com.";
       if (digitsOnly(data.get("parent_phone")).length < 10) return "Please enter a valid parent mobile number.";
       if (digitsOnly(data.get("emergency_phone")).length < 10) return "Please enter a valid emergency contact number.";
@@ -310,7 +357,10 @@
       return "";
     }
 
-    gradYear.addEventListener("change", updateAssignment);
+    gradYear.addEventListener("change", function() {
+      updateAssignment();
+      void checkSessionAvailability();
+    });
     dob.addEventListener("change", updateAssignment);
 
     form.addEventListener("submit", async function(event) {
@@ -327,20 +377,37 @@
       }
       submitBtn.disabled = true;
       submitBtn.textContent = "Saving Registration…";
-      const params = new URLSearchParams();
-      for (const [key,value] of data.entries()) params.append(key,String(value).trim());
+      const payload = {};
+      for (const [key,value] of data.entries()) payload[key] = String(value).trim();
       try {
-        const response = await fetch("/", { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:params.toString() });
-        if (!response.ok) throw new Error("Registration could not be saved");
+        const response = await fetch(REGISTRATION_ENDPOINT, {
+          method:"POST",
+          headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+          body:JSON.stringify(payload)
+        });
+        const result = await response.json().catch(function() { return {}; });
+        if (!response.ok) {
+          const registrationError = new Error(result.error || "Registration could not be saved");
+          registrationError.sessionFull = response.status === 409;
+          throw registrationError;
+        }
         const player = (data.get("player_first_name") + " " + data.get("player_last_name")).trim();
         sessionStorage.setItem("btb_last_registration", JSON.stringify({ program:"Girls Mini Camp", player, email:data.get("parent_email"), amount:150, session:data.get("assigned_session"), ts:Date.now() }));
         if (typeof fbq === "function") fbq("track", "Lead", { content_name:"Girls Mini Camp Registration", content_category:"Girls Training", value:150, currency:"USD" });
         window.location.href = PAYMENT_LINK;
       } catch (error) {
-        errorMsg.textContent = "We could not save the registration. Please try again or email info@bethebestli.com.";
+        const isFull = error && error.sessionFull;
+        errorMsg.textContent = isFull
+          ? "This session is currently full. Please email info@bethebestli.com for assistance."
+          : "We could not save the registration. Please try again or email info@bethebestli.com.";
         errorMsg.classList.add("show");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Save Registration & Pay — $150";
+        sessionAvailable = !isFull;
+        if (isFull) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Session Full";
+        } else {
+          resetSubmitButton();
+        }
       }
     });
   </script>
