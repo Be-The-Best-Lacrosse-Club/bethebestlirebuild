@@ -73,3 +73,24 @@ export function guard(event, headers, opts = {}) {
   }
   return null;
 }
+/**
+ * Same policy for v2-style functions, which receive a web Request instead of
+ * the v1 `event` object. Returns a Response to send back, or null to continue.
+ */
+export function guardRequest(req, opts = {}) {
+  const shim = {
+    headers: {
+      origin: req.headers.get("origin") || "",
+      referer: req.headers.get("referer") || "",
+      "x-nf-client-connection-ip": req.headers.get("x-nf-client-connection-ip") || "",
+      "x-forwarded-for": req.headers.get("x-forwarded-for") || "",
+    },
+  };
+  if (!isOriginAllowed(shim, opts.allowedOrigins)) {
+    return Response.json({ error: "Forbidden" }, { status: 403 });
+  }
+  if (!rateLimit(clientIp(shim), opts)) {
+    return Response.json({ error: "Rate limit exceeded" }, { status: 429 });
+  }
+  return null;
+}
