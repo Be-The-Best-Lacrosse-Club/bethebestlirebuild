@@ -417,6 +417,13 @@
   to = "/sms-policy.html"
   status = 200
 
+# Girls Mini Camp registration is a static Netlify Form and must be served
+# before the SPA and homepage catch-all rewrites.
+[[redirects]]
+  from = "/register-girls-mini-camp"
+  to = "/register-girls-mini-camp.html"
+  status = 200
+
 # Main Camp registration is retired.
 [[redirects]]
   from = "/register-camp"
