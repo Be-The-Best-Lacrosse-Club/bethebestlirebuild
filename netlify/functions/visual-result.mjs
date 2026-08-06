@@ -40,6 +40,7 @@ export default async (req) => {
     }
     return new Response(JSON.stringify(data), { status: 200, headers });
   } catch (err) {
-    return new Response(JSON.stringify({ error: String(err?.message ?? err) }), { status: 500, headers });
+    console.error("visual-result failed", err);
+    return new Response(JSON.stringify({ error: "Unable to load the analysis result" }), { status: 500, headers });
   }
 };
