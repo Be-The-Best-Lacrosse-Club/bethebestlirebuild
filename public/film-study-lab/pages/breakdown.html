@@ -484,16 +484,13 @@
 
         const timestamp = event.timestamp || event.time || '';
         const seconds = parseTimestamp(timestamp);
-        const ytLink = videoId && seconds >= 0
-          ? `https://www.youtube.com/watch?v=${videoId}&t=${seconds}s`
-          : '';
-
         const card = node('div', `event-card ${phaseClass}`);
         const header = node('div', 'event-header');
         header.append(node('div', 'event-title', event.play || event.title || `Event ${i + 1}`));
         if (timestamp) {
           const link = node('a', 'event-timestamp', `⏱ ${timestamp}`);
-          link.href = ytLink;
+          link.href = 'https://www.youtube.com/watch';
+          link.search = new URLSearchParams({ v: videoId, t: `${seconds}s` }).toString();
           link.target = '_blank';
           link.rel = 'noopener';
           link.title = 'Jump to this moment';

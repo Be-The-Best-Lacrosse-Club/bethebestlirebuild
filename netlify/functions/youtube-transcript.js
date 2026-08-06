@@ -1,5 +1,6 @@
 import https from "node:https";
 import he from "he";
+import sanitizeHtml from "sanitize-html";
 
 function fetch(url) {
   return new Promise((resolve, reject) => {
@@ -151,7 +152,7 @@ function parseTimedTextXml(xml) {
     const rawText = m[3];
 
     // Decode HTML entities and strip tags
-    const text = he.decode(rawText.replace(/<[^>]+>/g, "")) // strip nested tags, then decode entities once
+    const text = sanitizeHtml(he.decode(rawText), { allowedTags: [], allowedAttributes: {} })
       .replace(/\n/g, " ")
       .trim();
 

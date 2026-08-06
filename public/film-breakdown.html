@@ -1228,8 +1228,8 @@
     }
 
     function ytLink(videoId, seconds) {
-        if (!seconds && seconds !== 0) return '#';
-        return `https://www.youtube.com/watch?v=${videoId}&t=${Math.round(seconds)}s`;
+        if (!seconds && seconds !== 0) return null;
+        return new URLSearchParams({ v: videoId, t: `${Math.round(seconds)}s` }).toString();
     }
 
     // ─── STATUS CONTROL ───────────────────────────────
@@ -1553,7 +1553,9 @@ ${transcript}`;
             timing.style.textAlign = 'right';
             const timestamp = node('div', 'play-timestamp');
             const link = node('a', '', `${fmtTime(play.source_start_seconds)} - ${fmtTime(play.source_end_seconds)}`);
-            link.href = ytLink(currentVideoId, play.source_start_seconds);
+            link.href = 'https://www.youtube.com/watch';
+            const search = ytLink(currentVideoId, play.source_start_seconds);
+            if (search) link.search = search;
             link.target = '_blank';
             link.rel = 'noopener';
             timestamp.append(link);
