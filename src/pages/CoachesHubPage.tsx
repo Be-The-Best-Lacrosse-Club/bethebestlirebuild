@@ -118,10 +118,10 @@ function difficultyColor(d: Drill["difficulty"]) {
 /* ------------------------------------------------------------------ */
 
 const phaseWeeks: Record<string, string> = {
-  Foundation: "Weeks 1-3",
-  Connection: "Weeks 4-6",
-  Expansion: "Weeks 7-10",
-  Execution: "Weeks 13-16",
+  Foundation: "Months 1-2",
+  Connection: "Months 3-5",
+  Expansion: "Months 6-8",
+  Execution: "Months 9-10",
 }
 
 /* ------------------------------------------------------------------ */
@@ -512,7 +512,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
             </h2>
             <p className="text-[1.1rem] text-white/35 max-w-[440px] leading-relaxed">
               Every practice follows a submitted written plan. Each phase builds on the last across the
-              16-week development cycle.
+              10-month development program.
             </p>
           </div>
 

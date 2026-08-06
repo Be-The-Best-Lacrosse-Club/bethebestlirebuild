@@ -16,7 +16,7 @@ const pillars = [
   {
     title: "Development",
     icon: TrendingUp,
-    text: "We are an Academy first, a club second. With 2+ coaches per team and a 16-week structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
+    text: "We are an Academy first, a club second. With 2+ coaches per team and a 10-month structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
   }
 ];
 

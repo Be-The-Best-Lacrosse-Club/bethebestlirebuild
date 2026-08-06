@@ -74,7 +74,7 @@ export const practicePlans: PracticePlan[] = [
     phase: "Foundation",
     ageGroup: "All",
     duration: 75,
-    description: "Weeks 1-3 practice plan focused on fundamentals and habit building.",
+    description: "Months 1-2 practice plan focused on fundamentals and habit building.",
     segments: [
       { time: "0–10 min", activity: "Dynamic Warmup", detail: "Position-specific activation. Goalies to cage, field players through footwork ladder." },
       { time: "10–25 min", activity: "Wall Ball & Stick Skills", detail: "Structured wall ball sequence: right, left, cross-hand, quick-stick. Coach walks the line correcting." },
@@ -90,7 +90,7 @@ export const practicePlans: PracticePlan[] = [
     phase: "Connection",
     ageGroup: "All",
     duration: 75,
-    description: "Weeks 4-6 practice plan focused on applying skills in game-like contexts.",
+    description: "Months 3-5 practice plan focused on applying skills in game-like contexts.",
     segments: [
       { time: "0–10 min", activity: "Dynamic Warmup", detail: "Increased pace. Partner passing on the move. Goalies: reaction saves warm-up." },
       { time: "10–25 min", activity: "Position-Specific Skill Block", detail: "Attackmen: dodge and feed. Middies: transition reads. Defenders: slide timing. Goalies: arc work." },
@@ -106,7 +106,7 @@ export const practicePlans: PracticePlan[] = [
     phase: "Expansion",
     ageGroup: "All",
     duration: 75,
-    description: "Weeks 7-10 practice plan focused on game-speed competition and pressure.",
+    description: "Months 6-8 practice plan focused on game-speed competition and pressure.",
     segments: [
       { time: "0–8 min", activity: "Dynamic Warmup", detail: "Game-speed activation. Competitive relay or timed footwork challenge." },
       { time: "8–20 min", activity: "Positional Refinement", detail: "Targeted skill work on areas identified from film. Individual focus areas." },
@@ -122,13 +122,13 @@ export const practicePlans: PracticePlan[] = [
     phase: "Execution",
     ageGroup: "All",
     duration: 75,
-    description: "Weeks 13–16 practice plan focused on performance evaluation and next-level prep.",
+    description: "Months 9–10 practice plan focused on performance evaluation and next-level prep.",
     segments: [
       { time: "0–8 min", activity: "Dynamic Warmup", detail: "Pre-game style warm-up. Players lead. Coaches observe readiness." },
       { time: "8–25 min", activity: "Standards Assessment", detail: "Timed skills test: wall ball accuracy, ground balls, shooting percentage. Record scores." },
       { time: "25–45 min", activity: "Game Simulation", detail: "Full 6v6 scrimmage scored and evaluated. Coaches chart individual performance." },
       { time: "45–55 min", activity: "Film Review: Highlight Reel", detail: "Players review best clips from the cycle for recruiting highlight film selection." },
-      { time: "55–65 min", activity: "Goal Setting", detail: "Individual meetings. Review progress, set targets for next 16-week cycle." },
+      { time: "55–65 min", activity: "Goal Setting", detail: "Individual meetings. Review progress, set targets for next 10-month program." },
       { time: "65–75 min", activity: "Cycle Wrap-Up", detail: "Team discussion. Recognize growth. Preview next phase." },
     ],
   },

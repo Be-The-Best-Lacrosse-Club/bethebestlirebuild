@@ -1651,7 +1651,7 @@ export function DigitalAcademyHubPage({ gender: genderProp }: { gender?: Gender 
                 <h2 className="text-4xl font-bold uppercase leading-none md:text-5xl"
                   style={{ fontFamily: "'Anton', 'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
                   BTB Development System
-                  <span className="block text-[#D22630]">16 Weeks · 3 Pillars</span>
+                  <span className="block text-[#D22630]">10 Months · 3 Pillars</span>
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[#888888]">
                   Internal source of truth for the online Academy: player learning, coach certification, parent education, drill cards, homework, video folders, and rollout.

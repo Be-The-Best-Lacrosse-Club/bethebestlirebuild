@@ -217,7 +217,7 @@ export function CoachToolsPage() {
           <p className="text-[1.2rem] text-white/70 max-w-[520px] leading-[1.9] mb-4">
             BTB coaches don't use generic drill apps or blank Google Docs for practice planning.
             The BTB coach suite is AI-powered, film-connected, and built around the same
-            16-week curriculum that runs every team in the program.
+            10-month curriculum that runs every team in the program.
           </p>
           <p className="text-[1.1rem] text-white/85 font-semibold mb-12">
             Playbook Studio · Practice Plans · Film Breakdown · Video Playbooks · Systems

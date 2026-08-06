@@ -30,7 +30,7 @@ function makeBoyCourses(): Course[] {
       title: `Skill Progression — Class of ${year}`,
       gradYear: year,
       gender: "boys" as Gender,
-      description: "Position-specific skill development across the 16-week cycle. Track your progression through fundamentals, application, and execution.",
+      description: "Position-specific skill development across the 10-month program. Track your progression through fundamentals, application, and execution.",
       steps: [
         { id: `boys-skills-${year}-1`, stepNumber: 1, title: "Foundation: Wall Ball Basics", type: "drill", content: { description: "Complete the wall ball sequence: 50 right, 50 left, 25 cross-hand, 25 quick-stick. Log your time.", duration: 20 } },
         { id: `boys-skills-${year}-2`, stepNumber: 2, title: "Foundation: Footwork Mechanics", type: "drill", content: { description: "Footwork ladder drill sequence. Focus on plant-and-throw mechanics with proper hip rotation.", duration: 15 } },
@@ -71,7 +71,7 @@ function makeGirlCourses(): Course[] {
       title: `Skill Progression — Class of ${year}`,
       gradYear: year,
       gender: "girls" as Gender,
-      description: "Position-specific skill development across the 16-week cycle. Track your progression through fundamentals, application, and execution.",
+      description: "Position-specific skill development across the 10-month program. Track your progression through fundamentals, application, and execution.",
       steps: [
         { id: `girls-skills-${year}-1`, stepNumber: 1, title: "Foundation: Wall Ball Basics", type: "drill", content: { description: "Complete the wall ball sequence: 50 right, 50 left, 25 cross-hand, 25 quick-stick. Log your time.", duration: 20 } },
         { id: `girls-skills-${year}-2`, stepNumber: 2, title: "Foundation: Footwork Mechanics", type: "drill", content: { description: "Footwork ladder drill sequence. Focus on plant-and-throw mechanics with proper hip rotation.", duration: 15 } },

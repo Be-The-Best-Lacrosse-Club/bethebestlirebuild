@@ -377,7 +377,7 @@ export const programData: Record<string, ProgramContent> = {
     label: "Boys Program",
     navLabel: "Boys",
     heroTagline: "Train Like You\nMean It.",
-    heroSubtitle: "The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 16-week curriculum, and 2+ coaches per team — for every age group.",
+    heroSubtitle: "The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 10-month curriculum, and 2+ coaches per team — for every age group.",
     stats: [
       { num: "450+", label: "Players Trained" },
       { num: "22", label: "Elite Teams" },
@@ -387,7 +387,7 @@ export const programData: Record<string, ProgramContent> = {
     benefits: [
       { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Real reps, real corrections, real coaching — not a number in a line drill." },
       { icon: Video, title: "Weekly Film Study", stat: "Required", text: "You'll watch your own footage with a coach who breaks down what you did right, what you missed, and how to fix it." },
-      { icon: BookOpen, title: "Structured Curriculum", stat: "16 Weeks", text: "Every practice follows a written plan with timed segments and specific skill targets. Nothing is improvised." },
+      { icon: BookOpen, title: "Structured Curriculum", stat: "10 Months", text: "Every practice follows a written plan with timed segments and specific skill targets. Nothing is improvised." },
       { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie, FOGO. Your training is built for your position and what you actually need." },
       { icon: TrendingUp, title: "Recruiting Preparation", stat: "College Track", text: "Highlight film packages, outreach guidance, school list strategy, and honest profile evaluation." },
       { icon: Shield, title: "Certified Coaching Staff", stat: "Verified", text: "Every coach is background-checked, US Lacrosse certified, SafeSport trained, and submits practice plans before every session." },
@@ -400,10 +400,10 @@ export const programData: Record<string, ProgramContent> = {
       { grad: "2028s", level: "Elite / Varsity Prep", description: "The BTB Flagship. College-level preparation with advanced film breakdown, recruiting toolkits, and elite tournament schedules." },
     ],
     phases: [
-      { num: "01", phase: "Foundation", weeks: "Weeks 1–4", items: ["Wall ball fundamentals", "Footwork & body mechanics", "Defensive concepts introduction", "Film study onboarding"] },
-      { num: "02", phase: "Connection", weeks: "Weeks 5–8", items: ["2-man game reads", "Transition decision-making", "Position-specific film sessions", "Small-group competition"] },
-      { num: "03", phase: "Expansion", weeks: "Weeks 9–12", items: ["Live game-speed scenarios", "Opponent film breakdown", "Self-scouting sessions", "Varsity-level positioning"] },
-      { num: "04", phase: "Execution", weeks: "Weeks 13–16", items: ["Game evaluation & review", "Recruiting film preparation", "College-ready standards test", "Next-phase goal setting"] },
+      { num: "01", phase: "Foundation", weeks: "Months 1–2", items: ["Wall ball fundamentals", "Footwork & body mechanics", "Defensive concepts introduction", "Film study onboarding"] },
+      { num: "02", phase: "Connection", weeks: "Months 3–5", items: ["2-man game reads", "Transition decision-making", "Position-specific film sessions", "Small-group competition"] },
+      { num: "03", phase: "Expansion", weeks: "Months 6–8", items: ["Live game-speed scenarios", "Opponent film breakdown", "Self-scouting sessions", "Varsity-level positioning"] },
+      { num: "04", phase: "Execution", weeks: "Months 9–10", items: ["Game evaluation & review", "Recruiting film preparation", "College-ready standards test", "Next-phase goal setting"] },
     ],
     testimonials: [
       { quote: "The film study changed my whole game. I started seeing defensive rotations before they happened. My high school coaches noticed the difference immediately.", name: "Ryan F.", role: "2028 BTB Black · Varsity Midfielder", initials: "RF" },
@@ -446,7 +446,7 @@ export const programData: Record<string, ProgramContent> = {
     benefits: [
       { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Every player gets real reps, real corrections, and real coaching attention every session." },
       { icon: Video, title: "Weekly Film Study", stat: "Required", text: "Watch your own footage with a coach who breaks down positioning, decision-making, and what to fix — every single week." },
-      { icon: BookOpen, title: "Girls-Specific Curriculum", stat: "16 Weeks", text: "A development plan built specifically for the girls' game — draw controls, free position, defensive positioning, transition speed." },
+      { icon: BookOpen, title: "Girls-Specific Curriculum", stat: "10 Months", text: "A development plan built specifically for the girls' game — draw controls, free position, defensive positioning, transition speed." },
       { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie. Training is built around your role and what your position actually demands in game situations." },
       { icon: TrendingUp, title: "Recruiting Preparation", stat: "College Track", text: "Highlight film packages, outreach coaching, school list strategy, and honest profile evaluation for players on the college track." },
       { icon: Shield, title: "Certified Coaching Staff", stat: "Verified", text: "Every coach is background-checked, US Lacrosse certified, SafeSport trained, and submits written practice plans before every session." },
@@ -459,10 +459,10 @@ export const programData: Record<string, ProgramContent> = {
       { grad: "2030", level: "Elite / Varsity Prep", description: "College-level preparation. Advanced film breakdown, recruiting toolkit, highlight film packages, and outreach coaching. The full BTB experience." },
     ],
     phases: [
-      { num: "01", phase: "Foundation", weeks: "Weeks 1–4", items: ["Stick fundamentals & off-hand", "Footwork & defensive body positioning", "Draw control introduction", "Film study onboarding"] },
-      { num: "02", phase: "Connection", weeks: "Weeks 5–8", items: ["2v2 and 3v3 reads", "Transition speed & decision-making", "Free position execution", "Position-specific film sessions"] },
-      { num: "03", phase: "Expansion", weeks: "Weeks 9–12", items: ["Live game-speed scenarios", "Opponent scouting film", "Slide timing & communication", "Pressure-tested competition"] },
-      { num: "04", phase: "Execution", weeks: "Weeks 13–16", items: ["Game evaluation & self-scouting", "Recruiting film preparation", "College-ready standards test", "Next-cycle goal setting"] },
+      { num: "01", phase: "Foundation", weeks: "Months 1–2", items: ["Stick fundamentals & off-hand", "Footwork & defensive body positioning", "Draw control introduction", "Film study onboarding"] },
+      { num: "02", phase: "Connection", weeks: "Months 3–5", items: ["2v2 and 3v3 reads", "Transition speed & decision-making", "Free position execution", "Position-specific film sessions"] },
+      { num: "03", phase: "Expansion", weeks: "Months 6–8", items: ["Live game-speed scenarios", "Opponent scouting film", "Slide timing & communication", "Pressure-tested competition"] },
+      { num: "04", phase: "Execution", weeks: "Months 9–10", items: ["Game evaluation & self-scouting", "Recruiting film preparation", "College-ready standards test", "Next-cycle goal setting"] },
     ],
     testimonials: [
       { quote: "BTB was the first program that treated my daughter's development with the same structure as the boys' program. The film study alone made a huge difference in her field awareness.", name: "Laura D.", role: "Parent · 2030 Travel Team", initials: "LD" },
@@ -515,10 +515,10 @@ export const programData: Record<string, ProgramContent> = {
       { grad: "2034s", level: "Futures Flagship", description: "Advanced youth concepts and high-level skill refinement." },
     ],
     phases: [
-      { num: "01", phase: "Handle", weeks: "Weeks 1–4", items: ["Correct hand placement", "Basic wall ball routines", "Ground ball dominance"] },
-      { num: "02", phase: "Move", weeks: "Weeks 5–8", items: ["Athletic positioning", "Change of direction", "Defensive footwork"] },
-      { num: "03", phase: "Play", weeks: "Weeks 9–12", items: ["Small-sided games", "Understanding space", "Basic shooting mechanics"] },
-      { num: "04", phase: "Compete", weeks: "Weeks 13–16", items: ["Full field concepts", "The BTB Standard test", "Summer season prep"] },
+      { num: "01", phase: "Handle", weeks: "Months 1–2", items: ["Correct hand placement", "Basic wall ball routines", "Ground ball dominance"] },
+      { num: "02", phase: "Move", weeks: "Months 3–5", items: ["Athletic positioning", "Change of direction", "Defensive footwork"] },
+      { num: "03", phase: "Play", weeks: "Months 6–8", items: ["Small-sided games", "Understanding space", "Basic shooting mechanics"] },
+      { num: "04", phase: "Compete", weeks: "Months 9–10", items: ["Full field concepts", "The BTB Standard test", "Summer season prep"] },
     ],
     testimonials: [
       { quote: "My son started in the Futures program and the growth in his confidence and skill was night and day. He loves the coaches.", name: "Mike T.", role: "Parent · 2035 Futures", initials: "MT" },

@@ -7,7 +7,7 @@ import type { Gender } from "@/types"
 const philosophy = [
   { title: "Every correction comes with a coaching point.", text: "We don't tell players what they did wrong — we teach them why it happened, what to do instead, and give them a drill to fix it." },
   { title: "Film study is non-negotiable.", text: "Coaches review film before every session and lead weekly film breakdowns with their players. If we're not watching film, we're not coaching." },
-  { title: "Practice plans are submitted in advance.", text: "No coach runs a session without a written, timed plan. Every minute is accounted for and every drill has a purpose tied to the 16-week curriculum." },
+  { title: "Practice plans are submitted in advance.", text: "No coach runs a session without a written, timed plan. Every minute is accounted for and every drill has a purpose tied to the 10-month curriculum." },
   { title: "Development is measured, not assumed.", text: "Coaches track progression through skill benchmarks, film observations, and in-game evaluation. Players know exactly where they stand." },
 ]
 
