@@ -10,22 +10,22 @@ const filmProcess = [
 
 const phases = [
   {
-    num: "01", title: "Foundation", weeks: "Weeks 1–4",
+    num: "01", title: "Foundation", weeks: "Months 1–2",
     focus: "Fundamentals, mechanics, film introduction",
     detail: "You learn how BTB trains, what standard is expected, and how to self-assess through film."
   },
   {
-    num: "02", title: "Connection", weeks: "Weeks 5–8",
+    num: "02", title: "Connection", weeks: "Months 3–5",
     focus: "Applying skills in live read-and-react scenarios",
     detail: "Skills stop being isolated. You start using them in real game situations against real pressure."
   },
   {
-    num: "03", title: "Expansion", weeks: "Weeks 9–12",
+    num: "03", title: "Expansion", weeks: "Months 6–8",
     focus: "Game-speed competition, opponent film breakdown",
     detail: "You compete under pressure and learn to self-scout using film the way college coaches do."
   },
   {
-    num: "04", title: "Execution", weeks: "Weeks 13–16",
+    num: "04", title: "Execution", weeks: "Months 9–10",
     focus: "Recruiting prep, standards test, next-phase goal setting",
     detail: "You prepare your highlight film, evaluate your profile, and set targets for the next cycle."
   },

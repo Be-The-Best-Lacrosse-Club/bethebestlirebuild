@@ -2,22 +2,22 @@ import { useReveal } from "@/hooks/useReveal"
 
 const phases = [
   {
-    num: "01", phase: "Foundation", weeks: "Weeks 1–4",
+    num: "01", phase: "Foundation", weeks: "Months 1–2",
     title: "Build the base.",
     items: ["Wall ball fundamentals", "Footwork & body mechanics", "Understanding defensive concepts", "Film study introduction"],
   },
   {
-    num: "02", phase: "Connection", weeks: "Weeks 5–8",
+    num: "02", phase: "Connection", weeks: "Months 3–5",
     title: "Apply skills in context.",
     items: ["2-man game reads", "Transition decision-making", "Position-specific film sessions", "Small-group competition"],
   },
   {
-    num: "03", phase: "Expansion", weeks: "Weeks 9–12",
+    num: "03", phase: "Expansion", weeks: "Months 6–8",
     title: "Compete under pressure.",
     items: ["Live game-speed scenarios", "Opponent film breakdown", "Self-scouting sessions", "Varsity-level positioning"],
   },
   {
-    num: "04", phase: "Execution", weeks: "Weeks 13–16",
+    num: "04", phase: "Execution", weeks: "Months 9–10",
     title: "Perform when it counts.",
     items: ["Game evaluation & review", "Recruiting film preparation", "College-ready standards test", "Next-phase goal setting"],
   },

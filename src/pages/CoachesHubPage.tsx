@@ -118,10 +118,10 @@ function difficultyColor(d: Drill["difficulty"]) {
 /* ------------------------------------------------------------------ */
 
 const phaseWeeks: Record<string, string> = {
-  Foundation: "Weeks 1-3",
-  Connection: "Weeks 4-6",
-  Expansion: "Weeks 7-10",
-  Execution: "Weeks 13-16",
+  Foundation: "Months 1-2",
+  Connection: "Months 3-5",
+  Expansion: "Months 6-8",
+  Execution: "Months 9-10",
 }
 
 /* ------------------------------------------------------------------ */

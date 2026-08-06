@@ -17,10 +17,10 @@ const ageGroups = [
 ]
 
 const phases = [
-  { num: "01", phase: "Foundation", weeks: "Weeks 1–4", items: ["Wall ball fundamentals", "Footwork & body mechanics", "Defensive concepts introduction", "Film study onboarding"] },
-  { num: "02", phase: "Connection", weeks: "Weeks 5–8", items: ["2-man game reads", "Transition decision-making", "Position-specific film sessions", "Small-group competition"] },
-  { num: "03", phase: "Expansion", weeks: "Weeks 9–12", items: ["Live game-speed scenarios", "Opponent film breakdown", "Self-scouting sessions", "Varsity-level positioning"] },
-  { num: "04", phase: "Execution", weeks: "Weeks 13–16", items: ["Game evaluation & review", "Recruiting film preparation", "College-ready standards test", "Next-phase goal setting"] },
+  { num: "01", phase: "Foundation", weeks: "Months 1–2", items: ["Wall ball fundamentals", "Footwork & body mechanics", "Defensive concepts introduction", "Film study onboarding"] },
+  { num: "02", phase: "Connection", weeks: "Months 3–5", items: ["2-man game reads", "Transition decision-making", "Position-specific film sessions", "Small-group competition"] },
+  { num: "03", phase: "Expansion", weeks: "Months 6–8", items: ["Live game-speed scenarios", "Opponent film breakdown", "Self-scouting sessions", "Varsity-level positioning"] },
+  { num: "04", phase: "Execution", weeks: "Months 9–10", items: ["Game evaluation & review", "Recruiting film preparation", "College-ready standards test", "Next-phase goal setting"] },
 ]
 
 const testimonials = [

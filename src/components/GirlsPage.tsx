@@ -17,10 +17,10 @@ const ageGroups = [
 ]
 
 const phases = [
-  { num: "01", phase: "Foundation", weeks: "Weeks 1–4", items: ["Stick fundamentals & off-hand", "Footwork & defensive body positioning", "Draw control introduction", "Film study onboarding"] },
-  { num: "02", phase: "Connection", weeks: "Weeks 5–8", items: ["2v2 and 3v3 reads", "Transition speed & decision-making", "Free position execution", "Position-specific film sessions"] },
-  { num: "03", phase: "Expansion", weeks: "Weeks 9–12", items: ["Live game-speed scenarios", "Opponent scouting film", "Slide timing & communication", "Pressure-tested competition"] },
-  { num: "04", phase: "Execution", weeks: "Weeks 13–16", items: ["Game evaluation & self-scouting", "Recruiting film preparation", "College-ready standards test", "Next-cycle goal setting"] },
+  { num: "01", phase: "Foundation", weeks: "Months 1–2", items: ["Stick fundamentals & off-hand", "Footwork & defensive body positioning", "Draw control introduction", "Film study onboarding"] },
+  { num: "02", phase: "Connection", weeks: "Months 3–5", items: ["2v2 and 3v3 reads", "Transition speed & decision-making", "Free position execution", "Position-specific film sessions"] },
+  { num: "03", phase: "Expansion", weeks: "Months 6–8", items: ["Live game-speed scenarios", "Opponent scouting film", "Slide timing & communication", "Pressure-tested competition"] },
+  { num: "04", phase: "Execution", weeks: "Months 9–10", items: ["Game evaluation & self-scouting", "Recruiting film preparation", "College-ready standards test", "Next-cycle goal setting"] },
 ]
 
 const testimonials = [
