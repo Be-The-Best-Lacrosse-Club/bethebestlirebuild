@@ -1514,66 +1514,75 @@ ${transcript}`;
         const filtered = activeFilter === 'all' ? plays : plays.filter(p => p.phase === activeFilter);
 
         if (filtered.length === 0) {
-            playGrid.innerHTML = `
-                <div class="empty-state">
-                    <h3>NO PLAYS MATCH</h3>
-                    <p>Try a different filter</p>
-                </div>`;
+            const empty = document.createElement('div');
+            empty.className = 'empty-state';
+            const heading = document.createElement('h3');
+            heading.textContent = 'NO PLAYS MATCH';
+            const message = document.createElement('p');
+            message.textContent = 'Try a different filter';
+            empty.append(heading, message);
+            playGrid.replaceChildren(empty);
             return;
         }
 
-        const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
-            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-        })[character]);
-
-        playGrid.innerHTML = filtered.map((play, i) => {
+        const node = (tag, className, text) => {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = String(text);
+            return element;
+        };
+        const cards = filtered.map((play, i) => {
             const result = play.play_result || 'unknown';
-            const resultLabel = escapeHtml(result.replace(/_/g, ' '));
-            const safeResult = escapeHtml(result);
             const confClass = play.ai_confidence >= 0.8 ? 'high' : play.ai_confidence >= 0.5 ? 'mid' : 'low';
             const confPct = Math.round((play.ai_confidence || 0) * 100);
 
-            const tags = (play.tags || []).map(t => `<span class="play-tag">${escapeHtml(t)}</span>`).join('');
-            const players = (play.players || []).map(p => `<span class="play-tag player">#${escapeHtml(p)}</span>`).join('');
+            const card = node('div', 'play-card');
+            card.dataset.result = String(result);
+            card.style.animationDelay = `${i * 0.04}s`;
+            const top = node('div', 'play-card-top');
+            top.append(node('div', 'play-seq', play.event_sequence || i + 1));
 
-            return `
-            <div class="play-card" data-result="${safeResult}" style="animation-delay: ${i * 0.04}s">
-                <div class="play-card-top">
-                    <div class="play-seq">${play.event_sequence || i + 1}</div>
-                    <div class="play-meta">
-                        <span class="play-result-badge ${safeResult}">${resultLabel}</span>
-                        <div class="play-phase">${escapeHtml(play.phase || '')}</div>
-                    </div>
-                    <div style="text-align:right">
-                        <div class="play-timestamp">
-                            <a href="${ytLink(currentVideoId, play.source_start_seconds)}" target="_blank" rel="noopener">
-                                ${fmtTime(play.source_start_seconds)} - ${fmtTime(play.source_end_seconds)}
-                            </a>
-                        </div>
-                        <div class="play-confidence">
-                            <span class="confidence-dot ${confClass}"></span>
-                            ${confPct}% conf
-                        </div>
-                    </div>
-                </div>
-                <div class="play-summary">${escapeHtml(play.event_summary || '')}</div>
-                ${play.main_teaching_point ? `<div class="play-teaching">${escapeHtml(play.main_teaching_point)}</div>` : ''}
-                <div class="play-tags">
-                    ${play.category ? `<span class="play-tag category">${escapeHtml(play.category)}</span>` : ''}
-                    ${tags}
-                    ${players}
-                </div>
-                ${(play.period || play.clock || play.score_state) ? `
-                <div class="play-bottom">
-                    <div class="play-context">
-                        ${play.period ? `<span>Q${play.period}</span>` : ''}
-                        ${play.clock ? `<span>${escapeHtml(play.clock)}</span>` : ''}
-                        ${play.score_state ? `<span>Score: ${escapeHtml(play.score_state)}</span>` : ''}
-                        <span>${escapeHtml(play.team_focus || '')}</span>
-                    </div>
-                </div>` : ''}
-            </div>`;
-        }).join('');
+            const meta = node('div', 'play-meta');
+            const badge = node('span', 'play-result-badge', result.replace(/_/g, ' '));
+            const resultClass = String(result).replace(/[^a-zA-Z0-9_-]/g, '');
+            if (resultClass) badge.classList.add(resultClass);
+            meta.append(badge, node('div', 'play-phase', play.phase || ''));
+            top.append(meta);
+
+            const timing = node('div');
+            timing.style.textAlign = 'right';
+            const timestamp = node('div', 'play-timestamp');
+            const link = node('a', '', `${fmtTime(play.source_start_seconds)} - ${fmtTime(play.source_end_seconds)}`);
+            link.href = ytLink(currentVideoId, play.source_start_seconds);
+            link.target = '_blank';
+            link.rel = 'noopener';
+            timestamp.append(link);
+            const confidence = node('div', 'play-confidence');
+            confidence.append(node('span', `confidence-dot ${confClass}`), document.createTextNode(` ${confPct}% conf`));
+            timing.append(timestamp, confidence);
+            top.append(timing);
+            card.append(top, node('div', 'play-summary', play.event_summary || ''));
+
+            if (play.main_teaching_point) card.append(node('div', 'play-teaching', play.main_teaching_point));
+            const tags = node('div', 'play-tags');
+            if (play.category) tags.append(node('span', 'play-tag category', play.category));
+            for (const tag of play.tags || []) tags.append(node('span', 'play-tag', tag));
+            for (const player of play.players || []) tags.append(node('span', 'play-tag player', `#${player}`));
+            card.append(tags);
+
+            if (play.period || play.clock || play.score_state) {
+                const bottom = node('div', 'play-bottom');
+                const context = node('div', 'play-context');
+                if (play.period) context.append(node('span', '', `Q${play.period}`));
+                if (play.clock) context.append(node('span', '', play.clock));
+                if (play.score_state) context.append(node('span', '', `Score: ${play.score_state}`));
+                context.append(node('span', '', play.team_focus || ''));
+                bottom.append(context);
+                card.append(bottom);
+            }
+            return card;
+        });
+        playGrid.replaceChildren(...cards);
     }
 
     // ─── MAIN ANALYZE ─────────────────────────────────
