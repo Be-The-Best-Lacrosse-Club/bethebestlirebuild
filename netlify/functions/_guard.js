@@ -73,7 +73,6 @@ export function guard(event, headers, opts = {}) {
   }
   return null;
 }
-
 /**
  * Same policy for v2-style functions, which receive a web Request instead of
  * the v1 `event` object. Returns a Response to send back, or null to continue.

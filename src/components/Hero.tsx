@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react"
-import { ArrowRight } from "lucide-react"
 import { useWordSplit, useMagnetic, useCursorParallax, ease } from "@/hooks/useScrollAnimation"
 
 export function Hero() {
@@ -9,7 +8,6 @@ export function Hero() {
   const hud1Ref = useRef<HTMLDivElement>(null)
   const videoWrapRef = useCursorParallax(10)
   const primaryBtnRef = useMagnetic(0.3)
-  const secondaryBtnRef = useMagnetic(0.25)
 
   // Staggered entrance for sub-elements after page load
   useEffect(() => {
@@ -152,7 +150,7 @@ export function Hero() {
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full max-w-sm sm:max-w-none">
           <a
             ref={primaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="/tryouts"
+            href="#program-paths"
             className="relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.05rem] font-bold uppercase tracking-[2px] overflow-hidden group"
             style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
           >
@@ -162,16 +160,8 @@ export function Hero() {
               style={{ transitionTimingFunction: ease }}
             />
             <span className="relative z-10 group-hover:text-black transition-colors duration-300 flex items-center gap-2">
-              Supplemental Tryouts <ArrowRight size={13} />
+              Choose Boys / Girls
             </span>
-          </a>
-
-          <a
-            ref={secondaryBtnRef as React.RefObject<HTMLButtonElement> & React.RefObject<HTMLAnchorElement>}
-            href="#program-paths"
-            className="inline-flex items-center gap-2 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-white text-[1.05rem] font-bold uppercase tracking-[2px] hover:border-white/35 hover:bg-white/10 transition-all duration-300"
-          >
-            Choose Boys / Girls
           </a>
         </div>
 

@@ -16,7 +16,7 @@ const hubs = [
     icon: Users,
     label: "Boys Program",
     headline: "Train Like You Mean It.",
-    text: "Film study, position-specific coaching, 16-week development cycle, recruiting prep — the full BTB experience for boys.",
+    text: "Film study, position-specific coaching, 10-month development program, recruiting prep — the full BTB experience for boys.",
     href: "/boys",
     tag: "Ages 8–18",
   },

@@ -23,30 +23,6 @@ type Camp = {
 
 const CAMPS: Camp[] = [
   {
-    key: "positional",
-    name: "Positional Camp",
-    tagline: "Master Your Spot.",
-    dates: "July 28 – July 30",
-    tabDates: "Jul 28-30",
-    range: "3 Days · Any Consecutive",
-    time: "9 – 11 AM Daily",
-    location: "Plainedge Park",
-    forWho: "Position-focused players ready to specialize",
-    description:
-      "Three days dedicated to your position. Attack, midfield, defense, goalies, boys FOGO, LSM, and girls draw control each get their own track with position-specialist coaches.",
-    bullets: [
-      "Position-specific masterclasses",
-      "Goalie track with dedicated staff",
-      "Boys face-off and girls draw control intensive",
-      "Written evaluation from a pro coach",
-    ],
-    icon: Target,
-    registerUrl: "/register-positional",
-    price: "$125",
-    flyerSrc: "/images/tryouts/BTB_Positional_Camp_2026.jpg",
-    flyerAlt: "BTB Positional Camp 2026 flyer for July 28 through July 30 at Plainedge Park",
-  },
-  {
     key: "futures",
     name: "Futures Camp",
     tagline: "Build the Foundation.",
@@ -134,8 +110,8 @@ export function CampsPage() {
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
-        title="Summer Camps | BTB Lacrosse Club"
-        description="BTB summer camps in 2026 — Positional Camp (July 28–30) and Futures Camp (August 18–20) at Plainedge Park. Pick any consecutive days."
+        title="Futures Camp | BTB Lacrosse Club"
+        description="BTB Futures Camp runs August 18–20, 2026 at Plainedge Park for the classes of 2034–2037."
         path="/camps"
       />
 
@@ -156,21 +132,20 @@ export function CampsPage() {
         />
         <div className="relative z-10 max-w-[1040px] mx-auto pt-10 md:pt-14">
           <div className="text-[0.8rem] font-black uppercase tracking-[3px] text-[var(--btb-red)] mb-4 md:text-[1.0rem]">
-            BTB Summer Camps · 2026
+            BTB Futures Camp · 2026
           </div>
           <h1 className="font-display text-[3.15rem] uppercase tracking-wide leading-[0.9] mb-5 md:text-[5.2rem]">
-            Two Camps.<br />One Standard.
+            Build The<br />Foundation.
           </h1>
           <p className="text-[1.02rem] text-white/70 max-w-[620px] leading-[1.75] mb-8 md:text-[1.16rem]">
-            Pick the camp that fits your athlete: Positional Camp for focused skill development or
-            Futures Camp for the next generation.
+            Three high-energy, fundamentals-first days for the next generation of BTB athletes.
           </p>
 
           <div className="max-w-[980px]" aria-label="BTB camp selector">
             <div className="mb-3 text-[0.72rem] font-black uppercase tracking-[2.4px] text-white/40">
-              Choose Your Camp
+              Futures Camp Details
             </div>
-            <div role="tablist" aria-label="BTB summer camp options" className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div role="tablist" aria-label="BTB Futures camp" className="grid grid-cols-1 gap-2">
               {CAMPS.map((camp) => {
                 const isActive = activeCamp.key === camp.key
 
@@ -258,7 +233,7 @@ export function CampsPage() {
                       href="#camps"
                       className="inline-flex items-center justify-center border border-white/15 px-6 py-3 text-[0.9rem] font-black uppercase tracking-[1.8px] text-white/75 transition-all duration-200 hover:border-white/35 hover:text-white"
                     >
-                      Compare All Camps
+                      View Camp Schedule
                     </a>
                   </div>
                 </div>
@@ -289,8 +264,8 @@ export function CampsPage() {
         <div className="max-w-[900px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { num: "2", label: "Camps" },
-              { num: "6", label: "Total Days" },
+              { num: "1", label: "Futures Camp" },
+              { num: "3", label: "Camp Days" },
               { num: "Pro", label: "Staff" },
               { num: "All", label: "Skill Levels" },
             ].map((s) => (
@@ -312,7 +287,7 @@ export function CampsPage() {
             The Schedule
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Two Weeks.<br />Two Camps.
+            Three Days.<br />One Standard.
           </h2>
           <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
             Sign up for any consecutive days that fit your schedule.

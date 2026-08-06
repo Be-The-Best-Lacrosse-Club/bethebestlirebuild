@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Video, Users, BookOpen, Target, TrendingUp, Shie
 const benefits = [
   { icon: Users, title: "Dedicated Coaching", stat: "2+", text: "Two or more coaches per team. Real reps, real corrections, real coaching — not a number in a line drill." },
   { icon: Video, title: "Weekly Film Study", stat: "Required", text: "You'll watch your own footage with a coach who breaks down what you did right, what you missed, and how to fix it." },
-  { icon: BookOpen, title: "Structured Curriculum", stat: "16 Weeks", text: "Every practice follows a written plan with timed segments and specific skill targets. Nothing is improvised." },
+  { icon: BookOpen, title: "Structured Curriculum", stat: "10 Months", text: "Every practice follows a written plan with timed segments and specific skill targets. Nothing is improvised." },
   { icon: Target, title: "Position-Specific Coaching", stat: "All Positions", text: "Attack, midfield, defense, goalie, FOGO. Your training is built for your position and what you actually need." },
   { icon: TrendingUp, title: "Recruiting Preparation", stat: "College Track", text: "Highlight film packages, outreach guidance, school list strategy, and honest profile evaluation." },
   { icon: Shield, title: "Certified Coaching Staff", stat: "Verified", text: "Every coach is background-checked, US Lacrosse certified, SafeSport trained, and submits practice plans before every session." },
@@ -17,10 +17,10 @@ const ageGroups = [
 ]
 
 const phases = [
-  { num: "01", phase: "Foundation", weeks: "Weeks 1–4", items: ["Wall ball fundamentals", "Footwork & body mechanics", "Defensive concepts introduction", "Film study onboarding"] },
-  { num: "02", phase: "Connection", weeks: "Weeks 5–8", items: ["2-man game reads", "Transition decision-making", "Position-specific film sessions", "Small-group competition"] },
-  { num: "03", phase: "Expansion", weeks: "Weeks 9–12", items: ["Live game-speed scenarios", "Opponent film breakdown", "Self-scouting sessions", "Varsity-level positioning"] },
-  { num: "04", phase: "Execution", weeks: "Weeks 13–16", items: ["Game evaluation & review", "Recruiting film preparation", "College-ready standards test", "Next-phase goal setting"] },
+  { num: "01", phase: "Foundation", weeks: "Months 1–2", items: ["Wall ball fundamentals", "Footwork & body mechanics", "Defensive concepts introduction", "Film study onboarding"] },
+  { num: "02", phase: "Connection", weeks: "Months 3–5", items: ["2-man game reads", "Transition decision-making", "Position-specific film sessions", "Small-group competition"] },
+  { num: "03", phase: "Expansion", weeks: "Months 6–8", items: ["Live game-speed scenarios", "Opponent film breakdown", "Self-scouting sessions", "Varsity-level positioning"] },
+  { num: "04", phase: "Execution", weeks: "Months 9–10", items: ["Game evaluation & review", "Recruiting film preparation", "College-ready standards test", "Next-phase goal setting"] },
 ]
 
 const testimonials = [
@@ -67,7 +67,7 @@ export function BoysPage({ onBack }: { onBack: () => void }) {
             Train Like You<br />Mean It.
           </h1>
           <p className="text-[1.2rem] text-white/70 max-w-[520px] leading-[1.9] mb-10">
-            The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 16-week curriculum, and 2+ coaches per team — for every age group.
+            The BTB Boys Program is Long Island's most structured lacrosse development experience. Film study, position-specific coaching, a 10-month curriculum, and 2+ coaches per team — for every age group.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a href="#apply-boys" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
@@ -155,14 +155,14 @@ export function BoysPage({ onBack }: { onBack: () => void }) {
         </div>
       </section>
 
-      {/* 16-Week Development */}
+      {/* 10-Month Development */}
       <section className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[900px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <div>
               <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">Development Model</div>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92]">
-                16-Week Cycle.<br />Four Phases.
+                10-Month Program.<br />Four Phases.
               </h2>
             </div>
             <p className="text-[1.1rem] text-white/35 max-w-[280px] leading-relaxed md:text-right">

@@ -25,10 +25,10 @@ const CLUB_DATA = {
     "Team: Winning culture, trust, and cohesive systems."
   ],
   phases: [
-    "1. Foundation (Weeks 1-4): Focus on technical mastery.",
-    "2. Connection (Weeks 5-8): Applying skills to live reads.",
-    "3. Expansion (Weeks 9-12): Speed, pressure, and tactical sets.",
-    "4. Execution (Weeks 13-16): Peak performance and evaluation."
+    "1. Foundation (Months 1-2): Focus on technical mastery.",
+    "2. Connection (Months 3-5): Applying skills to live reads.",
+    "3. Expansion (Months 6-8): Speed, pressure, and tactical sets.",
+    "4. Execution (Months 9-10): Peak performance and evaluation."
   ],
   recruiting: "Led by Brad McLam (Hopkins Alum). We provide custom film breakdown and direct coach advocacy for every HS player.",
   secret_policy: "Specific tactical schemes, proprietary drills, and 1-on-1 player evaluations are kept in our secure Player Hub for members only.",
@@ -85,7 +85,7 @@ export const AIConcierge = () => {
     }
 
     if (q.includes("phase") || q.includes("training") || q.includes("cycle")) {
-      return `Our 16-week development cycle is what sets us apart: ${CLUB_DATA.phases.join(". ")}`;
+      return `Our 10-month development program is what sets us apart: ${CLUB_DATA.phases.join(". ")}`;
     }
 
     if (q.includes("philosophy") || q.includes("standard") || q.includes("pillar")) {

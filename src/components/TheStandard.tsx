@@ -16,7 +16,7 @@ const pillars = [
   {
     title: "Development",
     icon: TrendingUp,
-    text: "We are an Academy first, a club second. With 2+ coaches per team and a 16-week structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
+    text: "We are an Academy first, a club second. With 2+ coaches per team and a 10-month structured curriculum, we focus on technical mastery and high-level Lacrosse IQ."
   }
 ];
 
@@ -26,7 +26,7 @@ export function TheStandard() {
   const bgWordRef = useParallax(0.15);
 
   return (
-    <section className="relative bg-[#D22630] py-16 md:py-32 px-4 md:px-6 overflow-hidden">
+    <section id="standard" className="relative bg-[#D22630] py-16 md:py-32 px-4 md:px-6 overflow-hidden">
       {/* Background Texture & Ghost Type */}
       <div className="absolute inset-0 z-0 opacity-10">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />

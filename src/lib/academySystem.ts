@@ -106,7 +106,7 @@ export const academySystemPillars: AcademySystemPillar[] = [
 export const academyPhaseMap: AcademyPhase[] = [
   {
     phase: "Foundation",
-    weeks: "Weeks 1-3",
+    weeks: "Months 1-2",
     identity: "Individual mastery, 1v1 reads, and core terminology.",
     focus: "Grip, stance, stick protection, controlled approaches, first outlets, and pressure habits.",
     systems: [
@@ -119,7 +119,7 @@ export const academyPhaseMap: AcademyPhase[] = [
   },
   {
     phase: "Connection",
-    weeks: "Weeks 4-6",
+    weeks: "Months 3-5",
     identity: "Small-group concepts, 2-man games, slides, and unit communication.",
     focus: "Players connect individual technique to the teammate next to them.",
     systems: [
@@ -132,7 +132,7 @@ export const academyPhaseMap: AcademyPhase[] = [
   },
   {
     phase: "Expansion",
-    weeks: "Weeks 7-10",
+    weeks: "Months 6-8",
     identity: "Uneven situations, man-up/man-down, zone concepts, and aggressive riding.",
     focus: "Players learn how the system changes when the numbers or defensive look changes.",
     systems: [
@@ -145,7 +145,7 @@ export const academyPhaseMap: AcademyPhase[] = [
   },
   {
     phase: "Execution",
-    weeks: "Weeks 11-16",
+    weeks: "Months 9-10",
     identity: "Full-field systems, situational management, and championship execution.",
     focus: "The teaching load drops and the system is run at full speed with game constraints.",
     systems: [
@@ -317,7 +317,7 @@ export const parentPortalModules: PortalModule[] = [
 export const playerHomeworkAssignments: HomeworkAssignment[] = [
   {
     phase: "Foundation",
-    weeks: "Weeks 1-3",
+    weeks: "Months 1-2",
     theme: "Individual mastery",
     watch: ["Offensive Foundation", "Defensive Foundation"],
     train: ["50 right / 50 left wall ball", "25 quick sticks each hand", "Drop-step footwork 10 reps each side"],
@@ -325,7 +325,7 @@ export const playerHomeworkAssignments: HomeworkAssignment[] = [
   },
   {
     phase: "Connection",
-    weeks: "Weeks 4-6",
+    weeks: "Months 3-5",
     theme: "2-man games and slides",
     watch: ["Pick and Roll", "Adjacent Slides", "Off-Ball Flow"],
     train: ["Pass and cut wall ball", "Pump fake high and shoot low", "Draw a 4v3 fast break"],
@@ -333,7 +333,7 @@ export const playerHomeworkAssignments: HomeworkAssignment[] = [
   },
   {
     phase: "Expansion",
-    weeks: "Weeks 7-10",
+    weeks: "Months 6-8",
     theme: "Special situations",
     watch: ["Zone Attack", "Man-Down Rotation", "Play Through X"],
     train: ["Skip-pass wall ball", "Ground-ball breakout", "One-minute communication challenge"],
@@ -341,7 +341,7 @@ export const playerHomeworkAssignments: HomeworkAssignment[] = [
   },
   {
     phase: "Execution",
-    weeks: "Weeks 11-16",
+    weeks: "Months 9-10",
     theme: "Championship habits",
     watch: ["10-Man Ride", "7-Man Clear", "Dodge Draw Dump"],
     train: ["Visualization reps", "Game-speed wall ball", "Pressure free-position or shooting routine"],

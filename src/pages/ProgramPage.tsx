@@ -170,7 +170,7 @@ export function ProgramPage({ programKey }: { programKey: Gender }) {
         </div>
       </section>
 
-      {/* 16-Week Development (Academy Spec) */}
+      {/* 10-Month Development (Academy Spec) */}
       <section className="py-32 px-6 bg-black relative overflow-hidden border-b border-white/5" id="curriculum">
         {/* Ghost Typography */}
         <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-5">
@@ -183,7 +183,7 @@ export function ProgramPage({ programKey }: { programKey: Gender }) {
           <div className="flex flex-col md:flex-row items-start justify-between mb-24 gap-12">
             <div className="max-w-[600px]">
               <div className="inline-flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6">
-                DEVELOPMENT_BLUEPRINT // 16_WEEK_SPEC
+                DEVELOPMENT_BLUEPRINT // 10_MONTH_SPEC
               </div>
               <h2 className="font-display text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.85] text-white">
                 Engineered <br /> <span className="text-[var(--btb-red)]">For Impact.</span>
