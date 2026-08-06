@@ -122,6 +122,19 @@ test("atomic slot allocation cannot overbook a 24-player group", async () => {
   assert.equal(reservations.filter((reservation) => reservation === null).length, 1);
 });
 
+test("the API and page distinguish processing conflicts from a full session", async () => {
+  const [functionSource, page] = await Promise.all([
+    readFile(new URL("../netlify/functions/boys-mini-camp-register.mjs", import.meta.url), "utf8"),
+    readFile(new URL("../public/register-boys-mini-camp.html", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(functionSource, /code: "registration_processing"/);
+  assert.match(functionSource, /code: "session_full"/);
+  assert.match(page, /registrationError\.sessionFull = result\.code === "session_full"/);
+  assert.match(page, /error\.code === "registration_processing"/);
+  assert.match(page, /if \(isFull\) \{/);
+});
+
 test("Netlify form handoff uses the Node function site URL", async () => {
   const originalSiteUrl = process.env.URL;
   process.env.URL = "https://deploy-preview.example.netlify.app";

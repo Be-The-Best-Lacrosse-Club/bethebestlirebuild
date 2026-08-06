@@ -453,7 +453,8 @@
         const result = await response.json().catch(function() { return {}; });
         if (!response.ok) {
           const registrationError = new Error(result.error || "Registration could not be saved");
-          registrationError.sessionFull = response.status === 409;
+          registrationError.code = result.code || "";
+          registrationError.sessionFull = result.code === "session_full";
           throw registrationError;
         }
         const player = (data.get("player_first_name") + " " + data.get("player_last_name")).trim();
@@ -462,9 +463,12 @@
         window.location.href = PAYMENT_LINK;
       } catch (error) {
         const isFull = error && error.sessionFull;
+        const isProcessing = error && error.code === "registration_processing";
         errorMsg.textContent = isFull
           ? "This session is currently full. Please email info@bethebestli.com for assistance."
-          : "We could not save the registration. Please try again or email info@bethebestli.com.";
+          : (isProcessing
+            ? "Your registration is still being processed. Please wait a moment, then try again."
+            : "We could not save the registration. Please try again or email info@bethebestli.com.");
         errorMsg.classList.add("show");
         sessionAvailable = !isFull;
         if (isFull) {

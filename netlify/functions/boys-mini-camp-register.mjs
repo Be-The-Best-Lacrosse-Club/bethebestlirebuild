@@ -225,12 +225,18 @@ export default async (req, context) => {
       return json({ ok: true, duplicate: true });
     }
     if (existing) {
-      return json({ error: "This registration is already being processed. Please wait a moment and try again." }, 409);
+      return json({
+        error: "This registration is already being processed. Please wait a moment and try again.",
+        code: "registration_processing",
+      }, 409);
     }
 
     slotKey = await reserveSlot(store, group.key, registrationId);
     if (!slotKey) {
-      return json({ error: "This session is currently full. Please email info@bethebestli.com for assistance." }, 409);
+      return json({
+        error: "This session is currently full. Please email info@bethebestli.com for assistance.",
+        code: "session_full",
+      }, 409);
     }
 
     const registrationWrite = await store.setJSON(registrationKey, {
@@ -245,7 +251,10 @@ export default async (req, context) => {
       if (["pending_payment", "registered"].includes(concurrentRegistration?.status)) {
         return json({ ok: true, duplicate: true });
       }
-      return json({ error: "This registration is already being processed. Please wait a moment and try again." }, 409);
+      return json({
+        error: "This registration is already being processed. Please wait a moment and try again.",
+        code: "registration_processing",
+      }, 409);
     }
 
     await saveNetlifyForm(data, context);
