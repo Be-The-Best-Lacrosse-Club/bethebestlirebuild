@@ -483,7 +483,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
       >
         <div className="w-full h-[800px]">
           <iframe
-            src="https://btb-lacrosse-iq.netlify.app/"
+            src="https://btb-film-lab.netlify.app/iq/"
             className="w-full h-full border-none"
             title="BTB Lacrosse IQ Library"
             allowFullScreen
