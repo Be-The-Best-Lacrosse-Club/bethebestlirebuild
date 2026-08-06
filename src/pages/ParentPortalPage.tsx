@@ -1,6 +1,6 @@
 import { useReveal } from "@/hooks/useReveal"
 import { Calendar, FileText, CreditCard, Video, BookOpen, ArrowRight, Shield, Link as LinkIcon, Smartphone, MessageSquare } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router"
 import { academyPhaseMap, parentPortalModules } from "@/lib/academySystem"
 
 const portalLinks = [

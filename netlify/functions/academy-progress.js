@@ -33,7 +33,7 @@ async function atFetch(url, options = {}) {
 }
 
 // Escape double-quotes so user-supplied strings can't break out of the Airtable formula.
-function esc(s) { return String(s).replace(/"/g, '\\"') }
+function esc(s) { return String(s).replace(/([\\"])/g, "\\$1") }
 
 async function findRecord(userId, courseId) {
   let formula = `{userId} = "${esc(userId)}"`

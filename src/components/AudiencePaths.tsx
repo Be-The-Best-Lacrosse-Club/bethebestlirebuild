@@ -1,7 +1,7 @@
 import type React from "react"
 import { ArrowRight, Shield, Users, GraduationCap } from "lucide-react"
 import { useWordSplit, useStaggerReveal } from "@/hooks/useScrollAnimation"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 
 const paths = [
   {

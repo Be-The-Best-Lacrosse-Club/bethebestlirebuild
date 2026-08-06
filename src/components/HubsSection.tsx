@@ -1,5 +1,5 @@
 import { ArrowRight, GraduationCap, Users, BookOpen } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import { useReveal } from "@/hooks/useReveal"
 import { SectionHeader } from "@/components/shared/SectionHeader"
 

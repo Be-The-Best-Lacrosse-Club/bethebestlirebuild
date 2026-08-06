@@ -1522,22 +1522,27 @@ ${transcript}`;
             return;
         }
 
+        const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        })[character]);
+
         playGrid.innerHTML = filtered.map((play, i) => {
             const result = play.play_result || 'unknown';
-            const resultLabel = result.replace(/_/g, ' ');
+            const resultLabel = escapeHtml(result.replace(/_/g, ' '));
+            const safeResult = escapeHtml(result);
             const confClass = play.ai_confidence >= 0.8 ? 'high' : play.ai_confidence >= 0.5 ? 'mid' : 'low';
             const confPct = Math.round((play.ai_confidence || 0) * 100);
 
-            const tags = (play.tags || []).map(t => `<span class="play-tag">${t}</span>`).join('');
-            const players = (play.players || []).map(p => `<span class="play-tag player">#${p}</span>`).join('');
+            const tags = (play.tags || []).map(t => `<span class="play-tag">${escapeHtml(t)}</span>`).join('');
+            const players = (play.players || []).map(p => `<span class="play-tag player">#${escapeHtml(p)}</span>`).join('');
 
             return `
-            <div class="play-card" data-result="${result}" style="animation-delay: ${i * 0.04}s">
+            <div class="play-card" data-result="${safeResult}" style="animation-delay: ${i * 0.04}s">
                 <div class="play-card-top">
                     <div class="play-seq">${play.event_sequence || i + 1}</div>
                     <div class="play-meta">
-                        <span class="play-result-badge ${result}">${resultLabel}</span>
-                        <div class="play-phase">${play.phase || ''}</div>
+                        <span class="play-result-badge ${safeResult}">${resultLabel}</span>
+                        <div class="play-phase">${escapeHtml(play.phase || '')}</div>
                     </div>
                     <div style="text-align:right">
                         <div class="play-timestamp">
@@ -1551,10 +1556,10 @@ ${transcript}`;
                         </div>
                     </div>
                 </div>
-                <div class="play-summary">${play.event_summary || ''}</div>
-                ${play.main_teaching_point ? `<div class="play-teaching">${play.main_teaching_point}</div>` : ''}
+                <div class="play-summary">${escapeHtml(play.event_summary || '')}</div>
+                ${play.main_teaching_point ? `<div class="play-teaching">${escapeHtml(play.main_teaching_point)}</div>` : ''}
                 <div class="play-tags">
-                    ${play.category ? `<span class="play-tag category">${play.category}</span>` : ''}
+                    ${play.category ? `<span class="play-tag category">${escapeHtml(play.category)}</span>` : ''}
                     ${tags}
                     ${players}
                 </div>
@@ -1562,9 +1567,9 @@ ${transcript}`;
                 <div class="play-bottom">
                     <div class="play-context">
                         ${play.period ? `<span>Q${play.period}</span>` : ''}
-                        ${play.clock ? `<span>${play.clock}</span>` : ''}
-                        ${play.score_state ? `<span>Score: ${play.score_state}</span>` : ''}
-                        <span>${play.team_focus || ''}</span>
+                        ${play.clock ? `<span>${escapeHtml(play.clock)}</span>` : ''}
+                        ${play.score_state ? `<span>Score: ${escapeHtml(play.score_state)}</span>` : ''}
+                        <span>${escapeHtml(play.team_focus || '')}</span>
                     </div>
                 </div>` : ''}
             </div>`;

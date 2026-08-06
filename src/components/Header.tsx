@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router"
 import { Menu, X, ChevronDown, Lock, LogOut, Layout } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 

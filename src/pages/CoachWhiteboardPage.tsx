@@ -7,7 +7,7 @@
  */
 
 import { useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router"
 import { ArrowLeft, PenTool } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
 import { Whiteboard } from "@/components/whiteboard/Whiteboard"

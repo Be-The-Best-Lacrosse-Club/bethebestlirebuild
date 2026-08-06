@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router"
 import { useAuth } from "@/context/AuthContext"
 import { SEO } from "@/components/shared/SEO"
 import { ArrowLeft, Lock, Loader2, Mail, CheckCircle, UserPlus } from "lucide-react"

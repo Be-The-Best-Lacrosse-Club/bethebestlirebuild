@@ -2,7 +2,7 @@ import type React from "react"
 import { Video, Search, Activity } from "lucide-react"
 import { useReveal } from "@/hooks/useReveal"
 import { useWordSplit } from "@/hooks/useScrollAnimation"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 
 const cards = [
   { spec: "ANALYSIS // 01", title: "Game IQ Development", text: "Read defensive formations before they develop. Recognize slide packages. Make faster decisions. This is taught, not hoped for." },

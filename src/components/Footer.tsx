@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 
 // SPA routes handled by React Router
 const SPA_ROUTES = new Set([

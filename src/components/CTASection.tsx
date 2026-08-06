@@ -1,6 +1,6 @@
 import React from "react"
 import { ArrowRight, Phone } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import { useWordSplit, useFadeUp } from "@/hooks/useScrollAnimation"
 
 export function CTASection() {
