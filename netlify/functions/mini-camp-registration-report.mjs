@@ -545,5 +545,6 @@ export default async () => {
 };
 
 export const config = {
+  // The August 7–19 report window is on EDT, so 12:00 UTC is 8:00 AM locally.
   schedule: "0 12 * * *",
 };
