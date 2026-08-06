@@ -1074,7 +1074,10 @@
            MESSAGE RENDERING
            ======================================== */
         function renderMarkdown(text) {
-            var lines = text.split('\n');
+            var escaped = String(text).replace(/[&<>"']/g, function (character) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character];
+            });
+            var lines = escaped.split('\n');
             var html = '';
             for (var i = 0; i < lines.length; i++) {
                 var line = lines[i];

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router"
 import { Toaster } from "sonner"
 import { AuthProvider } from "@/context/AuthContext"
 import { PublicLayout } from "@/layouts/PublicLayout"

@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from "react"
-import { Navigate } from "react-router-dom"
+import { Navigate } from "react-router"
 import { useAuth } from "@/context/AuthContext"
 import { getAuthToken } from "@/lib/auth"
 import { SEO } from "@/components/shared/SEO"

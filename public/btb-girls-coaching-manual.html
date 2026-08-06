@@ -4009,12 +4009,21 @@ searchInput.addEventListener('input', function(){
         matches.push(item);
       }
     });
-    if(!matches.length){ searchResults.innerHTML = '<div class="search-no-results">No results for "'+q+'"</div>'; return; }
+    if(!matches.length){
+      var empty = document.createElement('div');
+      empty.className = 'search-no-results';
+      empty.textContent = 'No results for "' + q + '"';
+      searchResults.replaceChildren(empty);
+      return;
+    }
     matches.slice(0,12).forEach(function(m){
       var a = document.createElement('a');
       a.className = 'search-result-item';
       a.href = '#'+m.section;
-      a.innerHTML = '<span class="sr-section">'+m.sectionName+'</span>'+(m.text.length>80?m.text.slice(0,80)+'...':m.text);
+      var section = document.createElement('span');
+      section.className = 'sr-section';
+      section.textContent = m.sectionName;
+      a.append(section, document.createTextNode(m.text.length>80?m.text.slice(0,80)+'...':m.text));
       a.addEventListener('click', function(e){
         e.preventDefault();
         m.element.scrollIntoView({behavior:'smooth',block:'center'});

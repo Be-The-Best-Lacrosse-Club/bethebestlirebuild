@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom"
+import { Navigate, Outlet, useLocation } from "react-router"
 import { useAuth } from "@/context/AuthContext"
 import { ArrowLeft, ShieldX } from "lucide-react"
 import type { Gender } from "@/types"

@@ -1,5 +1,5 @@
 import { useAuth } from "@/context/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import { Shield, Calendar, FileText, Award, ChevronRight, Layout, Clock, Loader2 } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"

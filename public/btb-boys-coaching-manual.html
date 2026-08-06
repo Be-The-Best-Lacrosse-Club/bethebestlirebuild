@@ -3238,7 +3238,10 @@ searchInput.addEventListener('input', function(){
       }
     });
     if(matches.length === 0){
-      searchResults.innerHTML = '<div class="search-no-results">No results for "'+q+'"</div>';
+      var empty = document.createElement('div');
+      empty.className = 'search-no-results';
+      empty.textContent = 'No results for "' + q + '"';
+      searchResults.replaceChildren(empty);
       return;
     }
     matches.slice(0, 12).forEach(function(m){
@@ -3246,7 +3249,10 @@ searchInput.addEventListener('input', function(){
       a.className = 'search-result-item';
       a.href = '#' + m.section;
       var display = m.text.length > 80 ? m.text.slice(0,80) + '...' : m.text;
-      a.innerHTML = '<span class="sr-section">'+m.sectionName+'</span>'+display;
+      var section = document.createElement('span');
+      section.className = 'sr-section';
+      section.textContent = m.sectionName;
+      a.append(section, document.createTextNode(display));
       a.addEventListener('click', function(e){
         e.preventDefault();
         m.element.scrollIntoView({behavior:'smooth', block:'center'});

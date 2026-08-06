@@ -47,7 +47,7 @@ function extractVideoId(input) {
     const url = new URL(input);
 
     // youtube.com/watch?v=ID
-    if (url.hostname.includes("youtube.com") && url.searchParams.get("v")) {
+    if (["youtube.com", "www.youtube.com", "m.youtube.com"].includes(url.hostname) && url.searchParams.get("v")) {
       return url.searchParams.get("v");
     }
 
@@ -150,15 +150,13 @@ function parseTimedTextXml(xml) {
     const rawText = m[3];
 
     // Decode HTML entities and strip tags
+    const entities = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", "#39": "'" };
     const text = rawText
       .replace(/<[^>]+>/g, "") // strip nested tags like <font>
-      .replace(/&amp;/g, "&")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/&apos;/g, "'")
-      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n)))
+      .replace(/&(?:#(\d+)|amp|lt|gt|quot|apos|#39);/g, (entity, numeric) => {
+        if (numeric) return String.fromCodePoint(Number(numeric));
+        return entities[entity.slice(1, -1)] ?? entity;
+      })
       .replace(/\n/g, " ")
       .trim();
 

@@ -475,6 +475,10 @@
       `;
 
       // Event cards
+      const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[character]);
+
       elements.eventsList.innerHTML = currentEvents.map((event, i) => {
         const phaseClass = (event.phase || '').toLowerCase().includes('offense') ? 'offense'
           : (event.phase || '').toLowerCase().includes('defense') ? 'defense'
@@ -489,23 +493,23 @@
         return `
           <div class="event-card ${phaseClass}">
             <div class="event-header">
-              <div class="event-title">${event.play || event.title || `Event ${i + 1}`}</div>
+              <div class="event-title">${escapeHtml(event.play || event.title || `Event ${i + 1}`)}</div>
               ${timestamp ? `
                 <a href="${ytLink}" target="_blank" class="event-timestamp" title="Jump to this moment">
-                  ⏱ ${timestamp}
+                  ⏱ ${escapeHtml(timestamp)}
                 </a>
               ` : ''}
             </div>
-            <div class="event-description">${event.description || ''}</div>
+            <div class="event-description">${escapeHtml(event.description || '')}</div>
             <div class="event-tags">
-              ${event.phase ? `<span class="game-tag red">${event.phase}</span>` : ''}
-              ${event.category ? `<span class="game-tag">${event.category}</span>` : ''}
-              ${event.result ? `<span class="game-tag">${event.result}</span>` : ''}
-              ${(event.tags || []).map(t => `<span class="game-tag">${t}</span>`).join('')}
+              ${event.phase ? `<span class="game-tag red">${escapeHtml(event.phase)}</span>` : ''}
+              ${event.category ? `<span class="game-tag">${escapeHtml(event.category)}</span>` : ''}
+              ${event.result ? `<span class="game-tag">${escapeHtml(event.result)}</span>` : ''}
+              ${(event.tags || []).map(t => `<span class="game-tag">${escapeHtml(t)}</span>`).join('')}
             </div>
             ${event.teaching_points ? `
               <div class="event-teaching">
-                <strong>Teaching Point:</strong> ${Array.isArray(event.teaching_points) ? event.teaching_points.join('; ') : event.teaching_points}
+                <strong>Teaching Point:</strong> ${escapeHtml(Array.isArray(event.teaching_points) ? event.teaching_points.join('; ') : event.teaching_points)}
               </div>
             ` : ''}
           </div>

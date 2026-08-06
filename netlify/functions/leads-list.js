@@ -98,7 +98,10 @@ export const handler = async (event) => {
     "sort[0][field]": "Submission Date",
     "sort[0][direction]": "desc",
   };
-  if (formName) airtableParams.filterByFormula = `{Source} = "${formName.replace(/"/g, '\\"')}"`;
+  if (formName) {
+    const escapedFormName = String(formName).replace(/([\\"])/g, "\\$1");
+    airtableParams.filterByFormula = `{Source} = "${escapedFormName}"`;
+  }
 
   try {
     const data = await airtableGet({ baseId, table, params: airtableParams });
