@@ -23,6 +23,30 @@ type Camp = {
 
 const CAMPS: Camp[] = [
   {
+    key: "boys-mini-camp",
+    name: "3-Day Boys Mini Camp",
+    tagline: "Full Circle. Elite Reps.",
+    dates: "August 23, 24 & 26",
+    tabDates: "Aug 23, 24 & 26",
+    range: "3 Nights",
+    time: "5 – 8 PM · By Grad Year",
+    location: "Momentum Sports · Deer Park",
+    forWho: "Boys · Classes of 2031–2036",
+    description:
+      "Three nights of focused boys lacrosse training with Coach Dan Achatz and 2× NCAA Division II National Champion Braden Donnellan. Graduation year automatically assigns each player to a one-hour session, with only 18 players per age group.",
+    bullets: [
+      "Only 18 players per age group",
+      "Three focused nights: August 23, 24, and 26",
+      "Session assigned automatically by graduation year",
+      "Coached by Dan Achatz and Braden Donnellan",
+    ],
+    icon: Trophy,
+    registerUrl: "/register-boys-mini-camp",
+    price: "$150",
+    flyerSrc: "/images/events/BTB_Boys_Mini_Camp_2026.jpg",
+    flyerAlt: "Full Circle Elite Training with Coach Dan Achatz and Braden Donnellan at Momentum Sports",
+  },
+  {
     key: "girls-mini-camp",
     name: "Girls Mini Camp",
     tagline: "Focused Reps. Limited Groups.",
@@ -135,7 +159,7 @@ export function CampsPage() {
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
         title="August Camps & Clinics | BTB Lacrosse Club"
-        description="Register for the BTB Girls Mini Camp with Coach Dan Achatz and Matt Mauro or the BTB Futures Camp in August 2026."
+        description="Register for BTB's Boys and Girls Mini Camps or the BTB Futures Camp in August 2026."
         path="/camps"
       />
 
@@ -162,14 +186,14 @@ export function CampsPage() {
             Train With<br />Purpose.
           </h1>
           <p className="text-[1.02rem] text-white/70 max-w-[620px] leading-[1.75] mb-8 md:text-[1.16rem]">
-            Choose focused girls training with Coach Dan and Matt Mauro or a fundamentals-first Futures camp for the next generation.
+            Choose elite boys training with Coach Dan and Braden Donnellan, focused girls training with Coach Dan and Matt Mauro, or a fundamentals-first Futures camp.
           </p>
 
           <div className="max-w-[980px]" aria-label="BTB camp selector">
             <div className="mb-3 text-[0.72rem] font-black uppercase tracking-[2.4px] text-white/40">
               Choose a Camp
             </div>
-            <div role="tablist" aria-label="BTB August camps" className="grid grid-cols-1 gap-2 md:grid-cols-2">
+            <div role="tablist" aria-label="BTB August camps" className="grid grid-cols-1 gap-2 md:grid-cols-3">
               {CAMPS.map((camp) => {
                 const isActive = activeCamp.key === camp.key
 
@@ -288,7 +312,7 @@ export function CampsPage() {
         <div className="max-w-[900px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { num: "2", label: "August Camps" },
+              { num: "3", label: "August Camps" },
               { num: "3", label: "Days Each" },
               { num: "Pro", label: "Staff" },
               { num: "All", label: "Skill Levels" },
@@ -311,7 +335,7 @@ export function CampsPage() {
             The Schedule
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Two Camps.<br />One Standard.
+            Three Camps.<br />One Standard.
           </h2>
           <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
             Choose the age group and training format that fit your player.

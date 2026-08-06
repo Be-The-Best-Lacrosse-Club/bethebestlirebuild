@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "test:mini-camp": "node --test test/girls-mini-camp-register.test.mjs",
+    "test:mini-camp": "node --test test/girls-mini-camp-register.test.mjs test/boys-mini-camp-register.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

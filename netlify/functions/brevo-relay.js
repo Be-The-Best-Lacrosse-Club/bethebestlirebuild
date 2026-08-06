@@ -23,6 +23,7 @@
  *   BREVO_LIST_INTEREST_FORM — Override list for form-name="interest-form"
  *   BREVO_LIST_TRYOUT        — Override list for form-name="tryout-interest" + registration forms
  *   BOYS_DIRECTOR_NOTIFY_EMAIL — Boys-side registration copy recipient
+ *   BOYS_MINI_CAMP_NOTIFY_EMAIL — Dan-only admin recipient for Boys Mini Camp registrations
  *   SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS — Comma-separated staff recipients for supplemental registrations
  *   AIRTABLE_FORMS_API_KEY   — Airtable PAT (falls back to AIRTABLE_OPS_API_KEY)
  *   AIRTABLE_FORMS_BASE_ID   — Base id (default target: BTB-OS = appGAETGobQBTwf7j)
@@ -33,6 +34,8 @@ import https from "node:https";
 const RETIRED_FORM_NAMES = new Set(["camp-registration"]);
 const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
 const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "taylorjhoran26@gmail.com";
+const BOYS_MINI_CAMP_FORM_NAME = "btb-boys-mini-camp-registration";
+const BOYS_MINI_CAMP_NOTIFY_EMAIL = process.env.BOYS_MINI_CAMP_NOTIFY_EMAIL || "info@bethebestli.com";
 const BOYS_REGISTRATION_FORMS = new Set([
   "btb-boys-tryout-registration",
   "btb-east-boys-tryout-registration",
@@ -52,6 +55,8 @@ const DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS = [
 ];
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
 const GIRLS_MINI_CAMP_PAYMENT_URL =
+  "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1c3a01704f2547cbb09f23abdebff4aa0bd6cfdac675404383577857b777c553ce3f1437feae469385772f1ce703ed23-0?locale=EN_US";
+const BOYS_MINI_CAMP_PAYMENT_URL =
   "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1c3a01704f2547cbb09f23abdebff4aa0bd6cfdac675404383577857b777c553ce3f1437feae469385772f1ce703ed23-0?locale=EN_US";
 const FUTURES_CLINIC_DOB_RANGES = {
   2036: { min: "2017-12-02", max: "2018-12-01" },
@@ -141,6 +146,7 @@ function brevoListIdFor(formName) {
     "tryout-interest": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-tryout-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-boys-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "supplemental-tryouts-registration": process.env.BREVO_LIST_TRYOUT,
@@ -306,8 +312,11 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
     name: process.env.BREVO_SENDER_NAME || "BTB Website",
     email: process.env.BREVO_SENDER_EMAIL,
   };
-  const emails = includeDefaultRecipients ? notificationEmailsFromEnv() : [];
-  if (isBoysSideRegistration(formName, data)) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
+  const isBoysMiniCamp = formName === BOYS_MINI_CAMP_FORM_NAME;
+  const emails = isBoysMiniCamp
+    ? [BOYS_MINI_CAMP_NOTIFY_EMAIL]
+    : (includeDefaultRecipients ? notificationEmailsFromEnv() : []);
+  if (!isBoysMiniCamp && isBoysSideRegistration(formName, data)) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
   if (formName === "supplemental-tryouts-registration") {
     emails.push(...supplementalTryoutNotificationEmails());
   }
@@ -945,6 +954,25 @@ const CONFIRMATION_CONFIG = {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
       return confirmationBase({ parentFirst, playerName, program: "BTB Girls Tryouts 2026", details: "Tryout times are assigned by grad year. We'll send your specific time slot and location details shortly.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
+    },
+  },
+  "btb-boys-mini-camp-registration": {
+    subject: (data) => `Registration Received — Boys Mini Camp | ${data.assigned_session || "August 23, 24 & 26"}`,
+    getHtml: (data) => {
+      const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
+      const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      const assignedSession = data.assigned_session || "the session assigned to his graduation year";
+      const details = `August 23, 24, and 26 at ${assignedSession}. Momentum Sports, 10 Dunton Ave, Deer Park, NY. His registration is finalized after the $150 QuickBooks payment is completed.`;
+      return confirmationBase({
+        parentFirst,
+        playerName,
+        program: "BTB × Full Circle 3-Day Boys Mini Camp",
+        details,
+        cta: "COMPLETE $150 PAYMENT",
+        ctaUrl: BOYS_MINI_CAMP_PAYMENT_URL,
+        headline: "Registration Received",
+        introVerb: "saved for",
+      });
     },
   },
   "btb-girls-mini-camp-registration": {
