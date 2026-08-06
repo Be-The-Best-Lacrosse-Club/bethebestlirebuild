@@ -23,6 +23,30 @@ type Camp = {
 
 const CAMPS: Camp[] = [
   {
+    key: "girls-mini-camp",
+    name: "Girls Mini Camp",
+    tagline: "Focused Reps. Limited Groups.",
+    dates: "August 19 – August 21",
+    tabDates: "Aug 19–21",
+    range: "3 Nights",
+    time: "5 – 8 PM · By Grad Year",
+    location: "Momentum Sports · Deer Park",
+    forWho: "Girls · Classes of 2031–2036",
+    description:
+      "Three nights of focused girls lacrosse training with Coach Dan Achatz and Matt Mauro. Graduation year automatically assigns each player to a one-hour session with only 18 players per group.",
+    bullets: [
+      "Only 18 players per training group",
+      "Three consecutive nights of focused reps",
+      "Session assigned automatically by graduation year",
+      "Coached by Dan Achatz and Matt Mauro",
+    ],
+    icon: Target,
+    registerUrl: "/register-girls-mini-camp",
+    price: "$150",
+    flyerSrc: "/images/events/BTB_Girls_Mini_Camp_2026.jpg",
+    flyerAlt: "BTB and Bearded Lax Girls Mini Camp flyer for August 19 through August 21 at Momentum Sports",
+  },
+  {
     key: "futures",
     name: "Futures Camp",
     tagline: "Build the Foundation.",
@@ -110,8 +134,8 @@ export function CampsPage() {
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
-        title="Futures Camp | BTB Lacrosse Club"
-        description="BTB Futures Camp runs August 18–20, 2026 at Plainedge Park for the classes of 2034–2037."
+        title="August Camps & Clinics | BTB Lacrosse Club"
+        description="Register for the BTB Girls Mini Camp with Coach Dan Achatz and Matt Mauro or the BTB Futures Camp in August 2026."
         path="/camps"
       />
 
@@ -132,20 +156,20 @@ export function CampsPage() {
         />
         <div className="relative z-10 max-w-[1040px] mx-auto pt-10 md:pt-14">
           <div className="text-[0.8rem] font-black uppercase tracking-[3px] text-[var(--btb-red)] mb-4 md:text-[1.0rem]">
-            BTB Futures Camp · 2026
+            BTB Camps & Clinics · August 2026
           </div>
           <h1 className="font-display text-[3.15rem] uppercase tracking-wide leading-[0.9] mb-5 md:text-[5.2rem]">
-            Build The<br />Foundation.
+            Train With<br />Purpose.
           </h1>
           <p className="text-[1.02rem] text-white/70 max-w-[620px] leading-[1.75] mb-8 md:text-[1.16rem]">
-            Three high-energy, fundamentals-first days for the next generation of BTB athletes.
+            Choose focused girls training with Coach Dan and Matt Mauro or a fundamentals-first Futures camp for the next generation.
           </p>
 
           <div className="max-w-[980px]" aria-label="BTB camp selector">
             <div className="mb-3 text-[0.72rem] font-black uppercase tracking-[2.4px] text-white/40">
-              Futures Camp Details
+              Choose a Camp
             </div>
-            <div role="tablist" aria-label="BTB Futures camp" className="grid grid-cols-1 gap-2">
+            <div role="tablist" aria-label="BTB August camps" className="grid grid-cols-1 gap-2 md:grid-cols-2">
               {CAMPS.map((camp) => {
                 const isActive = activeCamp.key === camp.key
 
@@ -246,9 +270,9 @@ export function CampsPage() {
                   <img
                     src={activeCamp.flyerSrc}
                     alt={activeCamp.flyerAlt}
-                    width={798}
-                    height={1200}
-                    className="aspect-[3/4] w-full object-cover"
+                    width={1024}
+                    height={1280}
+                    className="aspect-[4/5] w-full bg-black object-contain"
                     loading="eager"
                     decoding="async"
                   />
@@ -264,8 +288,8 @@ export function CampsPage() {
         <div className="max-w-[900px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { num: "1", label: "Futures Camp" },
-              { num: "3", label: "Camp Days" },
+              { num: "2", label: "August Camps" },
+              { num: "3", label: "Days Each" },
               { num: "Pro", label: "Staff" },
               { num: "All", label: "Skill Levels" },
             ].map((s) => (
@@ -287,10 +311,10 @@ export function CampsPage() {
             The Schedule
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-            Three Days.<br />One Standard.
+            Two Camps.<br />One Standard.
           </h2>
           <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
-            Sign up for any consecutive days that fit your schedule.
+            Choose the age group and training format that fit your player.
           </p>
 
           <div className="space-y-4">

@@ -51,6 +51,8 @@ const DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS = [
   "taylorjhoran26@gmail.com",
 ];
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
+const GIRLS_MINI_CAMP_PAYMENT_URL =
+  "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1c3a01704f2547cbb09f23abdebff4aa0bd6cfdac675404383577857b777c553ce3f1437feae469385772f1ce703ed23-0?locale=EN_US";
 const FUTURES_CLINIC_DOB_RANGES = {
   2036: { min: "2017-12-02", max: "2018-12-01" },
   2037: { min: "2018-12-02", max: "2019-12-01" },
@@ -139,6 +141,7 @@ function brevoListIdFor(formName) {
     "tryout-interest": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-tryout-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-girls-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "supplemental-tryouts-registration": process.env.BREVO_LIST_TRYOUT,
     "camp-registration": process.env.BREVO_LIST_TRYOUT,
@@ -944,6 +947,25 @@ const CONFIRMATION_CONFIG = {
       return confirmationBase({ parentFirst, playerName, program: "BTB Girls Tryouts 2026", details: "Tryout times are assigned by grad year. We'll send your specific time slot and location details shortly.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
     },
   },
+  "btb-girls-mini-camp-registration": {
+    subject: (data) => `Registration Received — Girls Mini Camp | ${data.assigned_session || "August 19–21"}`,
+    getHtml: (data) => {
+      const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
+      const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      const assignedSession = data.assigned_session || "the session assigned to her graduation year";
+      const details = `August 19, 20, and 21 at ${assignedSession}. Momentum Sports, 10 Dunton Ave, Deer Park, NY. Her registration is finalized after the $150 QuickBooks payment is completed.`;
+      return confirmationBase({
+        parentFirst,
+        playerName,
+        program: "BTB × Bearded Lax Girls Mini Camp",
+        details,
+        cta: "COMPLETE $150 PAYMENT",
+        ctaUrl: GIRLS_MINI_CAMP_PAYMENT_URL,
+        headline: "Registration Received",
+        introVerb: "saved for",
+      });
+    },
+  },
   "btb-east-boys-tryout-registration": {
     subject: () => "You're Registered — BTB East Boys Tryouts 2026",
     getHtml: (data) => {
@@ -973,7 +995,16 @@ const CONFIRMATION_CONFIG = {
   },
 };
 
-function confirmationBase({ parentFirst, playerName, program, details, cta, ctaUrl }) {
+function confirmationBase({
+  parentFirst,
+  playerName,
+  program,
+  details,
+  cta,
+  ctaUrl,
+  headline = "You're Registered!",
+  introVerb = "registered for",
+}) {
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -981,7 +1012,7 @@ function confirmationBase({ parentFirst, playerName, program, details, cta, ctaU
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#000;border-bottom:3px solid #D22630;">
     <tr><td style="padding:24px 20px;text-align:center;">
       <p style="margin:0 0 6px;color:#D22630;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;">BE THE BEST LACROSSE CLUB</p>
-      <h1 style="margin:0;color:#fff;font-size:26px;letter-spacing:2px;text-transform:uppercase;font-weight:900;">You're Registered!</h1>
+      <h1 style="margin:0;color:#fff;font-size:26px;letter-spacing:2px;text-transform:uppercase;font-weight:900;">${escapeHtml(headline)}</h1>
       <p style="margin:8px 0 0;color:#D22630;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">${escapeHtml(program)}</p>
     </td></tr>
   </table>
@@ -989,7 +1020,7 @@ function confirmationBase({ parentFirst, playerName, program, details, cta, ctaU
     <tr><td style="padding:32px 24px 40px;background:#111;">
       <p style="font-size:16px;color:#ccc;line-height:1.7;margin:0 0 24px;">
         Hi ${escapeHtml(parentFirst)},<br><br>
-        We have <strong style="color:#fff;">${escapeHtml(playerName)}</strong> registered for <strong style="color:#fff;">${escapeHtml(program)}</strong>. We're looking forward to seeing them on the field!
+        We have <strong style="color:#fff;">${escapeHtml(playerName)}</strong> ${escapeHtml(introVerb)} <strong style="color:#fff;">${escapeHtml(program)}</strong>. We're looking forward to seeing them on the field!
       </p>
       <div style="background:#1a1a1a;border-left:3px solid #D22630;border-radius:6px;padding:20px 22px;margin-bottom:24px;">
         <p style="color:#D22630;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 10px;">WHAT'S NEXT</p>

@@ -27,6 +27,7 @@ const FORM_LABELS: Record<string, string> = {
   "tryout-interest": "Tryout Interest",
   "btb-boys-tryout-registration": "Boys Tryout Reg",
   "btb-girls-tryout-registration": "Girls Tryout Reg",
+  "btb-girls-mini-camp-registration": "Girls Mini Camp Reg",
   "btb-east-boys-tryout-registration": "East Boys Tryout Reg",
   "camp-registration": "Camp Reg",
   "positional-registration": "Positional Reg",
