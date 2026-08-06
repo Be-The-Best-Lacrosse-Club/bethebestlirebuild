@@ -14,6 +14,7 @@ const teamLinks = (gender: string) => [
 const programLinks = [
   { label: "Boys Lacrosse", href: "/boys" },
   { label: "Girls Lacrosse", href: "/girls" },
+  { label: "Boys Mini Camp · Aug 23, 24 & 26", href: "/register-boys-mini-camp" },
   { label: "Girls Mini Camp · Aug 19–21", href: "/register-girls-mini-camp" },
   { label: "Players Wanted", href: "/players-wanted" },
   { label: "BTB Futures (K-2)", href: "/futures" },
@@ -25,6 +26,7 @@ const staticLinks = new Set([
   "/newsletter",
   "/coach-tools.html",
   "/register-futures",
+  "/register-boys-mini-camp",
   "/register-girls-mini-camp",
 ])
 
@@ -217,10 +219,16 @@ export function Header() {
             {/* Primary CTAs */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               <button
-                onClick={() => go("/register-girls-mini-camp")}
-                className="col-span-2 py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[2px] rounded-xl"
+                onClick={() => go("/register-boys-mini-camp")}
+                className="py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[1.5px] rounded-xl"
               >
-                Girls Mini Camp · Register $150
+                Boys Mini Camp · $150
+              </button>
+              <button
+                onClick={() => go("/register-girls-mini-camp")}
+                className="py-4 border-2 border-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[1.5px] rounded-xl"
+              >
+                Girls Mini Camp · $150
               </button>
               <button
                 onClick={() => go("/boys")}
@@ -243,6 +251,7 @@ export function Header() {
                 links: [
                   { label: "Boys Program", href: "/boys" },
                   { label: "Girls Program", href: "/girls" },
+                  { label: "Boys Mini Camp · Aug 23, 24 & 26", href: "/register-boys-mini-camp" },
                   { label: "Girls Mini Camp · Aug 19–21", href: "/register-girls-mini-camp" },
                   { label: "Players Wanted", href: "/players-wanted" },
                   { label: "BTB Futures", href: "/futures" },
