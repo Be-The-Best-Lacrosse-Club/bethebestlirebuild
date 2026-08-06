@@ -461,60 +461,58 @@
         phases[phase] = (phases[phase] || 0) + 1;
       });
 
-      elements.eventStats.innerHTML = `
-        <div class="stat-card">
-          <div class="stat-value">${currentEvents.length}</div>
-          <div class="stat-label">Total Events</div>
-        </div>
-        ${Object.entries(phases).map(([phase, count]) => `
-          <div class="stat-card">
-            <div class="stat-value">${count}</div>
-            <div class="stat-label">${phase}</div>
-          </div>
-        `).join('')}
-      `;
+      const node = (tag, className, text) => {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (text !== undefined) element.textContent = String(text);
+        return element;
+      };
+      const statCard = (value, label) => {
+        const card = node('div', 'stat-card');
+        card.append(node('div', 'stat-value', value), node('div', 'stat-label', label));
+        return card;
+      };
+      elements.eventStats.replaceChildren(
+        statCard(currentEvents.length, 'Total Events'),
+        ...Object.entries(phases).map(([phase, count]) => statCard(count, phase))
+      );
 
-      // Event cards
-      const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-      })[character]);
-
-      elements.eventsList.innerHTML = currentEvents.map((event, i) => {
+      const cards = currentEvents.map((event, i) => {
         const phaseClass = (event.phase || '').toLowerCase().includes('offense') ? 'offense'
           : (event.phase || '').toLowerCase().includes('defense') ? 'defense'
           : 'transition';
 
         const timestamp = event.timestamp || event.time || '';
         const seconds = parseTimestamp(timestamp);
-        const ytLink = videoId && seconds >= 0
-          ? `https://www.youtube.com/watch?v=${videoId}&t=${seconds}s`
-          : '';
+        const card = node('div', `event-card ${phaseClass}`);
+        const header = node('div', 'event-header');
+        header.append(node('div', 'event-title', event.play || event.title || `Event ${i + 1}`));
+        if (timestamp) {
+          const link = node('a', 'event-timestamp', `⏱ ${timestamp}`);
+          link.href = 'https://www.youtube.com/watch';
+          link.search = new URLSearchParams({ v: videoId, t: `${seconds}s` }).toString();
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.title = 'Jump to this moment';
+          header.append(link);
+        }
+        card.append(header, node('div', 'event-description', event.description || ''));
 
-        return `
-          <div class="event-card ${phaseClass}">
-            <div class="event-header">
-              <div class="event-title">${escapeHtml(event.play || event.title || `Event ${i + 1}`)}</div>
-              ${timestamp ? `
-                <a href="${ytLink}" target="_blank" class="event-timestamp" title="Jump to this moment">
-                  ⏱ ${escapeHtml(timestamp)}
-                </a>
-              ` : ''}
-            </div>
-            <div class="event-description">${escapeHtml(event.description || '')}</div>
-            <div class="event-tags">
-              ${event.phase ? `<span class="game-tag red">${escapeHtml(event.phase)}</span>` : ''}
-              ${event.category ? `<span class="game-tag">${escapeHtml(event.category)}</span>` : ''}
-              ${event.result ? `<span class="game-tag">${escapeHtml(event.result)}</span>` : ''}
-              ${(event.tags || []).map(t => `<span class="game-tag">${escapeHtml(t)}</span>`).join('')}
-            </div>
-            ${event.teaching_points ? `
-              <div class="event-teaching">
-                <strong>Teaching Point:</strong> ${escapeHtml(Array.isArray(event.teaching_points) ? event.teaching_points.join('; ') : event.teaching_points)}
-              </div>
-            ` : ''}
-          </div>
-        `;
-      }).join('');
+        const tags = node('div', 'event-tags');
+        if (event.phase) tags.append(node('span', 'game-tag red', event.phase));
+        if (event.category) tags.append(node('span', 'game-tag', event.category));
+        if (event.result) tags.append(node('span', 'game-tag', event.result));
+        for (const tag of event.tags || []) tags.append(node('span', 'game-tag', tag));
+        card.append(tags);
+
+        if (event.teaching_points) {
+          const teaching = node('div', 'event-teaching');
+          teaching.append(node('strong', '', 'Teaching Point:'), document.createTextNode(` ${Array.isArray(event.teaching_points) ? event.teaching_points.join('; ') : event.teaching_points}`));
+          card.append(teaching);
+        }
+        return card;
+      });
+      elements.eventsList.replaceChildren(...cards);
     }
 
     function parseTimestamp(ts) {
