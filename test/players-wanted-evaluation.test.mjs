@@ -22,7 +22,7 @@ const evaluationRecipients = [
   "info@bethebestli.com",
   "btblacrosseteams@gmail.com",
   "btb.director.reynolds@gmail.com",
-  "taylorjhoran26@gmail.com",
+  "coachtbtb@gmail.com",
 ];
 
 function captureHttpsRequests() {

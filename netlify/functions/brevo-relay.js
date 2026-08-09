@@ -33,7 +33,7 @@
 import https from "node:https";
 const RETIRED_FORM_NAMES = new Set(["camp-registration", "supplemental-tryouts-registration"]);
 const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
-const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "taylorjhoran26@gmail.com";
+const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "coachtbtb@gmail.com";
 const BOYS_MINI_CAMP_FORM_NAME = "btb-boys-mini-camp-registration";
 const BOYS_MINI_CAMP_NOTIFY_EMAIL = process.env.BOYS_MINI_CAMP_NOTIFY_EMAIL || "info@bethebestli.com";
 const BOYS_REGISTRATION_FORMS = new Set([
@@ -52,7 +52,7 @@ const EVALUATION_NOTIFY_EMAILS = [
   "info@bethebestli.com",
   "btblacrosseteams@gmail.com",
   "btb.director.reynolds@gmail.com",
-  "taylorjhoran26@gmail.com",
+  "coachtbtb@gmail.com",
 ];
 const DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS = EVALUATION_NOTIFY_EMAILS;
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
