@@ -1,11 +1,14 @@
 /**
  * GET /.netlify/functions/airtable-proxy?module=players|parents|coaches|events|schedule|payments
  *
- * Reads from BTB Operations or Roster Airtable bases via env-only auth.
- * Replaces the previous client-side src/lib/airtable.ts that bundled a PAT.
+ * Reads from BTB Operations or Roster Airtable bases for verified owners only.
+ * Airtable credentials remain server-side in environment variables.
  */
 
 import https from "node:https";
+
+import { corsHeaders, isAllowedCorsOrigin } from "./_cors.js";
+import { authorizeIdentity } from "./_identity.js";
 
 function airtableGet(baseId, table) {
   const apiKey = process.env.AIRTABLE_OPS_API_KEY;
@@ -50,38 +53,48 @@ function routeFor(module) {
   return null;
 }
 
-const CORS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Content-Type": "application/json",
-};
+function json(statusCode, body, headers) {
+  return { statusCode, headers, body: JSON.stringify(body) };
+}
 
-export const handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
-  if (event.httpMethod !== "GET") {
-    return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: "Method not allowed" }) };
-  }
+export function createHandler({ authorize = authorizeIdentity, getRecords = airtableGet } = {}) {
+  return async (event) => {
+    const headers = corsHeaders(event, "GET, OPTIONS");
+    if (event.httpMethod === "OPTIONS") {
+      if (!isAllowedCorsOrigin(event)) return json(403, { error: "Forbidden origin" }, headers);
+      return { statusCode: 204, headers, body: "" };
+    }
+    if (event.httpMethod !== "GET") {
+      return json(405, { error: "Method not allowed" }, headers);
+    }
 
-  const module = (event.queryStringParameters || {}).module;
-  if (!module) {
-    return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: "module query param required" }) };
-  }
+    const identity = await authorize(event, ["owner"]);
+    if (!identity.ok) {
+      return json(identity.statusCode, { error: identity.error }, headers);
+    }
 
-  const route = routeFor(module);
-  if (!route) {
-    return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: `Unknown module: ${module}` }) };
-  }
+    const module = (event.queryStringParameters || {}).module;
+    if (!module) {
+      return json(400, { error: "module query param required" }, headers);
+    }
 
-  if (!process.env.AIRTABLE_OPS_API_KEY || !route.baseId) {
-    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: "Airtable env vars not configured" }) };
-  }
+    const route = routeFor(module);
+    if (!route) {
+      return json(400, { error: `Unknown module: ${module}` }, headers);
+    }
 
-  try {
-    const data = await airtableGet(route.baseId, route.table);
-    const records = (data.records || []).map((r) => ({ id: r.id, ...r.fields }));
-    return { statusCode: 200, headers: CORS, body: JSON.stringify({ records }) };
-  } catch (err) {
-    return { statusCode: 502, headers: CORS, body: JSON.stringify({ error: err.message }) };
-  }
-};
+    if (!process.env.AIRTABLE_OPS_API_KEY || !route.baseId) {
+      return json(500, { error: "Airtable env vars not configured" }, headers);
+    }
+
+    try {
+      const data = await getRecords(route.baseId, route.table);
+      const records = (data.records || []).map((r) => ({ id: r.id, ...r.fields }));
+      return json(200, { records }, headers);
+    } catch (err) {
+      return json(502, { error: err.message }, headers);
+    }
+  };
+}
+
+export const handler = createHandler();
