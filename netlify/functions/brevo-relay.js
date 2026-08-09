@@ -48,12 +48,13 @@ const PROGRAM_GENDER_REGISTRATION_FORMS = new Set([
   "supplemental-tryouts-registration",
   "players-wanted-evaluation",
 ]);
-const DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS = [
+const EVALUATION_NOTIFY_EMAILS = [
   "info@bethebestli.com",
   "btblacrosseteams@gmail.com",
   "btb.director.reynolds@gmail.com",
   "taylorjhoran26@gmail.com",
 ];
+const DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS = EVALUATION_NOTIFY_EMAILS;
 const SEAFORD_CLINIC_LOCATION = "June 28 - Seaford High School - 9:00-11:00 AM";
 const GIRLS_MINI_CAMP_PAYMENT_URL =
   "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-1c3a01704f2547cbb09f23abdebff4aa0bd6cfdac675404383577857b777c553ce3f1437feae469385772f1ce703ed23-0?locale=EN_US";
@@ -361,10 +362,15 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
     email: process.env.BREVO_SENDER_EMAIL,
   };
   const isBoysMiniCamp = formName === BOYS_MINI_CAMP_FORM_NAME;
+  const isEvaluationRequest = formName === "players-wanted-evaluation";
   const emails = isBoysMiniCamp
     ? [BOYS_MINI_CAMP_NOTIFY_EMAIL]
-    : (includeDefaultRecipients ? notificationEmailsFromEnv() : []);
-  if (!isBoysMiniCamp && isBoysSideRegistration(formName, data)) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
+    : isEvaluationRequest
+      ? [...EVALUATION_NOTIFY_EMAILS]
+      : (includeDefaultRecipients ? notificationEmailsFromEnv() : []);
+  if (!isBoysMiniCamp && isBoysSideRegistration(formName, data)) {
+    if (!isEvaluationRequest) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
+  }
   if (formName === "supplemental-tryouts-registration") {
     emails.push(...supplementalTryoutNotificationEmails());
   }
@@ -381,9 +387,14 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
 
   const playerName = [data.player_first_name, data.player_last_name].filter(Boolean).join(" ").trim();
   const isSupplementalTryout = formName === "supplemental-tryouts-registration";
-  const subject = isSupplementalTryout
-    ? `Supplemental Tryout Registration Confirmed — ${playerName || data.parent_email || "unknown"}`
-    : `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
+  let subject;
+  if (isEvaluationRequest) {
+    subject = `Evaluation Requested ${data.gender} ${data.gradYear}`;
+  } else if (isSupplementalTryout) {
+    subject = `Supplemental Tryout Registration Confirmed — ${playerName || data.parent_email || "unknown"}`;
+  } else {
+    subject = `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
+  }
   const emailEyebrow = isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
   const emailHeading = isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
