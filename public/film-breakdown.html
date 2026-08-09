@@ -10,6 +10,7 @@
     <meta property="og:description" content="AI-powered lacrosse game film analysis for BTB coaching staff.">
     <meta name="theme-color" content="#D22630">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         /* ========================================
            RESET & ROOT
@@ -1700,6 +1701,16 @@ ${transcript}`;
     urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') runAnalysis(); });
 
     // ─── SAVE TO SHEETS ───────────────────────────────
+    async function getStaffIdentityToken() {
+        const identity = window.netlifyIdentity;
+        const user = identity && identity.currentUser();
+        if (!user || typeof user.jwt !== 'function') {
+            if (identity) identity.open('login');
+            throw new Error('Sign in with a BTB coach or owner account, then save again.');
+        }
+        return user.jwt();
+    }
+
     async function saveToSheets() {
         if (currentPlays.length === 0) { showError('No plays to save'); return; }
 
@@ -1707,6 +1718,7 @@ ${transcript}`;
         saveBtn.innerHTML = '<span class="spinner"></span> SAVING...';
 
         try {
+            const identityToken = await getStaffIdentityToken();
             const payload = {
                 video_id: currentVideoId,
                 game_context: contextInput.value.trim() || '',
@@ -1716,11 +1728,17 @@ ${transcript}`;
 
             const res = await fetch(SHEETS_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${identityToken}`
+                },
                 body: JSON.stringify(payload)
             });
 
-            if (!res.ok) throw new Error(`Save failed (${res.status})`);
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                throw new Error(errorData.error || `Save failed (${res.status})`);
+            }
 
             saveBtn.classList.add('saved');
             saveBtn.innerHTML = `
@@ -1738,7 +1756,7 @@ ${transcript}`;
 
         } catch(err) {
             console.error(err);
-            showError('Failed to save to Google Sheets');
+            showError(err.message || 'Failed to save to Google Sheets');
             saveBtn.disabled = false;
             saveBtn.innerHTML = `
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
