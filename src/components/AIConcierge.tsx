@@ -76,7 +76,7 @@ export const AIConcierge = () => {
     }
 
     if (q.includes("tryout") || q.includes("join") || q.includes("register")) {
-      return `Tryouts for the 2026-27 season are held in July. We evaluate players based on 'The Standard'—effort, IQ, and coachability. Pre-register at /tryouts.`;
+      return `BTB reviews roster-fit requests throughout the year. Use “Request an Evaluation” on the Players Wanted page at /players-wanted#request-evaluation, and a coach will follow up about fit and next steps.`;
     }
     
     if (q.includes("coach") || q.includes("director") || q.includes("dan") || q.includes("sean") || q.includes("staff")) {

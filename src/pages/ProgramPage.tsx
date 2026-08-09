@@ -29,7 +29,7 @@ export function ProgramPage({ programKey }: { programKey: Gender }) {
   const otherTestimonials = data.testimonials.filter((t) => t !== featuredTestimonial).slice(0, 2)
 
   const label = programKey === "boys" ? "Boys" : programKey === "girls" ? "Girls" : data.navLabel
-  const tryoutHref = "/tryouts"
+  const evaluationHref = "/players-wanted#request-evaluation"
 
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
@@ -61,8 +61,8 @@ export function ProgramPage({ programKey }: { programKey: Gender }) {
             {data.heroSubtitle}
           </p>
           <div className="flex gap-3 flex-wrap">
-            <a href={tryoutHref} className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
-              Supplemental Tryouts <ArrowRight size={13} />
+            <a href={evaluationHref} className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200">
+              Request an Evaluation <ArrowRight size={13} />
             </a>
             <a href="#age-groups" className="inline-flex items-center gap-2 px-8 py-4 border border-white/12 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
               View Age Groups
@@ -330,11 +330,11 @@ export function ProgramPage({ programKey }: { programKey: Gender }) {
                 {data.ctaText}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href={tryoutHref} className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
-                  Supplemental Tryouts <ArrowRight size={13} />
+                <a href={evaluationHref} className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
+                  Request an Evaluation <ArrowRight size={13} />
                 </a>
-                <a href="/tryouts" className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
-                  Tryout Details
+                <a href={evaluationHref} className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
+                  Evaluation Details
                 </a>
               </div>
             </div>

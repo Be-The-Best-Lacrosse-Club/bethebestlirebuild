@@ -102,7 +102,7 @@ export function ContactPage() {
               <Mail size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
               <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Email Us</h3>
               <p className="text-white/70 group-hover:text-white/80 text-[1.1rem] font-medium transition-colors mb-6">
-                For general inquiries, program questions, and tryout info.
+                For general inquiries, program questions, and evaluation information.
               </p>
               <div className="flex items-center gap-2 text-[1.0rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
                 info@bethebestli.com
@@ -110,18 +110,18 @@ export function ContactPage() {
               </div>
             </a>
 
-            {/* Supplemental Tryouts */}
+            {/* Request an Evaluation */}
             <a
-              href="/tryouts"
+              href="/players-wanted#request-evaluation"
               className="group relative p-12 bg-black hover:bg-[var(--btb-red)] transition-all duration-300"
             >
               <ArrowRight size={28} className="text-[var(--btb-red)] group-hover:text-white mb-8 transition-colors" />
-              <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Supplemental Tryouts</h3>
+              <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-3">Request an Evaluation</h3>
               <p className="text-white/70 group-hover:text-white/80 text-[1.1rem] font-medium transition-colors mb-6">
-                View the Tuesday and Wednesday schedule or register for a Thursday evaluation.
+                Tell us about your player and the team they are interested in joining.
               </p>
               <div className="flex items-center gap-2 text-[1.0rem] font-black uppercase tracking-[2px] text-[var(--btb-red)] group-hover:text-white transition-colors">
-                View Supplemental Tryouts
+                Request an Evaluation
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </a>

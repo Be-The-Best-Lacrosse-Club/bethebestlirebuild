@@ -19,7 +19,6 @@ import { SponsorsSection } from "@/components/SponsorsSection"
 // Pages
 import { LoginPage } from "@/pages/LoginPage"
 import { ParentPortalPage } from "@/pages/ParentPortalPage"
-import { TryoutsPage } from "@/pages/TryoutsPage"
 import { InterestFormPage } from "@/pages/InterestFormPage"
 import { ProgramPage } from "@/pages/ProgramPage"
 import { DigitalAcademyHubPage } from "@/pages/DigitalAcademyHubPage"
@@ -147,7 +146,7 @@ function App() {
             <Route element={<PublicLayout />}>
               <Route path="/" element={<LandingPage />} />
               <Route path="/academy" element={<AcademyInfoPage />} />
-              <Route path="/tryouts" element={<TryoutsPage />} />
+              <Route path="/tryouts" element={<Navigate to="/players-wanted#request-evaluation" replace />} />
               <Route path="/interest" element={<InterestFormPage />} />
               <Route path="/boys" element={<ProgramPage programKey="boys" />} />
               <Route path="/boys/travel" element={<TravelPage gender="boys" />} />

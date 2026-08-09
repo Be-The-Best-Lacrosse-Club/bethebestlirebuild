@@ -162,8 +162,8 @@ export function CoachingStaffPage({ gender }: { gender: Gender }) {
                 Our coaching staff is what sets BTB apart. Certified, prepared, and accountable — every session, every player.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/tryouts" className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
-                  Supplemental Tryouts <ArrowRight size={13} />
+                <a href="/players-wanted#request-evaluation" className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200">
+                  Request an Evaluation <ArrowRight size={13} />
                 </a>
                 <a href="mailto:info@bethebestli.com" className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200">
                   Email Us

@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import { ArrowRight, MapPin, Clock, Users, Mic, Calendar } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
-import { SupplementalTryouts } from "@/components/SupplementalTryouts"
 
 type FuturesEvent = {
   location: string
@@ -62,7 +61,7 @@ const ITINERARY = [
   {
     block: "Hour 2",
     title: "Presentation — Dan Achatz",
-    detail: "Owner Dan Achatz on what BTB is, the culture that built us, and exactly what to expect at tryouts and through the 2026–27 season.",
+    detail: "Owner Dan Achatz on what BTB is, the culture that built us, and what families can expect throughout the 2026–27 season.",
     icon: Calendar,
   },
 ]
@@ -104,15 +103,14 @@ export function FuturesPage() {
           </h1>
           <p className="text-[1.2rem] text-white/70 max-w-[560px] leading-[1.9] mb-10">
             Stimson and Seaford were both strong Futures events. The next clinic date will be announced soon.
-            Supplemental tryouts run Tuesday through Thursday, July 28–30, at Plainedge Park.
-            Families can also review camps and club updates.
+            Families interested in BTB can request an evaluation and review camps and club updates.
           </p>
           <div className="flex gap-3 flex-wrap">
             <a
-              href="/tryouts"
+              href="/players-wanted#request-evaluation"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(210,38,48,0.4)] transition-all duration-200"
             >
-              Supplemental Tryouts <ArrowRight size={13} />
+              Request an Evaluation <ArrowRight size={13} />
             </a>
             <a
               href="/camps"
@@ -129,8 +127,6 @@ export function FuturesPage() {
           </div>
         </div>
       </section>
-
-      <SupplementalTryouts />
 
       {/* Stats strip */}
       <section className="py-14 px-6 bg-neutral-950 border-y border-white/[0.07]">
@@ -262,7 +258,7 @@ export function FuturesPage() {
                 <span className="text-[var(--btb-red)]">Sent First.</span>
               </h2>
               <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
-                Join the BTB list for Futures clinic announcements, tryout updates, and the next chance to get your young player on the field.
+                Join the BTB list for Futures clinic announcements, club updates, and the next chance to get your young player on the field.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
@@ -272,10 +268,10 @@ export function FuturesPage() {
                   Join The List <ArrowRight size={13} />
                 </a>
                 <a
-                  href="/tryouts"
+                  href="/players-wanted#request-evaluation"
                   className="inline-flex items-center justify-center gap-2 px-9 py-4 border border-white/15 text-white/78 text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:border-white/30 hover:text-white transition-all duration-200"
                 >
-                  Tryout Info
+                  Request an Evaluation
                 </a>
               </div>
             </div>

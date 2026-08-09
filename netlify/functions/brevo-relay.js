@@ -31,7 +31,7 @@
  */
 
 import https from "node:https";
-const RETIRED_FORM_NAMES = new Set(["camp-registration"]);
+const RETIRED_FORM_NAMES = new Set(["camp-registration", "supplemental-tryouts-registration"]);
 const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]);
 const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "taylorjhoran26@gmail.com";
 const BOYS_MINI_CAMP_FORM_NAME = "btb-boys-mini-camp-registration";
@@ -46,6 +46,7 @@ const PROGRAM_GENDER_REGISTRATION_FORMS = new Set([
   "futures-registration",
   "futures-clinic-registration",
   "supplemental-tryouts-registration",
+  "players-wanted-evaluation",
 ]);
 const DEFAULT_SUPPLEMENTAL_TRYOUT_NOTIFY_EMAILS = [
   "info@bethebestli.com",
@@ -118,6 +119,50 @@ function validateFuturesClinicSubmission(data) {
   };
 }
 
+function validatePlayersWantedEvaluation(data) {
+  const requiredTextFields = [
+    "playerName",
+    "age",
+    "email",
+    "phone",
+    "gradYear",
+    "gender",
+    "teamInterested",
+    "currentClub",
+    "level",
+    "reason",
+  ];
+  const normalized = { ...data };
+
+  for (const field of requiredTextFields) {
+    normalized[field] = String(data[field] || "").trim();
+    if (!normalized[field]) return { ok: false, reason: `missing ${field}` };
+  }
+  if (String(data["bot-field"] || "").trim()) {
+    return { ok: false, reason: "honeypot completed" };
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized.email)) {
+    return { ok: false, reason: "invalid email" };
+  }
+
+  const age = Number(normalized.age);
+  if (!Number.isInteger(age) || age < 5 || age > 19) {
+    return { ok: false, reason: "invalid age" };
+  }
+  const gradYear = Number(normalized.gradYear);
+  if (!Number.isInteger(gradYear) || gradYear < 2027 || gradYear > 2042) {
+    return { ok: false, reason: "invalid grad year" };
+  }
+  if (!["Boys", "Girls"].includes(normalized.gender)) {
+    return { ok: false, reason: "invalid gender" };
+  }
+  if (!["AA", "A", "B"].includes(normalized.level)) {
+    return { ok: false, reason: "invalid level" };
+  }
+
+  return { ok: true, data: normalized };
+}
+
 // ─── HTTP helper ──────────────────────────────────────────────────────────────
 
 function httpsRequest({ host, path, method, headers, body }) {
@@ -143,6 +188,7 @@ function brevoListIdFor(formName) {
   const map = {
     newsletter: process.env.BREVO_LIST_NEWSLETTER,
     "interest-form": process.env.BREVO_LIST_INTEREST_FORM,
+    "players-wanted-evaluation": process.env.BREVO_LIST_TRYOUT,
     "tryout-interest": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-tryout-registration": process.env.BREVO_LIST_TRYOUT,
@@ -180,7 +226,7 @@ function brevoAttributesFromSubmission(formName, data) {
   // Anything else gets passed through verbatim so you can create custom attributes in Brevo.
   const attrs = { LASTFORM: formName, LASTSOURCE: data.source || "website" };
 
-  const fullName = firstValue(data, ["name"]) || joinedName(data, [
+  const fullName = firstValue(data, ["name", "playerName"]) || joinedName(data, [
     ["firstName", "lastName"],
     ["parent_first_name", "parent_last_name"],
     ["player_first_name", "player_last_name"],
@@ -203,6 +249,8 @@ function brevoAttributesFromSubmission(formName, data) {
   if (gender) attrs.GENDER = gender;
   if (data.position) attrs.POSITION = data.position;
   if (data.currentClub) attrs.CURRENTCLUB = data.currentClub;
+  if (data.level) attrs.PLAYERLEVEL = data.level;
+  if (data.teamInterested) attrs.INTEREST_TEAM = data.teamInterested;
   if (data.interestCategory) attrs.INTEREST = data.interestCategory;
   if (data.interestProgram) attrs.INTEREST_PROGRAM = data.interestProgram;
   if (data.interestTeam) attrs.INTEREST_TEAM = data.interestTeam;
@@ -335,7 +383,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   const isSupplementalTryout = formName === "supplemental-tryouts-registration";
   const subject = isSupplementalTryout
     ? `Supplemental Tryout Registration Confirmed — ${playerName || data.parent_email || "unknown"}`
-    : `New ${prettyFormName(formName)} submission — ${data.name || data.parentName || data.email || "unknown"}`;
+    : `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
   const emailEyebrow = isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
   const emailHeading = isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
@@ -360,7 +408,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
       ? {
           email: firstValue(data, ["email", "parent_email"]),
           name:
-            firstValue(data, ["name", "parentName"]) ||
+            firstValue(data, ["name", "playerName", "parentName"]) ||
             joinedName(data, [["parent_first_name", "parent_last_name"]]) ||
             firstValue(data, ["email", "parent_email"]),
         }
@@ -413,7 +461,7 @@ async function airtableAppend({ formName, data, submissionTime, siteUrl }) {
   // Maps to the existing BTB-OS "Leads" table so submissions land directly in
   // the lead workflow (Status, Assigned Staff, Follow-up Logs already wired up).
   // typecast: true lets Airtable auto-create new singleSelect choices for Source.
-  const leadName = firstValue(data, ["name"])
+  const leadName = firstValue(data, ["name", "playerName"])
     || joinedName(data, [["firstName", "lastName"], ["parent_first_name", "parent_last_name"], ["player_first_name", "player_last_name"]])
     || firstValue(data, ["parentName", "email", "parentEmail", "parent_email"])
     || "(no name)";
@@ -426,8 +474,8 @@ async function airtableAppend({ formName, data, submissionTime, siteUrl }) {
     "Contact Phone": contactPhone,
     "Submission Date": submissionTime || new Date().toISOString(),
     Source: formName,
-    Subject: data.subject || data.interestCategory || "",
-    Notes: data.message || data.notes || data.experience || "",
+    Subject: data.subject || data.interestCategory || data.teamInterested || "",
+    Notes: data.message || data.notes || data.reason || data.experience || "",
     "Site URL": siteUrl || "",
     "Raw Payload": JSON.stringify(data, null, 2),
   };
@@ -940,12 +988,28 @@ const CONFIRMATION_CONFIG = {
       return confirmationBase({ parentFirst, playerName, program: "BTB Positional Camp", details: "We'll send session times, location details, and what to bring closer to the date.", cta: "VIEW CAMP INFO", ctaUrl: "https://www.bethebestli.com/camps" });
     },
   },
+  "players-wanted-evaluation": {
+    subject: (data) => `Evaluation Request Received — ${data.playerName || "BTB Lacrosse"}`,
+    getHtml: (data) => {
+      const playerName = String(data.playerName || "your player").trim();
+      return confirmationBase({
+        parentFirst: "BTB Family",
+        playerName,
+        program: "a BTB player evaluation",
+        details: "Our coaching staff will review the information you shared and follow up about team fit, evaluation timing, and next steps.",
+        cta: "VIEW PLAYERS WANTED",
+        ctaUrl: "https://www.bethebestli.com/players-wanted#request-evaluation",
+        headline: "Request Received",
+        introVerb: "submitted for",
+      });
+    },
+  },
   "btb-boys-tryout-registration": {
     subject: () => "You're Registered — BTB Boys Tryouts 2026",
     getHtml: (data) => {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
-      return confirmationBase({ parentFirst, playerName, program: "BTB Boys Tryouts 2026", details: "Tryout times are assigned by grad year. We'll send your specific time slot and location details shortly.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
+      return confirmationBase({ parentFirst, playerName, program: "BTB Boys Tryouts 2026", details: "Tryout times are assigned by grad year. We'll send your specific time slot and location details shortly.", cta: "REQUEST AN EVALUATION", ctaUrl: "https://www.bethebestli.com/players-wanted#request-evaluation" });
     },
   },
   "btb-girls-tryout-registration": {
@@ -953,7 +1017,7 @@ const CONFIRMATION_CONFIG = {
     getHtml: (data) => {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
-      return confirmationBase({ parentFirst, playerName, program: "BTB Girls Tryouts 2026", details: "Tryout times are assigned by grad year. We'll send your specific time slot and location details shortly.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
+      return confirmationBase({ parentFirst, playerName, program: "BTB Girls Tryouts 2026", details: "Tryout times are assigned by grad year. We'll send your specific time slot and location details shortly.", cta: "REQUEST AN EVALUATION", ctaUrl: "https://www.bethebestli.com/players-wanted#request-evaluation" });
     },
   },
   "btb-boys-mini-camp-registration": {
@@ -999,7 +1063,7 @@ const CONFIRMATION_CONFIG = {
     getHtml: (data) => {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
-      return confirmationBase({ parentFirst, playerName, program: "BTB East Boys Tryouts 2026", details: "Location: Seaford High School, 1575 Seamans Neck Rd, Seaford, NY 11783. We'll send your specific time slot closer to the date.", cta: "TRYOUT INFO", ctaUrl: "https://www.bethebestli.com/tryouts" });
+      return confirmationBase({ parentFirst, playerName, program: "BTB East Boys Tryouts 2026", details: "Location: Seaford High School, 1575 Seamans Neck Rd, Seaford, NY 11783. We'll send your specific time slot closer to the date.", cta: "REQUEST AN EVALUATION", ctaUrl: "https://www.bethebestli.com/players-wanted#request-evaluation" });
     },
   },
   "supplemental-tryouts-registration": {
@@ -1088,7 +1152,7 @@ async function brevoSendConfirmation({ formName, data }) {
   if (!config) return { skipped: `no confirmation template for ${formName}` };
 
   const toEmail = data.parent_email || data.email;
-  const toName = data.parent_first_name || data.name || toEmail;
+  const toName = data.parent_first_name || data.name || data.playerName || toEmail;
   if (!toEmail) return { skipped: "no registrant email" };
   if (!apiKey || !senderEmail) return { skipped: "brevo env vars missing" };
 
@@ -1144,8 +1208,8 @@ export const handler = async (event) => {
   const submissionTime = payload.created_at || new Date().toISOString();
   const siteUrl = payload.site_url || "https://www.bethebestli.com";
 
-  // Main Camp is retired. Ignore late webhook retries or submissions from a
-  // cached registration page so they cannot create contacts or send emails.
+  // Ignore late webhook retries or submissions from retired registration pages
+  // so they cannot create contacts or send emails.
   if (RETIRED_FORM_NAMES.has(formName)) {
     return {
       statusCode: 200,
@@ -1156,6 +1220,19 @@ export const handler = async (event) => {
         reason: "registration retired",
       }),
     };
+  }
+
+  if (formName === "players-wanted-evaluation") {
+    const validation = validatePlayersWantedEvaluation(data);
+    if (!validation.ok) {
+      console.warn(`Skipped invalid player evaluation relay: ${validation.reason}`);
+      return {
+        statusCode: 200,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formName, skipped: true, reason: validation.reason }),
+      };
+    }
+    data = validation.data;
   }
 
   if (formName === "futures-clinic-registration") {

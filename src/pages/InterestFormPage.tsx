@@ -65,9 +65,6 @@ export function InterestFormPage() {
   const [botField, setBotField] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
-  const isThursdayEvaluation =
-    new URLSearchParams(window.location.search).get("source") === "thursday-evaluation"
-
   useEffect(() => {
     window.scrollTo(0, 0)
     const params = new URLSearchParams(window.location.search)
@@ -156,13 +153,9 @@ export function InterestFormPage() {
           <div className="w-20 h-20 bg-[var(--btb-red)]/20 rounded-full flex items-center justify-center mx-auto mb-8">
             <CheckCircle2 size={40} className="text-[var(--btb-red)]" />
           </div>
-          <h2 className="font-display text-4xl text-white uppercase mb-4">
-            {isThursdayEvaluation ? "Registration Received" : "Interest Received"}
-          </h2>
+          <h2 className="font-display text-4xl text-white uppercase mb-4">Interest Received</h2>
           <p className="text-white/70 leading-relaxed mb-10">
-            {isThursdayEvaluation
-              ? "Your Thursday evaluation registration is in. BTB will follow up with your individual 20-minute evaluation time."
-              : "Thanks for reaching out. Our team will review your information and follow up with the right next step for you."}
+            Thanks for reaching out. Our team will review your information and follow up with the right next step for you.
           </p>
           <button
             onClick={() => (window.location.href = "/")}
@@ -178,16 +171,8 @@ export function InterestFormPage() {
   return (
     <div className="min-h-screen bg-black text-white pt-32 pb-24 px-6">
       <SEO
-        title={
-          isThursdayEvaluation
-            ? "Thursday Evaluation Registration | BTB Lacrosse"
-            : "Interest Form | BTB Lacrosse Club"
-        }
-        description={
-          isThursdayEvaluation
-            ? "Register for an individual 20-minute BTB supplemental evaluation on Thursday at Plainedge Park."
-            : "Tell us what you're interested in — travel teams, camps, futures, tryouts, or coaching. We'll route your inquiry to the right person and follow up fast."
-        }
+        title="Interest Form | BTB Lacrosse Club"
+        description="Tell us what you're interested in — travel teams, camps, futures, tryouts, or coaching. We'll route your inquiry to the right person and follow up fast."
         path="/interest"
       />
 
@@ -195,24 +180,13 @@ export function InterestFormPage() {
         <div className="mb-12">
           <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1rem] tracking-[2px] mb-6 sm:text-[1.15rem] sm:tracking-[5px]">
             <Shield size={14} />
-            {isThursdayEvaluation ? "BTB_THURSDAY_EVALUATION" : "BTB_INTEREST_FORM"}
+            BTB_INTEREST_FORM
           </div>
           <h1 className="font-display text-[clamp(3rem,8vw,5.5rem)] uppercase leading-[0.85] text-white mb-6">
-            {isThursdayEvaluation ? (
-              <>
-                Register for Your <br />{" "}
-                <span className="text-[var(--btb-red)]">Thursday Evaluation.</span>
-              </>
-            ) : (
-              <>
-                Tell Us What <br /> <span className="text-[var(--btb-red)]">You're After.</span>
-              </>
-            )}
+            Tell Us What <br /> <span className="text-[var(--btb-red)]">You&apos;re After.</span>
           </h1>
           <p className="text-white/70 text-[1.25rem] leading-relaxed max-w-[560px]">
-            {isThursdayEvaluation
-              ? "Open to anyone. Complete the form and BTB will contact you with your individual 20-minute evaluation time at Plainedge Park."
-              : "One form for everything — travel teams, camps, futures, tryouts, coaching. Pick what fits, give us your info, and we'll route your inquiry to the right person."}
+            One form for everything — travel teams, camps, futures, tryouts, coaching. Pick what fits, give us your info, and we&apos;ll route your inquiry to the right person.
           </p>
         </div>
 
@@ -358,11 +332,7 @@ export function InterestFormPage() {
             className="w-full py-5 bg-[var(--btb-red)] text-white text-[1.05rem] font-black uppercase tracking-[3px] rounded-lg hover:bg-[var(--btb-red-dark)] hover:-translate-y-0.5 transition-all shadow-xl shadow-red-900/20 disabled:opacity-50 flex items-center justify-center gap-3"
           >
             <Send size={14} />
-            {submitting
-              ? "Submitting..."
-              : isThursdayEvaluation
-                ? "Register for Evaluation"
-                : "Submit Interest"}
+            {submitting ? "Submitting..." : "Submit Interest"}
           </button>
         </form>
       </div>
