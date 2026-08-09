@@ -259,85 +259,91 @@
 # Retired tryout registration URLs.
 [[redirects]]
   from = "/register-tryouts"
-  to = "/contact"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/register-tryouts.html"
-  to = "/contact"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/register-boys-tryouts"
-  to = "/contact"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/register-boys-tryouts.html"
-  to = "/contact"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/register-girls-tryouts"
-  to = "/contact"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/register-girls-tryouts.html"
-  to = "/contact"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/register-boys-east-tryouts"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/register-boys-east-tryouts.html"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/ad-tryouts.html"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/images/tryouts/BTB_Boys_Tryouts_2026.jpg"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/images/tryouts/BTB_Boys_Tryouts_2026.png"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/images/tryouts/BTB_Girls_Tryouts_2026.jpg"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/images/tryouts/BTB_Girls_Tryouts_2026.png"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/images/tryouts/BTB_East_Tryouts_2026.jpg"
-  to = "/tryouts"
+  to = "/players-wanted#request-evaluation"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tryouts"
+  to = "/players-wanted#request-evaluation"
   status = 301
   force = true
 

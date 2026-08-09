@@ -23,6 +23,7 @@ interface Submission {
 const FORM_LABELS: Record<string, string> = {
   contact: "Contact",
   "interest-form": "Interest Form",
+  "players-wanted-evaluation": "Evaluation Request",
   newsletter: "Newsletter",
   "tryout-interest": "Tryout Interest",
   "btb-boys-tryout-registration": "Boys Tryout Reg",
