@@ -5,6 +5,7 @@ import test from "node:test";
 import {
   SESSION_CAPACITY,
   groupForGradYear,
+  registrationsInGroup,
   reserveSlot,
   saveNetlifyForm,
   validateRegistrationInput,
@@ -88,23 +89,42 @@ test("the public page hands successful registrations to the configured Intuit ch
 test("atomic slot allocation cannot overbook an 18-player group", async () => {
   const values = new Map();
   const store = {
-    async setJSON(key, value, options = {}) {
+    async set(key, value, options = {}) {
       if (options.onlyIfNew && values.has(key)) return { modified: false };
       values.set(key, value);
       return { modified: true };
     },
   };
 
+  const occupiedCount = 11;
+
   const reservations = await Promise.all(
     Array.from({ length: SESSION_CAPACITY + 1 }, (_, index) => (
-      reserveSlot(store, "2032-2031", `registration-${index}`)
+      reserveSlot(store, "2032-2031", `registration-${index}`, occupiedCount)
     )),
   );
   const allocated = reservations.filter(Boolean);
 
-  assert.equal(allocated.length, SESSION_CAPACITY);
-  assert.equal(new Set(allocated).size, SESSION_CAPACITY);
-  assert.equal(reservations.filter((reservation) => reservation === null).length, 1);
+  assert.equal(allocated.length, SESSION_CAPACITY - occupiedCount);
+  assert.equal(new Set(allocated).size, SESSION_CAPACITY - occupiedCount);
+  assert.equal(allocated[0], "2032-2031/slots/12");
+  assert.equal(reservations.filter((reservation) => reservation === null).length, occupiedCount + 1);
+});
+
+test("capacity counts saved registrations and ignores broken legacy slot keys", async () => {
+  const store = {
+    async list() {
+      return {
+        blobs: [
+          { key: "2032-2031/legacy-registration" },
+          { key: "2032-2031/registrations/current-registration" },
+          { key: "2032-2031/slots/01" },
+        ],
+      };
+    },
+  };
+
+  assert.equal(await registrationsInGroup(store, "2032-2031"), 2);
 });
 
 test("Netlify form handoff uses the Node function site URL", async () => {
