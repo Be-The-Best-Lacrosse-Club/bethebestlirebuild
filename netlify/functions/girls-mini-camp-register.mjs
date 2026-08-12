@@ -138,18 +138,24 @@ function registrationData(input, group, age) {
   return data;
 }
 
-async function registrationsInGroup(store, groupKey) {
-  const { blobs } = await store.list({ prefix: `${groupKey}/slots/` });
-  return blobs.length;
+export async function registrationsInGroup(store, groupKey) {
+  const groupPrefix = `${groupKey}/`;
+  const slotsPrefix = `${groupKey}/slots/`;
+  const { blobs } = await store.list({ prefix: groupPrefix });
+  return blobs.filter((blob) => !blob.key.startsWith(slotsPrefix)).length;
 }
 
-export async function reserveSlot(store, groupKey, registrationId) {
-  for (let slot = 1; slot <= SESSION_CAPACITY; slot += 1) {
+async function setJSONIfNew(store, key, value) {
+  return store.set(key, JSON.stringify(value), { onlyIfNew: true });
+}
+
+export async function reserveSlot(store, groupKey, registrationId, occupiedCount = 0) {
+  for (let slot = occupiedCount + 1; slot <= SESSION_CAPACITY; slot += 1) {
     const key = `${groupKey}/slots/${String(slot).padStart(2, "0")}`;
-    const result = await store.setJSON(key, {
+    const result = await setJSONIfNew(store, key, {
       registrationId,
       reservedAt: new Date().toISOString(),
-    }, { onlyIfNew: true });
+    });
     if (result.modified) return key;
   }
   return null;
@@ -228,17 +234,18 @@ export default async (req, context) => {
       return json({ error: "This registration is already being processed. Please wait a moment and try again." }, 409);
     }
 
-    slotKey = await reserveSlot(store, group.key, registrationId);
+    const occupiedCount = await registrationsInGroup(store, group.key);
+    slotKey = await reserveSlot(store, group.key, registrationId, occupiedCount);
     if (!slotKey) {
       return json({ error: "This session is currently full. Please email info@bethebestli.com for assistance." }, 409);
     }
 
-    const registrationWrite = await store.setJSON(registrationKey, {
+    const registrationWrite = await setJSONIfNew(store, registrationKey, {
       status: "reserved",
       gradYear: data.grad_year,
       slotKey,
       acceptedAt: new Date().toISOString(),
-    }, { onlyIfNew: true });
+    });
     if (!registrationWrite.modified) {
       await releaseSlot(store, slotKey, registrationId);
       const concurrentRegistration = await store.get(registrationKey, { type: "json" });
