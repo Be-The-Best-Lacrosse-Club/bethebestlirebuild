@@ -39,6 +39,27 @@ const PARENT_LINKS = [
   { title: "Straight answers", description: "Programs, placement, travel, and the BTB standard", href: "/contact" },
 ]
 
+const HEADER_EVENTS = [
+  {
+    label: "Now open",
+    title: "Futures Camp",
+    details: "Aug 18–20 · 9–11 AM · Plainedge Park · 2034–2037",
+    href: "/register-futures",
+  },
+  {
+    label: "Girls",
+    title: "Girls Mini Camp",
+    details: "Aug 19–21 · Momentum Sports · 2031–2036",
+    href: "/register-girls-mini-camp",
+  },
+  {
+    label: "Boys",
+    title: "3-Day Boys Mini Camp",
+    details: "Aug 23, 24 & 26 · Momentum Sports · 2031–2036",
+    href: "/register-boys-mini-camp",
+  },
+]
+
 function finderResult(side: PlayerSide, year: string, goal: FinderGoal) {
   const sideLabel = side === "boys" ? "Boys" : "Girls"
 
@@ -93,6 +114,8 @@ function finderResult(side: PlayerSide, year: string, goal: FinderGoal) {
 
 export function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [tickerPaused, setTickerPaused] = useState(false)
+  const [headerScrolled, setHeaderScrolled] = useState(false)
   const [finderStep, setFinderStep] = useState<FinderStep>(1)
   const [playerSide, setPlayerSide] = useState<PlayerSide | null>(null)
   const [playerYear, setPlayerYear] = useState("")
@@ -106,6 +129,13 @@ export function HomePage() {
       document.body.style.overflow = ""
     }
   }, [menuOpen])
+
+  useEffect(() => {
+    const handleScroll = () => setHeaderScrolled(window.scrollY > 24)
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   const resetFinder = () => {
     setFinderStep(1)
@@ -148,30 +178,61 @@ export function HomePage() {
 
       <a className="btb-home__skip" href="#main-content">Skip to content</a>
 
-      <div className="btb-home__announcement">
-        <div className="btb-home__shell btb-home__announcement-inner">
-          <span className="btb-home__announcement-label"><i /> Now open</span>
-          <p><strong>August Mini Camps</strong><span>Girls Aug 19–21 · Boys Aug 23, 24 &amp; 26 · Deer Park</span></p>
-          <a href="#upcoming">View camp details <span aria-hidden="true">↓</span></a>
-        </div>
-      </div>
+      <header className={`btb-home__header${headerScrolled ? " is-scrolled" : ""}${menuOpen ? " menu-open" : ""}`}>
+        <section className="btb-home__events" aria-label="Current BTB camps open for registration">
+          <div className="btb-home__events-inner">
+            <div className="btb-home__events-viewport">
+              <div className={`btb-home__events-track${tickerPaused ? " is-paused" : ""}`}>
+                {HEADER_EVENTS.map((event) => (
+                  <a
+                    className="btb-home__event-item"
+                    href={event.href}
+                    key={event.href}
+                    aria-label={`Register for ${event.title}: ${event.details}`}
+                  >
+                    <span className="btb-home__event-label">{event.label}</span>
+                    <strong>{event.title}</strong>
+                    <span className="btb-home__event-meta">{event.details}</span>
+                    <span className="btb-home__event-register">Sign up <span aria-hidden="true">→</span></span>
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className="btb-home__event-actions">
+              <button
+                className="btb-home__event-pause"
+                type="button"
+                aria-label={`${tickerPaused ? "Play" : "Pause"} current events`}
+                aria-pressed={tickerPaused}
+                onClick={() => setTickerPaused((paused) => !paused)}
+              >
+                <span aria-hidden="true">{tickerPaused ? "▶" : "Ⅱ"}</span>
+              </button>
+              <a className="btb-home__events-all" href="/camps">All camps <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
 
-      <header className="btb-home__header">
-        <div className="btb-home__shell btb-home__header-inner">
+        <div className="btb-home__header-nav">
+          <div className="btb-home__shell btb-home__header-inner">
           <a className="btb-home__brand" href="#top" aria-label="BTB Lacrosse home" onClick={() => setMenuOpen(false)}>
-            <img src="/images/home/BTB_Winged_B_Logo_2026.png" alt="Be The Best Lacrosse" width="800" height="434" />
+            <img src="/images/btb-winged-b-logo-transparent.png" alt="" width="500" height="284" />
+            <span>BTB <small>Lacrosse</small></span>
           </a>
-          <button
-            className={`btb-home__menu-toggle${menuOpen ? " is-open" : ""}`}
-            type="button"
-            aria-expanded={menuOpen}
-            aria-controls="home-primary-navigation"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span />
-            <span />
-          </button>
+          <div className="btb-home__mobile-actions">
+            <a className="btb-home__mobile-join" href="/interest?source=header">Join BTB</a>
+            <button
+              className={`btb-home__menu-toggle${menuOpen ? " is-open" : ""}`}
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="home-primary-navigation"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <span />
+              <span />
+            </button>
+          </div>
           <nav
             id="home-primary-navigation"
             className={menuOpen ? "is-open" : ""}
@@ -179,13 +240,14 @@ export function HomePage() {
           >
             <a href="#programs" onClick={() => setMenuOpen(false)}>Programs</a>
             <a href="#teams" onClick={() => setMenuOpen(false)}>Teams</a>
-            <a href="#development" onClick={() => setMenuOpen(false)}>Development system</a>
+            <a href="#development" onClick={() => setMenuOpen(false)}>Development</a>
             <a href="#proof" onClick={() => setMenuOpen(false)}>Proof</a>
             <a href="#parents" onClick={() => setMenuOpen(false)}>Parent hub</a>
-            <a className="btb-home__nav-cta" href="#program-finder" onClick={() => setMenuOpen(false)}>
-              Find the right program <span aria-hidden="true">→</span>
+            <a className="btb-home__nav-cta" href="/interest?source=header" onClick={() => setMenuOpen(false)}>
+              Join BTB <span aria-hidden="true">→</span>
             </a>
           </nav>
+          </div>
         </div>
       </header>
 
