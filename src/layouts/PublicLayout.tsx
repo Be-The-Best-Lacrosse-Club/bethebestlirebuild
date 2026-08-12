@@ -1,4 +1,4 @@
-import { Outlet } from "react-router"
+import { Outlet, useLocation } from "react-router"
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { SmoothScroll } from "@/components/SmoothScroll"
@@ -9,12 +9,15 @@ import { ProgressBar } from "@/components/ProgressBar"
 import { NewsletterPopup } from "@/components/NewsletterPopup"
 
 export function PublicLayout() {
+  const location = useLocation()
+  const isHomePage = location.pathname === "/"
+
   return (
     <SmoothScroll>
       <ProgressBar />
-      <Header />
+      {!isHomePage && <Header />}
       <Outlet />
-      <Footer />
+      {!isHomePage && <Footer />}
       {/* <CoachB surface="player_parent" /> */}
       <NewsletterPopup />
     </SmoothScroll>
