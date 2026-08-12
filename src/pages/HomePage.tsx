@@ -173,7 +173,7 @@ export function HomePage() {
         title="BTB Lacrosse Club | Development-First Lacrosse on Long Island"
         description="BTB Lacrosse develops Long Island boys and girls through weekly film, small-group training, honest feedback, and accountable coaching."
         path="/"
-        ogImage="https://www.bethebestli.com/images/home/BTB_Home_Hero_2026.jpg"
+        ogImage="https://www.bethebestli.com/images/home/BTB_Helmet_Landing_2026.jpeg"
       />
 
       <a className="btb-home__skip" href="#main-content">Skip to content</a>
@@ -257,19 +257,13 @@ export function HomePage() {
           <div className="btb-home__campaign-art">
             <img
               className="btb-home__campaign-image"
-              src="/images/home/BTB_Home_Hero_2026.jpg"
-              alt="Be The Best Lacrosse Club. Built by Culture. Proven by Work. Boys and girls lacrosse players in BTB red."
-              width="1731"
-              height="909"
+              src="/images/home/BTB_Helmet_Landing_2026.jpeg"
+              alt="Black and red BTB lacrosse helmets beneath a Be The Best Lacrosse Club banner."
+              width="1024"
+              height="768"
               loading="eager"
               fetchPriority="high"
             />
-            <div className="btb-home__mobile-hero-copy" aria-hidden="true">
-              <img src="/images/home/BTB_Winged_B_Logo_2026.png" alt="" />
-              <strong>Be The Best</strong>
-              <span>Lacrosse Club</span>
-              <small>Built by culture. Proven by work.</small>
-            </div>
           </div>
 
           <div className="btb-home__action-bar">
