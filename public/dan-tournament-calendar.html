@@ -2082,7 +2082,7 @@
             "<span class='mobile-event-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span>" +
             "<span><span class='mobile-event-title'>" + escapeHtml(event.title) + "</span>" +
             "<span class='mobile-event-team'>" + escapeHtml(meta.label) + "</span></span>" +
-            "<span class='status-chip status-" + event.status + "'>" + escapeHtml(STATUS_META[event.status].label) +
+            "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
             "</span></button>";
         }).join("") : "<div class='empty'>No tournaments in this month.</div>";
         mobileHost.querySelectorAll(".mobile-event-row").forEach(function (button) {
@@ -2106,7 +2106,7 @@
             "<div class='locked-top'><span class='locked-team'>" + escapeHtml(meta.short) +
             "</span><span class='locked-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span></div>" +
             "<div class='locked-title'>" + escapeHtml(event.title) + "</div>" +
-            "<span class='locked-status status-" + event.status + "'>" + escapeHtml(STATUS_META[event.status].label) + "</span>" +
+            "<span class='locked-status status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) + "</span>" +
             "</div>";
         }).join("") : "<div class='empty'>No locked or entering tournaments.</div>";
 
@@ -2133,7 +2133,7 @@
           return "<button class='tbd-item' type='button' data-event-id='" + escapeHtml(event.id) +
             "' style='width:100%;color:#fff;text-align:left;cursor:pointer;--team-color:" + meta.color + "'>" +
             "<div class='locked-top'><span class='locked-team' style='color:" + meta.color + "'>" +
-            escapeHtml(meta.label) + "</span><span class='status-chip status-" + event.status + "'>" +
+            escapeHtml(meta.label) + "</span><span class='status-chip status-" + escapeHtml(event.status) + "'>" +
             escapeHtml(STATUS_META[event.status].label) + "</span></div><div class='tbd-title'>" +
             escapeHtml(event.title) + "</div><div class='conflict-summary'>" + escapeHtml(event.note || "Date needed.") +
             "</div></button>";
@@ -2165,7 +2165,7 @@
             "'><span class='team-swatch'></span>" + escapeHtml(meta.short) + "</span></td>" +
             "<td><span class='table-title'>" + escapeHtml(event.title) + "</span></td>" +
             "<td>" + escapeHtml(formatRange(event.start, event.end)) + "</td>" +
-            "<td><span class='status-chip status-" + event.status + "'>" + escapeHtml(STATUS_META[event.status].label) +
+            "<td><span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
             "</span></td><td>" + escapeHtml(event.location || "—") + "</td>" +
             "<td><div class='row-actions'><button class='btn subtle edit-row' type='button' data-event-id='" +
             escapeHtml(event.id) + "'>Edit</button></div></td></tr>";
@@ -2258,7 +2258,7 @@
             var meta = TEAM_META[event.team];
             return "<div class='conflict-event-row'><span class='team-cell' style='--team-color:" + meta.color +
               "'><span class='team-swatch'></span>" + escapeHtml(meta.short) + "</span><strong>" +
-              escapeHtml(event.title) + "</strong><span class='status-chip status-" + event.status + "'>" +
+              escapeHtml(event.title) + "</strong><span class='status-chip status-" + escapeHtml(event.status) + "'>" +
               escapeHtml(STATUS_META[event.status].label) + "</span></div>";
           }).join("");
           return "<section class='conflict-detail " + item.level + "'><div class='conflict-top'><h3>" +
