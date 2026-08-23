@@ -2401,9 +2401,10 @@
               throw new Error("Invalid calendar backup");
             }
             events = imported;
-            saveEvents();
-            renderAll();
-            showToast("Backup imported. Conflicts rechecked.");
+            saveEvents().then(function () {
+              renderAll();
+              showToast("Backup imported. Conflicts rechecked.");
+            }).catch(function () {});
           } catch (error) {
             showToast("That file is not a valid BTB calendar backup.");
           }
@@ -2414,9 +2415,10 @@
       function resetSnapshot() {
         if (!window.confirm("Reset to the Aug. 19, 2026 roadmap snapshot? This clears the shared calendar on every device.")) return;
         events = cloneDefaults();
-        saveEvents();
-        renderAll();
-        showToast("Roadmap snapshot restored.");
+        saveEvents().then(function () {
+          renderAll();
+          showToast("Roadmap snapshot restored.");
+        }).catch(function () {});
       }
 
       function jumpToNextEvent() {
@@ -2493,7 +2495,13 @@
         document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
         document.getElementById("showTbdButton").addEventListener("click", function () { document.getElementById("tbdDialog").showModal(); });
         document.getElementById("syncButton").addEventListener("click", function () {
-          renderAll();
+          loadEvents().then(function (loaded) {
+            events = loaded;
+            renderAll();
+            showToast("Pulled the latest calendar from the shared store.");
+          }).catch(function () {
+            showToast("Could not reach the calendar store.");
+          });
           refreshLiveFrame(true);
         });
         document.getElementById("refreshLiveButton").addEventListener("click", function () { refreshLiveFrame(true); });
@@ -2552,6 +2560,8 @@
         }).catch(function (error) {
           if (error && error.status === 401) {
             showLockScreen("That password was not right. Reload and try again.");
+          } else if (error && error.status === 403) {
+            showLockScreen("This address is not allowed to reach the calendar store. Open the calendar at bethebestli.com/dan-calendar.");
           } else {
             showLockScreen("The calendar store could not be reached. Check the connection and reload.");
           }

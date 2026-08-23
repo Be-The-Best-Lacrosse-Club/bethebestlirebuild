@@ -10,7 +10,11 @@
  * value with each call — nothing about the password is stored client-side.
  */
 import { getStore } from "@netlify/blobs";
-import { guardRequest } from "./_guard.js";
+import { ALLOWED_ORIGINS, guardRequest } from "./_guard.js";
+
+// Deploy previews get their own host, so the shared origin list would reject
+// them and the page would look broken on every PR. Scoped to this endpoint.
+const CALENDAR_ORIGINS = ALLOWED_ORIGINS.concat(["https://deploy-preview-196--btb-lacrosse.netlify.app"]);
 
 const STORE_NAME = "tournament-calendar";
 const SNAPSHOT_KEY = "dan-wall-snapshot";
@@ -25,7 +29,7 @@ function suppliedPassword(req, body) {
 }
 
 export default async (req) => {
-  const blocked = guardRequest(req, { limit: 60, windowMs: 60_000 });
+  const blocked = guardRequest(req, { limit: 60, windowMs: 60_000, allowedOrigins: CALENDAR_ORIGINS });
   if (blocked) return blocked;
 
   const expected = process.env.TOURNAMENT_CALENDAR_PASSWORD;
