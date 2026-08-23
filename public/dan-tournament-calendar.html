@@ -1730,11 +1730,10 @@
       var DEFAULT_EVENTS = [
         { id: "b28-autumn", team: "2028 Black", title: "Autumn & Gold", start: "2026-11-08", end: "2026-11-09", location: "Towson University, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!10" },
         { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", location: "Coppermine Complex, MD", status: "entering", paid: false, note: "Entering; not marked paid.", source: "TD 2028 Black!11" },
-        { id: "b28-igloo", team: "2028 Black", title: "Igloo Elite Invitational", start: "2026-11-08", end: "2026-11-08", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered.", source: "TD 2028 Black!12" },
+        { id: "b28-igloo", team: "2028 Black", title: "Blue Chip", start: "2026-11-08", end: "2026-11-08", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "TD 2028 Black!12" },
         { id: "b28-fall-classic", team: "2028 Black", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!13" },
         { id: "b28-storm-invite", team: "2028 Black", title: "STORM Lax Invitational", start: "2026-11-21", end: "2026-11-22", location: "Ponte Vedra HS, Jacksonville, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!17" },
         { id: "b28-american-fest", team: "2028 Black", title: "American Lacrosse Festival", start: "2027-01-09", end: "2027-01-10", location: "Publix Sports Park, Panama City Beach, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!18" },
-        { id: "b28-nlf-futures", team: "2028 Black", title: "NLF Futures at IMG Academy", start: "", end: "", location: "IMG Academy, Bradenton, FL", status: "optional", paid: false, note: "Mid-January 2027; exact date TBD. Individual showcase, not a team entry.", source: "TD 2028 Black!19" },
         { id: "b28-pinnacle", team: "2028 Black", title: "Pinnacle Fall Championships (Boys)", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!20" },
         { id: "b28-paradise", team: "2028 Black", title: "Paradise Coast Invitational", start: "2027-01-09", end: "2027-01-10", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!21" },
         { id: "b28-sand-storm", team: "2028 Black", title: "Sand Storm Lacrosse Festival", start: "2027-01-16", end: "2027-01-17", location: "Empire Polo Club, Indio, CA", status: "recommended", paid: false, note: "", source: "TD 2028 Black!22" },
@@ -1777,7 +1776,7 @@
         { id: "g35-lax-sea", team: "2035 Hurricanes", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "must", paid: false, note: "", source: "TD 2035 Hurricanes!19" },
         { id: "g35-long-ireland", team: "2035 Hurricanes", title: "Long Ireland Lacrosse", start: "2027-06-12", end: "2027-06-12", location: "LIU Post, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!20" },
         { id: "g35-lax-cure", team: "2035 Hurricanes", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!21" },
-        { id: "g35-lax-blast", team: "2035 Hurricanes", title: "Lax Blast", start: "", end: "", location: "Farmingdale State College, NY", status: "optional", paid: false, note: "July 2027 date TBD; verify that the event still exists.", source: "TD 2035 Hurricanes!22" },
+        { id: "g35-lax-blast", team: "2035 Hurricanes", title: "Summer Lax Blast", start: "2027-06-29", end: "2027-06-29", location: "SUSA Orlin & Cohen Sports Complex & Destination KP, NY", status: "optional", paid: false, note: "Listed on mylacrossetournaments.com as Summer Lax Blast, June 29 2027, girls Varsity-2037. Moved off Farmingdale.", source: "mylacrossetournaments.com" },
         { id: "g35-queen-spring", team: "2035 Hurricanes", title: "Queen of the Island (Spring)", start: "2027-05-22", end: "2027-05-22", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!23" }
       ];
 
@@ -2451,11 +2450,11 @@
           iglooAutumnConflict: Boolean(igloo && autumn && iglooConflict),
           calendarIdCount: new Set(Object.keys(TEAM_META).map(function (team) { return TEAM_META[team].calendar; })).size
         };
-        result.pass = result.eventCount === 48 &&
-          result.datedEventCount === 44 &&
-          result.tbdEventCount === 4 &&
-          result.conflictCount === 10 &&
-          result.criticalCount === 2 &&
+        result.pass = result.eventCount === 47 &&
+          result.datedEventCount === 45 &&
+          result.tbdEventCount === 2 &&
+          result.conflictCount === 11 &&
+          result.criticalCount === 3 &&
           result.highCount === 4 &&
           result.watchCount === 4 &&
           result.uniqueIds &&
