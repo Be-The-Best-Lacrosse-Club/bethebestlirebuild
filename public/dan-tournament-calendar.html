@@ -1404,24 +1404,11 @@
     }
   </style>
   <script>
-  (function () {
-    var storageKey = "btb-dan-wall-access";
-    var requiredPassword = "BTB26";
-    var allowed = false;
-    try {
-      if (sessionStorage.getItem(storageKey) === "1") {
-        allowed = true;
-      } else if (window.prompt("BTB coach password required") === requiredPassword) {
-        sessionStorage.setItem(storageKey, "1");
-        allowed = true;
-      }
-    } catch (error) {
-      allowed = window.prompt("BTB coach password required") === requiredPassword;
-    }
-    if (allowed) return;
-    document.documentElement.classList.add("btb-wall-locked");
-    window.location.replace("/coach-tools");
-  }());
+  // Asked on every load, by design — nothing is remembered between visits.
+  // The value is held in memory only and checked by the Netlify function; the
+  // password itself is not in this file.
+  window.__BTB_WALL_KEY = window.prompt("BTB calendar password") || "";
+  document.documentElement.classList.add("btb-wall-locked");
   </script>
   <style>html.btb-wall-locked body{visibility:hidden;}</style>
 </head>
@@ -1690,7 +1677,6 @@
       "use strict";
 
       var DATA_VERSION = "2026-08-19-v1";
-      var STORAGE_KEY = "BTB_DAN_TOURNAMENT_WALL_V1";
       var TEAM_META = {
         "2028 Black": {
           short: "28 BLACK",
@@ -1780,7 +1766,7 @@
         { id: "g35-queen-spring", team: "2035 Hurricanes", title: "Queen of the Island (Spring)", start: "2027-05-22", end: "2027-05-22", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!23" }
       ];
 
-      var events = loadEvents();
+      var events = cloneDefaults();
       var visibleTeams = new Set(Object.keys(TEAM_META));
       var viewDate = initialViewMonth();
       var wakeLock = null;
@@ -1791,24 +1777,44 @@
         return JSON.parse(JSON.stringify(DEFAULT_EVENTS));
       }
 
+      var SYNC_ENDPOINT = "/.netlify/functions/tournament-calendar";
+
+      function syncRequest(payload) {
+        return fetch(SYNC_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.assign({ password: window.__BTB_WALL_KEY || "" }, payload))
+        }).then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (data) {
+            if (!response.ok) {
+              var error = new Error(data.error || "Request failed");
+              error.status = response.status;
+              throw error;
+            }
+            return data;
+          });
+        });
+      }
+
+      // The shared snapshot is the source of truth so every device sees the same
+      // schedule. Nothing is cached locally — a device that cannot reach the
+      // store shows the built-in schedule and refuses to save over the shared one.
       function loadEvents() {
-        try {
-          var saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-          if (saved && saved.version === DATA_VERSION && Array.isArray(saved.events)) {
-            return saved.events;
+        return syncRequest({ action: "load" }).then(function (data) {
+          if (data.snapshot && Array.isArray(data.snapshot.events) && data.snapshot.events.length) {
+            return data.snapshot.events;
           }
-        } catch (error) {
-          console.warn("Could not read saved calendar data.", error);
-        }
-        return cloneDefaults();
+          return cloneDefaults();
+        });
       }
 
       function saveEvents() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          version: DATA_VERSION,
-          savedAt: new Date().toISOString(),
-          events: events
-        }));
+        return syncRequest({ action: "save", snapshot: { events: events } })
+          .catch(function (error) {
+            console.error("Could not save the calendar.", error);
+            showToast("Not saved — this device could not reach the calendar store.");
+            throw error;
+          });
       }
 
       function parseDate(iso) {
@@ -2395,9 +2401,10 @@
               throw new Error("Invalid calendar backup");
             }
             events = imported;
-            saveEvents();
-            renderAll();
-            showToast("Backup imported. Conflicts rechecked.");
+            saveEvents().then(function () {
+              renderAll();
+              showToast("Backup imported. Conflicts rechecked.");
+            }).catch(function () {});
           } catch (error) {
             showToast("That file is not a valid BTB calendar backup.");
           }
@@ -2406,11 +2413,12 @@
       }
 
       function resetSnapshot() {
-        if (!window.confirm("Reset this browser to the Aug. 19, 2026 roadmap snapshot? Local edits will be removed.")) return;
+        if (!window.confirm("Reset to the Aug. 19, 2026 roadmap snapshot? This clears the shared calendar on every device.")) return;
         events = cloneDefaults();
-        saveEvents();
-        renderAll();
-        showToast("Roadmap snapshot restored.");
+        saveEvents().then(function () {
+          renderAll();
+          showToast("Roadmap snapshot restored.");
+        }).catch(function () {});
       }
 
       function jumpToNextEvent() {
@@ -2487,7 +2495,13 @@
         document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
         document.getElementById("showTbdButton").addEventListener("click", function () { document.getElementById("tbdDialog").showModal(); });
         document.getElementById("syncButton").addEventListener("click", function () {
-          renderAll();
+          loadEvents().then(function (loaded) {
+            events = loaded;
+            renderAll();
+            showToast("Pulled the latest calendar from the shared store.");
+          }).catch(function () {
+            showToast("Could not reach the calendar store.");
+          });
           refreshLiveFrame(true);
         });
         document.getElementById("refreshLiveButton").addEventListener("click", function () { refreshLiveFrame(true); });
@@ -2531,7 +2545,30 @@
         });
       }
 
+      function showLockScreen(message) {
+        document.body.innerHTML = '<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-family:Montserrat,Arial,sans-serif;padding:24px;text-align:center;"><div style="max-width:520px;"><div style="color:#D22630;font-weight:900;text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px;">Coach Only</div><h1 style="font-family:Bebas Neue,Arial,sans-serif;font-size:48px;margin:0 0 12px;">Tournament Wall</h1><p style="color:rgba(255,255,255,.68);line-height:1.6;">' + message + '</p><a href="/dan-calendar" style="display:inline-flex;margin-top:22px;background:#D22630;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:900;text-transform:uppercase;font-size:12px;">Try Again</a></div></main>';
+        document.documentElement.classList.remove("btb-wall-locked");
+      }
+
       function init() {
+        // Nothing renders and no timer starts until the store confirms the
+        // password, so a wrong entry never reaches the schedule.
+        loadEvents().then(function (loaded) {
+          events = loaded;
+          document.documentElement.classList.remove("btb-wall-locked");
+          start();
+        }).catch(function (error) {
+          if (error && error.status === 401) {
+            showLockScreen("That password was not right. Reload and try again.");
+          } else if (error && error.status === 403) {
+            showLockScreen("This address is not allowed to reach the calendar store. Open the calendar at bethebestli.com/dan-calendar.");
+          } else {
+            showLockScreen("The calendar store could not be reached. Check the connection and reload.");
+          }
+        });
+      }
+
+      function start() {
         renderTeamChrome();
         bindEvents();
         updateClock();
