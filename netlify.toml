@@ -37,6 +37,18 @@
   to = "/film-breakdown.html"
   status = 200
 
+[[redirects]]
+  from = "/dan-calendar"
+  to = "/dan-tournament-calendar.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/tournament-calendar"
+  to = "/dan-tournament-calendar.html"
+  status = 200
+  force = true
+
 # Old static site pages — 301 redirect to correct SPA routes, never serve again
 [[redirects]]
   from = "/coach-bios.html"

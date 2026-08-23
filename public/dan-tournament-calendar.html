@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23D22630' d='M32 3 57 12v19c0 16-9 26-25 34C16 57 7 47 7 31V12Z'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Arial Black' font-size='32' fill='white'%3EB%3C/text%3E%3C/svg%3E">
+  <title>BTB • Coach Dan Tournament Wall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #D22630;
+      --dark-red: #a01e26;
+      --black: #000;
+      --ink: #070707;
+      --panel: #101113;
+      --panel-2: #17191d;
+      --line: rgba(255, 255, 255, 0.12);
+      --muted: #9da2aa;
+      --white: #fff;
+      --green: #55d88a;
+      --amber: #ffb743;
+      --cyan: #30d6e8;
+      --violet: #a978ff;
+      --gold: #f3ba3f;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.36);
+      --base: clamp(12px, 0.46vw + 6px, 22px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      background: var(--ink);
+      color: var(--white);
+      font-family: "Montserrat", Arial, sans-serif;
+      font-size: var(--base);
+    }
+
+    body {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 80% -10%, rgba(210, 38, 48, 0.18), transparent 34%),
+        linear-gradient(145deg, #080808 0%, #030303 56%, #0c0d0f 100%);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.9);
+      outline-offset: 2px;
+    }
+
+    .app {
+      height: 100vh;
+      height: 100dvh;
+      display: grid;
+      grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+      overflow: hidden;
+    }
+
+    .topbar {
+      min-height: clamp(74px, 7.5vh, 138px);
+      display: grid;
+      grid-template-columns: minmax(310px, 1.1fr) minmax(280px, 0.8fr) minmax(340px, 1fr);
+      align-items: center;
+      gap: 1rem;
+      padding: clamp(0.65rem, 1.2vw, 1.5rem) clamp(1rem, 2vw, 2.5rem);
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: clamp(0.75rem, 1.2vw, 1.4rem);
+    }
+
+    .brand-mark {
+      width: clamp(54px, 4.2vw, 92px);
+      aspect-ratio: 0.92;
+      flex: 0 0 auto;
+      filter: drop-shadow(0 8px 22px rgba(210, 38, 48, 0.28));
+    }
+
+    .brand-mark svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    h1,
+    h2,
+    h3,
+    .display {
+      margin: 0;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.045em;
+      line-height: 0.94;
+    }
+
+    h1 {
+      margin-top: 0.18rem;
+      font-size: clamp(1.9rem, 2.25vw, 4.2rem);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .clock {
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .clock-time {
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: clamp(2.2rem, 3vw, 5.1rem);
+      letter-spacing: 0.06em;
+      line-height: 0.82;
+    }
+
+    .clock-date {
+      margin-top: 0.42rem;
+      color: #c9ccd1;
+      font-size: 0.69rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-height: 2.55rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border: 1px solid var(--line);
+      border-radius: 0.65rem;
+      padding: 0.55rem 0.9rem;
+      background: #17191d;
+      color: #f8f8f8;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.32);
+      background: #202328;
+    }
+
+    .btn.primary {
+      border-color: transparent;
+      background: var(--red);
+    }
+
+    .btn.primary:hover {
+      background: #e53640;
+    }
+
+    .btn.subtle {
+      min-height: 2.15rem;
+      padding: 0.38rem 0.7rem;
+      color: #d7d9dc;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn.danger {
+      border-color: rgba(210, 38, 48, 0.42);
+      color: #ffb0b5;
+      background: rgba(210, 38, 48, 0.1);
+    }
+
+    .icon {
+      font-size: 1.12em;
+      line-height: 1;
+    }
+
+    .alert-strip {
+      min-height: clamp(58px, 6vh, 104px);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.65rem clamp(1rem, 2vw, 2.5rem);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(90deg, rgba(160, 30, 38, 0.95), rgba(210, 38, 48, 0.72));
+      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+      transition: background 220ms ease;
+    }
+
+    .alert-strip.high {
+      background: linear-gradient(90deg, #8a4b03, rgba(255, 183, 67, 0.68));
+    }
+
+    .alert-strip.clear {
+      background: linear-gradient(90deg, #17673b, rgba(42, 163, 93, 0.72));
+    }
+
+    .alert-symbol {
+      width: clamp(36px, 2.6vw, 60px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255, 255, 255, 0.74);
+      border-radius: 999px;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .alert-title {
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: clamp(1.3rem, 1.45vw, 2.65rem);
+      letter-spacing: 0.055em;
+      line-height: 1;
+    }
+
+    .alert-copy {
+      margin-top: 0.18rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.72rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .view-tabs {
+      min-height: clamp(44px, 4.4vh, 72px);
+      display: flex;
+      align-items: stretch;
+      padding: 0 clamp(1rem, 2vw, 2.5rem);
+      background: rgba(11, 12, 14, 0.92);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tab-button {
+      position: relative;
+      min-width: 9rem;
+      border: 0;
+      border-right: 1px solid var(--line);
+      padding: 0.65rem 1.1rem;
+      background: transparent;
+      color: #8f949c;
+      font-weight: 800;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .tab-button:first-child {
+      border-left: 1px solid var(--line);
+    }
+
+    .tab-button.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-button.active::after {
+      content: "";
+      position: absolute;
+      right: 0.7rem;
+      bottom: 0;
+      left: 0.7rem;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+      background: var(--red);
+    }
+
+    .tab-spacer {
+      flex: 1;
+    }
+
+    .source-badge {
+      display: flex;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    main {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .view {
+      display: none;
+      height: 100%;
+      min-height: 0;
+      padding: clamp(0.7rem, 1.1vw, 1.35rem) clamp(1rem, 2vw, 2.5rem);
+      overflow: hidden;
+    }
+
+    .view.active {
+      display: block;
+      animation: reveal 220ms ease both;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .wall-layout {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(300px, 0.92fr);
+      gap: clamp(0.7rem, 1vw, 1.2rem);
+    }
+
+    .calendar-panel,
+    .panel,
+    .live-card,
+    .manage-card {
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: linear-gradient(145deg, rgba(21, 22, 25, 0.96), rgba(12, 13, 15, 0.96));
+      box-shadow: var(--shadow);
+    }
+
+    .calendar-panel {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .calendar-toolbar {
+      display: grid;
+      grid-template-columns: auto minmax(220px, 1fr) auto;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.75rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .month-nav {
+      display: flex;
+      gap: 0.42rem;
+    }
+
+    .month-title {
+      text-align: center;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: clamp(1.65rem, 1.9vw, 3.4rem);
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .team-filters {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.42rem;
+      flex-wrap: wrap;
+    }
+
+    .team-filter {
+      border: 1px solid var(--team-color);
+      border-radius: 999px;
+      padding: 0.34rem 0.65rem;
+      background: color-mix(in srgb, var(--team-color) 16%, transparent);
+      color: #fff;
+      font-size: 0.59rem;
+      font-weight: 800;
+      letter-spacing: 0.035em;
+      text-transform: uppercase;
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    .team-filter.off {
+      border-color: #555;
+      background: transparent;
+      color: #777;
+      opacity: 0.7;
+    }
+
+    .weekday-row,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    .weekday-row {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .weekday {
+      padding: 0.46rem;
+      color: #8e939b;
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .calendar-grid {
+      min-height: 0;
+      grid-template-rows: repeat(6, minmax(0, 1fr));
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .mobile-agenda {
+      display: none;
+    }
+
+    .day {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      padding: 0.42rem;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .day:nth-child(7n) {
+      border-right: 0;
+    }
+
+    .day.other-month {
+      background: rgba(0, 0, 0, 0.28);
+      color: #5f646c;
+    }
+
+    .day.today::before {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 0.55rem;
+      pointer-events: none;
+    }
+
+    .day.conflict-critical {
+      background: linear-gradient(145deg, rgba(210, 38, 48, 0.2), transparent 72%);
+    }
+
+    .day.conflict-high {
+      background: linear-gradient(145deg, rgba(255, 183, 67, 0.14), transparent 72%);
+    }
+
+    .day-number {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.26rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+    }
+
+    .conflict-dot {
+      width: 0.52rem;
+      height: 0.52rem;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(210, 38, 48, 0.18);
+    }
+
+    .conflict-dot.high {
+      background: var(--amber);
+      box-shadow: 0 0 0 3px rgba(255, 183, 67, 0.15);
+    }
+
+    .day-events {
+      display: grid;
+      gap: 0.2rem;
+    }
+
+    .event-pill {
+      width: 100%;
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 0.25rem minmax(0, 1fr);
+      align-items: stretch;
+      border: 0;
+      border-radius: 0.36rem;
+      padding: 0;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .event-pill:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .event-bar {
+      background: var(--team-color);
+    }
+
+    .event-text {
+      min-width: 0;
+      padding: 0.22rem 0.3rem;
+      font-size: clamp(9px, 0.44vw, 17px);
+      font-weight: 700;
+      line-height: 1.08;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .event-text small {
+      color: #b8bcc3;
+      font-size: 0.82em;
+      font-weight: 700;
+    }
+
+    .more-events {
+      color: #aeb2b8;
+      font-size: 0.55rem;
+      font-weight: 800;
+    }
+
+    .sidebar {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(0.55rem, 0.8vw, 0.85rem);
+    }
+
+    .panel {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      padding: 0.72rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-header h2 {
+      font-size: clamp(1.2rem, 1.35vw, 2.3rem);
+    }
+
+    .count-badge {
+      min-width: 1.7rem;
+      height: 1.7rem;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(210, 38, 48, 0.18);
+      color: #ff8990;
+      font-size: 0.64rem;
+      font-weight: 800;
+    }
+
+    .panel-body {
+      padding: 0.7rem 0.8rem;
+    }
+
+    .locked-list,
+    .conflict-list,
+    .tbd-list {
+      display: grid;
+      gap: 0.48rem;
+    }
+
+    .locked-item,
+    .conflict-item,
+    .tbd-item {
+      border: 1px solid var(--line);
+      border-radius: 0.62rem;
+      padding: 0.58rem 0.64rem;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .locked-item {
+      border-left: 0.24rem solid var(--team-color);
+    }
+
+    .locked-top,
+    .conflict-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.45rem;
+    }
+
+    .locked-team,
+    .conflict-date {
+      font-size: 0.56rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .locked-date {
+      color: #c9ccd1;
+      font-size: 0.56rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .locked-title,
+    .tbd-title {
+      margin-top: 0.2rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      line-height: 1.18;
+    }
+
+    .locked-status,
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border-radius: 999px;
+      padding: 0.18rem 0.4rem;
+      font-size: 0.48rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .status-paid,
+    .status-confirmed {
+      background: rgba(85, 216, 138, 0.16);
+      color: #7ff2ac;
+    }
+
+    .status-entering {
+      background: rgba(48, 214, 232, 0.16);
+      color: #69ebf8;
+    }
+
+    .status-must {
+      background: rgba(210, 38, 48, 0.16);
+      color: #ff7d85;
+    }
+
+    .status-recommended {
+      background: rgba(255, 183, 67, 0.14);
+      color: #ffc767;
+    }
+
+    .status-optional {
+      background: rgba(255, 255, 255, 0.08);
+      color: #b8bdc4;
+    }
+
+    .conflict-scroll {
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #474b52 transparent;
+    }
+
+    .conflict-item {
+      width: 100%;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .conflict-item.critical {
+      border-color: rgba(210, 38, 48, 0.5);
+      background: rgba(210, 38, 48, 0.1);
+    }
+
+    .conflict-item.high {
+      border-color: rgba(255, 183, 67, 0.45);
+      background: rgba(255, 183, 67, 0.08);
+    }
+
+    .conflict-level {
+      color: #ff868e;
+      font-size: 0.48rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .conflict-item.high .conflict-level {
+      color: var(--amber);
+    }
+
+    .conflict-summary {
+      margin-top: 0.24rem;
+      color: #d5d8dc;
+      font-size: 0.59rem;
+      font-weight: 600;
+      line-height: 1.28;
+    }
+
+    .data-note {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 0.8rem;
+    }
+
+    .data-note-symbol {
+      color: var(--amber);
+      font-size: 1.4rem;
+    }
+
+    .data-note strong {
+      display: block;
+      font-size: 0.65rem;
+    }
+
+    .data-note span {
+      display: block;
+      margin-top: 0.1rem;
+      color: var(--muted);
+      font-size: 0.54rem;
+      line-height: 1.25;
+    }
+
+    .live-card,
+    .manage-card {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.5rem, 1.8vw, 3.2rem);
+    }
+
+    .section-title p {
+      margin: 0.25rem 0 0;
+      color: var(--muted);
+      font-size: 0.64rem;
+      font-weight: 600;
+    }
+
+    .live-body {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 0.28fr);
+    }
+
+    .live-frame-wrap {
+      min-height: 0;
+      padding: 0.8rem;
+    }
+
+    #liveFrame {
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      background: #fff;
+    }
+
+    .live-info {
+      min-height: 0;
+      padding: 1rem;
+      border-left: 1px solid var(--line);
+      overflow-y: auto;
+    }
+
+    .live-info h3 {
+      font-size: 1.35rem;
+    }
+
+    .live-info p,
+    .live-info li {
+      color: #b7bbc2;
+      font-size: 0.64rem;
+      font-weight: 600;
+      line-height: 1.55;
+    }
+
+    .live-info ul {
+      margin: 0.7rem 0;
+      padding-left: 1.1rem;
+    }
+
+    .live-team {
+      display: flex;
+      align-items: center;
+      gap: 0.48rem;
+      margin: 0.5rem 0;
+      font-size: 0.62rem;
+      font-weight: 800;
+    }
+
+    .team-swatch {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 50%;
+      background: var(--team-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--team-color) 18%, transparent);
+    }
+
+    .manage-card {
+      grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
+    .manage-tools {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .field,
+    .manage-filter {
+      min-height: 2.5rem;
+      border: 1px solid var(--line);
+      border-radius: 0.58rem;
+      padding: 0.55rem 0.65rem;
+      background: #0e0f11;
+      color: #fff;
+    }
+
+    .manage-filter {
+      min-width: 12rem;
+    }
+
+    .manage-spacer {
+      flex: 1;
+    }
+
+    .table-wrap {
+      min-height: 0;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.66rem;
+    }
+
+    th,
+    td {
+      padding: 0.68rem 0.75rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #15171a;
+      color: #9ca1a9;
+      font-size: 0.52rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: #d9dce0;
+    }
+
+    .team-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 800;
+    }
+
+    .table-title {
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 0.35rem;
+      justify-content: flex-end;
+    }
+
+    .footer {
+      min-height: clamp(36px, 3.7vh, 58px);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.45rem clamp(1rem, 2vw, 2.5rem);
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.86);
+      color: var(--muted);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.035em;
+    }
+
+    .footer-teams {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-team {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: #d0d3d7;
+      white-space: nowrap;
+    }
+
+    .footer-spacer {
+      flex: 1;
+    }
+
+    dialog {
+      width: min(760px, calc(100vw - 2rem));
+      max-height: calc(100vh - 2rem);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 1rem;
+      padding: 0;
+      background: #111316;
+      color: #fff;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.78);
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(7px);
+    }
+
+    .dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dialog-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .dialog-close {
+      width: 2.2rem;
+      height: 2.2rem;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .event-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      padding: 1rem;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 0.34rem;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #aeb3bb;
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    textarea.field {
+      min-height: 5.2rem;
+      resize: vertical;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-height: 2.5rem;
+      color: #fff;
+    }
+
+    .checkbox-label input {
+      width: 1.2rem;
+      height: 1.2rem;
+      accent-color: var(--red);
+    }
+
+    .dialog-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding-top: 0.25rem;
+    }
+
+    .dialog-spacer {
+      flex: 1;
+    }
+
+    .conflict-dialog-body {
+      max-height: 72vh;
+      padding: 0.9rem;
+      overflow-y: auto;
+    }
+
+    .conflict-detail {
+      margin-bottom: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 0.8rem;
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .conflict-detail.critical {
+      border-color: rgba(210, 38, 48, 0.55);
+      background: rgba(210, 38, 48, 0.08);
+    }
+
+    .conflict-detail.high {
+      border-color: rgba(255, 183, 67, 0.45);
+      background: rgba(255, 183, 67, 0.06);
+    }
+
+    .conflict-detail h3 {
+      font-size: 1.25rem;
+    }
+
+    .conflict-event-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 0.45fr) minmax(160px, 1fr) auto;
+      gap: 0.7rem;
+      align-items: center;
+      margin-top: 0.55rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.64rem;
+    }
+
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 20;
+      max-width: min(430px, calc(100vw - 2rem));
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 0.7rem;
+      padding: 0.75rem 0.9rem;
+      background: #202328;
+      color: #fff;
+      box-shadow: var(--shadow);
+      font-size: 0.65rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(14px);
+      pointer-events: none;
+      transition: 180ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .empty {
+      padding: 0.8rem;
+      color: var(--muted);
+      font-size: 0.62rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    @media (max-width: 1180px) {
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        min-height: 100dvh;
+        height: auto;
+        overflow: visible;
+      }
+
+      .topbar {
+        grid-template-columns: 1fr auto;
+      }
+
+      .clock {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .header-actions {
+        grid-column: 1 / -1;
+      }
+
+      main {
+        overflow: visible;
+      }
+
+      .view {
+        height: auto;
+        min-height: 74vh;
+        overflow: visible;
+      }
+
+      .wall-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-panel {
+        min-height: 720px;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .sidebar .panel:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .live-card,
+      .manage-card {
+        height: auto;
+        min-height: 76vh;
+      }
+
+      .live-body {
+        grid-template-columns: 1fr;
+      }
+
+      .live-frame-wrap {
+        min-height: 620px;
+      }
+
+      .live-info {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        padding: 0.8rem;
+      }
+
+      .clock {
+        grid-column: 1;
+        grid-row: 2;
+        text-align: left;
+      }
+
+      .header-actions {
+        grid-column: 1;
+        justify-content: flex-start;
+      }
+
+      h1 {
+        white-space: normal;
+      }
+
+      .alert-strip {
+        grid-template-columns: auto 1fr;
+        padding: 0.7rem 0.8rem;
+      }
+
+      .alert-strip .btn {
+        display: none;
+      }
+
+      .alert-copy {
+        white-space: normal;
+      }
+
+      .view-tabs {
+        overflow-x: auto;
+        padding: 0;
+      }
+
+      .tab-button {
+        min-width: max-content;
+      }
+
+      .source-badge {
+        display: none;
+      }
+
+      .view {
+        padding: 0.65rem;
+      }
+
+      .calendar-toolbar {
+        grid-template-columns: 1fr auto;
+      }
+
+      .month-title {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+
+      .month-nav {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .team-filters {
+        grid-column: 2;
+        grid-row: 2;
+      }
+
+      .team-filter {
+        width: 1.7rem;
+        height: 1.7rem;
+        padding: 0;
+        overflow: hidden;
+        color: transparent;
+      }
+
+      .team-filter::before {
+        content: "";
+        width: 0.65rem;
+        height: 0.65rem;
+        border-radius: 50%;
+        background: var(--team-color);
+      }
+
+      .calendar-panel {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .weekday-row,
+      .calendar-grid {
+        display: none;
+      }
+
+      .mobile-agenda {
+        display: grid;
+        gap: 0.55rem;
+        padding: 0.7rem;
+      }
+
+      .mobile-event-row {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 4.4rem minmax(0, 1fr) auto;
+        gap: 0.65rem;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-left: 0.32rem solid var(--team-color);
+        border-radius: 0.65rem;
+        padding: 0.68rem;
+        background: rgba(255, 255, 255, 0.045);
+        color: #fff;
+        text-align: left;
+      }
+
+      .mobile-event-row.critical {
+        border-color: rgba(210, 38, 48, 0.62);
+        background: rgba(210, 38, 48, 0.1);
+      }
+
+      .mobile-event-date {
+        color: #c9ccd1;
+        font-size: 0.58rem;
+        font-weight: 800;
+        line-height: 1.3;
+        text-transform: uppercase;
+      }
+
+      .mobile-event-title {
+        font-size: 0.7rem;
+        font-weight: 800;
+        line-height: 1.25;
+      }
+
+      .mobile-event-team {
+        display: block;
+        margin-top: 0.18rem;
+        color: var(--team-color);
+        font-size: 0.52rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar .panel:last-child {
+        grid-column: auto;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .manage-tools {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .manage-filter,
+      .manage-tools .btn {
+        width: 100%;
+      }
+
+      .event-form {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full,
+      .dialog-actions {
+        grid-column: 1;
+      }
+
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .footer-spacer {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+  <script>
+  (function () {
+    var storageKey = "btb-dan-wall-access";
+    var requiredPassword = "BTB26";
+    var allowed = false;
+    try {
+      if (sessionStorage.getItem(storageKey) === "1") {
+        allowed = true;
+      } else if (window.prompt("BTB coach password required") === requiredPassword) {
+        sessionStorage.setItem(storageKey, "1");
+        allowed = true;
+      }
+    } catch (error) {
+      allowed = window.prompt("BTB coach password required") === requiredPassword;
+    }
+    if (allowed) return;
+    document.documentElement.classList.add("btb-wall-locked");
+    window.location.replace("/coach-tools");
+  }());
+  </script>
+  <style>html.btb-wall-locked body{visibility:hidden;}</style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 72" role="img">
+            <path d="M32 2 58 11v21c0 18-10 30-26 38C16 62 6 50 6 32V11Z" fill="#D22630"></path>
+            <path d="M32 7 53 14v18c0 14-7 24-21 32C18 56 11 46 11 32V14Z" fill="#050505" stroke="#fff" stroke-width="1.6"></path>
+            <text x="32" y="46" text-anchor="middle" fill="#fff" font-family="Impact, sans-serif" font-size="34" font-style="italic">B</text>
+          </svg>
+        </div>
+        <div>
+          <div class="eyebrow">Be The Best • Est. 2021</div>
+          <h1>Coach Dan’s Tournament Wall</h1>
+        </div>
+      </div>
+      <div class="clock" aria-label="Current Eastern time">
+        <div class="clock-time" id="clockTime">--:--:--</div>
+        <div class="clock-date" id="clockDate">Loading Eastern time…</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn" id="syncButton" type="button"><span class="icon">↻</span> Refresh</button>
+        <button class="btn" id="wakeButton" type="button"><span class="icon">◉</span> Keep Awake</button>
+        <button class="btn primary" id="fullscreenButton" type="button"><span class="icon">⛶</span> Fullscreen</button>
+      </div>
+    </header>
+
+    <section class="alert-strip" id="alertStrip" role="alert" aria-live="polite">
+      <div class="alert-symbol" id="alertSymbol">!</div>
+      <div>
+        <div class="alert-title" id="alertTitle">Checking schedule…</div>
+        <div class="alert-copy" id="alertCopy">Auditing all four coached teams.</div>
+      </div>
+      <button class="btn" id="reviewConflictsButton" type="button">Review Conflicts</button>
+    </section>
+
+    <nav class="view-tabs" aria-label="Calendar views">
+      <button class="tab-button active" type="button" data-view="wall">Tournament Wall</button>
+      <button class="tab-button" type="button" data-view="live">Live Team Feeds</button>
+      <button class="tab-button" type="button" data-view="manage">Manage Dates</button>
+      <div class="tab-spacer"></div>
+      <div class="source-badge">Roadmap snapshot + live Google team calendars</div>
+    </nav>
+
+    <main>
+      <section class="view active" id="wallView" aria-label="Tournament wall calendar">
+        <div class="wall-layout">
+          <section class="calendar-panel">
+            <div class="calendar-toolbar">
+              <div class="month-nav">
+                <button class="btn subtle" id="prevMonthButton" type="button" aria-label="Previous month">←</button>
+                <button class="btn subtle" id="nextEventButton" type="button">Next Event</button>
+                <button class="btn subtle" id="nextMonthButton" type="button" aria-label="Next month">→</button>
+              </div>
+              <div class="month-title" id="monthTitle">October 2026</div>
+              <div class="team-filters" id="teamFilters"></div>
+            </div>
+            <div class="weekday-row" aria-hidden="true">
+              <div class="weekday">Mon</div>
+              <div class="weekday">Tue</div>
+              <div class="weekday">Wed</div>
+              <div class="weekday">Thu</div>
+              <div class="weekday">Fri</div>
+              <div class="weekday">Sat</div>
+              <div class="weekday">Sun</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="mobile-agenda" id="mobileAgenda"></div>
+          </section>
+
+          <aside class="sidebar">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Locked / Entering</h2>
+                <span class="count-badge" id="lockedCount">0</span>
+              </div>
+              <div class="panel-body locked-list" id="lockedList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Conflict Radar</h2>
+                <span class="count-badge" id="conflictCount">0</span>
+              </div>
+              <div class="panel-body conflict-scroll">
+                <div class="conflict-list" id="conflictList"></div>
+              </div>
+            </section>
+
+            <section class="panel data-note">
+              <div class="data-note-symbol">◇</div>
+              <div>
+                <strong><span id="tbdCount">0</span> dates still need confirmation</strong>
+                <span>They stay off the dated grid so bad source years cannot create false alerts.</span>
+              </div>
+              <button class="btn subtle" id="showTbdButton" type="button">View</button>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="liveView" aria-label="Live Google team calendars">
+        <div class="live-card">
+          <div class="section-header">
+            <div class="section-title">
+              <h2>Live Team Feeds</h2>
+              <p>Direct Google Calendar view for Dan’s four teams • refreshes every 15 minutes</p>
+            </div>
+            <button class="btn primary" id="refreshLiveButton" type="button">Refresh Live Feed</button>
+          </div>
+          <div class="live-body">
+            <div class="live-frame-wrap">
+              <iframe id="liveFrame" title="Live Google calendars for Coach Dan's four teams" loading="lazy"></iframe>
+            </div>
+            <aside class="live-info">
+              <h3>Four calendars, one screen</h3>
+              <p>This live panel is separate from the tournament roadmap. It will populate as future events are published to the team calendars.</p>
+              <div id="liveTeamList"></div>
+              <ul>
+                <li>Sign into Chrome with <strong>info@bethebestli.com</strong> if Google asks.</li>
+                <li>The red conflict radar uses the audited tournament roadmap and your edits.</li>
+                <li>Same-weekend events remain conflicts until game times are known.</li>
+              </ul>
+              <p id="lastLiveRefresh">Live feed not loaded yet.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="manageView" aria-label="Manage tournament dates">
+        <div class="manage-card">
+          <div class="section-header">
+            <div class="section-title">
+              <h2>Manage Tournament Dates</h2>
+              <p>Changes save on this TV browser and recalculate conflicts immediately.</p>
+            </div>
+            <button class="btn primary" id="addEventButton" type="button">+ Add Event</button>
+          </div>
+          <div class="manage-tools">
+            <select class="manage-filter" id="manageTeamFilter" aria-label="Filter events by team">
+              <option value="all">All four teams</option>
+            </select>
+            <select class="manage-filter" id="manageStatusFilter" aria-label="Filter events by status">
+              <option value="all">All statuses</option>
+              <option value="paid">Paid / locked</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="entering">Entering</option>
+              <option value="must">Must plan</option>
+              <option value="recommended">Recommended</option>
+              <option value="optional">Optional</option>
+            </select>
+            <div class="manage-spacer"></div>
+            <button class="btn subtle" id="exportButton" type="button">Export Backup</button>
+            <button class="btn subtle" id="importButton" type="button">Import Backup</button>
+            <button class="btn danger" id="resetButton" type="button">Reset Snapshot</button>
+            <input id="importInput" type="file" accept="application/json,.json" hidden>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Team</th>
+                  <th>Tournament</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Location</th>
+                  <th aria-label="Actions"></th>
+                </tr>
+              </thead>
+              <tbody id="manageTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-teams" id="footerTeams"></div>
+      <div class="footer-spacer"></div>
+      <span>Roadmap checked Aug 19, 2026</span>
+      <span>•</span>
+      <span>Our Culture Built Us. Our Hard Work Made Us.</span>
+    </footer>
+  </div>
+
+  <dialog id="eventDialog">
+    <div class="dialog-header">
+      <h2 id="eventDialogTitle">Edit Tournament</h2>
+      <button class="dialog-close" type="button" data-close-dialog="eventDialog" aria-label="Close">×</button>
+    </div>
+    <form class="event-form" id="eventForm">
+      <input id="eventId" type="hidden">
+      <div class="form-group">
+        <label for="eventTeam">Team</label>
+        <select class="field" id="eventTeam" required></select>
+      </div>
+      <div class="form-group">
+        <label for="eventStatus">Status</label>
+        <select class="field" id="eventStatus" required>
+          <option value="paid">Paid / locked</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="entering">Entering</option>
+          <option value="must">Must plan</option>
+          <option value="recommended">Recommended</option>
+          <option value="optional">Optional</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label for="eventTitle">Tournament</label>
+        <input class="field" id="eventTitle" type="text" required>
+      </div>
+      <div class="form-group">
+        <label for="eventStart">Start date</label>
+        <input class="field" id="eventStart" type="date">
+      </div>
+      <div class="form-group">
+        <label for="eventEnd">End date</label>
+        <input class="field" id="eventEnd" type="date">
+      </div>
+      <div class="form-group full">
+        <label for="eventLocation">Location</label>
+        <input class="field" id="eventLocation" type="text">
+      </div>
+      <div class="form-group full">
+        <label for="eventNote">Note / missing-date reason</label>
+        <textarea class="field" id="eventNote"></textarea>
+      </div>
+      <label class="checkbox-label">
+        <input id="eventPaid" type="checkbox">
+        Paid and entered
+      </label>
+      <div class="dialog-actions">
+        <button class="btn danger" id="deleteEventButton" type="button">Delete</button>
+        <div class="dialog-spacer"></div>
+        <button class="btn" type="button" data-close-dialog="eventDialog">Cancel</button>
+        <button class="btn primary" type="submit">Save & Recheck</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="conflictDialog">
+    <div class="dialog-header">
+      <h2 id="conflictDialogTitle">Conflict Review</h2>
+      <button class="dialog-close" type="button" data-close-dialog="conflictDialog" aria-label="Close">×</button>
+    </div>
+    <div class="conflict-dialog-body" id="conflictDialogBody"></div>
+  </dialog>
+
+  <dialog id="tbdDialog">
+    <div class="dialog-header">
+      <h2>Dates Needed</h2>
+      <button class="dialog-close" type="button" data-close-dialog="tbdDialog" aria-label="Close">×</button>
+    </div>
+    <div class="conflict-dialog-body">
+      <div class="tbd-list" id="tbdList"></div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var DATA_VERSION = "2026-08-19-v1";
+      var STORAGE_KEY = "BTB_DAN_TOURNAMENT_WALL_V1";
+      var TEAM_META = {
+        "2028 Black": {
+          short: "28 BLACK",
+          label: "2028 Black • Boys",
+          color: "#D22630",
+          calendar: "puo7egv2vdg3ua0t79b7n1mfl6la7veb@import.calendar.google.com"
+        },
+        "2031 Cyclones": {
+          short: "31 CYCLONES",
+          label: "2031 Cyclones • Girls",
+          color: "#30D6E8",
+          calendar: "b5rvsutttljgu25ip58pt22h1o9puf7b@import.calendar.google.com"
+        },
+        "2033 Storm": {
+          short: "33 STORM",
+          label: "2033 Storm • Girls",
+          color: "#A978FF",
+          calendar: "2h39d7rmgdvk5v7f3gg3lhkgbhacrker@import.calendar.google.com"
+        },
+        "2035 Hurricanes": {
+          short: "35 HURRICANES",
+          label: "2035 Hurricanes • Girls",
+          color: "#F3BA3F",
+          calendar: "08d4flphdjer0sjki6vr786emklh76vm@import.calendar.google.com"
+        }
+      };
+
+      var STATUS_META = {
+        paid: { label: "Paid / Locked", score: 5, locked: true },
+        confirmed: { label: "Confirmed", score: 5, locked: true },
+        entering: { label: "Entering", score: 4, locked: true },
+        must: { label: "Must Plan", score: 3, locked: false },
+        recommended: { label: "Recommended", score: 2, locked: false },
+        optional: { label: "Optional", score: 1, locked: false }
+      };
+
+      var DEFAULT_EVENTS = [
+        { id: "b28-autumn", team: "2028 Black", title: "Autumn & Gold", start: "2026-11-08", end: "2026-11-09", location: "Towson University, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!10" },
+        { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", location: "Coppermine Complex, MD", status: "entering", paid: false, note: "Entering; not marked paid.", source: "TD 2028 Black!11" },
+        { id: "b28-igloo", team: "2028 Black", title: "Igloo Elite Invitational", start: "2026-11-08", end: "2026-11-08", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered.", source: "TD 2028 Black!12" },
+        { id: "b28-fall-classic", team: "2028 Black", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!13" },
+        { id: "b28-storm-invite", team: "2028 Black", title: "STORM Lax Invitational", start: "2026-11-21", end: "2026-11-22", location: "Ponte Vedra HS, Jacksonville, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!17" },
+        { id: "b28-american-fest", team: "2028 Black", title: "American Lacrosse Festival", start: "2027-01-09", end: "2027-01-10", location: "Publix Sports Park, Panama City Beach, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!18" },
+        { id: "b28-nlf-futures", team: "2028 Black", title: "NLF Futures at IMG Academy", start: "", end: "", location: "IMG Academy, Bradenton, FL", status: "optional", paid: false, note: "Mid-January 2027; exact date TBD. Individual showcase, not a team entry.", source: "TD 2028 Black!19" },
+        { id: "b28-pinnacle", team: "2028 Black", title: "Pinnacle Fall Championships (Boys)", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!20" },
+        { id: "b28-paradise", team: "2028 Black", title: "Paradise Coast Invitational", start: "2027-01-09", end: "2027-01-10", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!21" },
+        { id: "b28-sand-storm", team: "2028 Black", title: "Sand Storm Lacrosse Festival", start: "2027-01-16", end: "2027-01-17", location: "Empire Polo Club, Indio, CA", status: "recommended", paid: false, note: "", source: "TD 2028 Black!22" },
+        { id: "b28-maryland-cup", team: "2028 Black", title: "Maryland Cup", start: "2027-05-30", end: "2027-05-31", location: "Howard CC, MD", status: "recommended", paid: false, note: "", source: "TD 2028 Black!26" },
+        { id: "b28-platinum", team: "2028 Black", title: "Platinum Cup", start: "2027-06-05", end: "2027-06-06", location: "SUNY Purchase, NY", status: "must", paid: false, note: "", source: "TD 2028 Black!30" },
+        { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", location: "Bel Air, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!31" },
+        { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", location: "Annapolis area, MD", status: "paid", paid: true, note: "Marked Paid in the current boys tracker.", source: "TD 2028 Black!32 + tracker" },
+        { id: "b28-tristar", team: "2028 Black", title: "Tristar Lax Fest", start: "2027-06-19", end: "2027-06-20", location: "SUNY Purchase, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!33" },
+        { id: "b28-primetime-shootout", team: "2028 Black", title: "Primetime Shootout", start: "2027-06-13", end: "2027-06-14", location: "UMass Amherst, MA", status: "optional", paid: false, note: "", source: "TD 2028 Black!34" },
+        { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", location: "NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "TD 2028 Black!35" },
+        { id: "b28-primetime-invite", team: "2028 Black", title: "Primetime Invitational", start: "", end: "", location: "Lake George, NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2025 date.", source: "TD 2028 Black!36" },
+
+        { id: "g31-apex-fall", team: "2031 Cyclones", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-04", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!10" },
+        { id: "g31-live-love", team: "2031 Cyclones", title: "Live Love Lax", start: "2026-11-21", end: "2026-11-22", location: "Maryland", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!11" },
+        { id: "g31-queen-fall", team: "2031 Cyclones", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!12" },
+        { id: "g31-pinnacle", team: "2031 Cyclones", title: "Pinnacle Fall Championships", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!16" },
+        { id: "g31-iwlca-debut", team: "2031 Cyclones", title: "IWLCA Debut", start: "2026-11-21", end: "2026-11-22", location: "IMG Academy, Bradenton, FL", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!17" },
+        { id: "g31-apex-spring", team: "2031 Cyclones", title: "Apex Spring Training", start: "2027-03-29", end: "2027-03-29", location: "Meadowood Regional Park, Lutherville, MD", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!21" },
+        { id: "g31-maryland-cup", team: "2031 Cyclones", title: "Maryland Cup", start: "2027-05-30", end: "2027-05-31", location: "Howard CC, MD", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!22" },
+        { id: "g31-apex-grind", team: "2031 Cyclones", title: "Apex Grind", start: "2027-07-10", end: "2027-07-11", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!26" },
+        { id: "g31-apex-youth", team: "2031 Cyclones", title: "Apex Youth Championship", start: "2027-06-20", end: "2027-06-22", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!27" },
+        { id: "g31-lax-cure", team: "2031 Cyclones", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!28" },
+        { id: "g31-capital", team: "2031 Cyclones", title: "IWLCA Capital Cup", start: "2027-07-10", end: "2027-07-11", location: "CopperPlex, Edgewood, MD", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!29" },
+        { id: "g31-lax-sea", team: "2031 Cyclones", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!30" },
+
+        { id: "g33-apex-fall", team: "2033 Storm", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-04", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "must", paid: false, note: "", source: "TD 2033 Storm!10" },
+        { id: "g33-live-love", team: "2033 Storm", title: "Live Love Lax", start: "2026-11-21", end: "2026-11-22", location: "Maryland", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!11" },
+        { id: "g33-queen-fall", team: "2033 Storm", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2033 Storm!12" },
+        { id: "g33-pinnacle", team: "2033 Storm", title: "Pinnacle Fall Championships", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!16" },
+        { id: "g33-apex-spring", team: "2033 Storm", title: "Apex Spring Training", start: "2027-03-29", end: "2027-03-29", location: "Meadowood Regional Park, Lutherville, MD", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!20" },
+        { id: "g33-apex-youth", team: "2033 Storm", title: "Apex Youth Championship", start: "2027-06-20", end: "2027-06-22", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2033 Storm!24" },
+        { id: "g33-lax-cure", team: "2033 Storm", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2033 Storm!25" },
+        { id: "g33-apex-grind", team: "2033 Storm", title: "Apex Grind", start: "2027-07-10", end: "2027-07-11", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2033 Storm!26" },
+        { id: "g33-lax-sea", team: "2033 Storm", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "optional", paid: false, note: "", source: "TD 2033 Storm!27" },
+        { id: "g33-capital", team: "2033 Storm", title: "IWLCA Capital Cup", start: "2027-07-10", end: "2027-07-11", location: "CopperPlex, Edgewood, MD", status: "optional", paid: false, note: "", source: "TD 2033 Storm!28" },
+
+        { id: "g35-queen-fall", team: "2035 Hurricanes", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "must", paid: false, note: "", source: "TD 2035 Hurricanes!10" },
+        { id: "g35-fall-classic", team: "2035 Hurricanes", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!11" },
+        { id: "g35-spring-showdown", team: "2035 Hurricanes", title: "Spring Showdown", start: "2027-04-17", end: "2027-04-17", location: "Stony Brook South P Lot, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!15" },
+        { id: "g35-lax-sea", team: "2035 Hurricanes", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "must", paid: false, note: "", source: "TD 2035 Hurricanes!19" },
+        { id: "g35-long-ireland", team: "2035 Hurricanes", title: "Long Ireland Lacrosse", start: "2027-06-12", end: "2027-06-12", location: "LIU Post, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!20" },
+        { id: "g35-lax-cure", team: "2035 Hurricanes", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!21" },
+        { id: "g35-lax-blast", team: "2035 Hurricanes", title: "Lax Blast", start: "", end: "", location: "Farmingdale State College, NY", status: "optional", paid: false, note: "July 2027 date TBD; verify that the event still exists.", source: "TD 2035 Hurricanes!22" },
+        { id: "g35-queen-spring", team: "2035 Hurricanes", title: "Queen of the Island (Spring)", start: "2027-05-22", end: "2027-05-22", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!23" }
+      ];
+
+      var events = loadEvents();
+      var visibleTeams = new Set(Object.keys(TEAM_META));
+      var viewDate = initialViewMonth();
+      var wakeLock = null;
+      var alertIndex = 0;
+      var toastTimer = null;
+
+      function cloneDefaults() {
+        return JSON.parse(JSON.stringify(DEFAULT_EVENTS));
+      }
+
+      function loadEvents() {
+        try {
+          var saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (saved && saved.version === DATA_VERSION && Array.isArray(saved.events)) {
+            return saved.events;
+          }
+        } catch (error) {
+          console.warn("Could not read saved calendar data.", error);
+        }
+        return cloneDefaults();
+      }
+
+      function saveEvents() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          version: DATA_VERSION,
+          savedAt: new Date().toISOString(),
+          events: events
+        }));
+      }
+
+      function parseDate(iso) {
+        if (!iso) return null;
+        var parts = iso.split("-").map(Number);
+        return new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0, 0);
+      }
+
+      function isoDate(date) {
+        return [
+          date.getFullYear(),
+          String(date.getMonth() + 1).padStart(2, "0"),
+          String(date.getDate()).padStart(2, "0")
+        ].join("-");
+      }
+
+      function addDays(date, amount) {
+        var copy = new Date(date.getTime());
+        copy.setDate(copy.getDate() + amount);
+        return copy;
+      }
+
+      function formatDate(iso, options) {
+        var date = parseDate(iso);
+        if (!date) return "Date needed";
+        return new Intl.DateTimeFormat("en-US", options || {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        }).format(date);
+      }
+
+      function formatRange(start, end) {
+        if (!start) return "Date needed";
+        if (!end || start === end) return formatDate(start);
+        var a = parseDate(start);
+        var b = parseDate(end);
+        if (a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth()) {
+          return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(a) +
+            "–" + b.getDate() + ", " + b.getFullYear();
+        }
+        return formatDate(start, { month: "short", day: "numeric" }) + " – " + formatDate(end);
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function initialViewMonth() {
+        var now = new Date();
+        var currentMonthHasEvent = events.some(function (event) {
+          var date = parseDate(event.start);
+          return date && date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+        });
+        if (currentMonthHasEvent) return new Date(now.getFullYear(), now.getMonth(), 1, 12);
+        var todayIso = isoDate(now);
+        var next = events.filter(function (event) {
+          return event.start && event.end >= todayIso;
+        }).sort(function (a, b) {
+          return a.start.localeCompare(b.start);
+        })[0];
+        var date = next ? parseDate(next.start) : now;
+        return new Date(date.getFullYear(), date.getMonth(), 1, 12);
+      }
+
+      function getConflictGroups() {
+        var dated = events.filter(function (event) {
+          return event.start && event.end;
+        }).slice().sort(function (a, b) {
+          return a.start.localeCompare(b.start) || a.end.localeCompare(b.end);
+        });
+        var windows = [];
+        dated.forEach(function (event) {
+          var current = windows[windows.length - 1];
+          if (!current || event.start > current.end) {
+            windows.push({ start: event.start, end: event.end, events: [event] });
+          } else {
+            current.events.push(event);
+            if (event.end > current.end) current.end = event.end;
+          }
+        });
+        return windows.filter(function (windowItem) {
+          return windowItem.events.length > 1;
+        }).map(function (windowItem) {
+          var locked = windowItem.events.some(function (event) {
+            return STATUS_META[event.status] && STATUS_META[event.status].locked;
+          });
+          var coreCount = windowItem.events.filter(function (event) {
+            return STATUS_META[event.status] && STATUS_META[event.status].score >= 3;
+          }).length;
+          windowItem.level = locked ? "critical" : (coreCount >= 2 ? "high" : "watch");
+          windowItem.teams = Array.from(new Set(windowItem.events.map(function (event) {
+            return event.team;
+          })));
+          return windowItem;
+        }).sort(function (a, b) {
+          var rank = { critical: 0, high: 1, watch: 2 };
+          return rank[a.level] - rank[b.level] || a.start.localeCompare(b.start);
+        });
+      }
+
+      function conciseConflict(windowItem) {
+        var names = windowItem.events.map(function (event) {
+          return TEAM_META[event.team].short + " " + event.title;
+        });
+        if (names.length > 3) {
+          return names.slice(0, 3).join(" • ") + " • +" + (names.length - 3) + " more";
+        }
+        return names.join(" • ");
+      }
+
+      function conflictForDay(dayIso, conflicts) {
+        var matches = conflicts.filter(function (windowItem) {
+          return windowItem.start <= dayIso && windowItem.end >= dayIso;
+        });
+        if (!matches.length) return null;
+        if (matches.some(function (item) { return item.level === "critical"; })) return "critical";
+        if (matches.some(function (item) { return item.level === "high"; })) return "high";
+        return "watch";
+      }
+
+      function renderAlert() {
+        var conflicts = getConflictGroups();
+        var critical = conflicts.filter(function (item) { return item.level === "critical"; });
+        var high = conflicts.filter(function (item) { return item.level === "high"; });
+        var strip = document.getElementById("alertStrip");
+        var title = document.getElementById("alertTitle");
+        var copy = document.getElementById("alertCopy");
+        var symbol = document.getElementById("alertSymbol");
+        strip.classList.remove("critical", "high", "clear");
+
+        if (critical.length) {
+          strip.classList.add("critical");
+          var pool = critical.concat(high);
+          var item = pool[alertIndex % pool.length];
+          title.textContent = critical.length + " ACTION CONFLICT" + (critical.length === 1 ? "" : "S") +
+            " • " + high.length + " HIGH-PRIORITY PLAN" + (high.length === 1 ? "" : "S");
+          copy.textContent = formatRange(item.start, item.end) + " — " + conciseConflict(item);
+          symbol.textContent = "!";
+          return;
+        }
+        if (high.length) {
+          strip.classList.add("high");
+          var highItem = high[alertIndex % high.length];
+          title.textContent = high.length + " HIGH-PRIORITY PLANNING CONFLICT" + (high.length === 1 ? "" : "S");
+          copy.textContent = formatRange(highItem.start, highItem.end) + " — " + conciseConflict(highItem);
+          symbol.textContent = "!";
+          return;
+        }
+        strip.classList.add("clear");
+        title.textContent = "SCHEDULE CLEAR";
+        copy.textContent = "No overlapping tournament windows are currently loaded.";
+        symbol.textContent = "✓";
+      }
+
+      function renderTeamChrome() {
+        var filterHost = document.getElementById("teamFilters");
+        var footerHost = document.getElementById("footerTeams");
+        var teamSelect = document.getElementById("eventTeam");
+        var manageSelect = document.getElementById("manageTeamFilter");
+        var liveList = document.getElementById("liveTeamList");
+
+        filterHost.innerHTML = Object.keys(TEAM_META).map(function (team) {
+          var meta = TEAM_META[team];
+          return "<button class='team-filter' type='button' data-team='" + escapeHtml(team) +
+            "' style='--team-color:" + meta.color + "'>" + escapeHtml(meta.short) + "</button>";
+        }).join("");
+
+        footerHost.innerHTML = Object.keys(TEAM_META).map(function (team) {
+          var meta = TEAM_META[team];
+          return "<span class='footer-team' style='--team-color:" + meta.color +
+            "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "</span>";
+        }).join("");
+
+        teamSelect.innerHTML = Object.keys(TEAM_META).map(function (team) {
+          return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
+        }).join("");
+
+        manageSelect.innerHTML = "<option value='all'>All four teams</option>" + Object.keys(TEAM_META).map(function (team) {
+          return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
+        }).join("");
+
+        liveList.innerHTML = Object.keys(TEAM_META).map(function (team) {
+          var meta = TEAM_META[team];
+          return "<div class='live-team' style='--team-color:" + meta.color +
+            "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "</div>";
+        }).join("");
+
+        filterHost.querySelectorAll(".team-filter").forEach(function (button) {
+          button.addEventListener("click", function () {
+            var team = button.getAttribute("data-team");
+            if (visibleTeams.has(team)) visibleTeams.delete(team);
+            else visibleTeams.add(team);
+            button.classList.toggle("off", !visibleTeams.has(team));
+            renderMonth();
+          });
+        });
+      }
+
+      function renderMonth() {
+        var title = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(viewDate);
+        document.getElementById("monthTitle").textContent = title;
+        var first = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1, 12);
+        var mondayOffset = (first.getDay() + 6) % 7;
+        var gridStart = addDays(first, -mondayOffset);
+        var todayIso = isoDate(new Date());
+        var conflicts = getConflictGroups();
+        var html = [];
+
+        for (var i = 0; i < 42; i += 1) {
+          var day = addDays(gridStart, i);
+          var dayIso = isoDate(day);
+          var dayEvents = events.filter(function (event) {
+            return visibleTeams.has(event.team) && event.start && event.start <= dayIso && event.end >= dayIso;
+          }).sort(function (a, b) {
+            return STATUS_META[b.status].score - STATUS_META[a.status].score || a.team.localeCompare(b.team);
+          });
+          var conflictLevel = conflictForDay(dayIso, conflicts);
+          var classes = ["day"];
+          if (day.getMonth() !== viewDate.getMonth()) classes.push("other-month");
+          if (dayIso === todayIso) classes.push("today");
+          if (conflictLevel === "critical") classes.push("conflict-critical");
+          if (conflictLevel === "high") classes.push("conflict-high");
+
+          var dots = "";
+          if (conflictLevel === "critical") dots = "<span class='conflict-dot' title='Action conflict'></span>";
+          else if (conflictLevel === "high") dots = "<span class='conflict-dot high' title='High-priority planning conflict'></span>";
+
+          var pills = dayEvents.slice(0, 4).map(function (event) {
+            var meta = TEAM_META[event.team];
+            var lockedMark = STATUS_META[event.status].locked ? " ●" : "";
+            return "<button class='event-pill' type='button' data-event-id='" + escapeHtml(event.id) +
+              "' style='--team-color:" + meta.color + "' title='" + escapeHtml(event.team + " — " + event.title) +
+              "'><span class='event-bar'></span><span class='event-text'>" +
+              escapeHtml(meta.short) + "<small>" + lockedMark + "</small> " + escapeHtml(event.title) + "</span></button>";
+          }).join("");
+          if (dayEvents.length > 4) pills += "<div class='more-events'>+" + (dayEvents.length - 4) + " more</div>";
+
+          html.push("<div class='" + classes.join(" ") + "' data-date='" + dayIso + "'>" +
+            "<div class='day-number'><span>" + day.getDate() + "</span>" + dots + "</div>" +
+            "<div class='day-events'>" + pills + "</div></div>");
+        }
+
+        var grid = document.getElementById("calendarGrid");
+        grid.innerHTML = html.join("");
+        grid.querySelectorAll(".event-pill").forEach(function (button) {
+          button.addEventListener("click", function () {
+            openEventDialog(button.getAttribute("data-event-id"));
+          });
+        });
+
+        var monthStartIso = isoDate(first);
+        var monthEndIso = isoDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 0, 12));
+        var monthEvents = events.filter(function (event) {
+          return visibleTeams.has(event.team) && event.start && event.end >= monthStartIso && event.start <= monthEndIso;
+        }).sort(function (a, b) {
+          return a.start.localeCompare(b.start) || STATUS_META[b.status].score - STATUS_META[a.status].score;
+        });
+        var mobileHost = document.getElementById("mobileAgenda");
+        mobileHost.innerHTML = monthEvents.length ? monthEvents.map(function (event) {
+          var meta = TEAM_META[event.team];
+          var conflictLevel = conflictForDay(event.start, conflicts);
+          return "<button class='mobile-event-row " + (conflictLevel === "critical" ? "critical" : "") +
+            "' type='button' data-event-id='" + escapeHtml(event.id) + "' style='--team-color:" + meta.color + "'>" +
+            "<span class='mobile-event-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span>" +
+            "<span><span class='mobile-event-title'>" + escapeHtml(event.title) + "</span>" +
+            "<span class='mobile-event-team'>" + escapeHtml(meta.label) + "</span></span>" +
+            "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
+            "</span></button>";
+        }).join("") : "<div class='empty'>No tournaments in this month.</div>";
+        mobileHost.querySelectorAll(".mobile-event-row").forEach(function (button) {
+          button.addEventListener("click", function () {
+            openEventDialog(button.getAttribute("data-event-id"));
+          });
+        });
+      }
+
+      function renderSidebar() {
+        var locked = events.filter(function (event) {
+          return event.start && STATUS_META[event.status] && STATUS_META[event.status].locked;
+        }).sort(function (a, b) {
+          return a.start.localeCompare(b.start);
+        });
+        var lockedHost = document.getElementById("lockedList");
+        document.getElementById("lockedCount").textContent = locked.length;
+        lockedHost.innerHTML = locked.length ? locked.map(function (event) {
+          var meta = TEAM_META[event.team];
+          return "<div class='locked-item' style='--team-color:" + meta.color + "'>" +
+            "<div class='locked-top'><span class='locked-team'>" + escapeHtml(meta.short) +
+            "</span><span class='locked-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span></div>" +
+            "<div class='locked-title'>" + escapeHtml(event.title) + "</div>" +
+            "<span class='locked-status status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) + "</span>" +
+            "</div>";
+        }).join("") : "<div class='empty'>No locked or entering tournaments.</div>";
+
+        var conflicts = getConflictGroups();
+        var conflictHost = document.getElementById("conflictList");
+        document.getElementById("conflictCount").textContent = conflicts.length;
+        conflictHost.innerHTML = conflicts.length ? conflicts.map(function (item, index) {
+          var levelText = item.level === "critical" ? "Action Needed" : (item.level === "high" ? "High-Priority Plan" : "Watch");
+          return "<button class='conflict-item " + item.level + "' type='button' data-conflict-index='" + index + "'>" +
+            "<div class='conflict-top'><span class='conflict-date'>" + escapeHtml(formatRange(item.start, item.end)) +
+            "</span><span class='conflict-level'>" + levelText + "</span></div>" +
+            "<div class='conflict-summary'>" + escapeHtml(conciseConflict(item)) + "</div></button>";
+        }).join("") : "<div class='empty'>No overlap windows.</div>";
+        conflictHost.querySelectorAll(".conflict-item").forEach(function (button) {
+          button.addEventListener("click", function () {
+            openConflictDialog(Number(button.getAttribute("data-conflict-index")));
+          });
+        });
+
+        var tbd = events.filter(function (event) { return !event.start || !event.end; });
+        document.getElementById("tbdCount").textContent = tbd.length;
+        document.getElementById("tbdList").innerHTML = tbd.map(function (event) {
+          var meta = TEAM_META[event.team];
+          return "<button class='tbd-item' type='button' data-event-id='" + escapeHtml(event.id) +
+            "' style='width:100%;color:#fff;text-align:left;cursor:pointer;--team-color:" + meta.color + "'>" +
+            "<div class='locked-top'><span class='locked-team' style='color:" + meta.color + "'>" +
+            escapeHtml(meta.label) + "</span><span class='status-chip status-" + escapeHtml(event.status) + "'>" +
+            escapeHtml(STATUS_META[event.status].label) + "</span></div><div class='tbd-title'>" +
+            escapeHtml(event.title) + "</div><div class='conflict-summary'>" + escapeHtml(event.note || "Date needed.") +
+            "</div></button>";
+        }).join("");
+        document.getElementById("tbdList").querySelectorAll(".tbd-item").forEach(function (button) {
+          button.addEventListener("click", function () {
+            document.getElementById("tbdDialog").close();
+            openEventDialog(button.getAttribute("data-event-id"));
+          });
+        });
+      }
+
+      function renderManageTable() {
+        var teamFilter = document.getElementById("manageTeamFilter").value;
+        var statusFilter = document.getElementById("manageStatusFilter").value;
+        var rows = events.filter(function (event) {
+          return (teamFilter === "all" || event.team === teamFilter) &&
+            (statusFilter === "all" || event.status === statusFilter);
+        }).slice().sort(function (a, b) {
+          if (!a.start && !b.start) return a.team.localeCompare(b.team);
+          if (!a.start) return 1;
+          if (!b.start) return -1;
+          return a.start.localeCompare(b.start) || a.team.localeCompare(b.team);
+        });
+
+        document.getElementById("manageTableBody").innerHTML = rows.map(function (event) {
+          var meta = TEAM_META[event.team];
+          return "<tr><td><span class='team-cell' style='--team-color:" + meta.color +
+            "'><span class='team-swatch'></span>" + escapeHtml(meta.short) + "</span></td>" +
+            "<td><span class='table-title'>" + escapeHtml(event.title) + "</span></td>" +
+            "<td>" + escapeHtml(formatRange(event.start, event.end)) + "</td>" +
+            "<td><span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
+            "</span></td><td>" + escapeHtml(event.location || "—") + "</td>" +
+            "<td><div class='row-actions'><button class='btn subtle edit-row' type='button' data-event-id='" +
+            escapeHtml(event.id) + "'>Edit</button></div></td></tr>";
+        }).join("");
+
+        document.getElementById("manageTableBody").querySelectorAll(".edit-row").forEach(function (button) {
+          button.addEventListener("click", function () {
+            openEventDialog(button.getAttribute("data-event-id"));
+          });
+        });
+      }
+
+      function renderAll() {
+        renderAlert();
+        renderMonth();
+        renderSidebar();
+        renderManageTable();
+      }
+
+      function openEventDialog(id) {
+        var event = id ? events.find(function (item) { return item.id === id; }) : null;
+        document.getElementById("eventDialogTitle").textContent = event ? "Edit Tournament" : "Add Tournament";
+        document.getElementById("eventId").value = event ? event.id : "";
+        document.getElementById("eventTeam").value = event ? event.team : "2028 Black";
+        document.getElementById("eventStatus").value = event ? event.status : "must";
+        document.getElementById("eventTitle").value = event ? event.title : "";
+        document.getElementById("eventStart").value = event ? event.start : "";
+        document.getElementById("eventEnd").value = event ? event.end : "";
+        document.getElementById("eventLocation").value = event ? event.location : "";
+        document.getElementById("eventNote").value = event ? event.note : "";
+        document.getElementById("eventPaid").checked = event ? Boolean(event.paid) : false;
+        document.getElementById("deleteEventButton").style.visibility = event ? "visible" : "hidden";
+        document.getElementById("eventDialog").showModal();
+        document.getElementById("eventTitle").focus();
+      }
+
+      function saveEventFromForm(eventObject) {
+        eventObject.preventDefault();
+        var id = document.getElementById("eventId").value;
+        var start = document.getElementById("eventStart").value;
+        var end = document.getElementById("eventEnd").value;
+        if (start && !end) end = start;
+        if (!start && end) start = end;
+        if (start && end && end < start) {
+          showToast("End date cannot be before the start date.");
+          return;
+        }
+        var item = {
+          id: id || "manual-" + Date.now(),
+          team: document.getElementById("eventTeam").value,
+          title: document.getElementById("eventTitle").value.trim(),
+          start: start,
+          end: end,
+          location: document.getElementById("eventLocation").value.trim(),
+          status: document.getElementById("eventStatus").value,
+          paid: document.getElementById("eventPaid").checked,
+          note: document.getElementById("eventNote").value.trim(),
+          source: id ? ((events.find(function (existing) { return existing.id === id; }) || {}).source || "TV edit") : "TV edit"
+        };
+        var existingIndex = events.findIndex(function (existing) { return existing.id === item.id; });
+        if (existingIndex >= 0) events.splice(existingIndex, 1, item);
+        else events.push(item);
+        saveEvents();
+        document.getElementById("eventDialog").close();
+        renderAll();
+        showToast("Tournament saved. Conflicts rechecked.");
+      }
+
+      function deleteCurrentEvent() {
+        var id = document.getElementById("eventId").value;
+        var event = events.find(function (item) { return item.id === id; });
+        if (!event) return;
+        if (!window.confirm("Delete " + event.title + " from this TV calendar?")) return;
+        events = events.filter(function (item) { return item.id !== id; });
+        saveEvents();
+        document.getElementById("eventDialog").close();
+        renderAll();
+        showToast("Tournament removed. Conflicts rechecked.");
+      }
+
+      function openConflictDialog(selectedIndex) {
+        var conflicts = getConflictGroups();
+        var ordered = typeof selectedIndex === "number" && conflicts[selectedIndex]
+          ? [conflicts[selectedIndex]].concat(conflicts.filter(function (_, index) { return index !== selectedIndex; }))
+          : conflicts;
+        document.getElementById("conflictDialogTitle").textContent = conflicts.length + " Conflict Window" + (conflicts.length === 1 ? "" : "s");
+        document.getElementById("conflictDialogBody").innerHTML = ordered.map(function (item) {
+          var levelText = item.level === "critical" ? "ACTION NEEDED" : (item.level === "high" ? "HIGH-PRIORITY PLAN" : "WATCH");
+          var rows = item.events.map(function (event) {
+            var meta = TEAM_META[event.team];
+            return "<div class='conflict-event-row'><span class='team-cell' style='--team-color:" + meta.color +
+              "'><span class='team-swatch'></span>" + escapeHtml(meta.short) + "</span><strong>" +
+              escapeHtml(event.title) + "</strong><span class='status-chip status-" + escapeHtml(event.status) + "'>" +
+              escapeHtml(STATUS_META[event.status].label) + "</span></div>";
+          }).join("");
+          return "<section class='conflict-detail " + item.level + "'><div class='conflict-top'><h3>" +
+            escapeHtml(formatRange(item.start, item.end)) + "</h3><span class='conflict-level'>" + levelText +
+            "</span></div>" + rows + "</section>";
+        }).join("");
+        document.getElementById("conflictDialog").showModal();
+      }
+
+      function showView(name) {
+        document.querySelectorAll(".view").forEach(function (view) {
+          view.classList.toggle("active", view.id === name + "View");
+        });
+        document.querySelectorAll(".tab-button").forEach(function (button) {
+          var active = button.getAttribute("data-view") === name;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-current", active ? "page" : "false");
+        });
+        if (name === "live") refreshLiveFrame(false);
+        if (name === "manage") renderManageTable();
+      }
+
+      function refreshLiveFrame(showMessage) {
+        var params = [
+          "height=800",
+          "wkst=2",
+          "bgcolor=%230b0b0b",
+          "ctz=America%2FNew_York",
+          "mode=AGENDA",
+          "showTitle=0",
+          "showPrint=0",
+          "showTabs=0",
+          "showCalendars=0",
+          "showTz=0",
+          "showNav=1"
+        ];
+        Object.keys(TEAM_META).forEach(function (team) {
+          params.push("src=" + encodeURIComponent(TEAM_META[team].calendar));
+          params.push("color=" + encodeURIComponent(TEAM_META[team].color));
+        });
+        params.push("refresh=" + Date.now());
+        document.getElementById("liveFrame").src = "https://calendar.google.com/calendar/embed?" + params.join("&");
+        document.getElementById("lastLiveRefresh").textContent = "Last refreshed " +
+          new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).format(new Date()) + " ET.";
+        if (showMessage) showToast("Live Google team feeds refreshed.");
+      }
+
+      function updateClock() {
+        var now = new Date();
+        document.getElementById("clockTime").textContent = new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          timeZone: "America/New_York"
+        }).format(now);
+        document.getElementById("clockDate").textContent = new Intl.DateTimeFormat("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+          timeZoneName: "short",
+          timeZone: "America/New_York"
+        }).format(now);
+      }
+
+      async function toggleWakeLock() {
+        var button = document.getElementById("wakeButton");
+        if (!("wakeLock" in navigator)) {
+          button.innerHTML = "<span class='icon'>○</span> Wake Lock Unavailable";
+          showToast("Use Fullscreen and disable the TV or computer sleep timer.");
+          return;
+        }
+        try {
+          if (wakeLock) {
+            await wakeLock.release();
+            wakeLock = null;
+            button.innerHTML = "<span class='icon'>◉</span> Keep Awake";
+            return;
+          }
+          wakeLock = await navigator.wakeLock.request("screen");
+          button.innerHTML = "<span class='icon'>●</span> Awake: On";
+          wakeLock.addEventListener("release", function () {
+            wakeLock = null;
+            button.innerHTML = "<span class='icon'>◉</span> Keep Awake";
+          });
+        } catch (error) {
+          showToast("Wake lock was blocked. Fullscreen will still work.");
+        }
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(function () {
+            showToast("Fullscreen was blocked by the browser.");
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      function showToast(message) {
+        var toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.remove("show");
+        }, 3200);
+      }
+
+      function exportBackup() {
+        var blob = new Blob([JSON.stringify({
+          version: DATA_VERSION,
+          exportedAt: new Date().toISOString(),
+          events: events
+        }, null, 2)], { type: "application/json" });
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "BTB_Dan_Tournament_Calendar_Backup.json";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        showToast("Calendar backup downloaded.");
+      }
+
+      function importBackup(file) {
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          try {
+            var data = JSON.parse(reader.result);
+            var imported = Array.isArray(data) ? data : data.events;
+            if (!Array.isArray(imported) || !imported.every(function (event) {
+              return event && TEAM_META[event.team] && event.title && STATUS_META[event.status];
+            })) {
+              throw new Error("Invalid calendar backup");
+            }
+            events = imported;
+            saveEvents();
+            renderAll();
+            showToast("Backup imported. Conflicts rechecked.");
+          } catch (error) {
+            showToast("That file is not a valid BTB calendar backup.");
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function resetSnapshot() {
+        if (!window.confirm("Reset this browser to the Aug. 19, 2026 roadmap snapshot? Local edits will be removed.")) return;
+        events = cloneDefaults();
+        saveEvents();
+        renderAll();
+        showToast("Roadmap snapshot restored.");
+      }
+
+      function jumpToNextEvent() {
+        var today = isoDate(new Date());
+        var next = events.filter(function (event) {
+          return event.start && event.end >= today;
+        }).sort(function (a, b) {
+          return a.start.localeCompare(b.start);
+        })[0];
+        if (!next) {
+          showToast("No future dated event found.");
+          return;
+        }
+        var date = parseDate(next.start);
+        viewDate = new Date(date.getFullYear(), date.getMonth(), 1, 12);
+        renderMonth();
+      }
+
+      function runSelfTest() {
+        var groups = getConflictGroups();
+        var igloo = events.find(function (event) { return event.id === "b28-igloo"; });
+        var autumn = events.find(function (event) { return event.id === "b28-autumn"; });
+        var iglooConflict = groups.some(function (group) {
+          var ids = group.events.map(function (event) { return event.id; });
+          return ids.indexOf("b28-igloo") >= 0 && ids.indexOf("b28-autumn") >= 0 && group.level === "critical";
+        });
+        var result = {
+          eventCount: events.length,
+          datedEventCount: events.filter(function (event) { return event.start && event.end; }).length,
+          tbdEventCount: events.filter(function (event) { return !event.start || !event.end; }).length,
+          conflictCount: groups.length,
+          criticalCount: groups.filter(function (group) { return group.level === "critical"; }).length,
+          highCount: groups.filter(function (group) { return group.level === "high"; }).length,
+          watchCount: groups.filter(function (group) { return group.level === "watch"; }).length,
+          uniqueIds: new Set(events.map(function (event) { return event.id; })).size === events.length,
+          iglooLocked: Boolean(igloo && igloo.paid && igloo.status === "confirmed"),
+          iglooAutumnConflict: Boolean(igloo && autumn && iglooConflict),
+          calendarIdCount: new Set(Object.keys(TEAM_META).map(function (team) { return TEAM_META[team].calendar; })).size
+        };
+        result.pass = result.eventCount === 48 &&
+          result.datedEventCount === 44 &&
+          result.tbdEventCount === 4 &&
+          result.conflictCount === 10 &&
+          result.criticalCount === 2 &&
+          result.highCount === 4 &&
+          result.watchCount === 4 &&
+          result.uniqueIds &&
+          result.iglooLocked &&
+          result.iglooAutumnConflict &&
+          result.calendarIdCount === 4;
+        return result;
+      }
+
+      function bindEvents() {
+        document.querySelectorAll(".tab-button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            showView(button.getAttribute("data-view"));
+          });
+        });
+        document.querySelectorAll("[data-close-dialog]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            document.getElementById(button.getAttribute("data-close-dialog")).close();
+          });
+        });
+        document.getElementById("prevMonthButton").addEventListener("click", function () {
+          viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1, 12);
+          renderMonth();
+        });
+        document.getElementById("nextMonthButton").addEventListener("click", function () {
+          viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1, 12);
+          renderMonth();
+        });
+        document.getElementById("nextEventButton").addEventListener("click", jumpToNextEvent);
+        document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
+        document.getElementById("showTbdButton").addEventListener("click", function () { document.getElementById("tbdDialog").showModal(); });
+        document.getElementById("syncButton").addEventListener("click", function () {
+          renderAll();
+          refreshLiveFrame(true);
+        });
+        document.getElementById("refreshLiveButton").addEventListener("click", function () { refreshLiveFrame(true); });
+        document.getElementById("wakeButton").addEventListener("click", toggleWakeLock);
+        document.getElementById("fullscreenButton").addEventListener("click", toggleFullscreen);
+        document.getElementById("addEventButton").addEventListener("click", function () { openEventDialog(); });
+        document.getElementById("eventForm").addEventListener("submit", saveEventFromForm);
+        document.getElementById("deleteEventButton").addEventListener("click", deleteCurrentEvent);
+        document.getElementById("manageTeamFilter").addEventListener("change", renderManageTable);
+        document.getElementById("manageStatusFilter").addEventListener("change", renderManageTable);
+        document.getElementById("exportButton").addEventListener("click", exportBackup);
+        document.getElementById("importButton").addEventListener("click", function () { document.getElementById("importInput").click(); });
+        document.getElementById("importInput").addEventListener("change", function (event) {
+          importBackup(event.target.files[0]);
+          event.target.value = "";
+        });
+        document.getElementById("resetButton").addEventListener("click", resetSnapshot);
+        document.addEventListener("fullscreenchange", function () {
+          document.getElementById("fullscreenButton").innerHTML = document.fullscreenElement
+            ? "<span class='icon'>×</span> Exit Fullscreen"
+            : "<span class='icon'>⛶</span> Fullscreen";
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.target.matches("input, textarea, select")) return;
+          if (event.key.toLowerCase() === "f") toggleFullscreen();
+          if (event.key.toLowerCase() === "l") showView("live");
+          if (event.key.toLowerCase() === "m") showView("manage");
+          if (event.key === "ArrowLeft") {
+            viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1, 12);
+            renderMonth();
+          }
+          if (event.key === "ArrowRight") {
+            viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1, 12);
+            renderMonth();
+          }
+        });
+        document.addEventListener("visibilitychange", function () {
+          if (document.visibilityState === "visible" && wakeLock === null && "wakeLock" in navigator) {
+            document.getElementById("wakeButton").innerHTML = "<span class='icon'>◉</span> Keep Awake";
+          }
+        });
+      }
+
+      function init() {
+        renderTeamChrome();
+        bindEvents();
+        updateClock();
+        renderAll();
+        refreshLiveFrame(false);
+        setInterval(updateClock, 1000);
+        setInterval(function () {
+          alertIndex += 1;
+          renderAlert();
+        }, 8000);
+        setInterval(function () {
+          renderAll();
+        }, 60000);
+        setInterval(function () {
+          refreshLiveFrame(false);
+        }, 15 * 60 * 1000);
+        window.__BTB_CALENDAR_TEST__ = {
+          version: DATA_VERSION,
+          getEvents: function () { return JSON.parse(JSON.stringify(events)); },
+          getConflicts: function () { return JSON.parse(JSON.stringify(getConflictGroups())); },
+          getCurrentMonth: function () { return isoDate(viewDate); },
+          runSelfTest: runSelfTest
+        };
+      }
+
+      init();
+    }());
+  </script>
+</body>
+</html>
