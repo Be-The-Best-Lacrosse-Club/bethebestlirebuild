@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Sixes League — Team Registration | BTB Lacrosse</title>
+  <meta name="description" content="Register your team for The Sixes League at Coleman Country Play in Merrick, NY. $2,500 per team. Boys and Girls divisions, graduation years 2033–2036.">
+  <link rel="canonical" href="https://www.bethebestli.com/register-sixes-league">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Sixes League — Team Registration | BTB Lacrosse">
+  <meta property="og:description" content="Eight divisions. Eight teams each. Indoor Sixes lacrosse at Coleman Country Play in Merrick, NY. $2,500 per team.">
+  <meta property="og:url" content="https://www.bethebestli.com/register-sixes-league">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root { --red:#D22630; --dark-red:#a01e26; --black:#050505; --panel:#111; --line:#2b2b2b; --muted:#aaa; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:#fff; background:var(--black); font-family:"Montserrat",sans-serif; }
+    a { color:inherit; }
+    .topbar { height:5px; background:var(--red); }
+    .site-header {
+      position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between; gap:20px;
+      padding:14px max(18px,calc((100vw - 1160px)/2)); background:rgba(0,0,0,.94); border-bottom:1px solid #222;
+      backdrop-filter:blur(14px);
+    }
+    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .brand span { font-family:"Bebas Neue",sans-serif; font-size:1.45rem; letter-spacing:1px; }
+    .back-link { color:#ddd; font-size:.72rem; font-weight:900; letter-spacing:1.4px; text-decoration:none; text-transform:uppercase; }
+    .back-link:hover { color:var(--red); }
+    .hero { padding:54px 20px 42px; border-bottom:1px solid #222; background:radial-gradient(circle at 80% 0,rgba(210,38,48,.22),transparent 38%),#080808; }
+    .hero-inner { width:min(1160px,100%); margin:auto; }
+    .eyebrow { color:var(--red); font-size:.72rem; font-weight:900; letter-spacing:2.7px; text-transform:uppercase; }
+    h1,h2,h3 { margin:0; font-family:"Bebas Neue",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:1px; }
+    h1 { margin-top:12px; font-size:clamp(3.4rem,8vw,6.6rem); line-height:.86; }
+    .lede { max-width:660px; margin:22px 0 0; color:#c8c8c8; font-size:1rem; font-weight:600; line-height:1.75; }
+    .price { display:inline-flex; margin-top:24px; padding:10px 15px; background:var(--red); font-size:.8rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; }
+    .hero-facts { margin-top:26px; display:grid; gap:10px; max-width:660px; }
+    .fact { display:flex; gap:12px; align-items:flex-start; padding:13px 0; border-top:1px solid #2a2a2a; color:#ddd; font-size:.86rem; line-height:1.55; }
+    .fact strong { min-width:96px; color:#fff; text-transform:uppercase; letter-spacing:1px; }
+    .page { width:min(960px,calc(100% - 32px)); margin:0 auto; padding:54px 0 80px; }
+    form { padding:clamp(22px,5vw,46px); background:#0e0e0e; border:1px solid var(--line); }
+    .form-head { margin-bottom:34px; }
+    .form-head h2 { margin-top:8px; font-size:clamp(2.6rem,6vw,4.2rem); line-height:.95; }
+    .form-head p { margin:12px 0 0; color:#aaa; font-size:.85rem; font-weight:600; line-height:1.6; }
+    .form-section { margin:34px 0 18px; padding-top:24px; border-top:1px solid #292929; color:var(--red); font-size:.7rem; font-weight:900; letter-spacing:2.4px; text-transform:uppercase; }
+    .form-section.first { margin-top:0; padding-top:0; border:0; }
+    .row,.row-3,.row-4 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .row-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .row-4 { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .field { margin-bottom:17px; }
+    label { display:block; margin-bottom:7px; color:#ddd; font-size:.72rem; font-weight:800; letter-spacing:.5px; }
+    .req { color:var(--red); }
+    .hint { margin:6px 0 0; color:#777; font-size:.64rem; font-weight:600; line-height:1.5; }
+    input,select,textarea {
+      width:100%; min-height:50px; padding:13px 14px; color:#fff; background:#080808; border:1px solid #3a3a3a; border-radius:4px;
+      font:600 .88rem "Montserrat",sans-serif; outline:none; transition:border-color .2s,box-shadow .2s;
+    }
+    input:focus,select:focus,textarea:focus { border-color:var(--red); box-shadow:0 0 0 3px rgba(210,38,48,.14); }
+    textarea { min-height:90px; resize:vertical; }
+    select { color-scheme:dark; }
+    .roster-bar { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; padding:15px 18px; background:rgba(210,38,48,.1); border:1px solid rgba(210,38,48,.45); border-left:4px solid var(--red); }
+    .roster-bar strong { color:#fff; font-family:"Bebas Neue",sans-serif; font-size:1.5rem; font-weight:400; letter-spacing:1px; text-transform:uppercase; }
+    .roster-bar span { color:#ccc; font-size:.72rem; font-weight:700; line-height:1.5; }
+    .player-card { margin-bottom:16px; padding:20px; background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--red); }
+    .player-head { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:16px; }
+    .player-head h3 { font-size:1.4rem; }
+    .remove-player { padding:8px 12px; color:#ffb7ba; background:transparent; border:1px solid rgba(210,38,48,.5); border-radius:4px; cursor:pointer; font:900 .62rem "Montserrat",sans-serif; letter-spacing:1.2px; text-transform:uppercase; }
+    .remove-player:hover { color:#fff; background:var(--red); border-color:var(--red); }
+    .add-player { width:100%; min-height:52px; margin-bottom:8px; color:#fff; background:transparent; border:1px dashed #4a4a4a; border-radius:4px; cursor:pointer; font:900 .74rem "Montserrat",sans-serif; letter-spacing:1.5px; text-transform:uppercase; transition:border-color .2s,color .2s; }
+    .add-player:hover { color:var(--red); border-color:var(--red); }
+    .add-player:disabled { cursor:not-allowed; opacity:.4; }
+    .check { display:grid; grid-template-columns:22px 1fr; gap:11px; align-items:start; margin:14px 0; }
+    .check input { width:18px; min-height:18px; height:18px; margin:2px 0 0; accent-color:var(--red); }
+    .check label { margin:0; color:#aaa; font-size:.69rem; font-weight:600; line-height:1.55; }
+    .error { display:none; margin:0 0 18px; padding:13px 15px; color:#ffb7ba; background:rgba(210,38,48,.12); border:1px solid rgba(210,38,48,.45); font-size:.78rem; font-weight:700; line-height:1.5; }
+    .error.show { display:block; }
+    .submit {
+      width:100%; min-height:58px; margin-top:18px; padding:15px 18px; color:#fff; background:var(--red); border:0; cursor:pointer;
+      font:900 .9rem "Montserrat",sans-serif; letter-spacing:1.5px; text-transform:uppercase; transition:background .2s,transform .2s;
+    }
+    .submit:hover { background:var(--dark-red); transform:translateY(-1px); }
+    .submit:disabled { cursor:wait; opacity:.65; transform:none; }
+    .footer-note { margin-top:14px; color:#777; text-align:center; font-size:.68rem; font-weight:600; line-height:1.6; }
+    .footer-note a { color:var(--red); }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+    @media (max-width:780px) {
+      .hero { padding-top:34px; }
+      .row,.row-3,.row-4 { grid-template-columns:1fr; gap:0; }
+      .site-header { padding:11px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar"></div>
+  <header class="site-header">
+    <a class="brand" href="/"><span>BTB Lacrosse</span></a>
+    <a class="back-link" href="/">&larr; Back to BTB</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Winter 2026–27 &middot; Coleman Country Play, Merrick NY</p>
+      <h1>The Sixes<br>League</h1>
+      <p class="lede">Eight divisions. Eight teams per division. Fast, indoor 6v6 lacrosse built for touches, decisions, and development — not sideline standing. Complete your roster below and pay your team fee at checkout.</p>
+      <div class="price">$2,500 per team &middot; Standard rate</div>
+      <div class="hero-facts">
+        <div class="fact"><strong>Divisions</strong><span>Boys and Girls, graduation years 2033, 2034, 2035, and 2036 (grades 3–6).</span></div>
+        <div class="fact"><strong>Boys season</strong><span>November 1 – December 13, 2026. Playoffs December 19–20 and 26–27. Championship January 2–3, 2027.</span></div>
+        <div class="fact"><strong>Girls season</strong><span>January 9 – March 14, 2027. Playoffs March 20–21. Semifinals and Championship March 27–28.</span></div>
+        <div class="fact"><strong>Roster</strong><span>Minimum 8 players, maximum 12. Every player needs an active USA Lacrosse membership number.</span></div>
+        <div class="fact"><strong>Payment</strong><span>After you submit your roster you will be taken straight to secure checkout to pay the $2,500 team fee by card or bank transfer. Your division slot is confirmed once payment clears.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="page">
+    <form name="btb-sixes-league-team-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="sixesForm" novalidate>
+      <input type="hidden" name="form-name" value="btb-sixes-league-team-registration">
+      <div class="form-head">
+        <p class="eyebrow">Team Registration</p>
+        <h2>Register Your Team</h2>
+        <p>One submission per team. You will need every player's USA Lacrosse membership number and pinnie size before you finish — rosters cannot be submitted with missing numbers.</p>
+      </div>
+
+      <p class="error" id="errorMsg" role="alert"></p>
+
+      <p class="form-section first">Team Details</p>
+      <div class="row">
+        <div class="field">
+          <label for="team_name">Team Name <span class="req">*</span></label>
+          <input id="team_name" name="team_name" type="text" autocomplete="organization" required>
+        </div>
+        <div class="field">
+          <label for="club_name">Club or Organization <span class="req">*</span></label>
+          <input id="club_name" name="club_name" type="text" required>
+        </div>
+      </div>
+      <div class="row-3">
+        <div class="field">
+          <label for="division">Division <span class="req">*</span></label>
+          <select id="division" name="division" required>
+            <option value="">Select a division</option>
+            <option value="Boys 2033">Boys 2033</option>
+            <option value="Boys 2034">Boys 2034</option>
+            <option value="Boys 2035">Boys 2035</option>
+            <option value="Boys 2036">Boys 2036</option>
+            <option value="Girls 2033">Girls 2033</option>
+            <option value="Girls 2034">Girls 2034</option>
+            <option value="Girls 2035">Girls 2035</option>
+            <option value="Girls 2036">Girls 2036</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="team_tier">A or B Team <span class="req">*</span></label>
+          <select id="team_tier" name="team_tier" required>
+            <option value="">Select</option>
+            <option value="A">A Team</option>
+            <option value="B">B Team</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="home_town">Home Town / Area <span class="req">*</span></label>
+          <input id="home_town" name="home_town" type="text" required>
+        </div>
+      </div>
+
+      <p class="form-section">Team Contact &amp; Billing</p>
+      <p class="hint" style="margin:-8px 0 16px">This is the person who pays the team fee and receives all league communication.</p>
+      <div class="row">
+        <div class="field">
+          <label for="contact_first_name">First Name <span class="req">*</span></label>
+          <input id="contact_first_name" name="contact_first_name" type="text" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="contact_last_name">Last Name <span class="req">*</span></label>
+          <input id="contact_last_name" name="contact_last_name" type="text" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="contact_email">Email <span class="req">*</span></label>
+          <input id="contact_email" name="contact_email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="contact_phone">Mobile Phone <span class="req">*</span></label>
+          <input id="contact_phone" name="contact_phone" type="tel" autocomplete="tel" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="contact_role">Role <span class="req">*</span></label>
+        <select id="contact_role" name="contact_role" required>
+          <option value="">Select</option>
+          <option value="Head Coach">Head Coach</option>
+          <option value="Assistant Coach">Assistant Coach</option>
+          <option value="Team Manager">Team Manager</option>
+          <option value="Club Director">Club Director</option>
+          <option value="Parent Organizer">Parent Organizer</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="billing_street">Billing Street Address <span class="req">*</span></label>
+        <input id="billing_street" name="billing_street" type="text" autocomplete="address-line1" required>
+      </div>
+      <div class="row-3">
+        <div class="field">
+          <label for="billing_city">City <span class="req">*</span></label>
+          <input id="billing_city" name="billing_city" type="text" autocomplete="address-level2" required>
+        </div>
+        <div class="field">
+          <label for="billing_state">State <span class="req">*</span></label>
+          <input id="billing_state" name="billing_state" type="text" maxlength="2" placeholder="NY" autocomplete="address-level1" required>
+        </div>
+        <div class="field">
+          <label for="billing_zip">ZIP <span class="req">*</span></label>
+          <input id="billing_zip" name="billing_zip" type="text" inputmode="numeric" autocomplete="postal-code" required>
+        </div>
+      </div>
+
+      <p class="form-section">Roster</p>
+      <div class="roster-bar">
+        <strong id="rosterCount">0 Players Added</strong>
+        <span>Minimum 8, maximum 12. Every player needs a USA Lacrosse number and a pinnie size.</span>
+      </div>
+      <div id="players"></div>
+      <button type="button" class="add-player" id="addPlayer">+ Add Another Player</button>
+
+      <p class="form-section">Agreements</p>
+      <div class="check">
+        <input id="usal_confirmed" name="usal_confirmed" type="checkbox" value="Yes" required>
+        <label for="usal_confirmed">I confirm every player listed above holds an active USA Lacrosse membership that will remain valid through the end of our season. <span class="req">*</span></label>
+      </div>
+      <div class="check">
+        <input id="waiver_accepted" name="waiver_accepted" type="checkbox" value="Yes" required>
+        <label for="waiver_accepted">I accept the BTB participation waiver and <a href="https://www.bethebestli.com/terms-and-conditions" target="_blank" rel="noopener">terms and conditions</a> on behalf of this team. <span class="req">*</span></label>
+      </div>
+      <div class="check">
+        <input id="payment_terms" name="payment_terms" type="checkbox" value="Yes" required>
+        <label for="payment_terms">I understand the team fee is $2,500, payable at checkout immediately after this form. Our division slot is confirmed once payment clears. <span class="req">*</span></label>
+      </div>
+      <div class="check">
+        <input id="media_release" name="media_release" type="checkbox" value="Yes">
+        <label for="media_release">Optional: I grant BTB permission to use photos and video of this team for league promotion.</label>
+      </div>
+
+      <div class="field" style="margin-top:20px">
+        <label for="notes">Anything We Should Know? (Optional)</label>
+        <textarea id="notes" name="notes" placeholder="Scheduling conflicts, additional coaches, players still being confirmed…"></textarea>
+      </div>
+
+      <div class="sr-only" aria-hidden="true">
+        <label for="bot-field">Leave blank</label>
+        <input id="bot-field" name="bot-field" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="submit" id="submitBtn" type="submit">Submit Team Registration</button>
+      <p class="footer-note">Questions? Email <a href="mailto:info@bethebestli.com">info@bethebestli.com</a> or call (516) 659-6377.</p>
+    </form>
+  </main>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────────────────
+    // QuickBooks checkout — one multi-use payment link per division, $2,500 each.
+    // Boys links to service item "Sixes League — Boys Team Entry".
+    // Girls links to service item "Sixes League — Girls Team Entry".
+    // Both post to the "Services" income account in Be The Best Lacrosse Club.
+    // ─────────────────────────────────────────────────────────────────────────
+    const PAYMENT_LINKS = {
+      Boys:  "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-17e611e388bc4338b11eef865e0a35f7f712677c1aec4749882dec87e01def65f31339640c2549cb9a12a03de54f9704?locale=EN_US",
+      Girls: "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-b08f07700f2b445d978913ebcc7d2f12acb06b63060046efb27b6be91766eb4c8bb16e4a6ca943ab876805d4ab7164a5-1?locale=EN_US"
+    };
+
+    function paymentLinkFor(division) {
+      const d = String(division || "");
+      if (d.indexOf("Boys") === 0) return PAYMENT_LINKS.Boys;
+      if (d.indexOf("Girls") === 0) return PAYMENT_LINKS.Girls;
+      return "";
+    }
+    const REGISTRATION_ENDPOINT = "/api/sixes-team-register";
+    const MIN_PLAYERS = 8;
+    const MAX_PLAYERS = 12;
+    const PINNIE_SIZES = ["Youth S","Youth M","Youth L","Adult S","Adult M","Adult L","Adult XL"];
+    const GRAD_YEARS = ["2033","2034","2035","2036"];
+
+    const form = document.getElementById("sixesForm");
+    const playersWrap = document.getElementById("players");
+    const addBtn = document.getElementById("addPlayer");
+    const rosterCount = document.getElementById("rosterCount");
+    const errorMsg = document.getElementById("errorMsg");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function playerCards() {
+      return Array.from(playersWrap.querySelectorAll(".player-card"));
+    }
+
+    function renumber() {
+      const cards = playerCards();
+      cards.forEach(function(card, index) {
+        card.querySelector("h3").textContent = "Player " + (index + 1);
+        const removeBtn = card.querySelector(".remove-player");
+        removeBtn.style.display = cards.length > 1 ? "inline-flex" : "none";
+      });
+      rosterCount.textContent = cards.length + (cards.length === 1 ? " Player Added" : " Players Added");
+      addBtn.disabled = cards.length >= MAX_PLAYERS;
+      addBtn.textContent = cards.length >= MAX_PLAYERS
+        ? "Maximum " + MAX_PLAYERS + " Players Reached"
+        : "+ Add Another Player";
+    }
+
+    function addPlayer() {
+      if (playerCards().length >= MAX_PLAYERS) return;
+      const card = document.createElement("div");
+      card.className = "player-card";
+      const uid = "p" + Date.now() + Math.floor(Math.random() * 1000);
+      card.innerHTML =
+        '<div class="player-head"><h3>Player</h3>' +
+        '<button type="button" class="remove-player">Remove</button></div>' +
+        '<div class="row">' +
+          '<div class="field"><label for="' + uid + '_fn">First Name <span class="req">*</span></label>' +
+          '<input id="' + uid + '_fn" class="p-first" type="text" required></div>' +
+          '<div class="field"><label for="' + uid + '_ln">Last Name <span class="req">*</span></label>' +
+          '<input id="' + uid + '_ln" class="p-last" type="text" required></div>' +
+        '</div>' +
+        '<div class="row-3">' +
+          '<div class="field"><label for="' + uid + '_gy">Graduation Year <span class="req">*</span></label>' +
+          '<select id="' + uid + '_gy" class="p-grad" required><option value="">Select</option>' +
+            GRAD_YEARS.map(function(y) { return '<option value="' + y + '">' + y + '</option>'; }).join("") +
+          '</select></div>' +
+          '<div class="field"><label for="' + uid + '_us">USA Lacrosse Number <span class="req">*</span></label>' +
+          '<input id="' + uid + '_us" class="p-usal" type="text" inputmode="numeric" required>' +
+          '<p class="hint">Found in the player\u2019s USA Lacrosse account.</p></div>' +
+          '<div class="field"><label for="' + uid + '_pz">Pinnie Size <span class="req">*</span></label>' +
+          '<select id="' + uid + '_pz" class="p-pinnie" required><option value="">Select</option>' +
+            PINNIE_SIZES.map(function(s) { return '<option value="' + s + '">' + s + '</option>'; }).join("") +
+          '</select></div>' +
+        '</div>' +
+        '<div class="row-3">' +
+          '<div class="field"><label for="' + uid + '_pn">Parent / Guardian Name <span class="req">*</span></label>' +
+          '<input id="' + uid + '_pn" class="p-parent" type="text" required></div>' +
+          '<div class="field"><label for="' + uid + '_pe">Parent Email <span class="req">*</span></label>' +
+          '<input id="' + uid + '_pe" class="p-email" type="email" required></div>' +
+          '<div class="field"><label for="' + uid + '_pp">Parent Mobile <span class="req">*</span></label>' +
+          '<input id="' + uid + '_pp" class="p-phone" type="tel" required></div>' +
+        '</div>';
+      card.querySelector(".remove-player").addEventListener("click", function() {
+        card.remove();
+        renumber();
+      });
+      playersWrap.appendChild(card);
+      renumber();
+    }
+
+    addBtn.addEventListener("click", addPlayer);
+    for (let i = 0; i < MIN_PLAYERS; i += 1) addPlayer();
+
+    function val(el) { return String(el && el.value ? el.value : "").trim(); }
+    function digitsOnly(value) { return String(value || "").replace(/\D/g, ""); }
+    function isEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
+
+    function collectRoster() {
+      return playerCards().map(function(card) {
+        return {
+          first_name: val(card.querySelector(".p-first")),
+          last_name: val(card.querySelector(".p-last")),
+          grad_year: val(card.querySelector(".p-grad")),
+          usa_lacrosse_number: digitsOnly(val(card.querySelector(".p-usal"))),
+          pinnie_size: val(card.querySelector(".p-pinnie")),
+          parent_name: val(card.querySelector(".p-parent")),
+          parent_email: val(card.querySelector(".p-email")),
+          parent_phone: val(card.querySelector(".p-phone"))
+        };
+      });
+    }
+
+    function validationError(data, roster) {
+      const required = [
+        ["team_name","team name"],["club_name","club or organization"],["division","division"],
+        ["team_tier","A or B team"],["home_town","home town"],["contact_first_name","contact first name"],
+        ["contact_last_name","contact last name"],["contact_email","contact email"],
+        ["contact_phone","contact phone"],["contact_role","contact role"],
+        ["billing_street","billing street"],["billing_city","billing city"],
+        ["billing_state","billing state"],["billing_zip","billing ZIP"]
+      ];
+      for (const pair of required) {
+        if (!String(data.get(pair[0]) || "").trim()) return "Please fill in the " + pair[1] + ".";
+      }
+      if (!isEmail(String(data.get("contact_email")).trim())) return "Please enter a valid team contact email address.";
+      if (digitsOnly(data.get("contact_phone")).length < 10) return "Please enter a valid team contact mobile number.";
+      if (!/^[A-Za-z]{2}$/.test(String(data.get("billing_state")).trim())) return "Please enter the billing state as two letters, for example NY.";
+      if (!/^\d{5}(?:-\d{4})?$/.test(String(data.get("billing_zip")).trim())) return "Please enter a valid billing ZIP code.";
+
+      if (roster.length < MIN_PLAYERS) return "A Sixes roster needs at least " + MIN_PLAYERS + " players. You have " + roster.length + ".";
+      if (roster.length > MAX_PLAYERS) return "A Sixes roster can hold at most " + MAX_PLAYERS + " players.";
+
+      for (let i = 0; i < roster.length; i += 1) {
+        const p = roster[i];
+        const who = "Player " + (i + 1);
+        if (!p.first_name || !p.last_name) return who + " is missing a first or last name.";
+        if (!p.grad_year) return who + " is missing a graduation year.";
+        if (!p.usa_lacrosse_number) return who + " is missing a USA Lacrosse number. Every player must have one.";
+        if (p.usa_lacrosse_number.length < 5 || p.usa_lacrosse_number.length > 12) return who + " has a USA Lacrosse number that does not look right. Please check it.";
+        if (!p.pinnie_size) return who + " is missing a pinnie size.";
+        if (!p.parent_name) return who + " is missing a parent or guardian name.";
+        if (!isEmail(p.parent_email)) return who + " needs a valid parent email address.";
+        if (digitsOnly(p.parent_phone).length < 10) return who + " needs a valid parent mobile number.";
+      }
+
+      const numbers = roster.map(function(p) { return p.usa_lacrosse_number; });
+      const duplicate = numbers.find(function(n, i) { return numbers.indexOf(n) !== i; });
+      if (duplicate) return "Two players share the USA Lacrosse number " + duplicate + ". Each player needs their own.";
+
+      if (String(data.get("usal_confirmed")) !== "Yes") return "Please confirm all players hold active USA Lacrosse memberships.";
+      if (String(data.get("waiver_accepted")) !== "Yes") return "The participation waiver must be accepted.";
+      if (String(data.get("payment_terms")) !== "Yes") return "Please acknowledge the $2,500 team fee and payment terms.";
+      if (!paymentLinkFor(data.get("division"))) return "We could not match that division to a checkout. Please email info@bethebestli.com and we will register your team directly.";
+      return "";
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      errorMsg.classList.remove("show");
+      const data = new FormData(form);
+      const roster = collectRoster();
+      const error = validationError(data, roster);
+      if (error) {
+        errorMsg.textContent = error;
+        errorMsg.classList.add("show");
+        errorMsg.scrollIntoView({ behavior:"smooth", block:"center" });
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting Registration…";
+      const payload = { roster: roster };
+      for (const [key, value] of data.entries()) {
+        if (key === "bot-field") { payload["bot-field"] = String(value).trim(); continue; }
+        payload[key] = String(value).trim();
+      }
+      payload.media_release = String(data.get("media_release") || "No") === "Yes" ? "Yes" : "No";
+      try {
+        const response = await fetch(REGISTRATION_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type":"application/json", "Accept":"application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json().catch(function() { return {}; });
+        if (!response.ok) {
+          const registrationError = new Error(result.error || "Registration could not be saved");
+          registrationError.code = result.code || "";
+          throw registrationError;
+        }
+        if (typeof fbq === "function") fbq("track", "Lead", { content_name:"Sixes League Team Registration", content_category:"Sixes League", value:2500, currency:"USD" });
+        window.location.href = paymentLinkFor(payload.division);
+      } catch (err) {
+        const code = err && err.code;
+        errorMsg.textContent = code === "division_full"
+          ? "This division is full. Email info@bethebestli.com and we will add you to the waitlist."
+          : (code === "duplicate_team"
+            ? "This team is already registered for that division. Check your email for the invoice, or contact info@bethebestli.com."
+            : (err && err.message) || "We could not save the registration. Please try again or email info@bethebestli.com.");
+        errorMsg.classList.add("show");
+        errorMsg.scrollIntoView({ behavior:"smooth", block:"center" });
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Team Registration";
+      }
+    });
+  </script>
+</body>
+</html>
+
+<!-- The Sixes League team registration — Winter 2026-27 -->

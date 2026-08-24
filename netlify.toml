@@ -10,6 +10,61 @@
   force = true
 
 [[redirects]]
+  from = "/register-sixes-league.html"
+  to = "/register-sixes-league.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-sixes-league"
+  to = "/register-sixes-league.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/register-sixes-league.html"
+  to = "/register-sixes-league.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-sixes-league"
+  to = "/register-sixes-league.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/register-sixes-league.html"
+  to = "/register-sixes-league.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-sixes-league"
+  to = "/register-sixes-league.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/register-sixes-league.html"
+  to = "/register-sixes-league.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-sixes-league"
+  to = "/register-sixes-league.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/register-sixes-league.html"
+  to = "/register-sixes-league.html"
+  status = 200
+
+[[redirects]]
+  from = "/register-sixes-league"
+  to = "/register-sixes-league.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/coach-tools.html"
   to = "/coach-tools.html"
   status = 200

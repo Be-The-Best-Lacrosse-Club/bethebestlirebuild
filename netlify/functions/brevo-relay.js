@@ -201,6 +201,11 @@ function brevoListIdFor(formName) {
     "positional-registration": process.env.BREVO_LIST_TRYOUT,
     "futures-registration": process.env.BREVO_LIST_TRYOUT,
     "futures-clinic-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-sixes-league-team-registration": process.env.BREVO_LIST_TRYOUT,
   };
   const listId = map[formName] || process.env.BREVO_LIST_ID;
   return listId ? Number(listId) : null;
