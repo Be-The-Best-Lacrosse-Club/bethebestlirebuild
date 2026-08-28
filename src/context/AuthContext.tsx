@@ -86,7 +86,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const completePendingPassword = useCallback(async (password: string): Promise<User> => {
-    const u = await authLib.completePendingPassword(password)
+    await authLib.completePendingPassword(password)
+    const u = await authLib.validateSession()
+    if (!u) throw new Error("Password updated, but the account could not be loaded.")
     setUser(u)
     return u
   }, [])

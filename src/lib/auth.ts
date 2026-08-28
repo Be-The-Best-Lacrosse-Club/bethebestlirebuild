@@ -142,18 +142,16 @@ export function consumeAuthCallbackError(): string {
   return message
 }
 
-export async function completePendingPassword(password: string): Promise<User> {
+export async function completePendingPassword(password: string): Promise<void> {
   const action = getPendingAuthAction()
   if (!action) throw new Error("This password link is no longer active. Request a new reset link.")
 
-  const identityUser = action.type === "invite"
-    ? await acceptInvite(action.token, password)
-    : await updateUser({ password })
+  if (action.type === "invite") {
+    await acceptInvite(action.token, password)
+  } else {
+    await updateUser({ password })
+  }
   setPendingAuthAction(null)
-
-  const user = cacheIdentityUser(identityUser)
-  if (!user) throw new Error("Password updated, but the account could not be loaded.")
-  return user
 }
 
 export async function login(email: string, password: string): Promise<User> {
