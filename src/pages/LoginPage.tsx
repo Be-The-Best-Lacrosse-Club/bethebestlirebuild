@@ -4,8 +4,9 @@ import { useAuth } from "@/context/AuthContext"
 import { SEO } from "@/components/shared/SEO"
 import { ArrowLeft, Lock, Loader2, Mail, CheckCircle, UserPlus } from "lucide-react"
 import type { Gender } from "@/types"
+import { consumeAuthCallbackError, getPendingAuthAction } from "@/lib/auth"
 
-type View = "login" | "signup" | "signup-sent" | "forgot" | "forgot-sent"
+type View = "login" | "signup" | "signup-sent" | "forgot" | "forgot-sent" | "set-password"
 
 // Bot protection — honeypot field name and client-side rate limit
 const HONEYPOT_FIELD = "website_url" // Invisible field bots fill, humans don't see
@@ -35,14 +36,15 @@ function checkRateLimit(): { allowed: boolean; resetIn: number } {
 export function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [fullName, setFullName] = useState("")
   const [program, setProgram] = useState<Gender>("boys")
   const [gradYear, setGradYear] = useState("")
   const [honeypot, setHoneypot] = useState("") // Bot trap
-  const [error, setError] = useState("")
-  const [view, setView] = useState<View>("login")
+  const [error, setError] = useState(() => consumeAuthCallbackError())
+  const [view, setView] = useState<View>(() => getPendingAuthAction() ? "set-password" : "login")
   const [submitting, setSubmitting] = useState(false)
-  const { login, signup, requestPasswordRecovery } = useAuth()
+  const { login, signup, requestPasswordRecovery, completePendingPassword } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const redirect = params.get("redirect") || "/"
@@ -91,6 +93,33 @@ export function LoginPage() {
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Could not send recovery email"
       setError(message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const handleSetPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.")
+      return
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.")
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      const user = await completePendingPassword(password)
+      const destination = user.role === "owner" || user.role === "coach"
+        ? `/${user.gender}/coaches-hub`
+        : `/${user.gender}/players`
+      navigate(destination, { replace: true })
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Could not update the password.")
     } finally {
       setSubmitting(false)
     }
@@ -170,7 +199,9 @@ export function LoginPage() {
           </div>
           <div>
             <div className="font-display text-2xl uppercase tracking-wide text-white">
-              {view === "forgot-sent" ? (
+              {view === "set-password" ? (
+                <>Set New <span className="text-[var(--btb-red)]">Password</span></>
+              ) : view === "forgot-sent" ? (
                 <>Check Your <span className="text-emerald-400">Email</span></>
               ) : view === "signup-sent" ? (
                 <>Almost <span className="text-emerald-400">There</span></>
@@ -252,6 +283,62 @@ export function LoginPage() {
                 BTB accounts are invite-only. Contact your program director if you need access.
               </p>
             </div>
+          </>
+        )}
+
+        {/* PASSWORD RECOVERY / INVITE VIEW */}
+        {view === "set-password" && (
+          <>
+            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+              Choose the password you’ll use for your BTB account.
+            </p>
+
+            <form onSubmit={handleSetPassword} className="space-y-4">
+              <div>
+                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">New Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                  disabled={submitting}
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  placeholder="At least 8 characters"
+                />
+              </div>
+              <div>
+                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Confirm Password</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                  disabled={submitting}
+                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.1] rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-colors disabled:opacity-50"
+                  placeholder="Enter it again"
+                />
+              </div>
+
+              {error && (
+                <p className="text-[1.05rem] text-[var(--btb-red)] bg-[var(--btb-red)]/10 border border-[var(--btb-red)]/20 rounded-lg px-4 py-3">{error}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full py-3.5 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded-lg hover:bg-[var(--btb-red-dark)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {submitting ? (
+                  <><Loader2 size={14} className="animate-spin" /> Saving...</>
+                ) : (
+                  "Save Password & Sign In"
+                )}
+              </button>
+            </form>
           </>
         )}
 

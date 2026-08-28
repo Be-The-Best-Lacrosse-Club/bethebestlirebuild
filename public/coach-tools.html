@@ -712,7 +712,7 @@
     setTimeout(function () { input.focus(); }, 50);
   }
 
-  if (sessionStorage.getItem(STORAGE_KEY) === 'yes') {
+  if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now() || sessionStorage.getItem(STORAGE_KEY) === 'yes') {
     unlockHub();
   }
 

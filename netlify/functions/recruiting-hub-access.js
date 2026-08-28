@@ -1,4 +1,5 @@
 import crypto from "node:crypto"
+import { authorizeIdentity } from "./_identity.js"
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -125,7 +126,11 @@ export const _internal = {
   verifyAccessToken,
 }
 
-export const handler = async (event) => {
+export function createHandler({ authorize = authorizeIdentity } = {}) {
+  return (event) => handleRequest(event, authorize)
+}
+
+async function handleRequest(event, authorize) {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: CORS_HEADERS, body: "" }
   }
@@ -144,6 +149,14 @@ export const handler = async (event) => {
   const period = getCurrentPeriod()
   const validThrough = isoDateFromUtcMs(period.validThroughUtcMs)
   const nextRotation = isoDateFromUtcMs(period.nextRotationUtcMs)
+
+  if (body.owner === true) {
+    const identity = await authorize(event, ["owner"])
+    if (!identity.ok) {
+      return json(identity.statusCode, { error: identity.error })
+    }
+    return json(200, { ok: true, owner: true, validThrough, nextRotation })
+  }
 
   if (body.token) {
     if (!verifyAccessToken(body.token)) {
@@ -168,3 +181,5 @@ export const handler = async (event) => {
     nextRotation,
   })
 }
+
+export const handler = createHandler()

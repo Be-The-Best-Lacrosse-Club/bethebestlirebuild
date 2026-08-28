@@ -96,7 +96,7 @@
   var GATE_PASS = '#BTBPARENT26';
 
   (function(){
-    if (sessionStorage.getItem(GATE_KEY) === '1') {
+    if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now() || sessionStorage.getItem(GATE_KEY) === '1') {
       document.getElementById('gate').classList.add('hidden');
       return;
     }

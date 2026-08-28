@@ -19,6 +19,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@netlify/blobs": "^10.7.4",
+    "@netlify/identity": "^2.0.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.8",
@@ -54,7 +55,6 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
-    "gotrue-js": "^1.0.1",
     "he": "1.2.0",
     "input-otp": "^1.4.2",
     "konva": "^10.3.0",

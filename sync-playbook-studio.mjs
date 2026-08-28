@@ -8,6 +8,7 @@ const osAuthBlockRegex = /\/\/ ── STAFF-ONLY AUTH GATE ──[\s\S]*?\}\)\(\
 const mainSiteAuthBlock = `// ── COACH-ONLY AUTH GATE ────────────────────────────────────────────
   (function () {
     var key = 'btbPlaybookStudioUnlocked';
+    if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now()) return;
     if (sessionStorage.getItem(key) === 'yes') return;
     var pass = prompt('Enter BTB coach password:');
     if (pass === '#BTBCOACH26') {

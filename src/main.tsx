@@ -3,31 +3,31 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { SmoothScroll } from './components/SmoothScroll'
+import { prepareAuthCallback, storeAuthCallbackError } from './lib/auth.ts'
 
-// After Netlify Identity widget processes an invite/recovery/confirmation token,
-// redirect the user to the login page so the SPA takes over.
-declare global {
-  interface Window {
-    netlifyIdentity?: {
-      on: (event: string, callback: (user?: unknown) => void) => void
-    }
+async function startApp() {
+  let callbackType: string | null
+
+  try {
+    callbackType = (await prepareAuthCallback())?.type ?? null
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "The account link is invalid or expired."
+    storeAuthCallbackError(message)
+    callbackType = "error"
   }
+
+  if (callbackType && window.location.pathname !== "/login") {
+    window.location.replace("/login")
+    return
+  }
+
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <SmoothScroll>
+        <App />
+      </SmoothScroll>
+    </StrictMode>,
+  )
 }
 
-if (window.netlifyIdentity) {
-  window.netlifyIdentity.on("init", (user) => {
-    if (!user) {
-      window.netlifyIdentity!.on("login", () => {
-        document.location.href = "/login"
-      })
-    }
-  })
-}
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <SmoothScroll>
-      <App />
-    </SmoothScroll>
-  </StrictMode>,
-)
+void startApp()

@@ -2483,6 +2483,10 @@
         var selectedRole = null;
 
         function gateCheck() {
+            if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now()) {
+                sessionStorage.setItem(GATE_KEY, '1');
+                sessionStorage.setItem(GATE_ROLE_KEY, 'administrator');
+            }
             if (sessionStorage.getItem(GATE_KEY) === '1') {
                 document.getElementById('gateOverlay').style.display = 'none';
                 var savedRole = sessionStorage.getItem(GATE_ROLE_KEY) || 'coach';

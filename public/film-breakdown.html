@@ -1184,7 +1184,7 @@
     let activeFilter = 'all';
 
     // ─── PASSWORD GATE ────────────────────────────────
-    if (sessionStorage.getItem('btb_film_auth') === 'true') {
+    if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now() || sessionStorage.getItem('btb_film_auth') === 'true') {
         gateOverlay.classList.add('hidden');
     }
 
