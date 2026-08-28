@@ -312,7 +312,7 @@
       if (playerCards().length >= MAX_PLAYERS) return;
       const card = document.createElement("div");
       card.className = "player-card";
-      const uid = "p" + Date.now() + Math.floor(Math.random() * 1000);
+      const uid = "p" + crypto.randomUUID();
       card.innerHTML =
         '<div class="player-head"><h3>Player</h3>' +
         '<button type="button" class="remove-player">Remove</button></div>' +
