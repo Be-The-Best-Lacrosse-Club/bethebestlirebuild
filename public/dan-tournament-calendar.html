@@ -654,6 +654,15 @@
       line-height: 1.18;
     }
 
+    .event-time-meta {
+      display: block;
+      margin-top: 0.24rem;
+      color: #bfc3c9;
+      font-size: 0.52rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
     .locked-status,
     .status-chip {
       display: inline-flex;
@@ -1350,6 +1359,15 @@
         text-transform: uppercase;
       }
 
+      .mobile-event-time {
+        display: block;
+        margin-top: 0.2rem;
+        color: #bfc3c9;
+        font-size: 0.5rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
       .sidebar {
         grid-template-columns: 1fr;
       }
@@ -1443,7 +1461,7 @@
       <div class="alert-symbol" id="alertSymbol">!</div>
       <div>
         <div class="alert-title" id="alertTitle">Checking schedule…</div>
-        <div class="alert-copy" id="alertCopy">Auditing all four coached teams.</div>
+        <div class="alert-copy" id="alertCopy">Auditing all tracked teams.</div>
       </div>
       <button class="btn" id="reviewConflictsButton" type="button">Review Conflicts</button>
     </section>
@@ -1453,7 +1471,7 @@
       <button class="tab-button" type="button" data-view="live">Live Team Feeds</button>
       <button class="tab-button" type="button" data-view="manage">Manage Dates</button>
       <div class="tab-spacer"></div>
-      <div class="source-badge">Roadmap snapshot + live Google team calendars</div>
+      <div class="source-badge">Roadmap + Pete’s boys checklist + live Google team calendars</div>
     </nav>
 
     <main>
@@ -1518,16 +1536,16 @@
           <div class="section-header">
             <div class="section-title">
               <h2>Live Team Feeds</h2>
-              <p>Direct Google Calendar view for Dan’s four teams • refreshes every 15 minutes</p>
+              <p>Direct Google Calendar view for all tracked teams • refreshes every 15 minutes</p>
             </div>
             <button class="btn primary" id="refreshLiveButton" type="button">Refresh Live Feed</button>
           </div>
           <div class="live-body">
             <div class="live-frame-wrap">
-              <iframe id="liveFrame" title="Live Google calendars for Coach Dan's four teams" loading="lazy"></iframe>
+              <iframe id="liveFrame" title="Live Google calendars for all tracked teams" loading="lazy"></iframe>
             </div>
             <aside class="live-info">
-              <h3>Four calendars, one screen</h3>
+              <h3>All tracked calendars, one screen</h3>
               <p>This live panel is separate from the tournament roadmap. It will populate as future events are published to the team calendars.</p>
               <div id="liveTeamList"></div>
               <ul>
@@ -1552,7 +1570,7 @@
           </div>
           <div class="manage-tools">
             <select class="manage-filter" id="manageTeamFilter" aria-label="Filter events by team">
-              <option value="all">All four teams</option>
+              <option value="all">All tracked teams</option>
             </select>
             <select class="manage-filter" id="manageStatusFilter" aria-label="Filter events by status">
               <option value="all">All statuses</option>
@@ -1576,6 +1594,7 @@
                   <th>Team</th>
                   <th>Tournament</th>
                   <th>Date</th>
+                  <th>Time</th>
                   <th>Status</th>
                   <th>Location</th>
                   <th aria-label="Actions"></th>
@@ -1591,7 +1610,7 @@
     <footer class="footer">
       <div class="footer-teams" id="footerTeams"></div>
       <div class="footer-spacer"></div>
-      <span>Roadmap checked Aug 19, 2026</span>
+      <span>Roadmap synced Aug 28, 2026</span>
       <span>•</span>
       <span>Our Culture Built Us. Our Hard Work Made Us.</span>
     </footer>
@@ -1630,6 +1649,10 @@
       <div class="form-group">
         <label for="eventEnd">End date</label>
         <input class="field" id="eventEnd" type="date">
+      </div>
+      <div class="form-group full">
+        <label for="eventTime">Time / game times</label>
+        <input class="field" id="eventTime" type="text" placeholder="e.g. 9:00 AM, 11:30 AM">
       </div>
       <div class="form-group full">
         <label for="eventLocation">Location</label>
@@ -1676,13 +1699,55 @@
     (function () {
       "use strict";
 
-      var DATA_VERSION = "2026-08-19-v1";
+      var DATA_VERSION = "2026-08-28-v1";
       var TEAM_META = {
         "2028 Black": {
           short: "28 BLACK",
           label: "2028 Black • Boys",
           color: "#D22630",
           calendar: "puo7egv2vdg3ua0t79b7n1mfl6la7veb@import.calendar.google.com"
+        },
+        "2030 Rage": {
+          short: "30 RAGE",
+          label: "2030 Rage • Boys",
+          color: "#FF6B35",
+          calendar: "qfsfvrfcbn565l5m0h7mi2a25jmjdokk@import.calendar.google.com"
+        },
+        "2031 Carnage": {
+          short: "31 CARNAGE",
+          label: "2031 Carnage • Boys",
+          color: "#F43F5E",
+          calendar: "nmt2jvepbse08dqpgukdfmm2d6jkpeoa@import.calendar.google.com"
+        },
+        "2032 Cannons": {
+          short: "32 CANNONS",
+          label: "2032 Cannons • Boys",
+          color: "#F59E0B",
+          calendar: "tfst2v2vshclmsnaji5jug7d2a319ka0@import.calendar.google.com"
+        },
+        "2033 Renegades": {
+          short: "33 RENEGADES",
+          label: "2033 Renegades • Boys",
+          color: "#22C55E",
+          calendar: "dqbsco82ae6eddvrm4g4g663ad7t7vfu@import.calendar.google.com"
+        },
+        "2034 Venom": {
+          short: "34 VENOM",
+          label: "2034 Venom • Boys",
+          color: "#84CC16",
+          calendar: "n7579vrve18mpk906ct7k4hirdd0h9pm@import.calendar.google.com"
+        },
+        "2035 Bombers": {
+          short: "35 BOMBERS",
+          label: "2035 Bombers • Boys",
+          color: "#3B82F6",
+          calendar: "n1qi6ordc1ci84demj838a3ts7tgt11k@import.calendar.google.com"
+        },
+        "2036 Dawgs": {
+          short: "36 DAWGS",
+          label: "2036 Dawgs • Boys",
+          color: "#14B8A6",
+          calendar: "0ld2t5d0m1bn5iu72hnu27kb8eblcv9d@import.calendar.google.com"
         },
         "2031 Cyclones": {
           short: "31 CYCLONES",
@@ -1715,8 +1780,8 @@
 
       var DEFAULT_EVENTS = [
         { id: "b28-autumn", team: "2028 Black", title: "Autumn & Gold", start: "2026-11-08", end: "2026-11-09", location: "Towson University, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!10" },
-        { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", location: "Coppermine Complex, MD", status: "entering", paid: false, note: "Entering; not marked paid.", source: "TD 2028 Black!11" },
-        { id: "b28-igloo", team: "2028 Black", title: "Blue Chip", start: "2026-11-08", end: "2026-11-08", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "TD 2028 Black!12" },
+        { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", time: "Game times not listed in Pete’s checklist", location: "Coppermine Complex, MD", status: "entering", paid: false, note: "Entering; not marked paid.", source: "TD 2028 Black!11" },
+        { id: "b28-igloo", team: "2028 Black", title: "Blue Chip", start: "2026-11-08", end: "2026-11-08", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "TD 2028 Black!12" },
         { id: "b28-fall-classic", team: "2028 Black", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!13" },
         { id: "b28-storm-invite", team: "2028 Black", title: "STORM Lax Invitational", start: "2026-11-21", end: "2026-11-22", location: "Ponte Vedra HS, Jacksonville, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!17" },
         { id: "b28-american-fest", team: "2028 Black", title: "American Lacrosse Festival", start: "2027-01-09", end: "2027-01-10", location: "Publix Sports Park, Panama City Beach, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!18" },
@@ -1725,12 +1790,25 @@
         { id: "b28-sand-storm", team: "2028 Black", title: "Sand Storm Lacrosse Festival", start: "2027-01-16", end: "2027-01-17", location: "Empire Polo Club, Indio, CA", status: "recommended", paid: false, note: "", source: "TD 2028 Black!22" },
         { id: "b28-maryland-cup", team: "2028 Black", title: "Maryland Cup", start: "2027-05-30", end: "2027-05-31", location: "Howard CC, MD", status: "recommended", paid: false, note: "", source: "TD 2028 Black!26" },
         { id: "b28-platinum", team: "2028 Black", title: "Platinum Cup", start: "2027-06-05", end: "2027-06-06", location: "SUNY Purchase, NY", status: "must", paid: false, note: "", source: "TD 2028 Black!30" },
-        { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", location: "Bel Air, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!31" },
-        { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", location: "Annapolis area, MD", status: "paid", paid: true, note: "Marked Paid in the current boys tracker.", source: "TD 2028 Black!32 + tracker" },
+        { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", time: "Game times not listed in Pete’s checklist", location: "Bel Air, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!31" },
+        { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", time: "Game times not listed in Pete’s checklist", location: "Annapolis area, MD", status: "paid", paid: true, note: "Marked Paid in the current boys tracker.", source: "TD 2028 Black!32 + tracker" },
         { id: "b28-tristar", team: "2028 Black", title: "Tristar Lax Fest", start: "2027-06-19", end: "2027-06-20", location: "SUNY Purchase, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!33" },
         { id: "b28-primetime-shootout", team: "2028 Black", title: "Primetime Shootout", start: "2027-06-13", end: "2027-06-14", location: "UMass Amherst, MA", status: "optional", paid: false, note: "", source: "TD 2028 Black!34" },
-        { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", location: "NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "TD 2028 Black!35" },
-        { id: "b28-primetime-invite", team: "2028 Black", title: "Primetime Invitational", start: "", end: "", location: "Lake George, NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2025 date.", source: "TD 2028 Black!36" },
+        { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "TD 2028 Black!35" },
+        { id: "b28-primetime-invite", team: "2028 Black", title: "Primetime Invitational", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "Lake George, NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2025 date.", source: "TD 2028 Black!36" },
+
+        { id: "b30-apex-fall", team: "2030 Rage", title: "Apex Fall Championship", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "TBD", status: "entering", paid: false, note: "Real 2026 date needed; source contains an invalid 2015 date.", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b30-fall-classic", team: "2030 Rage", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b31-igloo", team: "2031 Carnage", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b32-pumpkin-shootout", team: "2032 Cannons", title: "Pumpkin Shootout", start: "2026-10-17", end: "2026-10-17", time: "Game times not listed in Pete’s checklist", location: "Blue Sky Sports Complex, Middletown, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b32-fall-brawl", team: "2032 Cannons", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b33-fall-brawl", team: "2033 Renegades", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b33-fall-classic", team: "2033 Renegades", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b33-igloo", team: "2033 Renegades", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b34-igloo", team: "2034 Venom", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b35-fall-jam", team: "2035 Bombers", title: "Fall Jam", start: "2026-10-10", end: "2026-10-10", time: "Game times not listed in Pete’s checklist", location: "Farmingdale State College, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b35-north-shore", team: "2035 Bombers", title: "North Shore Invitation", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "Mount Sinai HS, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b36-igloo", team: "2036 Dawgs", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
 
         { id: "g31-apex-fall", team: "2031 Cyclones", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-04", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!10" },
         { id: "g31-live-love", team: "2031 Cyclones", title: "Live Love Lax", start: "2026-11-21", end: "2026-11-22", location: "Maryland", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!11" },
@@ -1773,8 +1851,16 @@
       var alertIndex = 0;
       var toastTimer = null;
 
+      function normalizeEvents(items) {
+        return items.map(function (event) {
+          return Object.assign({}, event, {
+            time: typeof event.time === "string" ? event.time : ""
+          });
+        });
+      }
+
       function cloneDefaults() {
-        return JSON.parse(JSON.stringify(DEFAULT_EVENTS));
+        return normalizeEvents(JSON.parse(JSON.stringify(DEFAULT_EVENTS)));
       }
 
       var SYNC_ENDPOINT = "/.netlify/functions/tournament-calendar";
@@ -1802,7 +1888,7 @@
       function loadEvents() {
         return syncRequest({ action: "load" }).then(function (data) {
           if (data.snapshot && Array.isArray(data.snapshot.events) && data.snapshot.events.length) {
-            return data.snapshot.events;
+            return normalizeEvents(data.snapshot.events);
           }
           return cloneDefaults();
         });
@@ -1998,7 +2084,7 @@
           return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
         }).join("");
 
-        manageSelect.innerHTML = "<option value='all'>All four teams</option>" + Object.keys(TEAM_META).map(function (team) {
+        manageSelect.innerHTML = "<option value='all'>All tracked teams</option>" + Object.keys(TEAM_META).map(function (team) {
           return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
         }).join("");
 
@@ -2086,7 +2172,8 @@
             "' type='button' data-event-id='" + escapeHtml(event.id) + "' style='--team-color:" + meta.color + "'>" +
             "<span class='mobile-event-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span>" +
             "<span><span class='mobile-event-title'>" + escapeHtml(event.title) + "</span>" +
-            "<span class='mobile-event-team'>" + escapeHtml(meta.label) + "</span></span>" +
+            "<span class='mobile-event-team'>" + escapeHtml(meta.label) + "</span>" +
+            (event.time ? "<span class='mobile-event-time'>" + escapeHtml(event.time) + "</span>" : "") + "</span>" +
             "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
             "</span></button>";
         }).join("") : "<div class='empty'>No tournaments in this month.</div>";
@@ -2111,6 +2198,7 @@
             "<div class='locked-top'><span class='locked-team'>" + escapeHtml(meta.short) +
             "</span><span class='locked-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span></div>" +
             "<div class='locked-title'>" + escapeHtml(event.title) + "</div>" +
+            (event.time ? "<span class='event-time-meta'>" + escapeHtml(event.time) + "</span>" : "") +
             "<span class='locked-status status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) + "</span>" +
             "</div>";
         }).join("") : "<div class='empty'>No locked or entering tournaments.</div>";
@@ -2141,7 +2229,8 @@
             escapeHtml(meta.label) + "</span><span class='status-chip status-" + escapeHtml(event.status) + "'>" +
             escapeHtml(STATUS_META[event.status].label) + "</span></div><div class='tbd-title'>" +
             escapeHtml(event.title) + "</div><div class='conflict-summary'>" + escapeHtml(event.note || "Date needed.") +
-            "</div></button>";
+            "</div>" + (event.time ? "<span class='event-time-meta'>" + escapeHtml(event.time) + "</span>" : "") +
+            "</button>";
         }).join("");
         document.getElementById("tbdList").querySelectorAll(".tbd-item").forEach(function (button) {
           button.addEventListener("click", function () {
@@ -2170,6 +2259,7 @@
             "'><span class='team-swatch'></span>" + escapeHtml(meta.short) + "</span></td>" +
             "<td><span class='table-title'>" + escapeHtml(event.title) + "</span></td>" +
             "<td>" + escapeHtml(formatRange(event.start, event.end)) + "</td>" +
+            "<td>" + escapeHtml(event.time || "—") + "</td>" +
             "<td><span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
             "</span></td><td>" + escapeHtml(event.location || "—") + "</td>" +
             "<td><div class='row-actions'><button class='btn subtle edit-row' type='button' data-event-id='" +
@@ -2199,6 +2289,7 @@
         document.getElementById("eventTitle").value = event ? event.title : "";
         document.getElementById("eventStart").value = event ? event.start : "";
         document.getElementById("eventEnd").value = event ? event.end : "";
+        document.getElementById("eventTime").value = event ? event.time : "";
         document.getElementById("eventLocation").value = event ? event.location : "";
         document.getElementById("eventNote").value = event ? event.note : "";
         document.getElementById("eventPaid").checked = event ? Boolean(event.paid) : false;
@@ -2224,6 +2315,7 @@
           title: document.getElementById("eventTitle").value.trim(),
           start: start,
           end: end,
+          time: document.getElementById("eventTime").value.trim(),
           location: document.getElementById("eventLocation").value.trim(),
           status: document.getElementById("eventStatus").value,
           paid: document.getElementById("eventPaid").checked,
@@ -2400,7 +2492,7 @@
             })) {
               throw new Error("Invalid calendar backup");
             }
-            events = imported;
+            events = normalizeEvents(imported);
             saveEvents().then(function () {
               renderAll();
               showToast("Backup imported. Conflicts rechecked.");
@@ -2413,7 +2505,7 @@
       }
 
       function resetSnapshot() {
-        if (!window.confirm("Reset to the Aug. 19, 2026 roadmap snapshot? This clears the shared calendar on every device.")) return;
+        if (!window.confirm("Reset to the Aug. 28, 2026 roadmap and Pete checklist snapshot? This clears the shared calendar on every device.")) return;
         events = cloneDefaults();
         saveEvents().then(function () {
           renderAll();
@@ -2454,21 +2546,19 @@
           highCount: groups.filter(function (group) { return group.level === "high"; }).length,
           watchCount: groups.filter(function (group) { return group.level === "watch"; }).length,
           uniqueIds: new Set(events.map(function (event) { return event.id; })).size === events.length,
+          allEventsHaveTimeField: events.every(function (event) { return typeof event.time === "string"; }),
           iglooLocked: Boolean(igloo && igloo.paid && igloo.status === "confirmed"),
           iglooAutumnConflict: Boolean(igloo && autumn && iglooConflict),
           calendarIdCount: new Set(Object.keys(TEAM_META).map(function (team) { return TEAM_META[team].calendar; })).size
         };
-        result.pass = result.eventCount === 47 &&
-          result.datedEventCount === 45 &&
-          result.tbdEventCount === 2 &&
-          result.conflictCount === 11 &&
-          result.criticalCount === 3 &&
-          result.highCount === 4 &&
-          result.watchCount === 4 &&
+        result.pass = result.eventCount === 59 &&
+          result.datedEventCount === 56 &&
+          result.tbdEventCount === 3 &&
           result.uniqueIds &&
+          result.allEventsHaveTimeField &&
           result.iglooLocked &&
           result.iglooAutumnConflict &&
-          result.calendarIdCount === 4;
+          result.calendarIdCount === 11;
         return result;
       }
 
