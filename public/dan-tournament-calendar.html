@@ -1471,7 +1471,7 @@
       <button class="tab-button" type="button" data-view="live">Live Team Feeds</button>
       <button class="tab-button" type="button" data-view="manage">Manage Dates</button>
       <div class="tab-spacer"></div>
-      <div class="source-badge">Roadmap + Pete’s boys checklist + live Google team calendars</div>
+      <div class="source-badge">Pete’s boys checklist + Dan’s girls fall schedules + live team calendars</div>
     </nav>
 
     <main>
@@ -1546,11 +1546,11 @@
             </div>
             <aside class="live-info">
               <h3>All tracked calendars, one screen</h3>
-              <p>This live panel is separate from the tournament roadmap. It will populate as future events are published to the team calendars.</p>
+              <p>This live panel is separate from the saved tournament schedule. It will populate as future events are published to the team calendars.</p>
               <div id="liveTeamList"></div>
               <ul>
                 <li>Sign into Chrome with <strong>info@bethebestli.com</strong> if Google asks.</li>
-                <li>The red conflict radar uses the audited tournament roadmap and your edits.</li>
+                <li>The red conflict radar uses the saved Pete + Dan tournament schedule and your edits.</li>
                 <li>Same-weekend events remain conflicts until game times are known.</li>
               </ul>
               <p id="lastLiveRefresh">Live feed not loaded yet.</p>
@@ -1610,7 +1610,7 @@
     <footer class="footer">
       <div class="footer-teams" id="footerTeams"></div>
       <div class="footer-spacer"></div>
-      <span>Roadmap synced Aug 28, 2026</span>
+      <span>Pete + Dan schedules synced Aug 28, 2026</span>
       <span>•</span>
       <span>Our Culture Built Us. Our Hard Work Made Us.</span>
     </footer>
@@ -1699,7 +1699,7 @@
     (function () {
       "use strict";
 
-      var DATA_VERSION = "2026-08-28-v1";
+      var DATA_VERSION = "2026-08-28-v2";
       var TEAM_META = {
         "2028 Black": {
           short: "28 BLACK",
@@ -1755,17 +1755,35 @@
           color: "#30D6E8",
           calendar: "b5rvsutttljgu25ip58pt22h1o9puf7b@import.calendar.google.com"
         },
+        "2032 Riptide": {
+          short: "32 RIPTIDE",
+          label: "2032 Riptide • Girls",
+          color: "#06B6D4",
+          calendar: "t0vopoo267ihif07fa2sh7tgi3bnkcnn@import.calendar.google.com"
+        },
         "2033 Storm": {
           short: "33 STORM",
           label: "2033 Storm • Girls",
           color: "#A978FF",
           calendar: "2h39d7rmgdvk5v7f3gg3lhkgbhacrker@import.calendar.google.com"
         },
+        "2034 Thunder": {
+          short: "34 THUNDER",
+          label: "2034 Thunder • Girls",
+          color: "#60A5FA",
+          calendar: "sf7qn45t95cbjgphk7u27m0p2fiqe385@import.calendar.google.com"
+        },
         "2035 Hurricanes": {
           short: "35 HURRICANES",
           label: "2035 Hurricanes • Girls",
           color: "#F3BA3F",
           calendar: "08d4flphdjer0sjki6vr786emklh76vm@import.calendar.google.com"
+        },
+        "2036 Avalanche": {
+          short: "36 AVALANCHE",
+          label: "2036 Avalanche • Girls",
+          color: "#A978FF",
+          calendar: "7a5d90glslocqc5i4njvsqsh84krv7or@import.calendar.google.com"
         }
       };
 
@@ -1779,23 +1797,12 @@
       };
 
       var DEFAULT_EVENTS = [
-        { id: "b28-autumn", team: "2028 Black", title: "Autumn & Gold", start: "2026-11-08", end: "2026-11-09", location: "Towson University, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!10" },
-        { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", time: "Game times not listed in Pete’s checklist", location: "Coppermine Complex, MD", status: "entering", paid: false, note: "Entering; not marked paid.", source: "TD 2028 Black!11" },
-        { id: "b28-igloo", team: "2028 Black", title: "Blue Chip", start: "2026-11-08", end: "2026-11-08", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "TD 2028 Black!12" },
-        { id: "b28-fall-classic", team: "2028 Black", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!13" },
-        { id: "b28-storm-invite", team: "2028 Black", title: "STORM Lax Invitational", start: "2026-11-21", end: "2026-11-22", location: "Ponte Vedra HS, Jacksonville, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!17" },
-        { id: "b28-american-fest", team: "2028 Black", title: "American Lacrosse Festival", start: "2027-01-09", end: "2027-01-10", location: "Publix Sports Park, Panama City Beach, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!18" },
-        { id: "b28-pinnacle", team: "2028 Black", title: "Pinnacle Fall Championships (Boys)", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!20" },
-        { id: "b28-paradise", team: "2028 Black", title: "Paradise Coast Invitational", start: "2027-01-09", end: "2027-01-10", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!21" },
-        { id: "b28-sand-storm", team: "2028 Black", title: "Sand Storm Lacrosse Festival", start: "2027-01-16", end: "2027-01-17", location: "Empire Polo Club, Indio, CA", status: "recommended", paid: false, note: "", source: "TD 2028 Black!22" },
-        { id: "b28-maryland-cup", team: "2028 Black", title: "Maryland Cup", start: "2027-05-30", end: "2027-05-31", location: "Howard CC, MD", status: "recommended", paid: false, note: "", source: "TD 2028 Black!26" },
-        { id: "b28-platinum", team: "2028 Black", title: "Platinum Cup", start: "2027-06-05", end: "2027-06-06", location: "SUNY Purchase, NY", status: "must", paid: false, note: "", source: "TD 2028 Black!30" },
-        { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", time: "Game times not listed in Pete’s checklist", location: "Bel Air, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!31" },
-        { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", time: "Game times not listed in Pete’s checklist", location: "Annapolis area, MD", status: "paid", paid: true, note: "Marked Paid in the current boys tracker.", source: "TD 2028 Black!32 + tracker" },
-        { id: "b28-tristar", team: "2028 Black", title: "Tristar Lax Fest", start: "2027-06-19", end: "2027-06-20", location: "SUNY Purchase, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!33" },
-        { id: "b28-primetime-shootout", team: "2028 Black", title: "Primetime Shootout", start: "2027-06-13", end: "2027-06-14", location: "UMass Amherst, MA", status: "optional", paid: false, note: "", source: "TD 2028 Black!34" },
-        { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "TD 2028 Black!35" },
-        { id: "b28-primetime-invite", team: "2028 Black", title: "Primetime Invitational", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "Lake George, NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2025 date.", source: "TD 2028 Black!36" },
+        { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", time: "Game times not listed in Pete’s checklist", location: "Coppermine Complex, MD", status: "entering", paid: false, note: "Entering; not marked paid.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!11" },
+        { id: "b28-igloo", team: "2028 Black", title: "Igloo Elite Invitational (Blue Chip)", start: "2026-11-08", end: "2026-11-08", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!12" },
+        { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", time: "Game times not listed in Pete’s checklist", location: "Bel Air, MD", status: "must", paid: false, note: "", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!31" },
+        { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", time: "Game times not listed in Pete’s checklist", location: "Annapolis area, MD", status: "paid", paid: true, note: "Marked Paid in the current boys tracker.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!32 + tracker" },
+        { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!35" },
+        { id: "b28-primetime-invite", team: "2028 Black", title: "Primetime Invitational", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "Lake George, NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2025 date.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!36" },
 
         { id: "b30-apex-fall", team: "2030 Rage", title: "Apex Fall Championship", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "TBD", status: "entering", paid: false, note: "Real 2026 date needed; source contains an invalid 2015 date.", source: "Pete’s Boys Tournament Checklist" },
         { id: "b30-fall-classic", team: "2030 Rage", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
@@ -1810,38 +1817,30 @@
         { id: "b35-north-shore", team: "2035 Bombers", title: "North Shore Invitation", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "Mount Sinai HS, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b36-igloo", team: "2036 Dawgs", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
 
-        { id: "g31-apex-fall", team: "2031 Cyclones", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-04", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!10" },
-        { id: "g31-live-love", team: "2031 Cyclones", title: "Live Love Lax", start: "2026-11-21", end: "2026-11-22", location: "Maryland", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!11" },
-        { id: "g31-queen-fall", team: "2031 Cyclones", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!12" },
-        { id: "g31-pinnacle", team: "2031 Cyclones", title: "Pinnacle Fall Championships", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!16" },
-        { id: "g31-iwlca-debut", team: "2031 Cyclones", title: "IWLCA Debut", start: "2026-11-21", end: "2026-11-22", location: "IMG Academy, Bradenton, FL", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!17" },
-        { id: "g31-apex-spring", team: "2031 Cyclones", title: "Apex Spring Training", start: "2027-03-29", end: "2027-03-29", location: "Meadowood Regional Park, Lutherville, MD", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!21" },
-        { id: "g31-maryland-cup", team: "2031 Cyclones", title: "Maryland Cup", start: "2027-05-30", end: "2027-05-31", location: "Howard CC, MD", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!22" },
-        { id: "g31-apex-grind", team: "2031 Cyclones", title: "Apex Grind", start: "2027-07-10", end: "2027-07-11", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!26" },
-        { id: "g31-apex-youth", team: "2031 Cyclones", title: "Apex Youth Championship", start: "2027-06-20", end: "2027-06-22", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!27" },
-        { id: "g31-lax-cure", team: "2031 Cyclones", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!28" },
-        { id: "g31-capital", team: "2031 Cyclones", title: "IWLCA Capital Cup", start: "2027-07-10", end: "2027-07-11", location: "CopperPlex, Edgewood, MD", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!29" },
-        { id: "g31-lax-sea", team: "2031 Cyclones", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!30" },
+        { id: "g31-apex-fall", team: "2031 Cyclones", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-03", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, note: "", source: "Dan — 2031 girls fall schedule" },
+        { id: "g31-apex-round-up", team: "2031 Cyclones", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, note: "", source: "Dan — 2031 girls fall schedule" },
+        { id: "g31-queen-fall", team: "2031 Cyclones", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2031 girls fall schedule" },
+        { id: "g31-fall-classic", team: "2031 Cyclones", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2031 girls fall schedule" },
 
-        { id: "g33-apex-fall", team: "2033 Storm", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-04", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "must", paid: false, note: "", source: "TD 2033 Storm!10" },
-        { id: "g33-live-love", team: "2033 Storm", title: "Live Love Lax", start: "2026-11-21", end: "2026-11-22", location: "Maryland", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!11" },
-        { id: "g33-queen-fall", team: "2033 Storm", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2033 Storm!12" },
-        { id: "g33-pinnacle", team: "2033 Storm", title: "Pinnacle Fall Championships", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!16" },
-        { id: "g33-apex-spring", team: "2033 Storm", title: "Apex Spring Training", start: "2027-03-29", end: "2027-03-29", location: "Meadowood Regional Park, Lutherville, MD", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!20" },
-        { id: "g33-apex-youth", team: "2033 Storm", title: "Apex Youth Championship", start: "2027-06-20", end: "2027-06-22", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2033 Storm!24" },
-        { id: "g33-lax-cure", team: "2033 Storm", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2033 Storm!25" },
-        { id: "g33-apex-grind", team: "2033 Storm", title: "Apex Grind", start: "2027-07-10", end: "2027-07-11", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2033 Storm!26" },
-        { id: "g33-lax-sea", team: "2033 Storm", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "optional", paid: false, note: "", source: "TD 2033 Storm!27" },
-        { id: "g33-capital", team: "2033 Storm", title: "IWLCA Capital Cup", start: "2027-07-10", end: "2027-07-11", location: "CopperPlex, Edgewood, MD", status: "optional", paid: false, note: "", source: "TD 2033 Storm!28" },
+        { id: "g32-apex-round-up", team: "2032 Riptide", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, note: "", source: "Dan — 2032 girls fall schedule" },
+        { id: "g32-queen-fall", team: "2032 Riptide", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2032 girls fall schedule" },
+        { id: "g32-fall-classic", team: "2032 Riptide", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2032 girls fall schedule" },
 
-        { id: "g35-queen-fall", team: "2035 Hurricanes", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "must", paid: false, note: "", source: "TD 2035 Hurricanes!10" },
-        { id: "g35-fall-classic", team: "2035 Hurricanes", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!11" },
-        { id: "g35-spring-showdown", team: "2035 Hurricanes", title: "Spring Showdown", start: "2027-04-17", end: "2027-04-17", location: "Stony Brook South P Lot, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!15" },
-        { id: "g35-lax-sea", team: "2035 Hurricanes", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "must", paid: false, note: "", source: "TD 2035 Hurricanes!19" },
-        { id: "g35-long-ireland", team: "2035 Hurricanes", title: "Long Ireland Lacrosse", start: "2027-06-12", end: "2027-06-12", location: "LIU Post, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!20" },
-        { id: "g35-lax-cure", team: "2035 Hurricanes", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!21" },
-        { id: "g35-lax-blast", team: "2035 Hurricanes", title: "Summer Lax Blast", start: "2027-06-29", end: "2027-06-29", location: "SUSA Orlin & Cohen Sports Complex & Destination KP, NY", status: "optional", paid: false, note: "Listed on mylacrossetournaments.com as Summer Lax Blast, June 29 2027, girls Varsity-2037. Moved off Farmingdale.", source: "mylacrossetournaments.com" },
-        { id: "g35-queen-spring", team: "2035 Hurricanes", title: "Queen of the Island (Spring)", start: "2027-05-22", end: "2027-05-22", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!23" }
+        { id: "g33-apex-round-up", team: "2033 Storm", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, note: "", source: "Dan — 2033 girls fall schedule" },
+        { id: "g33-queen-fall", team: "2033 Storm", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2033 girls fall schedule" },
+        { id: "g33-fall-classic", team: "2033 Storm", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2033 girls fall schedule" },
+
+        { id: "g34-apex-fall", team: "2034 Thunder", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-03", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, note: "", source: "Dan — 2034 girls fall schedule" },
+        { id: "g34-queen-fall", team: "2034 Thunder", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2034 girls fall schedule" },
+        { id: "g34-fall-classic", team: "2034 Thunder", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2034 girls fall schedule" },
+
+        { id: "g35-apex-fall", team: "2035 Hurricanes", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-03", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, note: "", source: "Dan — 2035 girls fall schedule" },
+        { id: "g35-queen-fall", team: "2035 Hurricanes", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2035 girls fall schedule" },
+        { id: "g35-fall-classic", team: "2035 Hurricanes", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2035 girls fall schedule" },
+
+        { id: "g36-apex-fall", team: "2036 Avalanche", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-03", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, note: "", source: "Dan — 2036 girls fall schedule" },
+        { id: "g36-queen-fall", team: "2036 Avalanche", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2036 girls fall schedule" },
+        { id: "g36-fall-classic", team: "2036 Avalanche", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, note: "", source: "Dan — 2036 girls fall schedule" }
       ];
 
       var events = cloneDefaults();
@@ -2505,11 +2504,11 @@
       }
 
       function resetSnapshot() {
-        if (!window.confirm("Reset to the Aug. 28, 2026 roadmap and Pete checklist snapshot? This clears the shared calendar on every device.")) return;
+        if (!window.confirm("Reset to the Aug. 28, 2026 Pete + Dan schedule snapshot? This clears the shared calendar on every device.")) return;
         events = cloneDefaults();
         saveEvents().then(function () {
           renderAll();
-          showToast("Roadmap snapshot restored.");
+          showToast("Pete + Dan schedule restored.");
         }).catch(function () {});
       }
 
@@ -2531,11 +2530,11 @@
 
       function runSelfTest() {
         var groups = getConflictGroups();
-        var igloo = events.find(function (event) { return event.id === "b28-igloo"; });
-        var autumn = events.find(function (event) { return event.id === "b28-autumn"; });
-        var iglooConflict = groups.some(function (group) {
-          var ids = group.events.map(function (event) { return event.id; });
-          return ids.indexOf("b28-igloo") >= 0 && ids.indexOf("b28-autumn") >= 0 && group.level === "critical";
+        var boys = events.filter(function (event) {
+          return (event.source || "").indexOf("Pete’s Boys Tournament Checklist") === 0;
+        });
+        var girls = events.filter(function (event) {
+          return (event.source || "").indexOf("Dan — ") === 0;
         });
         var result = {
           eventCount: events.length,
@@ -2547,18 +2546,24 @@
           watchCount: groups.filter(function (group) { return group.level === "watch"; }).length,
           uniqueIds: new Set(events.map(function (event) { return event.id; })).size === events.length,
           allEventsHaveTimeField: events.every(function (event) { return typeof event.time === "string"; }),
-          iglooLocked: Boolean(igloo && igloo.paid && igloo.status === "confirmed"),
-          iglooAutumnConflict: Boolean(igloo && autumn && iglooConflict),
+          allEventsUseKnownTeams: events.every(function (event) { return Boolean(TEAM_META[event.team]); }),
+          boysEventCount: boys.length,
+          girlsEventCount: girls.length,
+          defaultSourcesAllowed: DEFAULT_EVENTS.every(function (event) {
+            return (event.source || "").indexOf("Pete’s Boys Tournament Checklist") === 0 || (event.source || "").indexOf("Dan — ") === 0;
+          }),
           calendarIdCount: new Set(Object.keys(TEAM_META).map(function (team) { return TEAM_META[team].calendar; })).size
         };
-        result.pass = result.eventCount === 59 &&
-          result.datedEventCount === 56 &&
+        result.pass = result.eventCount === 37 &&
+          result.datedEventCount === 34 &&
           result.tbdEventCount === 3 &&
           result.uniqueIds &&
           result.allEventsHaveTimeField &&
-          result.iglooLocked &&
-          result.iglooAutumnConflict &&
-          result.calendarIdCount === 11;
+          result.allEventsUseKnownTeams &&
+          result.boysEventCount === 18 &&
+          result.girlsEventCount === 19 &&
+          result.defaultSourcesAllowed &&
+          result.calendarIdCount === 14;
         return result;
       }
 
