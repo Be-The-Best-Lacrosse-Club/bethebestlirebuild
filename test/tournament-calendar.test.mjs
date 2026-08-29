@@ -68,8 +68,12 @@ function claimOptions(id) {
   };
 }
 
+function staffPageHtml() {
+  return readFileSync(new URL("../public/dan-tournament-calendar.html", import.meta.url), "utf8");
+}
+
 function pagePracticeWindows() {
-  const html = readFileSync(new URL("../public/dan-tournament-calendar.html", import.meta.url), "utf8");
+  const html = staffPageHtml();
   const start = html.indexOf("var SEAFORD_DATES =");
   const end = html.indexOf("var DEFAULT_EVENTS =", start);
   assert.ok(start >= 0 && end > start, "practice-window source must remain extractable from the staff page");
@@ -111,10 +115,13 @@ function expectedPdfPracticeSlots() {
   };
 
   add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], "19:15", "21:15", [
-    "2036 Avalanche", "2033 Renegades",
+    "2033 Renegades",
   ]);
   add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], "19:15", "21:15", [
     "2036 Dawgs", "2035 Bombers",
+  ]);
+  add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], "19:15", "20:15", [
+    "2036 Avalanche",
   ]);
   add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24"], "19:15", "21:15", [
     "2032 Riptide", "2031 Cyclones",
@@ -134,7 +141,7 @@ function expectedPdfPracticeSlots() {
   add("nickerson", ["2026-09-14", "2026-09-21"], "17:00", "18:30", ["2035 Hurricanes"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:00", "10:30", ["2036 Dawgs"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "10:30", "12:30", ["2033 Renegades"]);
-  add("nickerson", ["2026-09-12", "2026-09-19"], "11:00", "12:30", ["2036 Avalanche"]);
+  add("nickerson", ["2026-09-12", "2026-09-19"], "08:15", "09:30", ["2036 Avalanche"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:30", "11:00", ["2035 Hurricanes"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:00", "10:30", ["2034 Venom"]);
 
@@ -320,22 +327,37 @@ test("assigned PDF slots cover the exact September 8-24 team schedule", () => {
   );
 });
 
-test("assigned PDF slots preserve adjusted, overlapping, and incomplete source times", () => {
-  const adjusted = practiceWindow("pdf-seaford-2026-09-08-2036-avalanche");
+test("assigned PDF slots preserve updated, overlapping, and incomplete source times", () => {
+  const avalancheWeekday = practiceWindow("pdf-seaford-2026-09-09-2036-avalanche");
   assert.deepEqual({
-    team: adjusted.assignedTeams[0],
-    startTime: adjusted.startTime,
-    endTime: adjusted.endTime,
-    timeLabel: adjusted.timeLabel,
-    assignmentStatus: adjusted.assignmentStatus,
-    requiredDurationHours: adjusted.requiredDurationHours,
+    team: avalancheWeekday.assignedTeams[0],
+    startTime: avalancheWeekday.startTime,
+    endTime: avalancheWeekday.endTime,
+    timeLabel: avalancheWeekday.timeLabel,
+    assignmentStatus: avalancheWeekday.assignmentStatus,
+    requiredDurationHours: avalancheWeekday.requiredDurationHours,
   }, {
     team: "2036 Avalanche",
     startTime: "19:15",
-    endTime: "21:15",
-    timeLabel: "7:15 PM–9:15 PM",
-    assignmentStatus: "adjusted",
-    requiredDurationHours: 2,
+    endTime: "20:15",
+    timeLabel: "7:15 PM–8:15 PM",
+    assignmentStatus: "confirmed",
+    requiredDurationHours: 1,
+  });
+
+  const saturdayAvalanche = practiceWindow("pdf-nickerson-2026-09-12-2036-avalanche");
+  assert.deepEqual({
+    startTime: saturdayAvalanche.startTime,
+    endTime: saturdayAvalanche.endTime,
+    timeLabel: saturdayAvalanche.timeLabel,
+    assignmentStatus: saturdayAvalanche.assignmentStatus,
+    requiredDurationHours: saturdayAvalanche.requiredDurationHours,
+  }, {
+    startTime: "08:15",
+    endTime: "09:30",
+    timeLabel: "8:15 AM–9:30 AM",
+    assignmentStatus: "pending",
+    requiredDurationHours: 1.25,
   });
 
   const seafordNeedsTime = practiceWindow("pdf-seaford-2026-09-12-2035-bombers");
@@ -408,15 +430,96 @@ test("the staff page and claim API expose identical practice-window rules", () =
   );
 });
 
-test("known-team validation covers the full 25-team 2026-27 operating list", () => {
+test("the staff page keeps a Sunday-first calendar and Google-style practice ticker", () => {
+  const html = staffPageHtml();
+  const weekdayStart = html.indexOf('<div class="weekday-row"');
+  const gridStart = html.indexOf('<div class="calendar-grid"', weekdayStart);
+  assert.ok(weekdayStart >= 0 && gridStart > weekdayStart, "weekday header must precede the calendar grid");
+
+  const weekdayLabels = Array.from(
+    html.slice(weekdayStart, gridStart).matchAll(/<div class="weekday">([^<]+)<\/div>/g),
+    (match) => match[1].trim(),
+  );
+  assert.deepEqual(weekdayLabels, ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
+  assert.match(html, /\b(?:var|let|const) sundayOffset\s*=\s*first\.getDay\(\)\s*;/);
+  assert.match(html, /\b(?:var|let|const) gridStart\s*=\s*addDays\(first,\s*-sundayOffset\)\s*;/);
+  assert.doesNotMatch(html, /\bmondayOffset\b/);
+
+  const typeFilterStart = html.indexOf('id="scheduleTypeFilter"');
+  const typeFilterEnd = html.indexOf("</select>", typeFilterStart);
+  assert.ok(typeFilterStart >= 0 && typeFilterEnd > typeFilterStart, "schedule type filter must exist");
+  assert.match(html.slice(typeFilterStart, typeFilterEnd), /<option value="practices">Practices<\/option>/);
+  assert.match(html, /id="practiceTicker"/);
+  assert.match(html, /id="practiceTickerTrack"/);
+
+  const tickerStart = html.indexOf("function renderPracticeTicker()");
+  const tickerEnd = html.indexOf("function renderTeamChrome()", tickerStart);
+  const tickerSource = html.slice(tickerStart, tickerEnd);
+  assert.match(tickerSource, /practiceBookings\.map\(function \(booking\)/);
+  assert.match(tickerSource, /isAssignedPractice\(windowItem\)/);
+
+  const jumpStart = html.indexOf("function jumpToNextOpenPractice()");
+  const jumpEnd = html.indexOf("function runSelfTest()", jumpStart);
+  const jumpSource = html.slice(jumpStart, jumpEnd);
+  assert.match(jumpSource, /\[nextAssigned, nextInventory\]\.filter\(Boolean\)\.sort/);
+});
+
+test("known-team validation covers the active 18-team 2026-27 operating list", () => {
   assert.deepEqual(KNOWN_TEAMS, [
-    "2028 Black", "2029 Chrome", "2030 Rage", "2031 Carnage", "2032 Grizzlies",
-    "2032 Cannons", "2033 Renegades", "2034 Venom", "2035 Bombers", "2036 Fury",
-    "2036 Dawgs", "Boys Futures", "2037 Boys", "2030 Reign", "2030 Tidal Wave",
-    "2031 Cyclones", "2032 Riptide", "2033 Storm", "2034 Thunder", "2034 Tsunami",
-    "2035 Hurricanes", "2035 Tornadoes", "2036 Avalanche", "Girls Futures", "2037 Girls",
+    "2028 Black", "2030 Rage", "2031 Carnage", "2032 Cannons", "2033 Renegades",
+    "2034 Venom", "2035 Bombers", "2036 Fury", "2036 Dawgs", "2037 Wolves",
+    "2031 Cyclones", "2032 Riptide", "2033 Storm", "2034 Thunder", "2035 Hurricanes",
+    "2035 Tornadoes", "2036 Avalanche", "2037 Supernova",
   ]);
-  assert.equal(new Set(KNOWN_TEAMS).size, 25);
+  assert.equal(new Set(KNOWN_TEAMS).size, 18);
+});
+
+test("legacy 2037 aliases canonicalize while retired stored bookings are pruned", () => {
+  const legacyAliases = {
+    id: "legacy-2037-aliases",
+    windowId: "momentum-2026-11-07",
+    team: "2037 Boys",
+    teams: ["2037 Boys", "2037 Girls"],
+    secondTeam: "2037 Girls",
+    coach: "Coach Legacy",
+    startTime: "08:00",
+    endTime: "10:00",
+    durationHours: 2,
+    createdAt: "2026-08-28T12:00:00.000Z",
+  };
+  const retiredTeams = [
+    "2029 Chrome", "2032 Grizzlies", "Boys Futures", "2030 Reign",
+    "2030 Tidal Wave", "2034 Tsunami", "Girls Futures",
+  ];
+  const retiredBookings = retiredTeams.map((team, index) => ({
+    id: `retired-team-${index}`,
+    windowId: "nickerson-2026-09-26",
+    team,
+    teams: [team],
+    secondTeam: null,
+    coach: `Coach Retired ${index}`,
+    startTime: "09:00",
+    endTime: "10:00",
+    durationHours: 1,
+    createdAt: "2026-08-28T12:00:00.000Z",
+  }));
+
+  const snapshot = normalizeSnapshot({
+    events: [],
+    practiceBookings: [legacyAliases, ...retiredBookings],
+  });
+  assert.equal(snapshot.practiceBookings.length, 1);
+  const normalized = validatePracticeBookings(snapshot.practiceBookings);
+  assert.equal(normalized.length, 1);
+  assert.deepEqual({
+    team: normalized[0].team,
+    teams: normalized[0].teams,
+    secondTeam: normalized[0].secondTeam,
+  }, {
+    team: "2037 Wolves",
+    teams: ["2037 Wolves", "2037 Supernova"],
+    secondTeam: "2037 Supernova",
+  });
 });
 
 test("legacy snapshots normalize to an empty practice booking list", () => {
@@ -432,7 +535,7 @@ test("a Nickerson weekday accepts 1.5 hours and rejects a 2-hour claim", async (
   const store = memoryStore();
   const valid = await claimPractice(store, {
     windowId: "nickerson-2026-09-02",
-    team: "2037 Boys",
+    team: "2037 Wolves",
     coach: "Coach Taylor",
     startTime: "17:00",
     durationHours: 1.5,
@@ -443,7 +546,7 @@ test("a Nickerson weekday accepts 1.5 hours and rejects a 2-hour claim", async (
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "nickerson-2026-09-02",
-    team: "2037 Girls",
+    team: "2037 Supernova",
     coach: "Coach Marisa",
     startTime: "17:00",
     durationHours: 2,
@@ -453,7 +556,7 @@ test("a Nickerson weekday accepts 1.5 hours and rejects a 2-hour claim", async (
 test("Seaford alignment is relative to its 19:15 start and allows a full 2 hours", async () => {
   const valid = await claimPractice(memoryStore(), {
     windowId: "seaford-2026-09-01",
-    team: "Girls Futures",
+    team: "2037 Supernova",
     coach: "Coach Emma",
     startTime: "19:15",
     durationHours: 2,
@@ -464,7 +567,7 @@ test("Seaford alignment is relative to its 19:15 start and allows a full 2 hours
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "seaford-2026-09-01",
-    team: "Boys Futures",
+    team: "2037 Wolves",
     coach: "Coach Mike",
     startTime: "19:30",
     durationHours: 1,
@@ -523,6 +626,20 @@ test("an assigned PDF slot derives its fixed team and time from a coach-only cla
     coach: "Coach Two",
   }, claimOptions("assigned-storm-again"));
   assert.equal(reclaimed.booking.coach, "Coach Two");
+
+  const avalanche = await claimPractice(store, {
+    windowId: "pdf-nickerson-2026-09-12-2036-avalanche",
+    coach: "Coach Emma",
+  }, claimOptions("assigned-avalanche"));
+  assert.deepEqual({
+    startTime: avalanche.booking.startTime,
+    endTime: avalanche.booking.endTime,
+    durationHours: avalanche.booking.durationHours,
+  }, {
+    startTime: "08:15",
+    endTime: "09:30",
+    durationHours: 1.25,
+  });
 });
 
 test("assigned PDF slots with unresolved ends remain coach-claimable without invented times", async () => {
@@ -636,7 +753,7 @@ test("assigned PDF practices close generic parent windows only to new claims", a
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "nickerson-2026-09-14",
-    team: "2037 Girls",
+    team: "2037 Supernova",
     coach: "Coach Legacy",
     startTime: "17:00",
     durationHours: 1.5,
@@ -645,8 +762,8 @@ test("assigned PDF practices close generic parent windows only to new claims", a
   const legacyBooking = {
     id: "legacy-before-pdf-schedule",
     windowId: "nickerson-2026-09-14",
-    team: "2037 Girls",
-    teams: ["2037 Girls"],
+    team: "2037 Supernova",
+    teams: ["2037 Supernova"],
     secondTeam: null,
     coach: "Coach Legacy",
     startTime: "17:00",
@@ -657,20 +774,20 @@ test("assigned PDF practices close generic parent windows only to new claims", a
   const normalized = validatePracticeBookings([legacyBooking]);
   assert.equal(normalized.length, 1);
   assert.equal(normalized[0].windowId, "nickerson-2026-09-14");
-  assert.equal(normalized[0].team, "2037 Girls");
+  assert.equal(normalized[0].team, "2037 Supernova");
 });
 
 test("Momentum one-hour windows require one team, one hour, and hourly starts", async () => {
   const valid = await claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-01",
-    team: "2037 Girls",
+    team: "2037 Supernova",
     coach: "Coach Emma",
     startTime: "08:00",
     durationHours: 1,
   }, claimOptions("momentum-one-team"));
 
-  assert.equal(valid.booking.team, "2037 Girls");
-  assert.deepEqual(valid.booking.teams, ["2037 Girls"]);
+  assert.equal(valid.booking.team, "2037 Supernova");
+  assert.deepEqual(valid.booking.teams, ["2037 Supernova"]);
   assert.equal(valid.booking.secondTeam, null);
   assert.equal(valid.booking.endTime, "09:00");
   assert.equal(valid.booking.venue, "Momentum Sports LI");
@@ -681,7 +798,7 @@ test("Momentum one-hour windows require one team, one hour, and hourly starts", 
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-01",
-    team: "2037 Girls",
+    team: "2037 Supernova",
     coach: "Coach Emma",
     startTime: "08:00",
     durationHours: 2,
@@ -689,8 +806,8 @@ test("Momentum one-hour windows require one team, one hour, and hourly starts", 
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-01",
-    team: "2037 Girls",
-    secondTeam: "2037 Boys",
+    team: "2037 Supernova",
+    secondTeam: "2037 Wolves",
     coach: "Coach Emma",
     startTime: "08:00",
     durationHours: 1,
@@ -698,7 +815,7 @@ test("Momentum one-hour windows require one team, one hour, and hourly starts", 
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-01",
-    team: "2037 Girls",
+    team: "2037 Supernova",
     coach: "Coach Emma",
     startTime: "08:30",
     durationHours: 1,
@@ -709,16 +826,16 @@ test("Momentum shared windows require two distinct known teams for exactly two h
   const store = memoryStore();
   const first = await claimPractice(store, {
     windowId: "momentum-2026-11-07",
-    team: "2037 Boys",
-    secondTeam: "2037 Girls",
+    team: "2037 Wolves",
+    secondTeam: "2037 Supernova",
     coach: "Coach Taylor",
     startTime: "08:00",
     durationHours: 2,
   }, claimOptions("momentum-shared-first"));
 
-  assert.equal(first.booking.team, "2037 Boys");
-  assert.deepEqual(first.booking.teams, ["2037 Boys", "2037 Girls"]);
-  assert.equal(first.booking.secondTeam, "2037 Girls");
+  assert.equal(first.booking.team, "2037 Wolves");
+  assert.deepEqual(first.booking.teams, ["2037 Wolves", "2037 Supernova"]);
+  assert.equal(first.booking.secondTeam, "2037 Supernova");
   assert.equal(first.booking.endTime, "10:00");
 
   const adjacent = await claimPractice(store, {
@@ -733,7 +850,7 @@ test("Momentum shared windows require two distinct known teams for exactly two h
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-07",
-    team: "2037 Boys",
+    team: "2037 Wolves",
     coach: "Coach Taylor",
     startTime: "08:00",
     durationHours: 2,
@@ -741,8 +858,8 @@ test("Momentum shared windows require two distinct known teams for exactly two h
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-07",
-    team: "2037 Boys",
-    secondTeam: "2037 Boys",
+    team: "2037 Wolves",
+    secondTeam: "2037 Wolves",
     coach: "Coach Taylor",
     startTime: "08:00",
     durationHours: 2,
@@ -750,7 +867,7 @@ test("Momentum shared windows require two distinct known teams for exactly two h
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-07",
-    team: "2037 Boys",
+    team: "2037 Wolves",
     secondTeam: "Unknown Team",
     coach: "Coach Taylor",
     startTime: "08:00",
@@ -759,8 +876,8 @@ test("Momentum shared windows require two distinct known teams for exactly two h
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-07",
-    team: "2037 Boys",
-    secondTeam: "2037 Girls",
+    team: "2037 Wolves",
+    secondTeam: "2037 Supernova",
     coach: "Coach Taylor",
     startTime: "08:00",
     durationHours: 1,
@@ -768,8 +885,8 @@ test("Momentum shared windows require two distinct known teams for exactly two h
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-07",
-    team: "2037 Boys",
-    secondTeam: "2037 Girls",
+    team: "2037 Wolves",
+    secondTeam: "2037 Supernova",
     coach: "Coach Taylor",
     startTime: "14:00",
     durationHours: 1,
@@ -777,8 +894,8 @@ test("Momentum shared windows require two distinct known teams for exactly two h
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "momentum-2026-11-07",
-    team: "2037 Boys",
-    secondTeam: "2037 Girls",
+    team: "2037 Wolves",
+    secondTeam: "2037 Supernova",
     coach: "Coach Taylor",
     startTime: "14:00",
     durationHours: 2,
@@ -894,15 +1011,15 @@ test("same-team and same-coach overlaps are detected across different locations"
 
   const sharedPractice = {
     ...first,
-    team: "2037 Boys",
-    teams: ["2037 Boys", "2037 Girls"],
-    secondTeam: "2037 Girls",
+    team: "2037 Wolves",
+    teams: ["2037 Wolves", "2037 Supernova"],
+    secondTeam: "2037 Supernova",
   };
   assert.equal(practiceBookingsConflict(sharedPractice, {
     ...first,
     windowId: "field-b",
-    team: "2037 Girls",
-    teams: ["2037 Girls"],
+    team: "2037 Supernova",
+    teams: ["2037 Supernova"],
     secondTeam: null,
     coach: "Different Coach",
     startTime: "20:00",
@@ -914,7 +1031,7 @@ test("a practice booking can be released atomically", async () => {
   const store = memoryStore();
   await claimPractice(store, {
     windowId: "nickerson-2026-10-24",
-    team: "2034 Tsunami",
+    team: "2034 Thunder",
     coach: "Coach Brad",
     startTime: "09:00",
     durationHours: 1.5,
@@ -931,7 +1048,7 @@ test("an event-only legacy save without an ETag preserves current practice claim
   const store = memoryStore();
   await claimPractice(store, {
     windowId: "nickerson-2026-09-26",
-    team: "2032 Grizzlies",
+    team: "2032 Cannons",
     coach: "Coach Steve",
     startTime: "09:00",
     durationHours: 1,

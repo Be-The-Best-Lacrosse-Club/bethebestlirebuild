@@ -74,7 +74,7 @@
       height: 100vh;
       height: 100dvh;
       display: grid;
-      grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+      grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
       overflow: hidden;
     }
 
@@ -264,6 +264,112 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .practice-ticker {
+      min-height: 2.5rem;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: stretch;
+      border-bottom: 1px solid var(--line);
+      background: #050505;
+      overflow: hidden;
+    }
+
+    .practice-ticker-label {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1rem;
+      background: var(--red);
+      color: #fff;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .practice-ticker-pulse {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+      animation: practicePulse 1.8s ease-out infinite;
+    }
+
+    .practice-ticker-window {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, #000 1.5rem, #000 calc(100% - 1.5rem), transparent);
+    }
+
+    .practice-ticker-track {
+      width: max-content;
+      display: flex;
+      align-items: center;
+      animation: practiceTickerScroll 68s linear infinite;
+      will-change: transform;
+    }
+
+    .practice-ticker-track.static {
+      padding-left: 1rem;
+      animation: none;
+    }
+
+    .practice-ticker:hover .practice-ticker-track {
+      animation-play-state: paused;
+    }
+
+    .practice-ticker-set {
+      display: flex;
+      align-items: center;
+      gap: 1.7rem;
+      padding-right: 1.7rem;
+      white-space: nowrap;
+    }
+
+    .practice-ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      color: #e9ebee;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .practice-ticker-item::before {
+      content: "";
+      width: 0.52rem;
+      height: 0.52rem;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--team-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--team-color) 16%, transparent);
+    }
+
+    .practice-ticker-item strong {
+      color: var(--team-color);
+      font-weight: 900;
+    }
+
+    .practice-ticker-item em {
+      color: #8f959e;
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    @keyframes practiceTickerScroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes practicePulse {
+      70%, 100% { box-shadow: 0 0 0 0.45rem rgba(255, 255, 255, 0); }
     }
 
     .view-tabs {
@@ -978,6 +1084,51 @@
       overflow: hidden;
     }
 
+    .practice-notices {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .practice-notices summary {
+      min-height: 2.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.58rem 0.9rem;
+      color: #d7dae0;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .practice-notices summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .practice-notices summary::after {
+      content: "+";
+      width: 1.55rem;
+      height: 1.55rem;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .practice-notices[open] summary::after {
+      content: "−";
+    }
+
+    .practice-notices .pending-notices {
+      border-top: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
     .pending-notices {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1022,12 +1173,192 @@
 
     .practice-board-list {
       min-height: 0;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-content: start;
-      gap: 0.7rem;
-      padding: 0.8rem 0.9rem;
+      display: block;
       overflow-y: auto;
+      background: #0b0c0e;
+      scrollbar-width: thin;
+      scrollbar-color: #474b52 transparent;
+    }
+
+    .practice-agenda-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.72rem 1rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .practice-agenda-summary strong {
+      font-size: 14px;
+    }
+
+    .practice-agenda-summary span {
+      color: #aeb3bb;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .practice-agenda-day {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .practice-agenda-date {
+      display: grid;
+      grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+      gap: 0.72rem;
+      align-items: center;
+      padding: 0.62rem 1rem;
+      background: #15171a;
+    }
+
+    .practice-agenda-day-number {
+      color: var(--red);
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 2rem;
+      line-height: 0.9;
+      text-align: center;
+    }
+
+    .practice-agenda-date-copy strong,
+    .practice-agenda-date-copy span {
+      display: block;
+    }
+
+    .practice-agenda-date-copy strong {
+      font-size: 14px;
+    }
+
+    .practice-agenda-date-copy span,
+    .practice-agenda-count {
+      margin-top: 0.1rem;
+      color: #9da2aa;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .practice-agenda-events {
+      display: grid;
+    }
+
+    .practice-agenda-item {
+      min-width: 0;
+      min-height: 4.6rem;
+      display: grid;
+      grid-template-columns: 8.2rem 0.34rem minmax(0, 1fr) auto;
+      gap: 0.85rem;
+      align-items: center;
+      padding: 0.78rem 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.018);
+      transition: background 0.18s ease;
+    }
+
+    .practice-agenda-item:first-child {
+      border-top: 0;
+    }
+
+    .practice-agenda-item:hover {
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .practice-agenda-item.assigned {
+      background: linear-gradient(90deg, color-mix(in srgb, var(--team-color) 8%, transparent), transparent 46%);
+    }
+
+    .practice-agenda-time strong,
+    .practice-agenda-time span {
+      display: block;
+      line-height: 1.3;
+    }
+
+    .practice-agenda-time strong {
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .practice-agenda-time span {
+      margin-top: 0.14rem;
+      color: #aeb3bb;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .practice-agenda-color {
+      width: 0.34rem;
+      min-height: 3.15rem;
+      align-self: stretch;
+      border-radius: 999px;
+      background: var(--agenda-color);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--agenda-color) 16%, transparent);
+    }
+
+    .practice-agenda-details {
+      min-width: 0;
+    }
+
+    .practice-agenda-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.52rem;
+      flex-wrap: wrap;
+    }
+
+    .practice-agenda-title {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .practice-agenda-kind {
+      border-radius: 999px;
+      padding: 0.16rem 0.38rem;
+      color: var(--agenda-color);
+      background: color-mix(in srgb, var(--agenda-color) 14%, transparent);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .practice-agenda-meta,
+    .practice-agenda-note {
+      overflow-wrap: anywhere;
+      line-height: 1.42;
+    }
+
+    .practice-agenda-meta {
+      margin-top: 0.24rem;
+      color: #d0d3d8;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .practice-agenda-note {
+      margin-top: 0.18rem;
+      color: #949aa3;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .practice-agenda-action {
+      min-width: 8.3rem;
+      display: grid;
+      justify-items: end;
+      gap: 0.45rem;
+    }
+
+    .practice-agenda-action .btn {
+      min-width: 7.4rem;
+    }
+
+    .practice-agenda-title-row .assignment-chip,
+    .practice-agenda-action .assignment-chip,
+    .practice-agenda-action .availability-chip {
+      font-size: 10px;
     }
 
     .practice-board-divider {
@@ -1595,6 +1926,16 @@
         display: none;
       }
 
+      .practice-ticker-label {
+        padding: 0.5rem 0.7rem;
+        font-size: 14px;
+      }
+
+      .practice-ticker-set {
+        gap: 1.15rem;
+        padding-right: 1.15rem;
+      }
+
       .alert-copy {
         white-space: normal;
       }
@@ -1761,6 +2102,60 @@
         width: 100%;
       }
 
+      .practice-agenda-summary {
+        align-items: flex-start;
+        padding: 0.72rem;
+        flex-direction: column;
+      }
+
+      .practice-agenda-summary span {
+        text-align: left;
+      }
+
+      .practice-agenda-date {
+        grid-template-columns: 2.35rem minmax(0, 1fr) auto;
+        gap: 0.58rem;
+        padding: 0.62rem 0.72rem;
+      }
+
+      .practice-agenda-item {
+        min-height: 44px;
+        grid-template-columns: 5.15rem 0.28rem minmax(0, 1fr);
+        gap: 0.58rem;
+        align-items: stretch;
+        padding: 0.78rem 0.72rem;
+      }
+
+      .practice-agenda-time,
+      .practice-agenda-details {
+        align-self: center;
+      }
+
+      .practice-agenda-color {
+        width: 0.28rem;
+        min-height: 3.4rem;
+      }
+
+      .practice-agenda-item.assigned .practice-agenda-note {
+        display: none;
+      }
+
+      .practice-agenda-action {
+        min-width: 0;
+        grid-column: 3;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        justify-items: start;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .practice-agenda-action .btn {
+        min-width: 0;
+        min-height: 44px;
+      }
+
       .manage-tools {
         align-items: stretch;
         flex-direction: column;
@@ -1846,6 +2241,13 @@
       <button class="btn" id="reviewConflictsButton" type="button">Review Conflicts</button>
     </section>
 
+    <section class="practice-ticker" id="practiceTicker" aria-label="Upcoming practices">
+      <div class="practice-ticker-label"><span class="practice-ticker-pulse" aria-hidden="true"></span>Upcoming Practices</div>
+      <div class="practice-ticker-window">
+        <div class="practice-ticker-track" id="practiceTickerTrack"></div>
+      </div>
+    </section>
+
     <nav class="view-tabs" aria-label="Calendar views">
       <button class="tab-button active" type="button" data-view="wall">Season Schedule</button>
       <button class="tab-button" type="button" data-view="practice">Practice Board</button>
@@ -1877,13 +2279,13 @@
             </div>
             <div class="legend-strip" id="scheduleLegend" aria-label="Team and practice location color keys"></div>
             <div class="weekday-row" aria-hidden="true">
+              <div class="weekday">Sun</div>
               <div class="weekday">Mon</div>
               <div class="weekday">Tue</div>
               <div class="weekday">Wed</div>
               <div class="weekday">Thu</div>
               <div class="weekday">Fri</div>
               <div class="weekday">Sat</div>
-              <div class="weekday">Sun</div>
             </div>
             <div class="calendar-grid" id="calendarGrid"></div>
             <div class="mobile-agenda" id="mobileAgenda"></div>
@@ -1925,9 +2327,14 @@
           <div class="section-header">
             <div class="section-title">
               <h2>Practice Board</h2>
-              <p>Assign coaches to the PDF team schedule, then use the remaining open field inventory.</p>
+              <p>Google-style agenda grouped by date and time. Assign coaches or switch to the open field inventory.</p>
             </div>
             <div class="practice-board-controls">
+              <select class="manage-filter" id="practiceTypeFilter" aria-label="Choose practice schedule items">
+                <option value="assigned">Team practices</option>
+                <option value="open">Open field times</option>
+                <option value="all">All practice times</option>
+              </select>
               <select class="manage-filter" id="practiceLocationFilter" aria-label="Filter practice windows by location">
                 <option value="all">All active locations</option>
                 <option value="seaford">Seaford</option>
@@ -1939,24 +2346,27 @@
               <button class="btn primary" id="nextOpenPracticeButton" type="button">Next Open Window</button>
             </div>
           </div>
-          <div class="pending-notices" aria-label="Practice facility status">
-            <div class="pending-notice confirmed">
-              <strong>Point Lookout — confirmed</strong>
-              <span>Monday/Wednesday 6:00–8:00 PM and approved Saturdays 8:00–10:00 AM. Sep. 19 is unavailable for the car show.</span>
+          <details class="practice-notices">
+            <summary><span>Field status and permit notes</span><span>4 notes</span></summary>
+            <div class="pending-notices" aria-label="Practice facility status">
+              <div class="pending-notice confirmed">
+                <strong>Point Lookout — confirmed</strong>
+                <span>Monday/Wednesday 6:00–8:00 PM and approved Saturdays 8:00–10:00 AM. Sep. 19 is unavailable for the car show.</span>
+              </div>
+              <div class="pending-notice confirmed">
+                <strong>Practice Times PDF — Sept. 8–24</strong>
+                <span>53 team practice assignments are loaded first. Each needs a coach; incomplete or permit-adjusted times are clearly marked.</span>
+              </div>
+              <div class="pending-notice">
+                <strong>Stimson — team assignments pending</strong>
+                <span>PDF assignments are visible for staff planning. Sunday dates are outside approved master inventory; Monday end times remain “Dark.”</span>
+              </div>
+              <div class="pending-notice confirmed">
+                <strong>Momentum Sports LI — winter rotation confirmed</strong>
+                <span>10 Dunton Avenue, Deer Park. Weekends 8:00 AM–3:00 PM. Pattern 1 uses one-hour, one-team blocks; Pattern 2 uses two-hour shared blocks requiring two teams.</span>
+              </div>
             </div>
-            <div class="pending-notice confirmed">
-              <strong>Practice Times PDF — Sept. 8–24</strong>
-              <span>53 team practice assignments are loaded first. Each needs a coach; incomplete or permit-adjusted times are clearly marked.</span>
-            </div>
-            <div class="pending-notice">
-              <strong>Stimson — team assignments pending</strong>
-              <span>PDF assignments are visible for staff planning. Sunday dates are outside approved master inventory; Monday end times remain “Dark.”</span>
-            </div>
-            <div class="pending-notice confirmed">
-              <strong>Momentum Sports LI — winter rotation confirmed</strong>
-              <span>10 Dunton Avenue, Deer Park. Weekends 8:00 AM–3:00 PM. Pattern 1 uses one-hour, one-team blocks; Pattern 2 uses two-hour shared blocks requiring two teams.</span>
-            </div>
-          </div>
+          </details>
           <div class="legend-strip" id="practiceLegend" aria-label="Practice location and team color keys"></div>
           <div class="practice-board-list" id="practiceBoardList"></div>
         </div>
@@ -2182,19 +2592,13 @@
     (function () {
       "use strict";
 
-      var DATA_VERSION = "staff-2026-27-v1";
+      var DATA_VERSION = "staff-2026-27-v2";
       var TEAM_META = {
         "2028 Black": {
           short: "28 BLACK",
           label: "2028 Black • Boys",
           color: "#FF5A64",
           calendar: "puo7egv2vdg3ua0t79b7n1mfl6la7veb@import.calendar.google.com"
-        },
-        "2029 Chrome": {
-          short: "29 CHROME",
-          label: "2029 Chrome • Boys",
-          color: "#E8EDF2",
-          calendar: ""
         },
         "2030 Rage": {
           short: "30 RAGE",
@@ -2207,12 +2611,6 @@
           label: "2031 Carnage • Boys",
           color: "#FF6FAE",
           calendar: "nmt2jvepbse08dqpgukdfmm2d6jkpeoa@import.calendar.google.com"
-        },
-        "2032 Grizzlies": {
-          short: "32 GRIZZLIES",
-          label: "2032 Grizzlies • Boys",
-          color: "#C7A27C",
-          calendar: ""
         },
         "2032 Cannons": {
           short: "32 CANNONS",
@@ -2250,28 +2648,10 @@
           color: "#42E6B2",
           calendar: "0ld2t5d0m1bn5iu72hnu27kb8eblcv9d@import.calendar.google.com"
         },
-        "Boys Futures": {
-          short: "BOYS FUTURES",
-          label: "Boys Futures",
-          color: "#90F1EF",
-          calendar: ""
-        },
-        "2037 Boys": {
-          short: "37 BOYS",
-          label: "2037 Boys",
+        "2037 Wolves": {
+          short: "37 WOLVES",
+          label: "2037 Wolves • Boys",
           color: "#F4B860",
-          calendar: ""
-        },
-        "2030 Reign": {
-          short: "30 REIGN",
-          label: "2030 Reign • Girls",
-          color: "#D9A5FF",
-          calendar: ""
-        },
-        "2030 Tidal Wave": {
-          short: "30 TIDAL WAVE",
-          label: "2030 Tidal Wave • Girls",
-          color: "#5CE1C8",
           calendar: ""
         },
         "2031 Cyclones": {
@@ -2298,12 +2678,6 @@
           color: "#FFF06A",
           calendar: "sf7qn45t95cbjgphk7u27m0p2fiqe385@import.calendar.google.com"
         },
-        "2034 Tsunami": {
-          short: "34 TSUNAMI",
-          label: "2034 Tsunami • Girls",
-          color: "#70D6FF",
-          calendar: ""
-        },
         "2035 Hurricanes": {
           short: "35 HURRICANES",
           label: "2035 Hurricanes • Girls",
@@ -2322,19 +2696,23 @@
           color: "#C7F2FF",
           calendar: "7a5d90glslocqc5i4njvsqsh84krv7or@import.calendar.google.com"
         },
-        "Girls Futures": {
-          short: "GIRLS FUTURES",
-          label: "Girls Futures",
-          color: "#B9F18C",
-          calendar: ""
-        },
-        "2037 Girls": {
-          short: "37 GIRLS",
-          label: "2037 Girls",
+        "2037 Supernova": {
+          short: "37 SUPERNOVA",
+          label: "2037 Supernova • Girls",
           color: "#F7A8FF",
           calendar: ""
         }
       };
+
+      var TEAM_NAME_ALIASES = {
+        "2037 Boys": "2037 Wolves",
+        "2037 Girls": "2037 Supernova"
+      };
+
+      function canonicalTeamName(team) {
+        var name = typeof team === "string" ? team.trim() : "";
+        return TEAM_NAME_ALIASES[name] || name;
+      }
 
       var STATUS_META = {
         paid: { label: "Paid / Locked", score: 5, locked: true },
@@ -2604,13 +2982,15 @@
 
         var seafordWeekdayNote = "Adjusted to Kevin-approved 7:15–9:15 PM; the PDF listed 7:00–9:00 PM.";
         add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], [
-          { team: "2036 Avalanche", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
         ], "adjusted", seafordWeekdayNote);
         add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
           { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
         ], "adjusted", seafordWeekdayNote);
+        add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
+          { team: "2036 Avalanche", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", durationHours: 1 }
+        ], "confirmed", "Updated by Dan to Wednesdays 7:15–8:15 PM inside the Kevin-approved Seaford field window.");
         add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24"], [
           { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
@@ -2639,10 +3019,12 @@
         add("nickerson", ["2026-09-12", "2026-09-19"], [
           { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", durationHours: 2 },
-          { team: "2036 Avalanche", startTime: "11:00", endTime: "12:30", timeLabel: "11:00 AM–12:30 PM", durationHours: 1.5 },
           { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", durationHours: 1.5 },
           { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 }
         ], "confirmed", "Assigned in the Practice Times PDF.");
+        add("nickerson", ["2026-09-12", "2026-09-19"], [
+          { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", durationHours: 1.25 }
+        ], "pending", "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.");
 
         add("point-lookout", ["2026-09-14", "2026-09-21"], [
           { team: "2033 Storm", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
@@ -2732,6 +3114,7 @@
         return (Array.isArray(items) ? items : []).map(function (event) {
           var canonical = DEFAULT_EVENTS.find(function (defaultEvent) { return defaultEvent.id === event.id; });
           var normalized = Object.assign({}, event, {
+            team: canonicalTeamName(event.team),
             time: typeof event.time === "string" ? event.time : "",
             offIsland: typeof event.offIsland === "boolean" ? event.offIsland : Boolean(canonical && canonical.offIsland)
           });
@@ -2740,6 +3123,8 @@
             normalized.end = canonical.end;
           }
           return normalized;
+        }).filter(function (event) {
+          return Boolean(TEAM_META[event.team]);
         });
       }
 
@@ -2758,12 +3143,14 @@
               durationHours: windowItem.requiredDurationHours == null ? null : Number(windowItem.requiredDurationHours)
             });
           }
-          var teams = Array.isArray(booking.teams) ? booking.teams.filter(function (team) {
-            return typeof team === "string" && TEAM_META[team];
+          var teams = Array.isArray(booking.teams) ? booking.teams.map(canonicalTeamName).filter(function (team) {
+            return Boolean(TEAM_META[team]);
           }) : [];
-          if (!teams.length && typeof booking.team === "string" && TEAM_META[booking.team]) teams.push(booking.team);
-          if (typeof booking.secondTeam === "string" && TEAM_META[booking.secondTeam] && teams.indexOf(booking.secondTeam) < 0) {
-            teams.push(booking.secondTeam);
+          var primaryTeam = canonicalTeamName(booking.team);
+          var secondTeam = canonicalTeamName(booking.secondTeam);
+          if (!teams.length && TEAM_META[primaryTeam]) teams.push(primaryTeam);
+          if (TEAM_META[secondTeam] && teams.indexOf(secondTeam) < 0) {
+            teams.push(secondTeam);
           }
           teams = teams.filter(function (team, index) { return teams.indexOf(team) === index; }).slice(0, 2);
           return Object.assign({}, booking, {
@@ -3167,6 +3554,58 @@
         symbol.textContent = "✓";
       }
 
+      function renderPracticeTicker() {
+        var track = document.getElementById("practiceTickerTrack");
+        var today = isoDate(new Date());
+        var upcomingAssigned = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.date >= today;
+        }).map(function (windowItem) {
+          return {
+            windowItem: windowItem,
+            booking: assignedPracticeBooking(windowItem),
+            teams: windowItem.assignedTeams.slice(),
+            startTime: windowItem.startTime,
+            timeLabel: assignedPracticeTime(windowItem)
+          };
+        });
+        var upcomingClaimed = practiceBookings.map(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          if (!windowItem || isAssignedPractice(windowItem) || windowItem.date < today) return null;
+          return {
+            windowItem: windowItem,
+            booking: booking,
+            teams: bookingTeams(booking),
+            startTime: booking.startTime,
+            timeLabel: formatClock(booking.startTime) + "–" + formatClock(minutesToClock(bookingEndMinutes(booking)))
+          };
+        }).filter(Boolean);
+        var upcoming = upcomingAssigned.concat(upcomingClaimed).sort(function (a, b) {
+          return a.windowItem.date.localeCompare(b.windowItem.date) || a.startTime.localeCompare(b.startTime) ||
+            a.teams.join("|").localeCompare(b.teams.join("|"));
+        }).slice(0, 16);
+
+        if (!upcoming.length) {
+          track.classList.add("static");
+          track.innerHTML = "<div class='practice-ticker-set'><span class='practice-ticker-item' style='--team-color:#D22630'>" +
+            "No upcoming team practices are loaded.</span></div>";
+          return;
+        }
+
+        track.classList.remove("static");
+        var items = upcoming.map(function (item) {
+          var teams = item.teams.map(function (team) { return TEAM_META[team]; }).filter(Boolean);
+          var teamColor = teams.length ? teams[0].color : "#D22630";
+          var teamLabel = teams.length ? teams.map(function (team) { return team.short; }).join(" + ") : "TEAM PRACTICE";
+          return "<span class='practice-ticker-item' style='--team-color:" + teamColor + "'><strong>" +
+            escapeHtml(teamLabel) + "</strong><span>" +
+            escapeHtml(formatDate(item.windowItem.date, { weekday: "short", month: "short", day: "numeric" })) + " • " +
+            escapeHtml(item.timeLabel) + " • " + escapeHtml(item.windowItem.venue) +
+            "</span><em>" + escapeHtml(item.booking ? "Coach " + item.booking.coach : "Coach Needed") + "</em></span>";
+        }).join("");
+        track.innerHTML = "<div class='practice-ticker-set'>" + items + "</div>" +
+          "<div class='practice-ticker-set' aria-hidden='true'>" + items + "</div>";
+      }
+
       function renderTeamChrome() {
         var filterHost = document.getElementById("teamFilters");
         var footerHost = document.getElementById("footerTeams");
@@ -3240,8 +3679,8 @@
         var showTournaments = typeFilter !== "practices";
         var showPractices = typeFilter !== "tournaments";
         var first = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1, 12);
-        var mondayOffset = (first.getDay() + 6) % 7;
-        var gridStart = addDays(first, -mondayOffset);
+        var sundayOffset = first.getDay();
+        var gridStart = addDays(first, -sundayOffset);
         var todayIso = isoDate(new Date());
         var conflicts = getConflictGroups();
         var html = [];
@@ -3471,80 +3910,123 @@
       function renderPracticeBoard() {
         var host = document.getElementById("practiceBoardList");
         var locationFilter = document.getElementById("practiceLocationFilter").value;
+        var typeFilter = document.getElementById("practiceTypeFilter").value;
+        document.getElementById("nextOpenPracticeButton").textContent = typeFilter === "assigned"
+          ? "Next Coach Needed"
+          : typeFilter === "open" ? "Next Open Field" : "Next Available";
         var assignedWindows = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
-          return locationFilter === "all" || windowItem.locationKey === locationFilter;
-        }).sort(function (a, b) {
-          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) ||
-            a.locationKey.localeCompare(b.locationKey) || assignedPracticeTeam(a).localeCompare(assignedPracticeTeam(b));
+          return typeFilter !== "open" && (locationFilter === "all" || windowItem.locationKey === locationFilter);
         });
         var inventoryWindows = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) {
-          return isOpenInventoryWindow(windowItem) && (locationFilter === "all" || windowItem.locationKey === locationFilter);
+          return typeFilter !== "assigned" && isOpenInventoryWindow(windowItem) &&
+            (locationFilter === "all" || windowItem.locationKey === locationFilter);
         });
 
-        var assignedHtml = assignedWindows.map(function (windowItem) {
-          var location = PRACTICE_LOCATION_META[windowItem.locationKey];
-          var assignedTeam = assignedPracticeTeam(windowItem);
-          var team = TEAM_META[assignedTeam];
-          var booking = assignedPracticeBooking(windowItem);
-          var coachLabel = booking ? "Coach " + booking.coach : "Coach Needed";
-          return "<article class='practice-window-card assigned' data-practice-card='" + escapeHtml(windowItem.id) +
-            "' style='--location-color:" + location.color + ";--team-color:" + team.color + "'><div class='practice-window-header'><div>" +
-            "<div class='practice-window-title'>" + escapeHtml(formatDate(windowItem.date, { weekday: "short", month: "short", day: "numeric" })) +
-            "</div><div class='assigned-team-line'>" + escapeHtml(team.label) + "</div></div><span class='assignment-chip " +
-            escapeHtml(windowItem.assignmentStatus) + "'>" + escapeHtml(assignmentStatusLabel(windowItem.assignmentStatus)) +
-            "</span></div><div class='practice-window-meta'>" + escapeHtml(practiceWindowLocation(windowItem)) + " • " +
-            escapeHtml(assignedPracticeTime(windowItem)) + "</div><div class='practice-window-meta'>" + escapeHtml(windowItem.note) +
-            "</div><div class='booking-list'><div class='booking-row' style='--team-color:" + team.color + "'><div><span class='booking-team'>" +
-            escapeHtml(coachLabel) + "</span><span class='booking-coach'>" + escapeHtml(windowItem.source) +
-            "</span></div><span class='assignment-chip " + (booking ? "coach-assigned" : "coach-needed") + "'>" +
-            escapeHtml(booking ? "Assigned" : "Coach Needed") + "</span></div></div><div class='practice-window-actions'><span class='practice-window-meta'>" +
-            escapeHtml(location.label + " • Team time is locked") + "</span><button class='btn subtle assign-coach' type='button' data-window-id='" +
-            escapeHtml(windowItem.id) + "'" + (booking ? " disabled" : "") + ">" + (booking ? "Coach Assigned" : "Assign Coach") +
-            "</button></div></article>";
+        var rows = assignedWindows.map(function (windowItem) {
+          return { kind: "assigned", date: windowItem.date, startTime: windowItem.startTime, value: windowItem };
+        }).concat(inventoryWindows.map(function (windowItem) {
+          return { kind: "open", date: windowItem.date, startTime: windowItem.startTime, value: windowItem };
+        })).sort(function (a, b) {
+          var aTeam = a.kind === "assigned" ? assignedPracticeTeam(a.value) : "";
+          var bTeam = b.kind === "assigned" ? assignedPracticeTeam(b.value) : "";
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) ||
+            a.value.venue.localeCompare(b.value.venue) || aTeam.localeCompare(bTeam) || a.kind.localeCompare(b.kind);
+        });
+
+        var coachNeededCount = assignedWindows.filter(function (windowItem) {
+          return !assignedPracticeBooking(windowItem);
+        }).length;
+        var summaryLabel = typeFilter === "assigned"
+          ? assignedWindows.length + " team practice" + (assignedWindows.length === 1 ? "" : "s")
+          : typeFilter === "open"
+            ? inventoryWindows.length + " open field window" + (inventoryWindows.length === 1 ? "" : "s")
+            : rows.length + " practice item" + (rows.length === 1 ? "" : "s");
+        var summaryDetail = typeFilter === "open"
+          ? "Chronological field inventory"
+          : coachNeededCount + " Coach Needed" + (typeFilter === "all" ? " • " + inventoryWindows.length + " open fields" : "");
+
+        if (!rows.length) {
+          host.innerHTML = "<div class='practice-agenda-summary'><strong>" + escapeHtml(summaryLabel) +
+            "</strong><span>" + escapeHtml(summaryDetail) + "</span></div><div class='empty'>No practice times match these filters.</div>";
+          return;
+        }
+
+        var groupedRows = [];
+        rows.forEach(function (row) {
+          var current = groupedRows[groupedRows.length - 1];
+          if (!current || current.date !== row.date) {
+            current = { date: row.date, rows: [] };
+            groupedRows.push(current);
+          }
+          current.rows.push(row);
+        });
+
+        var agendaHtml = groupedRows.map(function (group) {
+          var date = parseDate(group.date);
+          var rowHtml = group.rows.map(function (row) {
+            var windowItem = row.value;
+            var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+
+            if (row.kind === "assigned") {
+              var assignedTeam = assignedPracticeTeam(windowItem);
+              var team = TEAM_META[assignedTeam];
+              var booking = assignedPracticeBooking(windowItem);
+              var endLabel = windowItem.endTime
+                ? formatClock(windowItem.endTime)
+                : (windowItem.timeLabel && windowItem.timeLabel.indexOf("Dark") >= 0 ? "Dark" : "End time needed");
+              return "<article class='practice-agenda-item assigned' data-practice-card='" + escapeHtml(windowItem.id) +
+                "' data-practice-agenda-item='assigned' style='--team-color:" + team.color + ";--agenda-color:" + team.color + "'>" +
+                "<div class='practice-agenda-time'><strong>" + escapeHtml(formatClock(windowItem.startTime)) +
+                "</strong><span>to " + escapeHtml(endLabel) + "</span></div><span class='practice-agenda-color' aria-hidden='true'></span>" +
+                "<div class='practice-agenda-details'><div class='practice-agenda-title-row'><span class='practice-agenda-title'>" +
+                escapeHtml(team.label) + "</span><span class='practice-agenda-kind'>Team Practice</span><span class='assignment-chip " +
+                escapeHtml(windowItem.assignmentStatus) + "'>" + escapeHtml(assignmentStatusLabel(windowItem.assignmentStatus)) + "</span></div>" +
+                "<div class='practice-agenda-meta'>" + escapeHtml(practiceWindowLocation(windowItem)) + "</div>" +
+                "<div class='practice-agenda-note'>" + escapeHtml(windowItem.note) +
+                "</div></div><div class='practice-agenda-action'><span class='assignment-chip " +
+                (booking ? "coach-assigned" : "coach-needed") + "'>" + escapeHtml(booking ? "Coach " + booking.coach : "Coach Needed") +
+                "</span><button class='btn subtle assign-coach' type='button' data-window-id='" + escapeHtml(windowItem.id) + "'" +
+                (booking ? " disabled" : "") + ">" + (booking ? "Assigned" : "Assign Coach") + "</button></div></article>";
+            }
+
+            var availability = practiceAvailability(windowItem);
+            var bookings = bookingsForWindow(windowItem.id);
+            var claimable = ALLOWED_DURATIONS.some(function (duration) {
+              return availableStarts(windowItem, duration).length > 0;
+            });
+            var bookingSummary = bookings.length ? bookings.map(function (booking) {
+              var teamNames = bookingTeams(booking).map(function (teamName) {
+                return TEAM_META[teamName].short;
+              }).join(" + ");
+              return teamNames + " • Coach " + booking.coach + " • " + formatClock(booking.startTime) + "–" +
+                formatClock(minutesToClock(bookingEndMinutes(booking)));
+            }).join(" | ") : "No teams booked yet";
+            var inventoryMeta = (windowItem.approval === "confirmed" ? "Confirmed" : "Available week-by-week") +
+              (windowItem.patternLabel ? " • " + windowItem.patternLabel : "");
+            return "<article class='practice-agenda-item' data-practice-card='" + escapeHtml(windowItem.id) +
+              "' data-practice-agenda-item='open' style='--agenda-color:" + location.color + "'>" +
+              "<div class='practice-agenda-time'><strong>" + escapeHtml(formatClock(windowItem.startTime)) +
+              "</strong><span>to " + escapeHtml(formatClock(windowItem.endTime)) + "</span></div>" +
+              "<span class='practice-agenda-color' aria-hidden='true'></span><div class='practice-agenda-details'>" +
+              "<div class='practice-agenda-title-row'><span class='practice-agenda-title'>" + escapeHtml(practiceWindowLabel(windowItem)) +
+              "</span><span class='practice-agenda-kind'>Open Field</span></div><div class='practice-agenda-meta'>" +
+              escapeHtml(practiceWindowLocation(windowItem) + " • " + inventoryMeta) + "</div><div class='practice-agenda-note'>" +
+              escapeHtml(bookingSummary) + "</div></div><div class='practice-agenda-action'><span class='availability-chip " +
+              availability.state + "'>" + escapeHtml(availability.label) + "</span><button class='btn subtle claim-window' type='button' data-window-id='" +
+              escapeHtml(windowItem.id) + "'" + (claimable ? "" : " disabled") + ">" + (claimable ? "Claim Time" : "Full") +
+              "</button></div></article>";
+          }).join("");
+
+          return "<section class='practice-agenda-day' data-practice-date='" + escapeHtml(group.date) + "'>" +
+            "<div class='practice-agenda-date'><span class='practice-agenda-day-number'>" + date.getDate() + "</span>" +
+            "<div class='practice-agenda-date-copy'><strong>" + escapeHtml(formatDate(group.date, { weekday: "long" })) +
+            "</strong><span>" + escapeHtml(formatDate(group.date, { month: "long", year: "numeric" })) +
+            "</span></div><span class='practice-agenda-count'>" + group.rows.length + " item" + (group.rows.length === 1 ? "" : "s") +
+            "</span></div><div class='practice-agenda-events'>" + rowHtml + "</div></section>";
         }).join("");
 
-        var inventoryHtml = inventoryWindows.map(function (windowItem) {
-          var location = PRACTICE_LOCATION_META[windowItem.locationKey];
-          var availability = practiceAvailability(windowItem);
-          var bookings = bookingsForWindow(windowItem.id);
-          var bookingRows = bookings.length ? bookings.map(function (booking) {
-            var team = TEAM_META[booking.team];
-            return "<div class='booking-row' style='--team-color:" + team.color + "'><div>" + bookingTeamBadges(booking) +
-              "<span class='booking-coach'>Coach: " + escapeHtml(booking.coach) +
-              "</span></div><strong>" + escapeHtml(formatClock(booking.startTime) + "–" +
-              formatClock(minutesToClock(bookingEndMinutes(booking)))) + "</strong></div>";
-          }).join("") : "<div class='empty'>No team has claimed this window.</div>";
-          var claimable = ALLOWED_DURATIONS.some(function (duration) {
-            return availableStarts(windowItem, duration).length > 0;
-          });
-          var freeHours = Math.round(availability.freeMinutes / 30) / 2;
-          var freeLabel = availability.state === "full" && availability.freeMinutes > 0
-            ? freeHours + "-hour remainder unavailable for this pattern"
-            : freeHours + " " + (freeHours === 1 ? "hour" : "hours") + " unclaimed";
-          return "<article class='practice-window-card' data-practice-card='" + escapeHtml(windowItem.id) +
-            "' style='--location-color:" + location.color + "'><div class='practice-window-header'><div><div class='practice-window-title'>" +
-            escapeHtml(formatDate(windowItem.date, { weekday: "short", month: "short", day: "numeric" })) + "</div><div class='practice-window-meta'>" +
-            escapeHtml(practiceWindowLocation(windowItem)) + " • " + escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)) +
-            "</div></div><span class='availability-chip " + availability.state + "'>" + escapeHtml(availability.label) +
-            "</span></div><div class='practice-window-meta'>" + escapeHtml(windowItem.approval === "confirmed" ? "Confirmed" : "Available week-by-week") +
-            " • " + (windowItem.patternLabel ? "<strong>" + escapeHtml(windowItem.patternLabel) + "</strong> • " : "") +
-            escapeHtml(windowItem.note) + "</div><div class='booking-list'>" + bookingRows +
-            "</div><div class='practice-window-actions'><span class='practice-window-meta'>" +
-            escapeHtml(freeLabel) + "</span><button class='btn subtle claim-window' type='button' data-window-id='" +
-            escapeHtml(windowItem.id) + "'" + (claimable ? "" : " disabled") + ">" + (claimable ? "Claim Time" : "Full") + "</button></div></article>";
-        }).join("");
-
-        var assignedSection = assignedWindows.length
-          ? "<div class='practice-board-divider'>Assigned Team Practices <span>" + assignedWindows.length + " total • " +
-            assignedWindows.filter(function (windowItem) { return !assignedPracticeBooking(windowItem); }).length + " Coach Needed</span></div>" + assignedHtml
-          : "<div class='practice-board-divider'>Assigned Team Practices <span>0 at this location</span></div>" +
-            "<div class='empty'>No PDF team assignments match this location.</div>";
-        var inventorySection = inventoryWindows.length
-          ? "<div class='practice-board-divider'>Remaining Open Field Inventory <span>" + inventoryWindows.length +
-            " field windows</span></div>" + inventoryHtml
-          : "<div class='practice-board-divider'>Remaining Open Field Inventory <span>0 at this location</span></div>" +
-            "<div class='empty'>No additional field windows are open at this location.</div>";
-        host.innerHTML = assignedSection + inventorySection;
+        host.innerHTML = "<div class='practice-agenda-summary'><strong>" + escapeHtml(summaryLabel) +
+          "</strong><span>" + escapeHtml(summaryDetail) + "</span></div>" + agendaHtml;
 
         host.querySelectorAll(".assign-coach, .claim-window").forEach(function (button) {
           button.addEventListener("click", function () { openClaimDialog(button.getAttribute("data-window-id")); });
@@ -3650,6 +4132,7 @@
 
       function renderAll() {
         renderAlert();
+        renderPracticeTicker();
         renderMonth();
         renderSidebar();
         renderPracticeBoard();
@@ -3966,7 +4449,7 @@
       function refreshLiveFrame(showMessage) {
         var params = [
           "height=800",
-          "wkst=2",
+          "wkst=1",
           "bgcolor=%230b0b0b",
           "ctz=America%2FNew_York",
           "mode=AGENDA",
@@ -4076,7 +4559,7 @@
             var data = JSON.parse(reader.result);
             var imported = Array.isArray(data) ? data : data.events;
             if (!Array.isArray(imported) || !imported.every(function (event) {
-              return event && TEAM_META[event.team] && event.title && STATUS_META[event.status];
+              return event && TEAM_META[canonicalTeamName(event.team)] && event.title && STATUS_META[event.status];
             })) {
               throw new Error("Invalid calendar backup");
             }
@@ -4136,18 +4619,22 @@
       function jumpToNextOpenPractice() {
         var today = isoDate(new Date());
         var locationFilter = document.getElementById("practiceLocationFilter").value;
-        var next = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+        var typeFilter = document.getElementById("practiceTypeFilter").value;
+        var nextAssigned = typeFilter === "open" ? null : ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
           return (locationFilter === "all" || windowItem.locationKey === locationFilter) && windowItem.date >= today &&
             !assignedPracticeBooking(windowItem);
         }).sort(function (a, b) {
           return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.id.localeCompare(b.id);
-        })[0] || MASTER_PRACTICE_WINDOWS.find(function (windowItem) {
+        })[0];
+        var nextInventory = typeFilter === "assigned" ? null : MASTER_PRACTICE_WINDOWS.find(function (windowItem) {
           return (locationFilter === "all" || windowItem.locationKey === locationFilter) && windowItem.date >= today &&
-            isOpenInventoryWindow(windowItem) &&
-            ALLOWED_DURATIONS.some(function (duration) {
-            return availableStarts(windowItem, duration).length > 0;
-          });
+            isOpenInventoryWindow(windowItem) && ALLOWED_DURATIONS.some(function (duration) {
+              return availableStarts(windowItem, duration).length > 0;
+            });
         });
+        var next = [nextAssigned, nextInventory].filter(Boolean).sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.id.localeCompare(b.id);
+        })[0];
         if (!next) {
           showToast("No claimable practice window remains.");
           return;
@@ -4171,6 +4658,16 @@
           return PRACTICE_LOCATION_META[key].color.toUpperCase();
         });
         var linkedCalendars = Object.keys(TEAM_META).filter(function (team) { return Boolean(TEAM_META[team].calendar); });
+        var activeTeams = new Set(Object.keys(TEAM_META));
+        var weekdayOrder = Array.from(document.querySelectorAll(".weekday")).map(function (weekday) {
+          return weekday.textContent.trim();
+        });
+        var calendarGridDates = Array.from(document.querySelectorAll("#calendarGrid .day")).map(function (day) {
+          return day.getAttribute("data-date");
+        });
+        var practiceAgendaDates = Array.from(document.querySelectorAll("#practiceBoardList [data-practice-date]")).map(function (day) {
+          return day.getAttribute("data-practice-date");
+        });
         var allIds = events.map(function (event) { return event.id; })
           .concat(PRACTICE_WINDOWS.map(function (windowItem) { return windowItem.id; }))
           .concat(practiceBookings.map(function (booking) { return booking.id; }));
@@ -4254,9 +4751,21 @@
           allEventsUseKnownTeams: events.every(function (event) { return Boolean(TEAM_META[event.team]); }),
           validBookings: validBookings,
           allowedDurationsExact: JSON.stringify(ALLOWED_DURATIONS) === JSON.stringify([1, 1.5, 2]),
-          seafordStartLattice: availableStarts(seaford[0], 1).slice(0, 3).join(",") === "19:15,19:45,20:15",
+          seafordStartLattice: [0, 30, 60].map(function (offset) {
+            return minutesToClock(toMinutes(seaford[0].startTime) + offset);
+          }).join(",") === "19:15,19:45,20:15",
           teamCount: Object.keys(TEAM_META).length,
           linkedCalendarCount: linkedCalendars.length,
+          activeRosterExact: ["2037 Wolves", "2037 Supernova"].every(function (team) { return activeTeams.has(team); }) &&
+            ["2029 Chrome", "2032 Grizzlies", "Boys Futures", "2030 Reign", "2030 Tidal Wave", "2034 Tsunami", "Girls Futures",
+              "2037 Boys", "2037 Girls"].every(function (team) { return !activeTeams.has(team); }),
+          sundayFirstCalendar: weekdayOrder.join(",") === "Sun,Mon,Tue,Wed,Thu,Fri,Sat" &&
+            calendarGridDates.length === 42 && parseDate(calendarGridDates[0]).getDay() === 0 &&
+            parseDate(calendarGridDates[6]).getDay() === 6,
+          practiceAgendaChronological: practiceAgendaDates.every(function (date, index) {
+            return index === 0 || practiceAgendaDates[index - 1] < date;
+          }),
+          practiceTickerRendered: document.querySelectorAll("#practiceTickerTrack .practice-ticker-item").length > 0,
           correctedGirlsDates: events.some(function (event) { return event.id === "g31-apex-fall" && event.start === "2026-10-04"; }) &&
             ["g31-queen-fall", "g32-queen-fall", "g33-queen-fall"].every(function (id) {
               return events.some(function (event) { return event.id === id && event.start === "2026-10-25"; });
@@ -4273,10 +4782,10 @@
           result.assignedStimsonCount === 10 &&
           result.assignedNickersonCount === 12 &&
           result.assignedPointLookoutCount === 7 &&
-          result.assignedAdjustedCount === 18 &&
+          result.assignedAdjustedCount === 15 &&
           result.assignedNeedsTimeCount === 4 &&
-          result.assignedPendingCount === 12 &&
-          result.assignedConfirmedCount === 19 &&
+          result.assignedPendingCount === 14 &&
+          result.assignedConfirmedCount === 20 &&
           result.assignedNullEndCount === 4 &&
           result.closedParentWindowCount === 19 &&
           result.assignedSchemaValid &&
@@ -4303,8 +4812,12 @@
           result.validBookings &&
           result.allowedDurationsExact &&
           result.seafordStartLattice &&
-          result.teamCount === 25 &&
+          result.teamCount === 18 &&
           result.linkedCalendarCount === 14 &&
+          result.activeRosterExact &&
+          result.sundayFirstCalendar &&
+          result.practiceAgendaChronological &&
+          result.practiceTickerRendered &&
           result.correctedGirlsDates;
         return result;
       }
@@ -4330,6 +4843,7 @@
         });
         document.getElementById("nextEventButton").addEventListener("click", jumpToNextEvent);
         document.getElementById("nextOpenPracticeButton").addEventListener("click", jumpToNextOpenPractice);
+        document.getElementById("practiceTypeFilter").addEventListener("change", renderPracticeBoard);
         document.getElementById("practiceLocationFilter").addEventListener("change", renderPracticeBoard);
         document.getElementById("scheduleTypeFilter").addEventListener("change", renderMonth);
         document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
@@ -4444,6 +4958,19 @@
           getPracticeBookings: function () { return JSON.parse(JSON.stringify(practiceBookings)); },
           getConflicts: function () { return JSON.parse(JSON.stringify(getConflictGroups())); },
           getCurrentMonth: function () { return isoDate(viewDate); },
+          getWeekdayOrder: function () {
+            return Array.from(document.querySelectorAll(".weekday")).map(function (weekday) { return weekday.textContent.trim(); });
+          },
+          getCalendarGridDates: function () {
+            return Array.from(document.querySelectorAll("#calendarGrid .day")).map(function (day) {
+              return day.getAttribute("data-date");
+            });
+          },
+          getPracticeAgendaDates: function () {
+            return Array.from(document.querySelectorAll("#practiceBoardList [data-practice-date]")).map(function (day) {
+              return day.getAttribute("data-practice-date");
+            });
+          },
           runSelfTest: runSelfTest
         };
       }

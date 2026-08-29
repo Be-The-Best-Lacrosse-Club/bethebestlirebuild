@@ -24,33 +24,39 @@ const MAX_ATOMIC_ATTEMPTS = 3;
 
 export const KNOWN_TEAMS = Object.freeze([
   "2028 Black",
-  "2029 Chrome",
   "2030 Rage",
   "2031 Carnage",
-  "2032 Grizzlies",
   "2032 Cannons",
   "2033 Renegades",
   "2034 Venom",
   "2035 Bombers",
   "2036 Fury",
   "2036 Dawgs",
-  "Boys Futures",
-  "2037 Boys",
-  "2030 Reign",
-  "2030 Tidal Wave",
+  "2037 Wolves",
   "2031 Cyclones",
   "2032 Riptide",
   "2033 Storm",
   "2034 Thunder",
-  "2034 Tsunami",
   "2035 Hurricanes",
   "2035 Tornadoes",
   "2036 Avalanche",
-  "Girls Futures",
-  "2037 Girls",
+  "2037 Supernova",
 ]);
 
 const KNOWN_TEAM_SET = new Set(KNOWN_TEAMS);
+const TEAM_ALIASES = Object.freeze({
+  "2037 Boys": "2037 Wolves",
+  "2037 Girls": "2037 Supernova",
+});
+const RETIRED_TEAM_SET = new Set([
+  "2029 Chrome",
+  "2032 Grizzlies",
+  "Boys Futures",
+  "2030 Reign",
+  "2030 Tidal Wave",
+  "2034 Tsunami",
+  "Girls Futures",
+]);
 
 const SEAFORD_DATES = Object.freeze([
   "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04",
@@ -242,7 +248,6 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     assignmentStatus: "adjusted",
     note: ADJUSTED_SEAFORD_NOTE,
     sessions: [
-      { team: "2036 Avalanche", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
     ],
   }),
@@ -254,6 +259,15 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     sessions: [
       { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
+    assignmentStatus: "confirmed",
+    note: "Updated by Dan to Wednesdays 7:15–8:15 PM inside the Kevin-approved Seaford field window.",
+    sessions: [
+      { team: "2036 Avalanche", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", requiredDurationHours: 1 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -323,9 +337,17 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     sessions: [
       { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
       { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", requiredDurationHours: 2 },
-      { team: "2036 Avalanche", startTime: "11:00", endTime: "12:30", timeLabel: "11:00 AM–12:30 PM", requiredDurationHours: 1.5 },
       { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", requiredDurationHours: 1.5 },
       { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...NICKERSON_ASSIGNED_LOCATION,
+    dates: ["2026-09-12", "2026-09-19"],
+    assignmentStatus: "pending",
+    note: "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.",
+    sessions: [
+      { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", requiredDurationHours: 1.25 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -543,7 +565,11 @@ function intervalsOverlap(firstStart, firstEnd, secondStart, secondEnd) {
 }
 
 function teamValue(value) {
-  return typeof value === "string" ? value.trim() : "";
+  if (typeof value !== "string") return "";
+  const team = value.trim();
+  return Object.prototype.hasOwnProperty.call(TEAM_ALIASES, team)
+    ? TEAM_ALIASES[team]
+    : team;
 }
 
 function bookingTeams(booking) {
@@ -553,6 +579,31 @@ function bookingTeams(booking) {
     teamValue(booking?.secondTeam),
   ];
   return candidates.filter((team, index) => team && candidates.indexOf(team) === index);
+}
+
+function storedBookingReferencesRetiredTeam(booking) {
+  if (!booking || typeof booking !== "object" || Array.isArray(booking)) return false;
+  const candidates = [
+    booking.team,
+    ...(Array.isArray(booking.teams) ? booking.teams : []),
+    booking.secondTeam,
+  ];
+  return candidates.some((team) => (
+    typeof team === "string" && RETIRED_TEAM_SET.has(team.trim())
+  ));
+}
+
+function canonicalizeStoredBookingTeamAliases(booking) {
+  if (!booking || typeof booking !== "object" || Array.isArray(booking)) return booking;
+  const normalized = { ...booking };
+  if (typeof normalized.team === "string") normalized.team = teamValue(normalized.team);
+  if (typeof normalized.secondTeam === "string") normalized.secondTeam = teamValue(normalized.secondTeam);
+  if (Array.isArray(normalized.teams)) {
+    normalized.teams = normalized.teams.map((team) => (
+      typeof team === "string" ? teamValue(team) : team
+    ));
+  }
+  return normalized;
 }
 
 function normalizeBookingTeams(input, window) {
@@ -716,7 +767,7 @@ function normalizeBooking(input, { requireId = false, id, createdAt } = {}) {
     endMinutes = windowEnd;
     if (!start || !Number.isFinite(windowStart) ||
         (window.endTime !== null && (!Number.isFinite(windowEnd) ||
-          !VALID_DURATIONS.has(durationHours) ||
+          !Number.isFinite(durationHours) || durationHours <= 0 ||
           start.minutes + durationHours * 60 !== windowEnd)) ||
         (window.endTime === null && durationHours !== null)) {
       throw new CalendarApiError("Assigned practice time is invalid", { code: "invalid_window" });
@@ -799,10 +850,15 @@ export function validatePracticeBookings(bookings) {
 
 export function normalizeSnapshot(value) {
   const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  const storedBookings = Array.isArray(source.practiceBookings)
+    ? source.practiceBookings
+      .filter((booking) => !storedBookingReferencesRetiredTeam(booking))
+      .map(canonicalizeStoredBookingTeamAliases)
+    : [];
   return {
     version: Number.isSafeInteger(source.version) && source.version >= 0 ? source.version : 0,
     events: Array.isArray(source.events) ? source.events : [],
-    practiceBookings: Array.isArray(source.practiceBookings) ? source.practiceBookings : [],
+    practiceBookings: storedBookings,
     savedAt: typeof source.savedAt === "string" ? source.savedAt : null,
   };
 }
