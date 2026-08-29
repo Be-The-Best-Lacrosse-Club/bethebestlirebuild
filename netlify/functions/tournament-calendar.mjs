@@ -101,10 +101,26 @@ const MOMENTUM_TWO_HOUR_DATES = Object.freeze([
   "2027-03-13", "2027-03-14", "2027-03-27", "2027-03-28",
 ]);
 
+export const CLOSED_TO_NEW_PRACTICE_WINDOW_IDS = Object.freeze([
+  "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
+  "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
+  "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
+  "nickerson-2026-09-12", "nickerson-2026-09-14",
+  "nickerson-2026-09-19", "nickerson-2026-09-21",
+  "point-lookout-2026-09-09", "point-lookout-2026-09-12",
+  "point-lookout-2026-09-14", "point-lookout-2026-09-16",
+  "point-lookout-2026-09-21", "point-lookout-2026-09-23",
+]);
+
+const CLOSED_TO_NEW_PRACTICE_WINDOW_SET = new Set(CLOSED_TO_NEW_PRACTICE_WINDOW_IDS);
+const PRACTICE_TIMES_PDF_SOURCE = "Practice Times PDF • Sept. 8–24, 2026";
+
 function practiceWindow({
   id,
   venue,
   location,
+  locationKey = null,
+  field = null,
   date,
   startTime,
   endTime,
@@ -113,11 +129,20 @@ function practiceWindow({
   startIncrementMinutes = 30,
   teamCount = 1,
   requiredDurationHours = null,
+  mode = "inventory",
+  claimMode = "open",
+  assignedTeams = [],
+  timeLabel = null,
+  assignmentStatus = null,
+  source = "",
+  note = "",
 }) {
   return Object.freeze({
     id,
     venue,
     location,
+    locationKey,
+    field,
     date,
     startTime,
     endTime,
@@ -126,64 +151,285 @@ function practiceWindow({
     startIncrementMinutes,
     teamCount,
     requiredDurationHours,
+    mode,
+    claimMode,
+    assignedTeams: Object.freeze(assignedTeams.slice()),
+    timeLabel,
+    assignmentStatus,
+    source,
+    note,
   });
 }
+
+function practiceTeamSlug(team) {
+  return team.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+function assignedPracticeWindowsForDates({
+  dates,
+  locationKey,
+  venue,
+  location,
+  field,
+  assignmentStatus,
+  note,
+  sessions,
+}) {
+  return dates.flatMap((date) => sessions.map((session) => {
+    const status = session.assignmentStatus || assignmentStatus;
+    const sessionNote = session.note || note;
+    return practiceWindow({
+      id: `pdf-${locationKey}-${date}-${practiceTeamSlug(session.team)}`,
+      locationKey,
+      venue,
+      location,
+      field,
+      date,
+      startTime: session.startTime,
+      endTime: session.endTime,
+      kind: "assigned",
+      approval: status === "confirmed" || status === "adjusted" ? "confirmed" : "pending",
+      startIncrementMinutes: 30,
+      teamCount: 1,
+      requiredDurationHours: session.requiredDurationHours,
+      mode: "assigned",
+      claimMode: "assigned",
+      assignedTeams: [session.team],
+      timeLabel: session.timeLabel,
+      assignmentStatus: status,
+      source: PRACTICE_TIMES_PDF_SOURCE,
+      note: sessionNote,
+    });
+  }));
+}
+
+const SEAFORD_ASSIGNED_LOCATION = Object.freeze({
+  locationKey: "seaford",
+  venue: "Seaford HS Turf",
+  location: "Seaford High School — HS Turf/Track (Football Field)",
+  field: "HS Turf/Track (Football Field)",
+});
+
+const STIMSON_ASSIGNED_LOCATION = Object.freeze({
+  locationKey: "stimson",
+  venue: "Stimson Middle School",
+  location: "Stimson Middle School — Field",
+  field: "Field",
+});
+
+const NICKERSON_ASSIGNED_LOCATION = Object.freeze({
+  locationKey: "nickerson",
+  venue: "Nickerson Field 2",
+  location: "Nickerson Beach — Field 2, Lido Beach, NY",
+  field: "Field 2",
+});
+
+const POINT_LOOKOUT_ASSIGNED_LOCATION = Object.freeze({
+  locationKey: "point-lookout",
+  venue: "Point Lookout",
+  location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY",
+  field: "Lacrosse Field",
+});
+
+const ADJUSTED_SEAFORD_NOTE = "Adjusted to Kevin-approved 7:15–9:15 PM; the PDF listed 7:00–9:00 PM.";
+const OUTSIDE_INVENTORY_NOTE = "Listed in the PDF outside the current approved master inventory.";
+const ASSIGNED_PDF_NOTE = "Assigned in the Practice Times PDF.";
+
+export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-08", "2026-09-15", "2026-09-22"],
+    assignmentStatus: "adjusted",
+    note: ADJUSTED_SEAFORD_NOTE,
+    sessions: [
+      { team: "2036 Avalanche", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+      { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
+    assignmentStatus: "adjusted",
+    note: ADJUSTED_SEAFORD_NOTE,
+    sessions: [
+      { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+      { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-10", "2026-09-17", "2026-09-24"],
+    assignmentStatus: "adjusted",
+    note: ADJUSTED_SEAFORD_NOTE,
+    sessions: [
+      { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+      { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-12", "2026-09-19"],
+    assignmentStatus: "needs-time",
+    note: "The PDF lists a 3:00 PM start but no end time.",
+    sessions: [
+      { team: "2035 Bombers", startTime: "15:00", endTime: null, timeLabel: "3:00 PM–End time needed", requiredDurationHours: null },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-13", "2026-09-20"],
+    assignmentStatus: "pending",
+    note: OUTSIDE_INVENTORY_NOTE,
+    sessions: [
+      { team: "2032 Riptide", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", requiredDurationHours: 2 },
+      { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...STIMSON_ASSIGNED_LOCATION,
+    dates: ["2026-09-14", "2026-09-21"],
+    assignmentStatus: "needs-time",
+    note: "The PDF lists 5:45 PM to dark; an exact end time is still needed.",
+    sessions: [
+      { team: "2034 Venom", startTime: "17:45", endTime: null, timeLabel: "5:45 PM–Dark", requiredDurationHours: null },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...STIMSON_ASSIGNED_LOCATION,
+    dates: ["2026-09-13", "2026-09-20"],
+    assignmentStatus: "pending",
+    note: OUTSIDE_INVENTORY_NOTE,
+    sessions: [
+      { team: "2030 Rage", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
+      { team: "2032 Cannons", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
+      { team: "2028 Black", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", requiredDurationHours: 1.5 },
+      { team: "2031 Carnage", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...NICKERSON_ASSIGNED_LOCATION,
+    dates: ["2026-09-14", "2026-09-21"],
+    assignmentStatus: "confirmed",
+    note: ASSIGNED_PDF_NOTE,
+    sessions: [
+      { team: "2035 Hurricanes", startTime: "17:00", endTime: "18:30", timeLabel: "5:00 PM–6:30 PM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...NICKERSON_ASSIGNED_LOCATION,
+    dates: ["2026-09-12", "2026-09-19"],
+    assignmentStatus: "confirmed",
+    note: ASSIGNED_PDF_NOTE,
+    sessions: [
+      { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
+      { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", requiredDurationHours: 2 },
+      { team: "2036 Avalanche", startTime: "11:00", endTime: "12:30", timeLabel: "11:00 AM–12:30 PM", requiredDurationHours: 1.5 },
+      { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", requiredDurationHours: 1.5 },
+      { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...POINT_LOOKOUT_ASSIGNED_LOCATION,
+    dates: ["2026-09-14", "2026-09-21"],
+    assignmentStatus: "confirmed",
+    note: ASSIGNED_PDF_NOTE,
+    sessions: [
+      { team: "2033 Storm", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...POINT_LOOKOUT_ASSIGNED_LOCATION,
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
+    assignmentStatus: "confirmed",
+    note: ASSIGNED_PDF_NOTE,
+    sessions: [
+      { team: "2034 Thunder", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...POINT_LOOKOUT_ASSIGNED_LOCATION,
+    dates: ["2026-09-12"],
+    assignmentStatus: "confirmed",
+    note: ASSIGNED_PDF_NOTE,
+    sessions: [
+      { team: "2033 Storm", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", requiredDurationHours: 2 },
+      { team: "2034 Thunder", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", requiredDurationHours: 2 },
+    ],
+  }),
+]);
 
 export const PRACTICE_WINDOWS = Object.freeze([
   ...SEAFORD_DATES.map((date, index) => practiceWindow({
     id: `seaford-${date}`,
     venue: "Seaford HS Turf",
     location: "Seaford High School — HS Turf/Track (Football Field)",
+    locationKey: "seaford",
+    field: "HS Turf/Track (Football Field)",
     date,
     startTime: "19:15",
     endTime: "21:15",
     kind: "weekday",
     approval: index < 4 ? "confirmed" : "week-by-week",
+    claimMode: CLOSED_TO_NEW_PRACTICE_WINDOW_SET.has(`seaford-${date}`) ? "closed-to-new" : "open",
   })),
   ...NICKERSON_WEEKDAY_DATES.map((date) => practiceWindow({
     id: `nickerson-${date}`,
     venue: "Nickerson Field 2",
     location: "Nickerson Beach — Field 2, Lido Beach, NY",
+    locationKey: "nickerson",
+    field: "Field 2",
     date,
     startTime: "17:00",
     endTime: "18:30",
     kind: "weekday",
     approval: "confirmed",
+    claimMode: CLOSED_TO_NEW_PRACTICE_WINDOW_SET.has(`nickerson-${date}`) ? "closed-to-new" : "open",
   })),
   ...NICKERSON_SATURDAY_DATES.map((date) => practiceWindow({
     id: `nickerson-${date}`,
     venue: "Nickerson Field 2",
     location: "Nickerson Beach — Field 2, Lido Beach, NY",
+    locationKey: "nickerson",
+    field: "Field 2",
     date,
     startTime: "09:00",
     endTime: "13:00",
     kind: "saturday",
     approval: "confirmed",
+    claimMode: CLOSED_TO_NEW_PRACTICE_WINDOW_SET.has(`nickerson-${date}`) ? "closed-to-new" : "open",
   })),
   ...POINT_LOOKOUT_WEEKDAY_DATES.map((date) => practiceWindow({
     id: `point-lookout-${date}`,
     venue: "Point Lookout",
     location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY",
+    locationKey: "point-lookout",
+    field: "Lacrosse Field",
     date,
     startTime: "18:00",
     endTime: "20:00",
     kind: "weekday",
     approval: "confirmed",
+    claimMode: CLOSED_TO_NEW_PRACTICE_WINDOW_SET.has(`point-lookout-${date}`) ? "closed-to-new" : "open",
   })),
   ...POINT_LOOKOUT_SATURDAY_DATES.map((date) => practiceWindow({
     id: `point-lookout-${date}`,
     venue: "Point Lookout",
     location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY",
+    locationKey: "point-lookout",
+    field: "Lacrosse Field",
     date,
     startTime: "08:00",
     endTime: "10:00",
     kind: "saturday",
     approval: "confirmed",
+    claimMode: CLOSED_TO_NEW_PRACTICE_WINDOW_SET.has(`point-lookout-${date}`) ? "closed-to-new" : "open",
   })),
   ...MOMENTUM_ONE_HOUR_DATES.map((date) => practiceWindow({
     id: `momentum-${date}`,
     venue: "Momentum Sports LI",
     location: "10 Dunton Avenue, Deer Park, NY 11729",
+    locationKey: "momentum",
+    field: "Turf Field",
     date,
     startTime: "08:00",
     endTime: "15:00",
@@ -197,6 +443,8 @@ export const PRACTICE_WINDOWS = Object.freeze([
     id: `momentum-${date}`,
     venue: "Momentum Sports LI",
     location: "10 Dunton Avenue, Deer Park, NY 11729",
+    locationKey: "momentum",
+    field: "Turf Field",
     date,
     startTime: "08:00",
     endTime: "15:00",
@@ -206,6 +454,7 @@ export const PRACTICE_WINDOWS = Object.freeze([
     teamCount: 2,
     requiredDurationHours: 2,
   })),
+  ...ASSIGNED_PRACTICE_WINDOWS,
 ]);
 
 const PRACTICE_WINDOW_BY_ID = new Map(PRACTICE_WINDOWS.map((window) => [window.id, window]));
@@ -345,18 +594,56 @@ function normalizeBookingTeams(input, window) {
   return teams;
 }
 
+function normalizeAssignedBookingTeams(input, window) {
+  const canonicalTeams = window.assignedTeams.slice();
+  const hasSuppliedTeams = Object.prototype.hasOwnProperty.call(input, "team") ||
+    Object.prototype.hasOwnProperty.call(input, "teams") ||
+    Object.prototype.hasOwnProperty.call(input, "secondTeam");
+  if (!hasSuppliedTeams) return canonicalTeams;
+
+  if (input.teams !== undefined && !Array.isArray(input.teams)) {
+    throw new CalendarApiError("Assigned practice teams cannot be changed", { code: "invalid_teams" });
+  }
+  if ((input.team !== undefined && typeof input.team !== "string") ||
+      (input.secondTeam !== undefined && input.secondTeam !== null && typeof input.secondTeam !== "string") ||
+      (Array.isArray(input.teams) && input.teams.some((team) => typeof team !== "string"))) {
+    throw new CalendarApiError("Assigned practice teams cannot be changed", { code: "invalid_teams" });
+  }
+
+  const suppliedTeams = bookingTeams(input);
+  if (suppliedTeams.length !== canonicalTeams.length ||
+      suppliedTeams.some((team, index) => team !== canonicalTeams[index])) {
+    throw new CalendarApiError("Assigned practice teams cannot be changed", { code: "invalid_teams" });
+  }
+  return canonicalTeams;
+}
+
 export function practiceBookingsConflict(first, second) {
-  if (!first || !second || first.date !== second.date) return false;
+  if (!first || !second) return false;
+  const sameWindow = Boolean(first.windowId) && first.windowId === second.windowId;
+  const authoritativeWindow = sameWindow ? PRACTICE_WINDOW_BY_ID.get(first.windowId) : null;
+  if (sameWindow && authoritativeWindow?.mode === "assigned") return true;
+  if (first.date !== second.date) return false;
   const firstStart = timeToMinutes(first.startTime);
-  const firstEnd = timeToMinutes(first.endTime) ?? (firstStart + Number(first.durationHours) * 60);
   const secondStart = timeToMinutes(second.startTime);
-  const secondEnd = timeToMinutes(second.endTime) ?? (secondStart + Number(second.durationHours) * 60);
+  const firstWindow = PRACTICE_WINDOW_BY_ID.get(first.windowId);
+  const secondWindow = PRACTICE_WINDOW_BY_ID.get(second.windowId);
+  const firstEnd = timeToMinutes(first.endTime) ?? (
+    firstWindow?.mode === "assigned" && firstWindow.endTime === null
+      ? 24 * 60
+      : firstStart + Number(first.durationHours) * 60
+  );
+  const secondEnd = timeToMinutes(second.endTime) ?? (
+    secondWindow?.mode === "assigned" && secondWindow.endTime === null
+      ? 24 * 60
+      : secondStart + Number(second.durationHours) * 60
+  );
   if (![firstStart, firstEnd, secondStart, secondEnd].every(Number.isFinite)) return false;
   if (!intervalsOverlap(firstStart, firstEnd, secondStart, secondEnd)) return false;
 
   const firstTeams = bookingTeams(first);
   const secondTeams = bookingTeams(second);
-  return first.windowId === second.windowId ||
+  return sameWindow ||
     firstTeams.some((team) => secondTeams.includes(team)) ||
     coachKey(first.coach) === coachKey(second.coach);
 }
@@ -386,42 +673,83 @@ function normalizeBooking(input, { requireId = false, id, createdAt } = {}) {
     throw new CalendarApiError("Unknown or inactive practice window", { code: "invalid_window" });
   }
 
-  const teams = normalizeBookingTeams(input, window);
+  if (!requireId && window.claimMode === "closed-to-new") {
+    throw new CalendarApiError("This master window has been replaced by assigned team practices", {
+      status: 409,
+      code: "window_closed",
+    });
+  }
+
+  const assigned = window.claimMode === "assigned";
+  const teams = assigned
+    ? normalizeAssignedBookingTeams(input, window)
+    : normalizeBookingTeams(input, window);
 
   const coach = normalizeCoach(input.coach);
   if (!coach || coach.length > 120) {
     throw new CalendarApiError("Coach name is required", { code: "invalid_coach" });
   }
 
-  const durationHours = input.durationHours;
-  if (!VALID_DURATIONS.has(durationHours)) {
-    throw new CalendarApiError("Practice duration must be 1, 1.5, or 2 hours", { code: "invalid_duration" });
-  }
-  if (window.requiredDurationHours !== null && durationHours !== window.requiredDurationHours) {
-    throw new CalendarApiError(
-      `This Momentum window requires a ${window.requiredDurationHours}-hour practice`,
-      { code: "invalid_duration" },
-    );
-  }
-
-  const start = normalizeStartTime(input.startTime, window);
-  if (!start) {
-    throw new CalendarApiError("Practice start time is invalid", { code: "invalid_start" });
-  }
-
   const windowStart = timeToMinutes(window.startTime);
   const windowEnd = timeToMinutes(window.endTime);
-  const endMinutes = start.minutes + durationHours * 60;
-  if (start.minutes < windowStart || endMinutes > windowEnd) {
-    throw new CalendarApiError("Practice must fit fully inside the field window", { code: "outside_window" });
-  }
-  // Alignment is relative to the field window. Seaford begins at 19:15, so
-  // valid starts there are 19:15, 19:45, 20:15, etc.
-  if ((start.minutes - windowStart) % window.startIncrementMinutes !== 0) {
-    throw new CalendarApiError(
-      `Practice starts must use ${window.startIncrementMinutes}-minute increments`,
-      { code: "invalid_start" },
-    );
+  let start;
+  let durationHours;
+  let endMinutes;
+
+  if (assigned) {
+    if (Object.prototype.hasOwnProperty.call(input, "startTime")) {
+      const suppliedStart = normalizeStartTime(input.startTime, window);
+      if (!suppliedStart || suppliedStart.time !== window.startTime) {
+        throw new CalendarApiError("Assigned practice start time cannot be changed", { code: "invalid_start" });
+      }
+    }
+    if (Object.prototype.hasOwnProperty.call(input, "durationHours") &&
+        input.durationHours !== window.requiredDurationHours) {
+      throw new CalendarApiError("Assigned practice duration cannot be changed", { code: "invalid_duration" });
+    }
+    if (Object.prototype.hasOwnProperty.call(input, "endTime") && input.endTime !== window.endTime) {
+      throw new CalendarApiError("Assigned practice end time cannot be changed", { code: "invalid_end" });
+    }
+
+    start = normalizeStartTime(window.startTime, window);
+    durationHours = window.requiredDurationHours;
+    endMinutes = windowEnd;
+    if (!start || !Number.isFinite(windowStart) ||
+        (window.endTime !== null && (!Number.isFinite(windowEnd) ||
+          !VALID_DURATIONS.has(durationHours) ||
+          start.minutes + durationHours * 60 !== windowEnd)) ||
+        (window.endTime === null && durationHours !== null)) {
+      throw new CalendarApiError("Assigned practice time is invalid", { code: "invalid_window" });
+    }
+  } else {
+    durationHours = input.durationHours;
+    if (!VALID_DURATIONS.has(durationHours)) {
+      throw new CalendarApiError("Practice duration must be 1, 1.5, or 2 hours", { code: "invalid_duration" });
+    }
+    if (window.requiredDurationHours !== null && durationHours !== window.requiredDurationHours) {
+      throw new CalendarApiError(
+        `This Momentum window requires a ${window.requiredDurationHours}-hour practice`,
+        { code: "invalid_duration" },
+      );
+    }
+
+    start = normalizeStartTime(input.startTime, window);
+    if (!start) {
+      throw new CalendarApiError("Practice start time is invalid", { code: "invalid_start" });
+    }
+
+    endMinutes = start.minutes + durationHours * 60;
+    if (start.minutes < windowStart || endMinutes > windowEnd) {
+      throw new CalendarApiError("Practice must fit fully inside the field window", { code: "outside_window" });
+    }
+    // Alignment is relative to the field window. Seaford begins at 19:15, so
+    // valid starts there are 19:15, 19:45, 20:15, etc.
+    if ((start.minutes - windowStart) % window.startIncrementMinutes !== 0) {
+      throw new CalendarApiError(
+        `Practice starts must use ${window.startIncrementMinutes}-minute increments`,
+        { code: "invalid_start" },
+      );
+    }
   }
 
   const bookingId = requireId
@@ -442,7 +770,7 @@ function normalizeBooking(input, { requireId = false, id, createdAt } = {}) {
     secondTeam: teams[1] || null,
     coach,
     startTime: minutesToTime(start.minutes),
-    endTime: minutesToTime(endMinutes),
+    endTime: endMinutes === null ? null : minutesToTime(endMinutes),
     durationHours,
     createdAt: requireId && typeof input.createdAt === "string" && input.createdAt
       ? input.createdAt

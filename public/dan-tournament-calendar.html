@@ -624,6 +624,15 @@
       background: var(--location-color);
     }
 
+    .event-pill.practice.assigned {
+      border-color: color-mix(in srgb, var(--team-color) 62%, transparent);
+      background: color-mix(in srgb, var(--team-color) 20%, #111316);
+    }
+
+    .event-pill.practice.assigned .event-bar {
+      background: var(--team-color);
+    }
+
     .off-island-mark {
       color: #fff;
       font-weight: 900;
@@ -1021,6 +1030,28 @@
       overflow-y: auto;
     }
 
+    .practice-board-divider {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      padding: 0.2rem 0.1rem;
+      color: #fff;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.055em;
+    }
+
+    .practice-board-divider span {
+      color: #959ba4;
+      font-family: Montserrat, Arial, sans-serif;
+      font-size: 0.5rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
     .practice-window-card {
       min-width: 0;
       border: 1px solid color-mix(in srgb, var(--location-color) 48%, var(--line));
@@ -1028,6 +1059,33 @@
       border-radius: 0.78rem;
       padding: 0.72rem;
       background: color-mix(in srgb, var(--location-color) 9%, #111316);
+    }
+
+    .practice-window-card.assigned {
+      border-color: color-mix(in srgb, var(--team-color) 50%, var(--line));
+      border-left-color: var(--team-color);
+      background: linear-gradient(145deg, color-mix(in srgb, var(--team-color) 12%, #111316), #111316 72%);
+    }
+
+    .assigned-team-line {
+      display: flex;
+      align-items: center;
+      gap: 0.42rem;
+      margin-top: 0.28rem;
+      color: var(--team-color);
+      font-size: 0.62rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .assigned-team-line::before {
+      content: "";
+      width: 0.58rem;
+      height: 0.58rem;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--team-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--team-color) 18%, transparent);
     }
 
     .practice-window-header,
@@ -1072,6 +1130,37 @@
     .availability-chip.full {
       color: #aeb3bb;
       background: rgba(255, 255, 255, 0.08);
+    }
+
+    .assignment-chip {
+      border-radius: 999px;
+      padding: 0.2rem 0.45rem;
+      font-size: 0.48rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .assignment-chip.confirmed,
+    .assignment-chip.coach-assigned {
+      color: #9cf6c0;
+      background: rgba(85, 216, 138, 0.13);
+    }
+
+    .assignment-chip.adjusted {
+      color: #a9d2ff;
+      background: rgba(20, 121, 255, 0.15);
+    }
+
+    .assignment-chip.pending {
+      color: #ffd17a;
+      background: rgba(255, 183, 67, 0.13);
+    }
+
+    .assignment-chip.needs-time,
+    .assignment-chip.coach-needed {
+      color: #ff9ca2;
+      background: rgba(210, 38, 48, 0.16);
     }
 
     .booking-list {
@@ -1763,7 +1852,7 @@
       <button class="tab-button" type="button" data-view="live">Live Feeds</button>
       <button class="tab-button" type="button" data-view="manage">Manage</button>
       <div class="tab-spacer"></div>
-      <div class="source-badge">Tournaments + Seaford, Nickerson, Point Lookout and Momentum practice inventory</div>
+      <div class="source-badge">37 tournaments + 53 assigned team practices + 123 approved field windows</div>
     </nav>
 
     <main>
@@ -1803,7 +1892,7 @@
           <aside class="sidebar">
             <section class="panel">
               <div class="panel-header">
-                <h2>Open Practice Windows</h2>
+                <h2>Coach Needed + Open Fields</h2>
                 <span class="count-badge" id="lockedCount">0</span>
               </div>
               <div class="panel-body locked-list" id="lockedList"></div>
@@ -1836,7 +1925,7 @@
           <div class="section-header">
             <div class="section-title">
               <h2>Practice Board</h2>
-              <p>Claim an approved field block for one, one-and-a-half, or two hours.</p>
+              <p>Assign coaches to the PDF team schedule, then use the remaining open field inventory.</p>
             </div>
             <div class="practice-board-controls">
               <select class="manage-filter" id="practiceLocationFilter" aria-label="Filter practice windows by location">
@@ -1845,6 +1934,7 @@
                 <option value="nickerson">Nickerson</option>
                 <option value="point-lookout">Point Lookout</option>
                 <option value="momentum">Momentum Sports LI</option>
+                <option value="stimson">Stimson</option>
               </select>
               <button class="btn primary" id="nextOpenPracticeButton" type="button">Next Open Window</button>
             </div>
@@ -1854,9 +1944,13 @@
               <strong>Point Lookout — confirmed</strong>
               <span>Monday/Wednesday 6:00–8:00 PM and approved Saturdays 8:00–10:00 AM. Sep. 19 is unavailable for the car show.</span>
             </div>
+            <div class="pending-notice confirmed">
+              <strong>Practice Times PDF — Sept. 8–24</strong>
+              <span>53 team practice assignments are loaded first. Each needs a coach; incomplete or permit-adjusted times are clearly marked.</span>
+            </div>
             <div class="pending-notice">
-              <strong>Stimson — no approved dates</strong>
-              <span>Hold only. Nothing is available to claim until exact dates and times are approved.</span>
+              <strong>Stimson — team assignments pending</strong>
+              <span>PDF assignments are visible for staff planning. Sunday dates are outside approved master inventory; Monday end times remain “Dark.”</span>
             </div>
             <div class="pending-notice confirmed">
               <strong>Momentum Sports LI — winter rotation confirmed</strong>
@@ -1901,7 +1995,7 @@
           <div class="section-header">
             <div class="section-title">
               <h2>Manage Schedule</h2>
-              <p>Edit tournaments or release a claimed practice block. Approved field windows stay read-only.</p>
+              <p>Edit tournaments, fill every Coach Needed assignment, or release a coach. Approved field windows stay read-only.</p>
             </div>
             <button class="btn primary" id="addEventButton" type="button">+ Add Event</button>
           </div>
@@ -1922,6 +2016,8 @@
               <option value="must">Must plan</option>
               <option value="recommended">Recommended</option>
               <option value="optional">Optional</option>
+              <option value="coach-needed">Coach Needed</option>
+              <option value="coach-assigned">Coach Assigned</option>
             </select>
             <div class="manage-spacer"></div>
             <button class="btn subtle" id="exportButton" type="button">Export Backup</button>
@@ -2030,7 +2126,7 @@
     <form class="event-form" id="claimForm">
       <input id="claimWindowId" type="hidden">
       <div class="claim-summary" id="claimSummary"></div>
-      <div class="form-group">
+      <div class="form-group" id="claimTeamGroup">
         <label for="claimTeam">Team</label>
         <select class="field" id="claimTeam" required></select>
       </div>
@@ -2042,7 +2138,7 @@
         <label for="claimSecondTeam">Second team sharing block</label>
         <select class="field" id="claimSecondTeam"></select>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="claimDurationGroup">
         <label for="claimDuration">Duration</label>
         <select class="field" id="claimDuration" required>
           <option value="1">1 hour</option>
@@ -2050,7 +2146,7 @@
           <option value="2">2 hours</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="claimStartGroup">
         <label for="claimStart">Start time</label>
         <select class="field" id="claimStart" required></select>
       </div>
@@ -2437,7 +2533,143 @@
         });
       }
 
-      var PRACTICE_WINDOWS = buildPracticeWindows();
+      var PDF_ASSIGNMENT_SOURCE = "Practice Times PDF • Sept. 8–24, 2026";
+      var CLOSED_PARENT_WINDOW_IDS = new Set([
+        "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
+        "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
+        "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
+        "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19", "nickerson-2026-09-21",
+        "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-14",
+        "point-lookout-2026-09-16", "point-lookout-2026-09-21", "point-lookout-2026-09-23"
+      ]);
+      var PDF_LOCATION_DETAILS = {
+        seaford: {
+          venue: "Seaford HS Turf",
+          location: "Seaford High School — HS Turf/Track (Football Field)",
+          field: "HS Turf/Track (Football Field)"
+        },
+        stimson: {
+          venue: "Stimson Middle School",
+          location: "Stimson Middle School — Field",
+          field: "Field"
+        },
+        nickerson: {
+          venue: "Nickerson Field 2",
+          location: "Nickerson Beach — Field 2, Lido Beach, NY",
+          field: "Field 2"
+        },
+        "point-lookout": {
+          venue: "Point Lookout",
+          location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY",
+          field: "Lacrosse Field"
+        }
+      };
+
+      function practiceTeamSlug(team) {
+        return team.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      }
+
+      function buildAssignedPracticeWindows() {
+        var windows = [];
+
+        function add(locationKey, dates, assignments, assignmentStatus, note) {
+          var location = PDF_LOCATION_DETAILS[locationKey];
+          dates.forEach(function (date) {
+            assignments.forEach(function (assignment) {
+              windows.push({
+                id: "pdf-" + locationKey + "-" + date + "-" + practiceTeamSlug(assignment.team),
+                date: date,
+                locationKey: locationKey,
+                venue: location.venue,
+                field: location.field,
+                location: location.location,
+                startTime: assignment.startTime,
+                endTime: assignment.endTime,
+                kind: "assigned",
+                approval: assignmentStatus === "confirmed" || assignmentStatus === "adjusted" ? "confirmed" : "pending",
+                startIncrementMinutes: 30,
+                teamCount: 1,
+                requiredDurationHours: assignment.durationHours,
+                mode: "assigned",
+                claimMode: "assigned",
+                assignedTeams: [assignment.team],
+                timeLabel: assignment.timeLabel,
+                assignmentStatus: assignmentStatus,
+                source: PDF_ASSIGNMENT_SOURCE,
+                note: note
+              });
+            });
+          });
+        }
+
+        var seafordWeekdayNote = "Adjusted to Kevin-approved 7:15–9:15 PM; the PDF listed 7:00–9:00 PM.";
+        add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], [
+          { team: "2036 Avalanche", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
+          { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
+        ], "adjusted", seafordWeekdayNote);
+        add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
+          { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
+          { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
+        ], "adjusted", seafordWeekdayNote);
+        add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24"], [
+          { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
+          { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
+        ], "adjusted", seafordWeekdayNote);
+        add("seaford", ["2026-09-12", "2026-09-19"], [
+          { team: "2035 Bombers", startTime: "15:00", endTime: null, timeLabel: "3:00 PM–End time needed", durationHours: null }
+        ], "needs-time", "The PDF lists a 3:00 PM start but no end time.");
+        add("seaford", ["2026-09-13", "2026-09-20"], [
+          { team: "2032 Riptide", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", durationHours: 2 },
+          { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", durationHours: 1.5 }
+        ], "pending", "Listed in the PDF outside the current approved master inventory.");
+
+        add("stimson", ["2026-09-14", "2026-09-21"], [
+          { team: "2034 Venom", startTime: "17:45", endTime: null, timeLabel: "5:45 PM–Dark", durationHours: null }
+        ], "needs-time", "The PDF lists 5:45 PM to dark; an exact end time is still needed.");
+        add("stimson", ["2026-09-13", "2026-09-20"], [
+          { team: "2030 Rage", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
+          { team: "2032 Cannons", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
+          { team: "2028 Black", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 },
+          { team: "2031 Carnage", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 }
+        ], "pending", "Listed in the PDF outside the current approved master inventory.");
+
+        add("nickerson", ["2026-09-14", "2026-09-21"], [
+          { team: "2035 Hurricanes", startTime: "17:00", endTime: "18:30", timeLabel: "5:00 PM–6:30 PM", durationHours: 1.5 }
+        ], "confirmed", "Assigned in the Practice Times PDF.");
+        add("nickerson", ["2026-09-12", "2026-09-19"], [
+          { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
+          { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", durationHours: 2 },
+          { team: "2036 Avalanche", startTime: "11:00", endTime: "12:30", timeLabel: "11:00 AM–12:30 PM", durationHours: 1.5 },
+          { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", durationHours: 1.5 },
+          { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 }
+        ], "confirmed", "Assigned in the Practice Times PDF.");
+
+        add("point-lookout", ["2026-09-14", "2026-09-21"], [
+          { team: "2033 Storm", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
+        ], "confirmed", "Assigned in the Practice Times PDF.");
+        add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23"], [
+          { team: "2034 Thunder", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
+        ], "confirmed", "Assigned in the Practice Times PDF.");
+        add("point-lookout", ["2026-09-12"], [
+          { team: "2033 Storm", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", durationHours: 2 },
+          { team: "2034 Thunder", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", durationHours: 2 }
+        ], "confirmed", "Assigned in the Practice Times PDF.");
+
+        return windows;
+      }
+
+      var MASTER_PRACTICE_WINDOWS = buildPracticeWindows().map(function (windowItem) {
+        windowItem.mode = "inventory";
+        windowItem.claimMode = CLOSED_PARENT_WINDOW_IDS.has(windowItem.id) ? "closed-to-new" : "open";
+        windowItem.assignedTeams = [];
+        windowItem.timeLabel = null;
+        windowItem.assignmentStatus = null;
+        return windowItem;
+      });
+      var ASSIGNED_PRACTICE_WINDOWS = buildAssignedPracticeWindows();
+      var PRACTICE_WINDOWS = MASTER_PRACTICE_WINDOWS.concat(ASSIGNED_PRACTICE_WINDOWS).sort(function (a, b) {
+        return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.id.localeCompare(b.id);
+      });
 
       var DEFAULT_EVENTS = [
         { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", time: "Game times not listed in Pete’s checklist", location: "Coppermine Complex, MD", status: "entering", paid: false, offIsland: true, note: "Entering; not marked paid.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!11" },
@@ -2514,6 +2746,18 @@
       function normalizeBookings(items) {
         var windowIds = new Set(PRACTICE_WINDOWS.map(function (windowItem) { return windowItem.id; }));
         return (Array.isArray(items) ? items : []).map(function (booking) {
+          if (!booking || typeof booking !== "object") return null;
+          var windowItem = findPracticeWindow(booking.windowId);
+          if (windowItem && windowItem.mode === "assigned") {
+            var assignedTeams = windowItem.assignedTeams.slice();
+            return Object.assign({}, booking, {
+              team: assignedTeams[0],
+              secondTeam: "",
+              teams: assignedTeams,
+              startTime: windowItem.startTime,
+              durationHours: windowItem.requiredDurationHours == null ? null : Number(windowItem.requiredDurationHours)
+            });
+          }
           var teams = Array.isArray(booking.teams) ? booking.teams.filter(function (team) {
             return typeof team === "string" && TEAM_META[team];
           }) : [];
@@ -2529,7 +2773,12 @@
             durationHours: Number(booking.durationHours)
           });
         }).filter(function (booking) {
+          if (!booking) return false;
           var windowItem = findPracticeWindow(booking.windowId);
+          if (windowItem && windowItem.mode === "assigned") {
+            return Boolean(booking.id && windowIds.has(booking.windowId) && String(booking.coach || "").trim() &&
+              booking.team === windowItem.assignedTeams[0]);
+          }
           var expectedTeams = windowItem ? Number(windowItem.teamCount || 1) : 1;
           return booking && booking.id && windowIds.has(booking.windowId) && booking.teams.length === expectedTeams &&
             String(booking.coach || "").trim() && /^\d{2}:\d{2}$/.test(booking.startTime || "") &&
@@ -2693,6 +2942,37 @@
         return PRACTICE_WINDOWS.find(function (windowItem) { return windowItem.id === id; }) || null;
       }
 
+      function isAssignedPractice(windowItem) {
+        return Boolean(windowItem && windowItem.mode === "assigned" && windowItem.claimMode === "assigned");
+      }
+
+      function isOpenInventoryWindow(windowItem) {
+        return Boolean(windowItem && !isAssignedPractice(windowItem) && windowItem.claimMode !== "closed-to-new");
+      }
+
+      function assignedPracticeTeam(windowItem) {
+        return isAssignedPractice(windowItem) && windowItem.assignedTeams.length ? windowItem.assignedTeams[0] : "";
+      }
+
+      function assignedPracticeBooking(windowItem) {
+        return isAssignedPractice(windowItem) ? bookingsForWindow(windowItem.id)[0] || null : null;
+      }
+
+      function assignedPracticeTime(windowItem) {
+        return windowItem.timeLabel || (windowItem.endTime
+          ? formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)
+          : formatClock(windowItem.startTime) + "–End time needed");
+      }
+
+      function assignmentStatusLabel(status) {
+        return {
+          confirmed: "Confirmed",
+          adjusted: "Adjusted to Permit",
+          pending: "Pending Approval",
+          "needs-time": "End Time Needed"
+        }[status] || "Assignment";
+      }
+
       function bookingsForWindow(windowId) {
         return practiceBookings.filter(function (booking) {
           return booking.windowId === windowId;
@@ -2713,6 +2993,7 @@
       }
 
       function freeSegments(windowItem) {
+        if (!isOpenInventoryWindow(windowItem) || !windowItem.endTime) return [];
         var windowStart = toMinutes(windowItem.startTime);
         var windowEnd = toMinutes(windowItem.endTime);
         var cursor = windowStart;
@@ -2729,6 +3010,7 @@
       }
 
       function availableStarts(windowItem, durationHours) {
+        if (!isOpenInventoryWindow(windowItem)) return [];
         if (allowedDurationsForWindow(windowItem).indexOf(Number(durationHours)) < 0) return [];
         var durationMinutes = Number(durationHours) * 60;
         var windowStart = toMinutes(windowItem.startTime);
@@ -2920,7 +3202,7 @@
           "<span class='legend-note'><span aria-hidden='true'>*</span> Off-Island Tournament</span>";
         document.getElementById("practiceLegend").innerHTML = locationLegend + teamLegend;
         footerHost.textContent = teamNames.length + " teams • " + linkedTeams.length + " linked calendars • " +
-          PRACTICE_WINDOWS.length + " approved practice windows";
+          ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " + MASTER_PRACTICE_WINDOWS.length + " approved field windows";
 
         var teamOptions = teamNames.map(function (team) {
           return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
@@ -2973,7 +3255,9 @@
             return STATUS_META[b.status].score - STATUS_META[a.status].score || a.team.localeCompare(b.team);
           }) : [];
           var dayWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
-            return windowItem.date === dayIso;
+            return windowItem.date === dayIso && (isAssignedPractice(windowItem)
+              ? visibleTeams.has(assignedPracticeTeam(windowItem))
+              : isOpenInventoryWindow(windowItem));
           }) : [];
           var conflictLevel = conflictForDay(dayIso, conflicts);
           var classes = ["day"];
@@ -2997,6 +3281,18 @@
           });
           var practicePills = dayWindows.map(function (windowItem) {
             var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+            if (isAssignedPractice(windowItem)) {
+              var assignedTeam = assignedPracticeTeam(windowItem);
+              var assignedMeta = TEAM_META[assignedTeam];
+              var assignedBooking = assignedPracticeBooking(windowItem);
+              var coachState = assignedBooking ? "Coach " + assignedBooking.coach : "Coach Needed";
+              return "<button class='event-pill practice assigned' type='button' data-window-id='" + escapeHtml(windowItem.id) +
+                "' style='--team-color:" + assignedMeta.color + ";--location-color:" + location.color + "' title='" +
+                escapeHtml(assignedMeta.label + " practice — " + windowItem.venue + " — " + assignedPracticeTime(windowItem) + " — " + coachState) +
+                "'><span class='event-bar'></span><span class='event-text'>" + escapeHtml(assignedMeta.short) +
+                " Practice <small>" + escapeHtml(windowItem.venue + " • " + assignedPracticeTime(windowItem) + " • " + coachState) +
+                "</small></span></button>";
+            }
             var availability = practiceAvailability(windowItem);
             var bookingCount = bookingsForWindow(windowItem.id).length;
             return "<button class='event-pill practice' type='button' data-window-id='" + escapeHtml(windowItem.id) +
@@ -3033,7 +3329,9 @@
           return a.start.localeCompare(b.start) || STATUS_META[b.status].score - STATUS_META[a.status].score;
         }) : [];
         var monthWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
-          return windowItem.date >= monthStartIso && windowItem.date <= monthEndIso;
+          return windowItem.date >= monthStartIso && windowItem.date <= monthEndIso && (isAssignedPractice(windowItem)
+            ? visibleTeams.has(assignedPracticeTeam(windowItem))
+            : isOpenInventoryWindow(windowItem));
         }) : [];
         var mobileRows = monthEvents.map(function (event) {
           return { kind: "tournament", date: event.start, value: event };
@@ -3059,6 +3357,19 @@
           }
           var windowItem = row.value;
           var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+          if (isAssignedPractice(windowItem)) {
+            var assignedTeam = assignedPracticeTeam(windowItem);
+            var assignedMeta = TEAM_META[assignedTeam];
+            var assignedBooking = assignedPracticeBooking(windowItem);
+            var coachState = assignedBooking ? "Coach " + assignedBooking.coach : "Coach Needed";
+            return "<button class='mobile-event-row practice assigned' type='button' data-window-id='" + escapeHtml(windowItem.id) +
+              "' style='--team-color:" + assignedMeta.color + "'><span class='mobile-event-date'>" + escapeHtml(formatDate(windowItem.date)) +
+              "</span><span><span class='mobile-event-title'>Team Practice</span><span class='mobile-event-team'>" +
+              escapeHtml(assignedMeta.label) + "</span><span class='mobile-event-time'>" +
+              escapeHtml(windowItem.venue + " • " + assignedPracticeTime(windowItem) + " • " + coachState) + "</span></span>" +
+              "<span class='assignment-chip " + (assignedBooking ? "coach-assigned" : "coach-needed") + "'>" +
+              escapeHtml(assignedBooking ? "Coach Assigned" : "Coach Needed") + "</span></button>";
+          }
           var availability = practiceAvailability(windowItem);
           return "<button class='mobile-event-row practice' type='button' data-window-id='" + escapeHtml(windowItem.id) +
             "' style='--team-color:" + location.color + "'><span class='mobile-event-date'>" + escapeHtml(formatDate(windowItem.date)) +
@@ -3079,15 +3390,33 @@
 
       function renderSidebar() {
         var today = isoDate(new Date());
-        var openWindows = PRACTICE_WINDOWS.filter(function (windowItem) {
-          return windowItem.date >= today && ALLOWED_DURATIONS.some(function (duration) {
+        var coachNeeded = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.date >= today && !assignedPracticeBooking(windowItem);
+        });
+        var openWindows = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.date >= today && isOpenInventoryWindow(windowItem) && ALLOWED_DURATIONS.some(function (duration) {
             return availableStarts(windowItem, duration).length > 0;
           });
         });
+        var sidebarWindows = coachNeeded.concat(openWindows).sort(function (a, b) {
+          var assignmentOrder = Number(!isAssignedPractice(a)) - Number(!isAssignedPractice(b));
+          return a.date.localeCompare(b.date) || assignmentOrder || a.startTime.localeCompare(b.startTime) || a.id.localeCompare(b.id);
+        });
         var lockedHost = document.getElementById("lockedList");
-        document.getElementById("lockedCount").textContent = openWindows.length;
-        lockedHost.innerHTML = openWindows.length ? openWindows.slice(0, 5).map(function (windowItem) {
+        document.getElementById("lockedCount").textContent = sidebarWindows.length;
+        lockedHost.innerHTML = sidebarWindows.length ? sidebarWindows.slice(0, 5).map(function (windowItem) {
           var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+          if (isAssignedPractice(windowItem)) {
+            var assignedTeam = assignedPracticeTeam(windowItem);
+            var team = TEAM_META[assignedTeam];
+            return "<button class='locked-item' type='button' data-window-id='" + escapeHtml(windowItem.id) +
+              "' style='width:100%;color:#fff;text-align:left;cursor:pointer;--team-color:" + team.color + "'>" +
+              "<div class='locked-top'><span class='locked-team' style='color:" + team.color + "'>" + escapeHtml(team.label) +
+              "</span><span class='locked-date'>" + escapeHtml(formatDate(windowItem.date, { month: "short", day: "numeric" })) +
+              "</span></div><div class='locked-title'>" + escapeHtml(windowItem.venue + " • " + assignedPracticeTime(windowItem)) +
+              "</div><span class='event-time-meta'>" + escapeHtml(assignmentStatusLabel(windowItem.assignmentStatus)) +
+              "</span><span class='assignment-chip coach-needed'>Coach Needed</span></button>";
+          }
           var availability = practiceAvailability(windowItem);
           return "<button class='locked-item' type='button' data-window-id='" + escapeHtml(windowItem.id) +
             "' style='width:100%;color:#fff;text-align:left;cursor:pointer;--team-color:" + location.color + "'>" +
@@ -3097,7 +3426,7 @@
             "</div><span class='event-time-meta'>" + escapeHtml((windowItem.approval === "confirmed" ? "Confirmed field time" : "Confirming week-by-week") +
             (windowItem.patternLabel ? " • " + windowItem.patternLabel : "")) +
             "</span><span class='availability-chip " + availability.state + "'>" + escapeHtml(availability.label) + "</span></button>";
-        }).join("") : "<div class='empty'>No claimable practice windows remain.</div>";
+        }).join("") : "<div class='empty'>No coach assignments or claimable field windows remain.</div>";
         lockedHost.querySelectorAll("[data-window-id]").forEach(function (button) {
           button.addEventListener("click", function () { openClaimDialog(button.getAttribute("data-window-id")); });
         });
@@ -3142,10 +3471,39 @@
       function renderPracticeBoard() {
         var host = document.getElementById("practiceBoardList");
         var locationFilter = document.getElementById("practiceLocationFilter").value;
-        var visibleWindows = PRACTICE_WINDOWS.filter(function (windowItem) {
+        var assignedWindows = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
           return locationFilter === "all" || windowItem.locationKey === locationFilter;
+        }).sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) ||
+            a.locationKey.localeCompare(b.locationKey) || assignedPracticeTeam(a).localeCompare(assignedPracticeTeam(b));
         });
-        host.innerHTML = visibleWindows.length ? visibleWindows.map(function (windowItem) {
+        var inventoryWindows = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) {
+          return isOpenInventoryWindow(windowItem) && (locationFilter === "all" || windowItem.locationKey === locationFilter);
+        });
+
+        var assignedHtml = assignedWindows.map(function (windowItem) {
+          var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+          var assignedTeam = assignedPracticeTeam(windowItem);
+          var team = TEAM_META[assignedTeam];
+          var booking = assignedPracticeBooking(windowItem);
+          var coachLabel = booking ? "Coach " + booking.coach : "Coach Needed";
+          return "<article class='practice-window-card assigned' data-practice-card='" + escapeHtml(windowItem.id) +
+            "' style='--location-color:" + location.color + ";--team-color:" + team.color + "'><div class='practice-window-header'><div>" +
+            "<div class='practice-window-title'>" + escapeHtml(formatDate(windowItem.date, { weekday: "short", month: "short", day: "numeric" })) +
+            "</div><div class='assigned-team-line'>" + escapeHtml(team.label) + "</div></div><span class='assignment-chip " +
+            escapeHtml(windowItem.assignmentStatus) + "'>" + escapeHtml(assignmentStatusLabel(windowItem.assignmentStatus)) +
+            "</span></div><div class='practice-window-meta'>" + escapeHtml(practiceWindowLocation(windowItem)) + " • " +
+            escapeHtml(assignedPracticeTime(windowItem)) + "</div><div class='practice-window-meta'>" + escapeHtml(windowItem.note) +
+            "</div><div class='booking-list'><div class='booking-row' style='--team-color:" + team.color + "'><div><span class='booking-team'>" +
+            escapeHtml(coachLabel) + "</span><span class='booking-coach'>" + escapeHtml(windowItem.source) +
+            "</span></div><span class='assignment-chip " + (booking ? "coach-assigned" : "coach-needed") + "'>" +
+            escapeHtml(booking ? "Assigned" : "Coach Needed") + "</span></div></div><div class='practice-window-actions'><span class='practice-window-meta'>" +
+            escapeHtml(location.label + " • Team time is locked") + "</span><button class='btn subtle assign-coach' type='button' data-window-id='" +
+            escapeHtml(windowItem.id) + "'" + (booking ? " disabled" : "") + ">" + (booking ? "Coach Assigned" : "Assign Coach") +
+            "</button></div></article>";
+        }).join("");
+
+        var inventoryHtml = inventoryWindows.map(function (windowItem) {
           var location = PRACTICE_LOCATION_META[windowItem.locationKey];
           var availability = practiceAvailability(windowItem);
           var bookings = bookingsForWindow(windowItem.id);
@@ -3174,8 +3532,21 @@
             "</div><div class='practice-window-actions'><span class='practice-window-meta'>" +
             escapeHtml(freeLabel) + "</span><button class='btn subtle claim-window' type='button' data-window-id='" +
             escapeHtml(windowItem.id) + "'" + (claimable ? "" : " disabled") + ">" + (claimable ? "Claim Time" : "Full") + "</button></div></article>";
-        }).join("") : "<div class='empty'>No approved practice windows match this location.</div>";
-        host.querySelectorAll(".claim-window").forEach(function (button) {
+        }).join("");
+
+        var assignedSection = assignedWindows.length
+          ? "<div class='practice-board-divider'>Assigned Team Practices <span>" + assignedWindows.length + " total • " +
+            assignedWindows.filter(function (windowItem) { return !assignedPracticeBooking(windowItem); }).length + " Coach Needed</span></div>" + assignedHtml
+          : "<div class='practice-board-divider'>Assigned Team Practices <span>0 at this location</span></div>" +
+            "<div class='empty'>No PDF team assignments match this location.</div>";
+        var inventorySection = inventoryWindows.length
+          ? "<div class='practice-board-divider'>Remaining Open Field Inventory <span>" + inventoryWindows.length +
+            " field windows</span></div>" + inventoryHtml
+          : "<div class='practice-board-divider'>Remaining Open Field Inventory <span>0 at this location</span></div>" +
+            "<div class='empty'>No additional field windows are open at this location.</div>";
+        host.innerHTML = assignedSection + inventorySection;
+
+        host.querySelectorAll(".assign-coach, .claim-window").forEach(function (button) {
           button.addEventListener("click", function () { openClaimDialog(button.getAttribute("data-window-id")); });
         });
       }
@@ -3191,15 +3562,33 @@
         }).map(function (event) {
           return { kind: "tournament", date: event.start || "9999-12-31", value: event };
         });
+        var assignedPracticeRows = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+          if (typeFilter === "tournaments") return false;
+          var booking = assignedPracticeBooking(windowItem);
+          var coachStatus = booking ? "coach-assigned" : "coach-needed";
+          return (teamFilter === "all" || assignedPracticeTeam(windowItem) === teamFilter) &&
+            (statusFilter === "all" || statusFilter === coachStatus);
+        }).map(function (windowItem) {
+          return {
+            kind: "assigned-practice",
+            date: windowItem.date,
+            value: windowItem,
+            booking: assignedPracticeBooking(windowItem)
+          };
+        });
         var practiceRows = practiceBookings.filter(function (booking) {
-          if (typeFilter === "tournaments" || statusFilter !== "all") return false;
+          var windowItem = findPracticeWindow(booking.windowId);
+          if (typeFilter === "tournaments" || isAssignedPractice(windowItem) ||
+              (statusFilter !== "all" && statusFilter !== "coach-assigned")) return false;
           return teamFilter === "all" || bookingTeams(booking).indexOf(teamFilter) >= 0;
         }).map(function (booking) {
           var windowItem = findPracticeWindow(booking.windowId);
           return { kind: "practice", date: windowItem ? windowItem.date : "9999-12-31", value: booking, windowItem: windowItem };
         });
-        var rows = tournamentRows.concat(practiceRows).sort(function (a, b) {
-          return a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind) || a.value.team.localeCompare(b.value.team);
+        var rows = tournamentRows.concat(assignedPracticeRows, practiceRows).sort(function (a, b) {
+          var aTeam = a.kind === "assigned-practice" ? assignedPracticeTeam(a.value) : a.value.team;
+          var bTeam = b.kind === "assigned-practice" ? assignedPracticeTeam(b.value) : b.value.team;
+          return a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind) || aTeam.localeCompare(bTeam);
         });
 
         document.getElementById("manageTableBody").innerHTML = rows.map(function (row) {
@@ -3215,6 +3604,24 @@
               "</span></td><td>" + escapeHtml(event.location || "—") + "</td>" +
               "<td><div class='row-actions'><button class='btn subtle edit-row' type='button' data-event-id='" +
               escapeHtml(event.id) + "'>Edit</button></div></td></tr>";
+          }
+          if (row.kind === "assigned-practice") {
+            var assignedWindow = row.value;
+            var assignedBooking = row.booking;
+            var assignedTeam = assignedPracticeTeam(assignedWindow);
+            var assignedMeta = TEAM_META[assignedTeam];
+            var coachStatus = assignedBooking ? "coach-assigned" : "coach-needed";
+            return "<tr><td><strong>Assigned Practice</strong></td><td><span class='team-cell' style='--team-color:" + assignedMeta.color +
+              "'><span class='team-swatch'></span>" + escapeHtml(assignedMeta.short) + "</span></td><td><span class='table-title'>" +
+              escapeHtml(assignedBooking ? "Coach " + assignedBooking.coach : "Coach Needed") + "</span><span class='event-time-meta'>" +
+              escapeHtml(assignmentStatusLabel(assignedWindow.assignmentStatus)) + " • " + escapeHtml(assignedWindow.note) +
+              "</span></td><td>" + escapeHtml(formatDate(assignedWindow.date)) + "</td><td>" + escapeHtml(assignedPracticeTime(assignedWindow)) +
+              "</td><td><span class='assignment-chip " + coachStatus + "'>" + escapeHtml(assignedBooking ? "Coach Assigned" : "Coach Needed") +
+              "</span></td><td>" + escapeHtml(practiceWindowLocation(assignedWindow)) +
+              "</td><td><div class='row-actions'>" + (assignedBooking
+                ? "<button class='btn danger release-booking' type='button' data-booking-id='" + escapeHtml(assignedBooking.id) + "'>Release</button>"
+                : "<button class='btn subtle assign-coach' type='button' data-window-id='" + escapeHtml(assignedWindow.id) + "'>Assign Coach</button>") +
+              "</div></td></tr>";
           }
           var booking = row.value;
           var windowItem = row.windowItem;
@@ -3236,6 +3643,9 @@
         document.getElementById("manageTableBody").querySelectorAll(".release-booking").forEach(function (button) {
           button.addEventListener("click", function () { releasePractice(button.getAttribute("data-booking-id")); });
         });
+        document.getElementById("manageTableBody").querySelectorAll(".assign-coach").forEach(function (button) {
+          button.addEventListener("click", function () { openClaimDialog(button.getAttribute("data-window-id")); });
+        });
       }
 
       function renderAll() {
@@ -3249,6 +3659,10 @@
       function updateClaimStartOptions() {
         var windowItem = findPracticeWindow(document.getElementById("claimWindowId").value);
         if (!windowItem) return;
+        if (isAssignedPractice(windowItem)) {
+          document.getElementById("claimSubmitButton").disabled = false;
+          return;
+        }
         var durationSelect = document.getElementById("claimDuration");
         var permitted = allowedDurationsForWindow(windowItem);
         Array.from(durationSelect.options).forEach(function (option) {
@@ -3281,25 +3695,66 @@
         var windowItem = findPracticeWindow(windowId);
         if (!windowItem) return;
         var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+        var assigned = isAssignedPractice(windowItem);
+        var existingAssignedBooking = assigned ? assignedPracticeBooking(windowItem) : null;
+        if (existingAssignedBooking) {
+          showToast("Coach " + existingAssignedBooking.coach + " is already assigned. Release the coach from Manage to change it.");
+          return;
+        }
+        if (!assigned && !isOpenInventoryWindow(windowItem)) {
+          showToast("This master field window is already represented by assigned team practices.");
+          return;
+        }
         document.getElementById("claimWindowId").value = windowItem.id;
-        document.getElementById("claimTeam").value = "";
+        document.getElementById("claimTeam").value = assigned ? assignedPracticeTeam(windowItem) : "";
         document.getElementById("claimSecondTeam").value = "";
         document.getElementById("claimCoach").value = "";
-        document.getElementById("claimDuration").value = String(allowedDurationsForWindow(windowItem)[0]);
-        var shared = Number(windowItem.teamCount) === 2;
+        var teamSelect = document.getElementById("claimTeam");
+        var secondTeamSelect = document.getElementById("claimSecondTeam");
+        var durationSelect = document.getElementById("claimDuration");
+        var startSelect = document.getElementById("claimStart");
+        document.getElementById("claimTeamGroup").hidden = assigned;
+        document.getElementById("claimDurationGroup").hidden = assigned;
+        document.getElementById("claimStartGroup").hidden = assigned;
+        teamSelect.disabled = assigned;
+        teamSelect.required = !assigned;
+        durationSelect.disabled = assigned;
+        durationSelect.required = !assigned;
+        startSelect.disabled = assigned;
+        startSelect.required = !assigned;
+        secondTeamSelect.disabled = assigned;
+        var shared = !assigned && Number(windowItem.teamCount) === 2;
         document.getElementById("claimSecondTeamGroup").hidden = !shared;
-        document.getElementById("claimSecondTeam").required = shared;
-        updateSecondTeamOptions();
-        document.getElementById("claimSummary").style.setProperty("--location-color", location.color);
-        document.getElementById("claimSummary").innerHTML = "<strong>" +
-          escapeHtml(formatDate(windowItem.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" })) +
-          "</strong><br>" + escapeHtml(practiceWindowLocation(windowItem)) + "<br>Master window: " +
-          escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)) +
-          (windowItem.patternLabel ? "<br><strong>" + escapeHtml(windowItem.patternLabel) + "</strong>" : "") +
-          "<br>" + escapeHtml(windowItem.approval === "confirmed" ? "Confirmed field time" : "Available week-by-week; confirm before team communication");
-        updateClaimStartOptions();
+        secondTeamSelect.required = shared;
+        document.getElementById("claimDialogTitle").textContent = assigned ? "Assign Coach" : "Claim Practice Block";
+        document.getElementById("claimSubmitButton").textContent = assigned ? "Assign Coach" : "Claim Block";
+
+        if (assigned) {
+          var assignedTeam = assignedPracticeTeam(windowItem);
+          var team = TEAM_META[assignedTeam];
+          document.getElementById("claimSummary").style.setProperty("--location-color", team.color);
+          document.getElementById("claimSummary").innerHTML = "<strong style='color:" + team.color + "'>" +
+            escapeHtml(team.label) + "</strong><br>" +
+            escapeHtml(formatDate(windowItem.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" })) +
+            "<br>" + escapeHtml(practiceWindowLocation(windowItem)) + "<br>Team time: " +
+            escapeHtml(assignedPracticeTime(windowItem)) + "<br><span class='assignment-chip " +
+            escapeHtml(windowItem.assignmentStatus) + "'>" + escapeHtml(assignmentStatusLabel(windowItem.assignmentStatus)) +
+            "</span><br>" + escapeHtml(windowItem.note) + "<br><strong>Coach Needed</strong>";
+          document.getElementById("claimSubmitButton").disabled = false;
+        } else {
+          durationSelect.value = String(allowedDurationsForWindow(windowItem)[0]);
+          updateSecondTeamOptions();
+          document.getElementById("claimSummary").style.setProperty("--location-color", location.color);
+          document.getElementById("claimSummary").innerHTML = "<strong>" +
+            escapeHtml(formatDate(windowItem.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" })) +
+            "</strong><br>" + escapeHtml(practiceWindowLocation(windowItem)) + "<br>Master window: " +
+            escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)) +
+            (windowItem.patternLabel ? "<br><strong>" + escapeHtml(windowItem.patternLabel) + "</strong>" : "") +
+            "<br>" + escapeHtml(windowItem.approval === "confirmed" ? "Confirmed field time" : "Available week-by-week; confirm before team communication");
+          updateClaimStartOptions();
+        }
         document.getElementById("claimDialog").showModal();
-        document.getElementById("claimTeam").focus();
+        document.getElementById(assigned ? "claimCoach" : "claimTeam").focus();
       }
 
       async function submitPracticeClaim(eventObject) {
@@ -3310,10 +3765,15 @@
         var team = document.getElementById("claimTeam").value;
         var secondTeam = document.getElementById("claimSecondTeam").value;
         var coach = document.getElementById("claimCoach").value.trim();
+        var assigned = isAssignedPractice(windowItem);
         var shared = windowItem && Number(windowItem.teamCount) === 2;
-        if (!windowItem || !TEAM_META[team] || !coach || ALLOWED_DURATIONS.indexOf(duration) < 0 ||
+        if (assigned && !coach) {
+          showToast("Enter the coach taking this assigned team practice.");
+          return;
+        }
+        if (!assigned && (!windowItem || !isOpenInventoryWindow(windowItem) || !TEAM_META[team] || !coach || ALLOWED_DURATIONS.indexOf(duration) < 0 ||
             availableStarts(windowItem, duration).indexOf(startTime) < 0 ||
-            (shared && (!TEAM_META[secondTeam] || secondTeam === team))) {
+            (shared && (!TEAM_META[secondTeam] || secondTeam === team)))) {
           showToast("Choose a valid team, coach, duration, and open start time.");
           return;
         }
@@ -3321,14 +3781,17 @@
         button.disabled = true;
         button.textContent = "Claiming…";
         try {
-          var bookingPayload = {
+          var bookingPayload = assigned ? {
+            windowId: windowItem.id,
+            coach: coach
+          } : {
             windowId: windowItem.id,
             team: team,
             coach: coach,
             startTime: startTime,
             durationHours: duration
           };
-          if (shared) bookingPayload.secondTeam = secondTeam;
+          if (!assigned && shared) bookingPayload.secondTeam = secondTeam;
           var claimResult = await syncRequest({
             action: "claimPractice",
             booking: bookingPayload
@@ -3336,7 +3799,9 @@
           applyScheduleData(claimResult);
           document.getElementById("claimDialog").close();
           renderAll();
-          showToast("Practice block claimed for " + team + (shared ? " + " + secondTeam : "") + ".");
+          showToast(assigned
+            ? "Coach " + coach + " assigned to " + assignedPracticeTeam(windowItem) + "."
+            : "Practice block claimed for " + team + (shared ? " + " + secondTeam : "") + ".");
         } catch (error) {
           if (error.status === 409) {
             try {
@@ -3347,23 +3812,27 @@
             }
           }
           showToast(error.status === 409
-            ? "That time was just claimed. Refresh and choose another block."
+            ? (assigned ? "A coach was just assigned to that practice. The board is refreshed." : "That time was just claimed. Refresh and choose another block.")
             : "Practice was not claimed. Check the connection and try again.");
-          updateClaimStartOptions();
+          if (!assigned) updateClaimStartOptions();
         } finally {
-          button.textContent = "Claim Block";
-          if (document.getElementById("claimDialog").open) updateClaimStartOptions();
+          button.textContent = assigned ? "Assign Coach" : "Claim Block";
+          if (!assigned && document.getElementById("claimDialog").open) updateClaimStartOptions();
         }
       }
 
       async function releasePractice(bookingId) {
         var booking = practiceBookings.find(function (item) { return item.id === bookingId; });
-        if (!booking || !window.confirm("Release this practice block for " + bookingTeams(booking).join(" + ") + "?")) return;
+        var windowItem = booking ? findPracticeWindow(booking.windowId) : null;
+        var assigned = isAssignedPractice(windowItem);
+        if (!booking || !window.confirm(assigned
+          ? "Release Coach " + booking.coach + " from " + assignedPracticeTeam(windowItem) + "? The practice will return to Coach Needed."
+          : "Release this practice block for " + bookingTeams(booking).join(" + ") + "?")) return;
         try {
           var releaseResult = await syncRequest({ action: "releasePractice", bookingId: bookingId });
           applyScheduleData(releaseResult);
           renderAll();
-          showToast("Practice block released.");
+          showToast(assigned ? "Coach released. The team practice is Coach Needed again." : "Practice block released.");
         } catch (error) {
           if (error.status === 404 || error.status === 409) {
             try {
@@ -3667,8 +4136,14 @@
       function jumpToNextOpenPractice() {
         var today = isoDate(new Date());
         var locationFilter = document.getElementById("practiceLocationFilter").value;
-        var next = PRACTICE_WINDOWS.find(function (windowItem) {
+        var next = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
           return (locationFilter === "all" || windowItem.locationKey === locationFilter) && windowItem.date >= today &&
+            !assignedPracticeBooking(windowItem);
+        }).sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.id.localeCompare(b.id);
+        })[0] || MASTER_PRACTICE_WINDOWS.find(function (windowItem) {
+          return (locationFilter === "all" || windowItem.locationKey === locationFilter) && windowItem.date >= today &&
+            isOpenInventoryWindow(windowItem) &&
             ALLOWED_DURATIONS.some(function (duration) {
             return availableStarts(windowItem, duration).length > 0;
           });
@@ -3683,10 +4158,14 @@
 
       function runSelfTest() {
         var groups = getConflictGroups();
-        var seaford = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "seaford"; });
-        var nickerson = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "nickerson"; });
-        var pointLookout = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "point-lookout"; });
-        var momentum = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "momentum"; });
+        var seaford = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "seaford"; });
+        var nickerson = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "nickerson"; });
+        var pointLookout = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "point-lookout"; });
+        var momentum = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "momentum"; });
+        var assignedSeaford = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "seaford"; });
+        var assignedStimson = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "stimson"; });
+        var assignedNickerson = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "nickerson"; });
+        var assignedPointLookout = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "point-lookout"; });
         var colors = Object.keys(TEAM_META).map(function (team) { return TEAM_META[team].color.toUpperCase(); });
         var locationColors = Object.keys(PRACTICE_LOCATION_META).map(function (key) {
           return PRACTICE_LOCATION_META[key].color.toUpperCase();
@@ -3698,6 +4177,13 @@
         var validBookings = practiceBookings.every(function (booking) {
           var windowItem = findPracticeWindow(booking.windowId);
           var teams = bookingTeams(booking);
+          if (isAssignedPractice(windowItem)) {
+            return teams.length === 1 && teams[0] === assignedPracticeTeam(windowItem) &&
+              String(booking.coach || "").trim() && booking.startTime === windowItem.startTime &&
+              (windowItem.requiredDurationHours == null
+                ? booking.durationHours == null
+                : Number(booking.durationHours) === Number(windowItem.requiredDurationHours));
+          }
           var expectedTeams = windowItem ? Number(windowItem.teamCount || 1) : 1;
           if (!windowItem || teams.length !== expectedTeams || new Set(teams).size !== expectedTeams ||
               !teams.every(function (team) { return Boolean(TEAM_META[team]); }) ||
@@ -3714,6 +4200,33 @@
           tbdTournamentCount: events.filter(function (event) { return !event.start || !event.end; }).length,
           offIslandCount: events.filter(function (event) { return event.offIsland === true; }).length,
           practiceWindowCount: PRACTICE_WINDOWS.length,
+          masterPracticeWindowCount: MASTER_PRACTICE_WINDOWS.length,
+          assignedPracticeWindowCount: ASSIGNED_PRACTICE_WINDOWS.length,
+          assignedSeafordCount: assignedSeaford.length,
+          assignedStimsonCount: assignedStimson.length,
+          assignedNickersonCount: assignedNickerson.length,
+          assignedPointLookoutCount: assignedPointLookout.length,
+          assignedAdjustedCount: ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.assignmentStatus === "adjusted"; }).length,
+          assignedNeedsTimeCount: ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.assignmentStatus === "needs-time"; }).length,
+          assignedPendingCount: ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.assignmentStatus === "pending"; }).length,
+          assignedConfirmedCount: ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.assignmentStatus === "confirmed"; }).length,
+          assignedNullEndCount: ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.endTime === null; }).length,
+          closedParentWindowCount: MASTER_PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.claimMode === "closed-to-new"; }).length,
+          assignedCoachNeededCount: ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) { return !assignedPracticeBooking(windowItem); }).length,
+          assignedSchemaValid: ASSIGNED_PRACTICE_WINDOWS.every(function (windowItem) {
+            var team = assignedPracticeTeam(windowItem);
+            return windowItem.mode === "assigned" && windowItem.claimMode === "assigned" && windowItem.kind === "assigned" &&
+              windowItem.teamCount === 1 && windowItem.startIncrementMinutes === 30 && Boolean(TEAM_META[team]) &&
+              windowItem.id === "pdf-" + windowItem.locationKey + "-" + windowItem.date + "-" + practiceTeamSlug(team) &&
+              windowItem.source === PDF_ASSIGNMENT_SOURCE && typeof windowItem.timeLabel === "string" &&
+              ["confirmed", "adjusted", "pending", "needs-time"].indexOf(windowItem.assignmentStatus) >= 0;
+          }),
+          assignedDateRangeExact: ASSIGNED_PRACTICE_WINDOWS.every(function (windowItem) {
+            return windowItem.date >= "2026-09-08" && windowItem.date <= "2026-09-24";
+          }),
+          assignedPointLookoutBlackoutHonored: !assignedPointLookout.some(function (windowItem) {
+            return windowItem.date === "2026-09-19";
+          }),
           seafordWindowCount: seaford.length,
           nickersonWindowCount: nickerson.length,
           nickersonWeekdayCount: nickerson.filter(function (windowItem) { return windowItem.startTime === "17:00"; }).length,
@@ -3753,7 +4266,22 @@
           result.datedTournamentCount === 34 &&
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
-          result.practiceWindowCount === 123 &&
+          result.practiceWindowCount === 176 &&
+          result.masterPracticeWindowCount === 123 &&
+          result.assignedPracticeWindowCount === 53 &&
+          result.assignedSeafordCount === 24 &&
+          result.assignedStimsonCount === 10 &&
+          result.assignedNickersonCount === 12 &&
+          result.assignedPointLookoutCount === 7 &&
+          result.assignedAdjustedCount === 18 &&
+          result.assignedNeedsTimeCount === 4 &&
+          result.assignedPendingCount === 12 &&
+          result.assignedConfirmedCount === 19 &&
+          result.assignedNullEndCount === 4 &&
+          result.closedParentWindowCount === 19 &&
+          result.assignedSchemaValid &&
+          result.assignedDateRangeExact &&
+          result.assignedPointLookoutBlackoutHonored &&
           result.seafordWindowCount === 24 &&
           result.nickersonWindowCount === 35 &&
           result.nickersonWeekdayCount === 26 &&
@@ -3905,6 +4433,14 @@
           getEvents: function () { return JSON.parse(JSON.stringify(events)); },
           getDefaultTournaments: function () { return JSON.parse(JSON.stringify(DEFAULT_EVENTS)); },
           getPracticeWindows: function () { return JSON.parse(JSON.stringify(PRACTICE_WINDOWS)); },
+          getMasterPracticeWindows: function () { return JSON.parse(JSON.stringify(MASTER_PRACTICE_WINDOWS)); },
+          getAssignedPracticeWindows: function () { return JSON.parse(JSON.stringify(ASSIGNED_PRACTICE_WINDOWS)); },
+          getClosedParentWindowIds: function () { return Array.from(CLOSED_PARENT_WINDOW_IDS); },
+          getCoachNeededPractices: function () {
+            return JSON.parse(JSON.stringify(ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+              return !assignedPracticeBooking(windowItem);
+            })));
+          },
           getPracticeBookings: function () { return JSON.parse(JSON.stringify(practiceBookings)); },
           getConflicts: function () { return JSON.parse(JSON.stringify(getConflictGroups())); },
           getCurrentMonth: function () { return isoDate(viewDate); },
