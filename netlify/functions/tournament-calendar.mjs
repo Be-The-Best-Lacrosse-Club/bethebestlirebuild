@@ -248,7 +248,6 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     assignmentStatus: "adjusted",
     note: ADJUSTED_SEAFORD_NOTE,
     sessions: [
-      { team: "2036 Avalanche", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
     ],
   }),
@@ -260,6 +259,15 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     sessions: [
       { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
+    assignmentStatus: "confirmed",
+    note: "Updated by Dan to Wednesdays 7:15–8:15 PM inside the Kevin-approved Seaford field window.",
+    sessions: [
+      { team: "2036 Avalanche", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", requiredDurationHours: 1 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -329,9 +337,17 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     sessions: [
       { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
       { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", requiredDurationHours: 2 },
-      { team: "2036 Avalanche", startTime: "11:00", endTime: "12:30", timeLabel: "11:00 AM–12:30 PM", requiredDurationHours: 1.5 },
       { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", requiredDurationHours: 1.5 },
       { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...NICKERSON_ASSIGNED_LOCATION,
+    dates: ["2026-09-12", "2026-09-19"],
+    assignmentStatus: "pending",
+    note: "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.",
+    sessions: [
+      { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", requiredDurationHours: 1.25 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -751,7 +767,7 @@ function normalizeBooking(input, { requireId = false, id, createdAt } = {}) {
     endMinutes = windowEnd;
     if (!start || !Number.isFinite(windowStart) ||
         (window.endTime !== null && (!Number.isFinite(windowEnd) ||
-          !VALID_DURATIONS.has(durationHours) ||
+          !Number.isFinite(durationHours) || durationHours <= 0 ||
           start.minutes + durationHours * 60 !== windowEnd)) ||
         (window.endTime === null && durationHours !== null)) {
       throw new CalendarApiError("Assigned practice time is invalid", { code: "invalid_window" });

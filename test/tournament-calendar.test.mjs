@@ -115,10 +115,13 @@ function expectedPdfPracticeSlots() {
   };
 
   add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], "19:15", "21:15", [
-    "2036 Avalanche", "2033 Renegades",
+    "2033 Renegades",
   ]);
   add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], "19:15", "21:15", [
     "2036 Dawgs", "2035 Bombers",
+  ]);
+  add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], "19:15", "20:15", [
+    "2036 Avalanche",
   ]);
   add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24"], "19:15", "21:15", [
     "2032 Riptide", "2031 Cyclones",
@@ -138,7 +141,7 @@ function expectedPdfPracticeSlots() {
   add("nickerson", ["2026-09-14", "2026-09-21"], "17:00", "18:30", ["2035 Hurricanes"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:00", "10:30", ["2036 Dawgs"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "10:30", "12:30", ["2033 Renegades"]);
-  add("nickerson", ["2026-09-12", "2026-09-19"], "11:00", "12:30", ["2036 Avalanche"]);
+  add("nickerson", ["2026-09-12", "2026-09-19"], "08:15", "09:30", ["2036 Avalanche"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:30", "11:00", ["2035 Hurricanes"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:00", "10:30", ["2034 Venom"]);
 
@@ -324,22 +327,37 @@ test("assigned PDF slots cover the exact September 8-24 team schedule", () => {
   );
 });
 
-test("assigned PDF slots preserve adjusted, overlapping, and incomplete source times", () => {
-  const adjusted = practiceWindow("pdf-seaford-2026-09-08-2036-avalanche");
+test("assigned PDF slots preserve updated, overlapping, and incomplete source times", () => {
+  const avalancheWeekday = practiceWindow("pdf-seaford-2026-09-09-2036-avalanche");
   assert.deepEqual({
-    team: adjusted.assignedTeams[0],
-    startTime: adjusted.startTime,
-    endTime: adjusted.endTime,
-    timeLabel: adjusted.timeLabel,
-    assignmentStatus: adjusted.assignmentStatus,
-    requiredDurationHours: adjusted.requiredDurationHours,
+    team: avalancheWeekday.assignedTeams[0],
+    startTime: avalancheWeekday.startTime,
+    endTime: avalancheWeekday.endTime,
+    timeLabel: avalancheWeekday.timeLabel,
+    assignmentStatus: avalancheWeekday.assignmentStatus,
+    requiredDurationHours: avalancheWeekday.requiredDurationHours,
   }, {
     team: "2036 Avalanche",
     startTime: "19:15",
-    endTime: "21:15",
-    timeLabel: "7:15 PM–9:15 PM",
-    assignmentStatus: "adjusted",
-    requiredDurationHours: 2,
+    endTime: "20:15",
+    timeLabel: "7:15 PM–8:15 PM",
+    assignmentStatus: "confirmed",
+    requiredDurationHours: 1,
+  });
+
+  const saturdayAvalanche = practiceWindow("pdf-nickerson-2026-09-12-2036-avalanche");
+  assert.deepEqual({
+    startTime: saturdayAvalanche.startTime,
+    endTime: saturdayAvalanche.endTime,
+    timeLabel: saturdayAvalanche.timeLabel,
+    assignmentStatus: saturdayAvalanche.assignmentStatus,
+    requiredDurationHours: saturdayAvalanche.requiredDurationHours,
+  }, {
+    startTime: "08:15",
+    endTime: "09:30",
+    timeLabel: "8:15 AM–9:30 AM",
+    assignmentStatus: "pending",
+    requiredDurationHours: 1.25,
   });
 
   const seafordNeedsTime = practiceWindow("pdf-seaford-2026-09-12-2035-bombers");
@@ -433,6 +451,17 @@ test("the staff page keeps a Sunday-first calendar and Google-style practice tic
   assert.match(html.slice(typeFilterStart, typeFilterEnd), /<option value="practices">Practices<\/option>/);
   assert.match(html, /id="practiceTicker"/);
   assert.match(html, /id="practiceTickerTrack"/);
+
+  const tickerStart = html.indexOf("function renderPracticeTicker()");
+  const tickerEnd = html.indexOf("function renderTeamChrome()", tickerStart);
+  const tickerSource = html.slice(tickerStart, tickerEnd);
+  assert.match(tickerSource, /practiceBookings\.map\(function \(booking\)/);
+  assert.match(tickerSource, /isAssignedPractice\(windowItem\)/);
+
+  const jumpStart = html.indexOf("function jumpToNextOpenPractice()");
+  const jumpEnd = html.indexOf("function runSelfTest()", jumpStart);
+  const jumpSource = html.slice(jumpStart, jumpEnd);
+  assert.match(jumpSource, /\[nextAssigned, nextInventory\]\.filter\(Boolean\)\.sort/);
 });
 
 test("known-team validation covers the active 18-team 2026-27 operating list", () => {
@@ -597,6 +626,20 @@ test("an assigned PDF slot derives its fixed team and time from a coach-only cla
     coach: "Coach Two",
   }, claimOptions("assigned-storm-again"));
   assert.equal(reclaimed.booking.coach, "Coach Two");
+
+  const avalanche = await claimPractice(store, {
+    windowId: "pdf-nickerson-2026-09-12-2036-avalanche",
+    coach: "Coach Emma",
+  }, claimOptions("assigned-avalanche"));
+  assert.deepEqual({
+    startTime: avalanche.booking.startTime,
+    endTime: avalanche.booking.endTime,
+    durationHours: avalanche.booking.durationHours,
+  }, {
+    startTime: "08:15",
+    endTime: "09:30",
+    durationHours: 1.25,
+  });
 });
 
 test("assigned PDF slots with unresolved ends remain coach-claimable without invented times", async () => {

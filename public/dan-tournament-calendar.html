@@ -2982,13 +2982,15 @@
 
         var seafordWeekdayNote = "Adjusted to Kevin-approved 7:15–9:15 PM; the PDF listed 7:00–9:00 PM.";
         add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], [
-          { team: "2036 Avalanche", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
         ], "adjusted", seafordWeekdayNote);
         add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
           { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
         ], "adjusted", seafordWeekdayNote);
+        add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
+          { team: "2036 Avalanche", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", durationHours: 1 }
+        ], "confirmed", "Updated by Dan to Wednesdays 7:15–8:15 PM inside the Kevin-approved Seaford field window.");
         add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24"], [
           { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
@@ -3017,10 +3019,12 @@
         add("nickerson", ["2026-09-12", "2026-09-19"], [
           { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", durationHours: 2 },
-          { team: "2036 Avalanche", startTime: "11:00", endTime: "12:30", timeLabel: "11:00 AM–12:30 PM", durationHours: 1.5 },
           { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", durationHours: 1.5 },
           { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 }
         ], "confirmed", "Assigned in the Practice Times PDF.");
+        add("nickerson", ["2026-09-12", "2026-09-19"], [
+          { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", durationHours: 1.25 }
+        ], "pending", "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.");
 
         add("point-lookout", ["2026-09-14", "2026-09-21"], [
           { team: "2033 Storm", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
@@ -3553,11 +3557,31 @@
       function renderPracticeTicker() {
         var track = document.getElementById("practiceTickerTrack");
         var today = isoDate(new Date());
-        var upcoming = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+        var upcomingAssigned = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
           return windowItem.date >= today;
-        }).sort(function (a, b) {
-          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) ||
-            assignedPracticeTeam(a).localeCompare(assignedPracticeTeam(b));
+        }).map(function (windowItem) {
+          return {
+            windowItem: windowItem,
+            booking: assignedPracticeBooking(windowItem),
+            teams: windowItem.assignedTeams.slice(),
+            startTime: windowItem.startTime,
+            timeLabel: assignedPracticeTime(windowItem)
+          };
+        });
+        var upcomingClaimed = practiceBookings.map(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          if (!windowItem || isAssignedPractice(windowItem) || windowItem.date < today) return null;
+          return {
+            windowItem: windowItem,
+            booking: booking,
+            teams: bookingTeams(booking),
+            startTime: booking.startTime,
+            timeLabel: formatClock(booking.startTime) + "–" + formatClock(minutesToClock(bookingEndMinutes(booking)))
+          };
+        }).filter(Boolean);
+        var upcoming = upcomingAssigned.concat(upcomingClaimed).sort(function (a, b) {
+          return a.windowItem.date.localeCompare(b.windowItem.date) || a.startTime.localeCompare(b.startTime) ||
+            a.teams.join("|").localeCompare(b.teams.join("|"));
         }).slice(0, 16);
 
         if (!upcoming.length) {
@@ -3568,14 +3592,15 @@
         }
 
         track.classList.remove("static");
-        var items = upcoming.map(function (windowItem) {
-          var team = TEAM_META[assignedPracticeTeam(windowItem)];
-          var coach = assignedPracticeBooking(windowItem);
-          return "<span class='practice-ticker-item' style='--team-color:" + team.color + "'><strong>" +
-            escapeHtml(team.short) + "</strong><span>" +
-            escapeHtml(formatDate(windowItem.date, { weekday: "short", month: "short", day: "numeric" })) + " • " +
-            escapeHtml(assignedPracticeTime(windowItem)) + " • " + escapeHtml(windowItem.venue) +
-            "</span><em>" + escapeHtml(coach ? "Coach " + coach.coach : "Coach Needed") + "</em></span>";
+        var items = upcoming.map(function (item) {
+          var teams = item.teams.map(function (team) { return TEAM_META[team]; }).filter(Boolean);
+          var teamColor = teams.length ? teams[0].color : "#D22630";
+          var teamLabel = teams.length ? teams.map(function (team) { return team.short; }).join(" + ") : "TEAM PRACTICE";
+          return "<span class='practice-ticker-item' style='--team-color:" + teamColor + "'><strong>" +
+            escapeHtml(teamLabel) + "</strong><span>" +
+            escapeHtml(formatDate(item.windowItem.date, { weekday: "short", month: "short", day: "numeric" })) + " • " +
+            escapeHtml(item.timeLabel) + " • " + escapeHtml(item.windowItem.venue) +
+            "</span><em>" + escapeHtml(item.booking ? "Coach " + item.booking.coach : "Coach Needed") + "</em></span>";
         }).join("");
         track.innerHTML = "<div class='practice-ticker-set'>" + items + "</div>" +
           "<div class='practice-ticker-set' aria-hidden='true'>" + items + "</div>";
@@ -4607,7 +4632,9 @@
               return availableStarts(windowItem, duration).length > 0;
             });
         });
-        var next = nextAssigned || nextInventory;
+        var next = [nextAssigned, nextInventory].filter(Boolean).sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.id.localeCompare(b.id);
+        })[0];
         if (!next) {
           showToast("No claimable practice window remains.");
           return;
@@ -4724,7 +4751,9 @@
           allEventsUseKnownTeams: events.every(function (event) { return Boolean(TEAM_META[event.team]); }),
           validBookings: validBookings,
           allowedDurationsExact: JSON.stringify(ALLOWED_DURATIONS) === JSON.stringify([1, 1.5, 2]),
-          seafordStartLattice: availableStarts(seaford[0], 1).slice(0, 3).join(",") === "19:15,19:45,20:15",
+          seafordStartLattice: [0, 30, 60].map(function (offset) {
+            return minutesToClock(toMinutes(seaford[0].startTime) + offset);
+          }).join(",") === "19:15,19:45,20:15",
           teamCount: Object.keys(TEAM_META).length,
           linkedCalendarCount: linkedCalendars.length,
           activeRosterExact: ["2037 Wolves", "2037 Supernova"].every(function (team) { return activeTeams.has(team); }) &&
@@ -4753,10 +4782,10 @@
           result.assignedStimsonCount === 10 &&
           result.assignedNickersonCount === 12 &&
           result.assignedPointLookoutCount === 7 &&
-          result.assignedAdjustedCount === 18 &&
+          result.assignedAdjustedCount === 15 &&
           result.assignedNeedsTimeCount === 4 &&
-          result.assignedPendingCount === 12 &&
-          result.assignedConfirmedCount === 19 &&
+          result.assignedPendingCount === 14 &&
+          result.assignedConfirmedCount === 20 &&
           result.assignedNullEndCount === 4 &&
           result.closedParentWindowCount === 19 &&
           result.assignedSchemaValid &&
