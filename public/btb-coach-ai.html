@@ -667,7 +667,7 @@
         var GATE_PASS = '#BTBCOACH26';
 
         function gateCheck() {
-            if (sessionStorage.getItem(GATE_KEY) === '1') {
+            if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now() || sessionStorage.getItem(GATE_KEY) === '1') {
                 document.getElementById('gateOverlay').style.display = 'none';
             } else {
                 setTimeout(function() {

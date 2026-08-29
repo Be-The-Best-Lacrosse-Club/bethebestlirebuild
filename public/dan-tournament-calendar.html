@@ -1713,10 +1713,10 @@
     }
   </style>
   <script>
-  // Asked on every load, by design — nothing is remembered between visits.
-  // The value is held in memory only and checked by the Netlify function; the
-  // password itself is not in this file.
-  window.__BTB_WALL_KEY = window.prompt("BTB staff schedule password") || "";
+  // An authenticated owner is verified by the Netlify function. Everyone else
+  // is prompted on every load and keeps the existing server-checked password flow.
+  var btbOwnerAccess = Number(localStorage.getItem("btb-owner-access-until")) > Date.now();
+  window.__BTB_WALL_KEY = btbOwnerAccess ? "" : (window.prompt("BTB staff schedule password") || "");
   document.documentElement.classList.add("btb-wall-locked");
   </script>
   <style>html.btb-wall-locked body{visibility:hidden;}</style>

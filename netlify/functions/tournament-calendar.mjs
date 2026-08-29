@@ -8,6 +8,7 @@
 import { randomUUID } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { ALLOWED_ORIGINS, guardRequest } from "./_guard.js";
+import { authorizeIdentity } from "./_identity.js";
 
 const STORE_NAME = "tournament-calendar";
 export const SNAPSHOT_KEY = "dan-wall-snapshot";
@@ -630,7 +631,11 @@ function errorPayload(error) {
   return payload;
 }
 
-export default async (req) => {
+export function createHandler({ authorize = authorizeIdentity, getBlobStore = getStore } = {}) {
+  return (req) => handleRequest(req, { authorize, getBlobStore });
+}
+
+async function handleRequest(req, { authorize, getBlobStore }) {
   const blocked = guardRequest(req, {
     limit: 60,
     windowMs: 60_000,
@@ -639,10 +644,6 @@ export default async (req) => {
   if (blocked) return blocked;
 
   const expected = process.env.TOURNAMENT_CALENDAR_PASSWORD;
-  if (!expected) {
-    console.error("TOURNAMENT_CALENDAR_PASSWORD is not set");
-    return jsonResponse({ error: "Calendar store is not configured" }, 500);
-  }
 
   let body = null;
   if (req.method === "POST") {
@@ -653,11 +654,19 @@ export default async (req) => {
     }
   }
 
-  if (suppliedPassword(req, body) !== expected) {
-    return jsonResponse({ error: "Wrong password" }, 401);
+  const passwordMatches = Boolean(expected) && suppliedPassword(req, body) === expected;
+  if (!passwordMatches) {
+    const identity = await authorize(req, ["owner"]);
+    if (!identity.ok) {
+      if (!expected) {
+        console.error("TOURNAMENT_CALENDAR_PASSWORD is not set");
+        return jsonResponse({ error: "Calendar store is not configured" }, 500);
+      }
+      return jsonResponse({ error: "Wrong password" }, 401);
+    }
   }
 
-  const store = getStore(STORE_NAME, { consistency: "strong" });
+  const store = getBlobStore(STORE_NAME, { consistency: "strong" });
 
   try {
     if (req.method === "GET" || (req.method === "POST" && body?.action === "load")) {
@@ -688,4 +697,6 @@ export default async (req) => {
     console.error("tournament-calendar failed", error);
     return jsonResponse({ error: "Calendar store is unavailable" }, 500);
   }
-};
+}
+
+export default createHandler();

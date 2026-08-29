@@ -1,8 +1,30 @@
 const DEFAULT_SITE_URL = "https://www.bethebestli.com";
 
+function headerValue(event, name) {
+  if (typeof event.headers?.get === "function") {
+    return event.headers.get(name) || "";
+  }
+  const match = Object.entries(event.headers || {}).find(
+    ([key]) => key.toLowerCase() === name.toLowerCase(),
+  );
+  return match?.[1] || "";
+}
+
+function cookieValue(event, name) {
+  const cookieHeader = headerValue(event, "cookie");
+  const prefix = `${name}=`;
+  const cookie = cookieHeader.split(/;\s*/).find((entry) => entry.startsWith(prefix));
+  if (!cookie) return "";
+  try {
+    return decodeURIComponent(cookie.slice(prefix.length));
+  } catch {
+    return cookie.slice(prefix.length);
+  }
+}
+
 function bearerToken(event) {
-  const authHeader = event.headers?.authorization || event.headers?.Authorization || "";
-  return authHeader.replace(/^Bearer\s+/i, "").trim();
+  const authHeader = headerValue(event, "authorization");
+  return authHeader.replace(/^Bearer\s+/i, "").trim() || cookieValue(event, "nf_jwt");
 }
 
 export async function authorizeIdentity(
@@ -25,7 +47,8 @@ export async function authorizeIdentity(
     }
 
     const user = await response.json();
-    const roles = Array.isArray(user?.app_metadata?.roles) ? user.app_metadata.roles : [];
+    const roles = Array.isArray(user?.app_metadata?.roles) ? [...user.app_metadata.roles] : [];
+    if (typeof user?.role === "string") roles.push(user.role);
     if (!allowedRoles.some((role) => roles.includes(role))) {
       return { ok: false, statusCode: 403, error: "Insufficient permissions" };
     }
@@ -36,4 +59,4 @@ export async function authorizeIdentity(
   }
 }
 
-export const _internal = { bearerToken };
+export const _internal = { bearerToken, cookieValue, headerValue };

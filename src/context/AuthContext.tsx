@@ -9,6 +9,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<User>
   logout: () => Promise<void>
   requestPasswordRecovery: (email: string) => Promise<void>
+  completePendingPassword: (password: string) => Promise<User>
   signup: (
     email: string,
     password: string,
@@ -49,12 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     async function init() {
       try {
-        // First try synchronous recovery (fast, from localStorage)
-        const syncUser = authLib.getCurrentUser()
-        if (syncUser && !cancelled) {
-          setUser(syncUser)
-        }
-        // Then validate the session is still good (checks token expiry)
+        // Load and validate the cookie-backed Netlify Identity session.
         const validUser = await authLib.validateSession()
         if (!cancelled) {
           setUser(validUser)
@@ -89,6 +85,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await authLib.requestPasswordRecovery(email)
   }, [])
 
+  const completePendingPassword = useCallback(async (password: string): Promise<User> => {
+    await authLib.completePendingPassword(password)
+    const u = await authLib.validateSession()
+    if (!u) throw new Error("Password updated, but the account could not be loaded.")
+    setUser(u)
+    return u
+  }, [])
+
   const signup = useCallback(
     async (email: string, password: string, fullName: string, program: Gender, gradYear?: string) => {
       const result = await authLib.signup(email, password, fullName, program, gradYear)
@@ -111,6 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         requestPasswordRecovery,
+        completePendingPassword,
         signup,
       }}
     >

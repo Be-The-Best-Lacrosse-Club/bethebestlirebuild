@@ -14,39 +14,65 @@
 <script>
 (async function() {
   const ACCESS_STORAGE_KEY = 'btb_recruiting_access';
+  const OWNER_STORAGE_KEY = 'btb-owner-access-until';
   const ACCESS_ENDPOINT = '/.netlify/functions/recruiting-hub-access';
 
   function redirectToLogin(reason) {
     window.location.href = '/recruiting-hub/?reason=' + encodeURIComponent(reason || 'auth_required');
   }
 
-  const token = localStorage.getItem(ACCESS_STORAGE_KEY);
-  if (!token) {
-    redirectToLogin('auth_required');
-    return;
+  let ownerAccess = false;
+  if (Number(localStorage.getItem(OWNER_STORAGE_KEY)) > Date.now()) {
+    try {
+      const ownerResponse = await fetch(ACCESS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ owner: true })
+      });
+      ownerAccess = ownerResponse.ok;
+      if (!ownerAccess && (ownerResponse.status === 401 || ownerResponse.status === 403)) {
+        localStorage.removeItem(OWNER_STORAGE_KEY);
+      }
+    } catch (error) {
+      ownerAccess = false;
+    }
   }
 
-  try {
-    const response = await fetch(ACCESS_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: token })
-    });
-
-    if (!response.ok) {
-      localStorage.removeItem(ACCESS_STORAGE_KEY);
-      redirectToLogin('access_expired');
+  if (!ownerAccess) {
+    const token = localStorage.getItem(ACCESS_STORAGE_KEY);
+    if (!token) {
+      redirectToLogin('auth_required');
       return;
     }
-  } catch (error) {
-    redirectToLogin('network_error');
-    return;
+
+    try {
+      const response = await fetch(ACCESS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: token })
+      });
+
+      if (!response.ok) {
+        localStorage.removeItem(ACCESS_STORAGE_KEY);
+        redirectToLogin('access_expired');
+        return;
+      }
+    } catch (error) {
+      redirectToLogin('network_error');
+      return;
+    }
   }
 
   document.getElementById('btb-auth-style').remove();
 
   window.btbSignOut = function() {
     localStorage.removeItem(ACCESS_STORAGE_KEY);
+    if (ownerAccess) {
+      localStorage.removeItem(OWNER_STORAGE_KEY);
+      localStorage.removeItem('gotrue.user');
+      document.cookie = 'nf_jwt=; Max-Age=0; Path=/; SameSite=Lax; Secure';
+      document.cookie = 'nf_refresh=; Max-Age=0; Path=/; SameSite=Lax; Secure';
+    }
     window.location.href = '/recruiting-hub/';
   };
 })();

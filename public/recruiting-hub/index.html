@@ -186,6 +186,7 @@ body {
 <script>
 (async function() {
   const ACCESS_STORAGE_KEY = 'btb_recruiting_access';
+  const OWNER_STORAGE_KEY = 'btb-owner-access-until';
   const ACCESS_ENDPOINT = '/.netlify/functions/recruiting-hub-access';
   const form = document.getElementById('login-form');
   const messageEl = document.getElementById('message');
@@ -194,6 +195,24 @@ body {
   function showMessage(text, type) {
     messageEl.className = 'msg ' + type;
     messageEl.textContent = text;
+  }
+
+  async function verifyOwnerAccess() {
+    if (Number(localStorage.getItem(OWNER_STORAGE_KEY)) <= Date.now()) return false;
+
+    try {
+      const response = await fetch(ACCESS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ owner: true })
+      });
+      if (!response.ok && (response.status === 401 || response.status === 403)) {
+        localStorage.removeItem(OWNER_STORAGE_KEY);
+      }
+      return response.ok;
+    } catch (error) {
+      return false;
+    }
   }
 
   async function verifySavedAccess() {
@@ -218,7 +237,7 @@ body {
     }
   }
 
-  if (await verifySavedAccess()) {
+  if (await verifyOwnerAccess() || await verifySavedAccess()) {
     window.location.href = '/recruiting-hub/hub/';
     return;
   }
