@@ -114,8 +114,7 @@ export const CLOSED_TO_NEW_PRACTICE_WINDOW_IDS = Object.freeze([
   "nickerson-2026-09-12", "nickerson-2026-09-14",
   "nickerson-2026-09-19", "nickerson-2026-09-21",
   "point-lookout-2026-09-09", "point-lookout-2026-09-12",
-  "point-lookout-2026-09-14", "point-lookout-2026-09-16",
-  "point-lookout-2026-09-21", "point-lookout-2026-09-23",
+  "point-lookout-2026-09-16", "point-lookout-2026-09-23",
 ]);
 
 const CLOSED_TO_NEW_PRACTICE_WINDOW_SET = new Set(CLOSED_TO_NEW_PRACTICE_WINDOW_IDS);
@@ -253,6 +252,15 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-15", "2026-09-22"],
+    assignmentStatus: "confirmed",
+    note: "Updated by Dan to Tuesdays 7:15–9:00 PM inside the Kevin-approved Seaford field window, replacing Mondays at Point Lookout.",
+    sessions: [
+      { team: "2033 Storm", startTime: "19:15", endTime: "21:00", timeLabel: "7:15 PM–9:00 PM", requiredDurationHours: 1.75 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
     dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
     assignmentStatus: "adjusted",
     note: ADJUSTED_SEAFORD_NOTE,
@@ -348,15 +356,6 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     note: "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.",
     sessions: [
       { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", requiredDurationHours: 1.25 },
-    ],
-  }),
-  ...assignedPracticeWindowsForDates({
-    ...POINT_LOOKOUT_ASSIGNED_LOCATION,
-    dates: ["2026-09-14", "2026-09-21"],
-    assignmentStatus: "confirmed",
-    note: ASSIGNED_PDF_NOTE,
-    sessions: [
-      { team: "2033 Storm", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", requiredDurationHours: 2 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
