@@ -76,7 +76,10 @@ test("Tournament calendar accepts a verified owner without the calendar password
       return { ok: true, user: { id: "owner-1" } }
     },
     getBlobStore: () => ({
-      get: async () => ({ events: [{ id: "event-1" }] }),
+      getWithMetadata: async () => ({
+        data: { events: [{ id: "event-1" }] },
+        etag: '"v1"',
+      }),
     }),
   })
 
@@ -92,7 +95,15 @@ test("Tournament calendar accepts a verified owner without the calendar password
 
     assert.equal(response.status, 200)
     assert.deepEqual(requestedRoles, ["owner"])
-    assert.deepEqual(await response.json(), { snapshot: { events: [{ id: "event-1" }] } })
+    assert.deepEqual(await response.json(), {
+      snapshot: {
+        version: 0,
+        events: [{ id: "event-1" }],
+        practiceBookings: [],
+        savedAt: null,
+      },
+      etag: '"v1"',
+    })
   } finally {
     if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD
     else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword

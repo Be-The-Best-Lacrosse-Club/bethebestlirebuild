@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#050505">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23D22630' d='M32 3 57 12v19c0 16-9 26-25 34C16 57 7 47 7 31V12Z'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Arial Black' font-size='32' fill='white'%3EB%3C/text%3E%3C/svg%3E">
-  <title>BTB • Coach Dan Tournament Wall</title>
+  <title>BTB STAFF 26/27 SEASON SCHEDULE</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -357,7 +357,8 @@
     .calendar-panel,
     .panel,
     .live-card,
-    .manage-card {
+    .manage-card,
+    .practice-card {
       border: 1px solid var(--line);
       border-radius: 1rem;
       background: linear-gradient(145deg, rgba(21, 22, 25, 0.96), rgba(12, 13, 15, 0.96));
@@ -367,7 +368,7 @@
     .calendar-panel {
       min-height: 0;
       display: grid;
-      grid-template-rows: auto auto minmax(0, 1fr);
+      grid-template-rows: auto auto auto minmax(0, 1fr);
       overflow: hidden;
     }
 
@@ -398,6 +399,80 @@
       justify-content: flex-end;
       gap: 0.42rem;
       flex-wrap: wrap;
+      max-height: 4.2rem;
+      overflow-y: auto;
+    }
+
+    .schedule-filters {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .schedule-type-filter {
+      min-width: 8.6rem;
+      min-height: 2.15rem;
+      border: 1px solid var(--line);
+      border-radius: 0.58rem;
+      padding: 0.4rem 0.55rem;
+      background: #0e0f11;
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .legend-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.48rem 0.8rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.025);
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .legend-group {
+      display: flex;
+      align-items: center;
+      gap: 0.48rem;
+      flex: 0 0 auto;
+    }
+
+    .legend-label {
+      color: #858b94;
+      font-size: 0.5rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.28rem;
+      color: #d8dbe0;
+      font-size: 0.5rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .legend-swatch {
+      width: 0.58rem;
+      height: 0.58rem;
+      border-radius: 50%;
+      background: var(--legend-color);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--legend-color) 20%, transparent);
+    }
+
+    .legend-note {
+      color: #f3f4f6;
+      font-size: 0.54rem;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
     .team-filter {
@@ -533,6 +608,25 @@
 
     .event-pill:hover {
       background: rgba(255, 255, 255, 0.15);
+    }
+
+    .event-pill.tournament {
+      border: 1px solid color-mix(in srgb, var(--team-color) 58%, transparent);
+      background: color-mix(in srgb, var(--team-color) 20%, #111316);
+    }
+
+    .event-pill.practice {
+      border: 1px solid color-mix(in srgb, var(--location-color) 58%, transparent);
+      background: color-mix(in srgb, var(--location-color) 17%, #111316);
+    }
+
+    .event-pill.practice .event-bar {
+      background: var(--location-color);
+    }
+
+    .off-island-mark {
+      color: #fff;
+      font-weight: 900;
     }
 
     .event-bar {
@@ -774,7 +868,8 @@
     }
 
     .live-card,
-    .manage-card {
+    .manage-card,
+    .practice-card {
       height: 100%;
       min-height: 0;
       display: grid;
@@ -864,6 +959,164 @@
 
     .manage-card {
       grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
+    .practice-card {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto auto minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .pending-notices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pending-notice {
+      border: 1px solid rgba(255, 183, 67, 0.3);
+      border-left: 0.28rem solid var(--amber);
+      border-radius: 0.7rem;
+      padding: 0.65rem 0.72rem;
+      background: rgba(255, 183, 67, 0.07);
+    }
+
+    .pending-notice strong {
+      display: block;
+      font-size: 0.64rem;
+    }
+
+    .pending-notice span {
+      display: block;
+      margin-top: 0.22rem;
+      color: #c5c8ce;
+      font-size: 0.55rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .pending-notice.confirmed {
+      border-color: rgba(85, 216, 138, 0.34);
+      border-left-color: var(--green);
+      background: rgba(85, 216, 138, 0.07);
+    }
+
+    .practice-board-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .practice-board-list {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-content: start;
+      gap: 0.7rem;
+      padding: 0.8rem 0.9rem;
+      overflow-y: auto;
+    }
+
+    .practice-window-card {
+      min-width: 0;
+      border: 1px solid color-mix(in srgb, var(--location-color) 48%, var(--line));
+      border-left: 0.35rem solid var(--location-color);
+      border-radius: 0.78rem;
+      padding: 0.72rem;
+      background: color-mix(in srgb, var(--location-color) 9%, #111316);
+    }
+
+    .practice-window-header,
+    .practice-window-actions,
+    .booking-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.55rem;
+    }
+
+    .practice-window-title {
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.18rem;
+      letter-spacing: 0.045em;
+    }
+
+    .practice-window-meta {
+      margin-top: 0.18rem;
+      color: #c3c7cd;
+      font-size: 0.55rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .availability-chip {
+      border-radius: 999px;
+      padding: 0.2rem 0.45rem;
+      color: #9cf6c0;
+      background: rgba(85, 216, 138, 0.13);
+      font-size: 0.48rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .availability-chip.partial {
+      color: #ffd17a;
+      background: rgba(255, 183, 67, 0.13);
+    }
+
+    .availability-chip.full {
+      color: #aeb3bb;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .booking-list {
+      display: grid;
+      gap: 0.35rem;
+      margin-top: 0.58rem;
+    }
+
+    .booking-row {
+      border: 1px solid var(--line);
+      border-left: 0.25rem solid var(--team-color);
+      border-radius: 0.52rem;
+      padding: 0.42rem 0.48rem;
+      background: rgba(0, 0, 0, 0.2);
+      font-size: 0.52rem;
+    }
+
+    .booking-team {
+      color: var(--team-color);
+      font-weight: 900;
+    }
+
+    .booking-coach {
+      display: block;
+      margin-top: 0.08rem;
+      color: #afb4bc;
+      font-size: 0.48rem;
+      font-weight: 700;
+    }
+
+    .practice-window-actions {
+      margin-top: 0.62rem;
+    }
+
+    .claim-summary {
+      grid-column: 1 / -1;
+      border: 1px solid var(--line);
+      border-left: 0.32rem solid var(--location-color);
+      border-radius: 0.7rem;
+      padding: 0.72rem;
+      background: rgba(255, 255, 255, 0.035);
+      color: #d8dbe0;
+      font-size: 0.63rem;
+      font-weight: 700;
+      line-height: 1.5;
     }
 
     .manage-tools {
@@ -1026,6 +1279,10 @@
     .form-group {
       display: grid;
       gap: 0.34rem;
+    }
+
+    .form-group[hidden] {
+      display: none !important;
     }
 
     .form-group.full {
@@ -1195,7 +1452,8 @@
       }
 
       .live-card,
-      .manage-card {
+      .manage-card,
+      .practice-card {
         height: auto;
         min-height: 76vh;
       }
@@ -1211,6 +1469,10 @@
       .live-info {
         border-top: 1px solid var(--line);
         border-left: 0;
+      }
+
+      .practice-board-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -1279,14 +1541,27 @@
         grid-row: 2;
       }
 
-      .team-filters {
+      .schedule-filters {
         grid-column: 2;
         grid-row: 2;
       }
 
+      .schedule-type-filter {
+        min-width: 7.2rem;
+      }
+
+      .team-filters {
+        max-width: 7rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+
       .team-filter {
-        width: 1.7rem;
-        height: 1.7rem;
+        flex: 0 0 44px;
+        width: 44px;
+        min-width: 44px;
+        height: 44px;
+        min-height: 44px;
         padding: 0;
         overflow: hidden;
         color: transparent;
@@ -1372,6 +1647,11 @@
         grid-template-columns: 1fr;
       }
 
+      .pending-notices,
+      .practice-board-list {
+        grid-template-columns: 1fr;
+      }
+
       .sidebar .panel:last-child {
         grid-column: auto;
       }
@@ -1379,6 +1659,17 @@
       .section-header {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      .practice-board-controls {
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .practice-board-controls .manage-filter,
+      .practice-board-controls .btn {
+        width: 100%;
       }
 
       .manage-tools {
@@ -1423,9 +1714,9 @@
   </style>
   <script>
   // An authenticated owner is verified by the Netlify function. Everyone else
-  // keeps the existing server-checked calendar password flow.
+  // is prompted on every load and keeps the existing server-checked password flow.
   var btbOwnerAccess = Number(localStorage.getItem("btb-owner-access-until")) > Date.now();
-  window.__BTB_WALL_KEY = btbOwnerAccess ? "" : (window.prompt("BTB calendar password") || "");
+  window.__BTB_WALL_KEY = btbOwnerAccess ? "" : (window.prompt("BTB staff schedule password") || "");
   document.documentElement.classList.add("btb-wall-locked");
   </script>
   <style>html.btb-wall-locked body{visibility:hidden;}</style>
@@ -1443,7 +1734,7 @@
         </div>
         <div>
           <div class="eyebrow">Be The Best • Est. 2021</div>
-          <h1>Coach Dan’s Tournament Wall</h1>
+          <h1>BTB STAFF 26/27 SEASON SCHEDULE</h1>
         </div>
       </div>
       <div class="clock" aria-label="Current Eastern time">
@@ -1461,21 +1752,22 @@
       <div class="alert-symbol" id="alertSymbol">!</div>
       <div>
         <div class="alert-title" id="alertTitle">Checking schedule…</div>
-        <div class="alert-copy" id="alertCopy">Auditing all tracked teams.</div>
+        <div class="alert-copy" id="alertCopy">Auditing tournaments and approved practice inventory.</div>
       </div>
       <button class="btn" id="reviewConflictsButton" type="button">Review Conflicts</button>
     </section>
 
     <nav class="view-tabs" aria-label="Calendar views">
-      <button class="tab-button active" type="button" data-view="wall">Tournament Wall</button>
-      <button class="tab-button" type="button" data-view="live">Live Team Feeds</button>
-      <button class="tab-button" type="button" data-view="manage">Manage Dates</button>
+      <button class="tab-button active" type="button" data-view="wall">Season Schedule</button>
+      <button class="tab-button" type="button" data-view="practice">Practice Board</button>
+      <button class="tab-button" type="button" data-view="live">Live Feeds</button>
+      <button class="tab-button" type="button" data-view="manage">Manage</button>
       <div class="tab-spacer"></div>
-      <div class="source-badge">Roadmap + Pete’s boys checklist + live Google team calendars</div>
+      <div class="source-badge">Tournaments + Seaford, Nickerson, Point Lookout and Momentum practice inventory</div>
     </nav>
 
     <main>
-      <section class="view active" id="wallView" aria-label="Tournament wall calendar">
+      <section class="view active" id="wallView" aria-label="Combined season schedule">
         <div class="wall-layout">
           <section class="calendar-panel">
             <div class="calendar-toolbar">
@@ -1485,8 +1777,16 @@
                 <button class="btn subtle" id="nextMonthButton" type="button" aria-label="Next month">→</button>
               </div>
               <div class="month-title" id="monthTitle">October 2026</div>
-              <div class="team-filters" id="teamFilters"></div>
+              <div class="schedule-filters">
+                <select class="schedule-type-filter" id="scheduleTypeFilter" aria-label="Filter schedule by type">
+                  <option value="all">All Schedule</option>
+                  <option value="practices">Practices</option>
+                  <option value="tournaments">Tournaments</option>
+                </select>
+                <div class="team-filters" id="teamFilters"></div>
+              </div>
             </div>
+            <div class="legend-strip" id="scheduleLegend" aria-label="Team and practice location color keys"></div>
             <div class="weekday-row" aria-hidden="true">
               <div class="weekday">Mon</div>
               <div class="weekday">Tue</div>
@@ -1503,7 +1803,7 @@
           <aside class="sidebar">
             <section class="panel">
               <div class="panel-header">
-                <h2>Locked / Entering</h2>
+                <h2>Open Practice Windows</h2>
                 <span class="count-badge" id="lockedCount">0</span>
               </div>
               <div class="panel-body locked-list" id="lockedList"></div>
@@ -1531,26 +1831,63 @@
         </div>
       </section>
 
+      <section class="view" id="practiceView" aria-label="Practice availability and bookings">
+        <div class="practice-card">
+          <div class="section-header">
+            <div class="section-title">
+              <h2>Practice Board</h2>
+              <p>Claim an approved field block for one, one-and-a-half, or two hours.</p>
+            </div>
+            <div class="practice-board-controls">
+              <select class="manage-filter" id="practiceLocationFilter" aria-label="Filter practice windows by location">
+                <option value="all">All active locations</option>
+                <option value="seaford">Seaford</option>
+                <option value="nickerson">Nickerson</option>
+                <option value="point-lookout">Point Lookout</option>
+                <option value="momentum">Momentum Sports LI</option>
+              </select>
+              <button class="btn primary" id="nextOpenPracticeButton" type="button">Next Open Window</button>
+            </div>
+          </div>
+          <div class="pending-notices" aria-label="Practice facility status">
+            <div class="pending-notice confirmed">
+              <strong>Point Lookout — confirmed</strong>
+              <span>Monday/Wednesday 6:00–8:00 PM and approved Saturdays 8:00–10:00 AM. Sep. 19 is unavailable for the car show.</span>
+            </div>
+            <div class="pending-notice">
+              <strong>Stimson — no approved dates</strong>
+              <span>Hold only. Nothing is available to claim until exact dates and times are approved.</span>
+            </div>
+            <div class="pending-notice confirmed">
+              <strong>Momentum Sports LI — winter rotation confirmed</strong>
+              <span>10 Dunton Avenue, Deer Park. Weekends 8:00 AM–3:00 PM. Pattern 1 uses one-hour, one-team blocks; Pattern 2 uses two-hour shared blocks requiring two teams.</span>
+            </div>
+          </div>
+          <div class="legend-strip" id="practiceLegend" aria-label="Practice location and team color keys"></div>
+          <div class="practice-board-list" id="practiceBoardList"></div>
+        </div>
+      </section>
+
       <section class="view" id="liveView" aria-label="Live Google team calendars">
         <div class="live-card">
           <div class="section-header">
             <div class="section-title">
               <h2>Live Team Feeds</h2>
-              <p>Direct Google Calendar view for all tracked teams • refreshes every 15 minutes</p>
+              <p>Direct Google Calendar view for the 14 currently linked team calendars • refreshes every 15 minutes</p>
             </div>
             <button class="btn primary" id="refreshLiveButton" type="button">Refresh Live Feed</button>
           </div>
           <div class="live-body">
             <div class="live-frame-wrap">
-              <iframe id="liveFrame" title="Live Google calendars for all tracked teams" loading="lazy"></iframe>
+              <iframe id="liveFrame" title="Live Google calendars for 14 linked BTB teams" loading="lazy"></iframe>
             </div>
             <aside class="live-info">
-              <h3>All tracked calendars, one screen</h3>
-              <p>This live panel is separate from the tournament roadmap. It will populate as future events are published to the team calendars.</p>
+              <h3>Linked team calendars, one screen</h3>
+              <p>This live panel is separate from the saved tournament schedule. It will populate as future events are published to the team calendars.</p>
               <div id="liveTeamList"></div>
               <ul>
                 <li>Sign into Chrome with <strong>info@bethebestli.com</strong> if Google asks.</li>
-                <li>The red conflict radar uses the audited tournament roadmap and your edits.</li>
+                <li>The red conflict radar uses the saved tournament schedule and your edits.</li>
                 <li>Same-weekend events remain conflicts until game times are known.</li>
               </ul>
               <p id="lastLiveRefresh">Live feed not loaded yet.</p>
@@ -1559,16 +1896,21 @@
         </div>
       </section>
 
-      <section class="view" id="manageView" aria-label="Manage tournament dates">
+      <section class="view" id="manageView" aria-label="Manage tournaments and practice bookings">
         <div class="manage-card">
           <div class="section-header">
             <div class="section-title">
-              <h2>Manage Tournament Dates</h2>
-              <p>Changes save on this TV browser and recalculate conflicts immediately.</p>
+              <h2>Manage Schedule</h2>
+              <p>Edit tournaments or release a claimed practice block. Approved field windows stay read-only.</p>
             </div>
             <button class="btn primary" id="addEventButton" type="button">+ Add Event</button>
           </div>
           <div class="manage-tools">
+            <select class="manage-filter" id="manageTypeFilter" aria-label="Filter schedule rows by type">
+              <option value="all">All schedule types</option>
+              <option value="tournaments">Tournaments</option>
+              <option value="practices">Practice bookings</option>
+            </select>
             <select class="manage-filter" id="manageTeamFilter" aria-label="Filter events by team">
               <option value="all">All tracked teams</option>
             </select>
@@ -1591,8 +1933,9 @@
             <table>
               <thead>
                 <tr>
+                  <th>Type</th>
                   <th>Team</th>
-                  <th>Tournament</th>
+                  <th>Event / Coach</th>
                   <th>Date</th>
                   <th>Time</th>
                   <th>Status</th>
@@ -1610,13 +1953,13 @@
     <footer class="footer">
       <div class="footer-teams" id="footerTeams"></div>
       <div class="footer-spacer"></div>
-      <span>Roadmap synced Aug 28, 2026</span>
+      <span>Staff season schedule updated Aug. 29, 2026</span>
       <span>•</span>
       <span>Our Culture Built Us. Our Hard Work Made Us.</span>
     </footer>
   </div>
 
-  <dialog id="eventDialog">
+  <dialog id="eventDialog" aria-labelledby="eventDialogTitle">
     <div class="dialog-header">
       <h2 id="eventDialogTitle">Edit Tournament</h2>
       <button class="dialog-close" type="button" data-close-dialog="eventDialog" aria-label="Close">×</button>
@@ -1666,6 +2009,10 @@
         <input id="eventPaid" type="checkbox">
         Paid and entered
       </label>
+      <label class="checkbox-label">
+        <input id="eventOffIsland" type="checkbox">
+        Off-Island tournament (* displays on schedule)
+      </label>
       <div class="dialog-actions">
         <button class="btn danger" id="deleteEventButton" type="button">Delete</button>
         <div class="dialog-spacer"></div>
@@ -1675,7 +2022,47 @@
     </form>
   </dialog>
 
-  <dialog id="conflictDialog">
+  <dialog id="claimDialog" aria-labelledby="claimDialogTitle">
+    <div class="dialog-header">
+      <h2 id="claimDialogTitle">Claim Practice Block</h2>
+      <button class="dialog-close" type="button" data-close-dialog="claimDialog" aria-label="Close">×</button>
+    </div>
+    <form class="event-form" id="claimForm">
+      <input id="claimWindowId" type="hidden">
+      <div class="claim-summary" id="claimSummary"></div>
+      <div class="form-group">
+        <label for="claimTeam">Team</label>
+        <select class="field" id="claimTeam" required></select>
+      </div>
+      <div class="form-group">
+        <label for="claimCoach">Coach</label>
+        <input class="field" id="claimCoach" type="text" autocomplete="name" maxlength="80" required>
+      </div>
+      <div class="form-group" id="claimSecondTeamGroup" hidden>
+        <label for="claimSecondTeam">Second team sharing block</label>
+        <select class="field" id="claimSecondTeam"></select>
+      </div>
+      <div class="form-group">
+        <label for="claimDuration">Duration</label>
+        <select class="field" id="claimDuration" required>
+          <option value="1">1 hour</option>
+          <option value="1.5">1.5 hours</option>
+          <option value="2">2 hours</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="claimStart">Start time</label>
+        <select class="field" id="claimStart" required></select>
+      </div>
+      <div class="dialog-actions">
+        <div class="dialog-spacer"></div>
+        <button class="btn" type="button" data-close-dialog="claimDialog">Cancel</button>
+        <button class="btn primary" id="claimSubmitButton" type="submit">Claim Block</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="conflictDialog" aria-labelledby="conflictDialogTitle">
     <div class="dialog-header">
       <h2 id="conflictDialogTitle">Conflict Review</h2>
       <button class="dialog-close" type="button" data-close-dialog="conflictDialog" aria-label="Close">×</button>
@@ -1683,9 +2070,9 @@
     <div class="conflict-dialog-body" id="conflictDialogBody"></div>
   </dialog>
 
-  <dialog id="tbdDialog">
+  <dialog id="tbdDialog" aria-labelledby="tbdDialogTitle">
     <div class="dialog-header">
-      <h2>Dates Needed</h2>
+      <h2 id="tbdDialogTitle">Dates Needed</h2>
       <button class="dialog-close" type="button" data-close-dialog="tbdDialog" aria-label="Close">×</button>
     </div>
     <div class="conflict-dialog-body">
@@ -1699,55 +2086,97 @@
     (function () {
       "use strict";
 
-      var DATA_VERSION = "2026-08-28-v1";
+      var DATA_VERSION = "staff-2026-27-v1";
       var TEAM_META = {
         "2028 Black": {
           short: "28 BLACK",
           label: "2028 Black • Boys",
-          color: "#D22630",
+          color: "#FF5A64",
           calendar: "puo7egv2vdg3ua0t79b7n1mfl6la7veb@import.calendar.google.com"
+        },
+        "2029 Chrome": {
+          short: "29 CHROME",
+          label: "2029 Chrome • Boys",
+          color: "#E8EDF2",
+          calendar: ""
         },
         "2030 Rage": {
           short: "30 RAGE",
           label: "2030 Rage • Boys",
-          color: "#FF6B35",
+          color: "#FF9F43",
           calendar: "qfsfvrfcbn565l5m0h7mi2a25jmjdokk@import.calendar.google.com"
         },
         "2031 Carnage": {
           short: "31 CARNAGE",
           label: "2031 Carnage • Boys",
-          color: "#F43F5E",
+          color: "#FF6FAE",
           calendar: "nmt2jvepbse08dqpgukdfmm2d6jkpeoa@import.calendar.google.com"
+        },
+        "2032 Grizzlies": {
+          short: "32 GRIZZLIES",
+          label: "2032 Grizzlies • Boys",
+          color: "#C7A27C",
+          calendar: ""
         },
         "2032 Cannons": {
           short: "32 CANNONS",
           label: "2032 Cannons • Boys",
-          color: "#F59E0B",
+          color: "#FFD166",
           calendar: "tfst2v2vshclmsnaji5jug7d2a319ka0@import.calendar.google.com"
         },
         "2033 Renegades": {
           short: "33 RENEGADES",
           label: "2033 Renegades • Boys",
-          color: "#22C55E",
+          color: "#55D88A",
           calendar: "dqbsco82ae6eddvrm4g4g663ad7t7vfu@import.calendar.google.com"
         },
         "2034 Venom": {
           short: "34 VENOM",
           label: "2034 Venom • Boys",
-          color: "#84CC16",
+          color: "#B8E545",
           calendar: "n7579vrve18mpk906ct7k4hirdd0h9pm@import.calendar.google.com"
         },
         "2035 Bombers": {
           short: "35 BOMBERS",
           label: "2035 Bombers • Boys",
-          color: "#3B82F6",
+          color: "#6EA8FE",
           calendar: "n1qi6ordc1ci84demj838a3ts7tgt11k@import.calendar.google.com"
+        },
+        "2036 Fury": {
+          short: "36 FURY",
+          label: "2036 Fury • Boys",
+          color: "#FF8F70",
+          calendar: ""
         },
         "2036 Dawgs": {
           short: "36 DAWGS",
           label: "2036 Dawgs • Boys",
-          color: "#14B8A6",
+          color: "#42E6B2",
           calendar: "0ld2t5d0m1bn5iu72hnu27kb8eblcv9d@import.calendar.google.com"
+        },
+        "Boys Futures": {
+          short: "BOYS FUTURES",
+          label: "Boys Futures",
+          color: "#90F1EF",
+          calendar: ""
+        },
+        "2037 Boys": {
+          short: "37 BOYS",
+          label: "2037 Boys",
+          color: "#F4B860",
+          calendar: ""
+        },
+        "2030 Reign": {
+          short: "30 REIGN",
+          label: "2030 Reign • Girls",
+          color: "#D9A5FF",
+          calendar: ""
+        },
+        "2030 Tidal Wave": {
+          short: "30 TIDAL WAVE",
+          label: "2030 Tidal Wave • Girls",
+          color: "#5CE1C8",
+          calendar: ""
         },
         "2031 Cyclones": {
           short: "31 CYCLONES",
@@ -1755,17 +2184,59 @@
           color: "#30D6E8",
           calendar: "b5rvsutttljgu25ip58pt22h1o9puf7b@import.calendar.google.com"
         },
+        "2032 Riptide": {
+          short: "32 RIPTIDE",
+          label: "2032 Riptide • Girls",
+          color: "#4FC3F7",
+          calendar: "t0vopoo267ihif07fa2sh7tgi3bnkcnn@import.calendar.google.com"
+        },
         "2033 Storm": {
           short: "33 STORM",
           label: "2033 Storm • Girls",
           color: "#A978FF",
           calendar: "2h39d7rmgdvk5v7f3gg3lhkgbhacrker@import.calendar.google.com"
         },
+        "2034 Thunder": {
+          short: "34 THUNDER",
+          label: "2034 Thunder • Girls",
+          color: "#FFF06A",
+          calendar: "sf7qn45t95cbjgphk7u27m0p2fiqe385@import.calendar.google.com"
+        },
+        "2034 Tsunami": {
+          short: "34 TSUNAMI",
+          label: "2034 Tsunami • Girls",
+          color: "#70D6FF",
+          calendar: ""
+        },
         "2035 Hurricanes": {
           short: "35 HURRICANES",
           label: "2035 Hurricanes • Girls",
-          color: "#F3BA3F",
+          color: "#E879F9",
           calendar: "08d4flphdjer0sjki6vr786emklh76vm@import.calendar.google.com"
+        },
+        "2035 Tornadoes": {
+          short: "35 TORNADOES",
+          label: "2035 Tornadoes • Girls",
+          color: "#FFB3C6",
+          calendar: ""
+        },
+        "2036 Avalanche": {
+          short: "36 AVALANCHE",
+          label: "2036 Avalanche • Girls",
+          color: "#C7F2FF",
+          calendar: "7a5d90glslocqc5i4njvsqsh84krv7or@import.calendar.google.com"
+        },
+        "Girls Futures": {
+          short: "GIRLS FUTURES",
+          label: "Girls Futures",
+          color: "#B9F18C",
+          calendar: ""
+        },
+        "2037 Girls": {
+          short: "37 GIRLS",
+          label: "2037 Girls",
+          color: "#F7A8FF",
+          calendar: ""
         }
       };
 
@@ -1778,73 +2249,247 @@
         optional: { label: "Optional", score: 1, locked: false }
       };
 
+      var PRACTICE_LOCATION_META = {
+        seaford: { label: "Seaford", color: "#D22630" },
+        nickerson: { label: "Nickerson", color: "#00B894" },
+        "point-lookout": { label: "Point Lookout", color: "#1479FF" },
+        momentum: { label: "Momentum Sports LI", color: "#F3BA3F" },
+        stimson: { label: "Stimson • Pending", color: "#87909C" }
+      };
+      var ALLOWED_DURATIONS = [1, 1.5, 2];
+      var SEAFORD_DATES = [
+        "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04", "2026-09-07", "2026-09-08",
+        "2026-09-09", "2026-09-10", "2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16",
+        "2026-09-17", "2026-09-18", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24",
+        "2026-09-25", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02"
+      ];
+      var NICKERSON_WEEKDAY_DATES = [
+        "2026-09-02", "2026-09-04", "2026-09-07", "2026-09-09", "2026-09-11", "2026-09-14",
+        "2026-09-16", "2026-09-18", "2026-09-21", "2026-09-23", "2026-09-25", "2026-09-28",
+        "2026-09-30", "2026-10-02", "2026-10-05", "2026-10-07", "2026-10-09", "2026-10-12",
+        "2026-10-14", "2026-10-16", "2026-10-19", "2026-10-21", "2026-10-23", "2026-10-26",
+        "2026-10-28", "2026-10-30"
+      ];
+      var NICKERSON_SATURDAY_DATES = [
+        "2026-09-05", "2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03",
+        "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"
+      ];
+      var POINT_LOOKOUT_WEEKDAY_DATES = [
+        "2026-09-09", "2026-09-14", "2026-09-16", "2026-09-21", "2026-09-23", "2026-09-28",
+        "2026-09-30", "2026-10-05", "2026-10-07", "2026-10-12", "2026-10-14", "2026-10-19",
+        "2026-10-21", "2026-10-26", "2026-10-28"
+      ];
+      var POINT_LOOKOUT_SATURDAY_DATES = [
+        "2026-09-12", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24"
+      ];
+      var MOMENTUM_ONE_TEAM_DATES = [
+        "2026-11-01", "2026-11-14", "2026-11-15", "2026-11-28", "2026-11-29", "2026-12-12",
+        "2026-12-13", "2026-12-26", "2026-12-27", "2027-01-09", "2027-01-10", "2027-01-23",
+        "2027-01-24", "2027-02-06", "2027-02-07", "2027-02-20", "2027-02-21", "2027-03-06",
+        "2027-03-07", "2027-03-20", "2027-03-21"
+      ];
+      var MOMENTUM_TWO_TEAM_DATES = [
+        "2026-11-07", "2026-11-08", "2026-11-21", "2026-11-22", "2026-12-05", "2026-12-06",
+        "2026-12-19", "2026-12-20", "2027-01-02", "2027-01-03", "2027-01-16", "2027-01-17",
+        "2027-01-30", "2027-01-31", "2027-02-13", "2027-02-14", "2027-02-27", "2027-02-28",
+        "2027-03-13", "2027-03-14", "2027-03-27", "2027-03-28"
+      ];
+
+      function buildPracticeWindows() {
+        var windows = SEAFORD_DATES.map(function (date) {
+          var confirmed = date <= "2026-09-04";
+          return {
+            id: "seaford-" + date,
+            date: date,
+            locationKey: "seaford",
+            venue: "Seaford HS Turf",
+            field: "HS Turf/Track (Football Field)",
+            location: "Seaford High School — HS Turf/Track (Football Field)",
+            startTime: "19:15",
+            endTime: "21:15",
+            kind: "weekday",
+            approval: confirmed ? "confirmed" : "week-by-week",
+            startIncrementMinutes: 30,
+            teamCount: 1,
+            requiredDurationHours: null,
+            source: confirmed ? "Kevin Witt approved • Sep. 1–4 confirmed" : "Kevin Witt availability • confirm week-by-week",
+            note: confirmed ? "Confirmed for staff scheduling." : "Availability continues week-by-week after Sep. 4."
+          };
+        });
+        NICKERSON_WEEKDAY_DATES.forEach(function (date) {
+          windows.push({
+            id: "nickerson-" + date,
+            date: date,
+            locationKey: "nickerson",
+            venue: "Nickerson Field 2",
+            field: "Field 2",
+            location: "Nickerson Beach — Field 2, Lido Beach, NY",
+            startTime: "17:00",
+            endTime: "18:30",
+            kind: "weekday",
+            approval: "confirmed",
+            startIncrementMinutes: 30,
+            teamCount: 1,
+            requiredDurationHours: null,
+            source: "Nickerson Field 2 master availability",
+            note: "Approved weekday field window."
+          });
+        });
+        NICKERSON_SATURDAY_DATES.forEach(function (date) {
+          windows.push({
+            id: "nickerson-" + date,
+            date: date,
+            locationKey: "nickerson",
+            venue: "Nickerson Field 2",
+            field: "Field 2",
+            location: "Nickerson Beach — Field 2, Lido Beach, NY",
+            startTime: "09:00",
+            endTime: "13:00",
+            kind: "saturday",
+            approval: "confirmed",
+            startIncrementMinutes: 30,
+            teamCount: 1,
+            requiredDurationHours: null,
+            source: "Nickerson Field 2 master availability",
+            note: "Approved Saturday field window; may be split among teams."
+          });
+        });
+        POINT_LOOKOUT_WEEKDAY_DATES.forEach(function (date) {
+          windows.push({
+            id: "point-lookout-" + date,
+            date: date,
+            locationKey: "point-lookout",
+            venue: "Point Lookout",
+            field: "Lacrosse Field",
+            location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY",
+            startTime: "18:00",
+            endTime: "20:00",
+            kind: "weekday",
+            approval: "confirmed",
+            startIncrementMinutes: 30,
+            teamCount: 1,
+            requiredDurationHours: null,
+            source: "Point Lookout approved permit",
+            note: "Confirmed Monday/Wednesday field window."
+          });
+        });
+        POINT_LOOKOUT_SATURDAY_DATES.forEach(function (date) {
+          windows.push({
+            id: "point-lookout-" + date,
+            date: date,
+            locationKey: "point-lookout",
+            venue: "Point Lookout",
+            field: "Lacrosse Field",
+            location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY",
+            startTime: "08:00",
+            endTime: "10:00",
+            kind: "saturday",
+            approval: "confirmed",
+            startIncrementMinutes: 30,
+            teamCount: 1,
+            requiredDurationHours: null,
+            source: "Point Lookout approved permit",
+            note: "Confirmed Saturday field window; Sep. 19 is unavailable for the car show."
+          });
+        });
+        MOMENTUM_ONE_TEAM_DATES.forEach(function (date) {
+          windows.push({
+            id: "momentum-" + date,
+            date: date,
+            locationKey: "momentum",
+            venue: "Momentum Sports LI",
+            field: "Turf Field",
+            location: "10 Dunton Avenue, Deer Park, NY 11729",
+            startTime: "08:00",
+            endTime: "15:00",
+            kind: "weekend",
+            approval: "confirmed",
+            startIncrementMinutes: 60,
+            teamCount: 1,
+            requiredDurationHours: 1,
+            patternLabel: "1-hour • 1 team",
+            source: "Momentum Sports LI winter rotation",
+            note: "Pattern week 1: one-hour bookings for one team."
+          });
+        });
+        MOMENTUM_TWO_TEAM_DATES.forEach(function (date) {
+          windows.push({
+            id: "momentum-" + date,
+            date: date,
+            locationKey: "momentum",
+            venue: "Momentum Sports LI",
+            field: "Turf Field",
+            location: "10 Dunton Avenue, Deer Park, NY 11729",
+            startTime: "08:00",
+            endTime: "15:00",
+            kind: "weekend",
+            approval: "confirmed",
+            startIncrementMinutes: 60,
+            teamCount: 2,
+            requiredDurationHours: 2,
+            patternLabel: "2-hour shared • 2 teams",
+            source: "Momentum Sports LI winter rotation",
+            note: "Pattern week 2: two-hour shared bookings require two teams."
+          });
+        });
+        return windows.sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.locationKey.localeCompare(b.locationKey);
+        });
+      }
+
+      var PRACTICE_WINDOWS = buildPracticeWindows();
+
       var DEFAULT_EVENTS = [
-        { id: "b28-autumn", team: "2028 Black", title: "Autumn & Gold", start: "2026-11-08", end: "2026-11-09", location: "Towson University, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!10" },
-        { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", time: "Game times not listed in Pete’s checklist", location: "Coppermine Complex, MD", status: "entering", paid: false, note: "Entering; not marked paid.", source: "TD 2028 Black!11" },
-        { id: "b28-igloo", team: "2028 Black", title: "Blue Chip", start: "2026-11-08", end: "2026-11-08", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "confirmed", paid: true, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "TD 2028 Black!12" },
-        { id: "b28-fall-classic", team: "2028 Black", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!13" },
-        { id: "b28-storm-invite", team: "2028 Black", title: "STORM Lax Invitational", start: "2026-11-21", end: "2026-11-22", location: "Ponte Vedra HS, Jacksonville, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!17" },
-        { id: "b28-american-fest", team: "2028 Black", title: "American Lacrosse Festival", start: "2027-01-09", end: "2027-01-10", location: "Publix Sports Park, Panama City Beach, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!18" },
-        { id: "b28-pinnacle", team: "2028 Black", title: "Pinnacle Fall Championships (Boys)", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "optional", paid: false, note: "", source: "TD 2028 Black!20" },
-        { id: "b28-paradise", team: "2028 Black", title: "Paradise Coast Invitational", start: "2027-01-09", end: "2027-01-10", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2028 Black!21" },
-        { id: "b28-sand-storm", team: "2028 Black", title: "Sand Storm Lacrosse Festival", start: "2027-01-16", end: "2027-01-17", location: "Empire Polo Club, Indio, CA", status: "recommended", paid: false, note: "", source: "TD 2028 Black!22" },
-        { id: "b28-maryland-cup", team: "2028 Black", title: "Maryland Cup", start: "2027-05-30", end: "2027-05-31", location: "Howard CC, MD", status: "recommended", paid: false, note: "", source: "TD 2028 Black!26" },
-        { id: "b28-platinum", team: "2028 Black", title: "Platinum Cup", start: "2027-06-05", end: "2027-06-06", location: "SUNY Purchase, NY", status: "must", paid: false, note: "", source: "TD 2028 Black!30" },
-        { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", time: "Game times not listed in Pete’s checklist", location: "Bel Air, MD", status: "must", paid: false, note: "", source: "TD 2028 Black!31" },
-        { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", time: "Game times not listed in Pete’s checklist", location: "Annapolis area, MD", status: "paid", paid: true, note: "Marked Paid in the current boys tracker.", source: "TD 2028 Black!32 + tracker" },
-        { id: "b28-tristar", team: "2028 Black", title: "Tristar Lax Fest", start: "2027-06-19", end: "2027-06-20", location: "SUNY Purchase, NY", status: "recommended", paid: false, note: "", source: "TD 2028 Black!33" },
-        { id: "b28-primetime-shootout", team: "2028 Black", title: "Primetime Shootout", start: "2027-06-13", end: "2027-06-14", location: "UMass Amherst, MA", status: "optional", paid: false, note: "", source: "TD 2028 Black!34" },
-        { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "TD 2028 Black!35" },
-        { id: "b28-primetime-invite", team: "2028 Black", title: "Primetime Invitational", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "Lake George, NY", status: "must", paid: false, note: "Real 2027 date needed; source contains an invalid 2025 date.", source: "TD 2028 Black!36" },
+        { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", time: "Game times not listed in Pete’s checklist", location: "Coppermine Complex, MD", status: "entering", paid: false, offIsland: true, note: "Entering; not marked paid.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!11" },
+        { id: "b28-igloo", team: "2028 Black", title: "Igloo Elite Invitational (Blue Chip)", start: "2026-11-08", end: "2026-11-08", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "confirmed", paid: true, offIsland: false, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!12" },
+        { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", time: "Game times not listed in Pete’s checklist", location: "Bel Air, MD", status: "must", paid: false, offIsland: true, note: "", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!31" },
+        { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", time: "Game times not listed in Pete’s checklist", location: "Annapolis area, MD", status: "paid", paid: true, offIsland: true, note: "Marked Paid in the current boys tracker.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!32 + tracker" },
+        { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "NY", status: "must", paid: false, offIsland: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!35" },
+        { id: "b28-primetime-invite", team: "2028 Black", title: "Primetime Invitational", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "Lake George, NY", status: "must", paid: false, offIsland: true, note: "Real 2027 date needed; source contains an invalid 2025 date.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!36" },
 
-        { id: "b30-apex-fall", team: "2030 Rage", title: "Apex Fall Championship", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "TBD", status: "entering", paid: false, note: "Real 2026 date needed; source contains an invalid 2015 date.", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b30-fall-classic", team: "2030 Rage", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b31-igloo", team: "2031 Carnage", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b32-pumpkin-shootout", team: "2032 Cannons", title: "Pumpkin Shootout", start: "2026-10-17", end: "2026-10-17", time: "Game times not listed in Pete’s checklist", location: "Blue Sky Sports Complex, Middletown, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b32-fall-brawl", team: "2032 Cannons", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b33-fall-brawl", team: "2033 Renegades", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b33-fall-classic", team: "2033 Renegades", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b33-igloo", team: "2033 Renegades", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b34-igloo", team: "2034 Venom", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b35-fall-jam", team: "2035 Bombers", title: "Fall Jam", start: "2026-10-10", end: "2026-10-10", time: "Game times not listed in Pete’s checklist", location: "Farmingdale State College, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b35-north-shore", team: "2035 Bombers", title: "North Shore Invitation", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "Mount Sinai HS, NY", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b36-igloo", team: "2036 Dawgs", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b30-apex-fall", team: "2030 Rage", title: "Apex Fall Championship", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "TBD", status: "entering", paid: false, offIsland: false, note: "Real 2026 date needed; source contains an invalid 2015 date.", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b30-fall-classic", team: "2030 Rage", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b31-igloo", team: "2031 Carnage", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b32-pumpkin-shootout", team: "2032 Cannons", title: "Pumpkin Shootout", start: "2026-10-17", end: "2026-10-17", time: "Game times not listed in Pete’s checklist", location: "Blue Sky Sports Complex, Middletown, NY", status: "entering", paid: false, offIsland: true, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b32-fall-brawl", team: "2032 Cannons", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b33-fall-brawl", team: "2033 Renegades", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b33-fall-classic", team: "2033 Renegades", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b33-igloo", team: "2033 Renegades", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b34-igloo", team: "2034 Venom", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b35-fall-jam", team: "2035 Bombers", title: "Fall Jam", start: "2026-10-10", end: "2026-10-10", time: "Game times not listed in Pete’s checklist", location: "Farmingdale State College, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b35-north-shore", team: "2035 Bombers", title: "North Shore Invitation", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "Mount Sinai HS, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b36-igloo", team: "2036 Dawgs", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
 
-        { id: "g31-apex-fall", team: "2031 Cyclones", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-04", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!10" },
-        { id: "g31-live-love", team: "2031 Cyclones", title: "Live Love Lax", start: "2026-11-21", end: "2026-11-22", location: "Maryland", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!11" },
-        { id: "g31-queen-fall", team: "2031 Cyclones", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!12" },
-        { id: "g31-pinnacle", team: "2031 Cyclones", title: "Pinnacle Fall Championships", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!16" },
-        { id: "g31-iwlca-debut", team: "2031 Cyclones", title: "IWLCA Debut", start: "2026-11-21", end: "2026-11-22", location: "IMG Academy, Bradenton, FL", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!17" },
-        { id: "g31-apex-spring", team: "2031 Cyclones", title: "Apex Spring Training", start: "2027-03-29", end: "2027-03-29", location: "Meadowood Regional Park, Lutherville, MD", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!21" },
-        { id: "g31-maryland-cup", team: "2031 Cyclones", title: "Maryland Cup", start: "2027-05-30", end: "2027-05-31", location: "Howard CC, MD", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!22" },
-        { id: "g31-apex-grind", team: "2031 Cyclones", title: "Apex Grind", start: "2027-07-10", end: "2027-07-11", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!26" },
-        { id: "g31-apex-youth", team: "2031 Cyclones", title: "Apex Youth Championship", start: "2027-06-20", end: "2027-06-22", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2031 Cyclones!27" },
-        { id: "g31-lax-cure", team: "2031 Cyclones", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!28" },
-        { id: "g31-capital", team: "2031 Cyclones", title: "IWLCA Capital Cup", start: "2027-07-10", end: "2027-07-11", location: "CopperPlex, Edgewood, MD", status: "recommended", paid: false, note: "", source: "TD 2031 Cyclones!29" },
-        { id: "g31-lax-sea", team: "2031 Cyclones", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "optional", paid: false, note: "", source: "TD 2031 Cyclones!30" },
+        { id: "g31-apex-fall", team: "2031 Cyclones", title: "Apex Fall Opener", start: "2026-10-04", end: "2026-10-04", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2031 girls fall schedule" },
+        { id: "g31-apex-round-up", team: "2031 Cyclones", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2031 girls fall schedule" },
+        { id: "g31-queen-fall", team: "2031 Cyclones", title: "Queen of the Island", start: "2026-10-25", end: "2026-10-25", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2031 girls fall schedule" },
+        { id: "g31-fall-classic", team: "2031 Cyclones", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2031 girls fall schedule" },
 
-        { id: "g33-apex-fall", team: "2033 Storm", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-04", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "must", paid: false, note: "", source: "TD 2033 Storm!10" },
-        { id: "g33-live-love", team: "2033 Storm", title: "Live Love Lax", start: "2026-11-21", end: "2026-11-22", location: "Maryland", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!11" },
-        { id: "g33-queen-fall", team: "2033 Storm", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2033 Storm!12" },
-        { id: "g33-pinnacle", team: "2033 Storm", title: "Pinnacle Fall Championships", start: "2026-11-21", end: "2026-11-22", location: "Paradise Coast Sports Complex, Naples, FL", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!16" },
-        { id: "g33-apex-spring", team: "2033 Storm", title: "Apex Spring Training", start: "2027-03-29", end: "2027-03-29", location: "Meadowood Regional Park, Lutherville, MD", status: "recommended", paid: false, note: "", source: "TD 2033 Storm!20" },
-        { id: "g33-apex-youth", team: "2033 Storm", title: "Apex Youth Championship", start: "2027-06-20", end: "2027-06-22", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2033 Storm!24" },
-        { id: "g33-lax-cure", team: "2033 Storm", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2033 Storm!25" },
-        { id: "g33-apex-grind", team: "2033 Storm", title: "Apex Grind", start: "2027-07-10", end: "2027-07-11", location: "The Proving Grounds, Conshohocken, PA", status: "must", paid: false, note: "", source: "TD 2033 Storm!26" },
-        { id: "g33-lax-sea", team: "2033 Storm", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "optional", paid: false, note: "", source: "TD 2033 Storm!27" },
-        { id: "g33-capital", team: "2033 Storm", title: "IWLCA Capital Cup", start: "2027-07-10", end: "2027-07-11", location: "CopperPlex, Edgewood, MD", status: "optional", paid: false, note: "", source: "TD 2033 Storm!28" },
+        { id: "g32-apex-round-up", team: "2032 Riptide", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2032 girls fall schedule" },
+        { id: "g32-queen-fall", team: "2032 Riptide", title: "Queen of the Island", start: "2026-10-25", end: "2026-10-25", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2032 girls fall schedule" },
+        { id: "g32-fall-classic", team: "2032 Riptide", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2032 girls fall schedule" },
 
-        { id: "g35-queen-fall", team: "2035 Hurricanes", title: "Queen of the Island (Fall)", start: "2026-10-24", end: "2026-10-25", location: "Destination KP, Kings Park, NY", status: "must", paid: false, note: "", source: "TD 2035 Hurricanes!10" },
-        { id: "g35-fall-classic", team: "2035 Hurricanes", title: "Fall Classic", start: "2026-11-21", end: "2026-11-22", location: "SUSA + Destination KP, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!11" },
-        { id: "g35-spring-showdown", team: "2035 Hurricanes", title: "Spring Showdown", start: "2027-04-17", end: "2027-04-17", location: "Stony Brook South P Lot, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!15" },
-        { id: "g35-lax-sea", team: "2035 Hurricanes", title: "Lax By The Sea", start: "2027-06-06", end: "2027-06-07", location: "NJ Shore", status: "must", paid: false, note: "", source: "TD 2035 Hurricanes!19" },
-        { id: "g35-long-ireland", team: "2035 Hurricanes", title: "Long Ireland Lacrosse", start: "2027-06-12", end: "2027-06-12", location: "LIU Post, NY", status: "recommended", paid: false, note: "", source: "TD 2035 Hurricanes!20" },
-        { id: "g35-lax-cure", team: "2035 Hurricanes", title: "Lax for the Cure Youth", start: "2027-06-19", end: "2027-06-20", location: "New Egypt + Allentown, NJ", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!21" },
-        { id: "g35-lax-blast", team: "2035 Hurricanes", title: "Summer Lax Blast", start: "2027-06-29", end: "2027-06-29", location: "SUSA Orlin & Cohen Sports Complex & Destination KP, NY", status: "optional", paid: false, note: "Listed on mylacrossetournaments.com as Summer Lax Blast, June 29 2027, girls Varsity-2037. Moved off Farmingdale.", source: "mylacrossetournaments.com" },
-        { id: "g35-queen-spring", team: "2035 Hurricanes", title: "Queen of the Island (Spring)", start: "2027-05-22", end: "2027-05-22", location: "Destination KP, Kings Park, NY", status: "optional", paid: false, note: "", source: "TD 2035 Hurricanes!23" }
+        { id: "g33-apex-round-up", team: "2033 Storm", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2033 girls fall schedule" },
+        { id: "g33-queen-fall", team: "2033 Storm", title: "Queen of the Island", start: "2026-10-25", end: "2026-10-25", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2033 girls fall schedule" },
+        { id: "g33-fall-classic", team: "2033 Storm", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2033 girls fall schedule" },
+
+        { id: "g34-apex-fall", team: "2034 Thunder", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-03", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2034 girls fall schedule" },
+        { id: "g34-queen-fall", team: "2034 Thunder", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2034 girls fall schedule" },
+        { id: "g34-fall-classic", team: "2034 Thunder", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2034 girls fall schedule" },
+
+        { id: "g35-apex-fall", team: "2035 Hurricanes", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-03", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2035 girls fall schedule" },
+        { id: "g35-queen-fall", team: "2035 Hurricanes", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2035 girls fall schedule" },
+        { id: "g35-fall-classic", team: "2035 Hurricanes", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2035 girls fall schedule" },
+
+        { id: "g36-apex-fall", team: "2036 Avalanche", title: "Apex Fall Opener", start: "2026-10-03", end: "2026-10-03", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2036 girls fall schedule" },
+        { id: "g36-queen-fall", team: "2036 Avalanche", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2036 girls fall schedule" },
+        { id: "g36-fall-classic", team: "2036 Avalanche", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2036 girls fall schedule" }
       ];
 
       var events = cloneDefaults();
+      var practiceBookings = [];
+      var currentEtag = null;
+      var snapshotVersion = 0;
       var visibleTeams = new Set(Object.keys(TEAM_META));
       var viewDate = initialViewMonth();
       var wakeLock = null;
@@ -1852,11 +2497,50 @@
       var toastTimer = null;
 
       function normalizeEvents(items) {
-        return items.map(function (event) {
-          return Object.assign({}, event, {
-            time: typeof event.time === "string" ? event.time : ""
+        return (Array.isArray(items) ? items : []).map(function (event) {
+          var canonical = DEFAULT_EVENTS.find(function (defaultEvent) { return defaultEvent.id === event.id; });
+          var normalized = Object.assign({}, event, {
+            time: typeof event.time === "string" ? event.time : "",
+            offIsland: typeof event.offIsland === "boolean" ? event.offIsland : Boolean(canonical && canonical.offIsland)
           });
+          if (canonical && ["g31-apex-fall", "g31-queen-fall", "g32-queen-fall", "g33-queen-fall"].indexOf(event.id) >= 0) {
+            normalized.start = canonical.start;
+            normalized.end = canonical.end;
+          }
+          return normalized;
         });
+      }
+
+      function normalizeBookings(items) {
+        var windowIds = new Set(PRACTICE_WINDOWS.map(function (windowItem) { return windowItem.id; }));
+        return (Array.isArray(items) ? items : []).map(function (booking) {
+          var teams = Array.isArray(booking.teams) ? booking.teams.filter(function (team) {
+            return typeof team === "string" && TEAM_META[team];
+          }) : [];
+          if (!teams.length && typeof booking.team === "string" && TEAM_META[booking.team]) teams.push(booking.team);
+          if (typeof booking.secondTeam === "string" && TEAM_META[booking.secondTeam] && teams.indexOf(booking.secondTeam) < 0) {
+            teams.push(booking.secondTeam);
+          }
+          teams = teams.filter(function (team, index) { return teams.indexOf(team) === index; }).slice(0, 2);
+          return Object.assign({}, booking, {
+            team: teams[0] || "",
+            secondTeam: teams[1] || "",
+            teams: teams,
+            durationHours: Number(booking.durationHours)
+          });
+        }).filter(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          var expectedTeams = windowItem ? Number(windowItem.teamCount || 1) : 1;
+          return booking && booking.id && windowIds.has(booking.windowId) && booking.teams.length === expectedTeams &&
+            String(booking.coach || "").trim() && /^\d{2}:\d{2}$/.test(booking.startTime || "") &&
+            windowItem && allowedDurationsForWindow(windowItem).indexOf(booking.durationHours) >= 0;
+        });
+      }
+
+      function bookingTeams(booking) {
+        return Array.isArray(booking.teams) && booking.teams.length
+          ? booking.teams.slice()
+          : [booking.team].concat(booking.secondTeam ? [booking.secondTeam] : []);
       }
 
       function cloneDefaults() {
@@ -1875,6 +2559,7 @@
             if (!response.ok) {
               var error = new Error(data.error || "Request failed");
               error.status = response.status;
+              error.data = data;
               throw error;
             }
             return data;
@@ -1882,23 +2567,49 @@
         });
       }
 
-      // The shared snapshot is the source of truth so every device sees the same
-      // schedule. Nothing is cached locally — a device that cannot reach the
-      // store shows the built-in schedule and refuses to save over the shared one.
-      function loadEvents() {
+      // The shared snapshot holds tournaments and claimed practice blocks. The
+      // approved master field windows stay static in this page and cannot be edited.
+      function applyScheduleData(data) {
+        var snapshot = data && data.snapshot ? data.snapshot : {};
+        currentEtag = data && typeof data.etag === "string" ? data.etag : null;
+        snapshotVersion = Number.isFinite(Number(snapshot.version)) ? Number(snapshot.version) : 0;
+        events = Array.isArray(snapshot.events) && snapshot.events.length
+          ? normalizeEvents(snapshot.events)
+          : cloneDefaults();
+        practiceBookings = normalizeBookings(snapshot.practiceBookings);
+        return { events: events, practiceBookings: practiceBookings, etag: currentEtag };
+      }
+
+      function loadSchedule() {
         return syncRequest({ action: "load" }).then(function (data) {
-          if (data.snapshot && Array.isArray(data.snapshot.events) && data.snapshot.events.length) {
-            return normalizeEvents(data.snapshot.events);
-          }
-          return cloneDefaults();
+          return applyScheduleData(data);
         });
       }
 
+      function loadEvents() {
+        return loadSchedule().then(function () { return events; });
+      }
+
       function saveEvents() {
-        return syncRequest({ action: "save", snapshot: { events: events } })
+        return syncRequest({
+          action: "save",
+          snapshot: {
+            version: snapshotVersion,
+            events: events,
+            practiceBookings: practiceBookings,
+            savedAt: new Date().toISOString()
+          },
+          etag: currentEtag
+        }).then(function (data) {
+          if (typeof data.etag === "string") currentEtag = data.etag;
+          if (data.snapshot && Number.isFinite(Number(data.snapshot.version))) snapshotVersion = Number(data.snapshot.version);
+          return data;
+        })
           .catch(function (error) {
-            console.error("Could not save the calendar.", error);
-            showToast("Not saved — this device could not reach the calendar store.");
+            console.error("Could not save the staff schedule.", error);
+            showToast(error.status === 409
+              ? "Not saved — the schedule changed on another device. Refresh and try again."
+              : "Not saved — this device could not reach the schedule store.");
             throw error;
           });
       }
@@ -1954,20 +2665,133 @@
           .replace(/'/g, "&#039;");
       }
 
+      function toMinutes(clock) {
+        var parts = String(clock || "").split(":").map(Number);
+        return parts.length === 2 && Number.isFinite(parts[0]) && Number.isFinite(parts[1])
+          ? parts[0] * 60 + parts[1]
+          : NaN;
+      }
+
+      function minutesToClock(minutes) {
+        var normalized = ((minutes % 1440) + 1440) % 1440;
+        return String(Math.floor(normalized / 60)).padStart(2, "0") + ":" + String(normalized % 60).padStart(2, "0");
+      }
+
+      function formatClock(clock) {
+        var minutes = toMinutes(clock);
+        if (!Number.isFinite(minutes)) return "Time TBD";
+        var hour = Math.floor(minutes / 60);
+        var minute = minutes % 60;
+        return String(hour % 12 || 12) + ":" + String(minute).padStart(2, "0") + (hour >= 12 ? " PM" : " AM");
+      }
+
+      function durationLabel(duration) {
+        return Number(duration) === 1 ? "1 hour" : Number(duration) + " hours";
+      }
+
+      function findPracticeWindow(id) {
+        return PRACTICE_WINDOWS.find(function (windowItem) { return windowItem.id === id; }) || null;
+      }
+
+      function bookingsForWindow(windowId) {
+        return practiceBookings.filter(function (booking) {
+          return booking.windowId === windowId;
+        }).sort(function (a, b) {
+          return a.startTime.localeCompare(b.startTime) || a.team.localeCompare(b.team);
+        });
+      }
+
+      function bookingEndMinutes(booking) {
+        return toMinutes(booking.startTime) + Number(booking.durationHours) * 60;
+      }
+
+      function allowedDurationsForWindow(windowItem) {
+        if (Number(windowItem.requiredDurationHours)) return [Number(windowItem.requiredDurationHours)];
+        return Array.isArray(windowItem.allowedDurations) && windowItem.allowedDurations.length
+          ? windowItem.allowedDurations.slice()
+          : ALLOWED_DURATIONS.slice();
+      }
+
+      function freeSegments(windowItem) {
+        var windowStart = toMinutes(windowItem.startTime);
+        var windowEnd = toMinutes(windowItem.endTime);
+        var cursor = windowStart;
+        var segments = [];
+        bookingsForWindow(windowItem.id).forEach(function (booking) {
+          var start = Math.max(windowStart, toMinutes(booking.startTime));
+          var end = Math.min(windowEnd, bookingEndMinutes(booking));
+          if (!Number.isFinite(start) || !Number.isFinite(end) || end <= windowStart || start >= windowEnd) return;
+          if (start > cursor) segments.push({ start: cursor, end: start });
+          if (end > cursor) cursor = end;
+        });
+        if (cursor < windowEnd) segments.push({ start: cursor, end: windowEnd });
+        return segments;
+      }
+
+      function availableStarts(windowItem, durationHours) {
+        if (allowedDurationsForWindow(windowItem).indexOf(Number(durationHours)) < 0) return [];
+        var durationMinutes = Number(durationHours) * 60;
+        var windowStart = toMinutes(windowItem.startTime);
+        var interval = Number(windowItem.startIncrementMinutes) || 30;
+        var starts = [];
+        freeSegments(windowItem).forEach(function (segment) {
+          for (var candidate = segment.start; candidate + durationMinutes <= segment.end; candidate += interval) {
+            if ((candidate - windowStart) % interval === 0) starts.push(minutesToClock(candidate));
+          }
+        });
+        return starts;
+      }
+
+      function practiceAvailability(windowItem) {
+        var segments = freeSegments(windowItem);
+        var freeMinutes = segments.reduce(function (sum, segment) {
+          return sum + segment.end - segment.start;
+        }, 0);
+        var totalMinutes = toMinutes(windowItem.endTime) - toMinutes(windowItem.startTime);
+        var hasClaimableBlock = allowedDurationsForWindow(windowItem).some(function (duration) {
+          return availableStarts(windowItem, duration).length > 0;
+        });
+        return {
+          freeMinutes: freeMinutes,
+          state: !hasClaimableBlock ? "full" : (freeMinutes === totalMinutes ? "open" : "partial"),
+          label: !hasClaimableBlock ? "Full" : (freeMinutes === totalMinutes ? "Open" : "Partially Filled")
+        };
+      }
+
+      function offIslandMark(event) {
+        return event.offIsland
+          ? " <span class='off-island-mark' aria-label='Off-Island Tournament' title='Off-Island Tournament'>*</span>"
+          : "";
+      }
+
+      function practiceWindowLabel(windowItem) {
+        var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+        return windowItem.venue || (location.label + " • " + windowItem.field);
+      }
+
+      function practiceWindowLocation(windowItem) {
+        return windowItem.location || practiceWindowLabel(windowItem);
+      }
+
+      function bookingTeamBadges(booking) {
+        return bookingTeams(booking).map(function (team) {
+          var meta = TEAM_META[team];
+          return "<span class='booking-team' style='color:" + meta.color + "'>" + escapeHtml(meta.label) + "</span>";
+        }).join(" <span aria-hidden='true'>+</span> ");
+      }
+
       function initialViewMonth() {
         var now = new Date();
-        var currentMonthHasEvent = events.some(function (event) {
-          var date = parseDate(event.start);
+        var scheduleDates = events.filter(function (event) { return event.start; }).map(function (event) { return event.start; })
+          .concat(PRACTICE_WINDOWS.map(function (windowItem) { return windowItem.date; }));
+        var currentMonthHasEvent = scheduleDates.some(function (iso) {
+          var date = parseDate(iso);
           return date && date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
         });
         if (currentMonthHasEvent) return new Date(now.getFullYear(), now.getMonth(), 1, 12);
         var todayIso = isoDate(now);
-        var next = events.filter(function (event) {
-          return event.start && event.end >= todayIso;
-        }).sort(function (a, b) {
-          return a.start.localeCompare(b.start);
-        })[0];
-        var date = next ? parseDate(next.start) : now;
+        var next = scheduleDates.filter(function (iso) { return iso >= todayIso; }).sort()[0];
+        var date = next ? parseDate(next) : now;
         return new Date(date.getFullYear(), date.getMonth(), 1, 12);
       }
 
@@ -2065,30 +2889,51 @@
         var filterHost = document.getElementById("teamFilters");
         var footerHost = document.getElementById("footerTeams");
         var teamSelect = document.getElementById("eventTeam");
+        var claimTeamSelect = document.getElementById("claimTeam");
+        var claimSecondTeamSelect = document.getElementById("claimSecondTeam");
         var manageSelect = document.getElementById("manageTeamFilter");
         var liveList = document.getElementById("liveTeamList");
+        var teamNames = Object.keys(TEAM_META);
+        var linkedTeams = teamNames.filter(function (team) { return Boolean(TEAM_META[team].calendar); });
 
-        filterHost.innerHTML = Object.keys(TEAM_META).map(function (team) {
+        filterHost.innerHTML = teamNames.map(function (team) {
           var meta = TEAM_META[team];
           return "<button class='team-filter' type='button' data-team='" + escapeHtml(team) +
-            "' style='--team-color:" + meta.color + "'>" + escapeHtml(meta.short) + "</button>";
+            "' style='--team-color:" + meta.color + "' aria-pressed='true' title='" + escapeHtml(meta.label) + "'>" +
+            escapeHtml(meta.short) + "</button>";
         }).join("");
 
-        footerHost.innerHTML = Object.keys(TEAM_META).map(function (team) {
+        var teamLegend = "<div class='legend-group'><span class='legend-label'>Team Color Key</span>" + teamNames.map(function (team) {
           var meta = TEAM_META[team];
-          return "<span class='footer-team' style='--team-color:" + meta.color +
-            "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "</span>";
-        }).join("");
+          return "<span class='legend-item'><span class='legend-swatch' style='--legend-color:" + meta.color +
+            "'></span>" + escapeHtml(meta.label) + "</span>";
+        }).join("") + "</div>";
 
-        teamSelect.innerHTML = Object.keys(TEAM_META).map(function (team) {
+        var locationLegend = "<div class='legend-group'><span class='legend-label'>Practice Location Key</span>" +
+          Object.keys(PRACTICE_LOCATION_META).map(function (key) {
+            var meta = PRACTICE_LOCATION_META[key];
+            return "<span class='legend-item'><span class='legend-swatch' style='--legend-color:" + meta.color +
+              "'></span>" + escapeHtml(meta.label) + "</span>";
+          }).join("") + "</div>";
+
+        document.getElementById("scheduleLegend").innerHTML = teamLegend + locationLegend +
+          "<span class='legend-note'><span aria-hidden='true'>*</span> Off-Island Tournament</span>";
+        document.getElementById("practiceLegend").innerHTML = locationLegend + teamLegend;
+        footerHost.textContent = teamNames.length + " teams • " + linkedTeams.length + " linked calendars • " +
+          PRACTICE_WINDOWS.length + " approved practice windows";
+
+        var teamOptions = teamNames.map(function (team) {
+          return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
+        }).join("");
+        teamSelect.innerHTML = teamOptions;
+        claimTeamSelect.innerHTML = "<option value=''>Select a team</option>" + teamOptions;
+        claimSecondTeamSelect.innerHTML = "<option value=''>Select the second team</option>" + teamOptions;
+
+        manageSelect.innerHTML = "<option value='all'>All tracked teams</option>" + teamNames.map(function (team) {
           return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
         }).join("");
 
-        manageSelect.innerHTML = "<option value='all'>All tracked teams</option>" + Object.keys(TEAM_META).map(function (team) {
-          return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
-        }).join("");
-
-        liveList.innerHTML = Object.keys(TEAM_META).map(function (team) {
+        liveList.innerHTML = linkedTeams.map(function (team) {
           var meta = TEAM_META[team];
           return "<div class='live-team' style='--team-color:" + meta.color +
             "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "</div>";
@@ -2100,6 +2945,7 @@
             if (visibleTeams.has(team)) visibleTeams.delete(team);
             else visibleTeams.add(team);
             button.classList.toggle("off", !visibleTeams.has(team));
+            button.setAttribute("aria-pressed", visibleTeams.has(team) ? "true" : "false");
             renderMonth();
           });
         });
@@ -2108,6 +2954,9 @@
       function renderMonth() {
         var title = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(viewDate);
         document.getElementById("monthTitle").textContent = title;
+        var typeFilter = document.getElementById("scheduleTypeFilter").value;
+        var showTournaments = typeFilter !== "practices";
+        var showPractices = typeFilter !== "tournaments";
         var first = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1, 12);
         var mondayOffset = (first.getDay() + 6) % 7;
         var gridStart = addDays(first, -mondayOffset);
@@ -2118,11 +2967,14 @@
         for (var i = 0; i < 42; i += 1) {
           var day = addDays(gridStart, i);
           var dayIso = isoDate(day);
-          var dayEvents = events.filter(function (event) {
+          var dayEvents = showTournaments ? events.filter(function (event) {
             return visibleTeams.has(event.team) && event.start && event.start <= dayIso && event.end >= dayIso;
           }).sort(function (a, b) {
             return STATUS_META[b.status].score - STATUS_META[a.status].score || a.team.localeCompare(b.team);
-          });
+          }) : [];
+          var dayWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
+            return windowItem.date === dayIso;
+          }) : [];
           var conflictLevel = conflictForDay(dayIso, conflicts);
           var classes = ["day"];
           if (day.getMonth() !== viewDate.getMonth()) classes.push("other-month");
@@ -2134,15 +2986,29 @@
           if (conflictLevel === "critical") dots = "<span class='conflict-dot' title='Action conflict'></span>";
           else if (conflictLevel === "high") dots = "<span class='conflict-dot high' title='High-priority planning conflict'></span>";
 
-          var pills = dayEvents.slice(0, 4).map(function (event) {
+          var tournamentPills = dayEvents.map(function (event) {
             var meta = TEAM_META[event.team];
             var lockedMark = STATUS_META[event.status].locked ? " ●" : "";
-            return "<button class='event-pill' type='button' data-event-id='" + escapeHtml(event.id) +
+            return "<button class='event-pill tournament' type='button' data-event-id='" + escapeHtml(event.id) +
               "' style='--team-color:" + meta.color + "' title='" + escapeHtml(event.team + " — " + event.title) +
               "'><span class='event-bar'></span><span class='event-text'>" +
-              escapeHtml(meta.short) + "<small>" + lockedMark + "</small> " + escapeHtml(event.title) + "</span></button>";
-          }).join("");
-          if (dayEvents.length > 4) pills += "<div class='more-events'>+" + (dayEvents.length - 4) + " more</div>";
+              escapeHtml(meta.short) + "<small>" + lockedMark + "</small> " + escapeHtml(event.title) +
+              offIslandMark(event) + "</span></button>";
+          });
+          var practicePills = dayWindows.map(function (windowItem) {
+            var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+            var availability = practiceAvailability(windowItem);
+            var bookingCount = bookingsForWindow(windowItem.id).length;
+            return "<button class='event-pill practice' type='button' data-window-id='" + escapeHtml(windowItem.id) +
+              "' style='--location-color:" + location.color + "' title='Claim " + escapeHtml(practiceWindowLabel(windowItem)) +
+              "'><span class='event-bar'></span><span class='event-text'>" + escapeHtml(location.label) + " <small>" +
+              escapeHtml(formatClock(windowItem.startTime) + " • " + (windowItem.patternLabel ? windowItem.patternLabel + " • " : "") +
+              availability.label + (bookingCount ? " • " + bookingCount + " claimed" : "")) +
+              "</small></span></button>";
+          });
+          var allPills = tournamentPills.concat(practicePills);
+          var pills = allPills.slice(0, 4).join("");
+          if (allPills.length > 4) pills += "<div class='more-events'>+" + (allPills.length - 4) + " more</div>";
 
           html.push("<div class='" + classes.join(" ") + "' data-date='" + dayIso + "'>" +
             "<div class='day-number'><span>" + day.getDate() + "</span>" + dots + "</div>" +
@@ -2153,55 +3019,88 @@
         grid.innerHTML = html.join("");
         grid.querySelectorAll(".event-pill").forEach(function (button) {
           button.addEventListener("click", function () {
-            openEventDialog(button.getAttribute("data-event-id"));
+            var eventId = button.getAttribute("data-event-id");
+            if (eventId) openEventDialog(eventId);
+            else openClaimDialog(button.getAttribute("data-window-id"));
           });
         });
 
         var monthStartIso = isoDate(first);
         var monthEndIso = isoDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 0, 12));
-        var monthEvents = events.filter(function (event) {
+        var monthEvents = showTournaments ? events.filter(function (event) {
           return visibleTeams.has(event.team) && event.start && event.end >= monthStartIso && event.start <= monthEndIso;
         }).sort(function (a, b) {
           return a.start.localeCompare(b.start) || STATUS_META[b.status].score - STATUS_META[a.status].score;
+        }) : [];
+        var monthWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.date >= monthStartIso && windowItem.date <= monthEndIso;
+        }) : [];
+        var mobileRows = monthEvents.map(function (event) {
+          return { kind: "tournament", date: event.start, value: event };
+        }).concat(monthWindows.map(function (windowItem) {
+          return { kind: "practice", date: windowItem.date, value: windowItem };
+        })).sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind);
         });
         var mobileHost = document.getElementById("mobileAgenda");
-        mobileHost.innerHTML = monthEvents.length ? monthEvents.map(function (event) {
-          var meta = TEAM_META[event.team];
-          var conflictLevel = conflictForDay(event.start, conflicts);
-          return "<button class='mobile-event-row " + (conflictLevel === "critical" ? "critical" : "") +
-            "' type='button' data-event-id='" + escapeHtml(event.id) + "' style='--team-color:" + meta.color + "'>" +
-            "<span class='mobile-event-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span>" +
-            "<span><span class='mobile-event-title'>" + escapeHtml(event.title) + "</span>" +
-            "<span class='mobile-event-team'>" + escapeHtml(meta.label) + "</span>" +
-            (event.time ? "<span class='mobile-event-time'>" + escapeHtml(event.time) + "</span>" : "") + "</span>" +
-            "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
-            "</span></button>";
-        }).join("") : "<div class='empty'>No tournaments in this month.</div>";
+        mobileHost.innerHTML = mobileRows.length ? mobileRows.map(function (row) {
+          if (row.kind === "tournament") {
+            var event = row.value;
+            var meta = TEAM_META[event.team];
+            var conflictLevel = conflictForDay(event.start, conflicts);
+            return "<button class='mobile-event-row " + (conflictLevel === "critical" ? "critical" : "") +
+              "' type='button' data-event-id='" + escapeHtml(event.id) + "' style='--team-color:" + meta.color + "'>" +
+              "<span class='mobile-event-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span>" +
+              "<span><span class='mobile-event-title'>" + escapeHtml(event.title) + offIslandMark(event) + "</span>" +
+              "<span class='mobile-event-team'>" + escapeHtml(meta.label) + "</span>" +
+              (event.time ? "<span class='mobile-event-time'>" + escapeHtml(event.time) + "</span>" : "") + "</span>" +
+              "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
+              "</span></button>";
+          }
+          var windowItem = row.value;
+          var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+          var availability = practiceAvailability(windowItem);
+          return "<button class='mobile-event-row practice' type='button' data-window-id='" + escapeHtml(windowItem.id) +
+            "' style='--team-color:" + location.color + "'><span class='mobile-event-date'>" + escapeHtml(formatDate(windowItem.date)) +
+            "</span><span><span class='mobile-event-title'>Practice Window</span><span class='mobile-event-team'>" +
+            escapeHtml(practiceWindowLocation(windowItem)) + "</span><span class='mobile-event-time'>" +
+            escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime) +
+            (windowItem.patternLabel ? " • " + windowItem.patternLabel : "")) + "</span></span>" +
+            "<span class='availability-chip " + availability.state + "'>" + escapeHtml(availability.label) + "</span></button>";
+        }).join("") : "<div class='empty'>No schedule items in this month.</div>";
         mobileHost.querySelectorAll(".mobile-event-row").forEach(function (button) {
           button.addEventListener("click", function () {
-            openEventDialog(button.getAttribute("data-event-id"));
+            var eventId = button.getAttribute("data-event-id");
+            if (eventId) openEventDialog(eventId);
+            else openClaimDialog(button.getAttribute("data-window-id"));
           });
         });
       }
 
       function renderSidebar() {
-        var locked = events.filter(function (event) {
-          return event.start && STATUS_META[event.status] && STATUS_META[event.status].locked;
-        }).sort(function (a, b) {
-          return a.start.localeCompare(b.start);
+        var today = isoDate(new Date());
+        var openWindows = PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.date >= today && ALLOWED_DURATIONS.some(function (duration) {
+            return availableStarts(windowItem, duration).length > 0;
+          });
         });
         var lockedHost = document.getElementById("lockedList");
-        document.getElementById("lockedCount").textContent = locked.length;
-        lockedHost.innerHTML = locked.length ? locked.map(function (event) {
-          var meta = TEAM_META[event.team];
-          return "<div class='locked-item' style='--team-color:" + meta.color + "'>" +
-            "<div class='locked-top'><span class='locked-team'>" + escapeHtml(meta.short) +
-            "</span><span class='locked-date'>" + escapeHtml(formatRange(event.start, event.end)) + "</span></div>" +
-            "<div class='locked-title'>" + escapeHtml(event.title) + "</div>" +
-            (event.time ? "<span class='event-time-meta'>" + escapeHtml(event.time) + "</span>" : "") +
-            "<span class='locked-status status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) + "</span>" +
-            "</div>";
-        }).join("") : "<div class='empty'>No locked or entering tournaments.</div>";
+        document.getElementById("lockedCount").textContent = openWindows.length;
+        lockedHost.innerHTML = openWindows.length ? openWindows.slice(0, 5).map(function (windowItem) {
+          var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+          var availability = practiceAvailability(windowItem);
+          return "<button class='locked-item' type='button' data-window-id='" + escapeHtml(windowItem.id) +
+            "' style='width:100%;color:#fff;text-align:left;cursor:pointer;--team-color:" + location.color + "'>" +
+            "<div class='locked-top'><span class='locked-team'>" + escapeHtml(practiceWindowLabel(windowItem)) +
+            "</span><span class='locked-date'>" + escapeHtml(formatDate(windowItem.date, { month: "short", day: "numeric" })) +
+            "</span></div><div class='locked-title'>" + escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)) +
+            "</div><span class='event-time-meta'>" + escapeHtml((windowItem.approval === "confirmed" ? "Confirmed field time" : "Confirming week-by-week") +
+            (windowItem.patternLabel ? " • " + windowItem.patternLabel : "")) +
+            "</span><span class='availability-chip " + availability.state + "'>" + escapeHtml(availability.label) + "</span></button>";
+        }).join("") : "<div class='empty'>No claimable practice windows remain.</div>";
+        lockedHost.querySelectorAll("[data-window-id]").forEach(function (button) {
+          button.addEventListener("click", function () { openClaimDialog(button.getAttribute("data-window-id")); });
+        });
 
         var conflicts = getConflictGroups();
         var conflictHost = document.getElementById("conflictList");
@@ -2228,7 +3127,7 @@
             "<div class='locked-top'><span class='locked-team' style='color:" + meta.color + "'>" +
             escapeHtml(meta.label) + "</span><span class='status-chip status-" + escapeHtml(event.status) + "'>" +
             escapeHtml(STATUS_META[event.status].label) + "</span></div><div class='tbd-title'>" +
-            escapeHtml(event.title) + "</div><div class='conflict-summary'>" + escapeHtml(event.note || "Date needed.") +
+            escapeHtml(event.title) + offIslandMark(event) + "</div><div class='conflict-summary'>" + escapeHtml(event.note || "Date needed.") +
             "</div>" + (event.time ? "<span class='event-time-meta'>" + escapeHtml(event.time) + "</span>" : "") +
             "</button>";
         }).join("");
@@ -2240,30 +3139,93 @@
         });
       }
 
+      function renderPracticeBoard() {
+        var host = document.getElementById("practiceBoardList");
+        var locationFilter = document.getElementById("practiceLocationFilter").value;
+        var visibleWindows = PRACTICE_WINDOWS.filter(function (windowItem) {
+          return locationFilter === "all" || windowItem.locationKey === locationFilter;
+        });
+        host.innerHTML = visibleWindows.length ? visibleWindows.map(function (windowItem) {
+          var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+          var availability = practiceAvailability(windowItem);
+          var bookings = bookingsForWindow(windowItem.id);
+          var bookingRows = bookings.length ? bookings.map(function (booking) {
+            var team = TEAM_META[booking.team];
+            return "<div class='booking-row' style='--team-color:" + team.color + "'><div>" + bookingTeamBadges(booking) +
+              "<span class='booking-coach'>Coach: " + escapeHtml(booking.coach) +
+              "</span></div><strong>" + escapeHtml(formatClock(booking.startTime) + "–" +
+              formatClock(minutesToClock(bookingEndMinutes(booking)))) + "</strong></div>";
+          }).join("") : "<div class='empty'>No team has claimed this window.</div>";
+          var claimable = ALLOWED_DURATIONS.some(function (duration) {
+            return availableStarts(windowItem, duration).length > 0;
+          });
+          var freeHours = Math.round(availability.freeMinutes / 30) / 2;
+          var freeLabel = availability.state === "full" && availability.freeMinutes > 0
+            ? freeHours + "-hour remainder unavailable for this pattern"
+            : freeHours + " " + (freeHours === 1 ? "hour" : "hours") + " unclaimed";
+          return "<article class='practice-window-card' data-practice-card='" + escapeHtml(windowItem.id) +
+            "' style='--location-color:" + location.color + "'><div class='practice-window-header'><div><div class='practice-window-title'>" +
+            escapeHtml(formatDate(windowItem.date, { weekday: "short", month: "short", day: "numeric" })) + "</div><div class='practice-window-meta'>" +
+            escapeHtml(practiceWindowLocation(windowItem)) + " • " + escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)) +
+            "</div></div><span class='availability-chip " + availability.state + "'>" + escapeHtml(availability.label) +
+            "</span></div><div class='practice-window-meta'>" + escapeHtml(windowItem.approval === "confirmed" ? "Confirmed" : "Available week-by-week") +
+            " • " + (windowItem.patternLabel ? "<strong>" + escapeHtml(windowItem.patternLabel) + "</strong> • " : "") +
+            escapeHtml(windowItem.note) + "</div><div class='booking-list'>" + bookingRows +
+            "</div><div class='practice-window-actions'><span class='practice-window-meta'>" +
+            escapeHtml(freeLabel) + "</span><button class='btn subtle claim-window' type='button' data-window-id='" +
+            escapeHtml(windowItem.id) + "'" + (claimable ? "" : " disabled") + ">" + (claimable ? "Claim Time" : "Full") + "</button></div></article>";
+        }).join("") : "<div class='empty'>No approved practice windows match this location.</div>";
+        host.querySelectorAll(".claim-window").forEach(function (button) {
+          button.addEventListener("click", function () { openClaimDialog(button.getAttribute("data-window-id")); });
+        });
+      }
+
       function renderManageTable() {
+        var typeFilter = document.getElementById("manageTypeFilter").value;
         var teamFilter = document.getElementById("manageTeamFilter").value;
         var statusFilter = document.getElementById("manageStatusFilter").value;
-        var rows = events.filter(function (event) {
+        var tournamentRows = events.filter(function (event) {
+          if (typeFilter === "practices") return false;
           return (teamFilter === "all" || event.team === teamFilter) &&
             (statusFilter === "all" || event.status === statusFilter);
-        }).slice().sort(function (a, b) {
-          if (!a.start && !b.start) return a.team.localeCompare(b.team);
-          if (!a.start) return 1;
-          if (!b.start) return -1;
-          return a.start.localeCompare(b.start) || a.team.localeCompare(b.team);
+        }).map(function (event) {
+          return { kind: "tournament", date: event.start || "9999-12-31", value: event };
+        });
+        var practiceRows = practiceBookings.filter(function (booking) {
+          if (typeFilter === "tournaments" || statusFilter !== "all") return false;
+          return teamFilter === "all" || bookingTeams(booking).indexOf(teamFilter) >= 0;
+        }).map(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          return { kind: "practice", date: windowItem ? windowItem.date : "9999-12-31", value: booking, windowItem: windowItem };
+        });
+        var rows = tournamentRows.concat(practiceRows).sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind) || a.value.team.localeCompare(b.value.team);
         });
 
-        document.getElementById("manageTableBody").innerHTML = rows.map(function (event) {
-          var meta = TEAM_META[event.team];
-          return "<tr><td><span class='team-cell' style='--team-color:" + meta.color +
-            "'><span class='team-swatch'></span>" + escapeHtml(meta.short) + "</span></td>" +
-            "<td><span class='table-title'>" + escapeHtml(event.title) + "</span></td>" +
-            "<td>" + escapeHtml(formatRange(event.start, event.end)) + "</td>" +
-            "<td>" + escapeHtml(event.time || "—") + "</td>" +
-            "<td><span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
-            "</span></td><td>" + escapeHtml(event.location || "—") + "</td>" +
-            "<td><div class='row-actions'><button class='btn subtle edit-row' type='button' data-event-id='" +
-            escapeHtml(event.id) + "'>Edit</button></div></td></tr>";
+        document.getElementById("manageTableBody").innerHTML = rows.map(function (row) {
+          if (row.kind === "tournament") {
+            var event = row.value;
+            var meta = TEAM_META[event.team];
+            return "<tr><td><strong>Tournament</strong></td><td><span class='team-cell' style='--team-color:" + meta.color +
+              "'><span class='team-swatch'></span>" + escapeHtml(meta.short) + "</span></td>" +
+              "<td><span class='table-title'>" + escapeHtml(event.title) + offIslandMark(event) + "</span></td>" +
+              "<td>" + escapeHtml(formatRange(event.start, event.end)) + "</td>" +
+              "<td>" + escapeHtml(event.time || "—") + "</td>" +
+              "<td><span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
+              "</span></td><td>" + escapeHtml(event.location || "—") + "</td>" +
+              "<td><div class='row-actions'><button class='btn subtle edit-row' type='button' data-event-id='" +
+              escapeHtml(event.id) + "'>Edit</button></div></td></tr>";
+          }
+          var booking = row.value;
+          var windowItem = row.windowItem;
+          var team = TEAM_META[booking.team];
+          return "<tr><td><strong>Practice</strong></td><td><span class='team-cell' style='--team-color:" + team.color +
+            "'>" + bookingTeamBadges(booking) + "</span></td><td><span class='table-title'>Coach " +
+            escapeHtml(booking.coach) + "</span></td><td>" + escapeHtml(windowItem ? formatDate(windowItem.date) : "Window unavailable") +
+            "</td><td>" + escapeHtml(formatClock(booking.startTime) + "–" + formatClock(minutesToClock(bookingEndMinutes(booking)))) +
+            "</td><td><span class='availability-chip'>Claimed</span></td><td>" + escapeHtml(windowItem ? practiceWindowLocation(windowItem) : "—") +
+            "</td><td><div class='row-actions'><button class='btn danger release-booking' type='button' data-booking-id='" +
+            escapeHtml(booking.id) + "'>Release</button></div></td></tr>";
         }).join("");
 
         document.getElementById("manageTableBody").querySelectorAll(".edit-row").forEach(function (button) {
@@ -2271,13 +3233,152 @@
             openEventDialog(button.getAttribute("data-event-id"));
           });
         });
+        document.getElementById("manageTableBody").querySelectorAll(".release-booking").forEach(function (button) {
+          button.addEventListener("click", function () { releasePractice(button.getAttribute("data-booking-id")); });
+        });
       }
 
       function renderAll() {
         renderAlert();
         renderMonth();
         renderSidebar();
+        renderPracticeBoard();
         renderManageTable();
+      }
+
+      function updateClaimStartOptions() {
+        var windowItem = findPracticeWindow(document.getElementById("claimWindowId").value);
+        if (!windowItem) return;
+        var durationSelect = document.getElementById("claimDuration");
+        var permitted = allowedDurationsForWindow(windowItem);
+        Array.from(durationSelect.options).forEach(function (option) {
+          option.disabled = permitted.indexOf(Number(option.value)) < 0 || availableStarts(windowItem, Number(option.value)).length === 0;
+        });
+        if (durationSelect.selectedOptions[0] && durationSelect.selectedOptions[0].disabled) {
+          var firstEnabled = Array.from(durationSelect.options).find(function (option) { return !option.disabled; });
+          durationSelect.value = firstEnabled ? firstEnabled.value : "";
+        }
+        var starts = durationSelect.value ? availableStarts(windowItem, Number(durationSelect.value)) : [];
+        document.getElementById("claimStart").innerHTML = starts.length ? starts.map(function (start) {
+          return "<option value='" + start + "'>" + escapeHtml(formatClock(start)) + "</option>";
+        }).join("") : "<option value=''>No time fits this duration</option>";
+        document.getElementById("claimSubmitButton").disabled = starts.length === 0;
+      }
+
+      function updateSecondTeamOptions() {
+        var primary = document.getElementById("claimTeam").value;
+        var select = document.getElementById("claimSecondTeam");
+        var previous = select.value;
+        select.innerHTML = "<option value=''>Select the second team</option>" + Object.keys(TEAM_META).filter(function (team) {
+          return team !== primary;
+        }).map(function (team) {
+          return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
+        }).join("");
+        if (previous && previous !== primary && TEAM_META[previous]) select.value = previous;
+      }
+
+      function openClaimDialog(windowId) {
+        var windowItem = findPracticeWindow(windowId);
+        if (!windowItem) return;
+        var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+        document.getElementById("claimWindowId").value = windowItem.id;
+        document.getElementById("claimTeam").value = "";
+        document.getElementById("claimSecondTeam").value = "";
+        document.getElementById("claimCoach").value = "";
+        document.getElementById("claimDuration").value = String(allowedDurationsForWindow(windowItem)[0]);
+        var shared = Number(windowItem.teamCount) === 2;
+        document.getElementById("claimSecondTeamGroup").hidden = !shared;
+        document.getElementById("claimSecondTeam").required = shared;
+        updateSecondTeamOptions();
+        document.getElementById("claimSummary").style.setProperty("--location-color", location.color);
+        document.getElementById("claimSummary").innerHTML = "<strong>" +
+          escapeHtml(formatDate(windowItem.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" })) +
+          "</strong><br>" + escapeHtml(practiceWindowLocation(windowItem)) + "<br>Master window: " +
+          escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)) +
+          (windowItem.patternLabel ? "<br><strong>" + escapeHtml(windowItem.patternLabel) + "</strong>" : "") +
+          "<br>" + escapeHtml(windowItem.approval === "confirmed" ? "Confirmed field time" : "Available week-by-week; confirm before team communication");
+        updateClaimStartOptions();
+        document.getElementById("claimDialog").showModal();
+        document.getElementById("claimTeam").focus();
+      }
+
+      async function submitPracticeClaim(eventObject) {
+        eventObject.preventDefault();
+        var windowItem = findPracticeWindow(document.getElementById("claimWindowId").value);
+        var duration = Number(document.getElementById("claimDuration").value);
+        var startTime = document.getElementById("claimStart").value;
+        var team = document.getElementById("claimTeam").value;
+        var secondTeam = document.getElementById("claimSecondTeam").value;
+        var coach = document.getElementById("claimCoach").value.trim();
+        var shared = windowItem && Number(windowItem.teamCount) === 2;
+        if (!windowItem || !TEAM_META[team] || !coach || ALLOWED_DURATIONS.indexOf(duration) < 0 ||
+            availableStarts(windowItem, duration).indexOf(startTime) < 0 ||
+            (shared && (!TEAM_META[secondTeam] || secondTeam === team))) {
+          showToast("Choose a valid team, coach, duration, and open start time.");
+          return;
+        }
+        var button = document.getElementById("claimSubmitButton");
+        button.disabled = true;
+        button.textContent = "Claiming…";
+        try {
+          var bookingPayload = {
+            windowId: windowItem.id,
+            team: team,
+            coach: coach,
+            startTime: startTime,
+            durationHours: duration
+          };
+          if (shared) bookingPayload.secondTeam = secondTeam;
+          var claimResult = await syncRequest({
+            action: "claimPractice",
+            booking: bookingPayload
+          });
+          applyScheduleData(claimResult);
+          document.getElementById("claimDialog").close();
+          renderAll();
+          showToast("Practice block claimed for " + team + (shared ? " + " + secondTeam : "") + ".");
+        } catch (error) {
+          if (error.status === 409) {
+            try {
+              await loadSchedule();
+              renderAll();
+            } catch (refreshError) {
+              console.error("Could not refresh after a practice claim conflict.", refreshError);
+            }
+          }
+          showToast(error.status === 409
+            ? "That time was just claimed. Refresh and choose another block."
+            : "Practice was not claimed. Check the connection and try again.");
+          updateClaimStartOptions();
+        } finally {
+          button.textContent = "Claim Block";
+          if (document.getElementById("claimDialog").open) updateClaimStartOptions();
+        }
+      }
+
+      async function releasePractice(bookingId) {
+        var booking = practiceBookings.find(function (item) { return item.id === bookingId; });
+        if (!booking || !window.confirm("Release this practice block for " + bookingTeams(booking).join(" + ") + "?")) return;
+        try {
+          var releaseResult = await syncRequest({ action: "releasePractice", bookingId: bookingId });
+          applyScheduleData(releaseResult);
+          renderAll();
+          showToast("Practice block released.");
+        } catch (error) {
+          if (error.status === 404 || error.status === 409) {
+            try {
+              await loadSchedule();
+              renderAll();
+            } catch (refreshError) {
+              console.error("Could not refresh after a practice release conflict.", refreshError);
+            }
+          }
+          showToast(error.status === 404
+            ? "That block was already released. The practice board is refreshed."
+            : error.status === 409
+              ? "The practice board changed. Refresh and try again."
+            : "Practice block was not released.");
+        }
       }
 
       function openEventDialog(id) {
@@ -2293,12 +3394,13 @@
         document.getElementById("eventLocation").value = event ? event.location : "";
         document.getElementById("eventNote").value = event ? event.note : "";
         document.getElementById("eventPaid").checked = event ? Boolean(event.paid) : false;
+        document.getElementById("eventOffIsland").checked = event ? event.offIsland === true : false;
         document.getElementById("deleteEventButton").style.visibility = event ? "visible" : "hidden";
         document.getElementById("eventDialog").showModal();
         document.getElementById("eventTitle").focus();
       }
 
-      function saveEventFromForm(eventObject) {
+      async function saveEventFromForm(eventObject) {
         eventObject.preventDefault();
         var id = document.getElementById("eventId").value;
         var start = document.getElementById("eventStart").value;
@@ -2319,28 +3421,41 @@
           location: document.getElementById("eventLocation").value.trim(),
           status: document.getElementById("eventStatus").value,
           paid: document.getElementById("eventPaid").checked,
+          offIsland: document.getElementById("eventOffIsland").checked,
           note: document.getElementById("eventNote").value.trim(),
           source: id ? ((events.find(function (existing) { return existing.id === id; }) || {}).source || "TV edit") : "TV edit"
         };
+        var previousEvents = events.slice();
         var existingIndex = events.findIndex(function (existing) { return existing.id === item.id; });
         if (existingIndex >= 0) events.splice(existingIndex, 1, item);
         else events.push(item);
-        saveEvents();
-        document.getElementById("eventDialog").close();
-        renderAll();
-        showToast("Tournament saved. Conflicts rechecked.");
+        try {
+          await saveEvents();
+          document.getElementById("eventDialog").close();
+          renderAll();
+          showToast("Tournament saved. Conflicts rechecked.");
+        } catch (error) {
+          events = previousEvents;
+          renderAll();
+        }
       }
 
-      function deleteCurrentEvent() {
+      async function deleteCurrentEvent() {
         var id = document.getElementById("eventId").value;
         var event = events.find(function (item) { return item.id === id; });
         if (!event) return;
         if (!window.confirm("Delete " + event.title + " from this TV calendar?")) return;
+        var previousEvents = events;
         events = events.filter(function (item) { return item.id !== id; });
-        saveEvents();
-        document.getElementById("eventDialog").close();
-        renderAll();
-        showToast("Tournament removed. Conflicts rechecked.");
+        try {
+          await saveEvents();
+          document.getElementById("eventDialog").close();
+          renderAll();
+          showToast("Tournament removed. Conflicts rechecked.");
+        } catch (error) {
+          events = previousEvents;
+          renderAll();
+        }
       }
 
       function openConflictDialog(selectedIndex) {
@@ -2375,6 +3490,7 @@
           button.setAttribute("aria-current", active ? "page" : "false");
         });
         if (name === "live") refreshLiveFrame(false);
+        if (name === "practice") renderPracticeBoard();
         if (name === "manage") renderManageTable();
       }
 
@@ -2393,6 +3509,7 @@
           "showNav=1"
         ];
         Object.keys(TEAM_META).forEach(function (team) {
+          if (!TEAM_META[team].calendar) return;
           params.push("src=" + encodeURIComponent(TEAM_META[team].calendar));
           params.push("color=" + encodeURIComponent(TEAM_META[team].color));
         });
@@ -2470,11 +3587,13 @@
         var blob = new Blob([JSON.stringify({
           version: DATA_VERSION,
           exportedAt: new Date().toISOString(),
-          events: events
+          events: events,
+          practiceBookings: practiceBookings,
+          practiceWindows: PRACTICE_WINDOWS
         }, null, 2)], { type: "application/json" });
         var link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = "BTB_Dan_Tournament_Calendar_Backup.json";
+        link.download = "BTB_Staff_26_27_Season_Schedule_Backup.json";
         link.click();
         URL.revokeObjectURL(link.href);
         showToast("Calendar backup downloaded.");
@@ -2492,11 +3611,18 @@
             })) {
               throw new Error("Invalid calendar backup");
             }
+            var previousEvents = events;
+            var previousBookings = practiceBookings;
             events = normalizeEvents(imported);
+            practiceBookings = Array.isArray(data.practiceBookings) ? normalizeBookings(data.practiceBookings) : practiceBookings;
             saveEvents().then(function () {
               renderAll();
-              showToast("Backup imported. Conflicts rechecked.");
-            }).catch(function () {});
+              showToast("Season schedule backup imported.");
+            }).catch(function () {
+              events = previousEvents;
+              practiceBookings = previousBookings;
+              renderAll();
+            });
           } catch (error) {
             showToast("That file is not a valid BTB calendar backup.");
           }
@@ -2505,60 +3631,153 @@
       }
 
       function resetSnapshot() {
-        if (!window.confirm("Reset to the Aug. 28, 2026 roadmap and Pete checklist snapshot? This clears the shared calendar on every device.")) return;
+        if (!window.confirm("Reset tournaments and release every practice booking on all devices? Approved field windows will remain.")) return;
+        var previousEvents = events;
+        var previousBookings = practiceBookings;
         events = cloneDefaults();
+        practiceBookings = [];
         saveEvents().then(function () {
           renderAll();
-          showToast("Roadmap snapshot restored.");
-        }).catch(function () {});
+          showToast("Default tournaments restored and practice bookings cleared.");
+        }).catch(function () {
+          events = previousEvents;
+          practiceBookings = previousBookings;
+          renderAll();
+        });
       }
 
       function jumpToNextEvent() {
         var today = isoDate(new Date());
-        var next = events.filter(function (event) {
+        var tournamentDates = events.filter(function (event) {
           return event.start && event.end >= today;
-        }).sort(function (a, b) {
-          return a.start.localeCompare(b.start);
-        })[0];
+        }).map(function (event) { return event.start; });
+        var practiceDates = PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.date >= today;
+        }).map(function (windowItem) { return windowItem.date; });
+        var next = tournamentDates.concat(practiceDates).sort()[0];
         if (!next) {
           showToast("No future dated event found.");
           return;
         }
-        var date = parseDate(next.start);
+        var date = parseDate(next);
         viewDate = new Date(date.getFullYear(), date.getMonth(), 1, 12);
         renderMonth();
       }
 
+      function jumpToNextOpenPractice() {
+        var today = isoDate(new Date());
+        var locationFilter = document.getElementById("practiceLocationFilter").value;
+        var next = PRACTICE_WINDOWS.find(function (windowItem) {
+          return (locationFilter === "all" || windowItem.locationKey === locationFilter) && windowItem.date >= today &&
+            ALLOWED_DURATIONS.some(function (duration) {
+            return availableStarts(windowItem, duration).length > 0;
+          });
+        });
+        if (!next) {
+          showToast("No claimable practice window remains.");
+          return;
+        }
+        var card = document.querySelector("[data-practice-card='" + next.id + "']");
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
       function runSelfTest() {
         var groups = getConflictGroups();
-        var igloo = events.find(function (event) { return event.id === "b28-igloo"; });
-        var autumn = events.find(function (event) { return event.id === "b28-autumn"; });
-        var iglooConflict = groups.some(function (group) {
-          var ids = group.events.map(function (event) { return event.id; });
-          return ids.indexOf("b28-igloo") >= 0 && ids.indexOf("b28-autumn") >= 0 && group.level === "critical";
+        var seaford = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "seaford"; });
+        var nickerson = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "nickerson"; });
+        var pointLookout = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "point-lookout"; });
+        var momentum = PRACTICE_WINDOWS.filter(function (windowItem) { return windowItem.locationKey === "momentum"; });
+        var colors = Object.keys(TEAM_META).map(function (team) { return TEAM_META[team].color.toUpperCase(); });
+        var locationColors = Object.keys(PRACTICE_LOCATION_META).map(function (key) {
+          return PRACTICE_LOCATION_META[key].color.toUpperCase();
+        });
+        var linkedCalendars = Object.keys(TEAM_META).filter(function (team) { return Boolean(TEAM_META[team].calendar); });
+        var allIds = events.map(function (event) { return event.id; })
+          .concat(PRACTICE_WINDOWS.map(function (windowItem) { return windowItem.id; }))
+          .concat(practiceBookings.map(function (booking) { return booking.id; }));
+        var validBookings = practiceBookings.every(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          var teams = bookingTeams(booking);
+          var expectedTeams = windowItem ? Number(windowItem.teamCount || 1) : 1;
+          if (!windowItem || teams.length !== expectedTeams || new Set(teams).size !== expectedTeams ||
+              !teams.every(function (team) { return Boolean(TEAM_META[team]); }) ||
+              allowedDurationsForWindow(windowItem).indexOf(Number(booking.durationHours)) < 0) return false;
+          var start = toMinutes(booking.startTime);
+          var windowStart = toMinutes(windowItem.startTime);
+          var end = bookingEndMinutes(booking);
+          return (start - windowStart) % (Number(windowItem.startIncrementMinutes) || 30) === 0 &&
+            start >= windowStart && end <= toMinutes(windowItem.endTime);
         });
         var result = {
-          eventCount: events.length,
-          datedEventCount: events.filter(function (event) { return event.start && event.end; }).length,
-          tbdEventCount: events.filter(function (event) { return !event.start || !event.end; }).length,
+          tournamentCount: events.length,
+          datedTournamentCount: events.filter(function (event) { return event.start && event.end; }).length,
+          tbdTournamentCount: events.filter(function (event) { return !event.start || !event.end; }).length,
+          offIslandCount: events.filter(function (event) { return event.offIsland === true; }).length,
+          practiceWindowCount: PRACTICE_WINDOWS.length,
+          seafordWindowCount: seaford.length,
+          nickersonWindowCount: nickerson.length,
+          nickersonWeekdayCount: nickerson.filter(function (windowItem) { return windowItem.startTime === "17:00"; }).length,
+          nickersonSaturdayCount: nickerson.filter(function (windowItem) { return windowItem.startTime === "09:00"; }).length,
+          pointLookoutWindowCount: pointLookout.length,
+          pointLookoutWeekdayCount: pointLookout.filter(function (windowItem) { return windowItem.startTime === "18:00"; }).length,
+          pointLookoutSaturdayCount: pointLookout.filter(function (windowItem) { return windowItem.startTime === "08:00"; }).length,
+          pointLookoutBlackoutHonored: !pointLookout.some(function (windowItem) { return windowItem.date === "2026-09-19"; }),
+          momentumWindowCount: momentum.length,
+          momentumOneTeamCount: momentum.filter(function (windowItem) { return windowItem.teamCount === 1; }).length,
+          momentumTwoTeamCount: momentum.filter(function (windowItem) { return windowItem.teamCount === 2; }).length,
+          momentumPatternRules: momentum.filter(function (windowItem) { return windowItem.teamCount === 1; }).every(function (windowItem) {
+            return windowItem.requiredDurationHours === 1 && windowItem.startIncrementMinutes === 60;
+          }) && momentum.filter(function (windowItem) { return windowItem.teamCount === 2; }).every(function (windowItem) {
+            return windowItem.requiredDurationHours === 2 && windowItem.startIncrementMinutes === 60;
+          }),
+          practiceBookingCount: practiceBookings.length,
           conflictCount: groups.length,
-          criticalCount: groups.filter(function (group) { return group.level === "critical"; }).length,
-          highCount: groups.filter(function (group) { return group.level === "high"; }).length,
-          watchCount: groups.filter(function (group) { return group.level === "watch"; }).length,
-          uniqueIds: new Set(events.map(function (event) { return event.id; })).size === events.length,
+          uniqueIds: new Set(allIds).size === allIds.length,
+          uniqueTeamColors: new Set(colors).size === colors.length,
+          distinctLocationColors: new Set(locationColors).size === locationColors.length &&
+            locationColors.every(function (color) { return colors.indexOf(color) === -1; }),
           allEventsHaveTimeField: events.every(function (event) { return typeof event.time === "string"; }),
-          iglooLocked: Boolean(igloo && igloo.paid && igloo.status === "confirmed"),
-          iglooAutumnConflict: Boolean(igloo && autumn && iglooConflict),
-          calendarIdCount: new Set(Object.keys(TEAM_META).map(function (team) { return TEAM_META[team].calendar; })).size
+          allEventsHaveOffIslandField: events.every(function (event) { return typeof event.offIsland === "boolean"; }),
+          allEventsUseKnownTeams: events.every(function (event) { return Boolean(TEAM_META[event.team]); }),
+          validBookings: validBookings,
+          allowedDurationsExact: JSON.stringify(ALLOWED_DURATIONS) === JSON.stringify([1, 1.5, 2]),
+          seafordStartLattice: availableStarts(seaford[0], 1).slice(0, 3).join(",") === "19:15,19:45,20:15",
+          teamCount: Object.keys(TEAM_META).length,
+          linkedCalendarCount: linkedCalendars.length,
+          correctedGirlsDates: events.some(function (event) { return event.id === "g31-apex-fall" && event.start === "2026-10-04"; }) &&
+            ["g31-queen-fall", "g32-queen-fall", "g33-queen-fall"].every(function (id) {
+              return events.some(function (event) { return event.id === id && event.start === "2026-10-25"; });
+            })
         };
-        result.pass = result.eventCount === 59 &&
-          result.datedEventCount === 56 &&
-          result.tbdEventCount === 3 &&
+        result.pass = result.tournamentCount === 37 &&
+          result.datedTournamentCount === 34 &&
+          result.tbdTournamentCount === 3 &&
+          result.offIslandCount === 12 &&
+          result.practiceWindowCount === 123 &&
+          result.seafordWindowCount === 24 &&
+          result.nickersonWindowCount === 35 &&
+          result.nickersonWeekdayCount === 26 &&
+          result.nickersonSaturdayCount === 9 &&
+          result.pointLookoutWindowCount === 21 &&
+          result.pointLookoutWeekdayCount === 15 &&
+          result.pointLookoutSaturdayCount === 6 &&
+          result.pointLookoutBlackoutHonored &&
+          result.momentumWindowCount === 43 &&
+          result.momentumOneTeamCount === 21 &&
+          result.momentumTwoTeamCount === 22 &&
+          result.momentumPatternRules &&
           result.uniqueIds &&
+          result.uniqueTeamColors &&
+          result.distinctLocationColors &&
           result.allEventsHaveTimeField &&
-          result.iglooLocked &&
-          result.iglooAutumnConflict &&
-          result.calendarIdCount === 11;
+          result.allEventsHaveOffIslandField &&
+          result.allEventsUseKnownTeams &&
+          result.validBookings &&
+          result.allowedDurationsExact &&
+          result.seafordStartLattice &&
+          result.teamCount === 25 &&
+          result.linkedCalendarCount === 14 &&
+          result.correctedGirlsDates;
         return result;
       }
 
@@ -2582,13 +3801,15 @@
           renderMonth();
         });
         document.getElementById("nextEventButton").addEventListener("click", jumpToNextEvent);
+        document.getElementById("nextOpenPracticeButton").addEventListener("click", jumpToNextOpenPractice);
+        document.getElementById("practiceLocationFilter").addEventListener("change", renderPracticeBoard);
+        document.getElementById("scheduleTypeFilter").addEventListener("change", renderMonth);
         document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
         document.getElementById("showTbdButton").addEventListener("click", function () { document.getElementById("tbdDialog").showModal(); });
         document.getElementById("syncButton").addEventListener("click", function () {
-          loadEvents().then(function (loaded) {
-            events = loaded;
+          loadSchedule().then(function () {
             renderAll();
-            showToast("Pulled the latest calendar from the shared store.");
+            showToast("Pulled the latest staff schedule from the shared store.");
           }).catch(function () {
             showToast("Could not reach the calendar store.");
           });
@@ -2599,7 +3820,11 @@
         document.getElementById("fullscreenButton").addEventListener("click", toggleFullscreen);
         document.getElementById("addEventButton").addEventListener("click", function () { openEventDialog(); });
         document.getElementById("eventForm").addEventListener("submit", saveEventFromForm);
+        document.getElementById("claimForm").addEventListener("submit", submitPracticeClaim);
+        document.getElementById("claimDuration").addEventListener("change", updateClaimStartOptions);
+        document.getElementById("claimTeam").addEventListener("change", updateSecondTeamOptions);
         document.getElementById("deleteEventButton").addEventListener("click", deleteCurrentEvent);
+        document.getElementById("manageTypeFilter").addEventListener("change", renderManageTable);
         document.getElementById("manageTeamFilter").addEventListener("change", renderManageTable);
         document.getElementById("manageStatusFilter").addEventListener("change", renderManageTable);
         document.getElementById("exportButton").addEventListener("click", exportBackup);
@@ -2619,6 +3844,7 @@
           if (event.key.toLowerCase() === "f") toggleFullscreen();
           if (event.key.toLowerCase() === "l") showView("live");
           if (event.key.toLowerCase() === "m") showView("manage");
+          if (event.key.toLowerCase() === "p") showView("practice");
           if (event.key === "ArrowLeft") {
             viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1, 12);
             renderMonth();
@@ -2636,15 +3862,14 @@
       }
 
       function showLockScreen(message) {
-        document.body.innerHTML = '<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-family:Montserrat,Arial,sans-serif;padding:24px;text-align:center;"><div style="max-width:520px;"><div style="color:#D22630;font-weight:900;text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px;">Coach Only</div><h1 style="font-family:Bebas Neue,Arial,sans-serif;font-size:48px;margin:0 0 12px;">Tournament Wall</h1><p style="color:rgba(255,255,255,.68);line-height:1.6;">' + message + '</p><a href="/dan-calendar" style="display:inline-flex;margin-top:22px;background:#D22630;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:900;text-transform:uppercase;font-size:12px;">Try Again</a></div></main>';
+        document.body.innerHTML = '<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-family:Montserrat,Arial,sans-serif;padding:24px;text-align:center;"><div style="max-width:520px;"><div style="color:#D22630;font-weight:900;text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px;">BTB Staff Only</div><h1 style="font-family:Bebas Neue,Arial,sans-serif;font-size:48px;margin:0 0 12px;">BTB STAFF 26/27 SEASON SCHEDULE</h1><p style="color:rgba(255,255,255,.68);line-height:1.6;">' + message + '</p><a href="/dan-calendar" style="display:inline-flex;margin-top:22px;background:#D22630;color:#fff;text-decoration:none;padding:12px 18px;border-radius:6px;font-weight:900;text-transform:uppercase;font-size:12px;">Try Again</a></div></main>';
         document.documentElement.classList.remove("btb-wall-locked");
       }
 
       function init() {
         // Nothing renders and no timer starts until the store confirms the
         // password, so a wrong entry never reaches the schedule.
-        loadEvents().then(function (loaded) {
-          events = loaded;
+        loadSchedule().then(function () {
           document.documentElement.classList.remove("btb-wall-locked");
           start();
         }).catch(function (error) {
@@ -2678,6 +3903,9 @@
         window.__BTB_CALENDAR_TEST__ = {
           version: DATA_VERSION,
           getEvents: function () { return JSON.parse(JSON.stringify(events)); },
+          getDefaultTournaments: function () { return JSON.parse(JSON.stringify(DEFAULT_EVENTS)); },
+          getPracticeWindows: function () { return JSON.parse(JSON.stringify(PRACTICE_WINDOWS)); },
+          getPracticeBookings: function () { return JSON.parse(JSON.stringify(practiceBookings)); },
           getConflicts: function () { return JSON.parse(JSON.stringify(getConflictGroups())); },
           getCurrentMonth: function () { return isoDate(viewDate); },
           runSelfTest: runSelfTest
