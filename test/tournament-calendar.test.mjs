@@ -569,6 +569,38 @@ test("the staff page uses a compact conflicts tab, wider calendar, transparent m
   assert.match(html, /function teamIcal\(team\)/);
 });
 
+test("the month grid is taller, scrolls crowded days, and opens a complete daily schedule", () => {
+  const html = staffPageHtml();
+  const calendarPanelStart = html.indexOf(".calendar-panel {");
+  const calendarPanelEnd = html.indexOf(".calendar-toolbar", calendarPanelStart);
+  const calendarPanelCss = html.slice(calendarPanelStart, calendarPanelEnd);
+  assert.match(calendarPanelCss, /min-height:\s*clamp\(920px, 105vh, 1120px\)/);
+  assert.match(html, /#wallView\s*{[^}]*overflow-y:\s*auto/s);
+
+  const dayEventsStart = html.indexOf(".day-events {");
+  const dayEventsEnd = html.indexOf(".day-events::-webkit-scrollbar", dayEventsStart);
+  const dayEventsCss = html.slice(dayEventsStart, dayEventsEnd);
+  assert.match(dayEventsCss, /min-height:\s*0/);
+  assert.match(dayEventsCss, /overflow-y:\s*auto/);
+  assert.match(dayEventsCss, /overscroll-behavior:\s*contain/);
+
+  const renderStart = html.indexOf("function renderMonth()");
+  const renderEnd = html.indexOf("function openDayDialog(dayIso)", renderStart);
+  const renderSource = html.slice(renderStart, renderEnd);
+  assert.match(renderSource, /var pills = allPills\.join\(""\)/);
+  assert.doesNotMatch(renderSource, /allPills\.slice\(0,\s*4\)/);
+  assert.match(renderSource, /class='day-number-button'/);
+  assert.match(renderSource, /data-day-date='/);
+  assert.match(renderSource, /openDayDialog\(button\.getAttribute\("data-day-date"\)\)/);
+
+  assert.match(html, /id="dayDialog"/);
+  assert.match(html, /id="dayDialogTitle"/);
+  assert.match(html, /id="dayDialogBody"/);
+  assert.match(html, /function scheduleItemsForDay\(dayIso, showTournaments, showPractices\)/);
+  assert.match(html, /function openDayDialog\(dayIso\)/);
+  assert.match(html, /body\.querySelectorAll\("\[data-day-detail-item\]"\)/);
+});
+
 test("known-team validation covers the active 18-team 2026-27 operating list", () => {
   assert.deepEqual(KNOWN_TEAMS, [
     "2028 Black", "2030 Rage", "2031 Carnage", "2032 Cannons", "2033 Renegades",

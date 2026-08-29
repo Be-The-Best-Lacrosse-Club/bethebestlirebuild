@@ -428,6 +428,11 @@
       animation: reveal 220ms ease both;
     }
 
+    #wallView {
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
     @keyframes reveal {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
@@ -454,7 +459,7 @@
     }
 
     .calendar-panel {
-      min-height: 0;
+      min-height: clamp(920px, 105vh, 1120px);
       display: grid;
       grid-template-rows: auto auto auto minmax(0, 1fr);
       overflow: hidden;
@@ -619,6 +624,8 @@
       position: relative;
       min-width: 0;
       min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
       padding: 0.42rem;
       border-right: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
@@ -656,8 +663,45 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 0.26rem;
-      font-size: 0.68rem;
-      font-weight: 800;
+    }
+
+    .day-number-button {
+      min-width: 2rem;
+      min-height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.34rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 0.2rem 0.45rem;
+      background: transparent;
+      color: inherit;
+      font-size: 0.76rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .day-number-button:hover,
+    .day-number-button:focus-visible {
+      border-color: rgba(210, 38, 48, 0.65);
+      background: rgba(210, 38, 48, 0.17);
+      color: #fff;
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .day-item-count {
+      min-width: 1.15rem;
+      height: 1.15rem;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #c9cdd3;
+      font-size: 0.48rem;
+      font-weight: 900;
     }
 
     .conflict-dot {
@@ -674,13 +718,31 @@
     }
 
     .day-events {
+      min-height: 0;
       display: grid;
+      grid-auto-rows: max-content;
+      align-content: start;
       gap: 0.2rem;
+      padding-right: 0.12rem;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    }
+
+    .day-events::-webkit-scrollbar {
+      width: 0.3rem;
+    }
+
+    .day-events::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.28);
     }
 
     .event-pill {
       width: 100%;
       min-width: 0;
+      min-height: 1.4rem;
       display: grid;
       grid-template-columns: 0.25rem minmax(0, 1fr);
       align-items: stretch;
@@ -747,12 +809,6 @@
       font-weight: 700;
     }
 
-    .more-events {
-      color: #aeb2b8;
-      font-size: 0.55rem;
-      font-weight: 800;
-    }
-
     .sidebar {
       width: 100%;
       max-width: 285px;
@@ -775,6 +831,7 @@
 
     .sidebar .locked-list {
       min-height: 0;
+      align-content: start;
       overflow-y: auto;
       scrollbar-width: thin;
     }
@@ -1864,6 +1921,113 @@
       overflow-y: auto;
     }
 
+    .day-detail-dialog {
+      width: min(1120px, calc(100vw - 2rem));
+    }
+
+    .day-detail-dialog[open] {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .day-detail-body {
+      min-height: 0;
+      max-height: 78vh;
+      padding: 1rem;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .day-detail-summary {
+      margin-bottom: 0.8rem;
+      color: #aeb3bb;
+      font-size: 0.66rem;
+      font-weight: 700;
+    }
+
+    .day-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 0.7rem;
+    }
+
+    .day-detail-card {
+      min-width: 0;
+      min-height: 9.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      border: 1px solid color-mix(in srgb, var(--card-color) 58%, var(--line));
+      border-left: 0.34rem solid var(--card-color);
+      border-radius: 0.82rem;
+      padding: 0.82rem;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--card-color) 14%, #17191c), #111316 72%);
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .day-detail-card:hover,
+    .day-detail-card:focus-visible {
+      border-color: var(--card-color);
+      background: linear-gradient(145deg, color-mix(in srgb, var(--card-color) 22%, #17191c), #111316 72%);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .day-detail-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      color: var(--card-color);
+      font-size: 0.52rem;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .day-detail-card-title {
+      display: block;
+      margin-top: 0.48rem;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.48rem;
+      letter-spacing: 0.045em;
+      line-height: 1.05;
+    }
+
+    .day-detail-meta {
+      display: grid;
+      gap: 0.28rem;
+      margin-top: 0.58rem;
+      color: #c7cbd1;
+      font-size: 0.58rem;
+      font-weight: 650;
+      line-height: 1.4;
+    }
+
+    .day-detail-action {
+      margin-top: auto;
+      padding-top: 0.72rem;
+      color: var(--card-color);
+      font-size: 0.52rem;
+      font-weight: 900;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    .day-detail-empty {
+      grid-column: 1 / -1;
+      border: 1px dashed var(--line);
+      border-radius: 0.8rem;
+      padding: 2.4rem 1rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
     .conflict-detail {
       margin-bottom: 0.75rem;
       border: 1px solid var(--line);
@@ -1971,7 +2135,7 @@
       }
 
       .calendar-panel {
-        min-height: 720px;
+        min-height: 900px;
       }
 
       .source-badge {
@@ -2309,6 +2473,20 @@
         grid-template-columns: 1fr;
       }
 
+      .day-detail-dialog {
+        width: calc(100vw - 1rem);
+        max-height: calc(100dvh - 1rem);
+      }
+
+      .day-detail-body {
+        max-height: calc(100dvh - 5.5rem);
+        padding: 0.72rem;
+      }
+
+      .day-detail-grid {
+        grid-template-columns: 1fr;
+      }
+
       .form-group.full,
       .dialog-actions {
         grid-column: 1;
@@ -2608,6 +2786,17 @@
       <span>Our Culture Built Us. Our Hard Work Made Us.</span>
     </footer>
   </div>
+
+  <dialog class="day-detail-dialog" id="dayDialog" aria-labelledby="dayDialogTitle" aria-describedby="dayDialogSummary">
+    <div class="dialog-header">
+      <h2 id="dayDialogTitle">Daily Schedule</h2>
+      <button class="dialog-close" type="button" data-close-dialog="dayDialog" aria-label="Close daily schedule">×</button>
+    </div>
+    <div class="day-detail-body">
+      <div class="day-detail-summary" id="dayDialogSummary"></div>
+      <div class="day-detail-grid" id="dayDialogBody"></div>
+    </div>
+  </dialog>
 
   <dialog id="eventDialog" aria-labelledby="eventDialogTitle">
     <div class="dialog-header">
@@ -3996,6 +4185,23 @@
         });
       }
 
+      function scheduleItemsForDay(dayIso, showTournaments, showPractices) {
+        var dayEvents = showTournaments ? events.filter(function (event) {
+          return visibleTeams.has(event.team) && event.start && event.start <= dayIso && event.end >= dayIso;
+        }).sort(function (a, b) {
+          return STATUS_META[b.status].score - STATUS_META[a.status].score || a.team.localeCompare(b.team);
+        }) : [];
+        var dayWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.date === dayIso && (isAssignedPractice(windowItem)
+            ? visibleTeams.has(assignedPracticeTeam(windowItem))
+            : isOpenInventoryWindow(windowItem));
+        }).sort(function (a, b) {
+          return String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
+            a.venue.localeCompare(b.venue) || a.id.localeCompare(b.id);
+        }) : [];
+        return { events: dayEvents, windows: dayWindows };
+      }
+
       function renderMonth() {
         var title = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(viewDate);
         document.getElementById("monthTitle").textContent = title;
@@ -4012,16 +4218,9 @@
         for (var i = 0; i < 42; i += 1) {
           var day = addDays(gridStart, i);
           var dayIso = isoDate(day);
-          var dayEvents = showTournaments ? events.filter(function (event) {
-            return visibleTeams.has(event.team) && event.start && event.start <= dayIso && event.end >= dayIso;
-          }).sort(function (a, b) {
-            return STATUS_META[b.status].score - STATUS_META[a.status].score || a.team.localeCompare(b.team);
-          }) : [];
-          var dayWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
-            return windowItem.date === dayIso && (isAssignedPractice(windowItem)
-              ? visibleTeams.has(assignedPracticeTeam(windowItem))
-              : isOpenInventoryWindow(windowItem));
-          }) : [];
+          var daySchedule = scheduleItemsForDay(dayIso, showTournaments, showPractices);
+          var dayEvents = daySchedule.events;
+          var dayWindows = daySchedule.windows;
           var conflictLevel = conflictForDay(dayIso, conflicts);
           var classes = ["day"];
           if (day.getMonth() !== viewDate.getMonth()) classes.push("other-month");
@@ -4066,16 +4265,25 @@
               "</small></span></button>";
           });
           var allPills = tournamentPills.concat(practicePills);
-          var pills = allPills.slice(0, 4).join("");
-          if (allPills.length > 4) pills += "<div class='more-events'>+" + (allPills.length - 4) + " more</div>";
+          var pills = allPills.join("");
+          var dayLabel = formatDate(dayIso, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+          var itemLabel = allPills.length + " schedule item" + (allPills.length === 1 ? "" : "s");
+          var itemCount = allPills.length ? "<span class='day-item-count'>" + allPills.length + "</span>" : "";
 
           html.push("<div class='" + classes.join(" ") + "' data-date='" + dayIso + "'>" +
-            "<div class='day-number'><span>" + day.getDate() + "</span>" + dots + "</div>" +
+            "<div class='day-number'><button class='day-number-button' type='button' data-day-date='" + dayIso +
+            "' aria-haspopup='dialog' aria-controls='dayDialog' aria-label='" + escapeHtml("Open " + dayLabel + ", " + itemLabel) +
+            "'><span>" + day.getDate() + "</span>" + itemCount + "</button>" + dots + "</div>" +
             "<div class='day-events'>" + pills + "</div></div>");
         }
 
         var grid = document.getElementById("calendarGrid");
         grid.innerHTML = html.join("");
+        grid.querySelectorAll(".day-number-button").forEach(function (button) {
+          button.addEventListener("click", function () {
+            openDayDialog(button.getAttribute("data-day-date"));
+          });
+        });
         grid.querySelectorAll(".event-pill").forEach(function (button) {
           button.addEventListener("click", function () {
             var eventId = button.getAttribute("data-event-id");
@@ -4149,6 +4357,79 @@
             else openClaimDialog(button.getAttribute("data-window-id"));
           });
         });
+      }
+
+      function openDayDialog(dayIso) {
+        var typeFilter = document.getElementById("scheduleTypeFilter").value;
+        var schedule = scheduleItemsForDay(dayIso, typeFilter !== "practices", typeFilter !== "tournaments");
+        var dayTitle = formatDate(dayIso, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+        var tournamentCount = schedule.events.length;
+        var practiceCount = schedule.windows.length;
+        var totalCount = tournamentCount + practiceCount;
+        var dialog = document.getElementById("dayDialog");
+        var body = document.getElementById("dayDialogBody");
+
+        document.getElementById("dayDialogTitle").textContent = dayTitle;
+        document.getElementById("dayDialogSummary").textContent = totalCount + " schedule item" +
+          (totalCount === 1 ? "" : "s") + " • " + tournamentCount + " tournament" +
+          (tournamentCount === 1 ? "" : "s") + " • " + practiceCount + " practice" +
+          (practiceCount === 1 ? "" : "s") + (totalCount ? " • Select any card to open it." : "");
+
+        var tournamentCards = schedule.events.map(function (event) {
+          var meta = TEAM_META[event.team];
+          var status = STATUS_META[event.status];
+          var note = event.note ? "<span>" + escapeHtml(event.note) + "</span>" : "";
+          return "<button class='day-detail-card tournament' type='button' data-day-detail-item data-event-id='" +
+            escapeHtml(event.id) + "' style='--card-color:" + meta.color + "' aria-label='" +
+            escapeHtml("Open " + meta.label + " " + event.title) + "'><span class='day-detail-card-top'><span>Tournament</span><span>" +
+            escapeHtml(status.label) + "</span></span><span class='day-detail-card-title'>" +
+            escapeHtml(meta.short + " — " + event.title) + offIslandMark(event) +
+            "</span><span class='day-detail-meta'><span>" + escapeHtml(event.time || "Game times TBD") + "</span><span>" +
+            escapeHtml(event.location || "Location TBD") + "</span>" + note + "</span><span class='day-detail-action'>Open tournament →</span></button>";
+        });
+
+        var practiceCards = schedule.windows.map(function (windowItem) {
+          var location = PRACTICE_LOCATION_META[windowItem.locationKey];
+          if (isAssignedPractice(windowItem)) {
+            var assignedTeam = assignedPracticeTeam(windowItem);
+            var team = TEAM_META[assignedTeam];
+            var booking = assignedPracticeBooking(windowItem);
+            var coachState = booking ? "Coach " + booking.coach : "Coach Needed";
+            return "<button class='day-detail-card practice assigned' type='button' data-day-detail-item data-window-id='" +
+              escapeHtml(windowItem.id) + "' style='--card-color:" + team.color + "' aria-label='" +
+              escapeHtml("Open " + team.label + " practice") + "'><span class='day-detail-card-top'><span>Team Practice</span><span>" +
+              escapeHtml(coachState) + "</span></span><span class='day-detail-card-title'>" + escapeHtml(team.short + " Practice") +
+              "</span><span class='day-detail-meta'><span>" + escapeHtml(assignedPracticeTime(windowItem)) + "</span><span>" +
+              escapeHtml(practiceWindowLocation(windowItem)) + "</span><span>" +
+              escapeHtml(assignmentStatusLabel(windowItem.assignmentStatus)) + "</span></span><span class='day-detail-action'>" +
+              escapeHtml(booking ? "Coach assignment saved" : "Assign a coach →") + "</span></button>";
+          }
+          var availability = practiceAvailability(windowItem);
+          var bookingCount = bookingsForWindow(windowItem.id).length;
+          var endLabel = windowItem.endTime ? formatClock(windowItem.endTime) : "End time needed";
+          return "<button class='day-detail-card practice' type='button' data-day-detail-item data-window-id='" +
+            escapeHtml(windowItem.id) + "' style='--card-color:" + location.color + "' aria-label='" +
+            escapeHtml("Open " + practiceWindowLabel(windowItem)) + "'><span class='day-detail-card-top'><span>Open Field</span><span>" +
+            escapeHtml(availability.label) + "</span></span><span class='day-detail-card-title'>" + escapeHtml(practiceWindowLabel(windowItem)) +
+            "</span><span class='day-detail-meta'><span>" + escapeHtml(formatClock(windowItem.startTime) + "–" + endLabel) +
+            "</span><span>" + escapeHtml(practiceWindowLocation(windowItem)) + "</span>" +
+            (windowItem.patternLabel ? "<span>" + escapeHtml(windowItem.patternLabel) + "</span>" : "") +
+            (bookingCount ? "<span>" + bookingCount + " block" + (bookingCount === 1 ? "" : "s") + " claimed</span>" : "") +
+            "</span><span class='day-detail-action'>Claim a block →</span></button>";
+        });
+
+        body.innerHTML = totalCount ? tournamentCards.concat(practiceCards).join("") :
+          "<div class='day-detail-empty'>No schedule items are shown for this day with the current filters.</div>";
+        body.querySelectorAll("[data-day-detail-item]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            var eventId = button.getAttribute("data-event-id");
+            var windowId = button.getAttribute("data-window-id");
+            dialog.close();
+            if (eventId) openEventDialog(eventId);
+            else if (windowId) openClaimDialog(windowId);
+          });
+        });
+        dialog.showModal();
       }
 
       function renderSidebar() {
@@ -5091,6 +5372,8 @@
             return index === 0 || practiceAgendaDates[index - 1] < date;
           }),
           practiceTickerRendered: document.querySelectorAll("#practiceTickerTrack .practice-ticker-item").length > 0,
+          dayDetailReady: Boolean(document.getElementById("dayDialog")) &&
+            document.querySelectorAll("#calendarGrid .day-number-button").length === 42,
           exportReady: document.getElementById("exportTeam").options.length === Object.keys(TEAM_META).length &&
             calendarExportItems("2033 Storm").length >= 18 && teamIcal("2033 Storm").indexOf("BEGIN:VCALENDAR") >= 0,
           correctedGirlsDates: events.some(function (event) { return event.id === "g31-apex-fall" && event.start === "2026-10-04"; }) &&
@@ -5146,6 +5429,7 @@
           result.sundayFirstCalendar &&
           result.practiceAgendaChronological &&
           result.practiceTickerRendered &&
+          result.dayDetailReady &&
           result.exportReady &&
           result.correctedGirlsDates;
         return result;
