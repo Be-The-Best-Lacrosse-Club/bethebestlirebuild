@@ -167,13 +167,13 @@ function expectedAssignedPracticeSlots() {
   ]);
   add("seaford", tuesdays, "19:15", "21:00", ["2033 Storm"]);
   add("seaford", wednesdays, "19:15", "21:15", [
-    "2036 Dawgs", "2035 Bombers",
+    "2036 Dawgs", "2035 Bombers", "2032 Riptide",
   ]);
   add("seaford", wednesdays, "19:15", "20:15", [
     "2036 Avalanche",
   ]);
   add("seaford", thursdays, "19:15", "21:15", [
-    "2032 Riptide", "2031 Cyclones",
+    "2031 Cyclones",
   ]);
   add("seaford", saturdays, "15:00", null, ["2035 Bombers"]);
   add("seaford", sundays, "09:00", "11:00", ["2032 Riptide"]);
@@ -374,6 +374,16 @@ test("assigned team slots repeat every September pattern through October", () =>
       window.endTime === (team === "2033 Storm" ? "21:00" : "21:15")
     )));
   }
+  const riptideWeekdays = assigned.filter((window) => (
+    window.assignedTeams[0] === "2032 Riptide" &&
+    window.locationKey === "seaford" &&
+    window.startTime === "19:15"
+  )).sort((a, b) => a.date.localeCompare(b.date));
+  assert.deepEqual(riptideWeekdays.map((window) => window.date), [
+    "2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30",
+    "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28",
+  ]);
+  assert.ok(riptideWeekdays.every((window) => window.endTime === "21:15"));
   const stormPointLookout = assigned.filter((window) => (
     window.assignedTeams[0] === "2033 Storm" && window.locationKey === "point-lookout"
   ));
@@ -729,6 +739,32 @@ test("legacy snapshots normalize to an empty practice booking list", () => {
     events: [{ id: "event-1" }],
     practiceBookings: [],
     savedAt: "legacy",
+  });
+});
+
+test("legacy Thursday Riptide coach assignments follow the team to Wednesday", () => {
+  const snapshot = normalizeSnapshot({
+    practiceBookings: [{
+      id: "legacy-riptide-thursday",
+      windowId: "pdf-seaford-2026-09-10-2032-riptide",
+      venue: "Seaford HS Turf",
+      location: "Seaford High School — HS Turf/Track (Football Field)",
+      date: "2026-09-10",
+      team: "2032 Riptide",
+      teams: ["2032 Riptide"],
+      secondTeam: null,
+      coach: "Coach Riptide",
+      startTime: "19:15",
+      endTime: "21:15",
+      durationHours: 2,
+      createdAt: "2026-08-29T12:00:00.000Z",
+    }],
+  });
+  assert.equal(snapshot.practiceBookings[0].windowId, "pdf-seaford-2026-09-09-2032-riptide");
+  assert.equal(snapshot.practiceBookings[0].date, "2026-09-09");
+  assert.deepEqual(validatePracticeBookings(snapshot.practiceBookings)[0], {
+    ...snapshot.practiceBookings[0],
+    date: "2026-09-09",
   });
 });
 
