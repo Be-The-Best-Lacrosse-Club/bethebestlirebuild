@@ -474,6 +474,7 @@
     .panel,
     .live-card,
     .export-card,
+    .directory-card,
     .manage-card,
     .practice-card {
       border: 1px solid var(--line);
@@ -1061,6 +1062,7 @@
 
     .live-card,
     .export-card,
+    .directory-card,
     .manage-card,
     .practice-card {
       height: 100%;
@@ -1253,6 +1255,203 @@
       padding: 0.38rem 0.6rem;
       text-decoration: none;
       white-space: nowrap;
+    }
+
+    .directory-card {
+      grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
+    .directory-tools {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .directory-search {
+      width: min(32rem, 55vw);
+    }
+
+    .directory-count {
+      margin-left: auto;
+      color: #c8ccd2;
+      font-size: 0.6rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .coach-directory-grid {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      align-content: start;
+      gap: 0.72rem;
+      padding: 0.85rem;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .coach-card {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto auto minmax(2.2rem, auto) auto;
+      gap: 0.65rem;
+      border: 1px solid var(--line);
+      border-top: 0.28rem solid var(--directory-color, var(--red));
+      border-radius: 0.78rem;
+      padding: 0.82rem;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .coach-card-head {
+      display: grid;
+      grid-template-columns: 2.7rem minmax(0, 1fr);
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .coach-initials {
+      width: 2.7rem;
+      height: 2.7rem;
+      display: grid;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--directory-color, var(--red)) 58%, white);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--directory-color, var(--red)) 20%, #111);
+      color: #fff;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.06em;
+    }
+
+    .coach-name {
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    .coach-role {
+      display: block;
+      margin-top: 0.25rem;
+      color: #b6bac1;
+      font-size: 0.55rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .coach-programs,
+    .coach-teams {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .coach-program,
+    .coach-team-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.45rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.24rem 0.5rem;
+      background: rgba(255, 255, 255, 0.045);
+      color: #d8dbe0;
+      font-size: 0.48rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .coach-program {
+      border-color: color-mix(in srgb, var(--directory-color, var(--red)) 55%, transparent);
+      color: color-mix(in srgb, var(--directory-color, var(--red)) 48%, white);
+    }
+
+    .coach-contact-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.48rem;
+    }
+
+    .coach-contact-link,
+    .coach-edit-button {
+      min-width: 0;
+      min-height: 2.55rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      border: 1px solid var(--line);
+      border-radius: 0.58rem;
+      padding: 0.48rem 0.55rem;
+      background: #15171a;
+      color: #fff;
+      font-size: 0.54rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: center;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .coach-contact-link:hover,
+    .coach-contact-link:focus-visible,
+    .coach-edit-button:hover,
+    .coach-edit-button:focus-visible {
+      border-color: rgba(255, 255, 255, 0.36);
+      background: #202328;
+    }
+
+    .coach-edit-button {
+      grid-column: 1 / -1;
+      border-color: rgba(210, 38, 48, 0.52);
+      background: rgba(210, 38, 48, 0.12);
+      cursor: pointer;
+    }
+
+    .coach-contact-link.only {
+      grid-column: 1 / -1;
+    }
+
+    .directory-loading,
+    .directory-empty {
+      grid-column: 1 / -1;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.65rem;
+      font-weight: 650;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .directory-edit-name {
+      grid-column: 1 / -1;
+      border: 1px solid var(--line);
+      border-left: 0.3rem solid var(--red);
+      border-radius: 0.68rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.035);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .directory-form-note,
+    .directory-form-error {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.55rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .directory-form-error {
+      color: #ff9da4;
+      font-weight: 800;
     }
 
     .team-swatch {
@@ -2268,6 +2467,7 @@
 
       .live-card,
       .export-card,
+      .directory-card,
       .manage-card,
       .practice-card {
         height: auto;
@@ -2503,6 +2703,30 @@
         flex-direction: column;
       }
 
+      .directory-tools {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .directory-search,
+      .directory-tools .manage-filter {
+        width: 100%;
+      }
+
+      .directory-count {
+        margin-left: 0;
+      }
+
+      .coach-directory-grid {
+        grid-template-columns: 1fr;
+        padding: 0.65rem;
+      }
+
+      .coach-contact-link,
+      .coach-edit-button {
+        min-height: 44px;
+      }
+
       .export-item {
         grid-template-columns: 4.4rem minmax(0, 1fr);
       }
@@ -2713,6 +2937,7 @@
       <button class="tab-button" type="button" data-view="export">Export</button>
       <button class="tab-button" type="button" data-view="practice">Practice Board</button>
       <button class="tab-button" type="button" data-view="live">Live Feeds</button>
+      <button class="tab-button" type="button" data-view="directory">Coach Directory</button>
       <button class="tab-button" type="button" data-view="manage">Manage</button>
       <div class="tab-spacer"></div>
       <div class="source-badge">37 tournaments + 182 assigned team practices + 123 approved field windows</div>
@@ -2874,6 +3099,30 @@
               <h3 id="exportScheduleTitle">Team Schedule</h3>
               <div class="export-schedule-list" id="exportScheduleList"></div>
             </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="directoryView" aria-label="BTB coach contact directory">
+        <div class="directory-card">
+          <div class="section-header">
+            <div class="section-title">
+              <h2>Coach Directory</h2>
+              <p>Staff-only phone and email list. Select your name and use Update My Info whenever your contact details change.</p>
+            </div>
+          </div>
+          <div class="directory-tools">
+            <input class="field directory-search" id="coachDirectorySearch" type="search" autocomplete="off" placeholder="Search name, team, role, phone, or email" aria-label="Search the coach directory">
+            <select class="manage-filter" id="coachDirectoryProgram" aria-label="Filter coach directory by program">
+              <option value="all">All staff</option>
+              <option value="boys">Boys program</option>
+              <option value="girls">Girls program</option>
+              <option value="club">Club operations</option>
+            </select>
+            <span class="directory-count" id="coachDirectoryCount" aria-live="polite">Open this tab to load staff</span>
+          </div>
+          <div class="coach-directory-grid" id="coachDirectoryList">
+            <div class="directory-loading">Coach contacts load securely after this tab is opened.</div>
           </div>
         </div>
       </section>
@@ -3076,6 +3325,32 @@
         <div class="dialog-spacer"></div>
         <button class="btn" type="button" data-close-dialog="claimDialog">Cancel</button>
         <button class="btn primary" id="claimSubmitButton" type="submit">Claim Block</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="coachDirectoryDialog" aria-labelledby="coachDirectoryDialogTitle">
+    <div class="dialog-header">
+      <h2 id="coachDirectoryDialogTitle">Update My Contact Info</h2>
+      <button class="dialog-close" type="button" data-close-dialog="coachDirectoryDialog" aria-label="Close coach contact form">×</button>
+    </div>
+    <form class="event-form" id="coachDirectoryForm">
+      <input id="coachDirectoryId" type="hidden">
+      <div class="directory-edit-name" id="coachDirectoryEditName"></div>
+      <div class="form-group">
+        <label for="coachDirectoryPhone">Phone</label>
+        <input class="field" id="coachDirectoryPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" placeholder="(516) 555-1234">
+      </div>
+      <div class="form-group">
+        <label for="coachDirectoryEmail">Email</label>
+        <input class="field" id="coachDirectoryEmail" type="email" inputmode="email" autocomplete="email" maxlength="160" placeholder="coach@example.com">
+      </div>
+      <p class="directory-form-note">Update only your own record. At least one phone number or email address is required.</p>
+      <p class="directory-form-error" id="coachDirectoryFormError" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <div class="dialog-spacer"></div>
+        <button class="btn" type="button" data-close-dialog="coachDirectoryDialog">Cancel</button>
+        <button class="btn primary" id="coachDirectorySaveButton" type="submit">Save Contact Info</button>
       </div>
     </form>
   </dialog>
@@ -3626,6 +3901,10 @@
       var practiceBookings = [];
       var currentEtag = null;
       var snapshotVersion = 0;
+      var coachDirectoryEntries = [];
+      var coachDirectoryEtag = null;
+      var coachDirectoryLoaded = false;
+      var coachDirectoryLoadPromise = null;
       var visibleTeams = new Set(Object.keys(TEAM_META));
       var viewDate = initialViewMonth();
       var wakeLock = null;
@@ -3706,11 +3985,31 @@
       }
 
       var SYNC_ENDPOINT = "/.netlify/functions/tournament-calendar";
+      var COACH_DIRECTORY_ENDPOINT = "/.netlify/functions/coach-directory";
 
       function syncRequest(payload) {
         return fetch(SYNC_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.assign({ password: window.__BTB_WALL_KEY || "" }, payload))
+        }).then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (data) {
+            if (!response.ok) {
+              var error = new Error(data.error || "Request failed");
+              error.status = response.status;
+              error.data = data;
+              throw error;
+            }
+            return data;
+          });
+        });
+      }
+
+      function coachDirectoryRequest(payload) {
+        return fetch(COACH_DIRECTORY_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          cache: "no-store",
           body: JSON.stringify(Object.assign({ password: window.__BTB_WALL_KEY || "" }, payload))
         }).then(function (response) {
           return response.json().catch(function () { return {}; }).then(function (data) {
@@ -4805,6 +5104,219 @@
         });
       }
 
+      function coachDirectoryName(entry) {
+        return [entry.firstName, entry.lastName].filter(Boolean).join(" ");
+      }
+
+      function coachDirectoryProgramKeys(entry) {
+        var divisions = Array.isArray(entry.divisions) ? entry.divisions.join(" ").toLowerCase() : "";
+        var keys = [];
+        if (divisions.indexOf("boys") >= 0) keys.push("boys");
+        if (divisions.indexOf("girls") >= 0) keys.push("girls");
+        if (divisions.indexOf("no division") >= 0 || !keys.length) keys.push("club");
+        return keys;
+      }
+
+      function coachDirectoryColor(entry) {
+        var keys = coachDirectoryProgramKeys(entry);
+        if (keys.indexOf("boys") >= 0 && keys.indexOf("girls") >= 0) return "#a978ff";
+        if (keys.indexOf("girls") >= 0) return "#ff668c";
+        if (keys.indexOf("boys") >= 0) return "#30d6e8";
+        return "#f3ba3f";
+      }
+
+      function coachDirectoryProgramLabels(entry) {
+        return coachDirectoryProgramKeys(entry).map(function (key) {
+          return { boys: "Boys Program", girls: "Girls Program", club: "Club Operations" }[key];
+        });
+      }
+
+      function applyCoachDirectoryData(data) {
+        var snapshot = data && data.snapshot ? data.snapshot : {};
+        coachDirectoryEtag = data && typeof data.etag === "string" ? data.etag : null;
+        coachDirectoryEntries = (Array.isArray(snapshot.staff) ? snapshot.staff : []).filter(function (entry) {
+          return entry && typeof entry.id === "string" && typeof entry.firstName === "string" &&
+            typeof entry.lastName === "string";
+        }).map(function (entry) {
+          return {
+            id: entry.id,
+            firstName: entry.firstName,
+            lastName: entry.lastName,
+            roles: Array.isArray(entry.roles) ? entry.roles.slice() : [],
+            divisions: Array.isArray(entry.divisions) ? entry.divisions.slice() : [],
+            teams: Array.isArray(entry.teams) ? entry.teams.slice() : [],
+            phone: typeof entry.phone === "string" ? entry.phone : "",
+            email: typeof entry.email === "string" ? entry.email : "",
+            updatedAt: typeof entry.updatedAt === "string" ? entry.updatedAt : null
+          };
+        }).sort(function (a, b) {
+          return (a.lastName + " " + a.firstName).localeCompare(b.lastName + " " + b.firstName);
+        });
+        return coachDirectoryEntries;
+      }
+
+      function loadCoachDirectory(force) {
+        if (coachDirectoryLoaded && !force) {
+          renderCoachDirectory();
+          return Promise.resolve(coachDirectoryEntries);
+        }
+        if (coachDirectoryLoadPromise) return coachDirectoryLoadPromise;
+
+        var list = document.getElementById("coachDirectoryList");
+        list.setAttribute("aria-busy", "true");
+        if (!coachDirectoryLoaded) {
+          list.innerHTML = "<div class='directory-loading'>Loading the protected staff directory…</div>";
+          document.getElementById("coachDirectoryCount").textContent = "Loading staff…";
+        }
+
+        coachDirectoryLoadPromise = coachDirectoryRequest({ action: "load" }).then(function (data) {
+          applyCoachDirectoryData(data);
+          coachDirectoryLoaded = true;
+          renderCoachDirectory();
+          return coachDirectoryEntries;
+        }).catch(function (error) {
+          if (!coachDirectoryLoaded) {
+            list.innerHTML = "<div class='directory-empty'>The staff directory could not be loaded. " +
+              "<button class='btn subtle' type='button' data-directory-retry>Try Again</button></div>";
+            document.getElementById("coachDirectoryCount").textContent = "Directory unavailable";
+          }
+          showToast(error.status === 401
+            ? "Coach Directory locked — reopen the schedule with the correct password."
+            : "Could not reach the Coach Directory.");
+          throw error;
+        }).finally(function () {
+          list.removeAttribute("aria-busy");
+          coachDirectoryLoadPromise = null;
+        });
+        return coachDirectoryLoadPromise;
+      }
+
+      function coachDirectoryPhoneHref(phone) {
+        var value = String(phone || "");
+        var prefix = value.trim().charAt(0) === "+" ? "+" : "";
+        return prefix + value.replace(/\D/g, "");
+      }
+
+      function renderCoachDirectory() {
+        var query = document.getElementById("coachDirectorySearch").value.trim().toLowerCase();
+        var program = document.getElementById("coachDirectoryProgram").value;
+        var filtered = coachDirectoryEntries.filter(function (entry) {
+          if (program !== "all" && coachDirectoryProgramKeys(entry).indexOf(program) < 0) return false;
+          if (!query) return true;
+          return [
+            coachDirectoryName(entry),
+            entry.roles.join(" "),
+            entry.divisions.join(" "),
+            entry.teams.join(" "),
+            entry.phone,
+            entry.email
+          ].join(" ").toLowerCase().indexOf(query) >= 0;
+        });
+
+        document.getElementById("coachDirectoryCount").textContent = filtered.length + " of " +
+          coachDirectoryEntries.length + " staff member" + (coachDirectoryEntries.length === 1 ? "" : "s");
+        var host = document.getElementById("coachDirectoryList");
+        if (!filtered.length) {
+          host.innerHTML = "<div class='directory-empty'>No staff members match that search.</div>";
+          return;
+        }
+
+        host.innerHTML = filtered.map(function (entry) {
+          var name = coachDirectoryName(entry);
+          var initials = (entry.firstName.charAt(0) + entry.lastName.charAt(0)).toUpperCase();
+          var programs = coachDirectoryProgramLabels(entry).map(function (label) {
+            return "<span class='coach-program'>" + escapeHtml(label) + "</span>";
+          }).join("");
+          var teams = entry.teams.length ? entry.teams.map(function (team) {
+            return "<span class='coach-team-chip'>" + escapeHtml(team) + "</span>";
+          }).join("") : "<span class='coach-team-chip'>Club Staff</span>";
+          var contactCount = (entry.phone ? 1 : 0) + (entry.email ? 1 : 0);
+          var onlyClass = contactCount === 1 ? " only" : "";
+          var phone = entry.phone
+            ? "<a class='coach-contact-link" + onlyClass + "' href='tel:" + escapeHtml(coachDirectoryPhoneHref(entry.phone)) +
+              "' aria-label='Call " + escapeHtml(name) + "'>☎ " + escapeHtml(entry.phone) + "</a>"
+            : "";
+          var email = entry.email
+            ? "<a class='coach-contact-link" + onlyClass + "' href='mailto:" + encodeURIComponent(entry.email) +
+              "' aria-label='Email " + escapeHtml(name) + "'>✉ " + escapeHtml(entry.email) + "</a>"
+            : "";
+          return "<article class='coach-card' style='--directory-color:" + coachDirectoryColor(entry) + "'>" +
+            "<div class='coach-card-head'><div class='coach-initials' aria-hidden='true'>" + escapeHtml(initials) +
+            "</div><div><h3 class='coach-name'>" + escapeHtml(name) + "</h3><span class='coach-role'>" +
+            escapeHtml(entry.roles.join(" • ") || "BTB Staff") + "</span></div></div>" +
+            "<div class='coach-programs'>" + programs + "</div><div class='coach-teams'>" + teams + "</div>" +
+            "<div class='coach-contact-actions'>" + phone + email +
+            "<button class='coach-edit-button' type='button' data-directory-edit='" + escapeHtml(entry.id) +
+            "'>Update My Info</button></div></article>";
+        }).join("");
+      }
+
+      function openCoachDirectoryEditor(id) {
+        var entry = coachDirectoryEntries.find(function (item) { return item.id === id; });
+        if (!entry) {
+          showToast("That staff record is no longer available. Refresh and try again.");
+          return;
+        }
+        document.getElementById("coachDirectoryId").value = entry.id;
+        document.getElementById("coachDirectoryEditName").textContent = coachDirectoryName(entry) + " • " +
+          (entry.roles.join(" / ") || "BTB Staff");
+        document.getElementById("coachDirectoryPhone").value = entry.phone;
+        document.getElementById("coachDirectoryEmail").value = entry.email;
+        var error = document.getElementById("coachDirectoryFormError");
+        error.textContent = "";
+        error.hidden = true;
+        document.getElementById("coachDirectoryDialog").showModal();
+      }
+
+      function setCoachDirectoryFormError(message) {
+        var error = document.getElementById("coachDirectoryFormError");
+        error.textContent = message;
+        error.hidden = !message;
+      }
+
+      async function submitCoachDirectoryForm(event) {
+        event.preventDefault();
+        var phone = document.getElementById("coachDirectoryPhone").value.trim();
+        var email = document.getElementById("coachDirectoryEmail").value.trim();
+        if (!phone && !email) {
+          setCoachDirectoryFormError("Enter at least one phone number or email address.");
+          return;
+        }
+
+        var saveButton = document.getElementById("coachDirectorySaveButton");
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving…";
+        setCoachDirectoryFormError("");
+        try {
+          var data = await coachDirectoryRequest({
+            action: "updateContact",
+            contact: {
+              id: document.getElementById("coachDirectoryId").value,
+              phone: phone,
+              email: email
+            },
+            etag: coachDirectoryEtag
+          });
+          applyCoachDirectoryData(data);
+          coachDirectoryLoaded = true;
+          renderCoachDirectory();
+          document.getElementById("coachDirectoryDialog").close();
+          showToast("Contact information updated for the full BTB staff.");
+        } catch (error) {
+          if (error.status === 409 && error.data && error.data.snapshot) {
+            applyCoachDirectoryData({ snapshot: error.data.snapshot, etag: error.data.etag });
+            coachDirectoryLoaded = true;
+            renderCoachDirectory();
+            setCoachDirectoryFormError("Someone else updated the directory. The list refreshed; review your entry and save again.");
+          } else {
+            setCoachDirectoryFormError(error.message || "Contact information could not be saved.");
+          }
+        } finally {
+          saveButton.disabled = false;
+          saveButton.textContent = "Save Contact Info";
+        }
+      }
+
       function renderManageTable() {
         var typeFilter = document.getElementById("manageTypeFilter").value;
         var teamFilter = document.getElementById("manageTeamFilter").value;
@@ -5223,6 +5735,7 @@
         if (name === "live") refreshLiveFrame(false);
         if (name === "practice") renderPracticeBoard();
         if (name === "export") renderExportView();
+        if (name === "directory") loadCoachDirectory(false).catch(function () {});
         if (name === "manage") renderManageTable();
       }
 
@@ -5785,6 +6298,23 @@
           localStorage.setItem("btb-export-team", this.value);
           renderExportView();
         });
+        document.getElementById("coachDirectorySearch").addEventListener("input", function () {
+          if (coachDirectoryLoaded) renderCoachDirectory();
+        });
+        document.getElementById("coachDirectoryProgram").addEventListener("change", function () {
+          if (coachDirectoryLoaded) renderCoachDirectory();
+        });
+        document.getElementById("coachDirectoryList").addEventListener("click", function (event) {
+          var editButton = event.target.closest("[data-directory-edit]");
+          if (editButton) {
+            openCoachDirectoryEditor(editButton.getAttribute("data-directory-edit"));
+            return;
+          }
+          if (event.target.closest("[data-directory-retry]")) {
+            loadCoachDirectory(true).catch(function () {});
+          }
+        });
+        document.getElementById("coachDirectoryForm").addEventListener("submit", submitCoachDirectoryForm);
         document.getElementById("downloadIcalButton").addEventListener("click", downloadTeamIcal);
         document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
         document.getElementById("showTbdButton").addEventListener("click", function () { document.getElementById("tbdDialog").showModal(); });
@@ -5795,6 +6325,7 @@
           }).catch(function () {
             showToast("Could not reach the calendar store.");
           });
+          if (coachDirectoryLoaded) loadCoachDirectory(true).catch(function () {});
           refreshLiveFrame(true);
         });
         document.getElementById("refreshLiveButton").addEventListener("click", function () { refreshLiveFrame(true); });
