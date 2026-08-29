@@ -110,6 +110,41 @@ test("Tournament calendar accepts a verified owner without the calendar password
   }
 })
 
+test("Tournament calendar keeps the existing staff password flow", async () => {
+  const originalPassword = process.env.TOURNAMENT_CALENDAR_PASSWORD
+  process.env.TOURNAMENT_CALENDAR_PASSWORD = "server-password"
+  let authorizeCalled = false
+  const handler = createCalendarHandler({
+    authorize: async () => {
+      authorizeCalled = true
+      return { ok: false, statusCode: 401, error: "Authentication required" }
+    },
+    getBlobStore: () => ({
+      getWithMetadata: async () => ({
+        data: { events: [] },
+        etag: '"v1"',
+      }),
+    }),
+  })
+
+  try {
+    const response = await handler(new Request(
+      "https://www.bethebestli.com/.netlify/functions/tournament-calendar",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Origin: SITE_ORIGIN },
+        body: JSON.stringify({ action: "load", password: "server-password" }),
+      },
+    ))
+
+    assert.equal(response.status, 200)
+    assert.equal(authorizeCalled, false)
+  } finally {
+    if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD
+    else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword
+  }
+})
+
 test("Tournament calendar still rejects a wrong password without a verified owner", async () => {
   const originalPassword = process.env.TOURNAMENT_CALENDAR_PASSWORD
   process.env.TOURNAMENT_CALENDAR_PASSWORD = "server-password"
