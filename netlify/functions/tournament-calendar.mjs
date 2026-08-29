@@ -48,6 +48,16 @@ const TEAM_ALIASES = Object.freeze({
   "2037 Boys": "2037 Wolves",
   "2037 Girls": "2037 Supernova",
 });
+const ASSIGNED_PRACTICE_WINDOW_ALIASES = Object.freeze({
+  "pdf-seaford-2026-09-10-2032-riptide": "pdf-seaford-2026-09-09-2032-riptide",
+  "pdf-seaford-2026-09-17-2032-riptide": "pdf-seaford-2026-09-16-2032-riptide",
+  "pdf-seaford-2026-09-24-2032-riptide": "pdf-seaford-2026-09-23-2032-riptide",
+  "pdf-seaford-2026-10-01-2032-riptide": "pdf-seaford-2026-09-30-2032-riptide",
+  "pdf-seaford-2026-10-08-2032-riptide": "pdf-seaford-2026-10-07-2032-riptide",
+  "pdf-seaford-2026-10-15-2032-riptide": "pdf-seaford-2026-10-14-2032-riptide",
+  "pdf-seaford-2026-10-22-2032-riptide": "pdf-seaford-2026-10-21-2032-riptide",
+  "pdf-seaford-2026-10-29-2032-riptide": "pdf-seaford-2026-10-28-2032-riptide",
+});
 const RETIRED_TEAM_SET = new Set([
   "2029 Chrome",
   "2032 Grizzlies",
@@ -278,6 +288,7 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     sessions: [
       { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
+      { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -297,7 +308,6 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     note: ADJUSTED_SEAFORD_NOTE,
     source: DAN_RECURRING_SOURCE,
     sessions: [
-      { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
     ],
   }),
@@ -627,6 +637,24 @@ function canonicalizeStoredBookingTeamAliases(booking) {
   return normalized;
 }
 
+function canonicalizeStoredBookingWindowAliases(booking) {
+  if (!booking || typeof booking !== "object" || Array.isArray(booking)) return booking;
+  const windowId = ASSIGNED_PRACTICE_WINDOW_ALIASES[booking.windowId] || booking.windowId;
+  if (windowId === booking.windowId) return booking;
+  const window = PRACTICE_WINDOW_BY_ID.get(windowId);
+  if (!window) return booking;
+  return {
+    ...booking,
+    windowId,
+    venue: window.venue,
+    location: window.location,
+    date: window.date,
+    startTime: window.startTime,
+    endTime: window.endTime,
+    durationHours: window.requiredDurationHours,
+  };
+}
+
 function normalizeBookingTeams(input, window) {
   if (input.teams !== undefined && !Array.isArray(input.teams)) {
     throw new CalendarApiError("Practice teams must be a list", { code: "invalid_teams" });
@@ -875,6 +903,7 @@ export function normalizeSnapshot(value) {
     ? source.practiceBookings
       .filter((booking) => !storedBookingReferencesRetiredTeam(booking))
       .map(canonicalizeStoredBookingTeamAliases)
+      .map(canonicalizeStoredBookingWindowAliases)
     : [];
   return {
     version: Number.isSafeInteger(source.version) && source.version >= 0 ? source.version : 0,
