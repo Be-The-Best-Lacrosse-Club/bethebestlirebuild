@@ -72,6 +72,12 @@ function staffPageHtml() {
   return readFileSync(new URL("../public/dan-tournament-calendar.html", import.meta.url), "utf8");
 }
 
+function pngDimensions(fileUrl) {
+  const png = readFileSync(fileUrl);
+  assert.deepEqual(Array.from(png.subarray(0, 8)), [137, 80, 78, 71, 13, 10, 26, 10]);
+  return { width: png.readUInt32BE(16), height: png.readUInt32BE(20) };
+}
+
 function pageConflictGroups(events) {
   const html = staffPageHtml();
   const start = html.indexOf("function normalizeTournamentPlanValue");
@@ -599,6 +605,64 @@ test("the month grid is taller, scrolls crowded days, and opens a complete daily
   assert.match(html, /function scheduleItemsForDay\(dayIso, showTournaments, showPractices\)/);
   assert.match(html, /function openDayDialog\(dayIso\)/);
   assert.match(html, /body\.querySelectorAll\("\[data-day-detail-item\]"\)/);
+});
+
+test("the staff calendar installs as a narrowly scoped phone app without caching protected data", () => {
+  const html = staffPageHtml();
+  const manifestUrl = new URL("../public/btb-staff-calendar.webmanifest", import.meta.url);
+  const workerUrl = new URL("../public/btb-staff-calendar-sw.js", import.meta.url);
+  const manifest = JSON.parse(readFileSync(manifestUrl, "utf8"));
+  const worker = readFileSync(workerUrl, "utf8");
+  const netlifyConfig = readFileSync(new URL("../netlify.toml", import.meta.url), "utf8");
+
+  assert.equal(manifest.id, "/dan-calendar");
+  assert.equal(manifest.start_url, "/dan-calendar");
+  assert.equal(manifest.scope, "/dan-calendar");
+  assert.equal(manifest.display, "standalone");
+  assert.equal(manifest.background_color, "#050505");
+  assert.equal(manifest.theme_color, "#050505");
+  assert.ok(manifest.short_name.length <= 12);
+
+  const regularIcons = manifest.icons.filter((icon) => icon.purpose === "any");
+  const icon192 = regularIcons.find((icon) => icon.sizes === "192x192");
+  const icon512 = regularIcons.find((icon) => icon.sizes === "512x512");
+  const maskable = manifest.icons.find((icon) => icon.sizes === "512x512" && icon.purpose === "maskable");
+  assert.ok(icon192 && icon512 && maskable);
+  for (const [icon, size] of [[icon192, 192], [icon512, 512], [maskable, 512]]) {
+    const iconUrl = new URL(`../public${icon.src}`, import.meta.url);
+    assert.ok(existsSync(iconUrl));
+    assert.deepEqual(pngDimensions(iconUrl), { width: size, height: size });
+  }
+  const appleIconUrl = new URL("../public/assets/dan-calendar/btb-staff-apple-touch-icon-180-v1.png", import.meta.url);
+  assert.deepEqual(pngDimensions(appleIconUrl), { width: 180, height: 180 });
+
+  assert.match(html, /<link rel="manifest" href="\/btb-staff-calendar\.webmanifest">/);
+  assert.match(html, /<link rel="apple-touch-icon" sizes="180x180"/);
+  assert.match(html, /<meta name="apple-mobile-web-app-capable" content="yes">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-title" content="BTB Schedule">/);
+  assert.match(html, /id="installAppButton"/);
+  assert.match(html, /id="installDialog"/);
+  assert.match(html, /beforeinstallprompt/);
+  assert.match(html, /appinstalled/);
+  assert.match(html, /navigator\.standalone/);
+  assert.match(html, /display-mode: standalone/);
+  assert.match(html, /serviceWorker\.register\("\/btb-staff-calendar-sw\.js"/);
+  assert.match(html, /scope:\s*"\/dan-calendar"/);
+  assert.match(html, /installReady:/);
+  assert.match(html, /result\.installReady/);
+
+  assert.match(worker, /addEventListener\("install"/);
+  assert.match(worker, /addEventListener\("activate"/);
+  assert.match(worker, /addEventListener\("fetch"/);
+  assert.match(worker, /request\.method !== "GET"/);
+  assert.match(worker, /\/\.netlify\/functions\//);
+  assert.match(worker, /event\.respondWith\(fetch\(request\)\)/);
+  assert.doesNotMatch(worker, /\bcaches\.(?:open|match)\b/);
+
+  assert.match(netlifyConfig, /for = "\/btb-staff-calendar\.webmanifest"/);
+  assert.match(netlifyConfig, /for = "\/btb-staff-calendar-sw\.js"/);
+  assert.match(netlifyConfig, /Service-Worker-Allowed = "\/dan-calendar"/);
 });
 
 test("known-team validation covers the active 18-team 2026-27 operating list", () => {

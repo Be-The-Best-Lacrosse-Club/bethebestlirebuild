@@ -1,0 +1,33 @@
+{
+  "id": "/dan-calendar",
+  "name": "BTB Staff 26/27 Season Schedule",
+  "short_name": "BTB Schedule",
+  "description": "Be The Best staff practices, tournaments, field times, and coach assignments.",
+  "start_url": "/dan-calendar",
+  "scope": "/dan-calendar",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "any",
+  "categories": ["sports", "productivity"],
+  "icons": [
+    {
+      "src": "/assets/dan-calendar/btb-staff-icon-192-v1.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/dan-calendar/btb-staff-icon-512-v1.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/dan-calendar/btb-staff-icon-maskable-512-v1.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

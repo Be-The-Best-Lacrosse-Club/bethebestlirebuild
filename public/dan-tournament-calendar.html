@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#050505">
+  <meta name="application-name" content="BTB Schedule">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BTB Schedule">
+  <link rel="manifest" href="/btb-staff-calendar.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/dan-calendar/btb-staff-apple-touch-icon-180-v1.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23D22630' d='M32 3 57 12v19c0 16-9 26-25 34C16 57 7 47 7 31V12Z'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Arial Black' font-size='32' fill='white'%3EB%3C/text%3E%3C/svg%3E">
   <title>BTB STAFF 26/27 SEASON SCHEDULE</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -166,6 +173,23 @@
       justify-content: flex-end;
       gap: 0.55rem;
       flex-wrap: wrap;
+    }
+
+    .install-app-button {
+      border-color: rgba(210, 38, 48, 0.62);
+      background: rgba(210, 38, 48, 0.14);
+    }
+
+    .install-app-button:hover,
+    .install-app-button:focus-visible {
+      border-color: var(--red);
+      background: rgba(210, 38, 48, 0.24);
+    }
+
+    .install-app-button[hidden],
+    .install-now-button[hidden],
+    html.is-standalone .install-app-button {
+      display: none;
     }
 
     .btn {
@@ -2028,6 +2052,106 @@
       text-align: center;
     }
 
+    .install-dialog {
+      width: min(640px, calc(100vw - 2rem));
+    }
+
+    .install-body {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .install-hero {
+      display: grid;
+      grid-template-columns: 6.5rem minmax(0, 1fr);
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .install-icon {
+      width: 6.5rem;
+      height: 6.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 1.35rem;
+      object-fit: cover;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.42);
+    }
+
+    .install-kicker {
+      color: var(--red);
+      font-size: 0.54rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .install-copy h3 {
+      margin-top: 0.35rem;
+      font-size: 1.7rem;
+    }
+
+    .install-copy p,
+    .install-note {
+      margin: 0.5rem 0 0;
+      color: #b8bdc5;
+      font-size: 0.66rem;
+      font-weight: 600;
+      line-height: 1.55;
+    }
+
+    .install-steps {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .install-step {
+      min-height: 3.25rem;
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: 0.7rem;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 0.72rem;
+      padding: 0.62rem 0.72rem;
+      background: rgba(255, 255, 255, 0.035);
+      color: #e7e9ec;
+      font-size: 0.67rem;
+      font-weight: 750;
+      line-height: 1.4;
+    }
+
+    .install-step-number {
+      width: 2rem;
+      height: 2rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .install-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      border-top: 1px solid var(--line);
+      padding-top: 0.85rem;
+    }
+
+    html.is-standalone .topbar {
+      padding-top: max(clamp(0.65rem, 1.2vw, 1.5rem), env(safe-area-inset-top));
+      padding-right: max(clamp(1rem, 2vw, 2.5rem), env(safe-area-inset-right));
+      padding-left: max(clamp(1rem, 2vw, 2.5rem), env(safe-area-inset-left));
+    }
+
+    html.is-standalone .footer {
+      padding-right: max(clamp(1rem, 2vw, 2.5rem), env(safe-area-inset-right));
+      padding-bottom: max(0.45rem, env(safe-area-inset-bottom));
+      padding-left: max(clamp(1rem, 2vw, 2.5rem), env(safe-area-inset-left));
+    }
+
     .conflict-detail {
       margin-bottom: 0.75rem;
       border: 1px solid var(--line);
@@ -2487,6 +2611,37 @@
         grid-template-columns: 1fr;
       }
 
+      .install-dialog {
+        width: calc(100vw - 1rem);
+        max-height: calc(100dvh - 1rem);
+      }
+
+      .install-body {
+        max-height: calc(100dvh - 5rem);
+        overflow-y: auto;
+      }
+
+      .install-hero {
+        grid-template-columns: 4.8rem minmax(0, 1fr);
+        gap: 0.75rem;
+      }
+
+      .install-icon {
+        width: 4.8rem;
+        height: 4.8rem;
+        border-radius: 1rem;
+      }
+
+      .install-dialog-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .install-dialog-actions .btn {
+        width: 100%;
+        min-height: 44px;
+      }
+
       .form-group.full,
       .dialog-actions {
         grid-column: 1;
@@ -2539,6 +2694,7 @@
         <div class="clock-date" id="clockDate">Loading Eastern time…</div>
       </div>
       <div class="header-actions">
+        <button class="btn install-app-button" id="installAppButton" type="button" aria-haspopup="dialog" aria-controls="installDialog"><span class="icon">⇩</span> Install App</button>
         <button class="btn" id="syncButton" type="button"><span class="icon">↻</span> Refresh</button>
         <button class="btn" id="wakeButton" type="button"><span class="icon">◉</span> Keep Awake</button>
         <button class="btn primary" id="fullscreenButton" type="button"><span class="icon">⛶</span> Fullscreen</button>
@@ -2795,6 +2951,29 @@
     <div class="day-detail-body">
       <div class="day-detail-summary" id="dayDialogSummary"></div>
       <div class="day-detail-grid" id="dayDialogBody"></div>
+    </div>
+  </dialog>
+
+  <dialog class="install-dialog" id="installDialog" aria-labelledby="installDialogTitle" aria-describedby="installDialogIntro">
+    <div class="dialog-header">
+      <h2 id="installDialogTitle">Put BTB Schedule on Your Phone</h2>
+      <button class="dialog-close" type="button" data-close-dialog="installDialog" aria-label="Close install instructions">×</button>
+    </div>
+    <div class="install-body">
+      <div class="install-hero">
+        <img class="install-icon" src="/assets/dan-calendar/btb-staff-icon-192-v1.png" alt="BTB Lacrosse Club app icon">
+        <div class="install-copy">
+          <div class="install-kicker">BTB Staff Schedule</div>
+          <h3>Open it like an app</h3>
+          <p id="installDialogIntro">Add the calendar to your Home Screen for one-tap access without typing the website address.</p>
+        </div>
+      </div>
+      <div class="install-steps" id="installSteps"></div>
+      <p class="install-note" id="installNote">The staff password is still required when the schedule opens.</p>
+      <div class="install-dialog-actions">
+        <button class="btn primary install-now-button" id="installNowButton" type="button" hidden>Install Now</button>
+        <button class="btn" type="button" data-close-dialog="installDialog">Done</button>
+      </div>
     </div>
   </dialog>
 
@@ -3451,6 +3630,7 @@
       var viewDate = initialViewMonth();
       var wakeLock = null;
       var toastTimer = null;
+      var deferredInstallPrompt = null;
 
       function normalizeEvents(items) {
         return (Array.isArray(items) ? items : []).map(function (event) {
@@ -5135,6 +5315,143 @@
         }, 3200);
       }
 
+      function isStandaloneMode() {
+        return Boolean(window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+          window.navigator.standalone === true;
+      }
+
+      function isIosDevice() {
+        var userAgent = window.navigator.userAgent || "";
+        return /iPad|iPhone|iPod/i.test(userAgent) ||
+          (/Macintosh/i.test(userAgent) && Number(window.navigator.maxTouchPoints || 0) > 1);
+      }
+
+      function installStepsMarkup(steps) {
+        return steps.map(function (step, index) {
+          return "<div class='install-step'><span class='install-step-number'>" + (index + 1) +
+            "</span><span>" + step + "</span></div>";
+        }).join("");
+      }
+
+      function renderInstallInstructions() {
+        var intro = document.getElementById("installDialogIntro");
+        var steps = document.getElementById("installSteps");
+        var note = document.getElementById("installNote");
+        var nativeButton = document.getElementById("installNowButton");
+        var ios = isIosDevice();
+        var android = /Android/i.test(window.navigator.userAgent || "");
+
+        nativeButton.hidden = !deferredInstallPrompt;
+        if (deferredInstallPrompt) {
+          intro.textContent = "Your phone is ready to install the BTB staff calendar.";
+          steps.innerHTML = installStepsMarkup([
+            "Tap Install Now below.",
+            "Confirm Install in your browser.",
+            "Open BTB Schedule from your Home Screen."
+          ]);
+          note.textContent = "The staff password is still required when the schedule opens.";
+          return;
+        }
+
+        if (ios) {
+          intro.textContent = "Add the calendar from your iPhone or iPad browser's Share menu.";
+          steps.innerHTML = installStepsMarkup([
+            "If needed, open this page in Safari.",
+            "Tap Share — the square with the upward arrow.",
+            "Choose Add to Home Screen, then tap Add."
+          ]);
+          note.textContent = "It will appear as BTB Schedule and open without the Safari address bar. The staff password stays required.";
+          return;
+        }
+
+        if (android) {
+          intro.textContent = "Add the calendar from your phone browser's menu.";
+          steps.innerHTML = installStepsMarkup([
+            "Open the browser menu — usually the three dots.",
+            "Tap Install app or Add to Home screen.",
+            "Confirm Install, then open BTB Schedule from your Home Screen."
+          ]);
+          note.textContent = "The staff password is still required when the schedule opens.";
+          return;
+        }
+
+        intro.textContent = "Install the calendar from your browser for one-click access.";
+        steps.innerHTML = installStepsMarkup([
+          "Open your browser's menu.",
+          "Choose Install BTB Schedule or Add to Home screen.",
+          "Confirm the install and open it from your apps."
+        ]);
+        note.textContent = "The staff password is still required when the schedule opens.";
+      }
+
+      function requestNativeInstall() {
+        if (!deferredInstallPrompt) {
+          renderInstallInstructions();
+          document.getElementById("installDialog").showModal();
+          return;
+        }
+
+        var promptEvent = deferredInstallPrompt;
+        deferredInstallPrompt = null;
+        document.getElementById("installNowButton").hidden = true;
+        promptEvent.prompt();
+        promptEvent.userChoice.then(function (choice) {
+          if (choice.outcome === "accepted") {
+            showToast("BTB Schedule is being added to your device.");
+          } else {
+            showToast("Install canceled. You can add it whenever you are ready.");
+          }
+        });
+      }
+
+      function openInstallExperience() {
+        if (isStandaloneMode()) {
+          showToast("BTB Schedule is already installed on this device.");
+          return;
+        }
+        if (deferredInstallPrompt) {
+          requestNativeInstall();
+          return;
+        }
+        renderInstallInstructions();
+        document.getElementById("installDialog").showModal();
+      }
+
+      function setupInstallExperience() {
+        var installButton = document.getElementById("installAppButton");
+        var installNowButton = document.getElementById("installNowButton");
+        var standalone = isStandaloneMode();
+
+        document.documentElement.classList.toggle("is-standalone", standalone);
+        installButton.hidden = standalone;
+        installButton.addEventListener("click", openInstallExperience);
+        installNowButton.addEventListener("click", requestNativeInstall);
+
+        window.addEventListener("beforeinstallprompt", function (event) {
+          event.preventDefault();
+          deferredInstallPrompt = event;
+          if (document.getElementById("installDialog").open) renderInstallInstructions();
+        });
+
+        window.addEventListener("appinstalled", function () {
+          deferredInstallPrompt = null;
+          installButton.hidden = true;
+          if (document.getElementById("installDialog").open) document.getElementById("installDialog").close();
+          showToast("BTB Schedule was added to your device.");
+        });
+
+        if ("serviceWorker" in window.navigator) {
+          window.addEventListener("load", function () {
+            window.navigator.serviceWorker.register("/btb-staff-calendar-sw.js", {
+              scope: "/dan-calendar",
+              updateViaCache: "none"
+            }).catch(function () {
+              // The calendar stays fully usable if install support is blocked.
+            });
+          });
+        }
+      }
+
       function exportBackup() {
         var blob = new Blob([JSON.stringify({
           version: DATA_VERSION,
@@ -5374,6 +5691,10 @@
           practiceTickerRendered: document.querySelectorAll("#practiceTickerTrack .practice-ticker-item").length > 0,
           dayDetailReady: Boolean(document.getElementById("dayDialog")) &&
             document.querySelectorAll("#calendarGrid .day-number-button").length === 42,
+          installReady: Boolean(document.querySelector('link[rel="manifest"][href="/btb-staff-calendar.webmanifest"]')) &&
+            Boolean(document.querySelector('link[rel="apple-touch-icon"][sizes="180x180"]')) &&
+            Boolean(document.querySelector('meta[name="apple-mobile-web-app-capable"][content="yes"]')) &&
+            Boolean(document.getElementById("installAppButton")) && Boolean(document.getElementById("installDialog")),
           exportReady: document.getElementById("exportTeam").options.length === Object.keys(TEAM_META).length &&
             calendarExportItems("2033 Storm").length >= 18 && teamIcal("2033 Storm").indexOf("BEGIN:VCALENDAR") >= 0,
           correctedGirlsDates: events.some(function (event) { return event.id === "g31-apex-fall" && event.start === "2026-10-04"; }) &&
@@ -5430,6 +5751,7 @@
           result.practiceAgendaChronological &&
           result.practiceTickerRendered &&
           result.dayDetailReady &&
+          result.installReady &&
           result.exportReady &&
           result.correctedGirlsDates;
         return result;
@@ -5592,6 +5914,7 @@
         };
       }
 
+      setupInstallExperience();
       init();
     }());
   </script>
