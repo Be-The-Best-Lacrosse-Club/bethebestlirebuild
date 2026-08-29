@@ -111,14 +111,22 @@ export const CLOSED_TO_NEW_PRACTICE_WINDOW_IDS = Object.freeze([
   "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
   "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
   "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
-  "nickerson-2026-09-12", "nickerson-2026-09-14",
-  "nickerson-2026-09-19", "nickerson-2026-09-21",
-  "point-lookout-2026-09-09", "point-lookout-2026-09-12",
-  "point-lookout-2026-09-16", "point-lookout-2026-09-23",
+  "seaford-2026-09-29", "seaford-2026-09-30", "seaford-2026-10-01",
+  "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19",
+  "nickerson-2026-09-21", "nickerson-2026-09-26", "nickerson-2026-09-28",
+  "nickerson-2026-10-03", "nickerson-2026-10-05", "nickerson-2026-10-10",
+  "nickerson-2026-10-12", "nickerson-2026-10-17", "nickerson-2026-10-19",
+  "nickerson-2026-10-24", "nickerson-2026-10-26", "nickerson-2026-10-31",
+  "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-16",
+  "point-lookout-2026-09-23", "point-lookout-2026-09-26", "point-lookout-2026-09-30",
+  "point-lookout-2026-10-03", "point-lookout-2026-10-07", "point-lookout-2026-10-10",
+  "point-lookout-2026-10-14", "point-lookout-2026-10-17", "point-lookout-2026-10-21",
+  "point-lookout-2026-10-24", "point-lookout-2026-10-28",
 ]);
 
 const CLOSED_TO_NEW_PRACTICE_WINDOW_SET = new Set(CLOSED_TO_NEW_PRACTICE_WINDOW_IDS);
 const PRACTICE_TIMES_PDF_SOURCE = "Practice Times PDF • Sept. 8–24, 2026";
+const DAN_RECURRING_SOURCE = "Dan • weekly team practices • through Oct. 31, 2026";
 
 function practiceWindow({
   id,
@@ -178,6 +186,7 @@ function assignedPracticeWindowsForDates({
   field,
   assignmentStatus,
   note,
+  source = PRACTICE_TIMES_PDF_SOURCE,
   sessions,
 }) {
   return dates.flatMap((date) => sessions.map((session) => {
@@ -202,7 +211,7 @@ function assignedPracticeWindowsForDates({
       assignedTeams: [session.team],
       timeLabel: session.timeLabel,
       assignmentStatus: status,
-      source: PRACTICE_TIMES_PDF_SOURCE,
+      source,
       note: sessionNote,
     });
   }));
@@ -236,34 +245,36 @@ const POINT_LOOKOUT_ASSIGNED_LOCATION = Object.freeze({
   field: "Lacrosse Field",
 });
 
-const ADJUSTED_SEAFORD_NOTE = "Adjusted to Kevin-approved 7:15–9:15 PM; the PDF listed 7:00–9:00 PM.";
-const OUTSIDE_INVENTORY_NOTE = "Listed in the PDF outside the current approved master inventory.";
-const ASSIGNED_PDF_NOTE = "Assigned in the Practice Times PDF.";
+const RECURRING_NOTE = "Weekly recurrence extended by Dan through the end of October.";
+const ADJUSTED_SEAFORD_NOTE = `Adjusted to 7:15–9:15 PM from the PDF’s 7:00–9:00 PM. ${RECURRING_NOTE}`;
 
 export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-08", "2026-09-15", "2026-09-22"],
+    dates: ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"],
     assignmentStatus: "adjusted",
     note: ADJUSTED_SEAFORD_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-15", "2026-09-22"],
+    dates: ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"],
     assignmentStatus: "confirmed",
-    note: "Updated by Dan to Tuesdays 7:15–9:00 PM inside the Kevin-approved Seaford field window, replacing Mondays at Point Lookout.",
+    note: `Tuesdays 7:15–9:00 PM at Seaford. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2033 Storm", startTime: "19:15", endTime: "21:00", timeLabel: "7:15 PM–9:00 PM", requiredDurationHours: 1.75 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"],
     assignmentStatus: "adjusted",
     note: ADJUSTED_SEAFORD_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
@@ -271,18 +282,20 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"],
     assignmentStatus: "confirmed",
-    note: "Updated by Dan to Wednesdays 7:15–8:15 PM inside the Kevin-approved Seaford field window.",
+    note: `Wednesdays 7:15–8:15 PM at Seaford. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2036 Avalanche", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", requiredDurationHours: 1 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-10", "2026-09-17", "2026-09-24"],
+    dates: ["2026-09-10", "2026-09-17", "2026-09-24", "2026-10-01", "2026-10-08", "2026-10-15", "2026-10-22", "2026-10-29"],
     assignmentStatus: "adjusted",
     note: ADJUSTED_SEAFORD_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
       { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
@@ -290,18 +303,20 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-12", "2026-09-19"],
+    dates: ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"],
     assignmentStatus: "needs-time",
-    note: "The PDF lists a 3:00 PM start but no end time.",
+    note: `3:00 PM start; an exact end time is still needed. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2035 Bombers", startTime: "15:00", endTime: null, timeLabel: "3:00 PM–End time needed", requiredDurationHours: null },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-13", "2026-09-20"],
+    dates: ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"],
     assignmentStatus: "pending",
-    note: OUTSIDE_INVENTORY_NOTE,
+    note: RECURRING_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2032 Riptide", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", requiredDurationHours: 2 },
       { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", requiredDurationHours: 1.5 },
@@ -309,18 +324,20 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   }),
   ...assignedPracticeWindowsForDates({
     ...STIMSON_ASSIGNED_LOCATION,
-    dates: ["2026-09-14", "2026-09-21"],
+    dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
     assignmentStatus: "needs-time",
-    note: "The PDF lists 5:45 PM to dark; an exact end time is still needed.",
+    note: `5:45 PM to dark; an exact end time is still needed. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2034 Venom", startTime: "17:45", endTime: null, timeLabel: "5:45 PM–Dark", requiredDurationHours: null },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...STIMSON_ASSIGNED_LOCATION,
-    dates: ["2026-09-13", "2026-09-20"],
+    dates: ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"],
     assignmentStatus: "pending",
-    note: OUTSIDE_INVENTORY_NOTE,
+    note: RECURRING_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2030 Rage", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
       { team: "2032 Cannons", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
@@ -330,18 +347,20 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   }),
   ...assignedPracticeWindowsForDates({
     ...NICKERSON_ASSIGNED_LOCATION,
-    dates: ["2026-09-14", "2026-09-21"],
+    dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
     assignmentStatus: "confirmed",
-    note: ASSIGNED_PDF_NOTE,
+    note: RECURRING_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2035 Hurricanes", startTime: "17:00", endTime: "18:30", timeLabel: "5:00 PM–6:30 PM", requiredDurationHours: 1.5 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...NICKERSON_ASSIGNED_LOCATION,
-    dates: ["2026-09-12", "2026-09-19"],
+    dates: ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"],
     assignmentStatus: "confirmed",
-    note: ASSIGNED_PDF_NOTE,
+    note: RECURRING_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
       { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", requiredDurationHours: 2 },
@@ -351,27 +370,30 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   }),
   ...assignedPracticeWindowsForDates({
     ...NICKERSON_ASSIGNED_LOCATION,
-    dates: ["2026-09-12", "2026-09-19"],
+    dates: ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"],
     assignmentStatus: "pending",
-    note: "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.",
+    note: `Saturdays 8:15–9:30 AM at Nickerson. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", requiredDurationHours: 1.25 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...POINT_LOOKOUT_ASSIGNED_LOCATION,
-    dates: ["2026-09-09", "2026-09-16", "2026-09-23"],
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"],
     assignmentStatus: "confirmed",
-    note: ASSIGNED_PDF_NOTE,
+    note: RECURRING_NOTE,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2034 Thunder", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", requiredDurationHours: 2 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
     ...POINT_LOOKOUT_ASSIGNED_LOCATION,
-    dates: ["2026-09-12"],
+    dates: ["2026-09-12", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"],
     assignmentStatus: "confirmed",
-    note: ASSIGNED_PDF_NOTE,
+    note: `Saturdays 8:00–10:00 AM; Sept. 19 remains unavailable for the car show. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2033 Storm", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", requiredDurationHours: 2 },
       { team: "2034 Thunder", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", requiredDurationHours: 2 },
