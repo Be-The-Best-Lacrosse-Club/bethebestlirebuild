@@ -2917,8 +2917,8 @@
         "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
         "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
         "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19", "nickerson-2026-09-21",
-        "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-14",
-        "point-lookout-2026-09-16", "point-lookout-2026-09-21", "point-lookout-2026-09-23"
+        "point-lookout-2026-09-09", "point-lookout-2026-09-12",
+        "point-lookout-2026-09-16", "point-lookout-2026-09-23"
       ]);
       var PDF_LOCATION_DETAILS = {
         seaford: {
@@ -2984,6 +2984,9 @@
         add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], [
           { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
         ], "adjusted", seafordWeekdayNote);
+        add("seaford", ["2026-09-15", "2026-09-22"], [
+          { team: "2033 Storm", startTime: "19:15", endTime: "21:00", timeLabel: "7:15 PM–9:00 PM", durationHours: 1.75 }
+        ], "confirmed", "Updated by Dan to Tuesdays 7:15–9:00 PM inside the Kevin-approved Seaford field window, replacing Mondays at Point Lookout.");
         add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
           { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
@@ -3026,9 +3029,6 @@
           { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", durationHours: 1.25 }
         ], "pending", "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.");
 
-        add("point-lookout", ["2026-09-14", "2026-09-21"], [
-          { team: "2033 Storm", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
-        ], "confirmed", "Assigned in the Practice Times PDF.");
         add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23"], [
           { team: "2034 Thunder", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
         ], "confirmed", "Assigned in the Practice Times PDF.");
@@ -4778,16 +4778,16 @@
           result.practiceWindowCount === 176 &&
           result.masterPracticeWindowCount === 123 &&
           result.assignedPracticeWindowCount === 53 &&
-          result.assignedSeafordCount === 24 &&
+          result.assignedSeafordCount === 26 &&
           result.assignedStimsonCount === 10 &&
           result.assignedNickersonCount === 12 &&
-          result.assignedPointLookoutCount === 7 &&
+          result.assignedPointLookoutCount === 5 &&
           result.assignedAdjustedCount === 15 &&
           result.assignedNeedsTimeCount === 4 &&
           result.assignedPendingCount === 14 &&
           result.assignedConfirmedCount === 20 &&
           result.assignedNullEndCount === 4 &&
-          result.closedParentWindowCount === 19 &&
+          result.closedParentWindowCount === 17 &&
           result.assignedSchemaValid &&
           result.assignedDateRangeExact &&
           result.assignedPointLookoutBlackoutHonored &&

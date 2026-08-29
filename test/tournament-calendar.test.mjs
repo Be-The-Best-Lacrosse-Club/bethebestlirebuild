@@ -117,6 +117,7 @@ function expectedPdfPracticeSlots() {
   add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], "19:15", "21:15", [
     "2033 Renegades",
   ]);
+  add("seaford", ["2026-09-15", "2026-09-22"], "19:15", "21:00", ["2033 Storm"]);
   add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], "19:15", "21:15", [
     "2036 Dawgs", "2035 Bombers",
   ]);
@@ -145,7 +146,6 @@ function expectedPdfPracticeSlots() {
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:30", "11:00", ["2035 Hurricanes"]);
   add("nickerson", ["2026-09-12", "2026-09-19"], "09:00", "10:30", ["2034 Venom"]);
 
-  add("point-lookout", ["2026-09-14", "2026-09-21"], "18:00", "20:00", ["2033 Storm"]);
   add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23"], "18:00", "20:00", ["2034 Thunder"]);
   add("point-lookout", ["2026-09-12"], "08:00", "10:00", ["2033 Storm", "2034 Thunder"]);
 
@@ -292,10 +292,10 @@ test("assigned PDF slots cover the exact September 8-24 team schedule", () => {
     expectedPdfPracticeSlots().sort((a, b) => a.id.localeCompare(b.id)),
   );
   assert.deepEqual(countsByLocation, {
-    seaford: 24,
+    seaford: 26,
     stimson: 10,
     nickerson: 12,
-    "point-lookout": 7,
+    "point-lookout": 5,
   });
   assert.deepEqual(countsByTeam, {
     "2036 Avalanche": 5,
@@ -313,6 +313,33 @@ test("assigned PDF slots cover the exact September 8-24 team schedule", () => {
     "2033 Storm": 3,
     "2034 Thunder": 4,
   });
+  assert.deepEqual(
+    assigned.filter((window) => window.assignedTeams[0] === "2033 Storm").sort((a, b) => (
+      a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime)
+    )).map((window) => ({
+      date: window.date,
+      locationKey: window.locationKey,
+      startTime: window.startTime,
+      endTime: window.endTime,
+      timeLabel: window.timeLabel,
+      assignmentStatus: window.assignmentStatus,
+      requiredDurationHours: window.requiredDurationHours,
+    })),
+    [
+      {
+        date: "2026-09-12", locationKey: "point-lookout", startTime: "08:00", endTime: "10:00",
+        timeLabel: "8:00 AM–10:00 AM", assignmentStatus: "confirmed", requiredDurationHours: 2,
+      },
+      {
+        date: "2026-09-15", locationKey: "seaford", startTime: "19:15", endTime: "21:00",
+        timeLabel: "7:15 PM–9:00 PM", assignmentStatus: "confirmed", requiredDurationHours: 1.75,
+      },
+      {
+        date: "2026-09-22", locationKey: "seaford", startTime: "19:15", endTime: "21:00",
+        timeLabel: "7:15 PM–9:00 PM", assignmentStatus: "confirmed", requiredDurationHours: 1.75,
+      },
+    ],
+  );
   assert.equal(new Set(assigned.map((window) => window.id)).size, 53);
   assert.ok(assigned.every((window) => (
     /^pdf-(seaford|stimson|nickerson|point-lookout)-2026-09-\d{2}-[a-z0-9-]+$/.test(window.id) &&
@@ -598,7 +625,7 @@ test("Point Lookout weekday and Saturday claims fit their full approved windows"
 test("an assigned PDF slot derives its fixed team and time from a coach-only claim", async () => {
   const store = memoryStore();
   const claimed = await claimPractice(store, {
-    windowId: "pdf-point-lookout-2026-09-14-2033-storm",
+    windowId: "pdf-seaford-2026-09-15-2033-storm",
     coach: "Coach Taylor",
   }, claimOptions("assigned-storm"));
 
@@ -613,16 +640,16 @@ test("an assigned PDF slot derives its fixed team and time from a coach-only cla
     team: "2033 Storm",
     teams: ["2033 Storm"],
     secondTeam: null,
-    startTime: "18:00",
-    endTime: "20:00",
-    durationHours: 2,
+    startTime: "19:15",
+    endTime: "21:00",
+    durationHours: 1.75,
   });
 
   const released = await releasePractice(store, "assigned-storm", { now: FIXED_NOW });
   assert.equal(released.snapshot.practiceBookings.length, 0);
 
   const reclaimed = await claimPractice(store, {
-    windowId: "pdf-point-lookout-2026-09-14-2033-storm",
+    windowId: "pdf-seaford-2026-09-15-2033-storm",
     coach: "Coach Two",
   }, claimOptions("assigned-storm-again"));
   assert.equal(reclaimed.booking.coach, "Coach Two");
@@ -660,13 +687,13 @@ test("assigned PDF slots with unresolved ends remain coach-claimable without inv
   }, claimOptions("assigned-dark-second")), { status: 409, code: "practice_overlap" });
 
   await expectCalendarError(claimPractice(store, {
-    windowId: "pdf-point-lookout-2026-09-14-2033-storm",
+    windowId: "pdf-nickerson-2026-09-14-2035-hurricanes",
     coach: "Coach Brad",
   }, claimOptions("assigned-dark-overlap")), { status: 409, code: "practice_overlap" });
 });
 
 test("assigned PDF claims reject supplied team, start, or duration tampering", async () => {
-  const windowId = "pdf-point-lookout-2026-09-14-2033-storm";
+  const windowId = "pdf-seaford-2026-09-15-2033-storm";
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId,
@@ -716,6 +743,25 @@ test("the same coach cannot claim overlapping assigned PDF team slots", async ()
   }, claimOptions("assigned-shared-venom")), { status: 409, code: "practice_overlap" });
 });
 
+test("Storm and Renegades Tuesday overlap requires different coaches", async () => {
+  const store = memoryStore();
+  await claimPractice(store, {
+    windowId: "pdf-seaford-2026-09-15-2033-storm",
+    coach: "Coach Shared",
+  }, claimOptions("assigned-storm-overlap"));
+
+  await expectCalendarError(claimPractice(store, {
+    windowId: "pdf-seaford-2026-09-15-2033-renegades",
+    coach: " coach shared ",
+  }, claimOptions("assigned-renegades-overlap")), { status: 409, code: "practice_overlap" });
+
+  const separateCoach = await claimPractice(store, {
+    windowId: "pdf-seaford-2026-09-15-2033-renegades",
+    coach: "Coach Two",
+  }, claimOptions("assigned-renegades-separate-coach"));
+  assert.equal(separateCoach.snapshot.practiceBookings.length, 2);
+});
+
 test("two coaches racing for one assigned PDF slot produce one winner", async () => {
   const store = memoryStore();
   const results = await Promise.allSettled([
@@ -740,16 +786,24 @@ test("two coaches racing for one assigned PDF slot produce one winner", async ()
 
 test("assigned PDF practices close generic parent windows only to new claims", async () => {
   const closed = genericPracticeWindows().filter((window) => window.claimMode === "closed-to-new");
-  assert.equal(closed.length, 19);
+  assert.equal(closed.length, 17);
   assert.deepEqual(closed.map((window) => window.id).sort(), [
     "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19",
     "nickerson-2026-09-21", "point-lookout-2026-09-09", "point-lookout-2026-09-12",
-    "point-lookout-2026-09-14", "point-lookout-2026-09-16", "point-lookout-2026-09-21",
-    "point-lookout-2026-09-23", "seaford-2026-09-08", "seaford-2026-09-09",
+    "point-lookout-2026-09-16", "point-lookout-2026-09-23", "seaford-2026-09-08", "seaford-2026-09-09",
     "seaford-2026-09-10", "seaford-2026-09-15", "seaford-2026-09-16",
     "seaford-2026-09-17", "seaford-2026-09-22", "seaford-2026-09-23",
     "seaford-2026-09-24",
   ]);
+
+  const reopenedPointLookout = await claimPractice(memoryStore(), {
+    windowId: "point-lookout-2026-09-14",
+    team: "2037 Supernova",
+    coach: "Coach Reopened",
+    startTime: "18:00",
+    durationHours: 2,
+  }, claimOptions("reopened-point-lookout"));
+  assert.equal(reopenedPointLookout.booking.endTime, "20:00");
 
   await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "nickerson-2026-09-14",
