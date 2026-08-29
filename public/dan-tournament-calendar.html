@@ -74,7 +74,7 @@
       height: 100vh;
       height: 100dvh;
       display: grid;
-      grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
+      grid-template-rows: auto auto auto minmax(0, 1fr) auto;
       overflow: hidden;
     }
 
@@ -98,16 +98,17 @@
     }
 
     .brand-mark {
-      width: clamp(54px, 4.2vw, 92px);
-      aspect-ratio: 0.92;
+      width: clamp(88px, 6.5vw, 150px);
+      aspect-ratio: 1.78;
       flex: 0 0 auto;
-      filter: drop-shadow(0 8px 22px rgba(210, 38, 48, 0.28));
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
     }
 
-    .brand-mark svg {
+    .brand-mark img {
       display: block;
       width: 100%;
       height: 100%;
+      object-fit: contain;
     }
 
     .eyebrow {
@@ -214,56 +215,6 @@
     .icon {
       font-size: 1.12em;
       line-height: 1;
-    }
-
-    .alert-strip {
-      min-height: clamp(58px, 6vh, 104px);
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 0.9rem;
-      padding: 0.65rem clamp(1rem, 2vw, 2.5rem);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      background: linear-gradient(90deg, rgba(160, 30, 38, 0.95), rgba(210, 38, 48, 0.72));
-      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-      transition: background 220ms ease;
-    }
-
-    .alert-strip.high {
-      background: linear-gradient(90deg, #8a4b03, rgba(255, 183, 67, 0.68));
-    }
-
-    .alert-strip.clear {
-      background: linear-gradient(90deg, #17673b, rgba(42, 163, 93, 0.72));
-    }
-
-    .alert-symbol {
-      width: clamp(36px, 2.6vw, 60px);
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      border: 2px solid rgba(255, 255, 255, 0.74);
-      border-radius: 999px;
-      font-family: "Bebas Neue", Impact, sans-serif;
-      font-size: 1.6rem;
-      line-height: 1;
-    }
-
-    .alert-title {
-      font-family: "Bebas Neue", Impact, sans-serif;
-      font-size: clamp(1.3rem, 1.45vw, 2.65rem);
-      letter-spacing: 0.055em;
-      line-height: 1;
-    }
-
-    .alert-copy {
-      margin-top: 0.18rem;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 0.72rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .practice-ticker {
@@ -419,6 +370,36 @@
       flex: 1;
     }
 
+    .conflicts-tab {
+      position: relative;
+      min-width: max-content;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: 0;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 0.55rem 0.9rem;
+      background: rgba(210, 38, 48, 0.1);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+    }
+
+    .conflicts-tab:hover {
+      background: rgba(210, 38, 48, 0.22);
+      color: #ffb0b5;
+    }
+
+    .conflicts-tab .count-badge {
+      min-width: 1.45rem;
+      height: 1.45rem;
+    }
+
     .source-badge {
       display: flex;
       align-items: center;
@@ -456,13 +437,14 @@
       height: 100%;
       min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(300px, 0.92fr);
+      grid-template-columns: minmax(0, 1fr) clamp(230px, 17vw, 285px);
       gap: clamp(0.7rem, 1vw, 1.2rem);
     }
 
     .calendar-panel,
     .panel,
     .live-card,
+    .export-card,
     .manage-card,
     .practice-card {
       border: 1px solid var(--line);
@@ -772,15 +754,29 @@
     }
 
     .sidebar {
+      width: 100%;
+      max-width: 285px;
       min-height: 0;
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
+      grid-template-rows: minmax(0, 1fr) auto;
       gap: clamp(0.55rem, 0.8vw, 0.85rem);
+      justify-self: end;
     }
 
     .panel {
       min-height: 0;
       overflow: hidden;
+    }
+
+    .sidebar > .panel:first-child {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .sidebar .locked-list {
+      min-height: 0;
+      overflow-y: auto;
+      scrollbar-width: thin;
     }
 
     .panel-header {
@@ -983,6 +979,7 @@
     }
 
     .live-card,
+    .export-card,
     .manage-card,
     .practice-card {
       height: 100%;
@@ -1062,6 +1059,119 @@
       margin: 0.5rem 0;
       font-size: 0.62rem;
       font-weight: 800;
+    }
+
+    .export-body {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(240px, 310px) minmax(0, 1fr);
+    }
+
+    .export-controls {
+      min-height: 0;
+      padding: 1rem;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.018);
+      overflow-y: auto;
+    }
+
+    .export-controls label {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: #d8dbe0;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .export-controls select {
+      width: 100%;
+    }
+
+    .export-summary {
+      margin: 0.8rem 0;
+      padding: 0.75rem;
+      border: 1px solid var(--line);
+      border-left: 0.25rem solid var(--team-color, var(--red));
+      border-radius: 0.65rem;
+      background: rgba(255, 255, 255, 0.035);
+      color: #d6d9de;
+      font-size: 0.62rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .export-controls .btn {
+      width: 100%;
+      text-decoration: none;
+    }
+
+    .export-help {
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+      font-size: 0.56rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .export-schedule {
+      min-height: 0;
+      padding: 0.85rem;
+      overflow-y: auto;
+    }
+
+    .export-schedule h3 {
+      margin-bottom: 0.7rem;
+      font-size: 1.35rem;
+    }
+
+    .export-schedule-list {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .export-item {
+      display: grid;
+      grid-template-columns: 6rem minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.75rem;
+      border: 1px solid var(--line);
+      border-left: 0.25rem solid var(--team-color);
+      border-radius: 0.68rem;
+      padding: 0.7rem;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .export-item-date {
+      color: #c9ccd1;
+      font-size: 0.56rem;
+      font-weight: 800;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .export-item-title {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .export-item-meta {
+      display: block;
+      margin-top: 0.18rem;
+      color: var(--muted);
+      font-size: 0.52rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .export-item .btn {
+      min-height: 2rem;
+      padding: 0.38rem 0.6rem;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
     .team-swatch {
@@ -1820,6 +1930,12 @@
       text-align: center;
     }
 
+    @media (max-width: 1400px) {
+      .source-badge {
+        display: none;
+      }
+    }
+
     @media (max-width: 1180px) {
       body {
         overflow: auto;
@@ -1854,24 +1970,16 @@
         overflow: visible;
       }
 
-      .wall-layout {
-        grid-template-columns: 1fr;
-      }
-
       .calendar-panel {
         min-height: 720px;
       }
 
-      .sidebar {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
-      }
-
-      .sidebar .panel:last-child {
-        grid-column: 1 / -1;
+      .source-badge {
+        display: none;
       }
 
       .live-card,
+      .export-card,
       .manage-card,
       .practice-card {
         height: auto;
@@ -1896,6 +2004,44 @@
       }
     }
 
+    @media (max-width: 900px) {
+      .view-tabs {
+        overflow-x: auto;
+        padding: 0;
+      }
+
+      .tab-button {
+        min-width: max-content;
+      }
+
+      .conflicts-tab {
+        position: sticky;
+        right: 0;
+        z-index: 2;
+        flex: 0 0 auto;
+        background: #1d0d10;
+      }
+
+      .wall-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        max-width: none;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+
+      .export-body {
+        grid-template-columns: 1fr;
+      }
+
+      .export-controls {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
     @media (max-width: 760px) {
       .topbar {
         grid-template-columns: 1fr;
@@ -1917,15 +2063,6 @@
         white-space: normal;
       }
 
-      .alert-strip {
-        grid-template-columns: auto 1fr;
-        padding: 0.7rem 0.8rem;
-      }
-
-      .alert-strip .btn {
-        display: none;
-      }
-
       .practice-ticker-label {
         padding: 0.5rem 0.7rem;
         font-size: 14px;
@@ -1934,19 +2071,6 @@
       .practice-ticker-set {
         gap: 1.15rem;
         padding-right: 1.15rem;
-      }
-
-      .alert-copy {
-        white-space: normal;
-      }
-
-      .view-tabs {
-        overflow-x: auto;
-        padding: 0;
-      }
-
-      .tab-button {
-        min-width: max-content;
       }
 
       .source-badge {
@@ -2091,6 +2215,21 @@
         flex-direction: column;
       }
 
+      .export-item {
+        grid-template-columns: 4.4rem minmax(0, 1fr);
+      }
+
+      .export-item .btn {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      .export-item .btn,
+      .export-controls .field,
+      .export-controls .btn {
+        min-height: 44px;
+      }
+
       .practice-board-controls {
         width: 100%;
         align-items: stretch;
@@ -2210,11 +2349,7 @@
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 64 72" role="img">
-            <path d="M32 2 58 11v21c0 18-10 30-26 38C16 62 6 50 6 32V11Z" fill="#D22630"></path>
-            <path d="M32 7 53 14v18c0 14-7 24-21 32C18 56 11 46 11 32V14Z" fill="#050505" stroke="#fff" stroke-width="1.6"></path>
-            <text x="32" y="46" text-anchor="middle" fill="#fff" font-family="Impact, sans-serif" font-size="34" font-style="italic">B</text>
-          </svg>
+          <img src="/BTB_Silver_Mark_Transparent.png" alt="">
         </div>
         <div>
           <div class="eyebrow">Be The Best • Est. 2021</div>
@@ -2232,15 +2367,6 @@
       </div>
     </header>
 
-    <section class="alert-strip" id="alertStrip" role="alert" aria-live="polite">
-      <div class="alert-symbol" id="alertSymbol">!</div>
-      <div>
-        <div class="alert-title" id="alertTitle">Checking schedule…</div>
-        <div class="alert-copy" id="alertCopy">Auditing tournaments and approved practice inventory.</div>
-      </div>
-      <button class="btn" id="reviewConflictsButton" type="button">Review Conflicts</button>
-    </section>
-
     <section class="practice-ticker" id="practiceTicker" aria-label="Upcoming practices">
       <div class="practice-ticker-label"><span class="practice-ticker-pulse" aria-hidden="true"></span>Upcoming Practices</div>
       <div class="practice-ticker-window">
@@ -2250,11 +2376,15 @@
 
     <nav class="view-tabs" aria-label="Calendar views">
       <button class="tab-button active" type="button" data-view="wall">Season Schedule</button>
+      <button class="tab-button" type="button" data-view="export">Export</button>
       <button class="tab-button" type="button" data-view="practice">Practice Board</button>
       <button class="tab-button" type="button" data-view="live">Live Feeds</button>
       <button class="tab-button" type="button" data-view="manage">Manage</button>
       <div class="tab-spacer"></div>
-      <div class="source-badge">37 tournaments + 53 assigned team practices + 123 approved field windows</div>
+      <div class="source-badge">37 tournaments + 182 assigned team practices + 123 approved field windows</div>
+      <button class="conflicts-tab" id="reviewConflictsButton" type="button" aria-haspopup="dialog" aria-controls="conflictDialog">
+        Conflicts <span class="count-badge" id="conflictCount" aria-live="polite">0</span>
+      </button>
     </nav>
 
     <main>
@@ -2298,16 +2428,6 @@
                 <span class="count-badge" id="lockedCount">0</span>
               </div>
               <div class="panel-body locked-list" id="lockedList"></div>
-            </section>
-
-            <section class="panel">
-              <div class="panel-header">
-                <h2>Conflict Radar</h2>
-                <span class="count-badge" id="conflictCount">0</span>
-              </div>
-              <div class="panel-body conflict-scroll">
-                <div class="conflict-list" id="conflictList"></div>
-              </div>
             </section>
 
             <section class="panel data-note">
@@ -2354,8 +2474,8 @@
                 <span>Monday/Wednesday 6:00–8:00 PM and approved Saturdays 8:00–10:00 AM. Sep. 19 is unavailable for the car show.</span>
               </div>
               <div class="pending-notice confirmed">
-                <strong>Practice Times PDF — Sept. 8–24</strong>
-                <span>53 team practice assignments are loaded first. Each needs a coach; incomplete or permit-adjusted times are clearly marked.</span>
+                <strong>Assigned team practices — Sept. 8–Oct. 31</strong>
+                <span>182 team practice assignments are loaded through the end of October. Each needs a coach; incomplete or time-adjusted entries are clearly marked.</span>
               </div>
               <div class="pending-notice">
                 <strong>Stimson — team assignments pending</strong>
@@ -2391,11 +2511,35 @@
               <div id="liveTeamList"></div>
               <ul>
                 <li>Sign into Chrome with <strong>info@bethebestli.com</strong> if Google asks.</li>
-                <li>The red conflict radar uses the saved tournament schedule and your edits.</li>
-                <li>Same-weekend events remain conflicts until game times are known.</li>
+                <li>Use the Conflicts tab on the right to review separate tournaments that overlap.</li>
+                <li>Teams attending the same tournament count as one shared plan.</li>
               </ul>
               <p id="lastLiveRefresh">Live feed not loaded yet.</p>
             </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="exportView" aria-label="Export a team schedule">
+        <div class="export-card">
+          <div class="section-header">
+            <div class="section-title">
+              <h2>Export Team Calendar</h2>
+              <p>Choose a team, download its full iCal schedule, or add individual events to Google Calendar.</p>
+            </div>
+          </div>
+          <div class="export-body">
+            <aside class="export-controls">
+              <label for="exportTeam">Team</label>
+              <select class="field" id="exportTeam" aria-label="Choose a team to export"></select>
+              <div class="export-summary" id="exportSummary" role="status" aria-live="polite"></div>
+              <button class="btn primary" id="downloadIcalButton" type="button">Download Team iCal (.ics)</button>
+              <p class="export-help">The iCal file includes every loaded tournament and assigned team practice. It can be imported into Apple Calendar, Outlook, or Google Calendar.</p>
+            </aside>
+            <section class="export-schedule" aria-labelledby="exportScheduleTitle">
+              <h3 id="exportScheduleTitle">Team Schedule</h3>
+              <div class="export-schedule-list" id="exportScheduleList"></div>
+            </section>
           </div>
         </div>
       </section>
@@ -2912,13 +3056,22 @@
       }
 
       var PDF_ASSIGNMENT_SOURCE = "Practice Times PDF • Sept. 8–24, 2026";
+      var DAN_RECURRING_SOURCE = "Dan • weekly team practices • through Oct. 31, 2026";
       var CLOSED_PARENT_WINDOW_IDS = new Set([
         "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
         "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
         "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
-        "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19", "nickerson-2026-09-21",
-        "point-lookout-2026-09-09", "point-lookout-2026-09-12",
-        "point-lookout-2026-09-16", "point-lookout-2026-09-23"
+        "seaford-2026-09-29", "seaford-2026-09-30", "seaford-2026-10-01",
+        "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19",
+        "nickerson-2026-09-21", "nickerson-2026-09-26", "nickerson-2026-09-28",
+        "nickerson-2026-10-03", "nickerson-2026-10-05", "nickerson-2026-10-10",
+        "nickerson-2026-10-12", "nickerson-2026-10-17", "nickerson-2026-10-19",
+        "nickerson-2026-10-24", "nickerson-2026-10-26", "nickerson-2026-10-31",
+        "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-16",
+        "point-lookout-2026-09-23", "point-lookout-2026-09-26", "point-lookout-2026-09-30",
+        "point-lookout-2026-10-03", "point-lookout-2026-10-07", "point-lookout-2026-10-10",
+        "point-lookout-2026-10-14", "point-lookout-2026-10-17", "point-lookout-2026-10-21",
+        "point-lookout-2026-10-24", "point-lookout-2026-10-28"
       ]);
       var PDF_LOCATION_DETAILS = {
         seaford: {
@@ -2950,7 +3103,7 @@
       function buildAssignedPracticeWindows() {
         var windows = [];
 
-        function add(locationKey, dates, assignments, assignmentStatus, note) {
+        function add(locationKey, dates, assignments, assignmentStatus, note, source) {
           var location = PDF_LOCATION_DETAILS[locationKey];
           dates.forEach(function (date) {
             assignments.forEach(function (assignment) {
@@ -2973,69 +3126,70 @@
                 assignedTeams: [assignment.team],
                 timeLabel: assignment.timeLabel,
                 assignmentStatus: assignmentStatus,
-                source: PDF_ASSIGNMENT_SOURCE,
+                source: source || PDF_ASSIGNMENT_SOURCE,
                 note: note
               });
             });
           });
         }
 
-        var seafordWeekdayNote = "Adjusted to Kevin-approved 7:15–9:15 PM; the PDF listed 7:00–9:00 PM.";
-        add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], [
+        var recurringNote = "Weekly recurrence extended by Dan through the end of October.";
+        var seafordWeekdayNote = "Adjusted to 7:15–9:15 PM from the PDF’s 7:00–9:00 PM. " + recurringNote;
+        add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"], [
           { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
-        ], "adjusted", seafordWeekdayNote);
-        add("seaford", ["2026-09-15", "2026-09-22"], [
+        ], "adjusted", seafordWeekdayNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"], [
           { team: "2033 Storm", startTime: "19:15", endTime: "21:00", timeLabel: "7:15 PM–9:00 PM", durationHours: 1.75 }
-        ], "confirmed", "Updated by Dan to Tuesdays 7:15–9:00 PM inside the Kevin-approved Seaford field window, replacing Mondays at Point Lookout.");
-        add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
+        ], "confirmed", "Tuesdays 7:15–9:00 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"], [
           { team: "2036 Dawgs", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2035 Bombers", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
-        ], "adjusted", seafordWeekdayNote);
-        add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], [
+        ], "adjusted", seafordWeekdayNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"], [
           { team: "2036 Avalanche", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", durationHours: 1 }
-        ], "confirmed", "Updated by Dan to Wednesdays 7:15–8:15 PM inside the Kevin-approved Seaford field window.");
-        add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24"], [
+        ], "confirmed", "Wednesdays 7:15–8:15 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24", "2026-10-01", "2026-10-08", "2026-10-15", "2026-10-22", "2026-10-29"], [
           { team: "2032 Riptide", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 },
           { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
-        ], "adjusted", seafordWeekdayNote);
-        add("seaford", ["2026-09-12", "2026-09-19"], [
+        ], "adjusted", seafordWeekdayNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2035 Bombers", startTime: "15:00", endTime: null, timeLabel: "3:00 PM–End time needed", durationHours: null }
-        ], "needs-time", "The PDF lists a 3:00 PM start but no end time.");
-        add("seaford", ["2026-09-13", "2026-09-20"], [
+        ], "needs-time", "3:00 PM start; an exact end time is still needed. " + recurringNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"], [
           { team: "2032 Riptide", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", durationHours: 2 },
           { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", durationHours: 1.5 }
-        ], "pending", "Listed in the PDF outside the current approved master inventory.");
+        ], "pending", recurringNote, DAN_RECURRING_SOURCE);
 
-        add("stimson", ["2026-09-14", "2026-09-21"], [
+        add("stimson", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
           { team: "2034 Venom", startTime: "17:45", endTime: null, timeLabel: "5:45 PM–Dark", durationHours: null }
-        ], "needs-time", "The PDF lists 5:45 PM to dark; an exact end time is still needed.");
-        add("stimson", ["2026-09-13", "2026-09-20"], [
+        ], "needs-time", "5:45 PM to dark; an exact end time is still needed. " + recurringNote, DAN_RECURRING_SOURCE);
+        add("stimson", ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"], [
           { team: "2030 Rage", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2032 Cannons", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2028 Black", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 },
           { team: "2031 Carnage", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 }
-        ], "pending", "Listed in the PDF outside the current approved master inventory.");
+        ], "pending", recurringNote, DAN_RECURRING_SOURCE);
 
-        add("nickerson", ["2026-09-14", "2026-09-21"], [
+        add("nickerson", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
           { team: "2035 Hurricanes", startTime: "17:00", endTime: "18:30", timeLabel: "5:00 PM–6:30 PM", durationHours: 1.5 }
-        ], "confirmed", "Assigned in the Practice Times PDF.");
-        add("nickerson", ["2026-09-12", "2026-09-19"], [
+        ], "confirmed", recurringNote, DAN_RECURRING_SOURCE);
+        add("nickerson", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", durationHours: 2 },
           { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", durationHours: 1.5 },
           { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 }
-        ], "confirmed", "Assigned in the Practice Times PDF.");
-        add("nickerson", ["2026-09-12", "2026-09-19"], [
+        ], "confirmed", recurringNote, DAN_RECURRING_SOURCE);
+        add("nickerson", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", durationHours: 1.25 }
-        ], "pending", "Updated by Dan to Saturdays 8:15–9:30 AM; the start is before the current 9:00 AM approved Nickerson window.");
+        ], "pending", "Saturdays 8:15–9:30 AM at Nickerson. " + recurringNote, DAN_RECURRING_SOURCE);
 
-        add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23"], [
+        add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"], [
           { team: "2034 Thunder", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
-        ], "confirmed", "Assigned in the Practice Times PDF.");
-        add("point-lookout", ["2026-09-12"], [
+        ], "confirmed", recurringNote, DAN_RECURRING_SOURCE);
+        add("point-lookout", ["2026-09-12", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2033 Storm", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", durationHours: 2 },
           { team: "2034 Thunder", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", durationHours: 2 }
-        ], "confirmed", "Assigned in the Practice Times PDF.");
+        ], "confirmed", "Saturdays 8:00–10:00 AM; Sept. 19 remains unavailable for the car show. " + recurringNote, DAN_RECURRING_SOURCE);
 
         return windows;
       }
@@ -3107,7 +3261,6 @@
       var visibleTeams = new Set(Object.keys(TEAM_META));
       var viewDate = initialViewMonth();
       var wakeLock = null;
-      var alertIndex = 0;
       var toastTimer = null;
 
       function normalizeEvents(items) {
@@ -3355,9 +3508,193 @@
         return {
           confirmed: "Confirmed",
           adjusted: "Adjusted to Permit",
-          pending: "Pending Approval",
+          pending: "Scheduled",
           "needs-time": "End Time Needed"
         }[status] || "Assignment";
+      }
+
+      function compactCalendarDate(iso) {
+        return String(iso || "").replace(/-/g, "");
+      }
+
+      function calendarDateTime(iso, clock) {
+        return compactCalendarDate(iso) + "T" + String(clock || "00:00").replace(":", "") + "00";
+      }
+
+      function calendarExportItems(team) {
+        var tournamentItems = events.filter(function (event) {
+          return event.team === team && event.start && event.end;
+        }).map(function (event) {
+          return {
+            id: "tournament-" + event.id,
+            kind: "Tournament",
+            title: "BTB " + TEAM_META[team].short + " — " + event.title,
+            startDate: event.start,
+            endDate: event.end,
+            startTime: null,
+            endTime: null,
+            allDay: true,
+            location: event.location,
+            description: [event.time, event.note, event.offIsland ? "Off-island tournament" : ""].filter(Boolean).join(" • ")
+          };
+        });
+        var assignedItems = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+          return windowItem.assignedTeams.indexOf(team) >= 0;
+        }).map(function (windowItem) {
+          var booking = assignedPracticeBooking(windowItem);
+          return {
+            id: "practice-" + windowItem.id,
+            kind: "Practice",
+            title: "BTB " + TEAM_META[team].short + " Practice",
+            startDate: windowItem.date,
+            endDate: windowItem.date,
+            startTime: windowItem.startTime,
+            endTime: windowItem.endTime,
+            allDay: false,
+            location: practiceWindowLocation(windowItem),
+            description: [assignedPracticeTime(windowItem), assignmentStatusLabel(windowItem.assignmentStatus),
+              booking ? "Coach " + booking.coach : "Coach needed", windowItem.note].filter(Boolean).join(" • ")
+          };
+        });
+        var claimedItems = practiceBookings.map(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          if (!windowItem || isAssignedPractice(windowItem) || bookingTeams(booking).indexOf(team) < 0) return null;
+          return {
+            id: "practice-booking-" + booking.id,
+            kind: "Practice",
+            title: "BTB " + TEAM_META[team].short + " Practice",
+            startDate: windowItem.date,
+            endDate: windowItem.date,
+            startTime: booking.startTime,
+            endTime: minutesToClock(bookingEndMinutes(booking)),
+            allDay: false,
+            location: practiceWindowLocation(windowItem),
+            description: "Coach " + booking.coach
+          };
+        }).filter(Boolean);
+        return tournamentItems.concat(assignedItems, claimedItems).sort(function (a, b) {
+          return a.startDate.localeCompare(b.startDate) || String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
+            a.title.localeCompare(b.title);
+        });
+      }
+
+      function googleCalendarUrl(item) {
+        var endDate = item.allDay ? isoDate(addDays(parseDate(item.endDate), 1)) : item.endDate;
+        var endTime = item.endTime || minutesToClock(toMinutes(item.startTime) + 60);
+        var dates = item.allDay
+          ? compactCalendarDate(item.startDate) + "/" + compactCalendarDate(endDate)
+          : calendarDateTime(item.startDate, item.startTime) + "/" + calendarDateTime(endDate, endTime);
+        var params = new URLSearchParams({
+          action: "TEMPLATE",
+          text: item.title,
+          dates: dates,
+          details: item.description || "BTB team schedule",
+          location: item.location || "",
+          ctz: "America/New_York"
+        });
+        return "https://calendar.google.com/calendar/render?" + params.toString();
+      }
+
+      function escapeIcalText(value) {
+        return String(value || "").replace(/\\/g, "\\\\").replace(/\r?\n/g, "\\n")
+          .replace(/,/g, "\\,").replace(/;/g, "\\;");
+      }
+
+      function foldIcalLine(line) {
+        var encoder = new TextEncoder();
+        var parts = [];
+        var chunk = "";
+        var limit = 75;
+        Array.from(String(line)).forEach(function (character) {
+          if (chunk && encoder.encode(chunk + character).length > limit) {
+            parts.push(chunk);
+            chunk = character;
+            limit = 74;
+          } else {
+            chunk += character;
+          }
+        });
+        parts.push(chunk);
+        return parts.join("\r\n ");
+      }
+
+      function teamIcal(team) {
+        var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+        var lines = [
+          "BEGIN:VCALENDAR",
+          "VERSION:2.0",
+          "PRODID:-//Be The Best Lacrosse//BTB Staff Schedule//EN",
+          "CALSCALE:GREGORIAN",
+          "METHOD:PUBLISH",
+          "X-WR-CALNAME:" + escapeIcalText("BTB " + TEAM_META[team].short + " Schedule"),
+          "X-WR-TIMEZONE:America/New_York"
+        ];
+        calendarExportItems(team).forEach(function (item) {
+          lines.push("BEGIN:VEVENT", "UID:" + escapeIcalText(item.id + "@bethebestli.com"), "DTSTAMP:" + stamp);
+          if (item.allDay) {
+            lines.push("DTSTART;VALUE=DATE:" + compactCalendarDate(item.startDate));
+            lines.push("DTEND;VALUE=DATE:" + compactCalendarDate(isoDate(addDays(parseDate(item.endDate), 1))));
+          } else {
+            lines.push("DTSTART;TZID=America/New_York:" + calendarDateTime(item.startDate, item.startTime));
+            if (item.endTime) lines.push("DTEND;TZID=America/New_York:" + calendarDateTime(item.endDate, item.endTime));
+          }
+          lines.push("SUMMARY:" + escapeIcalText(item.title));
+          if (item.location) lines.push("LOCATION:" + escapeIcalText(item.location));
+          if (item.description) lines.push("DESCRIPTION:" + escapeIcalText(item.description));
+          lines.push("END:VEVENT");
+        });
+        lines.push("END:VCALENDAR");
+        return lines.map(foldIcalLine).join("\r\n") + "\r\n";
+      }
+
+      function downloadTeamIcal() {
+        var team = document.getElementById("exportTeam").value;
+        var items = calendarExportItems(team);
+        if (!team || !items.length) {
+          showToast("No dated schedule items are available for that team.");
+          return;
+        }
+        var blobUrl = URL.createObjectURL(new Blob([teamIcal(team)], { type: "text/calendar;charset=utf-8" }));
+        var link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = "BTB_" + team.replace(/[^a-z0-9]+/gi, "_") + "_Schedule.ics";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(function () { URL.revokeObjectURL(blobUrl); }, 1000);
+        showToast(TEAM_META[team].short + " iCal schedule downloaded.");
+      }
+
+      function renderExportView() {
+        var select = document.getElementById("exportTeam");
+        if (!select.options.length) {
+          select.innerHTML = Object.keys(TEAM_META).map(function (team) {
+            return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
+          }).join("");
+          var savedTeam = localStorage.getItem("btb-export-team");
+          if (savedTeam && TEAM_META[savedTeam]) select.value = savedTeam;
+        }
+        var team = select.value || Object.keys(TEAM_META)[0];
+        var teamMeta = TEAM_META[team];
+        var items = calendarExportItems(team);
+        var tournamentCount = items.filter(function (item) { return item.kind === "Tournament"; }).length;
+        var practiceCount = items.filter(function (item) { return item.kind === "Practice"; }).length;
+        document.getElementById("exportSummary").style.setProperty("--team-color", teamMeta.color);
+        document.getElementById("exportSummary").innerHTML = "<strong style='color:" + teamMeta.color + "'>" +
+          escapeHtml(teamMeta.label) + "</strong><br>" + tournamentCount + " tournament" + (tournamentCount === 1 ? "" : "s") +
+          " • " + practiceCount + " practice" + (practiceCount === 1 ? "" : "s");
+        document.getElementById("exportScheduleTitle").textContent = teamMeta.label + " Schedule";
+        document.getElementById("exportScheduleList").innerHTML = items.length ? items.map(function (item) {
+          var dateLabel = item.allDay ? formatRange(item.startDate, item.endDate) : formatDate(item.startDate);
+          var timeLabel = item.allDay ? "All day / times TBD" : formatClock(item.startTime) + "–" +
+            (item.endTime ? formatClock(item.endTime) : "End time needed");
+          var googleLabel = "Add " + item.title + " on " + dateLabel + " to Google Calendar";
+          return "<article class='export-item' style='--team-color:" + teamMeta.color + "'><span class='export-item-date'>" +
+            escapeHtml(dateLabel) + "</span><span><span class='export-item-title'>" + escapeHtml(item.title) +
+            "</span><span class='export-item-meta'>" + escapeHtml(item.kind + " • " + timeLabel + " • " + item.location) +
+            "</span></span><a class='btn subtle' href='" + escapeHtml(googleCalendarUrl(item)) +
+            "' target='_blank' rel='noopener' aria-label='" + escapeHtml(googleLabel) + "'>Add to Google</a></article>";
+        }).join("") : "<div class='empty'>No dated tournaments or assigned practices are loaded for this team.</div>";
       }
 
       function bookingsForWindow(windowId) {
@@ -3464,6 +3801,14 @@
         return new Date(date.getFullYear(), date.getMonth(), 1, 12);
       }
 
+      function normalizeTournamentPlanValue(value) {
+        return String(value || "").trim().toLocaleLowerCase("en-US").replace(/\s+/g, " ");
+      }
+
+      function tournamentPlanKey(event) {
+        return normalizeTournamentPlanValue(event.title) + "|" + normalizeTournamentPlanValue(event.location);
+      }
+
       function getConflictGroups() {
         var dated = events.filter(function (event) {
           return event.start && event.end;
@@ -3480,14 +3825,27 @@
             if (event.end > current.end) current.end = event.end;
           }
         });
-        return windows.filter(function (windowItem) {
-          return windowItem.events.length > 1;
+        return windows.map(function (windowItem) {
+          var planMap = new Map();
+          windowItem.events.forEach(function (event) {
+            var key = tournamentPlanKey(event);
+            if (!planMap.has(key)) {
+              planMap.set(key, { key: key, title: event.title, location: event.location, events: [] });
+            }
+            planMap.get(key).events.push(event);
+          });
+          windowItem.plans = Array.from(planMap.values());
+          return windowItem;
+        }).filter(function (windowItem) {
+          return windowItem.plans.length > 1;
         }).map(function (windowItem) {
           var locked = windowItem.events.some(function (event) {
             return STATUS_META[event.status] && STATUS_META[event.status].locked;
           });
-          var coreCount = windowItem.events.filter(function (event) {
-            return STATUS_META[event.status] && STATUS_META[event.status].score >= 3;
+          var coreCount = windowItem.plans.filter(function (plan) {
+            return plan.events.some(function (event) {
+              return STATUS_META[event.status] && STATUS_META[event.status].score >= 3;
+            });
           }).length;
           windowItem.level = locked ? "critical" : (coreCount >= 2 ? "high" : "watch");
           windowItem.teams = Array.from(new Set(windowItem.events.map(function (event) {
@@ -3501,8 +3859,8 @@
       }
 
       function conciseConflict(windowItem) {
-        var names = windowItem.events.map(function (event) {
-          return TEAM_META[event.team].short + " " + event.title;
+        var names = windowItem.plans.map(function (plan) {
+          return plan.title + " (" + plan.events.length + " team" + (plan.events.length === 1 ? "" : "s") + ")";
         });
         if (names.length > 3) {
           return names.slice(0, 3).join(" • ") + " • +" + (names.length - 3) + " more";
@@ -3518,40 +3876,6 @@
         if (matches.some(function (item) { return item.level === "critical"; })) return "critical";
         if (matches.some(function (item) { return item.level === "high"; })) return "high";
         return "watch";
-      }
-
-      function renderAlert() {
-        var conflicts = getConflictGroups();
-        var critical = conflicts.filter(function (item) { return item.level === "critical"; });
-        var high = conflicts.filter(function (item) { return item.level === "high"; });
-        var strip = document.getElementById("alertStrip");
-        var title = document.getElementById("alertTitle");
-        var copy = document.getElementById("alertCopy");
-        var symbol = document.getElementById("alertSymbol");
-        strip.classList.remove("critical", "high", "clear");
-
-        if (critical.length) {
-          strip.classList.add("critical");
-          var pool = critical.concat(high);
-          var item = pool[alertIndex % pool.length];
-          title.textContent = critical.length + " ACTION CONFLICT" + (critical.length === 1 ? "" : "S") +
-            " • " + high.length + " HIGH-PRIORITY PLAN" + (high.length === 1 ? "" : "S");
-          copy.textContent = formatRange(item.start, item.end) + " — " + conciseConflict(item);
-          symbol.textContent = "!";
-          return;
-        }
-        if (high.length) {
-          strip.classList.add("high");
-          var highItem = high[alertIndex % high.length];
-          title.textContent = high.length + " HIGH-PRIORITY PLANNING CONFLICT" + (high.length === 1 ? "" : "S");
-          copy.textContent = formatRange(highItem.start, highItem.end) + " — " + conciseConflict(highItem);
-          symbol.textContent = "!";
-          return;
-        }
-        strip.classList.add("clear");
-        title.textContent = "SCHEDULE CLEAR";
-        copy.textContent = "No overlapping tournament windows are currently loaded.";
-        symbol.textContent = "✓";
       }
 
       function renderPracticeTicker() {
@@ -3871,20 +4195,7 @@
         });
 
         var conflicts = getConflictGroups();
-        var conflictHost = document.getElementById("conflictList");
         document.getElementById("conflictCount").textContent = conflicts.length;
-        conflictHost.innerHTML = conflicts.length ? conflicts.map(function (item, index) {
-          var levelText = item.level === "critical" ? "Action Needed" : (item.level === "high" ? "High-Priority Plan" : "Watch");
-          return "<button class='conflict-item " + item.level + "' type='button' data-conflict-index='" + index + "'>" +
-            "<div class='conflict-top'><span class='conflict-date'>" + escapeHtml(formatRange(item.start, item.end)) +
-            "</span><span class='conflict-level'>" + levelText + "</span></div>" +
-            "<div class='conflict-summary'>" + escapeHtml(conciseConflict(item)) + "</div></button>";
-        }).join("") : "<div class='empty'>No overlap windows.</div>";
-        conflictHost.querySelectorAll(".conflict-item").forEach(function (button) {
-          button.addEventListener("click", function () {
-            openConflictDialog(Number(button.getAttribute("data-conflict-index")));
-          });
-        });
 
         var tbd = events.filter(function (event) { return !event.start || !event.end; });
         document.getElementById("tbdCount").textContent = tbd.length;
@@ -4131,11 +4442,11 @@
       }
 
       function renderAll() {
-        renderAlert();
         renderPracticeTicker();
         renderMonth();
         renderSidebar();
         renderPracticeBoard();
+        renderExportView();
         renderManageTable();
       }
 
@@ -4412,6 +4723,13 @@
 
       function openConflictDialog(selectedIndex) {
         var conflicts = getConflictGroups();
+        if (!conflicts.length) {
+          document.getElementById("conflictDialogTitle").textContent = "No Schedule Conflicts";
+          document.getElementById("conflictDialogBody").innerHTML =
+            "<div class='empty'>Teams attending the same tournament are treated as one shared plan. No conflicts need review.</div>";
+          document.getElementById("conflictDialog").showModal();
+          return;
+        }
         var ordered = typeof selectedIndex === "number" && conflicts[selectedIndex]
           ? [conflicts[selectedIndex]].concat(conflicts.filter(function (_, index) { return index !== selectedIndex; }))
           : conflicts;
@@ -4443,6 +4761,7 @@
         });
         if (name === "live") refreshLiveFrame(false);
         if (name === "practice") renderPracticeBoard();
+        if (name === "export") renderExportView();
         if (name === "manage") renderManageTable();
       }
 
@@ -4715,11 +5034,17 @@
             return windowItem.mode === "assigned" && windowItem.claimMode === "assigned" && windowItem.kind === "assigned" &&
               windowItem.teamCount === 1 && windowItem.startIncrementMinutes === 30 && Boolean(TEAM_META[team]) &&
               windowItem.id === "pdf-" + windowItem.locationKey + "-" + windowItem.date + "-" + practiceTeamSlug(team) &&
-              windowItem.source === PDF_ASSIGNMENT_SOURCE && typeof windowItem.timeLabel === "string" &&
+              [PDF_ASSIGNMENT_SOURCE, DAN_RECURRING_SOURCE].indexOf(windowItem.source) >= 0 && typeof windowItem.timeLabel === "string" &&
               ["confirmed", "adjusted", "pending", "needs-time"].indexOf(windowItem.assignmentStatus) >= 0;
           }),
           assignedDateRangeExact: ASSIGNED_PRACTICE_WINDOWS.every(function (windowItem) {
-            return windowItem.date >= "2026-09-08" && windowItem.date <= "2026-09-24";
+            return windowItem.date >= "2026-09-08" && windowItem.date <= "2026-10-31";
+          }),
+          recurringTuesdayPatternExact: ["2033 Renegades", "2033 Storm"].every(function (team) {
+            return ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+              return assignedPracticeTeam(windowItem) === team && windowItem.locationKey === "seaford" && windowItem.startTime === "19:15";
+            }).map(function (windowItem) { return windowItem.date; }).join(",") ===
+              "2026-09-08,2026-09-15,2026-09-22,2026-09-29,2026-10-06,2026-10-13,2026-10-20,2026-10-27";
           }),
           assignedPointLookoutBlackoutHonored: !assignedPointLookout.some(function (windowItem) {
             return windowItem.date === "2026-09-19";
@@ -4766,6 +5091,8 @@
             return index === 0 || practiceAgendaDates[index - 1] < date;
           }),
           practiceTickerRendered: document.querySelectorAll("#practiceTickerTrack .practice-ticker-item").length > 0,
+          exportReady: document.getElementById("exportTeam").options.length === Object.keys(TEAM_META).length &&
+            calendarExportItems("2033 Storm").length >= 18 && teamIcal("2033 Storm").indexOf("BEGIN:VCALENDAR") >= 0,
           correctedGirlsDates: events.some(function (event) { return event.id === "g31-apex-fall" && event.start === "2026-10-04"; }) &&
             ["g31-queen-fall", "g32-queen-fall", "g33-queen-fall"].every(function (id) {
               return events.some(function (event) { return event.id === id && event.start === "2026-10-25"; });
@@ -4775,21 +5102,22 @@
           result.datedTournamentCount === 34 &&
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
-          result.practiceWindowCount === 176 &&
+          result.practiceWindowCount === 305 &&
           result.masterPracticeWindowCount === 123 &&
-          result.assignedPracticeWindowCount === 53 &&
-          result.assignedSeafordCount === 26 &&
-          result.assignedStimsonCount === 10 &&
-          result.assignedNickersonCount === 12 &&
-          result.assignedPointLookoutCount === 5 &&
-          result.assignedAdjustedCount === 15 &&
-          result.assignedNeedsTimeCount === 4 &&
-          result.assignedPendingCount === 14 &&
-          result.assignedConfirmedCount === 20 &&
-          result.assignedNullEndCount === 4 &&
-          result.closedParentWindowCount === 17 &&
+          result.assignedPracticeWindowCount === 182 &&
+          result.assignedSeafordCount === 78 &&
+          result.assignedStimsonCount === 35 &&
+          result.assignedNickersonCount === 47 &&
+          result.assignedPointLookoutCount === 22 &&
+          result.assignedAdjustedCount === 40 &&
+          result.assignedNeedsTimeCount === 15 &&
+          result.assignedPendingCount === 50 &&
+          result.assignedConfirmedCount === 77 &&
+          result.assignedNullEndCount === 15 &&
+          result.closedParentWindowCount === 41 &&
           result.assignedSchemaValid &&
           result.assignedDateRangeExact &&
+          result.recurringTuesdayPatternExact &&
           result.assignedPointLookoutBlackoutHonored &&
           result.seafordWindowCount === 24 &&
           result.nickersonWindowCount === 35 &&
@@ -4818,6 +5146,7 @@
           result.sundayFirstCalendar &&
           result.practiceAgendaChronological &&
           result.practiceTickerRendered &&
+          result.exportReady &&
           result.correctedGirlsDates;
         return result;
       }
@@ -4846,6 +5175,11 @@
         document.getElementById("practiceTypeFilter").addEventListener("change", renderPracticeBoard);
         document.getElementById("practiceLocationFilter").addEventListener("change", renderPracticeBoard);
         document.getElementById("scheduleTypeFilter").addEventListener("change", renderMonth);
+        document.getElementById("exportTeam").addEventListener("change", function () {
+          localStorage.setItem("btb-export-team", this.value);
+          renderExportView();
+        });
+        document.getElementById("downloadIcalButton").addEventListener("click", downloadTeamIcal);
         document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
         document.getElementById("showTbdButton").addEventListener("click", function () { document.getElementById("tbdDialog").showModal(); });
         document.getElementById("syncButton").addEventListener("click", function () {
@@ -4887,6 +5221,7 @@
           if (event.key.toLowerCase() === "l") showView("live");
           if (event.key.toLowerCase() === "m") showView("manage");
           if (event.key.toLowerCase() === "p") showView("practice");
+          if (event.key.toLowerCase() === "e") showView("export");
           if (event.key === "ArrowLeft") {
             viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1, 12);
             renderMonth();
@@ -4933,10 +5268,6 @@
         refreshLiveFrame(false);
         setInterval(updateClock, 1000);
         setInterval(function () {
-          alertIndex += 1;
-          renderAlert();
-        }, 8000);
-        setInterval(function () {
           renderAll();
         }, 60000);
         setInterval(function () {
@@ -4957,6 +5288,8 @@
           },
           getPracticeBookings: function () { return JSON.parse(JSON.stringify(practiceBookings)); },
           getConflicts: function () { return JSON.parse(JSON.stringify(getConflictGroups())); },
+          getCalendarExportItems: function (team) { return JSON.parse(JSON.stringify(calendarExportItems(team))); },
+          getTeamIcal: function (team) { return teamIcal(team); },
           getCurrentMonth: function () { return isoDate(viewDate); },
           getWeekdayOrder: function () {
             return Array.from(document.querySelectorAll(".weekday")).map(function (weekday) { return weekday.textContent.trim(); });

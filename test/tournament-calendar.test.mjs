@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 import { runInNewContext } from "node:vm";
 
@@ -72,6 +72,22 @@ function staffPageHtml() {
   return readFileSync(new URL("../public/dan-tournament-calendar.html", import.meta.url), "utf8");
 }
 
+function pageConflictGroups(events) {
+  const html = staffPageHtml();
+  const start = html.indexOf("function normalizeTournamentPlanValue");
+  const end = html.indexOf("function conflictForDay", start);
+  assert.ok(start >= 0 && end > start, "conflict logic must remain extractable from the staff page");
+  const context = {
+    events: structuredClone(events),
+    STATUS_META: {
+      confirmed: { locked: true, score: 4 },
+      entering: { locked: false, score: 2 },
+    },
+  };
+  runInNewContext(`${html.slice(start, end)}\nthis.result = getConflictGroups();`, context);
+  return JSON.parse(JSON.stringify(context.result));
+}
+
 function pagePracticeWindows() {
   const html = staffPageHtml();
   const start = html.indexOf("var SEAFORD_DATES =");
@@ -96,7 +112,7 @@ function practiceWindow(id, windows = PRACTICE_WINDOWS) {
   return window;
 }
 
-function expectedPdfPracticeSlots() {
+function expectedAssignedPracticeSlots() {
   const slots = [];
   const add = (locationKey, dates, startTime, endTime, teams) => {
     for (const date of dates) {
@@ -114,40 +130,66 @@ function expectedPdfPracticeSlots() {
     }
   };
 
-  add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22"], "19:15", "21:15", [
+  const tuesdays = [
+    "2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29",
+    "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27",
+  ];
+  const wednesdays = [
+    "2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30",
+    "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28",
+  ];
+  const thursdays = [
+    "2026-09-10", "2026-09-17", "2026-09-24", "2026-10-01",
+    "2026-10-08", "2026-10-15", "2026-10-22", "2026-10-29",
+  ];
+  const saturdays = [
+    "2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03",
+    "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31",
+  ];
+  const sundays = [
+    "2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04",
+    "2026-10-11", "2026-10-18", "2026-10-25",
+  ];
+  const mondays = [
+    "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05",
+    "2026-10-12", "2026-10-19", "2026-10-26",
+  ];
+  const pointLookoutSaturdays = saturdays.filter((date) => date !== "2026-09-19");
+
+  add("seaford", tuesdays, "19:15", "21:15", [
     "2033 Renegades",
   ]);
-  add("seaford", ["2026-09-15", "2026-09-22"], "19:15", "21:00", ["2033 Storm"]);
-  add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], "19:15", "21:15", [
+  add("seaford", tuesdays, "19:15", "21:00", ["2033 Storm"]);
+  add("seaford", wednesdays, "19:15", "21:15", [
     "2036 Dawgs", "2035 Bombers",
   ]);
-  add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23"], "19:15", "20:15", [
+  add("seaford", wednesdays, "19:15", "20:15", [
     "2036 Avalanche",
   ]);
-  add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24"], "19:15", "21:15", [
+  add("seaford", thursdays, "19:15", "21:15", [
     "2032 Riptide", "2031 Cyclones",
   ]);
-  add("seaford", ["2026-09-12", "2026-09-19"], "15:00", null, ["2035 Bombers"]);
-  add("seaford", ["2026-09-13", "2026-09-20"], "09:00", "11:00", ["2032 Riptide"]);
-  add("seaford", ["2026-09-13", "2026-09-20"], "08:00", "09:30", ["2031 Cyclones"]);
+  add("seaford", saturdays, "15:00", null, ["2035 Bombers"]);
+  add("seaford", sundays, "09:00", "11:00", ["2032 Riptide"]);
+  add("seaford", sundays, "08:00", "09:30", ["2031 Cyclones"]);
 
-  add("stimson", ["2026-09-14", "2026-09-21"], "17:45", null, ["2034 Venom"]);
-  add("stimson", ["2026-09-13", "2026-09-20"], "09:00", "10:30", [
+  add("stimson", mondays, "17:45", null, ["2034 Venom"]);
+  add("stimson", sundays, "09:00", "10:30", [
     "2030 Rage", "2032 Cannons",
   ]);
-  add("stimson", ["2026-09-13", "2026-09-20"], "10:30", "12:00", [
+  add("stimson", sundays, "10:30", "12:00", [
     "2028 Black", "2031 Carnage",
   ]);
 
-  add("nickerson", ["2026-09-14", "2026-09-21"], "17:00", "18:30", ["2035 Hurricanes"]);
-  add("nickerson", ["2026-09-12", "2026-09-19"], "09:00", "10:30", ["2036 Dawgs"]);
-  add("nickerson", ["2026-09-12", "2026-09-19"], "10:30", "12:30", ["2033 Renegades"]);
-  add("nickerson", ["2026-09-12", "2026-09-19"], "08:15", "09:30", ["2036 Avalanche"]);
-  add("nickerson", ["2026-09-12", "2026-09-19"], "09:30", "11:00", ["2035 Hurricanes"]);
-  add("nickerson", ["2026-09-12", "2026-09-19"], "09:00", "10:30", ["2034 Venom"]);
+  add("nickerson", mondays, "17:00", "18:30", ["2035 Hurricanes"]);
+  add("nickerson", saturdays, "09:00", "10:30", ["2036 Dawgs"]);
+  add("nickerson", saturdays, "10:30", "12:30", ["2033 Renegades"]);
+  add("nickerson", saturdays, "08:15", "09:30", ["2036 Avalanche"]);
+  add("nickerson", saturdays, "09:30", "11:00", ["2035 Hurricanes"]);
+  add("nickerson", saturdays, "09:00", "10:30", ["2034 Venom"]);
 
-  add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23"], "18:00", "20:00", ["2034 Thunder"]);
-  add("point-lookout", ["2026-09-12"], "08:00", "10:00", ["2033 Storm", "2034 Thunder"]);
+  add("point-lookout", wednesdays, "18:00", "20:00", ["2034 Thunder"]);
+  add("point-lookout", pointLookoutSaturdays, "08:00", "10:00", ["2033 Storm", "2034 Thunder"]);
 
   return slots;
 }
@@ -160,7 +202,7 @@ async function expectCalendarError(promise, { status, code }) {
   });
 }
 
-test("the server exposes 123 generic windows plus 53 assigned PDF practice slots", () => {
+test("the server exposes 123 generic windows plus 182 recurring team practice slots", () => {
   const generic = genericPracticeWindows();
   const assigned = assignedPracticeWindows();
   const seaford = generic.filter((window) => window.venue === "Seaford HS Turf");
@@ -183,9 +225,9 @@ test("the server exposes 123 generic windows plus 53 assigned PDF practice slots
     window.venue === "Momentum Sports LI" && window.requiredDurationHours === 2
   ));
 
-  assert.equal(PRACTICE_WINDOWS.length, 176);
+  assert.equal(PRACTICE_WINDOWS.length, 305);
   assert.equal(generic.length, 123);
-  assert.equal(assigned.length, 53);
+  assert.equal(assigned.length, 182);
   assert.equal(seaford.length, 24);
   assert.equal(nickersonWeekdays.length, 26);
   assert.equal(nickersonSaturdays.length, 9);
@@ -265,7 +307,7 @@ test("the server exposes 123 generic windows plus 53 assigned PDF practice slots
   )));
 });
 
-test("assigned PDF slots cover the exact September 8-24 team schedule", () => {
+test("assigned team slots repeat every September pattern through October", () => {
   const assigned = assignedPracticeWindows();
   const countsByLocation = Object.fromEntries([
     "seaford", "stimson", "nickerson", "point-lookout",
@@ -279,7 +321,7 @@ test("assigned PDF slots cover the exact September 8-24 team schedule", () => {
     return counts;
   }, {});
 
-  assert.equal(assigned.length, 53);
+  assert.equal(assigned.length, 182);
   assert.deepEqual(
     assigned.map((window) => ({
       id: window.id,
@@ -289,61 +331,53 @@ test("assigned PDF slots cover the exact September 8-24 team schedule", () => {
       endTime: window.endTime,
       team: window.assignedTeams[0],
     })).sort((a, b) => a.id.localeCompare(b.id)),
-    expectedPdfPracticeSlots().sort((a, b) => a.id.localeCompare(b.id)),
+    expectedAssignedPracticeSlots().sort((a, b) => a.id.localeCompare(b.id)),
   );
   assert.deepEqual(countsByLocation, {
-    seaford: 26,
-    stimson: 10,
-    nickerson: 12,
-    "point-lookout": 5,
+    seaford: 78,
+    stimson: 35,
+    nickerson: 47,
+    "point-lookout": 22,
   });
   assert.deepEqual(countsByTeam, {
-    "2036 Avalanche": 5,
-    "2033 Renegades": 5,
-    "2036 Dawgs": 5,
-    "2035 Bombers": 5,
-    "2032 Riptide": 5,
-    "2031 Cyclones": 5,
-    "2034 Venom": 4,
-    "2030 Rage": 2,
-    "2032 Cannons": 2,
-    "2028 Black": 2,
-    "2031 Carnage": 2,
-    "2035 Hurricanes": 4,
-    "2033 Storm": 3,
-    "2034 Thunder": 4,
+    "2036 Avalanche": 16,
+    "2033 Renegades": 16,
+    "2036 Dawgs": 16,
+    "2035 Bombers": 16,
+    "2032 Riptide": 15,
+    "2031 Cyclones": 15,
+    "2034 Venom": 15,
+    "2030 Rage": 7,
+    "2032 Cannons": 7,
+    "2028 Black": 7,
+    "2031 Carnage": 7,
+    "2035 Hurricanes": 15,
+    "2033 Storm": 15,
+    "2034 Thunder": 15,
   });
-  assert.deepEqual(
-    assigned.filter((window) => window.assignedTeams[0] === "2033 Storm").sort((a, b) => (
-      a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime)
-    )).map((window) => ({
-      date: window.date,
-      locationKey: window.locationKey,
-      startTime: window.startTime,
-      endTime: window.endTime,
-      timeLabel: window.timeLabel,
-      assignmentStatus: window.assignmentStatus,
-      requiredDurationHours: window.requiredDurationHours,
-    })),
-    [
-      {
-        date: "2026-09-12", locationKey: "point-lookout", startTime: "08:00", endTime: "10:00",
-        timeLabel: "8:00 AM–10:00 AM", assignmentStatus: "confirmed", requiredDurationHours: 2,
-      },
-      {
-        date: "2026-09-15", locationKey: "seaford", startTime: "19:15", endTime: "21:00",
-        timeLabel: "7:15 PM–9:00 PM", assignmentStatus: "confirmed", requiredDurationHours: 1.75,
-      },
-      {
-        date: "2026-09-22", locationKey: "seaford", startTime: "19:15", endTime: "21:00",
-        timeLabel: "7:15 PM–9:00 PM", assignmentStatus: "confirmed", requiredDurationHours: 1.75,
-      },
-    ],
-  );
-  assert.equal(new Set(assigned.map((window) => window.id)).size, 53);
+  const expectedTuesdays = [
+    "2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29",
+    "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27",
+  ];
+  for (const team of ["2033 Renegades", "2033 Storm"]) {
+    const tuesdaySlots = assigned.filter((window) => (
+      window.assignedTeams[0] === team && window.locationKey === "seaford" && window.startTime === "19:15"
+    )).sort((a, b) => a.date.localeCompare(b.date));
+    assert.deepEqual(tuesdaySlots.map((window) => window.date), expectedTuesdays);
+    assert.ok(tuesdaySlots.every((window) => (
+      window.endTime === (team === "2033 Storm" ? "21:00" : "21:15")
+    )));
+  }
+  const stormPointLookout = assigned.filter((window) => (
+    window.assignedTeams[0] === "2033 Storm" && window.locationKey === "point-lookout"
+  ));
+  assert.equal(stormPointLookout.length, 7);
+  assert.equal(stormPointLookout.some((window) => window.date === "2026-09-19"), false);
+
+  assert.equal(new Set(assigned.map((window) => window.id)).size, 182);
   assert.ok(assigned.every((window) => (
-    /^pdf-(seaford|stimson|nickerson|point-lookout)-2026-09-\d{2}-[a-z0-9-]+$/.test(window.id) &&
-    window.date >= "2026-09-08" && window.date <= "2026-09-24" &&
+    /^pdf-(seaford|stimson|nickerson|point-lookout)-2026-(09|10)-\d{2}-[a-z0-9-]+$/.test(window.id) &&
+    window.date >= "2026-09-08" && window.date <= "2026-10-31" &&
     window.mode === "assigned" && window.claimMode === "assigned" &&
     Array.isArray(window.assignedTeams) && window.assignedTeams.length === 1 &&
     KNOWN_TEAMS.includes(window.assignedTeams[0]) && window.teamCount === 1
@@ -491,6 +525,50 @@ test("the staff page keeps a Sunday-first calendar and Google-style practice tic
   assert.match(jumpSource, /\[nextAssigned, nextInventory\]\.filter\(Boolean\)\.sort/);
 });
 
+test("shared tournament plans do not create false conflicts", () => {
+  const shared = [
+    {
+      id: "shared-one", team: "2034 Thunder", title: "Apex Fall Opener", location: "Capelli Sports Complex",
+      start: "2026-10-03", end: "2026-10-03", status: "confirmed",
+    },
+    {
+      id: "shared-two", team: "2035 Hurricanes", title: " apex   fall opener ", location: "capelli sports complex",
+      start: "2026-10-03", end: "2026-10-03", status: "confirmed",
+    },
+  ];
+  assert.deepEqual(pageConflictGroups(shared), []);
+
+  const separatePlan = {
+    id: "separate", team: "2036 Avalanche", title: "Another Tournament", location: "Another Venue",
+    start: "2026-10-03", end: "2026-10-03", status: "entering",
+  };
+  const conflicts = pageConflictGroups([...shared, separatePlan]);
+  assert.equal(conflicts.length, 1);
+  assert.equal(conflicts[0].plans.length, 2);
+  assert.equal(conflicts[0].events.length, 3);
+
+  const sameTitleDifferentVenue = pageConflictGroups([...shared, {
+    ...separatePlan,
+    title: "Apex Fall Opener",
+  }]);
+  assert.equal(sameTitleDifferentVenue.length, 1);
+});
+
+test("the staff page uses a compact conflicts tab, wider calendar, transparent mark, and team export view", () => {
+  const html = staffPageHtml();
+  assert.doesNotMatch(html, /id="alertStrip"|class="alert-strip"/);
+  assert.doesNotMatch(html, />\s*Conflict Radar\s*</);
+  assert.match(html, /class="conflicts-tab" id="reviewConflictsButton"/);
+  assert.match(html, /grid-template-columns:\s*minmax\(0, 1fr\) clamp\(230px, 17vw, 285px\)/);
+  assert.match(html, /src="\/BTB_Silver_Mark_Transparent\.png"/);
+  assert.ok(existsSync(new URL("../public/BTB_Silver_Mark_Transparent.png", import.meta.url)));
+  assert.match(html, /data-view="export"/);
+  assert.match(html, /id="exportTeam"/);
+  assert.match(html, /id="downloadIcalButton"/);
+  assert.match(html, /function googleCalendarUrl\(item\)/);
+  assert.match(html, /function teamIcal\(team\)/);
+});
+
 test("known-team validation covers the active 18-team 2026-27 operating list", () => {
   assert.deepEqual(KNOWN_TEAMS, [
     "2028 Black", "2030 Rage", "2031 Carnage", "2032 Cannons", "2033 Renegades",
@@ -601,7 +679,7 @@ test("Seaford alignment is relative to its 19:15 start and allows a full 2 hours
   }, claimOptions("seaford-misaligned")), { status: 400, code: "invalid_start" });
 });
 
-test("Point Lookout weekday and Saturday claims fit their full approved windows", async () => {
+test("Point Lookout weekday inventory stays claimable while recurring Saturdays use assigned slots", async () => {
   const weekday = await claimPractice(memoryStore(), {
     windowId: "point-lookout-2026-09-28",
     team: "2030 Rage",
@@ -612,12 +690,17 @@ test("Point Lookout weekday and Saturday claims fit their full approved windows"
   assert.equal(weekday.booking.endTime, "20:00");
   assert.equal(weekday.booking.location, "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY");
 
-  const saturday = await claimPractice(memoryStore(), {
+  await expectCalendarError(claimPractice(memoryStore(), {
     windowId: "point-lookout-2026-09-26",
     team: "2034 Thunder",
     coach: "Coach Marisa",
     startTime: "08:00",
     durationHours: 2,
+  }, claimOptions("point-lookout-saturday-parent")), { status: 409, code: "window_closed" });
+
+  const saturday = await claimPractice(memoryStore(), {
+    windowId: "pdf-point-lookout-2026-09-26-2034-thunder",
+    coach: "Coach Marisa",
   }, claimOptions("point-lookout-saturday"));
   assert.equal(saturday.booking.endTime, "10:00");
 });
@@ -784,16 +867,24 @@ test("two coaches racing for one assigned PDF slot produce one winner", async ()
   assert.equal(store.data.practiceBookings.length, 1);
 });
 
-test("assigned PDF practices close generic parent windows only to new claims", async () => {
+test("recurring team practices close matching generic parent windows only to new claims", async () => {
   const closed = genericPracticeWindows().filter((window) => window.claimMode === "closed-to-new");
-  assert.equal(closed.length, 17);
+  assert.equal(closed.length, 41);
   assert.deepEqual(closed.map((window) => window.id).sort(), [
     "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19",
-    "nickerson-2026-09-21", "point-lookout-2026-09-09", "point-lookout-2026-09-12",
-    "point-lookout-2026-09-16", "point-lookout-2026-09-23", "seaford-2026-09-08", "seaford-2026-09-09",
-    "seaford-2026-09-10", "seaford-2026-09-15", "seaford-2026-09-16",
-    "seaford-2026-09-17", "seaford-2026-09-22", "seaford-2026-09-23",
-    "seaford-2026-09-24",
+    "nickerson-2026-09-21", "nickerson-2026-09-26", "nickerson-2026-09-28",
+    "nickerson-2026-10-03", "nickerson-2026-10-05", "nickerson-2026-10-10",
+    "nickerson-2026-10-12", "nickerson-2026-10-17", "nickerson-2026-10-19",
+    "nickerson-2026-10-24", "nickerson-2026-10-26", "nickerson-2026-10-31",
+    "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-16",
+    "point-lookout-2026-09-23", "point-lookout-2026-09-26", "point-lookout-2026-09-30",
+    "point-lookout-2026-10-03", "point-lookout-2026-10-07", "point-lookout-2026-10-10",
+    "point-lookout-2026-10-14", "point-lookout-2026-10-17", "point-lookout-2026-10-21",
+    "point-lookout-2026-10-24", "point-lookout-2026-10-28",
+    "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
+    "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
+    "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
+    "seaford-2026-09-29", "seaford-2026-09-30", "seaford-2026-10-01",
   ]);
 
   const reopenedPointLookout = await claimPractice(memoryStore(), {
@@ -980,7 +1071,7 @@ test("a Nickerson Saturday can be split into adjacent 9-11 and 11-1 claims", asy
 test("claims reject same-window overlap, outside starts, invalid durations, teams, and coaches", async () => {
   const store = memoryStore();
   await claimPractice(store, {
-    windowId: "nickerson-2026-09-26",
+    windowId: "nickerson-2026-09-05",
     team: "2036 Dawgs",
     coach: "Coach One",
     startTime: "09:00",
@@ -988,7 +1079,7 @@ test("claims reject same-window overlap, outside starts, invalid durations, team
   }, claimOptions("occupied"));
 
   await expectCalendarError(claimPractice(store, {
-    windowId: "nickerson-2026-09-26",
+    windowId: "nickerson-2026-09-05",
     team: "2033 Renegades",
     coach: "Coach Two",
     startTime: "10:30",
@@ -996,7 +1087,7 @@ test("claims reject same-window overlap, outside starts, invalid durations, team
   }, claimOptions("overlap")), { status: 409, code: "practice_overlap" });
 
   await expectCalendarError(claimPractice(memoryStore(), {
-    windowId: "nickerson-2026-09-26",
+    windowId: "nickerson-2026-09-05",
     team: "2036 Dawgs",
     coach: "Coach One",
     startTime: "08:30",
@@ -1004,7 +1095,7 @@ test("claims reject same-window overlap, outside starts, invalid durations, team
   }, claimOptions("outside")), { status: 400, code: "outside_window" });
 
   await expectCalendarError(claimPractice(memoryStore(), {
-    windowId: "nickerson-2026-09-26",
+    windowId: "nickerson-2026-09-05",
     team: "2036 Dawgs",
     coach: "Coach One",
     startTime: "09:00",
@@ -1012,7 +1103,7 @@ test("claims reject same-window overlap, outside starts, invalid durations, team
   }, claimOptions("duration")), { status: 400, code: "invalid_duration" });
 
   await expectCalendarError(claimPractice(memoryStore(), {
-    windowId: "nickerson-2026-09-26",
+    windowId: "nickerson-2026-09-05",
     team: "Unknown Team",
     coach: "Coach One",
     startTime: "09:00",
@@ -1020,7 +1111,7 @@ test("claims reject same-window overlap, outside starts, invalid durations, team
   }, claimOptions("unknown-team")), { status: 400, code: "invalid_team" });
 
   await expectCalendarError(claimPractice(memoryStore(), {
-    windowId: "nickerson-2026-09-26",
+    windowId: "nickerson-2026-09-05",
     team: "2036 Dawgs",
     coach: "   ",
     startTime: "09:00",
@@ -1084,7 +1175,7 @@ test("same-team and same-coach overlaps are detected across different locations"
 test("a practice booking can be released atomically", async () => {
   const store = memoryStore();
   await claimPractice(store, {
-    windowId: "nickerson-2026-10-24",
+    windowId: "nickerson-2026-09-05",
     team: "2034 Thunder",
     coach: "Coach Brad",
     startTime: "09:00",
@@ -1101,7 +1192,7 @@ test("a practice booking can be released atomically", async () => {
 test("an event-only legacy save without an ETag preserves current practice claims", async () => {
   const store = memoryStore();
   await claimPractice(store, {
-    windowId: "nickerson-2026-09-26",
+    windowId: "nickerson-2026-09-05",
     team: "2032 Cannons",
     coach: "Coach Steve",
     startTime: "09:00",
@@ -1126,10 +1217,10 @@ test("a stale full save cannot erase a newer practice claim", async () => {
   const beforeClaim = await readCalendarSnapshot(store);
 
   await claimPractice(store, {
-    windowId: "nickerson-2026-10-03",
+    windowId: "nickerson-2026-09-02",
     team: "2035 Tornadoes",
     coach: "Coach Marisa",
-    startTime: "09:00",
+    startTime: "17:00",
     durationHours: 1,
   }, claimOptions("newer-claim"));
 
@@ -1147,10 +1238,10 @@ test("atomic claims retry ETag misses three times and report contention after th
   const eventuallyAvailable = memoryStore();
   eventuallyAvailable.forceConditionalMisses(2);
   const claimed = await claimPractice(eventuallyAvailable, {
-    windowId: "nickerson-2026-10-10",
+    windowId: "nickerson-2026-09-04",
     team: "2036 Fury",
     coach: "Coach Mike",
-    startTime: "09:00",
+    startTime: "17:00",
     durationHours: 1,
   }, claimOptions("third-attempt"));
   assert.equal(eventuallyAvailable.writeCount, 3);
@@ -1159,10 +1250,10 @@ test("atomic claims retry ETag misses three times and report contention after th
   const contended = memoryStore();
   contended.forceConditionalMisses(3);
   await expectCalendarError(claimPractice(contended, {
-    windowId: "nickerson-2026-10-17",
+    windowId: "nickerson-2026-09-07",
     team: "2036 Fury",
     coach: "Coach Mike",
-    startTime: "09:00",
+    startTime: "17:00",
     durationHours: 1,
   }, claimOptions("never-written")), { status: 409, code: "contention" });
   assert.equal(contended.writeCount, 3);
