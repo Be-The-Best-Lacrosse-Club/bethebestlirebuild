@@ -1,4 +1,6 @@
-.btb-home {
+/* Ticker colours are used by the shared header on every page, so these live at
+   :root rather than being scoped to the homepage wrapper. */
+:root {
   --home-ink: #0d0d0d;
   --home-ink-soft: #171717;
   --home-red: #d22630;
@@ -7,6 +9,9 @@
   --home-paper-deep: #e7e2d8;
   --home-white: #fff;
   --home-line: rgba(13, 13, 13, 0.18);
+}
+
+.btb-home {
   background: var(--home-paper);
   color: var(--home-ink);
   font-family: "Montserrat", Arial, sans-serif;
@@ -2347,5 +2352,18 @@
 
   .btb-home__event-pause {
     display: none;
+  }
+}
+
+
+/* The shared header is fixed, so the homepage reserves space for it the way the
+   other pages do with their hero top padding. */
+.btb-home #main-content {
+  padding-top: 104px;
+}
+
+@media (max-width: 720px) {
+  .btb-home #main-content {
+    padding-top: 92px;
   }
 }

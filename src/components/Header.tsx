@@ -21,6 +21,31 @@ const programLinks = [
   { label: "Recruiting", href: "/recruiting" },
 ]
 
+const HEADER_EVENTS: {
+  label: string
+  title: string
+  details: string
+  href?: string
+}[] = [
+  {
+    label: "Go BTB",
+    title: "Good luck, BTB",
+    details: "Good luck to all our BTB players on their first week of school",
+  },
+  {
+    label: "Now open",
+    title: "Sixes League",
+    details: "Coleman Sundays · Momentum Thursdays · 8–10 per team",
+    href: "https://www.thesixesleague.com",
+  },
+  {
+    label: "Now open",
+    title: "Futures Camp",
+    details: "Aug 18–20 · 9–11 AM · Plainedge Park · 2034–2037",
+    href: "/register-futures",
+  },
+]
+
 const parentLinks = [
   { label: "Season Newsletter", href: "/fall-winter-newsletter" },
   { label: "Winter Training", href: "/parent-training" },
@@ -47,6 +72,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [dropdown, setDropdown] = useState<string | null>(null)
+  const [tickerPaused, setTickerPaused] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const location = useLocation()
@@ -107,6 +133,55 @@ export function Header() {
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}>
+        {/* Announcement ticker — one bar, every page */}
+        <section className="btb-home__events" aria-label="Current BTB announcements">
+          <div className="btb-home__events-inner">
+            <div className="btb-home__events-viewport">
+              <div className={`btb-home__events-track${tickerPaused ? " is-paused" : ""}`}>
+                {HEADER_EVENTS.map((event) => {
+                  const content = (
+                    <>
+                      <span className="btb-home__event-label">{event.label}</span>
+                      <strong>{event.title}</strong>
+                      <span className="btb-home__event-meta">{event.details}</span>
+                      {event.href ? (
+                        <span className="btb-home__event-register">Sign up <span aria-hidden="true">→</span></span>
+                      ) : null}
+                    </>
+                  )
+
+                  return event.href ? (
+                    <a
+                      className="btb-home__event-item"
+                      href={event.href}
+                      key={event.title}
+                      aria-label={`Register for ${event.title}: ${event.details}`}
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <span className="btb-home__event-item" key={event.title}>
+                      {content}
+                    </span>
+                  )
+                })}
+              </div>
+            </div>
+            <div className="btb-home__event-actions">
+              <button
+                className="btb-home__event-pause"
+                type="button"
+                aria-label={`${tickerPaused ? "Play" : "Pause"} announcements`}
+                aria-pressed={tickerPaused}
+                onClick={() => setTickerPaused((paused) => !paused)}
+              >
+                <span aria-hidden="true">{tickerPaused ? "▶" : "Ⅱ"}</span>
+              </button>
+              <a className="btb-home__events-all" href="/camps">All camps <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
+
         <div className="max-w-[1320px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
           {/* Logo */}
