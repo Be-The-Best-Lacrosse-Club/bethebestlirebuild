@@ -10,6 +10,12 @@
   force = true
 
 [[redirects]]
+  from = "/fall-winter-newsletter"
+  to = "/fall-winter-newsletter.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/register-sixes-league.html"
   to = "/register-sixes-league.html"
   status = 200
