@@ -512,15 +512,6 @@
       line-height: 1;
     }
 
-    .team-filters {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.42rem;
-      flex-wrap: wrap;
-      max-height: 4.2rem;
-      overflow-y: auto;
-    }
-
     .schedule-filters {
       display: flex;
       align-items: center;
@@ -540,6 +531,153 @@
       font-size: 0.58rem;
       font-weight: 800;
       text-transform: uppercase;
+    }
+
+    .team-filter-trigger {
+      min-width: 9.5rem;
+      min-height: 2.15rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 0.58rem;
+      padding: 0.4rem 0.65rem;
+      background: #0e0f11;
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .team-filter-trigger:hover,
+    .team-filter-trigger:focus-visible {
+      border-color: rgba(210, 38, 48, 0.75);
+      outline: none;
+    }
+
+    .team-filter-menu {
+      width: min(23rem, calc(100vw - 1.5rem));
+      max-height: min(78vh, 42rem);
+      margin: auto;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.9rem;
+      padding: 0;
+      overflow: hidden;
+      background: #111215;
+      color: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.72);
+    }
+
+    .team-filter-menu::backdrop {
+      background: rgba(0, 0, 0, 0.54);
+      backdrop-filter: blur(2px);
+    }
+
+    .team-filter-menu-head,
+    .team-filter-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      padding: 0.72rem 0.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .team-filter-menu-head strong {
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.06em;
+    }
+
+    .team-filter-close {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .team-filter-actions {
+      justify-content: flex-start;
+      padding-block: 0.55rem;
+    }
+
+    .team-filter-action {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 0.52rem;
+      padding: 0.45rem 0.72rem;
+      background: rgba(255, 255, 255, 0.055);
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .team-filters {
+      max-height: min(55vh, 30rem);
+      padding: 0.55rem 0.65rem 0.75rem;
+      overflow-y: auto;
+    }
+
+    .team-filter-group {
+      min-width: 0;
+      margin: 0;
+      border: 0;
+      padding: 0;
+    }
+
+    .team-filter-group + .team-filter-group {
+      margin-top: 0.65rem;
+    }
+
+    .team-filter-group legend {
+      width: 100%;
+      padding: 0.35rem 0.3rem;
+      color: #aeb3bb;
+      font-size: 0.56rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .team-filter-option {
+      min-height: 44px;
+      display: grid;
+      grid-template-columns: auto auto minmax(0, 1fr);
+      gap: 0.6rem;
+      align-items: center;
+      border-radius: 0.5rem;
+      padding: 0.45rem 0.52rem;
+      color: #f5f5f6;
+      font-size: 0.72rem;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .team-filter-option:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .team-filter-option input {
+      width: 1.05rem;
+      height: 1.05rem;
+      accent-color: var(--red);
+    }
+
+    .team-filter-dot {
+      width: 0.68rem;
+      height: 0.68rem;
+      border-radius: 50%;
+      background: var(--team-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--team-color) 18%, transparent);
     }
 
     .legend-strip {
@@ -591,27 +729,6 @@
       font-size: 0.54rem;
       font-weight: 800;
       white-space: nowrap;
-    }
-
-    .team-filter {
-      border: 1px solid var(--team-color);
-      border-radius: 999px;
-      padding: 0.34rem 0.65rem;
-      background: color-mix(in srgb, var(--team-color) 16%, transparent);
-      color: #fff;
-      font-size: 0.59rem;
-      font-weight: 800;
-      letter-spacing: 0.035em;
-      text-transform: uppercase;
-      cursor: pointer;
-      opacity: 1;
-    }
-
-    .team-filter.off {
-      border-color: #555;
-      background: transparent;
-      color: #777;
-      opacity: 0.7;
     }
 
     .weekday-row,
@@ -799,12 +916,14 @@
       background: var(--location-color);
     }
 
-    .event-pill.practice.assigned {
+    .event-pill.practice.assigned,
+    .event-pill.practice.claimed {
       border-color: color-mix(in srgb, var(--team-color) 62%, transparent);
       background: color-mix(in srgb, var(--team-color) 20%, #111316);
     }
 
-    .event-pill.practice.assigned .event-bar {
+    .event-pill.practice.assigned .event-bar,
+    .event-pill.practice.claimed .event-bar {
       background: var(--team-color);
     }
 
@@ -839,7 +958,7 @@
       max-width: 285px;
       min-height: 0;
       display: grid;
-      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-rows: minmax(0, 1fr) auto auto;
       gap: clamp(0.55rem, 0.8vw, 0.85rem);
       justify-self: end;
     }
@@ -859,6 +978,48 @@
       align-content: start;
       overflow-y: auto;
       scrollbar-width: thin;
+    }
+
+    .recent-changes-panel {
+      max-height: 17rem;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .recent-change-list {
+      min-height: 0;
+      display: grid;
+      gap: 0.48rem;
+      align-content: start;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .recent-change-item {
+      border: 1px solid var(--line);
+      border-left: 0.24rem solid var(--change-color, var(--red));
+      border-radius: 0.62rem;
+      padding: 0.58rem 0.64rem;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .recent-change-item strong,
+    .recent-change-item span {
+      display: block;
+    }
+
+    .recent-change-item strong {
+      color: #fff;
+      font-size: 0.61rem;
+      line-height: 1.35;
+    }
+
+    .recent-change-item span {
+      margin-top: 0.2rem;
+      color: #aeb3bb;
+      font-size: 0.52rem;
+      font-weight: 700;
+      line-height: 1.35;
     }
 
     .panel-header {
@@ -1372,29 +1533,31 @@
 
     .coach-contact-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 0.48rem;
     }
 
     .coach-contact-link,
     .coach-edit-button {
       min-width: 0;
-      min-height: 2.55rem;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 0.35rem;
       border: 1px solid var(--line);
       border-radius: 0.58rem;
       padding: 0.48rem 0.55rem;
       background: #15171a;
       color: #fff;
-      font-size: 0.54rem;
+      font-size: clamp(14px, 0.82rem, 18px);
       font-weight: 800;
-      line-height: 1.2;
-      text-align: center;
+      line-height: 1.35;
+      text-align: left;
       text-decoration: none;
+      white-space: normal;
       overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .coach-contact-link:hover,
@@ -1406,7 +1569,10 @@
     }
 
     .coach-edit-button {
-      grid-column: 1 / -1;
+      grid-column: 1;
+      justify-content: center;
+      font-size: 0.64rem;
+      text-align: center;
       border-color: rgba(210, 38, 48, 0.52);
       background: rgba(210, 38, 48, 0.12);
       cursor: pointer;
@@ -2592,29 +2758,14 @@
         min-width: 7.2rem;
       }
 
-      .team-filters {
-        max-width: 7rem;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-      }
-
-      .team-filter {
-        flex: 0 0 44px;
-        width: 44px;
-        min-width: 44px;
-        height: 44px;
+      .team-filter-trigger {
+        min-width: 8.8rem;
         min-height: 44px;
-        padding: 0;
-        overflow: hidden;
-        color: transparent;
       }
 
-      .team-filter::before {
-        content: "";
-        width: 0.65rem;
-        height: 0.65rem;
-        border-radius: 50%;
-        background: var(--team-color);
+      .team-filter-menu {
+        width: calc(100vw - 1rem);
+        max-height: 88vh;
       }
 
       .calendar-panel {
@@ -2687,6 +2838,10 @@
 
       .sidebar {
         grid-template-columns: 1fr;
+      }
+
+      .recent-changes-panel {
+        max-height: none;
       }
 
       .pending-notices,
@@ -2963,7 +3118,22 @@
                   <option value="practices">Practices</option>
                   <option value="tournaments">Tournaments</option>
                 </select>
-                <div class="team-filters" id="teamFilters"></div>
+                <button class="team-filter-trigger" id="teamFilterButton" type="button" popovertarget="teamFilterMenu"
+                  aria-label="Choose teams shown on the calendar">
+                  <span id="teamFilterSummary">All Teams</span><span aria-hidden="true">▾</span>
+                </button>
+                <div class="team-filter-menu" id="teamFilterMenu" popover aria-label="Choose teams shown on the calendar">
+                  <div class="team-filter-menu-head">
+                    <strong>Teams on Calendar</strong>
+                    <button class="team-filter-close" type="button" popovertarget="teamFilterMenu" popovertargetaction="hide"
+                      aria-label="Close team filter">×</button>
+                  </div>
+                  <div class="team-filter-actions">
+                    <button class="team-filter-action" id="selectAllTeamsButton" type="button">Select All</button>
+                    <button class="team-filter-action" id="clearTeamsButton" type="button">Clear</button>
+                  </div>
+                  <div class="team-filters" id="teamFilters"></div>
+                </div>
               </div>
             </div>
             <div class="legend-strip" id="scheduleLegend" aria-label="Team and practice location color keys"></div>
@@ -2987,6 +3157,14 @@
                 <span class="count-badge" id="lockedCount">0</span>
               </div>
               <div class="panel-body locked-list" id="lockedList"></div>
+            </section>
+
+            <section class="panel recent-changes-panel" aria-label="Latest shared schedule changes">
+              <div class="panel-header">
+                <h2>Recent Changes</h2>
+                <span class="count-badge" id="recentChangeCount">0</span>
+              </div>
+              <div class="panel-body recent-change-list" id="recentChangeList" aria-live="polite"></div>
             </section>
 
             <section class="panel data-note">
@@ -3042,7 +3220,7 @@
               </div>
               <div class="pending-notice confirmed">
                 <strong>Momentum Sports LI — winter rotation confirmed</strong>
-                <span>10 Dunton Avenue, Deer Park. Weekends 8:00 AM–3:00 PM. Pattern 1 uses one-hour, one-team blocks; Pattern 2 uses two-hour shared blocks requiring two teams.</span>
+                <span>10 Dunton Avenue, Deer Park. Weekends 8:00 AM–3:00 PM. Pattern 1 uses one-hour blocks; Pattern 2 uses two-hour blocks. Every time allows two teams on the split field.</span>
               </div>
             </div>
           </details>
@@ -3298,7 +3476,7 @@
       <input id="claimWindowId" type="hidden">
       <div class="claim-summary" id="claimSummary"></div>
       <div class="form-group" id="claimTeamGroup">
-        <label for="claimTeam">Team</label>
+        <label for="claimTeam">Team claiming one field half</label>
         <select class="field" id="claimTeam" required></select>
       </div>
       <div class="form-group">
@@ -3379,114 +3557,116 @@
     (function () {
       "use strict";
 
-      var DATA_VERSION = "staff-2026-27-v2";
+      var DATA_VERSION = "staff-2026-27-v3";
+      var BOYS_TEAM_COLOR = "#55D88A";
+      var GIRLS_TEAM_COLOR = "#C9A7FF";
       var TEAM_META = {
         "2028 Black": {
           short: "28 BLACK",
           label: "2028 Black • Boys",
-          color: "#FF5A64",
+          color: BOYS_TEAM_COLOR,
           calendar: "puo7egv2vdg3ua0t79b7n1mfl6la7veb@import.calendar.google.com"
         },
         "2030 Rage": {
           short: "30 RAGE",
           label: "2030 Rage • Boys",
-          color: "#FF9F43",
+          color: BOYS_TEAM_COLOR,
           calendar: "qfsfvrfcbn565l5m0h7mi2a25jmjdokk@import.calendar.google.com"
         },
         "2031 Carnage": {
           short: "31 CARNAGE",
           label: "2031 Carnage • Boys",
-          color: "#FF6FAE",
+          color: BOYS_TEAM_COLOR,
           calendar: "nmt2jvepbse08dqpgukdfmm2d6jkpeoa@import.calendar.google.com"
         },
         "2032 Cannons": {
           short: "32 CANNONS",
           label: "2032 Cannons • Boys",
-          color: "#FFD166",
+          color: BOYS_TEAM_COLOR,
           calendar: "tfst2v2vshclmsnaji5jug7d2a319ka0@import.calendar.google.com"
         },
         "2033 Renegades": {
           short: "33 RENEGADES",
           label: "2033 Renegades • Boys",
-          color: "#55D88A",
+          color: BOYS_TEAM_COLOR,
           calendar: "dqbsco82ae6eddvrm4g4g663ad7t7vfu@import.calendar.google.com"
         },
         "2034 Venom": {
           short: "34 VENOM",
           label: "2034 Venom • Boys",
-          color: "#B8E545",
+          color: BOYS_TEAM_COLOR,
           calendar: "n7579vrve18mpk906ct7k4hirdd0h9pm@import.calendar.google.com"
         },
         "2035 Bombers": {
           short: "35 BOMBERS",
           label: "2035 Bombers • Boys",
-          color: "#6EA8FE",
+          color: BOYS_TEAM_COLOR,
           calendar: "n1qi6ordc1ci84demj838a3ts7tgt11k@import.calendar.google.com"
         },
         "2036 Fury": {
           short: "36 FURY",
           label: "2036 Fury • Boys",
-          color: "#FF8F70",
+          color: BOYS_TEAM_COLOR,
           calendar: ""
         },
         "2036 Dawgs": {
           short: "36 DAWGS",
           label: "2036 Dawgs • Boys",
-          color: "#42E6B2",
+          color: BOYS_TEAM_COLOR,
           calendar: "0ld2t5d0m1bn5iu72hnu27kb8eblcv9d@import.calendar.google.com"
         },
         "2037 Wolves": {
           short: "37 WOLVES",
           label: "2037 Wolves • Boys",
-          color: "#F4B860",
+          color: BOYS_TEAM_COLOR,
           calendar: ""
         },
         "2031 Cyclones": {
           short: "31 CYCLONES",
           label: "2031 Cyclones • Girls",
-          color: "#30D6E8",
+          color: GIRLS_TEAM_COLOR,
           calendar: "b5rvsutttljgu25ip58pt22h1o9puf7b@import.calendar.google.com"
         },
         "2032 Riptide": {
           short: "32 RIPTIDE",
           label: "2032 Riptide • Girls",
-          color: "#4FC3F7",
+          color: GIRLS_TEAM_COLOR,
           calendar: "t0vopoo267ihif07fa2sh7tgi3bnkcnn@import.calendar.google.com"
         },
         "2033 Storm": {
           short: "33 STORM",
           label: "2033 Storm • Girls",
-          color: "#A978FF",
+          color: GIRLS_TEAM_COLOR,
           calendar: "2h39d7rmgdvk5v7f3gg3lhkgbhacrker@import.calendar.google.com"
         },
         "2034 Thunder": {
           short: "34 THUNDER",
           label: "2034 Thunder • Girls",
-          color: "#FFF06A",
+          color: GIRLS_TEAM_COLOR,
           calendar: "sf7qn45t95cbjgphk7u27m0p2fiqe385@import.calendar.google.com"
         },
         "2035 Hurricanes": {
           short: "35 HURRICANES",
           label: "2035 Hurricanes • Girls",
-          color: "#E879F9",
+          color: GIRLS_TEAM_COLOR,
           calendar: "08d4flphdjer0sjki6vr786emklh76vm@import.calendar.google.com"
         },
         "2035 Tornadoes": {
           short: "35 TORNADOES",
           label: "2035 Tornadoes • Girls",
-          color: "#FFB3C6",
+          color: GIRLS_TEAM_COLOR,
           calendar: ""
         },
         "2036 Avalanche": {
           short: "36 AVALANCHE",
           label: "2036 Avalanche • Girls",
-          color: "#C7F2FF",
+          color: GIRLS_TEAM_COLOR,
           calendar: "7a5d90glslocqc5i4njvsqsh84krv7or@import.calendar.google.com"
         },
         "2037 Supernova": {
           short: "37 SUPERNOVA",
           label: "2037 Supernova • Girls",
-          color: "#F7A8FF",
+          color: GIRLS_TEAM_COLOR,
           calendar: ""
         }
       };
@@ -3518,6 +3698,7 @@
         stimson: { label: "Stimson • Pending", color: "#87909C" }
       };
       var ALLOWED_DURATIONS = [1, 1.5, 2];
+      var FIELD_TEAM_CAPACITY = 2;
       var SEAFORD_DATES = [
         "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04", "2026-09-07", "2026-09-08",
         "2026-09-09", "2026-09-10", "2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16",
@@ -3572,6 +3753,7 @@
             approval: confirmed ? "confirmed" : "week-by-week",
             startIncrementMinutes: 30,
             teamCount: 1,
+            claimCapacity: 2,
             requiredDurationHours: null,
             source: confirmed ? "Kevin Witt approved • Sep. 1–4 confirmed" : "Kevin Witt availability • confirm week-by-week",
             note: confirmed ? "Confirmed for staff scheduling." : "Availability continues week-by-week after Sep. 4."
@@ -3591,6 +3773,7 @@
             approval: "confirmed",
             startIncrementMinutes: 30,
             teamCount: 1,
+            claimCapacity: 2,
             requiredDurationHours: null,
             source: "Nickerson Field 2 master availability",
             note: "Approved weekday field window."
@@ -3610,6 +3793,7 @@
             approval: "confirmed",
             startIncrementMinutes: 30,
             teamCount: 1,
+            claimCapacity: 2,
             requiredDurationHours: null,
             source: "Nickerson Field 2 master availability",
             note: "Approved Saturday field window; may be split among teams."
@@ -3629,6 +3813,7 @@
             approval: "confirmed",
             startIncrementMinutes: 30,
             teamCount: 1,
+            claimCapacity: 2,
             requiredDurationHours: null,
             source: "Point Lookout approved permit",
             note: "Confirmed Monday/Wednesday field window."
@@ -3648,6 +3833,7 @@
             approval: "confirmed",
             startIncrementMinutes: 30,
             teamCount: 1,
+            claimCapacity: 2,
             requiredDurationHours: null,
             source: "Point Lookout approved permit",
             note: "Confirmed Saturday field window; Sep. 19 is unavailable for the car show."
@@ -3667,10 +3853,11 @@
             approval: "confirmed",
             startIncrementMinutes: 60,
             teamCount: 1,
+            claimCapacity: 2,
             requiredDurationHours: 1,
-            patternLabel: "1-hour • 1 team",
+            patternLabel: "1-hour • 2 team spots",
             source: "Momentum Sports LI winter rotation",
-            note: "Pattern week 1: one-hour bookings for one team."
+            note: "Pattern week 1: one-hour blocks with two field halves available."
           });
         });
         MOMENTUM_TWO_TEAM_DATES.forEach(function (date) {
@@ -3686,11 +3873,12 @@
             kind: "weekend",
             approval: "confirmed",
             startIncrementMinutes: 60,
-            teamCount: 2,
+            teamCount: 1,
+            claimCapacity: 2,
             requiredDurationHours: 2,
-            patternLabel: "2-hour shared • 2 teams",
+            patternLabel: "2-hour • 2 team spots",
             source: "Momentum Sports LI winter rotation",
-            note: "Pattern week 2: two-hour shared bookings require two teams."
+            note: "Pattern week 2: two-hour blocks with two field halves available."
           });
         });
         return windows.sort(function (a, b) {
@@ -3763,6 +3951,7 @@
                 approval: assignmentStatus === "confirmed" || assignmentStatus === "adjusted" ? "confirmed" : "pending",
                 startIncrementMinutes: 30,
                 teamCount: 1,
+                claimCapacity: 1,
                 requiredDurationHours: assignment.durationHours,
                 mode: "assigned",
                 claimMode: "assigned",
@@ -3899,6 +4088,7 @@
 
       var events = cloneDefaults();
       var practiceBookings = [];
+      var recentChanges = [];
       var currentEtag = null;
       var snapshotVersion = 0;
       var coachDirectoryEntries = [];
@@ -3967,11 +4157,38 @@
             return Boolean(booking.id && windowIds.has(booking.windowId) && String(booking.coach || "").trim() &&
               booking.team === windowItem.assignedTeams[0]);
           }
-          var expectedTeams = windowItem ? Number(windowItem.teamCount || 1) : 1;
-          return booking && booking.id && windowIds.has(booking.windowId) && booking.teams.length === expectedTeams &&
+          var claimCapacity = windowItem ? Number(windowItem.claimCapacity || FIELD_TEAM_CAPACITY) : FIELD_TEAM_CAPACITY;
+          return booking && booking.id && windowIds.has(booking.windowId) && booking.teams.length >= 1 &&
+            booking.teams.length <= claimCapacity &&
             String(booking.coach || "").trim() && /^\d{2}:\d{2}$/.test(booking.startTime || "") &&
             windowItem && allowedDurationsForWindow(windowItem).indexOf(booking.durationHours) >= 0;
         });
+      }
+
+      function normalizeRecentChanges(items) {
+        return (Array.isArray(items) ? items : []).map(function (change) {
+          if (!change || typeof change !== "object" || !change.id || !change.summary || !change.occurredAt) return null;
+          var teams = Array.isArray(change.teams) ? change.teams.map(canonicalTeamName).filter(function (team) {
+            return Boolean(TEAM_META[team]);
+          }).slice(0, 2) : [];
+          var primary = canonicalTeamName(change.team);
+          if (TEAM_META[primary] && teams.indexOf(primary) < 0) teams.unshift(primary);
+          return {
+            id: String(change.id),
+            type: String(change.type || "schedule_updated"),
+            occurredAt: String(change.occurredAt),
+            summary: String(change.summary),
+            team: teams[0] || "",
+            teams: teams,
+            coach: String(change.coach || ""),
+            date: String(change.date || ""),
+            startTime: String(change.startTime || ""),
+            endTime: String(change.endTime || ""),
+            location: String(change.location || "")
+          };
+        }).filter(Boolean).sort(function (a, b) {
+          return b.occurredAt.localeCompare(a.occurredAt);
+        }).slice(0, 20);
       }
 
       function bookingTeams(booking) {
@@ -4034,7 +4251,8 @@
           ? normalizeEvents(snapshot.events)
           : cloneDefaults();
         practiceBookings = normalizeBookings(snapshot.practiceBookings);
-        return { events: events, practiceBookings: practiceBookings, etag: currentEtag };
+        recentChanges = normalizeRecentChanges(snapshot.recentChanges);
+        return { events: events, practiceBookings: practiceBookings, recentChanges: recentChanges, etag: currentEtag };
       }
 
       function loadSchedule() {
@@ -4058,8 +4276,7 @@
           },
           etag: currentEtag
         }).then(function (data) {
-          if (typeof data.etag === "string") currentEtag = data.etag;
-          if (data.snapshot && Number.isFinite(Number(data.snapshot.version))) snapshotVersion = Number(data.snapshot.version);
+          applyScheduleData(data);
           return data;
         })
           .catch(function (error) {
@@ -4377,6 +4594,10 @@
         return toMinutes(booking.startTime) + Number(booking.durationHours) * 60;
       }
 
+      function bookingCapacityUnits(booking) {
+        return Math.max(1, Math.min(FIELD_TEAM_CAPACITY, bookingTeams(booking).length));
+      }
+
       function allowedDurationsForWindow(windowItem) {
         if (Number(windowItem.requiredDurationHours)) return [Number(windowItem.requiredDurationHours)];
         return Array.isArray(windowItem.allowedDurations) && windowItem.allowedDurations.length
@@ -4388,17 +4609,54 @@
         if (!isOpenInventoryWindow(windowItem) || !windowItem.endTime) return [];
         var windowStart = toMinutes(windowItem.startTime);
         var windowEnd = toMinutes(windowItem.endTime);
-        var cursor = windowStart;
-        var segments = [];
-        bookingsForWindow(windowItem.id).forEach(function (booking) {
-          var start = Math.max(windowStart, toMinutes(booking.startTime));
-          var end = Math.min(windowEnd, bookingEndMinutes(booking));
-          if (!Number.isFinite(start) || !Number.isFinite(end) || end <= windowStart || start >= windowEnd) return;
-          if (start > cursor) segments.push({ start: cursor, end: start });
-          if (end > cursor) cursor = end;
+        var claimCapacity = Number(windowItem.claimCapacity || FIELD_TEAM_CAPACITY);
+        var bookings = bookingsForWindow(windowItem.id);
+        var boundaries = [windowStart, windowEnd];
+        bookings.forEach(function (booking) {
+          boundaries.push(Math.max(windowStart, toMinutes(booking.startTime)));
+          boundaries.push(Math.min(windowEnd, bookingEndMinutes(booking)));
         });
-        if (cursor < windowEnd) segments.push({ start: cursor, end: windowEnd });
-        return segments;
+        boundaries = boundaries.filter(Number.isFinite).filter(function (minute, index, values) {
+          return minute >= windowStart && minute <= windowEnd && values.indexOf(minute) === index;
+        }).sort(function (a, b) { return a - b; });
+        var segments = [];
+        boundaries.slice(0, -1).forEach(function (start, index) {
+          var end = boundaries[index + 1];
+          if (end <= start) return;
+          var used = bookings.reduce(function (total, booking) {
+            return toMinutes(booking.startTime) <= start && start < bookingEndMinutes(booking)
+              ? total + bookingCapacityUnits(booking)
+              : total;
+          }, 0);
+          if (used < claimCapacity) segments.push({ start: start, end: end });
+        });
+        return segments.reduce(function (merged, segment) {
+          var previous = merged[merged.length - 1];
+          if (previous && previous.end === segment.start) previous.end = segment.end;
+          else merged.push({ start: segment.start, end: segment.end });
+          return merged;
+        }, []);
+      }
+
+      function hasFieldCapacity(windowItem, startMinute, durationMinutes, requestedUnits) {
+        var endMinute = startMinute + durationMinutes;
+        var claimCapacity = Number(windowItem.claimCapacity || FIELD_TEAM_CAPACITY);
+        var bookings = bookingsForWindow(windowItem.id).filter(function (booking) {
+          return toMinutes(booking.startTime) < endMinute && startMinute < bookingEndMinutes(booking);
+        });
+        var checkpoints = [startMinute].concat(bookings.map(function (booking) {
+          return toMinutes(booking.startTime);
+        }).filter(function (minute) {
+          return minute >= startMinute && minute < endMinute;
+        }));
+        return checkpoints.every(function (point) {
+          var used = bookings.reduce(function (total, booking) {
+            return toMinutes(booking.startTime) <= point && point < bookingEndMinutes(booking)
+              ? total + bookingCapacityUnits(booking)
+              : total;
+          }, 0);
+          return used + requestedUnits <= claimCapacity;
+        });
       }
 
       function availableStarts(windowItem, durationHours) {
@@ -4406,13 +4664,12 @@
         if (allowedDurationsForWindow(windowItem).indexOf(Number(durationHours)) < 0) return [];
         var durationMinutes = Number(durationHours) * 60;
         var windowStart = toMinutes(windowItem.startTime);
+        var windowEnd = toMinutes(windowItem.endTime);
         var interval = Number(windowItem.startIncrementMinutes) || 30;
         var starts = [];
-        freeSegments(windowItem).forEach(function (segment) {
-          for (var candidate = segment.start; candidate + durationMinutes <= segment.end; candidate += interval) {
-            if ((candidate - windowStart) % interval === 0) starts.push(minutesToClock(candidate));
-          }
-        });
+        for (var candidate = windowStart; candidate + durationMinutes <= windowEnd; candidate += interval) {
+          if (hasFieldCapacity(windowItem, candidate, durationMinutes, 1)) starts.push(minutesToClock(candidate));
+        }
         return starts;
       }
 
@@ -4422,13 +4679,15 @@
           return sum + segment.end - segment.start;
         }, 0);
         var totalMinutes = toMinutes(windowItem.endTime) - toMinutes(windowItem.startTime);
+        var hasBookings = bookingsForWindow(windowItem.id).length > 0;
         var hasClaimableBlock = allowedDurationsForWindow(windowItem).some(function (duration) {
           return availableStarts(windowItem, duration).length > 0;
         });
         return {
           freeMinutes: freeMinutes,
-          state: !hasClaimableBlock ? "full" : (freeMinutes === totalMinutes ? "open" : "partial"),
-          label: !hasClaimableBlock ? "Full" : (freeMinutes === totalMinutes ? "Open" : "Partially Filled")
+          state: !hasClaimableBlock ? "full" : (!hasBookings && freeMinutes === totalMinutes ? "open" : "partial"),
+          label: !hasClaimableBlock ? "Full · 2/2 teams" :
+            (!hasBookings ? "Open · 2 team spots" : "Partially Filled · split field")
         };
       }
 
@@ -4477,8 +4736,8 @@
         return normalizeTournamentPlanValue(event.title) + "|" + normalizeTournamentPlanValue(event.location);
       }
 
-      function getConflictGroups() {
-        var dated = events.filter(function (event) {
+      function getConflictGroups(sourceEvents) {
+        var dated = (Array.isArray(sourceEvents) ? sourceEvents : events).filter(function (event) {
           return event.start && event.end;
         }).slice().sort(function (a, b) {
           return a.start.localeCompare(b.start) || a.end.localeCompare(b.end);
@@ -4608,19 +4867,25 @@
         var liveList = document.getElementById("liveTeamList");
         var teamNames = Object.keys(TEAM_META);
         var linkedTeams = teamNames.filter(function (team) { return Boolean(TEAM_META[team].calendar); });
+        visibleTeams = new Set(teamNames);
 
-        filterHost.innerHTML = teamNames.map(function (team) {
-          var meta = TEAM_META[team];
-          return "<button class='team-filter' type='button' data-team='" + escapeHtml(team) +
-            "' style='--team-color:" + meta.color + "' aria-pressed='true' title='" + escapeHtml(meta.label) + "'>" +
-            escapeHtml(meta.short) + "</button>";
-        }).join("");
+        function teamOptionsFor(program) {
+          return teamNames.filter(function (team) {
+            return TEAM_META[team].label.indexOf("• " + program) >= 0;
+          }).map(function (team) {
+            var meta = TEAM_META[team];
+            return "<label class='team-filter-option' style='--team-color:" + meta.color + "'><input type='checkbox' " +
+              "data-team-filter='" + escapeHtml(team) + "' checked><span class='team-filter-dot' aria-hidden='true'></span><span>" +
+              escapeHtml(meta.label) + "</span></label>";
+          }).join("");
+        }
+        filterHost.innerHTML = "<fieldset class='team-filter-group'><legend>Boys Teams</legend>" + teamOptionsFor("Boys") +
+          "</fieldset><fieldset class='team-filter-group'><legend>Girls Teams</legend>" + teamOptionsFor("Girls") + "</fieldset>";
 
-        var teamLegend = "<div class='legend-group'><span class='legend-label'>Team Color Key</span>" + teamNames.map(function (team) {
-          var meta = TEAM_META[team];
-          return "<span class='legend-item'><span class='legend-swatch' style='--legend-color:" + meta.color +
-            "'></span>" + escapeHtml(meta.label) + "</span>";
-        }).join("") + "</div>";
+        var teamLegend = "<div class='legend-group'><span class='legend-label'>Program Colors</span>" +
+          "<span class='legend-item'><span class='legend-swatch' style='--legend-color:" + BOYS_TEAM_COLOR +
+          "'></span>Boys Teams</span><span class='legend-item'><span class='legend-swatch' style='--legend-color:" +
+          GIRLS_TEAM_COLOR + "'></span>Girls Teams</span></div>";
 
         var locationLegend = "<div class='legend-group'><span class='legend-label'>Practice Location Key</span>" +
           Object.keys(PRACTICE_LOCATION_META).map(function (key) {
@@ -4652,16 +4917,44 @@
             "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "</div>";
         }).join("");
 
-        filterHost.querySelectorAll(".team-filter").forEach(function (button) {
-          button.addEventListener("click", function () {
-            var team = button.getAttribute("data-team");
-            if (visibleTeams.has(team)) visibleTeams.delete(team);
-            else visibleTeams.add(team);
-            button.classList.toggle("off", !visibleTeams.has(team));
-            button.setAttribute("aria-pressed", visibleTeams.has(team) ? "true" : "false");
+        function updateTeamFilterSummary() {
+          var summary = document.getElementById("teamFilterSummary");
+          var button = document.getElementById("teamFilterButton");
+          var label = "No Teams";
+          if (visibleTeams.size === teamNames.length) label = "All Teams";
+          else if (visibleTeams.size === 1) label = TEAM_META[Array.from(visibleTeams)[0]].short;
+          else if (visibleTeams.size > 1) label = visibleTeams.size + " Teams";
+          summary.textContent = label;
+          button.setAttribute("aria-label", "Choose teams shown on the calendar. " + label + " selected.");
+        }
+
+        function setAllTeamFilters(checked) {
+          visibleTeams = checked ? new Set(teamNames) : new Set();
+          filterHost.querySelectorAll("[data-team-filter]").forEach(function (input) { input.checked = checked; });
+          updateTeamFilterSummary();
+          renderMonth();
+        }
+
+        filterHost.querySelectorAll("[data-team-filter]").forEach(function (input) {
+          input.addEventListener("change", function () {
+            var team = input.getAttribute("data-team-filter");
+            if (input.checked) visibleTeams.add(team);
+            else visibleTeams.delete(team);
+            updateTeamFilterSummary();
             renderMonth();
           });
         });
+        document.getElementById("selectAllTeamsButton").addEventListener("click", function () { setAllTeamFilters(true); });
+        document.getElementById("clearTeamsButton").addEventListener("click", function () { setAllTeamFilters(false); });
+        updateTeamFilterSummary();
+      }
+
+      function allTeamsAreVisible() {
+        return visibleTeams.size === Object.keys(TEAM_META).length;
+      }
+
+      function bookingMatchesVisibleTeams(booking) {
+        return bookingTeams(booking).some(function (team) { return visibleTeams.has(team); });
       }
 
       function scheduleItemsForDay(dayIso, showTournaments, showPractices) {
@@ -4670,15 +4963,22 @@
         }).sort(function (a, b) {
           return STATUS_META[b.status].score - STATUS_META[a.status].score || a.team.localeCompare(b.team);
         }) : [];
+        var dayBookings = showPractices ? practiceBookings.map(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          if (!windowItem || isAssignedPractice(windowItem) || windowItem.date !== dayIso || !bookingMatchesVisibleTeams(booking)) return null;
+          return { booking: booking, windowItem: windowItem };
+        }).filter(Boolean).sort(function (a, b) {
+          return a.booking.startTime.localeCompare(b.booking.startTime) || a.booking.team.localeCompare(b.booking.team);
+        }) : [];
         var dayWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
-          return windowItem.date === dayIso && (isAssignedPractice(windowItem)
-            ? visibleTeams.has(assignedPracticeTeam(windowItem))
-            : isOpenInventoryWindow(windowItem));
+          if (windowItem.date !== dayIso) return false;
+          if (isAssignedPractice(windowItem)) return visibleTeams.has(assignedPracticeTeam(windowItem));
+          return allTeamsAreVisible() && isOpenInventoryWindow(windowItem) && practiceAvailability(windowItem).state !== "full";
         }).sort(function (a, b) {
           return String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
             a.venue.localeCompare(b.venue) || a.id.localeCompare(b.id);
         }) : [];
-        return { events: dayEvents, windows: dayWindows };
+        return { events: dayEvents, windows: dayWindows, bookings: dayBookings };
       }
 
       function renderMonth() {
@@ -4691,7 +4991,7 @@
         var sundayOffset = first.getDay();
         var gridStart = addDays(first, -sundayOffset);
         var todayIso = isoDate(new Date());
-        var conflicts = getConflictGroups();
+        var conflicts = getConflictGroups(events.filter(function (event) { return visibleTeams.has(event.team); }));
         var html = [];
 
         for (var i = 0; i < 42; i += 1) {
@@ -4700,6 +5000,7 @@
           var daySchedule = scheduleItemsForDay(dayIso, showTournaments, showPractices);
           var dayEvents = daySchedule.events;
           var dayWindows = daySchedule.windows;
+          var dayBookings = daySchedule.bookings;
           var conflictLevel = conflictForDay(dayIso, conflicts);
           var classes = ["day"];
           if (day.getMonth() !== viewDate.getMonth()) classes.push("other-month");
@@ -4719,6 +5020,21 @@
               "'><span class='event-bar'></span><span class='event-text'>" +
               escapeHtml(meta.short) + "<small>" + lockedMark + "</small> " + escapeHtml(event.title) +
               offIslandMark(event) + "</span></button>";
+          });
+          var claimedPracticePills = dayBookings.map(function (item) {
+            var booking = item.booking;
+            var windowItem = item.windowItem;
+            var teams = bookingTeams(booking).filter(function (team) { return visibleTeams.has(team); });
+            var meta = TEAM_META[teams[0]];
+            var teamLabel = teams.map(function (team) { return TEAM_META[team].short; }).join(" + ");
+            var timeLabel = formatClock(booking.startTime) + "–" + formatClock(minutesToClock(bookingEndMinutes(booking)));
+            var locationLabel = practiceWindowLocation(windowItem);
+            return "<button class='event-pill practice claimed' type='button' data-window-id='" + escapeHtml(windowItem.id) +
+              "' data-booking-id='" + escapeHtml(booking.id) + "' style='--team-color:" + meta.color +
+              ";--location-color:" + PRACTICE_LOCATION_META[windowItem.locationKey].color + "' title='" +
+              escapeHtml(teamLabel + " practice — " + timeLabel + " — " + locationLabel + " — Coach " + booking.coach) +
+              "'><span class='event-bar'></span><span class='event-text'>" + escapeHtml(teamLabel) +
+              " Practice <small>" + escapeHtml(timeLabel + " • " + locationLabel) + "</small></span></button>";
           });
           var practicePills = dayWindows.map(function (windowItem) {
             var location = PRACTICE_LOCATION_META[windowItem.locationKey];
@@ -4743,7 +5059,7 @@
               availability.label + (bookingCount ? " • " + bookingCount + " claimed" : "")) +
               "</small></span></button>";
           });
-          var allPills = tournamentPills.concat(practicePills);
+          var allPills = tournamentPills.concat(claimedPracticePills, practicePills);
           var pills = allPills.join("");
           var dayLabel = formatDate(dayIso, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
           var itemLabel = allPills.length + " schedule item" + (allPills.length === 1 ? "" : "s");
@@ -4779,16 +5095,25 @@
           return a.start.localeCompare(b.start) || STATUS_META[b.status].score - STATUS_META[a.status].score;
         }) : [];
         var monthWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
-          return windowItem.date >= monthStartIso && windowItem.date <= monthEndIso && (isAssignedPractice(windowItem)
-            ? visibleTeams.has(assignedPracticeTeam(windowItem))
-            : isOpenInventoryWindow(windowItem));
+          if (windowItem.date < monthStartIso || windowItem.date > monthEndIso) return false;
+          if (isAssignedPractice(windowItem)) return visibleTeams.has(assignedPracticeTeam(windowItem));
+          return allTeamsAreVisible() && isOpenInventoryWindow(windowItem) && practiceAvailability(windowItem).state !== "full";
         }) : [];
+        var monthBookings = showPractices ? practiceBookings.map(function (booking) {
+          var windowItem = findPracticeWindow(booking.windowId);
+          if (!windowItem || isAssignedPractice(windowItem) || windowItem.date < monthStartIso ||
+              windowItem.date > monthEndIso || !bookingMatchesVisibleTeams(booking)) return null;
+          return { booking: booking, windowItem: windowItem };
+        }).filter(Boolean) : [];
         var mobileRows = monthEvents.map(function (event) {
-          return { kind: "tournament", date: event.start, value: event };
-        }).concat(monthWindows.map(function (windowItem) {
-          return { kind: "practice", date: windowItem.date, value: windowItem };
+          return { kind: "tournament", date: event.start, startTime: "", value: event };
+        }).concat(monthBookings.map(function (item) {
+          return { kind: "claimed-practice", date: item.windowItem.date, startTime: item.booking.startTime,
+            value: item.booking, windowItem: item.windowItem };
+        })).concat(monthWindows.map(function (windowItem) {
+          return { kind: "practice", date: windowItem.date, startTime: windowItem.startTime, value: windowItem };
         })).sort(function (a, b) {
-          return a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind);
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.kind.localeCompare(b.kind);
         });
         var mobileHost = document.getElementById("mobileAgenda");
         mobileHost.innerHTML = mobileRows.length ? mobileRows.map(function (row) {
@@ -4804,6 +5129,22 @@
               (event.time ? "<span class='mobile-event-time'>" + escapeHtml(event.time) + "</span>" : "") + "</span>" +
               "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
               "</span></button>";
+          }
+          if (row.kind === "claimed-practice") {
+            var claimedBooking = row.value;
+            var claimedWindow = row.windowItem;
+            var claimedTeams = bookingTeams(claimedBooking).filter(function (team) { return visibleTeams.has(team); });
+            var claimedMeta = TEAM_META[claimedTeams[0]];
+            var claimedLabels = claimedTeams.map(function (team) { return TEAM_META[team].label; }).join(" + ");
+            var claimedTime = formatClock(claimedBooking.startTime) + "–" +
+              formatClock(minutesToClock(bookingEndMinutes(claimedBooking)));
+            return "<button class='mobile-event-row practice claimed' type='button' data-window-id='" +
+              escapeHtml(claimedWindow.id) + "' data-booking-id='" + escapeHtml(claimedBooking.id) +
+              "' style='--team-color:" + claimedMeta.color + "'><span class='mobile-event-date'>" +
+              escapeHtml(formatDate(claimedWindow.date)) + "</span><span><span class='mobile-event-title'>Team Practice</span>" +
+              "<span class='mobile-event-team'>" + escapeHtml(claimedLabels) + "</span><span class='mobile-event-time'>" +
+              escapeHtml(claimedTime + " • " + practiceWindowLocation(claimedWindow) + " • Coach " + claimedBooking.coach) +
+              "</span></span><span class='availability-chip'>Claimed</span></button>";
           }
           var windowItem = row.value;
           var location = PRACTICE_LOCATION_META[windowItem.locationKey];
@@ -4843,7 +5184,7 @@
         var schedule = scheduleItemsForDay(dayIso, typeFilter !== "practices", typeFilter !== "tournaments");
         var dayTitle = formatDate(dayIso, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
         var tournamentCount = schedule.events.length;
-        var practiceCount = schedule.windows.length;
+        var practiceCount = schedule.windows.length + schedule.bookings.length;
         var totalCount = tournamentCount + practiceCount;
         var dialog = document.getElementById("dayDialog");
         var body = document.getElementById("dayDialogBody");
@@ -4865,6 +5206,22 @@
             escapeHtml(meta.short + " — " + event.title) + offIslandMark(event) +
             "</span><span class='day-detail-meta'><span>" + escapeHtml(event.time || "Game times TBD") + "</span><span>" +
             escapeHtml(event.location || "Location TBD") + "</span>" + note + "</span><span class='day-detail-action'>Open tournament →</span></button>";
+        });
+
+        var claimedPracticeCards = schedule.bookings.map(function (item) {
+          var booking = item.booking;
+          var windowItem = item.windowItem;
+          var teams = bookingTeams(booking).filter(function (team) { return visibleTeams.has(team); });
+          var team = TEAM_META[teams[0]];
+          var teamLabel = teams.map(function (teamName) { return TEAM_META[teamName].label; }).join(" + ");
+          var timeLabel = formatClock(booking.startTime) + "–" + formatClock(minutesToClock(bookingEndMinutes(booking)));
+          return "<button class='day-detail-card practice claimed' type='button' data-day-detail-item data-window-id='" +
+            escapeHtml(windowItem.id) + "' data-booking-id='" + escapeHtml(booking.id) + "' style='--card-color:" + team.color +
+            "' aria-label='" + escapeHtml("Open " + teamLabel + " practice, " + timeLabel + ", " + practiceWindowLocation(windowItem)) +
+            "'><span class='day-detail-card-top'><span>Claimed Practice</span><span>Coach " + escapeHtml(booking.coach) +
+            "</span></span><span class='day-detail-card-title'>" + escapeHtml(teamLabel) +
+            "</span><span class='day-detail-meta'><span>" + escapeHtml(timeLabel) + "</span><span>" +
+            escapeHtml(practiceWindowLocation(windowItem)) + "</span></span><span class='day-detail-action'>Practice saved on master calendar</span></button>";
         });
 
         var practiceCards = schedule.windows.map(function (windowItem) {
@@ -4897,7 +5254,7 @@
             "</span><span class='day-detail-action'>Claim a block →</span></button>";
         });
 
-        body.innerHTML = totalCount ? tournamentCards.concat(practiceCards).join("") :
+        body.innerHTML = totalCount ? tournamentCards.concat(claimedPracticeCards, practiceCards).join("") :
           "<div class='day-detail-empty'>No schedule items are shown for this day with the current filters.</div>";
         body.querySelectorAll("[data-day-detail-item]").forEach(function (button) {
           button.addEventListener("click", function () {
@@ -4953,6 +5310,23 @@
         lockedHost.querySelectorAll("[data-window-id]").forEach(function (button) {
           button.addEventListener("click", function () { openClaimDialog(button.getAttribute("data-window-id")); });
         });
+
+        var recentHost = document.getElementById("recentChangeList");
+        document.getElementById("recentChangeCount").textContent = recentChanges.length;
+        recentHost.innerHTML = recentChanges.length ? recentChanges.slice(0, 5).map(function (change) {
+          var team = change.teams.length ? TEAM_META[change.teams[0]] : null;
+          var timeLabel = change.startTime ? formatClock(change.startTime) +
+            (change.endTime ? "–" + formatClock(change.endTime) : "") : "";
+          var details = [
+            change.date ? formatDate(change.date, { month: "short", day: "numeric" }) : "",
+            timeLabel,
+            change.location,
+            new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })
+              .format(new Date(change.occurredAt))
+          ].filter(Boolean).join(" • ");
+          return "<article class='recent-change-item' style='--change-color:" + (team ? team.color : "#D22630") + "'><strong>" +
+            escapeHtml(change.summary) + "</strong><span>" + escapeHtml(details) + "</span></article>";
+        }).join("") : "<div class='empty'>No shared schedule changes yet.</div>";
 
         var conflicts = getConflictGroups();
         document.getElementById("conflictCount").textContent = conflicts.length;
@@ -5073,7 +5447,7 @@
                 formatClock(minutesToClock(bookingEndMinutes(booking)));
             }).join(" | ") : "No teams booked yet";
             var inventoryMeta = (windowItem.approval === "confirmed" ? "Confirmed" : "Available week-by-week") +
-              (windowItem.patternLabel ? " • " + windowItem.patternLabel : "");
+              (windowItem.patternLabel ? " • " + windowItem.patternLabel : "") + " • Split field: 2 teams per time";
             return "<article class='practice-agenda-item' data-practice-card='" + escapeHtml(windowItem.id) +
               "' data-practice-agenda-item='open' style='--agenda-color:" + location.color + "'>" +
               "<div class='practice-agenda-time'><strong>" + escapeHtml(formatClock(windowItem.startTime)) +
@@ -5119,10 +5493,10 @@
 
       function coachDirectoryColor(entry) {
         var keys = coachDirectoryProgramKeys(entry);
-        if (keys.indexOf("boys") >= 0 && keys.indexOf("girls") >= 0) return "#a978ff";
-        if (keys.indexOf("girls") >= 0) return "#ff668c";
-        if (keys.indexOf("boys") >= 0) return "#30d6e8";
-        return "#f3ba3f";
+        if (keys.indexOf("boys") >= 0 && keys.indexOf("girls") >= 0) return "#D22630";
+        if (keys.indexOf("girls") >= 0) return GIRLS_TEAM_COLOR;
+        if (keys.indexOf("boys") >= 0) return BOYS_TEAM_COLOR;
+        return "#D22630";
       }
 
       function coachDirectoryProgramLabels(entry) {
@@ -5517,7 +5891,8 @@
             "</strong><br>" + escapeHtml(practiceWindowLocation(windowItem)) + "<br>Master window: " +
             escapeHtml(formatClock(windowItem.startTime) + "–" + formatClock(windowItem.endTime)) +
             (windowItem.patternLabel ? "<br><strong>" + escapeHtml(windowItem.patternLabel) + "</strong>" : "") +
-            "<br>" + escapeHtml(windowItem.approval === "confirmed" ? "Confirmed field time" : "Available week-by-week; confirm before team communication");
+            "<br><strong>Split field: up to 2 teams can claim the same time.</strong><br>" +
+            escapeHtml(windowItem.approval === "confirmed" ? "Confirmed field time" : "Available week-by-week; confirm before team communication");
           updateClaimStartOptions();
         }
         document.getElementById("claimDialog").showModal();
@@ -5579,7 +5954,9 @@
             }
           }
           showToast(error.status === 409
-            ? (assigned ? "A coach was just assigned to that practice. The board is refreshed." : "That time was just claimed. Refresh and choose another block.")
+            ? (error.data && error.data.error ? error.data.error + " The calendar is refreshed."
+              : assigned ? "A coach was just assigned to that practice. The board is refreshed."
+                : "Both field halves were just claimed. The calendar is refreshed.")
             : "Practice was not claimed. Check the connection and try again.");
           if (!assigned) updateClaimStartOptions();
         } finally {
@@ -6111,8 +6488,8 @@
                 ? booking.durationHours == null
                 : Number(booking.durationHours) === Number(windowItem.requiredDurationHours));
           }
-          var expectedTeams = windowItem ? Number(windowItem.teamCount || 1) : 1;
-          if (!windowItem || teams.length !== expectedTeams || new Set(teams).size !== expectedTeams ||
+          var claimCapacity = windowItem ? Number(windowItem.claimCapacity || FIELD_TEAM_CAPACITY) : FIELD_TEAM_CAPACITY;
+          if (!windowItem || teams.length < 1 || teams.length > claimCapacity || new Set(teams).size !== teams.length ||
               !teams.every(function (team) { return Boolean(TEAM_META[team]); }) ||
               allowedDurationsForWindow(windowItem).indexOf(Number(booking.durationHours)) < 0) return false;
           var start = toMinutes(booking.startTime);
@@ -6143,7 +6520,7 @@
           assignedSchemaValid: ASSIGNED_PRACTICE_WINDOWS.every(function (windowItem) {
             var team = assignedPracticeTeam(windowItem);
             return windowItem.mode === "assigned" && windowItem.claimMode === "assigned" && windowItem.kind === "assigned" &&
-              windowItem.teamCount === 1 && windowItem.startIncrementMinutes === 30 && Boolean(TEAM_META[team]) &&
+              windowItem.teamCount === 1 && windowItem.claimCapacity === 1 && windowItem.startIncrementMinutes === 30 && Boolean(TEAM_META[team]) &&
               windowItem.id === "pdf-" + windowItem.locationKey + "-" + windowItem.date + "-" + practiceTeamSlug(team) &&
               [PDF_ASSIGNMENT_SOURCE, DAN_RECURRING_SOURCE].indexOf(windowItem.source) >= 0 && typeof windowItem.timeLabel === "string" &&
               ["confirmed", "adjusted", "pending", "needs-time"].indexOf(windowItem.assignmentStatus) >= 0;
@@ -6169,17 +6546,20 @@
           pointLookoutSaturdayCount: pointLookout.filter(function (windowItem) { return windowItem.startTime === "08:00"; }).length,
           pointLookoutBlackoutHonored: !pointLookout.some(function (windowItem) { return windowItem.date === "2026-09-19"; }),
           momentumWindowCount: momentum.length,
-          momentumOneTeamCount: momentum.filter(function (windowItem) { return windowItem.teamCount === 1; }).length,
-          momentumTwoTeamCount: momentum.filter(function (windowItem) { return windowItem.teamCount === 2; }).length,
-          momentumPatternRules: momentum.filter(function (windowItem) { return windowItem.teamCount === 1; }).every(function (windowItem) {
+          momentumOneHourCount: momentum.filter(function (windowItem) { return windowItem.requiredDurationHours === 1; }).length,
+          momentumTwoHourCount: momentum.filter(function (windowItem) { return windowItem.requiredDurationHours === 2; }).length,
+          momentumPatternRules: momentum.filter(function (windowItem) { return windowItem.requiredDurationHours === 1; }).every(function (windowItem) {
             return windowItem.requiredDurationHours === 1 && windowItem.startIncrementMinutes === 60;
-          }) && momentum.filter(function (windowItem) { return windowItem.teamCount === 2; }).every(function (windowItem) {
-            return windowItem.requiredDurationHours === 2 && windowItem.startIncrementMinutes === 60;
+          }) && momentum.filter(function (windowItem) { return windowItem.requiredDurationHours === 2; }).every(function (windowItem) {
+            return windowItem.requiredDurationHours === 2 && windowItem.startIncrementMinutes === 60 &&
+              windowItem.claimCapacity === FIELD_TEAM_CAPACITY;
           }),
           practiceBookingCount: practiceBookings.length,
           conflictCount: groups.length,
           uniqueIds: new Set(allIds).size === allIds.length,
-          uniqueTeamColors: new Set(colors).size === colors.length,
+          programTeamColors: new Set(colors).size === 2 &&
+            colors.filter(function (color) { return color === BOYS_TEAM_COLOR.toUpperCase(); }).length === 10 &&
+            colors.filter(function (color) { return color === GIRLS_TEAM_COLOR.toUpperCase(); }).length === 8,
           distinctLocationColors: new Set(locationColors).size === locationColors.length &&
             locationColors.every(function (color) { return colors.indexOf(color) === -1; }),
           allEventsHaveTimeField: events.every(function (event) { return typeof event.time === "string"; }),
@@ -6245,11 +6625,11 @@
           result.pointLookoutSaturdayCount === 6 &&
           result.pointLookoutBlackoutHonored &&
           result.momentumWindowCount === 43 &&
-          result.momentumOneTeamCount === 21 &&
-          result.momentumTwoTeamCount === 22 &&
+          result.momentumOneHourCount === 21 &&
+          result.momentumTwoHourCount === 22 &&
           result.momentumPatternRules &&
           result.uniqueIds &&
-          result.uniqueTeamColors &&
+          result.programTeamColors &&
           result.distinctLocationColors &&
           result.allEventsHaveTimeField &&
           result.allEventsHaveOffIslandField &&
