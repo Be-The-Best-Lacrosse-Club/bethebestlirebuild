@@ -68,6 +68,20 @@ const ASSIGNED_PRACTICE_WINDOW_ALIASES = Object.freeze({
   "pdf-seaford-2026-10-15-2032-riptide": "pdf-seaford-2026-10-14-2032-riptide",
   "pdf-seaford-2026-10-22-2032-riptide": "pdf-seaford-2026-10-21-2032-riptide",
   "pdf-seaford-2026-10-29-2032-riptide": "pdf-seaford-2026-10-28-2032-riptide",
+  "pdf-stimson-2026-09-14-2034-venom": "pdf-seaford-2026-09-14-2034-venom",
+  "pdf-stimson-2026-09-21-2034-venom": "pdf-seaford-2026-09-21-2034-venom",
+  "pdf-stimson-2026-09-28-2034-venom": "pdf-seaford-2026-09-28-2034-venom",
+  "pdf-stimson-2026-10-05-2034-venom": "pdf-seaford-2026-10-05-2034-venom",
+  "pdf-stimson-2026-10-12-2034-venom": "pdf-seaford-2026-10-12-2034-venom",
+  "pdf-stimson-2026-10-19-2034-venom": "pdf-seaford-2026-10-19-2034-venom",
+  "pdf-stimson-2026-10-26-2034-venom": "pdf-seaford-2026-10-26-2034-venom",
+  "pdf-nickerson-2026-09-14-2035-hurricanes": "pdf-point-lookout-2026-09-14-2035-hurricanes",
+  "pdf-nickerson-2026-09-21-2035-hurricanes": "pdf-point-lookout-2026-09-21-2035-hurricanes",
+  "pdf-nickerson-2026-09-28-2035-hurricanes": "pdf-point-lookout-2026-09-28-2035-hurricanes",
+  "pdf-nickerson-2026-10-05-2035-hurricanes": "pdf-point-lookout-2026-10-05-2035-hurricanes",
+  "pdf-nickerson-2026-10-12-2035-hurricanes": "pdf-point-lookout-2026-10-12-2035-hurricanes",
+  "pdf-nickerson-2026-10-19-2035-hurricanes": "pdf-point-lookout-2026-10-19-2035-hurricanes",
+  "pdf-nickerson-2026-10-26-2035-hurricanes": "pdf-point-lookout-2026-10-26-2035-hurricanes",
 });
 const RETIRED_TEAM_SET = new Set([
   "2029 Chrome",
@@ -129,20 +143,20 @@ const MOMENTUM_TWO_HOUR_DATES = Object.freeze([
 ]);
 
 export const CLOSED_TO_NEW_PRACTICE_WINDOW_IDS = Object.freeze([
-  "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
-  "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
-  "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
+  "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10", "seaford-2026-09-14",
+  "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17", "seaford-2026-09-21",
+  "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24", "seaford-2026-09-28",
   "seaford-2026-09-29", "seaford-2026-09-30", "seaford-2026-10-01",
-  "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19",
-  "nickerson-2026-09-21", "nickerson-2026-09-26", "nickerson-2026-09-28",
-  "nickerson-2026-10-03", "nickerson-2026-10-05", "nickerson-2026-10-10",
-  "nickerson-2026-10-12", "nickerson-2026-10-17", "nickerson-2026-10-19",
-  "nickerson-2026-10-24", "nickerson-2026-10-26", "nickerson-2026-10-31",
-  "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-16",
-  "point-lookout-2026-09-23", "point-lookout-2026-09-26", "point-lookout-2026-09-30",
-  "point-lookout-2026-10-03", "point-lookout-2026-10-07", "point-lookout-2026-10-10",
-  "point-lookout-2026-10-14", "point-lookout-2026-10-17", "point-lookout-2026-10-21",
-  "point-lookout-2026-10-24", "point-lookout-2026-10-28",
+  "nickerson-2026-09-12", "nickerson-2026-09-19", "nickerson-2026-09-26",
+  "nickerson-2026-10-03", "nickerson-2026-10-10", "nickerson-2026-10-17",
+  "nickerson-2026-10-24", "nickerson-2026-10-31",
+  "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-14",
+  "point-lookout-2026-09-16", "point-lookout-2026-09-21", "point-lookout-2026-09-23",
+  "point-lookout-2026-09-26", "point-lookout-2026-09-28", "point-lookout-2026-09-30",
+  "point-lookout-2026-10-03", "point-lookout-2026-10-05", "point-lookout-2026-10-07",
+  "point-lookout-2026-10-10", "point-lookout-2026-10-12", "point-lookout-2026-10-14",
+  "point-lookout-2026-10-17", "point-lookout-2026-10-19", "point-lookout-2026-10-21",
+  "point-lookout-2026-10-24", "point-lookout-2026-10-26", "point-lookout-2026-10-28",
 ]);
 
 const CLOSED_TO_NEW_PRACTICE_WINDOW_SET = new Set(CLOSED_TO_NEW_PRACTICE_WINDOW_IDS);
@@ -347,13 +361,13 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     ],
   }),
   ...assignedPracticeWindowsForDates({
-    ...STIMSON_ASSIGNED_LOCATION,
+    ...SEAFORD_ASSIGNED_LOCATION,
     dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
-    assignmentStatus: "needs-time",
-    note: `5:45 PM to dark; an exact end time is still needed. ${RECURRING_NOTE}`,
+    assignmentStatus: "confirmed",
+    note: `Mondays 7:15–8:45 PM at Seaford. ${RECURRING_NOTE}`,
     source: DAN_RECURRING_SOURCE,
     sessions: [
-      { team: "2034 Venom", startTime: "17:45", endTime: null, timeLabel: "5:45 PM–Dark", requiredDurationHours: null },
+      { team: "2034 Venom", startTime: "19:15", endTime: "20:45", timeLabel: "7:15 PM–8:45 PM", requiredDurationHours: 1.5 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -370,13 +384,13 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     ],
   }),
   ...assignedPracticeWindowsForDates({
-    ...NICKERSON_ASSIGNED_LOCATION,
+    ...POINT_LOOKOUT_ASSIGNED_LOCATION,
     dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
     assignmentStatus: "confirmed",
-    note: RECURRING_NOTE,
+    note: `Mondays 6:00–7:00 PM at Point Lookout. ${RECURRING_NOTE}`,
     source: DAN_RECURRING_SOURCE,
     sessions: [
-      { team: "2035 Hurricanes", startTime: "17:00", endTime: "18:30", timeLabel: "5:00 PM–6:30 PM", requiredDurationHours: 1.5 },
+      { team: "2035 Hurricanes", startTime: "18:00", endTime: "19:00", timeLabel: "6:00 PM–7:00 PM", requiredDurationHours: 1 },
     ],
   }),
   ...assignedPracticeWindowsForDates({

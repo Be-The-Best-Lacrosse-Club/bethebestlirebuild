@@ -3889,20 +3889,20 @@
       var PDF_ASSIGNMENT_SOURCE = "Practice Times PDF • Sept. 8–24, 2026";
       var DAN_RECURRING_SOURCE = "Dan • weekly team practices • through Oct. 31, 2026";
       var CLOSED_PARENT_WINDOW_IDS = new Set([
-        "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
-        "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
-        "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
+        "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10", "seaford-2026-09-14",
+        "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17", "seaford-2026-09-21",
+        "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24", "seaford-2026-09-28",
         "seaford-2026-09-29", "seaford-2026-09-30", "seaford-2026-10-01",
-        "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19",
-        "nickerson-2026-09-21", "nickerson-2026-09-26", "nickerson-2026-09-28",
-        "nickerson-2026-10-03", "nickerson-2026-10-05", "nickerson-2026-10-10",
-        "nickerson-2026-10-12", "nickerson-2026-10-17", "nickerson-2026-10-19",
-        "nickerson-2026-10-24", "nickerson-2026-10-26", "nickerson-2026-10-31",
-        "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-16",
-        "point-lookout-2026-09-23", "point-lookout-2026-09-26", "point-lookout-2026-09-30",
-        "point-lookout-2026-10-03", "point-lookout-2026-10-07", "point-lookout-2026-10-10",
-        "point-lookout-2026-10-14", "point-lookout-2026-10-17", "point-lookout-2026-10-21",
-        "point-lookout-2026-10-24", "point-lookout-2026-10-28"
+        "nickerson-2026-09-12", "nickerson-2026-09-19", "nickerson-2026-09-26",
+        "nickerson-2026-10-03", "nickerson-2026-10-10", "nickerson-2026-10-17",
+        "nickerson-2026-10-24", "nickerson-2026-10-31",
+        "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-14",
+        "point-lookout-2026-09-16", "point-lookout-2026-09-21", "point-lookout-2026-09-23",
+        "point-lookout-2026-09-26", "point-lookout-2026-09-28", "point-lookout-2026-09-30",
+        "point-lookout-2026-10-03", "point-lookout-2026-10-05", "point-lookout-2026-10-07",
+        "point-lookout-2026-10-10", "point-lookout-2026-10-12", "point-lookout-2026-10-14",
+        "point-lookout-2026-10-17", "point-lookout-2026-10-19", "point-lookout-2026-10-21",
+        "point-lookout-2026-10-24", "point-lookout-2026-10-26", "point-lookout-2026-10-28"
       ]);
       var PDF_LOCATION_DETAILS = {
         seaford: {
@@ -3992,9 +3992,9 @@
           { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", durationHours: 1.5 }
         ], "pending", recurringNote, DAN_RECURRING_SOURCE);
 
-        add("stimson", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
-          { team: "2034 Venom", startTime: "17:45", endTime: null, timeLabel: "5:45 PM–Dark", durationHours: null }
-        ], "needs-time", "5:45 PM to dark; an exact end time is still needed. " + recurringNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
+          { team: "2034 Venom", startTime: "19:15", endTime: "20:45", timeLabel: "7:15 PM–8:45 PM", durationHours: 1.5 }
+        ], "confirmed", "Mondays 7:15–8:45 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
         add("stimson", ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"], [
           { team: "2030 Rage", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2032 Cannons", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
@@ -4002,9 +4002,9 @@
           { team: "2031 Carnage", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 }
         ], "pending", recurringNote, DAN_RECURRING_SOURCE);
 
-        add("nickerson", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
-          { team: "2035 Hurricanes", startTime: "17:00", endTime: "18:30", timeLabel: "5:00 PM–6:30 PM", durationHours: 1.5 }
-        ], "confirmed", recurringNote, DAN_RECURRING_SOURCE);
+        add("point-lookout", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
+          { team: "2035 Hurricanes", startTime: "18:00", endTime: "19:00", timeLabel: "6:00 PM–7:00 PM", durationHours: 1 }
+        ], "confirmed", "Mondays 6:00–7:00 PM at Point Lookout. " + recurringNote, DAN_RECURRING_SOURCE);
         add("nickerson", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", durationHours: 2 },
@@ -6534,6 +6534,18 @@
             }).map(function (windowItem) { return windowItem.date; }).join(",") ===
               "2026-09-08,2026-09-15,2026-09-22,2026-09-29,2026-10-06,2026-10-13,2026-10-20,2026-10-27";
           }),
+          movedMondayPracticesExact: [{
+            team: "2034 Venom", locationKey: "seaford", startTime: "19:15", endTime: "20:45"
+          }, {
+            team: "2035 Hurricanes", locationKey: "point-lookout", startTime: "18:00", endTime: "19:00"
+          }].every(function (expected) {
+            return ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+              return assignedPracticeTeam(windowItem) === expected.team &&
+                windowItem.locationKey === expected.locationKey && windowItem.startTime === expected.startTime &&
+                windowItem.endTime === expected.endTime && windowItem.date >= "2026-09-14";
+            }).map(function (windowItem) { return windowItem.date; }).join(",") ===
+              "2026-09-14,2026-09-21,2026-09-28,2026-10-05,2026-10-12,2026-10-19,2026-10-26";
+          }),
           assignedPointLookoutBlackoutHonored: !assignedPointLookout.some(function (windowItem) {
             return windowItem.date === "2026-09-19";
           }),
@@ -6602,19 +6614,20 @@
           result.practiceWindowCount === 305 &&
           result.masterPracticeWindowCount === 123 &&
           result.assignedPracticeWindowCount === 182 &&
-          result.assignedSeafordCount === 78 &&
-          result.assignedStimsonCount === 35 &&
-          result.assignedNickersonCount === 47 &&
-          result.assignedPointLookoutCount === 22 &&
+          result.assignedSeafordCount === 85 &&
+          result.assignedStimsonCount === 28 &&
+          result.assignedNickersonCount === 40 &&
+          result.assignedPointLookoutCount === 29 &&
           result.assignedAdjustedCount === 40 &&
-          result.assignedNeedsTimeCount === 15 &&
+          result.assignedNeedsTimeCount === 8 &&
           result.assignedPendingCount === 50 &&
-          result.assignedConfirmedCount === 77 &&
-          result.assignedNullEndCount === 15 &&
-          result.closedParentWindowCount === 41 &&
+          result.assignedConfirmedCount === 84 &&
+          result.assignedNullEndCount === 8 &&
+          result.closedParentWindowCount === 44 &&
           result.assignedSchemaValid &&
           result.assignedDateRangeExact &&
           result.recurringTuesdayPatternExact &&
+          result.movedMondayPracticesExact &&
           result.assignedPointLookoutBlackoutHonored &&
           result.seafordWindowCount === 24 &&
           result.nickersonWindowCount === 35 &&
