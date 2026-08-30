@@ -15,7 +15,7 @@ export function PublicLayout() {
   return (
     <SmoothScroll>
       <ProgressBar />
-      {!isHomePage && <Header />}
+      <Header />
       <Outlet />
       {!isHomePage && <Footer />}
       {/* <CoachB surface="player_parent" /> */}
