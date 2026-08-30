@@ -22,6 +22,7 @@ const DEPLOY_PREVIEW_ORIGIN = /^https:\/\/deploy-preview-\d+--btb-lacrosse\.netl
 const VALID_DURATIONS = new Set([1, 1.5, 2]);
 const MAX_ATOMIC_ATTEMPTS = 3;
 export const FIELD_TEAM_CAPACITY = 2;
+export const MAX_COACHES_PER_BOOKING = 20;
 export const MAX_RECENT_CHANGES = 20;
 const CALENDAR_URL = "https://www.bethebestli.com/dan-calendar";
 const CHANGE_TYPES = new Set([
@@ -619,6 +620,20 @@ function coachKey(value) {
   return normalizeCoach(value).toLocaleLowerCase("en-US");
 }
 
+function bookingCoaches(booking) {
+  const candidates = [
+    ...(Array.isArray(booking?.coaches) ? booking.coaches : []),
+    booking?.coach,
+  ];
+  const seen = new Set();
+  return candidates.map(normalizeCoach).filter((coach) => {
+    const key = coachKey(coach);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function intervalsOverlap(firstStart, firstEnd, secondStart, secondEnd) {
   return firstStart < secondEnd && secondStart < firstEnd;
 }
@@ -684,6 +699,7 @@ export function normalizeRecentChanges(changes) {
     if (!id || ids.has(id) || !CHANGE_TYPES.has(type) || !Number.isFinite(timestamp) || !summary) return null;
     ids.add(id);
     const teams = bookingTeams(change).filter((team) => KNOWN_TEAM_SET.has(team)).slice(0, 2);
+    const coaches = bookingCoaches(change).filter((coach) => coach.length <= 120).slice(0, MAX_COACHES_PER_BOOKING);
     return {
       id,
       type,
@@ -691,7 +707,8 @@ export function normalizeRecentChanges(changes) {
       summary,
       team: teams[0] || null,
       teams,
-      coach: cleanChangeText(change.coach, 120) || null,
+      coach: coaches[0] || null,
+      coaches,
       date: normalizeChangeDate(change.date),
       startTime: normalizeChangeTime(change.startTime),
       endTime: normalizeChangeTime(change.endTime),
@@ -706,6 +723,7 @@ function prependRecentChange(changes, change) {
 
 function practiceChange(type, booking, occurredAt) {
   const teams = bookingTeams(booking);
+  const coaches = bookingCoaches(booking);
   const teamLabel = teams.join(" + ");
   const verb = type === "practice_claimed" ? "claimed" : "released";
   const timeLabel = [booking.startTime, booking.endTime].filter(Boolean).join("–");
@@ -716,7 +734,8 @@ function practiceChange(type, booking, occurredAt) {
     summary: `${teamLabel} ${verb} ${timeLabel} at ${booking.venue}`,
     team: teams[0] || null,
     teams,
-    coach: booking.coach,
+    coach: coaches[0] || null,
+    coaches,
     date: booking.date,
     startTime: booking.startTime,
     endTime: booking.endTime,
@@ -901,8 +920,9 @@ export function practiceBookingsConflict(first, second) {
 
   const firstTeams = bookingTeams(first);
   const secondTeams = bookingTeams(second);
+  const secondCoachKeys = new Set(bookingCoaches(second).map(coachKey));
   return firstTeams.some((team) => secondTeams.includes(team)) ||
-    coachKey(first.coach) === coachKey(second.coach);
+    bookingCoaches(first).some((coach) => secondCoachKeys.has(coachKey(coach)));
 }
 
 function fieldCapacityExceeded(existingBookings, candidate) {
@@ -945,10 +965,12 @@ function assertNoBookingConflict(existingBookings, candidate) {
   if (conflict) {
     let reason = "That assigned practice already has a coach.";
     const sharedTeam = bookingTeams(candidate).find((team) => bookingTeams(conflict).includes(team));
+    const conflictCoachKeys = new Set(bookingCoaches(conflict).map(coachKey));
+    const sharedCoach = bookingCoaches(candidate).find((coach) => conflictCoachKeys.has(coachKey(coach)));
     if (sharedTeam) {
       reason = `${sharedTeam} already has an overlapping practice.`;
-    } else if (coachKey(conflict.coach) === coachKey(candidate.coach)) {
-      reason = `${candidate.coach} already has an overlapping practice.`;
+    } else if (sharedCoach) {
+      reason = `${sharedCoach} already has an overlapping practice.`;
     }
     throw new CalendarApiError(reason, { status: 409, code: "practice_overlap" });
   }
@@ -984,9 +1006,27 @@ function normalizeBooking(input, { requireId = false, id, createdAt } = {}) {
     ? normalizeAssignedBookingTeams(input, window)
     : normalizeBookingTeams(input, window);
 
-  const coach = normalizeCoach(input.coach);
-  if (!coach || coach.length > 120) {
-    throw new CalendarApiError("Coach name is required", { code: "invalid_coach" });
+  if ((Object.prototype.hasOwnProperty.call(input, "coach") && typeof input.coach !== "string") ||
+      (Object.prototype.hasOwnProperty.call(input, "coaches") &&
+        (!Array.isArray(input.coaches) || input.coaches.some((coach) => typeof coach !== "string")))) {
+    throw new CalendarApiError("Coach names are invalid", { code: "invalid_coach" });
+  }
+  const coaches = bookingCoaches(input);
+  const suppliedPrimaryCoach = normalizeCoach(input.coach);
+  if (suppliedPrimaryCoach && Array.isArray(input.coaches) &&
+      coachKey(suppliedPrimaryCoach) !== coachKey(coaches[0])) {
+    throw new CalendarApiError("Primary coach does not match the attendance list", { code: "invalid_coach" });
+  }
+  if (!coaches.length) {
+    throw new CalendarApiError("At least one coach is required", { code: "invalid_coach" });
+  }
+  if (coaches.length > MAX_COACHES_PER_BOOKING) {
+    throw new CalendarApiError(`No more than ${MAX_COACHES_PER_BOOKING} coaches can attend one practice`, {
+      code: "invalid_coach",
+    });
+  }
+  if (coaches.some((coach) => coach.length > 120)) {
+    throw new CalendarApiError("Coach names must be 120 characters or fewer", { code: "invalid_coach" });
   }
 
   const windowStart = timeToMinutes(window.startTime);
@@ -1067,7 +1107,8 @@ function normalizeBooking(input, { requireId = false, id, createdAt } = {}) {
     team: teams[0],
     teams,
     secondTeam: teams[1] || null,
-    coach,
+    coach: coaches[0],
+    coaches,
     startTime: minutesToTime(start.minutes),
     endTime: endMinutes === null ? null : minutesToTime(endMinutes),
     durationHours,
@@ -1321,12 +1362,13 @@ export async function sendCalendarChangeAlert(change, {
     return { sent: false, skipped: "not_configured", recipientCount: recipients.length };
   }
 
+  const changeCoaches = bookingCoaches(change);
   const detailLines = [
     change.summary,
     change.date ? `Date: ${change.date}` : "",
     change.startTime ? `Time: ${change.startTime}${change.endTime ? `–${change.endTime}` : ""}` : "",
     change.location ? `Location: ${change.location}` : "",
-    change.coach ? `Coach: ${change.coach}` : "",
+    changeCoaches.length ? `${changeCoaches.length === 1 ? "Coach" : "Coaches"}: ${changeCoaches.join(", ")}` : "",
   ].filter(Boolean);
   const subject = `[BTB SCHEDULE CHANGE] ${cleanChangeText(change.summary, 140)}`;
   const htmlDetails = detailLines.map((line) => `<p style="margin:0 0 8px;color:#f4f4f5;line-height:1.5;">${escapeEmailHtml(line)}</p>`).join("");
