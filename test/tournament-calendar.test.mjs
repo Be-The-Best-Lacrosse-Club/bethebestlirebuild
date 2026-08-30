@@ -9,6 +9,7 @@ import {
   calendarOriginsForRequest,
   claimPractice,
   KNOWN_TEAMS,
+  MAX_COACHES_PER_BOOKING,
   MAX_RECENT_CHANGES,
   normalizeRecentChanges,
   normalizeSnapshot,
@@ -704,15 +705,15 @@ test("independent claimed practices stay separate and show team, time, and locat
   const renderSource = html.slice(renderStart, dialogStart);
   assert.match(renderSource, /var claimedPracticePills = dayBookings\.map\(function \(item\)/);
   assert.match(renderSource, /data-booking-id=/);
-  assert.match(renderSource, /escapeHtml\(teamLabel\)[\s\S]*escapeHtml\(timeLabel \+ " • " \+ locationLabel\)/);
+  assert.match(renderSource, /practiceTeamMarkup\(teams, windowItem, "short"\)[\s\S]*escapeHtml\(timeLabel \+ " • " \+ locationLabel\)/);
   assert.match(renderSource, /monthBookings = showPractices \? practiceBookings\.map\(function \(booking\)/);
   assert.match(renderSource, /kind: "claimed-practice"/);
-  assert.match(renderSource, /escapeHtml\(claimedLabels\)[\s\S]*escapeHtml\(claimedTime \+ " • " \+ practiceWindowLocation\(claimedWindow\)/);
+  assert.match(renderSource, /practiceTeamMarkup\(claimedTeams, claimedWindow, "label"\)[\s\S]*escapeHtml\(claimedTime \+ " • " \+ practiceWindowLocation\(claimedWindow\)/);
 
   const dialogEnd = html.indexOf("function renderSidebar()", dialogStart);
   const dialogSource = html.slice(dialogStart, dialogEnd);
   assert.match(dialogSource, /var claimedPracticeCards = schedule\.bookings\.map\(function \(item\)/);
-  assert.match(dialogSource, /escapeHtml\(teamLabel\)[\s\S]*escapeHtml\(timeLabel\)[\s\S]*practiceWindowLocation\(windowItem\)/);
+  assert.match(dialogSource, /practiceTeamMarkup\(teams, windowItem, "label"\)[\s\S]*escapeHtml\(timeLabel\)[\s\S]*practiceWindowLocation\(windowItem\)/);
 });
 
 test("the calendar team filter is an accessible multi-select that defaults to all teams on each page load", () => {
@@ -766,6 +767,73 @@ test("boys share the exact green and girls share the exact light-purple program 
   assert.match(chromeSource, /<span class='legend-label'>Program Colors<\/span>/);
   assert.match(chromeSource, /BOYS_TEAM_COLOR[\s\S]*Boys Teams/);
   assert.match(chromeSource, /GIRLS_TEAM_COLOR[\s\S]*Girls Teams/);
+});
+
+test("practice team names keep program colors and show the field color dot on every schedule surface", () => {
+  const html = staffPageHtml();
+  assert.match(html, /seaford:\s*\{ label: "Seaford", color: "#D22630" \}/);
+  assert.match(html, /nickerson:\s*\{ label: "Nickerson", color: "#00B894" \}/);
+  assert.match(html, /"point-lookout":\s*\{ label: "Point Lookout", color: "#1479FF" \}/);
+  assert.match(html, /momentum:\s*\{ label: "Momentum Sports LI", color: "#F3BA3F" \}/);
+  assert.match(html, /stimson:\s*\{ label: "Stimson • Pending", color: "#87909C" \}/);
+
+  const teamCssStart = html.indexOf(".practice-team-name {");
+  const teamCssEnd = html.indexOf(".sidebar {", teamCssStart);
+  const teamCss = html.slice(teamCssStart, teamCssEnd);
+  assert.match(teamCss, /\.practice-team-name\s*\{[\s\S]*color:\s*var\(--team-color\)/);
+  assert.match(teamCss, /\.practice-location-dot\s*\{[\s\S]*background:\s*var\(--location-color\)/);
+  assert.doesNotMatch(teamCss, /\.practice-location-dot\s*\{[\s\S]*background:\s*var\(--team-color\)/);
+
+  const helperStart = html.indexOf("function practiceLocationDot(windowItem)");
+  const helperEnd = html.indexOf("function initialViewMonth()", helperStart);
+  const helperSource = html.slice(helperStart, helperEnd);
+  assert.match(helperSource, /class='practice-location-dot' aria-hidden='true'/);
+  assert.match(helperSource, /PRACTICE_LOCATION_META\[windowItem\.locationKey\]/);
+  assert.match(helperSource, /class='practice-team-name'[\s\S]*--team-color:/);
+  assert.match(helperSource, /practiceLocationDot\(windowItem\)[\s\S]*escapeHtml\(label\)/);
+
+  const monthStart = html.indexOf("function renderMonth()");
+  const dayStart = html.indexOf("function openDayDialog(dayIso)", monthStart);
+  const sidebarStart = html.indexOf("function renderSidebar()", dayStart);
+  const boardStart = html.indexOf("function renderPracticeBoard()", sidebarStart);
+  const directoryStart = html.indexOf("function coachDirectoryName", boardStart);
+  const manageStart = html.indexOf("function renderManageTable()", directoryStart);
+  const claimStart = html.indexOf("function openClaimDialog(windowId)", manageStart);
+  assert.match(html.slice(monthStart, dayStart), /practiceTeamMarkup\(teams, windowItem, "short"\)/);
+  assert.match(html.slice(monthStart, dayStart), /practiceTeamMarkup\(claimedTeams, claimedWindow, "label"\)/);
+  assert.match(html.slice(dayStart, sidebarStart), /practiceTeamMarkup\(teams, windowItem, "label"\)/);
+  assert.match(html.slice(sidebarStart, boardStart), /practiceTeamMarkup\(\[assignedTeam\], windowItem, "label"\)/);
+  assert.match(html.slice(boardStart, directoryStart), /practiceTeamMarkup\(\[assignedTeam\], windowItem, "label"\)/);
+  assert.match(html.slice(manageStart, claimStart), /practiceTeamMarkup\(\[assignedTeam\], assignedWindow, "short"\)/);
+});
+
+test("assign coach uses the protected directory as a mobile multi-select attendance dropdown", () => {
+  const html = staffPageHtml();
+  assert.match(html, /<details class="coach-attendance-picker" id="claimCoachPicker">/);
+  assert.match(html, /id="claimCoachOptions" role="group"/);
+  assert.doesNotMatch(html, /id="claimCoach" type="text"/);
+
+  const pickerCssStart = html.indexOf(".coach-attendance-picker {");
+  const pickerCssEnd = html.indexOf(".manage-filter {", pickerCssStart);
+  const pickerCss = html.slice(pickerCssStart, pickerCssEnd);
+  assert.match(pickerCss, /min-height:\s*44px/);
+  assert.match(pickerCss, /max-height:\s*min\(17rem, 42vh\)/);
+  assert.match(pickerCss, /overflow-y:\s*auto/);
+
+  const pickerStart = html.indexOf("function selectedClaimCoaches()");
+  const dialogStart = html.indexOf("function openClaimDialog(windowId)", pickerStart);
+  const pickerSource = html.slice(pickerStart, dialogStart);
+  assert.match(pickerSource, /coachDirectoryEntries\.map\(function \(entry\)/);
+  assert.match(pickerSource, /type='checkbox' data-claim-coach/);
+  assert.match(pickerSource, /loadCoachDirectory\(false\)/);
+  assert.match(pickerSource, /coaches\.length === 1 \? coaches\[0\] : coaches\.length \+ " coaches selected"/);
+
+  const submitStart = html.indexOf("async function submitPracticeClaim", dialogStart);
+  const submitEnd = html.indexOf("async function releasePractice", submitStart);
+  const submitSource = html.slice(submitStart, submitEnd);
+  assert.match(submitSource, /var coaches = selectedClaimCoaches\(\)/);
+  assert.match(submitSource, /coach:\s*coaches\[0\][\s\S]*coaches:\s*coaches/);
+  assert.match(html, /function coachAttendanceLabel\(booking\)/);
 });
 
 test("recent shared saves appear beside open fields with useful schedule details", () => {
@@ -998,6 +1066,7 @@ test("recent changes normalize aliases and fields without mutating the source", 
     team: "2037 Wolves",
     teams: ["2037 Wolves", "2037 Supernova"],
     coach: "Coach Example",
+    coaches: ["Coach Example"],
     date: "2026-09-01",
     startTime: "19:15",
     endTime: "20:15",
@@ -1010,6 +1079,7 @@ test("recent changes normalize aliases and fields without mutating the source", 
     team: null,
     teams: [],
     coach: null,
+    coaches: [],
     date: null,
     startTime: null,
     endTime: null,
@@ -1061,6 +1131,7 @@ test("legacy Thursday Riptide coach assignments follow the team to Wednesday", (
   assert.deepEqual(validatePracticeBookings(snapshot.practiceBookings)[0], {
     ...snapshot.practiceBookings[0],
     date: "2026-09-09",
+    coaches: ["Coach Riptide"],
   });
 });
 
@@ -1249,6 +1320,57 @@ test("an assigned PDF slot derives its fixed team and time from a coach-only cla
   });
 });
 
+test("practice claims preserve every attending coach while retaining the legacy primary coach", async () => {
+  const store = memoryStore();
+  const claimed = await claimPractice(store, {
+    windowId: "pdf-seaford-2026-09-15-2033-storm",
+    coach: "Coach Taylor",
+    coaches: [" Coach Taylor ", "Coach Sean", "coach taylor"],
+  }, claimOptions("assigned-storm-multiple-coaches"));
+
+  assert.equal(claimed.booking.coach, "Coach Taylor");
+  assert.deepEqual(claimed.booking.coaches, ["Coach Taylor", "Coach Sean"]);
+  assert.deepEqual(claimed.snapshot.practiceBookings[0].coaches, ["Coach Taylor", "Coach Sean"]);
+  assert.equal(claimed.change.coach, "Coach Taylor");
+  assert.deepEqual(claimed.change.coaches, ["Coach Taylor", "Coach Sean"]);
+  assert.deepEqual(claimed.snapshot.recentChanges[0].coaches, ["Coach Taylor", "Coach Sean"]);
+});
+
+test("coach attendance lists reject malformed, oversized, and contradictory values", async () => {
+  const base = {
+    windowId: "nickerson-2026-09-05",
+    team: "2036 Dawgs",
+    startTime: "09:00",
+    durationHours: 1,
+  };
+
+  await expectCalendarError(claimPractice(memoryStore(), {
+    ...base,
+    coaches: [],
+  }, claimOptions("no-attending-coaches")), { status: 400, code: "invalid_coach" });
+
+  await expectCalendarError(claimPractice(memoryStore(), {
+    ...base,
+    coaches: "Coach One",
+  }, claimOptions("bad-coach-list")), { status: 400, code: "invalid_coach" });
+
+  await expectCalendarError(claimPractice(memoryStore(), {
+    ...base,
+    coaches: ["x".repeat(121)],
+  }, claimOptions("long-coach-name")), { status: 400, code: "invalid_coach" });
+
+  await expectCalendarError(claimPractice(memoryStore(), {
+    ...base,
+    coaches: Array.from({ length: MAX_COACHES_PER_BOOKING + 1 }, (_, index) => `Coach ${index}`),
+  }, claimOptions("too-many-coaches")), { status: 400, code: "invalid_coach" });
+
+  await expectCalendarError(claimPractice(memoryStore(), {
+    ...base,
+    coach: "Coach Primary",
+    coaches: ["Coach Different"],
+  }, claimOptions("contradictory-primary-coach")), { status: 400, code: "invalid_coach" });
+});
+
 test("assigned PDF slots with unresolved ends remain coach-claimable without invented times", async () => {
   const store = memoryStore();
   const claimed = await claimPractice(store, {
@@ -1316,6 +1438,33 @@ test("the same coach cannot claim overlapping assigned PDF team slots", async ()
     windowId: "pdf-nickerson-2026-09-12-2034-venom",
     coach: "  coach shared ",
   }, claimOptions("assigned-shared-venom")), { status: 409, code: "practice_overlap" });
+});
+
+test("any shared attendee blocks overlapping practices while disjoint coach lists succeed", async () => {
+  const conflictStore = memoryStore();
+  await claimPractice(conflictStore, {
+    windowId: "pdf-nickerson-2026-09-12-2036-dawgs",
+    coach: "Coach One",
+    coaches: ["Coach One", "Coach Shared"],
+  }, claimOptions("assigned-multi-dawgs"));
+
+  await expectCalendarError(claimPractice(conflictStore, {
+    windowId: "pdf-nickerson-2026-09-12-2034-venom",
+    coach: "Coach Two",
+    coaches: ["Coach Two", " coach shared "],
+  }, claimOptions("assigned-multi-venom-conflict")), { status: 409, code: "practice_overlap" });
+
+  const separateStore = memoryStore();
+  await claimPractice(separateStore, {
+    windowId: "pdf-nickerson-2026-09-12-2036-dawgs",
+    coaches: ["Coach One", "Coach Assistant"],
+  }, claimOptions("assigned-multi-dawgs-separate"));
+  const second = await claimPractice(separateStore, {
+    windowId: "pdf-nickerson-2026-09-12-2034-venom",
+    coaches: ["Coach Two", "Coach Guest"],
+  }, claimOptions("assigned-multi-venom-separate"));
+
+  assert.equal(second.snapshot.practiceBookings.length, 2);
 });
 
 test("Storm and Renegades Tuesday overlap requires different coaches", async () => {
@@ -1850,6 +1999,7 @@ test("calendar change alerts send one escaped Brevo payload through injected fet
     team: "2033 Storm",
     teams: ["2033 Storm"],
     coach: "Coach Example",
+    coaches: ["Coach Example", "Coach & Two"],
     date: "2026-09-01",
     startTime: "19:15",
     endTime: "20:15",
@@ -1887,7 +2037,9 @@ test("calendar change alerts send one escaped Brevo payload through injected fet
   assert.equal(payload.subject, "[BTB SCHEDULE CHANGE] 2033 Storm claimed <Field A>");
   assert.match(payload.htmlContent, /2033 Storm claimed &lt;Field A&gt;/);
   assert.match(payload.htmlContent, /Example &amp; Field/);
+  assert.match(payload.htmlContent, /Coaches: Coach Example, Coach &amp; Two/);
   assert.doesNotMatch(payload.htmlContent, /2033 Storm claimed <Field A>/);
+  assert.match(payload.textContent, /Coaches: Coach Example, Coach & Two/);
   assert.match(payload.textContent, /Open Master Calendar: https:\/\/www\.bethebestli\.com\/dan-calendar/);
   assert.deepEqual(result, {
     sent: true,
