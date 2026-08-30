@@ -21,6 +21,19 @@ const programLinks = [
   { label: "Recruiting", href: "/recruiting" },
 ]
 
+const parentLinks = [
+  { label: "Season Newsletter", href: "/fall-winter-newsletter" },
+  { label: "Winter Training", href: "/parent-training" },
+  { label: "Parent Hub", href: "/parent-hub" },
+  { label: "Contact BTB", href: "/contact" },
+]
+
+const resourceLinks = [
+  { label: "Digital Academy", href: "/academy" },
+  { label: "Recruiting", href: "/recruiting" },
+  { label: "Coaches Hub", href: "/coach-tools.html" },
+]
+
 const staticLinks = new Set([
   "/newsletter",
   "/parent-training",
@@ -123,7 +136,7 @@ export function Header() {
           </button>
 
           {/* Desktop Nav — only when the full menu has room */}
-          <nav className="hidden min-[1380px]:flex items-center gap-1" ref={dropdownRef}>
+          <nav className="hidden min-[1100px]:flex items-center gap-1" ref={dropdownRef}>
 
             <div className="relative">
               <button onClick={() => setDropdown(dropdown === "programs" ? null : "programs")} className={navItemClass("/programs")}>
@@ -162,17 +175,35 @@ export function Header() {
               )}
             </div>
 
-            <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
+            <div className="relative">
+              <button onClick={() => setDropdown(dropdown === "parents" ? null : "parents")} className={navItemClass("/parents")}>
+                Parents <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "parents" ? "rotate-180" : ""}`} />
+              </button>
+              {dropdown === "parents" && (
+                <div className="absolute top-full left-0 mt-2 w-60 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
+                  {parentLinks.map(link => (
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[1.25rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
+                      {link.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-            <a href="/parent-training" className={navItemClass("/parent-training")}>Winter Training</a>
-
-            <button onClick={() => go("/coach-tools.html")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
-
-            <a href="/fall-winter-newsletter" className={navItemClass("/fall-winter-newsletter")}>Newsletter</a>
-
-            <a href="/academy" className={navItemClass("/academy")}>Academy</a>
-
-            <button onClick={() => go("/contact")} className={navItemClass("/contact")}>Contact</button>
+            <div className="relative">
+              <button onClick={() => setDropdown(dropdown === "resources" ? null : "resources")} className={navItemClass("/resources")}>
+                Resources <ChevronDown size={10} className={`inline ml-1 transition-transform ${dropdown === "resources" ? "rotate-180" : ""}`} />
+              </button>
+              {dropdown === "resources" && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-black/5 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2">
+                  {resourceLinks.map(link => (
+                    <button key={link.href} onClick={() => go(link.href)} className="w-full text-left px-4 py-2.5 text-[1.25rem] font-bold uppercase tracking-[1px] text-black/60 hover:text-[var(--btb-red)] hover:bg-[var(--btb-red)]/5 transition-all">
+                      {link.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className={`w-px h-5 mx-3 ${scrolled ? "bg-black/10" : "bg-white/10"}`} />
 
@@ -196,7 +227,7 @@ export function Header() {
                   <Lock size={11} className="inline mr-1" /> Login
                 </button>
                 <button onClick={() => go("/interest")} className={`px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
-                  Interest
+                  Join BTB
                 </button>
               </div>
             )}
@@ -277,15 +308,20 @@ export function Header() {
                 ],
               },
               {
-                label: "More",
+                label: "Parents",
                 links: [
-                  { label: "Parent Hub", href: "/parent-hub" },
+                  { label: "Season Newsletter", href: "/fall-winter-newsletter" },
                   { label: "Winter Training", href: "/parent-training" },
-                  { label: "Coaches Hub", href: "/coach-tools.html" },
-                  { label: "Newsletter", href: "/fall-winter-newsletter" },
-                  { label: "Academy", href: "/academy" },
+                  { label: "Parent Hub", href: "/parent-hub" },
+                  { label: "Contact BTB", href: "/contact" },
+                ],
+              },
+              {
+                label: "Resources",
+                links: [
+                  { label: "Digital Academy", href: "/academy" },
                   { label: "Recruiting", href: "/recruiting" },
-                  { label: "Contact", href: "/contact" },
+                  { label: "Coaches Hub", href: "/coach-tools.html" },
                   { label: "Login", href: "/login" },
                 ],
               },
