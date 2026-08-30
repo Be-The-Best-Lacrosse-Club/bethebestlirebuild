@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTB Parent Hub — Winter Training Registration</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--btb-red:#D22630;--btb-dark-red:#a01e26;--ink:#111214;--body:#33363b;--muted:#6b6f76;--line:#e4e6ea;--wash:#f6f7f9;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#e9eaee;color:var(--body);line-height:1.65;-webkit-font-smoothing:antialiased}
+body.locked .hub{display:none}
+body.locked .gate{display:flex}
+body.unlocked .gate{display:none}
+body.unlocked .hub{display:block}
+
+/* ---------- GATE ---------- */
+.gate{display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(circle at 20% 20%,rgba(210,38,48,.5),transparent 55%),linear-gradient(160deg,#0a0a0b,#1a1b1e 55%,#000)}
+.gate-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:38px 30px;max-width:430px;width:100%;text-align:center;backdrop-filter:blur(8px)}
+.gate-mark{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--btb-red);margin-bottom:14px;text-transform:uppercase}
+.gate-card h1{font-family:'Bebas Neue',sans-serif;font-size:44px;line-height:.95;color:#fff;letter-spacing:.02em;margin-bottom:8px}
+.gate-card h1 .red{color:var(--btb-red)}
+.gate-card p{color:#a9adb4;font-size:14px;margin-bottom:22px}
+.gate input{width:100%;padding:14px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.4);color:#fff;font-size:16px;font-family:inherit;text-align:center;letter-spacing:.12em;font-weight:600}
+.gate input:focus{outline:none;border-color:var(--btb-red)}
+.gate button{width:100%;margin-top:12px;padding:14px;border:none;border-radius:8px;background:var(--btb-red);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.14em;cursor:pointer;transition:background .18s}
+.gate button:hover{background:var(--btb-dark-red)}
+.gate-err{color:#ff9ba1;font-size:13px;margin-top:12px;min-height:18px;font-weight:600}
+
+/* ---------- HUB ---------- */
+.wrap{max-width:900px;margin:0 auto;background:#fff;box-shadow:0 0 60px rgba(0,0,0,.14);min-height:100vh}
+.hero{background:radial-gradient(circle at 15% 20%,rgba(210,38,48,.5),transparent 55%),linear-gradient(160deg,#0a0a0b,#1a1b1e 55%,#000);color:#fff;padding:44px 30px 36px;text-align:center}
+.hero .mark{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--btb-red);margin-bottom:14px;text-transform:uppercase}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,8vw,62px);line-height:.94;letter-spacing:.015em}
+.hero h1 .red{color:var(--btb-red)}
+.hero .sub{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#c9cbcf;margin-top:14px;font-weight:600}
+.hero .rule{width:70px;height:5px;background:var(--btb-red);margin:20px auto 0;border-radius:3px}
+
+/* ---------- TABS ---------- */
+.tabs{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:2px;overflow-x:auto;padding:0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;background:none;border:none;border-bottom:3px solid transparent;padding:16px 14px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.08em;color:var(--muted);cursor:pointer;transition:all .18s;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--btb-red);border-bottom-color:var(--btb-red)}
+
+.panel{display:none;padding:34px 30px}
+.panel.active{display:block}
+.eyebrow{display:inline-block;background:var(--btb-red);color:#fff;font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;padding:5px 11px;border-radius:3px;margin-bottom:12px}
+.panel h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(30px,6vw,42px);line-height:1.02;color:var(--ink);letter-spacing:.02em;margin-bottom:8px}
+.panel h2 .red{color:var(--btb-red)}
+.deck{font-size:15px;color:var(--muted);margin-bottom:20px;font-weight:500}
+.panel p{font-size:15px;margin-bottom:14px}
+.panel h3{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:.06em;color:var(--ink);margin:22px 0 10px;padding-left:12px;border-left:4px solid var(--btb-red)}
+
+.facts{border-top:1px solid var(--line);margin:18px 0}
+.fact{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.fact .k{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.08em;color:var(--ink);min-width:128px;flex-shrink:0;line-height:1.4}
+.fact .v{font-size:14.5px}
+.fact .v strong{color:var(--ink)}
+@media(max-width:560px){.fact{flex-direction:column;gap:2px}.fact .k{min-width:0}}
+
+ul.check{list-style:none;margin:12px 0}
+ul.check li{position:relative;padding:8px 0 8px 28px;font-size:14.5px;border-bottom:1px solid #f0f1f3}
+ul.check li:last-child{border-bottom:none}
+ul.check li::before{content:'';position:absolute;left:5px;top:16px;width:8px;height:8px;background:var(--btb-red);border-radius:50%}
+
+.btn{display:inline-block;background:var(--btb-red);color:#fff;text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;padding:14px 30px;border-radius:6px;margin:6px 8px 6px 0;transition:background .18s}
+.btn:hover{background:var(--btb-dark-red)}
+.btn.ghost{background:none;color:var(--btb-red);border:2px solid var(--btb-red);padding:12px 28px}
+.btn.ghost:hover{background:var(--btb-red);color:#fff}
+.btn-note{font-size:12.5px;color:var(--muted);margin-top:8px}
+
+.alert{background:#fdf2f3;border-left:5px solid var(--btb-red);padding:16px 18px;border-radius:0 6px 6px 0;margin:18px 0}
+.alert .t{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:.06em;color:var(--btb-dark-red);margin-bottom:5px}
+.alert p{font-size:14px;margin-bottom:0}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px;margin:20px 0}
+.card{background:#fff;border:1px solid var(--line);border-top:4px solid var(--btb-red);border-radius:6px;padding:17px;cursor:pointer;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.09)}
+.card .kicker{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--btb-red);margin-bottom:5px}
+.card h4{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.04em;color:var(--ink);margin-bottom:6px;line-height:1.1}
+.card p{font-size:13px;margin-bottom:0}
+
+.footer{background:linear-gradient(160deg,#0a0a0b,#000);color:#8f939a;padding:32px 30px;text-align:center}
+.footer .m{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.15em;color:#fff}
+.footer .m .red{color:var(--btb-red)}
+.footer .mo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.12em;color:var(--btb-red);margin:6px 0 16px}
+.footer p{font-size:12.5px;margin-bottom:5px}
+.footer a{color:#fff;text-decoration:none;border-bottom:1px solid var(--btb-red)}
+@media(max-width:600px){.panel,.hero,.footer{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body class="locked">
+
+<!-- ============ GATE ============ -->
+<div class="gate">
+  <form class="gate-card" id="gateForm">
+    <div class="gate-mark">Be The Best Lacrosse Club</div>
+    <h1>PARENT <span class="red">HUB</span></h1>
+    <p>Winter training registration. Enter the parent password from the newsletter.</p>
+    <input type="password" id="pw" placeholder="PASSWORD" autocomplete="current-password" aria-label="Parent password">
+    <button type="submit">ENTER</button>
+    <div class="gate-err" id="gateError" role="alert"></div>
+  </form>
+</div>
+
+<!-- ============ HUB ============ -->
+<div class="hub">
+<div class="wrap">
+
+  <div class="hero">
+    <div class="mark">Be The Best Lacrosse Club</div>
+    <h1>WINTER <span class="red">TRAINING</span></h1>
+    <div class="sub">Parent Hub &middot; 2026&ndash;27 Season</div>
+    <div class="rule"></div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-p="start">START HERE</button>
+    <button class="tab" data-p="lab">THE LAB</button>
+    <button class="tab" data-p="offense">OFFENSE</button>
+    <button class="tab" data-p="defense">DEFENSE</button>
+    <button class="tab" data-p="faceoff">FACE-OFF</button>
+    <button class="tab" data-p="goalie">GOALIE</button>
+    <button class="tab" data-p="draw">DRAW</button>
+    <button class="tab" data-p="sixes">SIXES</button>
+  </div>
+
+  <!-- START -->
+  <div class="panel active" id="p-start">
+    <span class="eyebrow">Start Here</span>
+    <h2>Pick What Your <span class="red">Player Needs</span></h2>
+    <div class="deck">Everything below is optional and à la carte. Take one, take all of them.</div>
+    <p>All of our winter training runs out of <strong>Momentum Sports</strong> and is built to slot around your team's practice hour &mdash; so you make one trip, not two.</p>
+    <p>Tap any option to see the details, pricing, and how to sign up.</p>
+    <div class="cards">
+      <div class="card" data-go="lab"><div class="kicker">Boys &amp; Girls &middot; 2033+</div><h4>The Lab</h4><p>Team strength, speed &amp; agility with Quintin Germain.</p></div>
+      <div class="card" data-go="offense"><div class="kicker">Boys &amp; Girls</div><h4>Offensive Training</h4><p>Coach Dan and staff. Benchmark-driven skill work.</p></div>
+      <div class="card" data-go="defense"><div class="kicker">Boys</div><h4>Stonewall Defense</h4><p>Novice and Advanced group defensive training.</p></div>
+      <div class="card" data-go="faceoff"><div class="kicker">Boys</div><h4>The Faceoff Academy</h4><p>Greg Gurenlian's TFOA. Thursdays, all season.</p></div>
+      <div class="card" data-go="goalie"><div class="kicker">Boys &amp; Girls</div><h4>Breakout Goaltending</h4><p>Three discounted sessions through the BTB partnership.</p></div>
+      <div class="card" data-go="draw"><div class="kicker">Girls</div><h4>Draw Training</h4><p>Emma Mclam and Mckenzie Busch.</p></div>
+      <div class="card" data-go="sixes"><div class="kicker">Open League</div><h4>Sixes League</h4><p>Coleman Sundays, Momentum Thursdays.</p></div>
+    </div>
+    <div class="alert">
+      <div class="t">A NOTE ON SIGN-UPS</div>
+      <p><strong>The Faceoff Academy, Stonewall, and Breakout Goaltending register through their own programs</strong> &mdash; their links are on each tab so you never have to go hunting. Everything else is handled by BTB.</p>
+    </div>
+  </div>
+
+  <!-- THE LAB -->
+  <div class="panel" id="p-lab">
+    <span class="eyebrow">The Lab at Momentum Sports</span>
+    <h2>Team <span class="red">Strength Training</span></h2>
+    <div class="deck">Led by owner Quintin Germain. Open to BTB teams 2033 and older.</div>
+    <p>Teams train together as a full roster &mdash; functional, athletic movement built to develop power, force, and motor control, so we come out of the winter as more resilient, more explosive athletes.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">WHO</div><div class="v"><strong>BTB teams 2033 and older</strong> (5th grade and up), boys and girls.</div></div>
+      <div class="fact"><div class="k">PRICE</div><div class="v"><strong>16 sessions &mdash; $500 per player.</strong> Need more or fewer sessions? Quintin will adjust the plan and the cost to fit the team.</div></div>
+      <div class="fact"><div class="k">MINIMUM</div><div class="v"><strong>10 players per team.</strong> Under 10 and the price goes up, so commit early.</div></div>
+      <div class="fact"><div class="k">SCHEDULE</div><div class="v">Slots directly before or after your team's practice hour. Practice at 9:00 AM? Lift at 8:00 or 10:00, then you're done for the day.</div></div>
+      <div class="fact"><div class="k">GYM</div><div class="v"><strong>Private access</strong> &mdash; each team has the floor to themselves. No sharing, no distractions.</div></div>
+      <div class="fact"><div class="k">WHERE</div><div class="v">Momentum Sports &middot; 10 Dunton Ave, Deer Park, NY 11729</div></div>
+    </div>
+    <a class="btn" data-reg="lab" href="#">REGISTER FOR THE LAB</a>
+    <div class="btn-note">Questions for Quintin: <a href="mailto:quintingermain@gmail.com">quintingermain@gmail.com</a> &middot; <a href="tel:6318347157">(631) 834-7157</a> &middot; Instagram <a href="https://instagram.com/thelabatmomentum" target="_blank" rel="noopener">@thelabatmomentum</a></div>
+  </div>
+
+  <!-- OFFENSE -->
+  <div class="panel" id="p-offense">
+    <span class="eyebrow">Boys &amp; Girls</span>
+    <h2>Offensive <span class="red">Training</span></h2>
+    <div class="deck">Run by Coach Dan and BTB staff at Momentum.</div>
+    <p>This is not a clinic where kids stand in line. It is <strong>intense training with a ton of reps</strong>, built as a progression &mdash; each session builds on the last until we hit specific benchmarks for that player's age and skill level.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">WHO</div><div class="v">Multiple age groups, boys and girls. Pure skill development on the offensive end &mdash; no play-in.</div></div>
+      <div class="fact"><div class="k">RUN BY</div><div class="v"><strong>Coach Dan Achatz</strong> and other members of the BTB staff.</div></div>
+      <div class="fact"><div class="k">WHERE</div><div class="v">Momentum Sports, Deer Park.</div></div>
+      <div class="fact"><div class="k">COST</div><div class="v">À la carte. The fee covers the indoor facility.</div></div>
+      <div class="fact"><div class="k">DATES</div><div class="v"><strong>Being finalized now.</strong> Get on the list and you'll be first to know.</div></div>
+    </div>
+    <a class="btn" data-reg="offense" href="#">GET ON THE LIST</a>
+  </div>
+
+  <!-- DEFENSE -->
+  <div class="panel" id="p-defense">
+    <span class="eyebrow">Boys &middot; Registers Separately</span>
+    <h2>Stonewall <span class="red">Defensive Training</span></h2>
+    <div class="deck">Group defensive training, broken out by skill level.</div>
+    <p>Novice and Advanced groups, so nobody is in over their head and nobody is bored. Each session runs one hour.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">LEVELS</div><div class="v"><strong>Novice and Advanced.</strong></div></div>
+      <div class="fact"><div class="k">PRICE</div><div class="v"><strong>$70 per player, per session.</strong></div></div>
+      <div class="fact"><div class="k">LENGTH</div><div class="v">1 hour per session.</div></div>
+      <div class="fact"><div class="k">WHERE</div><div class="v">Momentum Sports &middot; 10 Dunton Ave, Deer Park, NY 11729</div></div>
+      <div class="fact"><div class="k">DATES</div><div class="v"><strong>TBD.</strong> The fall and winter schedule will be announced on Instagram.</div></div>
+    </div>
+    <h3>WHAT THEY COVER</h3>
+    <ul class="check">
+      <li>Footwork &amp; positioning</li>
+      <li>Pick play</li>
+      <li>Zone concepts</li>
+      <li>Sliding &amp; recovering</li>
+      <li>Stickwork</li>
+    </ul>
+    <a class="btn" href="https://instagram.com/stonewalldefenselaxtraining" target="_blank" rel="noopener">FOLLOW FOR DATES</a>
+    <div class="btn-note">Follow <strong>@stonewalldefenselaxtraining</strong> to be first to know when sessions drop &mdash; spots fill fast.</div>
+  </div>
+
+  <!-- FACEOFF -->
+  <div class="panel" id="p-faceoff">
+    <span class="eyebrow">Boys &middot; Registers Separately</span>
+    <h2>The <span class="red">Faceoff Academy</span></h2>
+    <div class="deck">Greg Gurenlian &mdash; "The Beast" &mdash; at Momentum, all season.</div>
+    <p>The gold standard in face-off training, mentorship and recruiting since 2011, with <strong>2,200+ NCAA athletes developed.</strong> If you have a face-off guy, or a kid curious about taking the draw, this is the highest level of instruction available anywhere.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">WHEN</div><div class="v"><strong>Thursday nights, 5:00 &ndash; 8:00 PM.</strong> Started September 3 and runs the entire season.</div></div>
+      <div class="fact"><div class="k">LEVELS</div><div class="v"><strong>Beginner, Intermediate, and Advanced</strong> all run.</div></div>
+      <div class="fact"><div class="k">WHERE</div><div class="v">Momentum Sports, Deer Park.</div></div>
+      <div class="fact"><div class="k">CREDENTIALS</div><div class="v">MLL MVP &middot; 2015 MLL Champion &middot; 6&times; All-Pro &middot; 5&times; All-Star &middot; Team USA gold, 2018 Worlds &middot; 81% international face-off percentage (USA record) &middot; Penn State all-time face-off wins leader</div></div>
+      <div class="fact"><div class="k">PRICING</div><div class="v">BTB pricing is being finalized with Greg. Message Coach Dan so he can get an accurate count.</div></div>
+    </div>
+    <a class="btn" href="https://www.thefaceoffacademy.com/" target="_blank" rel="noopener">THEFACEOFFACADEMY.COM</a>
+    <a class="btn ghost" data-reg="faceoff" href="#">TELL DAN YOU'RE IN</a>
+  </div>
+
+  <!-- GOALIE -->
+  <div class="panel" id="p-goalie">
+    <span class="eyebrow">Boys &amp; Girls &middot; Registers Separately</span>
+    <h2>Breakout <span class="red">Goaltending</span></h2>
+    <div class="deck">BTB is supplementing three discounted goalie sessions.</div>
+    <p>We're continuing our partnership with Breakout Goaltending for another season &mdash; co-founders <strong>Tim O'Meara</strong> and <strong>Brian Soper</strong>. This is one of the best values in the entire program.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">BTB RATE</div><div class="v"><strong>$100 per lesson for your first three sessions</strong>, supplemented by BTB. After those three, the regular rate of <strong>$140</strong> applies. Payment is due at the end of each lesson.</div></div>
+      <div class="fact"><div class="k">WINDOW</div><div class="v">Use them anytime between <strong>September 20, 2026 and May 9, 2027.</strong> The schedule is emailed weekly.</div></div>
+      <div class="fact"><div class="k">STEP 1</div><div class="v">Register online. <strong>Already with Breakout? You do not need to register again.</strong> On the form, "School attending" is <strong>BE THE BEST</strong> and "Coach" is <strong>DAN ACHATZ</strong>.</div></div>
+      <div class="fact"><div class="k">STEP 2</div><div class="v">Email or text your requested days and times &mdash; one to three lessons in advance. <strong>Always say you're part of BTB.</strong></div></div>
+      <div class="fact"><div class="k">STEP 3</div><div class="v">Await confirmation. <strong>Changes must be made 24 hours in advance.</strong></div></div>
+    </div>
+    <a class="btn" href="https://breakoutgoaltending.formstack.com/forms/newregistration" target="_blank" rel="noopener">REGISTER WITH BREAKOUT</a>
+    <div class="btn-note">Tim O'Meara &middot; <a href="mailto:breakoutgt@gmail.com">breakoutgt@gmail.com</a> &middot; <a href="tel:8774625121">877-GOAL-121</a> &middot; <a href="https://breakoutgoaltending.com" target="_blank" rel="noopener">breakoutgoaltending.com</a></div>
+  </div>
+
+  <!-- DRAW -->
+  <div class="panel" id="p-draw">
+    <span class="eyebrow">Girls Only</span>
+    <h2>Draw <span class="red">Training</span></h2>
+    <div class="deck">Run by Emma Mclam and Mckenzie Busch.</div>
+    <p>Dedicated draw instruction, separate from team practice and built specifically around winning possession. Both Emma and Mckenzie are members of our staff.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">WHO</div><div class="v">BTB girls &mdash; anyone who takes the draw or wants to learn.</div></div>
+      <div class="fact"><div class="k">RUN BY</div><div class="v"><strong>Emma Mclam</strong> and <strong>Mckenzie Busch</strong>.</div></div>
+      <div class="fact"><div class="k">COST</div><div class="v">À la carte.</div></div>
+      <div class="fact"><div class="k">DATES</div><div class="v"><strong>Coming shortly.</strong> Emma and Mckenzie are finalizing them now.</div></div>
+    </div>
+    <a class="btn" data-reg="draw" href="#">GET ON THE LIST</a>
+  </div>
+
+  <!-- SIXES -->
+  <div class="panel" id="p-sixes">
+    <span class="eyebrow">Open League</span>
+    <h2>Sixes <span class="red">League</span></h2>
+    <div class="deck">Fast, loud, and a ton of touches.</div>
+    <p>This does not have to be a strictly BTB team &mdash; it's genuinely an open league. But we want our players in it. Sixes forces kids up and down at a fast pace with a huge number of touches, and our goalies see a ton of shots.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">WHERE</div><div class="v">Coleman &mdash; Sunday nights &nbsp;|&nbsp; Momentum &mdash; Thursday nights</div></div>
+      <div class="fact"><div class="k">ROSTER</div><div class="v"><strong>10 players max, 8 minimum</strong> per team.</div></div>
+      <div class="fact"><div class="k">ALL-BTB TEAMS</div><div class="v">If it goes strictly BTB, we run a <strong>lottery to draft two teams.</strong></div></div>
+      <div class="fact"><div class="k">PARENTS</div><div class="v">You can form a team &mdash; town teams are welcome.</div></div>
+    </div>
+    <a class="btn" href="/register-sixes-league">REGISTER FOR SIXES</a>
+  </div>
+
+  <div class="footer">
+    <div class="m">BE THE <span class="red">BEST</span></div>
+    <div class="mo">OUR CULTURE BUILT US. OUR HARD WORK MADE US.</div>
+    <p>Questions? Reach out to your team coach or contact us directly.</p>
+    <p><a href="mailto:info@bethebestli.com">info@bethebestli.com</a> &middot; <a href="/fall-winter-newsletter">Back to the newsletter</a></p>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ---- Registration links.
+   Paste a real purchase/registration URL here and the matching button will use it.
+   Leave empty and the button falls back to emailing BTB. ---- */
+var REGISTRATION_LINKS = {
+  lab: "",
+  offense: "",
+  faceoff: "",
+  draw: ""
+};
+var EMAIL_SUBJECTS = {
+  lab: "The Lab - Team Strength Training",
+  offense: "Offensive Training",
+  faceoff: "Face-Off Training (TFOA)",
+  draw: "Girls Draw Training"
+};
+
+(function () {
+  var PASS = 'BTBLI26';
+  var KEY = 'btbParentTrainingUnlocked';
+  var body = document.body;
+  var form = document.getElementById('gateForm');
+  var input = document.getElementById('pw');
+  var err = document.getElementById('gateError');
+
+  function unlock() {
+    try { sessionStorage.setItem(KEY, 'yes'); } catch (e) {}
+    body.classList.remove('locked');
+    body.classList.add('unlocked');
+  }
+
+  var owner = 0;
+  try { owner = Number(localStorage.getItem('btb-owner-access-until')) || 0; } catch (e) {}
+  var unlocked = false;
+  try { unlocked = sessionStorage.getItem(KEY) === 'yes'; } catch (e) {}
+  if (owner > Date.now() || unlocked) unlock();
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = input.value.trim().replace(/^#/, '');
+    if (v.toUpperCase() === PASS) { err.textContent = ''; input.value = ''; unlock(); return; }
+    err.textContent = 'Incorrect password. Check the newsletter.';
+    input.select();
+  });
+
+  /* ---- Tabs ---- */
+  function show(name) {
+    var tabs = document.querySelectorAll('.tab');
+    var panels = document.querySelectorAll('.panel');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle('active', tabs[i].dataset.p === name);
+    for (var j = 0; j < panels.length; j++) panels[j].classList.toggle('active', panels[j].id === 'p-' + name);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.getElementById('tabs').addEventListener('click', function (e) {
+    var t = e.target.closest('.tab');
+    if (t) show(t.dataset.p);
+  });
+  var cards = document.querySelectorAll('.card[data-go]');
+  for (var k = 0; k < cards.length; k++) {
+    cards[k].addEventListener('click', function () { show(this.dataset.go); });
+  }
+
+  /* ---- Register buttons ---- */
+  var regs = document.querySelectorAll('[data-reg]');
+  for (var m = 0; m < regs.length; m++) {
+    (function (el) {
+      var key = el.dataset.reg;
+      var url = REGISTRATION_LINKS[key];
+      if (url) {
+        el.setAttribute('href', url);
+        el.setAttribute('target', '_blank');
+        el.setAttribute('rel', 'noopener');
+      } else {
+        el.setAttribute('href', 'mailto:info@bethebestli.com?subject=' +
+          encodeURIComponent('Winter Training - ' + (EMAIL_SUBJECTS[key] || key)) +
+          '&body=' + encodeURIComponent("Player name:\nGraduation year:\nBoys or Girls:\n\nI'd like to sign up for: " + (EMAIL_SUBJECTS[key] || key) + "\n"));
+      }
+    })(regs[m]);
+  }
+})();
+</script>
+</body>
+</html>

@@ -19,7 +19,7 @@ const TEAM_YEARS: Record<PlayerSide, string[]> = {
 const GOALS: Array<{ value: FinderGoal; title: string; description: string }> = [
   { value: "team", title: "Join a team", description: "Find the right roster and coaching group." },
   { value: "skills", title: "Build skills", description: "Start with focused reps and fundamentals." },
-  { value: "summer", title: "Get summer reps", description: "See the August mini-camp path." },
+  { value: "summer", title: "Get extra reps", description: "See what training is coming next." },
   { value: "recruiting", title: "Plan recruiting", description: "Build an honest, age-right roadmap." },
 ]
 
@@ -100,10 +100,10 @@ function finderResult(side: PlayerSide, year: string, goal: FinderGoal) {
   if (goal === "summer") {
     return {
       eyebrow: "Best next step",
-      title: `${sideLabel} Mini Camp`,
-      description: "Get purposeful August reps in a small group with sessions assigned by graduation year.",
-      href: side === "girls" ? "/register-girls-mini-camp" : "/register-boys-mini-camp",
-      cta: "Reserve a camp spot",
+      title: "Camps & Clinics — stay tuned",
+      description: "Our next round of camps and clinics is being finalized. Check the camps page for dates as soon as they post.",
+      href: "/camps",
+      cta: "See camps & clinics",
     }
   }
 
@@ -566,20 +566,12 @@ export function HomePage() {
 
             <div className="btb-home__event-grid">
               <article className="btb-home__event-card btb-home__event-card--featured">
-                <div className="btb-home__event-topline"><span>Registration open</span><strong>$150</strong></div>
-                <p className="btb-home__event-date">Aug <strong>19–21</strong> 2026</p>
-                <h3>Girls 3-Day Mini Camp</h3>
-                <p>Coach Dan Achatz + Matt Mauro. Sessions are assigned by grad year.</p>
-                <ul><li>Momentum Sports · Deer Park</li><li>18 players per age group</li></ul>
-                <a className="btb-home__event-link" href="/register-girls-mini-camp">Reserve a girls camp spot <span aria-hidden="true">↗</span></a>
-              </article>
-              <article className="btb-home__event-card">
-                <div className="btb-home__event-topline"><span>Registration open</span><strong>$150</strong></div>
-                <p className="btb-home__event-date">Aug <strong>23·24·26</strong> 2026</p>
-                <h3>Boys 3-Day Mini Camp</h3>
-                <p>Coach Dan Achatz + Braden Donnellan. Sessions are assigned by grad year.</p>
-                <ul><li>Momentum Sports · Deer Park</li><li>18 players per age group</li></ul>
-                <a className="btb-home__event-link" href="/register-boys-mini-camp">Reserve a boys camp spot <span aria-hidden="true">↗</span></a>
+                <div className="btb-home__event-topline"><span>Camps &amp; clinics</span><strong>Stay tuned</strong></div>
+                <p className="btb-home__event-date btb-home__event-date--small">Coming soon</p>
+                <h3>More Camps &amp; Clinics</h3>
+                <p>Our next round of camps and clinics is being finalized. Dates will post here and go out to families as soon as they are locked in.</p>
+                <ul><li>Momentum Sports · Deer Park</li><li>Boys and girls, by grad year</li></ul>
+                <a className="btb-home__event-link" href="/camps">See camps &amp; clinics <span aria-hidden="true">↗</span></a>
               </article>
               <article className="btb-home__event-card btb-home__event-card--dark">
                 <div className="btb-home__event-topline"><span>Teams</span><strong>Open now</strong></div>

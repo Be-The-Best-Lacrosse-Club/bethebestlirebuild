@@ -10,6 +10,12 @@
   force = true
 
 [[redirects]]
+  from = "/parent-training"
+  to = "/parent-training.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/fall-winter-newsletter"
   to = "/fall-winter-newsletter.html"
   status = 200
@@ -496,17 +502,31 @@
   to = "/sms-policy.html"
   status = 200
 
-# Boys and Girls Mini Camp registrations are static Netlify Forms and must be served
-# before the SPA and homepage catch-all rewrites.
+# Boys and Girls Mini Camp registrations are retired. Old links land on Camps,
+# which carries the "more dates coming soon" message.
 [[redirects]]
   from = "/register-boys-mini-camp"
-  to = "/register-boys-mini-camp.html"
-  status = 200
+  to = "/camps"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-boys-mini-camp.html"
+  to = "/camps"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/register-girls-mini-camp"
-  to = "/register-girls-mini-camp.html"
-  status = 200
+  to = "/camps"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-girls-mini-camp.html"
+  to = "/camps"
+  status = 301
+  force = true
 
 # Main Camp registration is retired.
 [[redirects]]
