@@ -21,6 +21,17 @@ const HEADERS = {
 const DEPLOY_PREVIEW_ORIGIN = /^https:\/\/deploy-preview-\d+--btb-lacrosse\.netlify\.app$/;
 const VALID_DURATIONS = new Set([1, 1.5, 2]);
 const MAX_ATOMIC_ATTEMPTS = 3;
+export const FIELD_TEAM_CAPACITY = 2;
+export const MAX_RECENT_CHANGES = 20;
+const CALENDAR_URL = "https://www.bethebestli.com/dan-calendar";
+const CHANGE_TYPES = new Set([
+  "practice_claimed",
+  "practice_released",
+  "tournament_added",
+  "tournament_updated",
+  "tournament_removed",
+  "schedule_updated",
+]);
 
 export const KNOWN_TEAMS = Object.freeze([
   "2028 Black",
@@ -57,6 +68,20 @@ const ASSIGNED_PRACTICE_WINDOW_ALIASES = Object.freeze({
   "pdf-seaford-2026-10-15-2032-riptide": "pdf-seaford-2026-10-14-2032-riptide",
   "pdf-seaford-2026-10-22-2032-riptide": "pdf-seaford-2026-10-21-2032-riptide",
   "pdf-seaford-2026-10-29-2032-riptide": "pdf-seaford-2026-10-28-2032-riptide",
+  "pdf-stimson-2026-09-14-2034-venom": "pdf-seaford-2026-09-14-2034-venom",
+  "pdf-stimson-2026-09-21-2034-venom": "pdf-seaford-2026-09-21-2034-venom",
+  "pdf-stimson-2026-09-28-2034-venom": "pdf-seaford-2026-09-28-2034-venom",
+  "pdf-stimson-2026-10-05-2034-venom": "pdf-seaford-2026-10-05-2034-venom",
+  "pdf-stimson-2026-10-12-2034-venom": "pdf-seaford-2026-10-12-2034-venom",
+  "pdf-stimson-2026-10-19-2034-venom": "pdf-seaford-2026-10-19-2034-venom",
+  "pdf-stimson-2026-10-26-2034-venom": "pdf-seaford-2026-10-26-2034-venom",
+  "pdf-nickerson-2026-09-14-2035-hurricanes": "pdf-point-lookout-2026-09-14-2035-hurricanes",
+  "pdf-nickerson-2026-09-21-2035-hurricanes": "pdf-point-lookout-2026-09-21-2035-hurricanes",
+  "pdf-nickerson-2026-09-28-2035-hurricanes": "pdf-point-lookout-2026-09-28-2035-hurricanes",
+  "pdf-nickerson-2026-10-05-2035-hurricanes": "pdf-point-lookout-2026-10-05-2035-hurricanes",
+  "pdf-nickerson-2026-10-12-2035-hurricanes": "pdf-point-lookout-2026-10-12-2035-hurricanes",
+  "pdf-nickerson-2026-10-19-2035-hurricanes": "pdf-point-lookout-2026-10-19-2035-hurricanes",
+  "pdf-nickerson-2026-10-26-2035-hurricanes": "pdf-point-lookout-2026-10-26-2035-hurricanes",
 });
 const RETIRED_TEAM_SET = new Set([
   "2029 Chrome",
@@ -118,20 +143,20 @@ const MOMENTUM_TWO_HOUR_DATES = Object.freeze([
 ]);
 
 export const CLOSED_TO_NEW_PRACTICE_WINDOW_IDS = Object.freeze([
-  "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10",
-  "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17",
-  "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24",
+  "seaford-2026-09-08", "seaford-2026-09-09", "seaford-2026-09-10", "seaford-2026-09-14",
+  "seaford-2026-09-15", "seaford-2026-09-16", "seaford-2026-09-17", "seaford-2026-09-21",
+  "seaford-2026-09-22", "seaford-2026-09-23", "seaford-2026-09-24", "seaford-2026-09-28",
   "seaford-2026-09-29", "seaford-2026-09-30", "seaford-2026-10-01",
-  "nickerson-2026-09-12", "nickerson-2026-09-14", "nickerson-2026-09-19",
-  "nickerson-2026-09-21", "nickerson-2026-09-26", "nickerson-2026-09-28",
-  "nickerson-2026-10-03", "nickerson-2026-10-05", "nickerson-2026-10-10",
-  "nickerson-2026-10-12", "nickerson-2026-10-17", "nickerson-2026-10-19",
-  "nickerson-2026-10-24", "nickerson-2026-10-26", "nickerson-2026-10-31",
-  "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-16",
-  "point-lookout-2026-09-23", "point-lookout-2026-09-26", "point-lookout-2026-09-30",
-  "point-lookout-2026-10-03", "point-lookout-2026-10-07", "point-lookout-2026-10-10",
-  "point-lookout-2026-10-14", "point-lookout-2026-10-17", "point-lookout-2026-10-21",
-  "point-lookout-2026-10-24", "point-lookout-2026-10-28",
+  "nickerson-2026-09-12", "nickerson-2026-09-19", "nickerson-2026-09-26",
+  "nickerson-2026-10-03", "nickerson-2026-10-10", "nickerson-2026-10-17",
+  "nickerson-2026-10-24", "nickerson-2026-10-31",
+  "point-lookout-2026-09-09", "point-lookout-2026-09-12", "point-lookout-2026-09-14",
+  "point-lookout-2026-09-16", "point-lookout-2026-09-21", "point-lookout-2026-09-23",
+  "point-lookout-2026-09-26", "point-lookout-2026-09-28", "point-lookout-2026-09-30",
+  "point-lookout-2026-10-03", "point-lookout-2026-10-05", "point-lookout-2026-10-07",
+  "point-lookout-2026-10-10", "point-lookout-2026-10-12", "point-lookout-2026-10-14",
+  "point-lookout-2026-10-17", "point-lookout-2026-10-19", "point-lookout-2026-10-21",
+  "point-lookout-2026-10-24", "point-lookout-2026-10-26", "point-lookout-2026-10-28",
 ]);
 
 const CLOSED_TO_NEW_PRACTICE_WINDOW_SET = new Set(CLOSED_TO_NEW_PRACTICE_WINDOW_IDS);
@@ -151,6 +176,7 @@ function practiceWindow({
   approval,
   startIncrementMinutes = 30,
   teamCount = 1,
+  claimCapacity = FIELD_TEAM_CAPACITY,
   requiredDurationHours = null,
   mode = "inventory",
   claimMode = "open",
@@ -173,6 +199,7 @@ function practiceWindow({
     approval,
     startIncrementMinutes,
     teamCount,
+    claimCapacity,
     requiredDurationHours,
     mode,
     claimMode,
@@ -215,6 +242,7 @@ function assignedPracticeWindowsForDates({
       approval: status === "confirmed" || status === "adjusted" ? "confirmed" : "pending",
       startIncrementMinutes: 30,
       teamCount: 1,
+      claimCapacity: 1,
       requiredDurationHours: session.requiredDurationHours,
       mode: "assigned",
       claimMode: "assigned",
@@ -333,13 +361,13 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     ],
   }),
   ...assignedPracticeWindowsForDates({
-    ...STIMSON_ASSIGNED_LOCATION,
+    ...SEAFORD_ASSIGNED_LOCATION,
     dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
-    assignmentStatus: "needs-time",
-    note: `5:45 PM to dark; an exact end time is still needed. ${RECURRING_NOTE}`,
+    assignmentStatus: "confirmed",
+    note: `Mondays 7:15–8:45 PM at Seaford. ${RECURRING_NOTE}`,
     source: DAN_RECURRING_SOURCE,
     sessions: [
-      { team: "2034 Venom", startTime: "17:45", endTime: null, timeLabel: "5:45 PM–Dark", requiredDurationHours: null },
+      { team: "2034 Venom", startTime: "19:15", endTime: "20:45", timeLabel: "7:15 PM–8:45 PM", requiredDurationHours: 1.5 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -356,13 +384,13 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     ],
   }),
   ...assignedPracticeWindowsForDates({
-    ...NICKERSON_ASSIGNED_LOCATION,
+    ...POINT_LOOKOUT_ASSIGNED_LOCATION,
     dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
     assignmentStatus: "confirmed",
-    note: RECURRING_NOTE,
+    note: `Mondays 6:00–7:00 PM at Point Lookout. ${RECURRING_NOTE}`,
     source: DAN_RECURRING_SOURCE,
     sessions: [
-      { team: "2035 Hurricanes", startTime: "17:00", endTime: "18:30", timeLabel: "5:00 PM–6:30 PM", requiredDurationHours: 1.5 },
+      { team: "2035 Hurricanes", startTime: "18:00", endTime: "19:00", timeLabel: "6:00 PM–7:00 PM", requiredDurationHours: 1 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -504,7 +532,7 @@ export const PRACTICE_WINDOWS = Object.freeze([
     kind: "weekend",
     approval: "confirmed",
     startIncrementMinutes: 60,
-    teamCount: 2,
+    teamCount: 1,
     requiredDurationHours: 2,
   })),
   ...ASSIGNED_PRACTICE_WINDOWS,
@@ -612,6 +640,150 @@ function bookingTeams(booking) {
   return candidates.filter((team, index) => team && candidates.indexOf(team) === index);
 }
 
+function bookingInterval(booking) {
+  const start = timeToMinutes(booking?.startTime);
+  const window = PRACTICE_WINDOW_BY_ID.get(booking?.windowId);
+  const end = timeToMinutes(booking?.endTime) ?? (
+    window?.mode === "assigned" && window.endTime === null
+      ? 24 * 60
+      : start + Number(booking?.durationHours) * 60
+  );
+  return Number.isFinite(start) && Number.isFinite(end) && end > start
+    ? { start, end }
+    : null;
+}
+
+function bookingCapacityUnits(booking) {
+  return Math.max(1, Math.min(FIELD_TEAM_CAPACITY, bookingTeams(booking).length));
+}
+
+function cleanChangeText(value, maxLength = 320) {
+  return typeof value === "string"
+    ? value.trim().replace(/\s+/g, " ").slice(0, maxLength)
+    : "";
+}
+
+function normalizeChangeDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value || "") ? value : null;
+}
+
+function normalizeChangeTime(value) {
+  return timeToMinutes(value) !== null ? value : null;
+}
+
+export function normalizeRecentChanges(changes) {
+  if (!Array.isArray(changes)) return [];
+  const ids = new Set();
+  return changes.map((change) => {
+    if (!change || typeof change !== "object" || Array.isArray(change)) return null;
+    const id = cleanChangeText(change.id, 120);
+    const type = cleanChangeText(change.type, 40);
+    const occurredAt = cleanChangeText(change.occurredAt, 40);
+    const summary = cleanChangeText(change.summary);
+    const timestamp = Date.parse(occurredAt);
+    if (!id || ids.has(id) || !CHANGE_TYPES.has(type) || !Number.isFinite(timestamp) || !summary) return null;
+    ids.add(id);
+    const teams = bookingTeams(change).filter((team) => KNOWN_TEAM_SET.has(team)).slice(0, 2);
+    return {
+      id,
+      type,
+      occurredAt: new Date(timestamp).toISOString(),
+      summary,
+      team: teams[0] || null,
+      teams,
+      coach: cleanChangeText(change.coach, 120) || null,
+      date: normalizeChangeDate(change.date),
+      startTime: normalizeChangeTime(change.startTime),
+      endTime: normalizeChangeTime(change.endTime),
+      location: cleanChangeText(change.location, 240) || null,
+    };
+  }).filter(Boolean).slice(0, MAX_RECENT_CHANGES);
+}
+
+function prependRecentChange(changes, change) {
+  return normalizeRecentChanges([change, ...normalizeRecentChanges(changes)]);
+}
+
+function practiceChange(type, booking, occurredAt) {
+  const teams = bookingTeams(booking);
+  const teamLabel = teams.join(" + ");
+  const verb = type === "practice_claimed" ? "claimed" : "released";
+  const timeLabel = [booking.startTime, booking.endTime].filter(Boolean).join("–");
+  return {
+    id: `change-${randomUUID()}`,
+    type,
+    occurredAt,
+    summary: `${teamLabel} ${verb} ${timeLabel} at ${booking.venue}`,
+    team: teams[0] || null,
+    teams,
+    coach: booking.coach,
+    date: booking.date,
+    startTime: booking.startTime,
+    endTime: booking.endTime,
+    location: booking.location,
+  };
+}
+
+function snapshotChange(previous, next, occurredAt) {
+  const previousEvents = new Map(previous.events.map((event) => [event?.id, event]));
+  const nextEvents = new Map(next.events.map((event) => [event?.id, event]));
+  const eventChanges = [];
+
+  for (const [id, event] of nextEvents) {
+    if (!previousEvents.has(id)) eventChanges.push({ type: "tournament_added", event });
+    else if (JSON.stringify(previousEvents.get(id)) !== JSON.stringify(event)) {
+      eventChanges.push({ type: "tournament_updated", event });
+    }
+  }
+  for (const [id, event] of previousEvents) {
+    if (!nextEvents.has(id)) eventChanges.push({ type: "tournament_removed", event });
+  }
+
+  const bookingsChanged = JSON.stringify(previous.practiceBookings) !== JSON.stringify(next.practiceBookings);
+  if (!eventChanges.length && !bookingsChanged) return null;
+
+  if (eventChanges.length === 1 && !bookingsChanged) {
+    const detail = eventChanges[0];
+    const event = detail.event || {};
+    const team = teamValue(event.team);
+    const verb = {
+      tournament_added: "added",
+      tournament_updated: "updated",
+      tournament_removed: "removed",
+    }[detail.type];
+    return {
+      id: `change-${randomUUID()}`,
+      type: detail.type,
+      occurredAt,
+      summary: `${team ? `${team} • ` : ""}${cleanChangeText(event.title, 180) || "Tournament"} ${verb}`,
+      team: KNOWN_TEAM_SET.has(team) ? team : null,
+      teams: KNOWN_TEAM_SET.has(team) ? [team] : [],
+      coach: null,
+      date: normalizeChangeDate(event.start),
+      startTime: null,
+      endTime: null,
+      location: cleanChangeText(event.location, 240) || null,
+    };
+  }
+
+  const parts = [];
+  if (eventChanges.length) parts.push(`${eventChanges.length} tournament change${eventChanges.length === 1 ? "" : "s"}`);
+  if (bookingsChanged) parts.push("practice bookings updated");
+  return {
+    id: `change-${randomUUID()}`,
+    type: "schedule_updated",
+    occurredAt,
+    summary: `Schedule updated: ${parts.join(" • ")}`,
+    team: null,
+    teams: [],
+    coach: null,
+    date: null,
+    startTime: null,
+    endTime: null,
+    location: null,
+  };
+}
+
 function storedBookingReferencesRetiredTeam(booking) {
   if (!booking || typeof booking !== "object" || Array.isArray(booking)) return false;
   const candidates = [
@@ -665,7 +837,8 @@ function normalizeBookingTeams(input, window) {
     throw new CalendarApiError("Practice teams must be names", { code: "invalid_teams" });
   }
   const listedTeams = Array.isArray(input.teams) ? input.teams.map(teamValue) : [];
-  if (listedTeams.some((team) => !team) || listedTeams.length > 2) {
+  const claimCapacity = Number(window.claimCapacity) || FIELD_TEAM_CAPACITY;
+  if (listedTeams.some((team) => !team) || listedTeams.length > claimCapacity) {
     throw new CalendarApiError("Practice must include one or two valid teams", { code: "invalid_teams" });
   }
 
@@ -683,13 +856,10 @@ function normalizeBookingTeams(input, window) {
     throw new CalendarApiError("Unknown BTB team", { code: "invalid_team" });
   }
   if (new Set(teams).size !== teams.length) {
-    throw new CalendarApiError("Momentum sharing requires two distinct teams", { code: "invalid_teams" });
+    throw new CalendarApiError("A field block cannot list the same team twice", { code: "invalid_teams" });
   }
-  if (teams.length !== window.teamCount) {
-    const message = window.teamCount === 2
-      ? "This Momentum window requires exactly two teams"
-      : "This practice window requires exactly one team";
-    throw new CalendarApiError(message, { code: "invalid_team_count" });
+  if (teams.length > claimCapacity) {
+    throw new CalendarApiError("This field block allows no more than two teams", { code: "invalid_team_count" });
   }
   return teams;
 }
@@ -724,42 +894,71 @@ export function practiceBookingsConflict(first, second) {
   const authoritativeWindow = sameWindow ? PRACTICE_WINDOW_BY_ID.get(first.windowId) : null;
   if (sameWindow && authoritativeWindow?.mode === "assigned") return true;
   if (first.date !== second.date) return false;
-  const firstStart = timeToMinutes(first.startTime);
-  const secondStart = timeToMinutes(second.startTime);
-  const firstWindow = PRACTICE_WINDOW_BY_ID.get(first.windowId);
-  const secondWindow = PRACTICE_WINDOW_BY_ID.get(second.windowId);
-  const firstEnd = timeToMinutes(first.endTime) ?? (
-    firstWindow?.mode === "assigned" && firstWindow.endTime === null
-      ? 24 * 60
-      : firstStart + Number(first.durationHours) * 60
-  );
-  const secondEnd = timeToMinutes(second.endTime) ?? (
-    secondWindow?.mode === "assigned" && secondWindow.endTime === null
-      ? 24 * 60
-      : secondStart + Number(second.durationHours) * 60
-  );
-  if (![firstStart, firstEnd, secondStart, secondEnd].every(Number.isFinite)) return false;
-  if (!intervalsOverlap(firstStart, firstEnd, secondStart, secondEnd)) return false;
+  const firstInterval = bookingInterval(first);
+  const secondInterval = bookingInterval(second);
+  if (!firstInterval || !secondInterval ||
+      !intervalsOverlap(firstInterval.start, firstInterval.end, secondInterval.start, secondInterval.end)) return false;
 
   const firstTeams = bookingTeams(first);
   const secondTeams = bookingTeams(second);
-  return sameWindow ||
-    firstTeams.some((team) => secondTeams.includes(team)) ||
+  return firstTeams.some((team) => secondTeams.includes(team)) ||
     coachKey(first.coach) === coachKey(second.coach);
+}
+
+function fieldCapacityExceeded(existingBookings, candidate) {
+  const window = PRACTICE_WINDOW_BY_ID.get(candidate.windowId);
+  if (!window || window.mode === "assigned") return false;
+  const candidateInterval = bookingInterval(candidate);
+  if (!candidateInterval) return false;
+
+  const overlapping = existingBookings.filter((booking) => {
+    if (booking.windowId !== candidate.windowId) return false;
+    const interval = bookingInterval(booking);
+    return interval && intervalsOverlap(
+      interval.start,
+      interval.end,
+      candidateInterval.start,
+      candidateInterval.end,
+    );
+  });
+  const checkpoints = [
+    candidateInterval.start,
+    ...overlapping.map((booking) => bookingInterval(booking)?.start)
+      .filter((start) => Number.isFinite(start) && start >= candidateInterval.start && start < candidateInterval.end),
+  ];
+  const candidateUnits = bookingCapacityUnits(candidate);
+  const claimCapacity = Number(window.claimCapacity) || FIELD_TEAM_CAPACITY;
+
+  return checkpoints.some((point) => {
+    const usedUnits = overlapping.reduce((total, booking) => {
+      const interval = bookingInterval(booking);
+      return interval && interval.start <= point && point < interval.end
+        ? total + bookingCapacityUnits(booking)
+        : total;
+    }, 0);
+    return usedUnits + candidateUnits > claimCapacity;
+  });
 }
 
 function assertNoBookingConflict(existingBookings, candidate) {
   const conflict = existingBookings.find((booking) => practiceBookingsConflict(booking, candidate));
-  if (!conflict) return;
-
-  let reason = "That practice window is already claimed for the selected time.";
-  const sharedTeam = bookingTeams(candidate).find((team) => bookingTeams(conflict).includes(team));
-  if (conflict.windowId !== candidate.windowId && sharedTeam) {
-    reason = `${sharedTeam} already has an overlapping practice.`;
-  } else if (conflict.windowId !== candidate.windowId && coachKey(conflict.coach) === coachKey(candidate.coach)) {
-    reason = `${candidate.coach} already has an overlapping practice.`;
+  if (conflict) {
+    let reason = "That assigned practice already has a coach.";
+    const sharedTeam = bookingTeams(candidate).find((team) => bookingTeams(conflict).includes(team));
+    if (sharedTeam) {
+      reason = `${sharedTeam} already has an overlapping practice.`;
+    } else if (coachKey(conflict.coach) === coachKey(candidate.coach)) {
+      reason = `${candidate.coach} already has an overlapping practice.`;
+    }
+    throw new CalendarApiError(reason, { status: 409, code: "practice_overlap" });
   }
-  throw new CalendarApiError(reason, { status: 409, code: "practice_overlap" });
+
+  if (fieldCapacityExceeded(existingBookings, candidate)) {
+    throw new CalendarApiError("Both field halves are already claimed for that time.", {
+      status: 409,
+      code: "field_capacity",
+    });
+  }
 }
 
 function normalizeBooking(input, { requireId = false, id, createdAt } = {}) {
@@ -909,6 +1108,7 @@ export function normalizeSnapshot(value) {
     version: Number.isSafeInteger(source.version) && source.version >= 0 ? source.version : 0,
     events: Array.isArray(source.events) ? source.events : [],
     practiceBookings: storedBookings,
+    recentChanges: normalizeRecentChanges(source.recentChanges),
     savedAt: typeof source.savedAt === "string" ? source.savedAt : null,
   };
 }
@@ -958,6 +1158,7 @@ export async function mutateSnapshotAtomically(store, mutator, {
       version: current.snapshot.version + 1,
       events: candidate.events,
       practiceBookings: validatePracticeBookings(candidate.practiceBookings),
+      recentChanges: normalizeRecentChanges(candidate.recentChanges ?? current.snapshot.recentChanges),
       savedAt: nowIso(now),
     };
     const write = await conditionalWrite(store, current, saved);
@@ -984,16 +1185,18 @@ export async function claimPractice(store, input, {
     id: idFactory(),
     createdAt,
   });
+  const change = practiceChange("practice_claimed", booking, createdAt);
 
   const result = await mutateSnapshotAtomically(store, (snapshot) => {
     assertNoBookingConflict(snapshot.practiceBookings, booking);
     return {
       ...snapshot,
       practiceBookings: snapshot.practiceBookings.concat(booking),
+      recentChanges: prependRecentChange(snapshot.recentChanges, change),
     };
   }, { now: createdAt, maxAttempts });
 
-  return { ...result, booking };
+  return { ...result, booking, change };
 }
 
 export async function releasePractice(store, bookingId, options = {}) {
@@ -1002,18 +1205,25 @@ export async function releasePractice(store, bookingId, options = {}) {
     throw new CalendarApiError("Practice booking ID is required", { code: "invalid_booking" });
   }
 
-  return mutateSnapshotAtomically(store, (snapshot) => {
-    if (!snapshot.practiceBookings.some((booking) => booking.id === id)) {
+  const occurredAt = nowIso(options.now);
+  let releasedBooking = null;
+  let change = null;
+  const result = await mutateSnapshotAtomically(store, (snapshot) => {
+    releasedBooking = snapshot.practiceBookings.find((booking) => booking.id === id) || null;
+    if (!releasedBooking) {
       throw new CalendarApiError("Practice booking was not found", {
         status: 404,
         code: "booking_not_found",
       });
     }
+    change = practiceChange("practice_released", releasedBooking, occurredAt);
     return {
       ...snapshot,
       practiceBookings: snapshot.practiceBookings.filter((booking) => booking.id !== id),
+      recentChanges: prependRecentChange(snapshot.recentChanges, change),
     };
-  }, options);
+  }, { ...options, now: occurredAt });
+  return { ...result, booking: releasedBooking, change };
 }
 
 export async function saveCalendarSnapshot(store, incoming, etag, { now = () => new Date() } = {}) {
@@ -1039,11 +1249,21 @@ export async function saveCalendarSnapshot(store, incoming, etag, { now = () => 
   const requestedBookings = includesBookings
     ? incoming.practiceBookings
     : current.snapshot.practiceBookings;
+  const normalizedBookings = validatePracticeBookings(requestedBookings);
+  const occurredAt = nowIso(now);
+  const pending = {
+    events: incoming.events,
+    practiceBookings: normalizedBookings,
+  };
+  const change = snapshotChange(current.snapshot, pending, occurredAt);
   const saved = {
     version: current.snapshot.version + 1,
     events: incoming.events,
-    practiceBookings: validatePracticeBookings(requestedBookings),
-    savedAt: nowIso(now),
+    practiceBookings: normalizedBookings,
+    recentChanges: change
+      ? prependRecentChange(current.snapshot.recentChanges, change)
+      : current.snapshot.recentChanges,
+    savedAt: occurredAt,
   };
 
   const write = await conditionalWrite(store, current, saved);
@@ -1055,7 +1275,7 @@ export async function saveCalendarSnapshot(store, incoming, etag, { now = () => 
       ...latest,
     });
   }
-  return { snapshot: saved, etag: write.etag || null };
+  return { snapshot: saved, etag: write.etag || null, change };
 }
 
 function errorPayload(error) {
@@ -1065,11 +1285,96 @@ function errorPayload(error) {
   return payload;
 }
 
-export function createHandler({ authorize = authorizeIdentity, getBlobStore = getStore } = {}) {
-  return (req) => handleRequest(req, { authorize, getBlobStore });
+export function calendarAlertRecipients(env = process.env) {
+  const seen = new Set();
+  return String(env.TOURNAMENT_CALENDAR_NOTIFY_EMAILS || "")
+    .split(",")
+    .map((email) => email.trim())
+    .filter((email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    .filter((email) => {
+      const key = email.toLocaleLowerCase("en-US");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 }
 
-async function handleRequest(req, { authorize, getBlobStore }) {
+function escapeEmailHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;",
+  })[character]);
+}
+
+export async function sendCalendarChangeAlert(change, {
+  env = process.env,
+  fetchImpl = fetch,
+} = {}) {
+  const recipients = calendarAlertRecipients(env);
+  const apiKey = env.BREVO_API_KEY;
+  const senderEmail = env.BREVO_SENDER_EMAIL;
+  const senderName = env.BREVO_SENDER_NAME || "BTB Lacrosse";
+  if (!change || !apiKey || !senderEmail || !recipients.length) {
+    return { sent: false, skipped: "not_configured", recipientCount: recipients.length };
+  }
+
+  const detailLines = [
+    change.summary,
+    change.date ? `Date: ${change.date}` : "",
+    change.startTime ? `Time: ${change.startTime}${change.endTime ? `–${change.endTime}` : ""}` : "",
+    change.location ? `Location: ${change.location}` : "",
+    change.coach ? `Coach: ${change.coach}` : "",
+  ].filter(Boolean);
+  const subject = `[BTB SCHEDULE CHANGE] ${cleanChangeText(change.summary, 140)}`;
+  const htmlDetails = detailLines.map((line) => `<p style="margin:0 0 8px;color:#f4f4f5;line-height:1.5;">${escapeEmailHtml(line)}</p>`).join("");
+  const payload = {
+    sender: { name: senderName, email: senderEmail },
+    to: recipients.map((email) => ({ email })),
+    replyTo: { name: senderName, email: senderEmail },
+    subject,
+    htmlContent: `<div style="background:#09090b;padding:28px;font-family:Arial,sans-serif;"><div style="max-width:620px;margin:auto;border-top:5px solid #D22630;background:#151518;padding:26px;"><h1 style="margin:0 0 18px;color:#fff;font-size:24px;">BTB Staff Schedule Change</h1>${htmlDetails}<p style="margin:22px 0 0;"><a href="${CALENDAR_URL}" style="display:inline-block;background:#D22630;color:#fff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:6px;">Open Master Calendar</a></p><p style="margin:20px 0 0;color:#a1a1aa;font-size:12px;">Staff only. Do not forward.</p></div></div>`,
+    textContent: ["BTB Staff Schedule Change", "", ...detailLines, "", `Open Master Calendar: ${CALENDAR_URL}`, "Staff only. Do not forward."].join("\n"),
+  };
+
+  const response = await fetchImpl("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "api-key": apiKey,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) {
+    const body = await response.text().catch(() => "");
+    throw new Error(`Brevo calendar alert returned ${response.status}: ${body.slice(0, 160)}`);
+  }
+  return { sent: true, recipientCount: recipients.length, subject };
+}
+
+async function notifyCalendarChange(change, sendAlert) {
+  if (!change) return { sent: false, skipped: "no_change" };
+  try {
+    return await sendAlert(change);
+  } catch (error) {
+    console.error("tournament-calendar alert failed", error);
+    return { sent: false, error: "delivery_failed" };
+  }
+}
+
+export function createHandler({
+  authorize = authorizeIdentity,
+  getBlobStore = getStore,
+  sendAlert = sendCalendarChangeAlert,
+} = {}) {
+  return (req) => handleRequest(req, { authorize, getBlobStore, sendAlert });
+}
+
+async function handleRequest(req, { authorize, getBlobStore, sendAlert }) {
   const blocked = guardRequest(req, {
     limit: 60,
     windowMs: 60_000,
@@ -1110,17 +1415,20 @@ async function handleRequest(req, { authorize, getBlobStore }) {
 
     if (req.method === "POST" && body?.action === "save") {
       const result = await saveCalendarSnapshot(store, body.snapshot, body.etag);
-      return jsonResponse({ ok: true, ...result });
+      const notification = await notifyCalendarChange(result.change, sendAlert);
+      return jsonResponse({ ok: true, ...result, notification });
     }
 
     if (req.method === "POST" && body?.action === "claimPractice") {
       const result = await claimPractice(store, body.booking);
-      return jsonResponse({ ok: true, ...result });
+      const notification = await notifyCalendarChange(result.change, sendAlert);
+      return jsonResponse({ ok: true, ...result, notification });
     }
 
     if (req.method === "POST" && body?.action === "releasePractice") {
       const result = await releasePractice(store, body.bookingId);
-      return jsonResponse({ ok: true, ...result });
+      const notification = await notifyCalendarChange(result.change, sendAlert);
+      return jsonResponse({ ok: true, ...result, notification });
     }
 
     return jsonResponse({ error: "Unsupported action" }, 405);
