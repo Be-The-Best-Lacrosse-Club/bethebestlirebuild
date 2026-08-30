@@ -31,6 +31,8 @@ const DEVELOPMENT_STEPS = [
 ]
 
 const PARENT_LINKS = [
+  { title: "Fall + winter newsletter", description: "Everything for the 2026-27 season, start to finish", href: "/fall-winter-newsletter" },
+  { title: "Winter training signup", description: "The Lab, offense, face-off, goalie, defense, and draw", href: "/parent-training" },
   { title: "Season calendar", description: "Dates, tournament weekends, and team rhythm", href: "/parent-hub" },
   { title: "Fields + directions", description: "Practice locations and event-day details", href: "/parent-hub" },
   { title: "Weather + safety", description: "Current expectations and communication", href: "/parent-hub" },
@@ -591,7 +593,8 @@ export function HomePage() {
               <p className="btb-home__section-kicker"><span>06</span> Parent hub</p>
               <h2>The details parents need—<em>without the hunt.</em></h2>
               <p>Clear expectations, current information, and a direct path to the right person.</p>
-              <a className="btb-home__button btb-home__button--dark" href="/parent-hub">Open the parent hub <span aria-hidden="true">↗</span></a>
+              <a className="btb-home__button btb-home__button--dark" href="/fall-winter-newsletter">Read the season newsletter <span aria-hidden="true">↗</span></a>
+              <a className="btb-home__text-link" href="/parent-training">Winter training signup <span aria-hidden="true">↗</span></a>
             </div>
             <div className="btb-home__utility-grid">
               {PARENT_LINKS.map((item, index) => (
@@ -626,6 +629,7 @@ export function HomePage() {
           <div className="btb-home__footer-links">
             <div><h3>Programs</h3><a href="/boys">Boys lacrosse</a><a href="/girls">Girls lacrosse</a><a href="/futures">BTB Futures</a><a href="/camps">Camps + clinics</a></div>
             <div><h3>Join BTB</h3><a href="/players-wanted">Roster openings</a><a href="/interest">Interest form</a><a href="/recruiting">Recruiting</a><a href="/contact">Contact</a></div>
+            <div><h3>Parents</h3><a href="/fall-winter-newsletter">Season newsletter</a><a href="/parent-training">Winter training</a><a href="/parent-hub">Parent hub</a></div>
             <div><h3>Connect</h3><a href="https://www.instagram.com/bethebestli" target="_blank" rel="noreferrer">Instagram</a><a href="https://x.com/bethebestli" target="_blank" rel="noreferrer">X / Twitter</a><a href="mailto:info@bethebestli.com">info@bethebestli.com</a></div>
           </div>
         </div>
