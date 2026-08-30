@@ -93,6 +93,13 @@ test("newsletter includes all three BTB team stores", () => {
     "https://www.unltdteam.com/BeTheBestBoysUni80006/shop/home",
     "https://www.unltdteam.com/BeTheBestEquip70070/shop/home",
   ]) {
-    assert.match(newsletterHtml, new RegExp(`href="${url}"[^>]*target="_blank"[^>]*rel="noopener"`))
+    const linkStart = newsletterHtml.indexOf(`href="${url}"`)
+    const linkEnd = newsletterHtml.indexOf(">", linkStart)
+
+    assert.notEqual(linkStart, -1, `Newsletter is missing store link ${url}`)
+    assert.notEqual(linkEnd, -1, `Store link ${url} is not closed`)
+    const link = newsletterHtml.slice(linkStart, linkEnd + 1)
+    assert.ok(link.includes('target="_blank"'))
+    assert.ok(link.includes('rel="noopener"'))
   }
 })
