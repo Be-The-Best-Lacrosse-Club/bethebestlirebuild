@@ -50,8 +50,8 @@ test("newsletter lists only fall tournaments entered on the master calendar", ()
   const fallEvents = events.filter((event) => !nonFallEventIds.has(event.id))
   const newsletterEventIds = [...newsletterHtml.matchAll(/data-event-id="([^"]+)"/g)].map((match) => match[1])
 
-  assert.equal(events.length, 37)
-  assert.equal(fallEvents.length, 33)
+  assert.equal(events.length, 44)
+  assert.equal(fallEvents.length, 40)
   assert.equal(newsletterEventIds.length, fallEvents.length)
   assert.equal(new Set(newsletterEventIds).size, fallEvents.length)
 
@@ -66,21 +66,30 @@ test("newsletter lists only fall tournaments entered on the master calendar", ()
   assert.match(newsletterHtml, /\* Tournament is off Long Island/)
 })
 
-test("optional-third labels never create tournaments outside the actual calendar", () => {
+test("optional Fall Classic entries for every boys team stay tied to the actual calendar", () => {
   const black2028 = newsletterTeam("2028 Black")
   const black2028EventIds = [...black2028.matchAll(/data-event-id="([^"]+)"/g)].map((match) => match[1])
 
   assert.deepEqual(black2028EventIds, ["b28-igloo", "b28-baltimore"])
   assert.doesNotMatch(black2028, /optional-badge/)
   assert.doesNotMatch(newsletterHtml, /Tournament details TBD/)
-  for (const team of ["2036 Fury", "2037 Wolves", "2035 Tornadoes", "2037 Supernova"]) {
+  for (const team of ["2035 Tornadoes", "2037 Supernova"]) {
     assert.ok(!newsletterHtml.includes(`<tr data-team="${team}">`), `${team} should stay off the newsletter until an event is on the calendar`)
   }
-  assert.match(newsletterHtml, /Every boys and girls team except <strong>2028 Black<\/strong> may elect an optional third tournament/)
-  assert.match(newsletterHtml, /Only fall tournaments already entered on the actual master calendar are shown below/)
+  assert.match(newsletterHtml, /Fall Classic is available as an optional tournament for every boys team except 2028 Black/)
+  assert.match(newsletterHtml, /The 2028s remain Blue Chip and Baltimore only/)
+  assert.match(newsletterHtml, /Only fall tournaments entered on the actual master calendar are shown/)
 
   for (const eventId of [
+    "b30-fall-classic",
+    "b31-fall-classic",
+    "b32-fall-classic",
     "b33-fall-classic",
+    "b34-fall-classic",
+    "b35-fall-classic",
+    "b36-fury-fall-classic",
+    "b36-dawgs-fall-classic",
+    "b37-fall-classic",
     "g31-queen-fall",
     "g32-fall-classic",
     "g33-fall-classic",
@@ -88,9 +97,17 @@ test("optional-third labels never create tournaments outside the actual calendar
     "g35-fall-classic",
     "g36-fall-classic",
   ]) {
-    assert.match(newsletterEvent(eventId), /optional-badge/, `${eventId} should be marked as the optional third event`)
+    assert.match(newsletterEvent(eventId), /optional-badge/, `${eventId} should be marked optional`)
   }
-  assert.equal((newsletterHtml.match(/class="optional-badge"/g) || []).length, 7)
+  assert.equal((newsletterHtml.match(/class="optional-badge"/g) || []).length, 15)
+})
+
+test("Venom and Dawgs show one additional tournament as pending", () => {
+  for (const team of ["2034 Venom", "2036 Dawgs"]) {
+    const row = newsletterTeam(team)
+    assert.match(row, /One more tournament pending/)
+    assert.match(row, /The additional event will be posted once selected/)
+  }
 })
 
 test("newsletter includes all three BTB team stores", () => {
