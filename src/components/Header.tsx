@@ -92,20 +92,6 @@ export function Header() {
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}>
-        {/* Scrolling announcement strip */}
-        <div className="bg-[var(--btb-red)] text-white overflow-hidden whitespace-nowrap py-1.5 border-b border-black/10">
-          <div className="flex animate-scroll-fast w-max">
-            {[...Array(4)].map((_, i) => (
-              <span key={i} className="flex items-center shrink-0">
-                <span className="font-display text-sm md:text-base uppercase tracking-[3px] px-6">
-                  Good luck to all our BTB players on their first week of school
-                </span>
-                <span className="text-white/50 text-sm">//</span>
-              </span>
-            ))}
-          </div>
-        </div>
-
         <div className="max-w-[1320px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
           {/* Logo */}
