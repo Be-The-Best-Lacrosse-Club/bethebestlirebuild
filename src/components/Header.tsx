@@ -14,8 +14,7 @@ const teamLinks = (gender: string) => [
 const programLinks = [
   { label: "Boys Lacrosse", href: "/boys" },
   { label: "Girls Lacrosse", href: "/girls" },
-  { label: "Boys Mini Camp · Aug 23, 24 & 26", href: "/register-boys-mini-camp" },
-  { label: "Girls Mini Camp · Aug 19–21", href: "/register-girls-mini-camp" },
+  { label: "Sixes League · Register", href: "/register-sixes-league" },
   { label: "Players Wanted", href: "/players-wanted" },
   { label: "BTB Futures (K-2)", href: "/futures" },
   { label: "Camps & Clinics", href: "/camps" },
@@ -26,8 +25,7 @@ const staticLinks = new Set([
   "/newsletter",
   "/coach-tools.html",
   "/register-futures",
-  "/register-boys-mini-camp",
-  "/register-girls-mini-camp",
+  "/register-sixes-league",
 ])
 
 export function Header() {
@@ -94,6 +92,20 @@ export function Header() {
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}>
+        {/* Scrolling announcement strip */}
+        <div className="bg-[var(--btb-red)] text-white overflow-hidden whitespace-nowrap py-1.5 border-b border-black/10">
+          <div className="flex animate-scroll-fast w-max">
+            {[...Array(4)].map((_, i) => (
+              <span key={i} className="flex items-center shrink-0">
+                <span className="font-display text-sm md:text-base uppercase tracking-[3px] px-6">
+                  Good luck to all our BTB players on their first week of school
+                </span>
+                <span className="text-white/50 text-sm">//</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
         <div className="max-w-[1320px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
           {/* Logo */}
@@ -219,16 +231,10 @@ export function Header() {
             {/* Primary CTAs */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               <button
-                onClick={() => go("/register-boys-mini-camp")}
-                className="py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[1.5px] rounded-xl"
+                onClick={() => go("/register-sixes-league")}
+                className="col-span-2 py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[1.5px] rounded-xl"
               >
-                Boys Mini Camp · $150
-              </button>
-              <button
-                onClick={() => go("/register-girls-mini-camp")}
-                className="py-4 border-2 border-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[1.5px] rounded-xl"
-              >
-                Girls Mini Camp · $150
+                Sixes League · Register
               </button>
               <button
                 onClick={() => go("/boys")}
@@ -251,8 +257,7 @@ export function Header() {
                 links: [
                   { label: "Boys Program", href: "/boys" },
                   { label: "Girls Program", href: "/girls" },
-                  { label: "Boys Mini Camp · Aug 23, 24 & 26", href: "/register-boys-mini-camp" },
-                  { label: "Girls Mini Camp · Aug 19–21", href: "/register-girls-mini-camp" },
+                  { label: "Sixes League · Register", href: "/register-sixes-league" },
                   { label: "Players Wanted", href: "/players-wanted" },
                   { label: "BTB Futures", href: "/futures" },
                   { label: "Camps & Clinics", href: "/camps" },
