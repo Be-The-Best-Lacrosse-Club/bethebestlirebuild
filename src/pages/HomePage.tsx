@@ -39,24 +39,28 @@ const PARENT_LINKS = [
   { title: "Straight answers", description: "Programs, placement, travel, and the BTB standard", href: "/contact" },
 ]
 
-const HEADER_EVENTS = [
+const HEADER_EVENTS: {
+  label: string
+  title: string
+  details: string
+  href?: string
+}[] = [
+  {
+    label: "Go BTB",
+    title: "Good luck, BTB",
+    details: "Good luck to all our BTB players on their first week of school",
+  },
+  {
+    label: "Now open",
+    title: "Sixes League",
+    details: "Coleman Sundays · Momentum Thursdays · 8–10 per team",
+    href: "/register-sixes-league",
+  },
   {
     label: "Now open",
     title: "Futures Camp",
     details: "Aug 18–20 · 9–11 AM · Plainedge Park · 2034–2037",
     href: "/register-futures",
-  },
-  {
-    label: "Girls",
-    title: "Girls Mini Camp",
-    details: "Aug 19–21 · Momentum Sports · 2031–2036",
-    href: "/register-girls-mini-camp",
-  },
-  {
-    label: "Boys",
-    title: "3-Day Boys Mini Camp",
-    details: "Aug 23, 24 & 26 · Momentum Sports · 2031–2036",
-    href: "/register-boys-mini-camp",
   },
 ]
 
@@ -183,19 +187,33 @@ export function HomePage() {
           <div className="btb-home__events-inner">
             <div className="btb-home__events-viewport">
               <div className={`btb-home__events-track${tickerPaused ? " is-paused" : ""}`}>
-                {HEADER_EVENTS.map((event) => (
-                  <a
-                    className="btb-home__event-item"
-                    href={event.href}
-                    key={event.href}
-                    aria-label={`Register for ${event.title}: ${event.details}`}
-                  >
-                    <span className="btb-home__event-label">{event.label}</span>
-                    <strong>{event.title}</strong>
-                    <span className="btb-home__event-meta">{event.details}</span>
-                    <span className="btb-home__event-register">Sign up <span aria-hidden="true">→</span></span>
-                  </a>
-                ))}
+                {HEADER_EVENTS.map((event) => {
+                  const content = (
+                    <>
+                      <span className="btb-home__event-label">{event.label}</span>
+                      <strong>{event.title}</strong>
+                      <span className="btb-home__event-meta">{event.details}</span>
+                      {event.href ? (
+                        <span className="btb-home__event-register">Sign up <span aria-hidden="true">→</span></span>
+                      ) : null}
+                    </>
+                  )
+
+                  return event.href ? (
+                    <a
+                      className="btb-home__event-item"
+                      href={event.href}
+                      key={event.title}
+                      aria-label={`Register for ${event.title}: ${event.details}`}
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <span className="btb-home__event-item" key={event.title}>
+                      {content}
+                    </span>
+                  )
+                })}
               </div>
             </div>
             <div className="btb-home__event-actions">
