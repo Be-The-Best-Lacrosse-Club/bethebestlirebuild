@@ -9,6 +9,19 @@
   status = 301
   force = true
 
+# Sixes League registers on its own site, not on bethebestli.com.
+[[redirects]]
+  from = "/register-sixes-league"
+  to = "https://www.thesixesleague.com"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/register-sixes-league.html"
+  to = "https://www.thesixesleague.com"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/parent-training"
   to = "/parent-training.html"
@@ -18,61 +31,6 @@
 [[redirects]]
   from = "/fall-winter-newsletter"
   to = "/fall-winter-newsletter.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/register-sixes-league.html"
-  to = "/register-sixes-league.html"
-  status = 200
-
-[[redirects]]
-  from = "/register-sixes-league"
-  to = "/register-sixes-league.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/register-sixes-league.html"
-  to = "/register-sixes-league.html"
-  status = 200
-
-[[redirects]]
-  from = "/register-sixes-league"
-  to = "/register-sixes-league.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/register-sixes-league.html"
-  to = "/register-sixes-league.html"
-  status = 200
-
-[[redirects]]
-  from = "/register-sixes-league"
-  to = "/register-sixes-league.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/register-sixes-league.html"
-  to = "/register-sixes-league.html"
-  status = 200
-
-[[redirects]]
-  from = "/register-sixes-league"
-  to = "/register-sixes-league.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/register-sixes-league.html"
-  to = "/register-sixes-league.html"
-  status = 200
-
-[[redirects]]
-  from = "/register-sixes-league"
-  to = "/register-sixes-league.html"
   status = 200
   force = true
 

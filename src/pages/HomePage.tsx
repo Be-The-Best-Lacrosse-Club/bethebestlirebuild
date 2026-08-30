@@ -54,7 +54,7 @@ const HEADER_EVENTS: {
     label: "Now open",
     title: "Sixes League",
     details: "Coleman Sundays · Momentum Thursdays · 8–10 per team",
-    href: "/register-sixes-league",
+    href: "https://www.thesixesleague.com",
   },
   {
     label: "Now open",
