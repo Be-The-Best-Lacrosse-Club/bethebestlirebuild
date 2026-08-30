@@ -171,7 +171,11 @@ td strong{color:var(--ink)}
   background:#fdf2f3;color:var(--btb-dark-red);font-size:9px;font-weight:800;
   letter-spacing:.08em;text-transform:uppercase;
 }
-.optional-entry{color:var(--btb-dark-red);font-weight:700}
+.tournament-pending{
+  padding:9px 10px;margin-top:8px;border:1px dashed #c3c6cc;border-radius:5px;
+  background:var(--wash);color:var(--muted);font-size:12px;line-height:1.45;
+}
+.tournament-pending strong{display:block;color:var(--ink)}
 .travel-key{font-size:12px!important;color:var(--muted);margin-top:-12px}
 
 .store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 22px}
@@ -182,6 +186,14 @@ td strong{color:var(--ink)}
   letter-spacing:.06em;line-height:1.08;transition:transform .18s ease,background .18s ease;
 }
 .store-link:hover,.store-link:focus-visible{background:var(--btb-red);transform:translateY(-2px)}
+
+.director-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.director-card{background:linear-gradient(145deg,#fff,#fafafb)}
+.director-email{
+  display:inline-block;margin-top:12px;color:var(--btb-dark-red);font-size:13px;font-weight:800;
+  line-height:1.4;text-decoration:none;border-bottom:2px solid rgba(210,38,48,.35);overflow-wrap:anywhere;
+}
+.director-email:hover,.director-email:focus-visible{color:var(--btb-red);border-bottom-color:var(--btb-red)}
 
 /* ---------- LOCATION CHIPS ---------- */
 .chips{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0}
@@ -236,6 +248,7 @@ td strong{color:var(--ink)}
 @media (max-width:560px){
   .store-grid{grid-template-columns:1fr}
   .store-link{min-height:58px}
+  .director-grid{grid-template-columns:1fr}
   .tournament-table{overflow:visible}
   .tournament-table table{display:block;min-width:0}
   .tournament-table tr{display:block;margin-bottom:14px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
@@ -362,14 +375,14 @@ td strong{color:var(--ink)}
   <!-- 03 TOURNAMENTS -->
   <div class="section" id="tournaments">
     <span class="eyebrow">03 &mdash; Tournaments</span>
-    <h2>Schedules Are <span class="red">Done</span></h2>
+    <h2>Fall Tournament <span class="red">Plans</span></h2>
     <div class="deck">Built team by team &mdash; not one blanket schedule for everybody.</div>
-    <p>All tournament schedules are complete. We took real time on this and built <strong>an individual path for each team</strong> rather than dropping everyone into the same events.</p>
+    <p>The current fall tournament schedule is laid out below. We took real time on this and built <strong>an individual path for each team</strong> rather than dropping everyone into the same events. Venom and Dawgs each still have one additional tournament selection pending.</p>
     <p>Some teams are on a path that will require travel. Other teams we are still navigating toward tournaments where they will be successful, enjoy playing with their teammates, and get the right kind of adversity to grow through. Both paths are intentional.</p>
 
     <div class="alert">
-      <div class="t">OPTIONAL THIRD TOURNAMENT</div>
-      <p>Every boys and girls team except <strong>2028 Black</strong> may elect an optional third tournament. When a team's third event is already on the schedule, it is marked below. If it has not been selected yet, it is listed as <strong>details TBD</strong> and will be announced to that team separately.</p>
+      <div class="t">OPTIONAL FALL CLASSIC</div>
+      <p><strong>Fall Classic is available as an optional tournament for every boys team except 2028 Black.</strong> The 2028s remain Blue Chip and Baltimore only. Girls optional events remain marked below. Only fall tournaments entered on the actual master calendar are shown. Venom and Dawgs also have one additional tournament selection pending.</p>
     </div>
 
     <h3>BOYS TOURNAMENTS</h3>
@@ -381,25 +394,20 @@ td strong{color:var(--ink)}
           <td>
             <div class="tournament-entry" data-event-id="b28-igloo"><strong>Igloo Elite Invitational (Blue Chip)</strong>Nov. 8, 2026<span class="tournament-venue">New York &mdash; venue TBD</span></div>
             <div class="tournament-entry" data-event-id="b28-baltimore"><strong>Baltimore Fall Showdown *</strong>Nov. 22, 2026<span class="tournament-venue">Coppermine Complex, Maryland</span></div>
-            <div class="tournament-entry" data-event-id="b28-crabfeast"><strong>Crabfeast *</strong>June 20&ndash;21, 2027<span class="tournament-venue">Bel Air, Maryland</span></div>
-            <div class="tournament-entry" data-event-id="b28-naptown"><strong>NAPTOWN Challenge *</strong>June 28&ndash;30, 2027<span class="tournament-venue">Annapolis area, Maryland</span></div>
-            <div class="tournament-entry" data-event-id="b28-showdown"><strong>Showdown</strong>Date TBD<span class="tournament-venue">New York</span></div>
-            <div class="tournament-entry" data-event-id="b28-primetime-invite"><strong>Primetime Invitational *</strong>Date TBD<span class="tournament-venue">Lake George, New York</span></div>
           </td>
         </tr>
         <tr data-team="2030 Rage">
           <td><strong>2030 Rage</strong></td>
           <td>
-            <div class="tournament-entry" data-event-id="b30-fall-classic"><strong>Fall Classic</strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
+            <div class="tournament-entry" data-event-id="b30-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
             <div class="tournament-entry" data-event-id="b30-apex-fall"><strong>Apex Fall Championship</strong>Date and location TBD</div>
-            <div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div>
           </td>
         </tr>
         <tr data-team="2031 Carnage">
           <td><strong>2031 Carnage</strong></td>
           <td>
             <div class="tournament-entry" data-event-id="b31-igloo"><strong>Igloo Elite Invitational</strong>Nov. 7, 2026<span class="tournament-venue">New York &mdash; venue TBD</span></div>
-            <div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div>
+            <div class="tournament-entry" data-event-id="b31-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
           </td>
         </tr>
         <tr data-team="2032 Cannons">
@@ -407,7 +415,7 @@ td strong{color:var(--ink)}
           <td>
             <div class="tournament-entry" data-event-id="b32-pumpkin-shootout"><strong>Pumpkin Shootout *</strong>Oct. 17, 2026<span class="tournament-venue">Blue Sky Sports Complex, Middletown, New York</span></div>
             <div class="tournament-entry" data-event-id="b32-fall-brawl"><strong>Fall Brawl</strong>Nov. 11, 2026<span class="tournament-venue">Heckscher State Park, New York</span></div>
-            <div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div>
+            <div class="tournament-entry" data-event-id="b32-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
           </td>
         </tr>
         <tr data-team="2033 Renegades">
@@ -415,14 +423,15 @@ td strong{color:var(--ink)}
           <td>
             <div class="tournament-entry" data-event-id="b33-igloo"><strong>Igloo Elite Invitational</strong>Nov. 7, 2026<span class="tournament-venue">New York &mdash; venue TBD</span></div>
             <div class="tournament-entry" data-event-id="b33-fall-brawl"><strong>Fall Brawl</strong>Nov. 11, 2026<span class="tournament-venue">Heckscher State Park, New York</span></div>
-            <div class="tournament-entry" data-event-id="b33-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional 3rd</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
+            <div class="tournament-entry" data-event-id="b33-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
           </td>
         </tr>
         <tr data-team="2034 Venom">
           <td><strong>2034 Venom</strong></td>
           <td>
             <div class="tournament-entry" data-event-id="b34-igloo"><strong>Igloo Elite Invitational</strong>Nov. 7, 2026<span class="tournament-venue">New York &mdash; venue TBD</span></div>
-            <div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div>
+            <div class="tournament-entry" data-event-id="b34-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
+            <div class="tournament-pending"><strong>One more tournament pending</strong>The additional event will be posted once selected.</div>
           </td>
         </tr>
         <tr data-team="2035 Bombers">
@@ -430,23 +439,28 @@ td strong{color:var(--ink)}
           <td>
             <div class="tournament-entry" data-event-id="b35-fall-jam"><strong>Fall Jam</strong>Oct. 10, 2026<span class="tournament-venue">Farmingdale State College, New York</span></div>
             <div class="tournament-entry" data-event-id="b35-north-shore"><strong>North Shore Invitation</strong>Nov. 7, 2026<span class="tournament-venue">Mount Sinai High School, New York</span></div>
-            <div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div>
+            <div class="tournament-entry" data-event-id="b35-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
           </td>
         </tr>
         <tr data-team="2036 Fury">
           <td><strong>2036 Fury</strong></td>
-          <td><div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div></td>
+          <td>
+            <div class="tournament-entry" data-event-id="b36-fury-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
+          </td>
         </tr>
         <tr data-team="2036 Dawgs">
           <td><strong>2036 Dawgs</strong></td>
           <td>
             <div class="tournament-entry" data-event-id="b36-igloo"><strong>Igloo Elite Invitational</strong>Nov. 7, 2026<span class="tournament-venue">New York &mdash; venue TBD</span></div>
-            <div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div>
+            <div class="tournament-entry" data-event-id="b36-dawgs-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
+            <div class="tournament-pending"><strong>One more tournament pending</strong>The additional event will be posted once selected.</div>
           </td>
         </tr>
         <tr data-team="2037 Wolves">
           <td><strong>2037 Wolves</strong></td>
-          <td><div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div></td>
+          <td>
+            <div class="tournament-entry" data-event-id="b37-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
+          </td>
         </tr>
       </table>
     </div>
@@ -496,10 +510,6 @@ td strong{color:var(--ink)}
             <div class="tournament-entry" data-event-id="g35-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional 3rd</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
           </td>
         </tr>
-        <tr data-team="2035 Tornadoes">
-          <td><strong>2035 Tornadoes</strong></td>
-          <td><div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div></td>
-        </tr>
         <tr data-team="2036 Avalanche">
           <td><strong>2036 Avalanche</strong></td>
           <td>
@@ -507,10 +517,6 @@ td strong{color:var(--ink)}
             <div class="tournament-entry" data-event-id="g36-queen-fall"><strong>Queen of the Island</strong>Oct. 24, 2026<span class="tournament-venue">Destination KP, Kings Park, New York</span></div>
             <div class="tournament-entry" data-event-id="g36-fall-classic"><strong>Fall Classic <span class="optional-badge">Optional 3rd</span></strong>Nov. 21, 2026<span class="tournament-venue">SUSA + Destination KP, New York</span></div>
           </td>
-        </tr>
-        <tr data-team="2037 Supernova">
-          <td><strong>2037 Supernova</strong></td>
-          <td><div class="tournament-entry optional-entry"><span class="optional-badge">Optional 3rd</span> Tournament details TBD</div></td>
         </tr>
       </table>
     </div>
@@ -890,6 +896,24 @@ td strong{color:var(--ink)}
     <span class="eyebrow">11 &mdash; Standards</span>
     <h2>Communication Is the <span class="red">Driving Force</span></h2>
     <div class="deck">How we handle problems at BTB.</div>
+
+    <h3>MEET THE BOYS DIRECTORS</h3>
+    <p><strong>Sean Reynolds and Taylor Horan are BTB's Boys Directors for the 2026&ndash;27 season.</strong> For all boys-program questions or concerns &mdash; including teams, schedules, tournaments, coaching, player development, or communication &mdash; please go directly to Sean or Taylor. They are the first point of contact for the boys program.</p>
+    <div class="cards director-grid">
+      <div class="card director-card">
+        <div class="kicker">Boys Director</div>
+        <h4>Sean Reynolds</h4>
+        <p>Contact Sean with any boys-program question or concern.</p>
+        <a class="director-email" href="mailto:btb.director.reynolds@gmail.com">btb.director.reynolds@gmail.com</a>
+      </div>
+      <div class="card director-card">
+        <div class="kicker">Boys Director</div>
+        <h4>Taylor Horan</h4>
+        <p>Contact Taylor with any boys-program question or concern.</p>
+        <a class="director-email" href="mailto:coachtbtb@gmail.com">coachtbtb@gmail.com</a>
+      </div>
+    </div>
+
     <p>If you are unhappy with something, <strong>please bring it to the coaches.</strong> They bring it to me or to the director, and we fix it. Too often things fester quietly until they are past the point where we can do anything about them.</p>
     <p>Let us know when there is an issue and we will help find a solution. That is the whole standard here: <strong>we find solutions, we do not complain, and we do what is best for the kids.</strong></p>
 
