@@ -23,6 +23,8 @@ const programLinks = [
 
 const staticLinks = new Set([
   "/newsletter",
+  "/parent-training",
+  "/fall-winter-newsletter",
   "/coach-tools.html",
   "/register-futures",
   "https://www.thesixesleague.com",
@@ -162,9 +164,11 @@ export function Header() {
 
             <button onClick={() => go("/parent-hub")} className={navItemClass("/parent-hub")}>Parent Hub</button>
 
+            <a href="/parent-training" className={navItemClass("/parent-training")}>Winter Training</a>
+
             <button onClick={() => go("/coach-tools.html")} className={navItemClass("/coach-tools")}>Coaches Hub</button>
 
-            <a href="/newsletter" className={navItemClass("/newsletter")}>Newsletter</a>
+            <a href="/fall-winter-newsletter" className={navItemClass("/fall-winter-newsletter")}>Newsletter</a>
 
             <a href="/academy" className={navItemClass("/academy")}>Academy</a>
 
@@ -276,8 +280,9 @@ export function Header() {
                 label: "More",
                 links: [
                   { label: "Parent Hub", href: "/parent-hub" },
+                  { label: "Winter Training", href: "/parent-training" },
                   { label: "Coaches Hub", href: "/coach-tools.html" },
-                  { label: "Newsletter", href: "/newsletter" },
+                  { label: "Newsletter", href: "/fall-winter-newsletter" },
                   { label: "Academy", href: "/academy" },
                   { label: "Recruiting", href: "/recruiting" },
                   { label: "Contact", href: "/contact" },

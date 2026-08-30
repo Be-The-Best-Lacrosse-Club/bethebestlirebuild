@@ -5,6 +5,22 @@ import { academyPhaseMap, parentPortalModules } from "@/lib/academySystem"
 
 const portalLinks = [
   {
+    title: "Winter Training Registration",
+    icon: CreditCard,
+    desc: "The Lab, offensive training, face-off, goalie, defense, and draw. Browse every option and sign up. Password is in the newsletter.",
+    href: "/parent-training",
+    external: true,
+    tag: "PARENTS",
+  },
+  {
+    title: "Fall & Winter Newsletter",
+    icon: BookOpen,
+    desc: "Everything for the season: curriculum, film sessions, tournaments, winter training, equipment, and program standards.",
+    href: "/fall-winter-newsletter",
+    external: true,
+    tag: "2026-27",
+  },
+  {
     title: "Schedules & Rosters",
     icon: Calendar,
     desc: "Open TeamSnap for your team schedule, roster, availability, alerts, and event updates.",
