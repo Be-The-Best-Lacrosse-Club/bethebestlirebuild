@@ -14,7 +14,7 @@ const teamLinks = (gender: string) => [
 const programLinks = [
   { label: "Boys Lacrosse", href: "/boys" },
   { label: "Girls Lacrosse", href: "/girls" },
-  { label: "Sixes League · Register", href: "/register-sixes-league" },
+  { label: "Sixes League · Register", href: "https://www.thesixesleague.com" },
   { label: "Players Wanted", href: "/players-wanted" },
   { label: "BTB Futures (K-2)", href: "/futures" },
   { label: "Camps & Clinics", href: "/camps" },
@@ -25,7 +25,7 @@ const staticLinks = new Set([
   "/newsletter",
   "/coach-tools.html",
   "/register-futures",
-  "/register-sixes-league",
+  "https://www.thesixesleague.com",
 ])
 
 export function Header() {
@@ -231,7 +231,7 @@ export function Header() {
             {/* Primary CTAs */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               <button
-                onClick={() => go("/register-sixes-league")}
+                onClick={() => go("https://www.thesixesleague.com")}
                 className="col-span-2 py-4 bg-[var(--btb-red)] text-white font-black text-sm uppercase tracking-[1.5px] rounded-xl"
               >
                 Sixes League · Register
@@ -257,7 +257,7 @@ export function Header() {
                 links: [
                   { label: "Boys Program", href: "/boys" },
                   { label: "Girls Program", href: "/girls" },
-                  { label: "Sixes League · Register", href: "/register-sixes-league" },
+                  { label: "Sixes League · Register", href: "https://www.thesixesleague.com" },
                   { label: "Players Wanted", href: "/players-wanted" },
                   { label: "BTB Futures", href: "/futures" },
                   { label: "Camps & Clinics", href: "/camps" },
