@@ -79,7 +79,12 @@ test("newsletter lists only fall tournaments entered on the master calendar", ()
   assert.match(newsletterHtml, /\* Tournament is off Long Island/)
 })
 
-test("newsletter optional Fall Classic labels match the published family plan", () => {
+test("newsletter presents listed Fall Classic events without optional labels", () => {
+  const tournamentSection = extractBlock(
+    newsletterHtml,
+    '<div class="section" id="tournaments">',
+    '<div class="section" id="walkthroughs">',
+  )
   const black2028 = newsletterTeam("2028 Black")
   const black2028EventIds = [...black2028.matchAll(/data-event-id="([^"]+)"/g)].map((match) => match[1])
   const wolves2037 = newsletterTeam("2037 Wolves")
@@ -93,7 +98,6 @@ test("newsletter optional Fall Classic labels match the published family plan", 
   for (const team of ["2035 Tornadoes", "2037 Supernova"]) {
     assert.ok(!newsletterHtml.includes(`<tr data-team="${team}">`), `${team} should stay off the newsletter until an event is on the calendar`)
   }
-  assert.match(newsletterHtml, /Fall Classic is available as an optional tournament for every boys team except 2028 Black, 2036 Dawgs, and 2037 Wolves/)
   assert.match(newsletterHtml, /The 2028s remain BLUE CHIP INVITATIONAL and Baltimore only/)
   assert.match(newsletterHtml, /the Wolves' only fall tournament/)
   assert.match(newsletterHtml, /Only fall tournaments entered on the actual master calendar are shown/)
@@ -112,12 +116,14 @@ test("newsletter optional Fall Classic labels match the published family plan", 
     "g35-fall-classic",
     "g36-fall-classic",
   ]) {
-    assert.match(newsletterEvent(eventId), /optional-badge/, `${eventId} should be marked optional`)
+    assert.match(newsletterEvent(eventId), /<strong>Fall Classic<\/strong>/)
+    assert.doesNotMatch(newsletterEvent(eventId), /optional-badge/)
   }
   assert.doesNotMatch(newsletterEvent("b36-dawgs-fall-classic"), /optional-badge/)
   assert.doesNotMatch(newsletterEvent("b37-fall-classic"), /optional-badge/)
   assert.doesNotMatch(newsletterEvent("g31-queen-fall"), /optional-badge/)
-  assert.equal((newsletterHtml.match(/class="optional-badge"/g) || []).length, 12)
+  assert.doesNotMatch(tournamentSection, /\boptional\b/i)
+  assert.equal((newsletterHtml.match(/class="optional-badge"/g) || []).length, 0)
 })
 
 test("requested tournament corrections stay aligned across newsletter and master calendar", () => {
@@ -134,23 +140,18 @@ test("requested tournament corrections stay aligned across newsletter and master
   assert.doesNotMatch(newsletterHtml, /Igloo Elite/i)
 
   assert.doesNotMatch(newsletterEvent("g31-queen-fall"), /optional-badge/)
-  assert.match(newsletterEvent("g31-fall-classic"), /optional-badge/)
+  assert.doesNotMatch(newsletterEvent("g31-fall-classic"), /optional-badge/)
   assert.match(calendarHtml, /id: "g31-queen-fall"[^\n]+status: "confirmed"/)
   assert.match(calendarHtml, /id: "g31-fall-classic"[^\n]+status: "optional"/)
   assert.match(calendarHtml, /id: "b36-dawgs-fall-classic"[^\n]+status: "confirmed"/)
   assert.match(calendarHtml, /id: "b37-fall-classic"[^\n]+status: "confirmed"/)
 })
 
-test("only Venom shows one additional tournament as pending", () => {
-  const venom = newsletterTeam("2034 Venom")
-  assert.match(venom, /One more tournament pending/)
-  assert.match(venom, /The additional event will be posted once selected/)
-
-  const dawgs = newsletterTeam("2036 Dawgs")
-  assert.doesNotMatch(dawgs, /tournament-pending/)
-  assert.doesNotMatch(dawgs, /One more tournament pending/)
-  assert.doesNotMatch(dawgs, /The additional event will be posted once selected/)
-  assert.doesNotMatch(newsletterHtml, /Venom and Dawgs.*pending/)
+test("newsletter omits generic tournament pending placeholders", () => {
+  assert.doesNotMatch(newsletterHtml, /tournament-pending/)
+  assert.doesNotMatch(newsletterHtml, /One more tournament pending/)
+  assert.doesNotMatch(newsletterHtml, /The additional event will be posted once selected/)
+  assert.doesNotMatch(newsletterHtml, /additional tournament selection pending/)
 })
 
 test("newsletter includes all three BTB team stores", () => {
