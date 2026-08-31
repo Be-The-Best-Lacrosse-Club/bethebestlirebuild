@@ -29,7 +29,6 @@ const GIRLS_TRAVEL_TEAMS = [
   "2034 Thunder",
   "2034 Tsunami",
   "2035 Hurricanes",
-  "2035 Tornado",
   "2036 Avalanche",
 ]
 

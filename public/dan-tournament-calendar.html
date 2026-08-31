@@ -3684,7 +3684,7 @@
     (function () {
       "use strict";
 
-      var DATA_VERSION = "staff-2026-27-v3";
+      var DATA_VERSION = "staff-2026-27-v5";
       var BOYS_TEAM_COLOR = "#55D88A";
       var GIRLS_TEAM_COLOR = "#C9A7FF";
       var TEAM_META = {
@@ -3730,12 +3730,6 @@
           color: BOYS_TEAM_COLOR,
           calendar: "n1qi6ordc1ci84demj838a3ts7tgt11k@import.calendar.google.com"
         },
-        "2036 Fury": {
-          short: "36 FURY",
-          label: "2036 Fury • Boys",
-          color: BOYS_TEAM_COLOR,
-          calendar: ""
-        },
         "2036 Dawgs": {
           short: "36 DAWGS",
           label: "2036 Dawgs • Boys",
@@ -3778,12 +3772,6 @@
           color: GIRLS_TEAM_COLOR,
           calendar: "08d4flphdjer0sjki6vr786emklh76vm@import.calendar.google.com"
         },
-        "2035 Tornadoes": {
-          short: "35 TORNADOES",
-          label: "2035 Tornadoes • Girls",
-          color: GIRLS_TEAM_COLOR,
-          calendar: ""
-        },
         "2036 Avalanche": {
           short: "36 AVALANCHE",
           label: "2036 Avalanche • Girls",
@@ -3802,6 +3790,23 @@
         "2037 Boys": "2037 Wolves",
         "2037 Girls": "2037 Supernova"
       };
+      function recordReferencesInactiveTeam(record) {
+        if (!record || typeof record !== "object" || Array.isArray(record)) return false;
+        return [record.team]
+          .concat(Array.isArray(record.teams) ? record.teams : [])
+          .concat([record.secondTeam])
+          .some(function (value) {
+            if (typeof value !== "string") return false;
+            var team = canonicalTeamName(value);
+            return Boolean(team) && !TEAM_META[team];
+          });
+      }
+
+      function normalizeBlueChipText(value) {
+        return typeof value === "string"
+          ? value.replace(/igloo elite(?: invitational| holiday tournament)?/gi, "BLUE CHIP INVITATIONAL")
+          : value;
+      }
 
       function canonicalTeamName(team) {
         var name = typeof team === "string" ? team.trim() : "";
@@ -4169,7 +4174,7 @@
 
       var DEFAULT_EVENTS = [
         { id: "b28-baltimore", team: "2028 Black", title: "Baltimore Fall Showdown", start: "2026-11-22", end: "2026-11-22", time: "Game times not listed in Pete’s checklist", location: "Coppermine Complex, MD", status: "entering", paid: false, offIsland: true, note: "Entering; not marked paid.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!11" },
-        { id: "b28-igloo", team: "2028 Black", title: "Igloo Elite Invitational (Blue Chip)", start: "2026-11-08", end: "2026-11-08", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "confirmed", paid: true, offIsland: false, note: "Confirmed, paid and entered. Formerly the Igloo Elite Invitational; now run by Primetime as Blue Chip.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!12" },
+        { id: "b28-igloo", team: "2028 Black", title: "BLUE CHIP INVITATIONAL", start: "2026-11-08", end: "2026-11-08", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "confirmed", paid: true, offIsland: false, note: "Confirmed, paid and entered. Now run by Primetime as BLUE CHIP INVITATIONAL.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!12" },
         { id: "b28-crabfeast", team: "2028 Black", title: "Crabfeast", start: "2027-06-20", end: "2027-06-21", time: "Game times not listed in Pete’s checklist", location: "Bel Air, MD", status: "must", paid: false, offIsland: true, note: "", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!31" },
         { id: "b28-naptown", team: "2028 Black", title: "NAPTOWN Challenge", start: "2027-06-28", end: "2027-06-30", time: "Game times not listed in Pete’s checklist", location: "Annapolis area, MD", status: "paid", paid: true, offIsland: true, note: "Marked Paid in the current boys tracker.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!32 + tracker" },
         { id: "b28-showdown", team: "2028 Black", title: "Showdown", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "NY", status: "must", paid: false, offIsland: false, note: "Real 2027 date needed; source contains an invalid 2016 date.", source: "Pete’s Boys Tournament Checklist • TD 2028 Black!35" },
@@ -4177,28 +4182,27 @@
 
         { id: "b30-apex-fall", team: "2030 Rage", title: "Apex Fall Championship", start: "", end: "", time: "Game times not listed in Pete’s checklist", location: "TBD", status: "entering", paid: false, offIsland: false, note: "Real 2026 date needed; source contains an invalid 2015 date.", source: "Pete’s Boys Tournament Checklist" },
         { id: "b30-fall-classic", team: "2030 Rage", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament.", source: "Pete’s Boys Tournament Checklist + Dan" },
-        { id: "b31-igloo", team: "2031 Carnage", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b31-igloo", team: "2031 Carnage", title: "BLUE CHIP INVITATIONAL", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b31-fall-classic", team: "2031 Carnage", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament.", source: "Dan — optional Fall Classic for all boys teams" },
         { id: "b32-pumpkin-shootout", team: "2032 Cannons", title: "Pumpkin Shootout", start: "2026-10-17", end: "2026-10-17", time: "Game times not listed in Pete’s checklist", location: "Blue Sky Sports Complex, Middletown, NY", status: "entering", paid: false, offIsland: true, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b32-fall-brawl", team: "2032 Cannons", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b32-fall-classic", team: "2032 Cannons", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament.", source: "Dan — optional Fall Classic for all boys teams" },
         { id: "b33-fall-brawl", team: "2033 Renegades", title: "Fall Brawl", start: "2026-11-11", end: "2026-11-11", time: "Game times not listed in Pete’s checklist", location: "Heckscher State Park, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b33-fall-classic", team: "2033 Renegades", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times not listed in Pete’s checklist", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament.", source: "Pete’s Boys Tournament Checklist + Dan" },
-        { id: "b33-igloo", team: "2033 Renegades", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b34-igloo", team: "2034 Venom", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b33-igloo", team: "2033 Renegades", title: "BLUE CHIP INVITATIONAL", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b34-igloo", team: "2034 Venom", title: "BLUE CHIP INVITATIONAL", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b34-fall-classic", team: "2034 Venom", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament; one additional tournament selection is pending.", source: "Dan — optional Fall Classic for all boys teams" },
         { id: "b35-fall-jam", team: "2035 Bombers", title: "Fall Jam", start: "2026-10-10", end: "2026-10-10", time: "Game times not listed in Pete’s checklist", location: "Farmingdale State College, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b35-north-shore", team: "2035 Bombers", title: "North Shore Invitation", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "Mount Sinai HS, NY", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
         { id: "b35-fall-classic", team: "2035 Bombers", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament.", source: "Dan — optional Fall Classic for all boys teams" },
-        { id: "b36-fury-fall-classic", team: "2036 Fury", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament.", source: "Dan — optional Fall Classic for all boys teams" },
-        { id: "b36-igloo", team: "2036 Dawgs", title: "Igloo Elite Invitational", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
-        { id: "b36-dawgs-fall-classic", team: "2036 Dawgs", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament; one additional tournament selection is pending.", source: "Dan — optional Fall Classic for all boys teams" },
-        { id: "b37-fall-classic", team: "2037 Wolves", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional tournament.", source: "Dan — optional Fall Classic for all boys teams" },
+        { id: "b36-igloo", team: "2036 Dawgs", title: "BLUE CHIP INVITATIONAL", start: "2026-11-07", end: "2026-11-07", time: "Game times not listed in Pete’s checklist", location: "NY — venue TBD", status: "entering", paid: false, offIsland: false, note: "", source: "Pete’s Boys Tournament Checklist" },
+        { id: "b36-dawgs-fall-classic", team: "2036 Dawgs", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "Scheduled tournament; one additional tournament selection is pending.", source: "Dan — 2036 Dawgs fall schedule" },
+        { id: "b37-fall-classic", team: "2037 Wolves", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "Only fall tournament.", source: "Dan — 2037 Wolves fall schedule" },
 
         { id: "g31-apex-fall", team: "2031 Cyclones", title: "Apex Fall Opener", start: "2026-10-04", end: "2026-10-04", time: "Game times TBD", location: "Capelli Sports Complex, Tinton Falls, NJ", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2031 girls fall schedule" },
         { id: "g31-apex-round-up", team: "2031 Cyclones", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2031 girls fall schedule" },
         { id: "g31-queen-fall", team: "2031 Cyclones", title: "Queen of the Island", start: "2026-10-25", end: "2026-10-25", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2031 girls fall schedule" },
-        { id: "g31-fall-classic", team: "2031 Cyclones", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2031 girls fall schedule" },
+        { id: "g31-fall-classic", team: "2031 Cyclones", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "optional", paid: false, offIsland: false, note: "Optional third tournament.", source: "Dan — 2031 girls fall schedule" },
 
         { id: "g32-apex-round-up", team: "2032 Riptide", title: "Apex Round Up", start: "2026-10-18", end: "2026-10-18", time: "Game times TBD", location: "The Proving Grounds, Conshohocken, PA", status: "confirmed", paid: false, offIsland: true, note: "", source: "Dan — 2032 girls fall schedule" },
         { id: "g32-queen-fall", team: "2032 Riptide", title: "Queen of the Island", start: "2026-10-25", end: "2026-10-25", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2032 girls fall schedule" },
@@ -4220,6 +4224,7 @@
         { id: "g36-queen-fall", team: "2036 Avalanche", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2036 girls fall schedule" },
         { id: "g36-fall-classic", team: "2036 Avalanche", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2036 girls fall schedule" }
       ];
+      var BLUE_CHIP_EVENT_IDS = new Set(["b28-igloo", "b31-igloo", "b33-igloo", "b34-igloo", "b36-igloo"]);
 
       var events = cloneDefaults();
       var practiceBookings = [];
@@ -4237,7 +4242,9 @@
       var deferredInstallPrompt = null;
 
       function normalizeEvents(items) {
-        return (Array.isArray(items) ? items : []).map(function (event) {
+        return (Array.isArray(items) ? items : []).filter(function (event) {
+          return !recordReferencesInactiveTeam(event);
+        }).map(function (event) {
           var canonical = DEFAULT_EVENTS.find(function (defaultEvent) { return defaultEvent.id === event.id; });
           var normalized = Object.assign({}, event, {
             team: canonicalTeamName(event.team),
@@ -4248,6 +4255,23 @@
             normalized.start = canonical.start;
             normalized.end = canonical.end;
           }
+          if (BLUE_CHIP_EVENT_IDS.has(event.id) || /igloo elite/i.test(event.title || "")) {
+            normalized.title = "BLUE CHIP INVITATIONAL";
+            normalized.note = normalizeBlueChipText(event.note);
+            normalized.source = normalizeBlueChipText(event.source);
+          }
+          if (event.id === "g31-queen-fall") normalized.status = "confirmed";
+          if (event.id === "g31-fall-classic") normalized.status = "optional";
+          if (event.id === "b36-dawgs-fall-classic") {
+            normalized.status = "confirmed";
+            normalized.note = "Scheduled tournament; one additional tournament selection is pending.";
+            normalized.source = "Dan — 2036 Dawgs fall schedule";
+          }
+          if (event.id === "b37-fall-classic") {
+            normalized.status = "confirmed";
+            normalized.note = "Only fall tournament.";
+            normalized.source = "Dan — 2037 Wolves fall schedule";
+          }
           return normalized;
         }).filter(function (event) {
           return Boolean(TEAM_META[event.team]);
@@ -4256,7 +4280,9 @@
 
       function normalizeBookings(items) {
         var windowIds = new Set(PRACTICE_WINDOWS.map(function (windowItem) { return windowItem.id; }));
-        return (Array.isArray(items) ? items : []).map(function (booking) {
+        return (Array.isArray(items) ? items : []).filter(function (booking) {
+          return !recordReferencesInactiveTeam(booking);
+        }).map(function (booking) {
           if (!booking || typeof booking !== "object") return null;
           var windowItem = findPracticeWindow(booking.windowId);
           var coaches = bookingCoaches(booking);
@@ -4306,7 +4332,9 @@
       }
 
       function normalizeRecentChanges(items) {
-        return (Array.isArray(items) ? items : []).map(function (change) {
+        return (Array.isArray(items) ? items : []).filter(function (change) {
+          return !recordReferencesInactiveTeam(change);
+        }).map(function (change) {
           if (!change || typeof change !== "object" || !change.id || !change.summary || !change.occurredAt) return null;
           var teams = Array.isArray(change.teams) ? change.teams.map(canonicalTeamName).filter(function (team) {
             return Boolean(TEAM_META[team]);
@@ -4317,7 +4345,7 @@
             id: String(change.id),
             type: String(change.type || "schedule_updated"),
             occurredAt: String(change.occurredAt),
-            summary: String(change.summary),
+            summary: String(normalizeBlueChipText(change.summary)),
             team: teams[0] || "",
             teams: teams,
             coach: String(change.coach || ""),
@@ -6815,13 +6843,30 @@
           conflictCount: groups.length,
           uniqueIds: new Set(allIds).size === allIds.length,
           programTeamColors: new Set(colors).size === 2 &&
-            colors.filter(function (color) { return color === BOYS_TEAM_COLOR.toUpperCase(); }).length === 10 &&
-            colors.filter(function (color) { return color === GIRLS_TEAM_COLOR.toUpperCase(); }).length === 8,
+            colors.filter(function (color) { return color === BOYS_TEAM_COLOR.toUpperCase(); }).length === 9 &&
+            colors.filter(function (color) { return color === GIRLS_TEAM_COLOR.toUpperCase(); }).length === 7,
           distinctLocationColors: new Set(locationColors).size === locationColors.length &&
             locationColors.every(function (color) { return colors.indexOf(color) === -1; }),
           allEventsHaveTimeField: events.every(function (event) { return typeof event.time === "string"; }),
           allEventsHaveOffIslandField: events.every(function (event) { return typeof event.offIsland === "boolean"; }),
           allEventsUseKnownTeams: events.every(function (event) { return Boolean(TEAM_META[event.team]); }),
+          retiredTeamsAbsent: events.every(function (event) { return Boolean(TEAM_META[event.team]); }) &&
+            practiceBookings.every(function (booking) {
+              return bookingTeams(booking).every(function (team) { return Boolean(TEAM_META[team]); });
+            }) && recentChanges.every(function (change) {
+              return change.teams.every(function (team) { return Boolean(TEAM_META[team]); });
+            }),
+          blueChipTitlesExact: events.filter(function (event) {
+            return BLUE_CHIP_EVENT_IDS.has(event.id) || /igloo elite/i.test(event.title || "");
+          }).length === BLUE_CHIP_EVENT_IDS.size && BLUE_CHIP_EVENT_IDS.size === 5 &&
+            events.filter(function (event) { return BLUE_CHIP_EVENT_IDS.has(event.id); }).every(function (event) {
+              return event.title === "BLUE CHIP INVITATIONAL";
+            }),
+          cyclonesOptionalMoved: events.some(function (event) {
+            return event.id === "g31-queen-fall" && event.status === "confirmed";
+          }) && events.some(function (event) {
+            return event.id === "g31-fall-classic" && event.status === "optional";
+          }),
           validBookings: validBookings,
           allowedDurationsExact: JSON.stringify(ALLOWED_DURATIONS) === JSON.stringify([1, 1.5, 2]),
           seafordStartLattice: [0, 30, 60].map(function (offset) {
@@ -6852,8 +6897,8 @@
               return events.some(function (event) { return event.id === id && event.start === "2026-10-25"; });
             })
         };
-        result.pass = result.tournamentCount === 44 &&
-          result.datedTournamentCount === 41 &&
+        result.pass = result.tournamentCount === 43 &&
+          result.datedTournamentCount === 40 &&
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
           result.practiceWindowCount === 306 &&
@@ -6893,10 +6938,13 @@
           result.allEventsHaveTimeField &&
           result.allEventsHaveOffIslandField &&
           result.allEventsUseKnownTeams &&
+          result.retiredTeamsAbsent &&
+          result.blueChipTitlesExact &&
+          result.cyclonesOptionalMoved &&
           result.validBookings &&
           result.allowedDurationsExact &&
           result.seafordStartLattice &&
-          result.teamCount === 18 &&
+          result.teamCount === 16 &&
           result.linkedCalendarCount === 14 &&
           result.activeRosterExact &&
           result.sundayFirstCalendar &&

@@ -153,14 +153,6 @@ export const TOURNAMENT_DATA: Record<string, TeamTournaments> = {
       { name: "Lax Blast", date: "July 8th" }
     ]
   },
-  "2035 Tornado": {
-    summer: [
-      { name: "Tournament", date: "April 25" },
-      { name: "War At The Shore", date: "May 30" },
-      { name: "Long Ireland", date: "June 13" },
-      { name: "LI Lax Fest", date: "June 20th-21st" }
-    ]
-  },
   "2034 Thunder": {
     fall: [
       { name: "Fall Classic", date: "Nov 15" },

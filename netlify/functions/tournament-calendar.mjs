@@ -24,6 +24,13 @@ const MAX_ATOMIC_ATTEMPTS = 3;
 export const FIELD_TEAM_CAPACITY = 2;
 export const MAX_COACHES_PER_BOOKING = 20;
 export const MAX_RECENT_CHANGES = 20;
+const BLUE_CHIP_EVENT_IDS = new Set([
+  "b28-igloo",
+  "b31-igloo",
+  "b33-igloo",
+  "b34-igloo",
+  "b36-igloo",
+]);
 const CALENDAR_URL = "https://www.bethebestli.com/dan-calendar";
 const CHANGE_TYPES = new Set([
   "practice_claimed",
@@ -42,7 +49,6 @@ export const KNOWN_TEAMS = Object.freeze([
   "2033 Renegades",
   "2034 Venom",
   "2035 Bombers",
-  "2036 Fury",
   "2036 Dawgs",
   "2037 Wolves",
   "2031 Cyclones",
@@ -50,7 +56,6 @@ export const KNOWN_TEAMS = Object.freeze([
   "2033 Storm",
   "2034 Thunder",
   "2035 Hurricanes",
-  "2035 Tornadoes",
   "2036 Avalanche",
   "2037 Supernova",
 ]);
@@ -99,7 +104,13 @@ const RETIRED_TEAM_SET = new Set([
   "2030 Tidal Wave",
   "2034 Tsunami",
   "Girls Futures",
+  "2036 Fury",
+  "2035 Tornadoes",
+  "2035 Tornado",
 ]);
+const RETIRED_TEAM_KEY_SET = new Set(Array.from(RETIRED_TEAM_SET, (team) => (
+  team.toLocaleLowerCase("en-US")
+)));
 
 const SEAFORD_DATES = Object.freeze([
   "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04",
@@ -685,6 +696,12 @@ function cleanChangeText(value, maxLength = 320) {
     : "";
 }
 
+function normalizeBlueChipText(value) {
+  return typeof value === "string"
+    ? value.replace(/igloo elite(?: invitational| holiday tournament)?/gi, "BLUE CHIP INVITATIONAL")
+    : value;
+}
+
 function normalizeChangeDate(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value || "") ? value : null;
 }
@@ -696,12 +713,12 @@ function normalizeChangeTime(value) {
 export function normalizeRecentChanges(changes) {
   if (!Array.isArray(changes)) return [];
   const ids = new Set();
-  return changes.map((change) => {
+  return changes.filter((change) => !recordReferencesRetiredTeam(change)).map((change) => {
     if (!change || typeof change !== "object" || Array.isArray(change)) return null;
     const id = cleanChangeText(change.id, 120);
     const type = cleanChangeText(change.type, 40);
     const occurredAt = cleanChangeText(change.occurredAt, 40);
-    const summary = cleanChangeText(change.summary);
+    const summary = cleanChangeText(normalizeBlueChipText(change.summary));
     const timestamp = Date.parse(occurredAt);
     if (!id || ids.has(id) || !CHANGE_TYPES.has(type) || !Number.isFinite(timestamp) || !summary) return null;
     ids.add(id);
@@ -810,15 +827,21 @@ function snapshotChange(previous, next, occurredAt) {
   };
 }
 
-function storedBookingReferencesRetiredTeam(booking) {
-  if (!booking || typeof booking !== "object" || Array.isArray(booking)) return false;
+function recordReferencesRetiredTeam(record) {
+  if (!record || typeof record !== "object" || Array.isArray(record)) return false;
   const candidates = [
-    booking.team,
-    ...(Array.isArray(booking.teams) ? booking.teams : []),
-    booking.secondTeam,
+    record.team,
+    ...(Array.isArray(record.teams) ? record.teams : []),
+    record.secondTeam,
+    record.summary,
+    record.title,
+    record.note,
+    record.source,
   ];
   return candidates.some((team) => (
-    typeof team === "string" && RETIRED_TEAM_SET.has(team.trim())
+    typeof team === "string" && Array.from(RETIRED_TEAM_KEY_SET).some((retiredTeam) => (
+      team.trim().toLocaleLowerCase("en-US").includes(retiredTeam)
+    ))
   ));
 }
 
@@ -1144,17 +1167,45 @@ export function validatePracticeBookings(bookings) {
   return normalized;
 }
 
+export function normalizeTournamentEvents(events) {
+  if (!Array.isArray(events)) return [];
+  return events
+    .filter((event) => !recordReferencesRetiredTeam(event))
+    .map((event) => {
+      if (!event || typeof event !== "object" || Array.isArray(event)) return event;
+      const normalized = { ...event };
+      if (BLUE_CHIP_EVENT_IDS.has(event.id) || /igloo elite/i.test(event.title || "")) {
+        normalized.title = "BLUE CHIP INVITATIONAL";
+        normalized.note = normalizeBlueChipText(event.note);
+        normalized.source = normalizeBlueChipText(event.source);
+      }
+      if (event.id === "g31-queen-fall") normalized.status = "confirmed";
+      if (event.id === "g31-fall-classic") normalized.status = "optional";
+      if (event.id === "b36-dawgs-fall-classic") {
+        normalized.status = "confirmed";
+        normalized.note = "Scheduled tournament; one additional tournament selection is pending.";
+        normalized.source = "Dan — 2036 Dawgs fall schedule";
+      }
+      if (event.id === "b37-fall-classic") {
+        normalized.status = "confirmed";
+        normalized.note = "Only fall tournament.";
+        normalized.source = "Dan — 2037 Wolves fall schedule";
+      }
+      return normalized;
+    });
+}
+
 export function normalizeSnapshot(value) {
   const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
   const storedBookings = Array.isArray(source.practiceBookings)
     ? source.practiceBookings
-      .filter((booking) => !storedBookingReferencesRetiredTeam(booking))
+      .filter((booking) => !recordReferencesRetiredTeam(booking))
       .map(canonicalizeStoredBookingTeamAliases)
       .map(canonicalizeStoredBookingWindowAliases)
     : [];
   return {
     version: Number.isSafeInteger(source.version) && source.version >= 0 ? source.version : 0,
-    events: Array.isArray(source.events) ? source.events : [],
+    events: normalizeTournamentEvents(source.events),
     practiceBookings: storedBookings,
     recentChanges: normalizeRecentChanges(source.recentChanges),
     savedAt: typeof source.savedAt === "string" ? source.savedAt : null,
@@ -1204,7 +1255,7 @@ export async function mutateSnapshotAtomically(store, mutator, {
 
     const saved = {
       version: current.snapshot.version + 1,
-      events: candidate.events,
+      events: normalizeTournamentEvents(candidate.events),
       practiceBookings: validatePracticeBookings(candidate.practiceBookings),
       recentChanges: normalizeRecentChanges(candidate.recentChanges ?? current.snapshot.recentChanges),
       savedAt: nowIso(now),
@@ -1298,15 +1349,16 @@ export async function saveCalendarSnapshot(store, incoming, etag, { now = () => 
     ? incoming.practiceBookings
     : current.snapshot.practiceBookings;
   const normalizedBookings = validatePracticeBookings(requestedBookings);
+  const normalizedEvents = normalizeTournamentEvents(incoming.events);
   const occurredAt = nowIso(now);
   const pending = {
-    events: incoming.events,
+    events: normalizedEvents,
     practiceBookings: normalizedBookings,
   };
   const change = snapshotChange(current.snapshot, pending, occurredAt);
   const saved = {
     version: current.snapshot.version + 1,
-    events: incoming.events,
+    events: normalizedEvents,
     practiceBookings: normalizedBookings,
     recentChanges: change
       ? prependRecentChange(current.snapshot.recentChanges, change)

@@ -215,7 +215,7 @@ export const MASTER_COACHES: CoachProfile[] = [
     name: "Katie Dascher",
     title: "Assistant Coach",
     credentials: ["Teacher", "Coach"],
-    bio: "Coaches BTB 2035 Tornadoes. BTB GIRLS",
+    bio: "BTB GIRLS",
     initials: "KD"
   },
   {
@@ -250,7 +250,7 @@ export const MASTER_COACHES: CoachProfile[] = [
     name: "Mike Guercio",
     title: "Futures Director / Assistant Coach",
     credentials: ["BTB Futures Specialist"],
-    bio: "Directs BTB Futures. Coaches 2029 BTB Chrome and 2036 Fury. BTB BOYS",
+    bio: "Directs BTB Futures. Coaches 2029 BTB Chrome. BTB BOYS",
     initials: "MG"
   },
   {
@@ -320,7 +320,7 @@ export const MASTER_COACHES: CoachProfile[] = [
     name: "Ryan Smith",
     title: "Assistant Coach",
     credentials: ["Teacher", "Long Beach Varsity Assistant"],
-    bio: "Coaches 2035 Tornadoes. BTB GIRLS",
+    bio: "BTB GIRLS",
     initials: "RS"
   },
   {
@@ -480,7 +480,6 @@ export const programData: Record<string, ProgramContent> = {
       { gradYear: "2034", teamName: "2034 Thunder", coachCount: 2, programId: 4681576 },
       { gradYear: "2034", teamName: "2034 Tsunami", coachCount: 2 },
       { gradYear: "2035", teamName: "2035 Hurricanes", coachCount: 2, programId: 4681483 },
-      { gradYear: "2035", teamName: "2035 Tornado", coachCount: 2 },
       { gradYear: "2036", teamName: "2036 Avalanche", coachCount: 2, programId: 4681471 },
       { gradYear: "2037", teamName: "Girls 2037 Futures", coachCount: 2 },
     ],
