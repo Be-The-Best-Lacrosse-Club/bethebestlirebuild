@@ -309,16 +309,6 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
     dates: ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"],
-    assignmentStatus: "adjusted",
-    note: ADJUSTED_SEAFORD_NOTE,
-    source: DAN_RECURRING_SOURCE,
-    sessions: [
-      { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
-    ],
-  }),
-  ...assignedPracticeWindowsForDates({
-    ...SEAFORD_ASSIGNED_LOCATION,
-    dates: ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"],
     assignmentStatus: "confirmed",
     note: `Tuesdays 7:15–9:00 PM at Seaford. ${RECURRING_NOTE}`,
     source: DAN_RECURRING_SOURCE,
@@ -387,6 +377,16 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     sessions: [
       { team: "2032 Riptide", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", requiredDurationHours: 2 },
       { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
+    assignmentStatus: "adjusted",
+    note: `Moved from Tuesdays to Mondays, 7:15–9:15 PM at Seaford. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
+    sessions: [
+      { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", requiredDurationHours: 2 },
     ],
   }),
   ...assignedPracticeWindowsForDates({

@@ -4122,9 +4122,6 @@
         var recurringNote = "Weekly recurrence extended by Dan through the end of October.";
         var seafordWeekdayNote = "Adjusted to 7:15–9:15 PM from the PDF’s 7:00–9:00 PM. " + recurringNote;
         add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"], [
-          { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
-        ], "adjusted", seafordWeekdayNote, DAN_RECURRING_SOURCE);
-        add("seaford", ["2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29", "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27"], [
           { team: "2033 Storm", startTime: "19:15", endTime: "21:00", timeLabel: "7:15 PM–9:00 PM", durationHours: 1.75 }
         ], "confirmed", "Tuesdays 7:15–9:00 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
         add("seaford", ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"], [
@@ -4149,6 +4146,9 @@
           { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", durationHours: 1.5 }
         ], "pending", recurringNote, DAN_RECURRING_SOURCE);
 
+        add("seaford", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
+          { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
+        ], "adjusted", "Moved from Tuesdays to Mondays, 7:15–9:15 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
         add("seaford", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
           { team: "2034 Venom", startTime: "19:15", endTime: "20:45", timeLabel: "7:15 PM–8:45 PM", durationHours: 1.5 }
         ], "confirmed", "Mondays 7:15–8:45 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
@@ -6974,13 +6974,15 @@
           assignedDateRangeExact: ASSIGNED_PRACTICE_WINDOWS.every(function (windowItem) {
             return windowItem.date >= "2026-09-08" && windowItem.date <= "2026-10-31";
           }),
-          recurringTuesdayPatternExact: ["2033 Renegades", "2033 Storm"].every(function (team) {
+          stormTuesdayPatternExact: ["2033 Storm"].every(function (team) {
             return ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
               return assignedPracticeTeam(windowItem) === team && windowItem.locationKey === "seaford" && windowItem.startTime === "19:15";
             }).map(function (windowItem) { return windowItem.date; }).join(",") ===
               "2026-09-08,2026-09-15,2026-09-22,2026-09-29,2026-10-06,2026-10-13,2026-10-20,2026-10-27";
           }),
           movedMondayPracticesExact: [{
+            team: "2033 Renegades", locationKey: "seaford", startTime: "19:15", endTime: "21:15"
+          }, {
             team: "2034 Venom", locationKey: "seaford", startTime: "19:15", endTime: "20:45"
           }].every(function (expected) {
             return ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
@@ -7085,16 +7087,16 @@
           result.datedTournamentCount === 40 &&
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
-          result.practiceWindowCount === 306 &&
+          result.practiceWindowCount === 305 &&
           result.trainingSessionCount === 28 &&
           result.trainingScheduleExact &&
           result.masterPracticeWindowCount === 123 &&
-          result.assignedPracticeWindowCount === 183 &&
-          result.assignedSeafordCount === 93 &&
+          result.assignedPracticeWindowCount === 182 &&
+          result.assignedSeafordCount === 92 &&
           result.assignedStimsonCount === 28 &&
           result.assignedNickersonCount === 40 &&
           result.assignedPointLookoutCount === 22 &&
-          result.assignedAdjustedCount === 32 &&
+          result.assignedAdjustedCount === 31 &&
           result.assignedNeedsTimeCount === 8 &&
           result.assignedPendingCount === 50 &&
           result.assignedConfirmedCount === 93 &&
@@ -7102,7 +7104,7 @@
           result.closedParentWindowCount === 44 &&
           result.assignedSchemaValid &&
           result.assignedDateRangeExact &&
-          result.recurringTuesdayPatternExact &&
+          result.stormTuesdayPatternExact &&
           result.movedMondayPracticesExact &&
           result.seafordThursdayPracticesExact &&
           result.assignedPointLookoutBlackoutHonored &&
