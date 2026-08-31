@@ -141,12 +141,16 @@ test("requested tournament corrections stay aligned across newsletter and master
   assert.match(calendarHtml, /id: "b37-fall-classic"[^\n]+status: "confirmed"/)
 })
 
-test("Venom and Dawgs show one additional tournament as pending", () => {
-  for (const team of ["2034 Venom", "2036 Dawgs"]) {
-    const row = newsletterTeam(team)
-    assert.match(row, /One more tournament pending/)
-    assert.match(row, /The additional event will be posted once selected/)
-  }
+test("only Venom shows one additional tournament as pending", () => {
+  const venom = newsletterTeam("2034 Venom")
+  assert.match(venom, /One more tournament pending/)
+  assert.match(venom, /The additional event will be posted once selected/)
+
+  const dawgs = newsletterTeam("2036 Dawgs")
+  assert.doesNotMatch(dawgs, /tournament-pending/)
+  assert.doesNotMatch(dawgs, /One more tournament pending/)
+  assert.doesNotMatch(dawgs, /The additional event will be posted once selected/)
+  assert.doesNotMatch(newsletterHtml, /Venom and Dawgs.*pending/)
 })
 
 test("newsletter includes all three BTB team stores", () => {
