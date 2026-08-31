@@ -4251,10 +4251,17 @@
         "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05",
         "2026-10-12", "2026-10-19", "2026-10-26"
       ];
+      var TRAINING_FRIDAYS = [
+        "2026-09-18", "2026-09-25", "2026-10-02", "2026-10-09",
+        "2026-10-16", "2026-10-23", "2026-10-30"
+      ];
       var TRAINING_GROUPS = [
         {
           key: "girls-36-34",
           label: "Girls 2036–2034",
+          program: "Girls",
+          dayLabel: "Mondays",
+          dates: TRAINING_MONDAYS,
           teams: ["2036 Avalanche", "2035 Hurricanes", "2034 Thunder"],
           startTime: "19:00",
           endTime: "20:00",
@@ -4263,7 +4270,32 @@
         {
           key: "girls-33-31",
           label: "Girls 2033–2031",
+          program: "Girls",
+          dayLabel: "Mondays",
+          dates: TRAINING_MONDAYS,
           teams: ["2033 Storm", "2032 Riptide", "2031 Cyclones"],
+          startTime: "20:00",
+          endTime: "21:00",
+          timeLabel: "8:00 PM–9:00 PM"
+        },
+        {
+          key: "boys-36-34",
+          label: "Boys 2036–2034",
+          program: "Boys",
+          dayLabel: "Fridays",
+          dates: TRAINING_FRIDAYS,
+          teams: ["2036 Dawgs", "2035 Bombers", "2034 Venom"],
+          startTime: "19:00",
+          endTime: "20:00",
+          timeLabel: "7:00 PM–8:00 PM"
+        },
+        {
+          key: "boys-33-31",
+          label: "Boys 2033–2031",
+          program: "Boys",
+          dayLabel: "Fridays",
+          dates: TRAINING_FRIDAYS,
+          teams: ["2033 Renegades", "2032 Cannons", "2031 Carnage"],
           startTime: "20:00",
           endTime: "21:00",
           timeLabel: "8:00 PM–9:00 PM"
@@ -4273,12 +4305,13 @@
       function buildTrainingSessions() {
         var sessions = [];
         TRAINING_GROUPS.forEach(function (group) {
-          TRAINING_MONDAYS.forEach(function (date) {
+          group.dates.forEach(function (date) {
             sessions.push({
               id: "training-" + group.key + "-" + date,
               date: date,
               groupKey: group.key,
               groupLabel: group.label,
+              program: group.program,
               title: group.label + " Training",
               teams: group.teams.slice(),
               coach: "Coach Dan",
@@ -4292,7 +4325,7 @@
               optional: true,
               price: TRAINING_PRICE_LABEL,
               note: "A la carte optional training with Coach Dan. " + TRAINING_PRICE_LABEL + ".",
-              source: "Dan — Monday a la carte training at Momentum"
+              source: "Dan — " + group.dayLabel + " a la carte training at Momentum"
             });
           });
         });
@@ -6903,15 +6936,18 @@
           trainingSessionCount: TRAINING_SESSIONS.length,
           trainingScheduleExact: TRAINING_GROUPS.every(function (group) {
             var groupSessions = TRAINING_SESSIONS.filter(function (session) { return session.groupKey === group.key; });
-            return groupSessions.map(function (session) { return session.date; }).join(",") ===
-              "2026-09-14,2026-09-21,2026-09-28,2026-10-05,2026-10-12,2026-10-19,2026-10-26" &&
+            var expectedWeekday = group.dayLabel === "Mondays" ? 1 : 5;
+            return groupSessions.map(function (session) { return session.date; }).join(",") === group.dates.join(",") &&
+              groupSessions.length === 7 &&
+              groupSessions.every(function (session) { return parseDate(session.date).getDay() === expectedWeekday; }) &&
               groupSessions.every(function (session) {
                 return session.startTime === group.startTime && session.endTime === group.endTime &&
                   session.locationKey === "momentum" && session.venue === "Momentum Sports LI" &&
                   session.optional === true && session.coach === "Coach Dan" &&
                   session.price === TRAINING_PRICE_LABEL &&
                   session.teams.join(",") === group.teams.join(",") &&
-                  session.teams.every(function (team) { return Boolean(TEAM_META[team]) && TEAM_META[team].label.indexOf("Girls") >= 0; });
+                  session.program === group.program &&
+                  session.teams.every(function (team) { return Boolean(TEAM_META[team]) && TEAM_META[team].label.indexOf(group.program) >= 0; });
               });
           }),
           masterPracticeWindowCount: MASTER_PRACTICE_WINDOWS.length,
@@ -7050,7 +7086,7 @@
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
           result.practiceWindowCount === 306 &&
-          result.trainingSessionCount === 14 &&
+          result.trainingSessionCount === 28 &&
           result.trainingScheduleExact &&
           result.masterPracticeWindowCount === 123 &&
           result.assignedPracticeWindowCount === 183 &&

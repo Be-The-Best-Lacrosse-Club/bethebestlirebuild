@@ -2171,14 +2171,19 @@ test("deploy preview origins are allowed dynamically without widening the produc
   })), ALLOWED_ORIGINS);
 });
 
-test("Monday a la carte training runs at Momentum for both girls groups", () => {
+test("a la carte training runs at Momentum on girls Mondays and boys Fridays", () => {
   const sessions = pageTrainingSessions();
   const mondays = [
     "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05",
     "2026-10-12", "2026-10-19", "2026-10-26",
   ];
+  const fridays = [
+    "2026-09-18", "2026-09-25", "2026-10-02", "2026-10-09",
+    "2026-10-16", "2026-10-23", "2026-10-30",
+  ];
+  const weekday = (date) => new Date(`${date}T12:00:00Z`).getUTCDay();
 
-  assert.equal(sessions.length, 14);
+  assert.equal(sessions.length, 28);
   assert.ok(sessions.every((session) => (
     session.optional === true &&
     session.coach === "Coach Dan" &&
@@ -2188,22 +2193,44 @@ test("Monday a la carte training runs at Momentum for both girls groups", () => 
     session.location === "10 Dunton Avenue, Deer Park, NY 11729"
   )));
 
-  const younger = sessions.filter((session) => session.groupKey === "girls-36-34");
-  assert.deepEqual(younger.map((session) => session.date), mondays);
-  assert.ok(younger.every((session) => session.startTime === "19:00" && session.endTime === "20:00"));
-  assert.deepEqual(younger[0].teams, ["2036 Avalanche", "2035 Hurricanes", "2034 Thunder"]);
+  const expected = {
+    "girls-36-34": { dates: mondays, program: "Girls", startTime: "19:00", endTime: "20:00", teams: ["2036 Avalanche", "2035 Hurricanes", "2034 Thunder"] },
+    "girls-33-31": { dates: mondays, program: "Girls", startTime: "20:00", endTime: "21:00", teams: ["2033 Storm", "2032 Riptide", "2031 Cyclones"] },
+    "boys-36-34": { dates: fridays, program: "Boys", startTime: "19:00", endTime: "20:00", teams: ["2036 Dawgs", "2035 Bombers", "2034 Venom"] },
+    "boys-33-31": { dates: fridays, program: "Boys", startTime: "20:00", endTime: "21:00", teams: ["2033 Renegades", "2032 Cannons", "2031 Carnage"] },
+  };
 
-  const older = sessions.filter((session) => session.groupKey === "girls-33-31");
-  assert.deepEqual(older.map((session) => session.date), mondays);
-  assert.ok(older.every((session) => session.startTime === "20:00" && session.endTime === "21:00"));
-  assert.deepEqual(older[0].teams, ["2033 Storm", "2032 Riptide", "2031 Cyclones"]);
+  for (const [groupKey, group] of Object.entries(expected)) {
+    const groupSessions = sessions.filter((session) => session.groupKey === groupKey);
+    assert.deepEqual(groupSessions.map((session) => session.date), group.dates, groupKey);
+    assert.ok(groupSessions.every((session) => (
+      session.startTime === group.startTime &&
+      session.endTime === group.endTime &&
+      session.program === group.program
+    )), groupKey);
+    assert.deepEqual(groupSessions[0].teams, group.teams, groupKey);
+  }
 
-  // Every date is a Monday, the first is the Monday after Labor Day, the last is October's final Monday.
-  assert.ok(mondays.every((date) => new Date(`${date}T12:00:00Z`).getUTCDay() === 1));
+  // Girls run Mondays, boys run Fridays; each block starts the week the season opens
+  // and ends on the last one of October.
+  assert.ok(mondays.every((date) => weekday(date) === 1));
+  assert.ok(fridays.every((date) => weekday(date) === 5));
   assert.equal(mondays[0], "2026-09-14");
   assert.equal(mondays[mondays.length - 1], "2026-10-26");
+  assert.equal(fridays[0], "2026-09-18");
+  assert.equal(fridays[fridays.length - 1], "2026-10-30");
 
   // Optional training is not a claimable field window and never collides with practice ids.
   const practiceIds = new Set(PRACTICE_WINDOWS.map((window) => window.id));
   assert.ok(sessions.every((session) => !practiceIds.has(session.id)));
+
+  // No team is booked for two training sessions on the same night.
+  const seen = new Set();
+  for (const session of sessions) {
+    for (const team of session.teams) {
+      const slot = `${session.date}|${team}`;
+      assert.equal(seen.has(slot), false, `duplicate training slot ${slot}`);
+      seen.add(slot);
+    }
+  }
 });
