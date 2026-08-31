@@ -95,8 +95,8 @@ export function FamilyHubPage() {
 
   // Fetch the family's team schedule from the TeamSnap-backed Netlify function.
   // Quiet failure mode: if no team can be matched, we just hide the section.
-  // When the family has multiple teams matching their gender+gradYear (e.g. 2036
-  // boys → Dawgs and Fury), a picker appears and overrides the lookup via teamId.
+  // When a family has multiple teams matching gender and graduation year, a
+  // picker appears and overrides the lookup via teamId.
   useEffect(() => {
     if (!user?.gender || !user?.gradYear) return
     let cancelled = false

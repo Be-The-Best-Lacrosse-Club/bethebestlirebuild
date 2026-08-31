@@ -60,8 +60,8 @@ test("newsletter lists only fall tournaments entered on the master calendar", ()
   ])
   const newsletterEventIds = [...newsletterHtml.matchAll(/data-event-id="([^"]+)"/g)].map((match) => match[1])
 
-  assert.equal(events.length, 44)
-  assert.equal(fallEvents.length, 40)
+  assert.equal(events.length, 43)
+  assert.equal(fallEvents.length, 39)
   assert.equal(newsletterEventIds.length, newsletterFallEvents.length)
   assert.equal(new Set(newsletterEventIds).size, newsletterFallEvents.length)
 
@@ -82,16 +82,20 @@ test("newsletter lists only fall tournaments entered on the master calendar", ()
 test("newsletter optional Fall Classic labels match the published family plan", () => {
   const black2028 = newsletterTeam("2028 Black")
   const black2028EventIds = [...black2028.matchAll(/data-event-id="([^"]+)"/g)].map((match) => match[1])
+  const wolves2037 = newsletterTeam("2037 Wolves")
+  const wolves2037EventIds = [...wolves2037.matchAll(/data-event-id="([^"]+)"/g)].map((match) => match[1])
 
   assert.deepEqual(black2028EventIds, ["b28-igloo", "b28-baltimore"])
+  assert.deepEqual(wolves2037EventIds, ["b37-fall-classic"])
   assert.doesNotMatch(black2028, /optional-badge/)
   assert.doesNotMatch(newsletterHtml, /Tournament details TBD/)
   assert.ok(!newsletterHtml.includes('<tr data-team="2036 Fury">'), "2036 Fury should be removed from the newsletter")
   for (const team of ["2035 Tornadoes", "2037 Supernova"]) {
     assert.ok(!newsletterHtml.includes(`<tr data-team="${team}">`), `${team} should stay off the newsletter until an event is on the calendar`)
   }
-  assert.match(newsletterHtml, /Fall Classic is available as an optional tournament for every boys team except 2028 Black and 2036 Dawgs/)
-  assert.match(newsletterHtml, /The 2028s remain Blue Chip and Baltimore only/)
+  assert.match(newsletterHtml, /Fall Classic is available as an optional tournament for every boys team except 2028 Black, 2036 Dawgs, and 2037 Wolves/)
+  assert.match(newsletterHtml, /The 2028s remain BLUE CHIP INVITATIONAL and Baltimore only/)
+  assert.match(newsletterHtml, /the Wolves' only fall tournament/)
   assert.match(newsletterHtml, /Only fall tournaments entered on the actual master calendar are shown/)
 
   for (const eventId of [
@@ -101,7 +105,6 @@ test("newsletter optional Fall Classic labels match the published family plan", 
     "b33-fall-classic",
     "b34-fall-classic",
     "b35-fall-classic",
-    "b37-fall-classic",
     "g31-fall-classic",
     "g32-fall-classic",
     "g33-fall-classic",
@@ -112,8 +115,30 @@ test("newsletter optional Fall Classic labels match the published family plan", 
     assert.match(newsletterEvent(eventId), /optional-badge/, `${eventId} should be marked optional`)
   }
   assert.doesNotMatch(newsletterEvent("b36-dawgs-fall-classic"), /optional-badge/)
+  assert.doesNotMatch(newsletterEvent("b37-fall-classic"), /optional-badge/)
   assert.doesNotMatch(newsletterEvent("g31-queen-fall"), /optional-badge/)
-  assert.equal((newsletterHtml.match(/class="optional-badge"/g) || []).length, 13)
+  assert.equal((newsletterHtml.match(/class="optional-badge"/g) || []).length, 12)
+})
+
+test("requested tournament corrections stay aligned across newsletter and master calendar", () => {
+  assert.ok(!newsletterHtml.includes('<tr data-team="2036 Fury">'))
+  assert.doesNotMatch(newsletterHtml, /2035 Tornado(?:es)?/i)
+  assert.doesNotMatch(calendarHtml, /2036 Fury|2035 Tornado(?:es)?/i)
+  assert.ok(!newsletterHtml.includes('data-event-id="b36-fury-fall-classic"'))
+  assert.doesNotMatch(calendarHtml, /id: "b36-fury-fall-classic"/)
+
+  for (const eventId of ["b28-igloo", "b31-igloo", "b33-igloo", "b34-igloo", "b36-igloo"]) {
+    assert.match(newsletterEvent(eventId), /<strong>BLUE CHIP INVITATIONAL<\/strong>/)
+    assert.match(calendarHtml, new RegExp(`id: "${eventId}"[^\n]+title: "BLUE CHIP INVITATIONAL"`))
+  }
+  assert.doesNotMatch(newsletterHtml, /Igloo Elite/i)
+
+  assert.doesNotMatch(newsletterEvent("g31-queen-fall"), /optional-badge/)
+  assert.match(newsletterEvent("g31-fall-classic"), /optional-badge/)
+  assert.match(calendarHtml, /id: "g31-queen-fall"[^\n]+status: "confirmed"/)
+  assert.match(calendarHtml, /id: "g31-fall-classic"[^\n]+status: "optional"/)
+  assert.match(calendarHtml, /id: "b36-dawgs-fall-classic"[^\n]+status: "confirmed"/)
+  assert.match(calendarHtml, /id: "b37-fall-classic"[^\n]+status: "confirmed"/)
 })
 
 test("Venom and Dawgs show one additional tournament as pending", () => {

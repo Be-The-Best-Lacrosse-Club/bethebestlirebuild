@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { SEO } from "@/components/shared/SEO"
 import "./HomePage.css"
 
@@ -351,8 +351,8 @@ export function HomePage() {
 
             <div className="btb-home__proof-grid">
               <article className="btb-home__proof-card btb-home__proof-card--photo">
-                <img src="/images/champions/BTB_2035_Tornadoes_War_At_The_Shore_Champions.jpg" alt="BTB 2035 Tornadoes players and coaches celebrating a War at the Shore championship" width="1011" height="1280" loading="lazy" />
-                <div className="btb-home__proof-photo-overlay"><span className="btb-home__tag">Historic highlight</span><p>2035 Tornadoes</p><h3>War at the Shore Champions</h3></div>
+                <img src="/images/champions/BTB_2031_BTB_Summer_FaceOff_Champions.jpg" alt="2031 BTB players and coaches posing after winning the Summer FaceOff championship" width="1036" height="1280" loading="lazy" />
+                <div className="btb-home__proof-photo-overlay"><span className="btb-home__tag">Historic highlight</span><p>2031 BTB</p><h3>Summer FaceOff Champions</h3></div>
               </article>
               <article className="btb-home__proof-card btb-home__proof-card--red">
                 <div className="btb-home__proof-icon" aria-hidden="true">▶</div>

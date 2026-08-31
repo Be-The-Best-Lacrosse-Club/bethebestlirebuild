@@ -13,6 +13,7 @@ import {
   MAX_RECENT_CHANGES,
   normalizeRecentChanges,
   normalizeSnapshot,
+  normalizeTournamentEvents,
   PRACTICE_WINDOWS,
   practiceBookingsConflict,
   readCalendarSnapshot,
@@ -771,8 +772,8 @@ test("boys share the exact green and girls share the exact light-purple program 
   const teamMetaStart = html.indexOf("var TEAM_META = {");
   const teamMetaEnd = html.indexOf("var STATUS_META =", teamMetaStart);
   const teamMetaSource = html.slice(teamMetaStart, teamMetaEnd);
-  assert.equal((teamMetaSource.match(/color:\s*BOYS_TEAM_COLOR/g) || []).length, 10);
-  assert.equal((teamMetaSource.match(/color:\s*GIRLS_TEAM_COLOR/g) || []).length, 8);
+  assert.equal((teamMetaSource.match(/color:\s*BOYS_TEAM_COLOR/g) || []).length, 9);
+  assert.equal((teamMetaSource.match(/color:\s*GIRLS_TEAM_COLOR/g) || []).length, 7);
   assert.doesNotMatch(teamMetaSource, /color:\s*["']#/);
 
   const chromeStart = html.indexOf("function renderTeamChrome()");
@@ -957,14 +958,14 @@ test("the staff calendar installs as a narrowly scoped phone app without caching
   assert.match(netlifyConfig, /Service-Worker-Allowed = "\/dan-calendar"/);
 });
 
-test("known-team validation covers the active 18-team 2026-27 operating list", () => {
+test("known-team validation covers the active 16-team 2026-27 operating list", () => {
   assert.deepEqual(KNOWN_TEAMS, [
     "2028 Black", "2030 Rage", "2031 Carnage", "2032 Cannons", "2033 Renegades",
-    "2034 Venom", "2035 Bombers", "2036 Fury", "2036 Dawgs", "2037 Wolves",
+    "2034 Venom", "2035 Bombers", "2036 Dawgs", "2037 Wolves",
     "2031 Cyclones", "2032 Riptide", "2033 Storm", "2034 Thunder", "2035 Hurricanes",
-    "2035 Tornadoes", "2036 Avalanche", "2037 Supernova",
+    "2036 Avalanche", "2037 Supernova",
   ]);
-  assert.equal(new Set(KNOWN_TEAMS).size, 18);
+  assert.equal(new Set(KNOWN_TEAMS).size, 16);
 });
 
 test("legacy 2037 aliases canonicalize while retired stored bookings are pruned", () => {
@@ -982,7 +983,8 @@ test("legacy 2037 aliases canonicalize while retired stored bookings are pruned"
   };
   const retiredTeams = [
     "2029 Chrome", "2032 Grizzlies", "Boys Futures", "2030 Reign",
-    "2030 Tidal Wave", "2034 Tsunami", "Girls Futures",
+    "2030 Tidal Wave", "2034 Tsunami", "Girls Futures", "2036 Fury",
+    "2035 Tornadoes", "2035 Tornado",
   ];
   const retiredBookings = retiredTeams.map((team, index) => ({
     id: `retired-team-${index}`,
@@ -998,10 +1000,20 @@ test("legacy 2037 aliases canonicalize while retired stored bookings are pruned"
   }));
 
   const snapshot = normalizeSnapshot({
-    events: [],
+    events: retiredTeams.map((team, index) => ({ id: `retired-event-${index}`, team })),
     practiceBookings: [legacyAliases, ...retiredBookings],
+    recentChanges: retiredTeams.map((team, index) => ({
+      id: `retired-change-${index}`,
+      type: "schedule_updated",
+      occurredAt: `2026-08-28T12:${String(index).padStart(2, "0")}:00.000Z`,
+      summary: `${team} schedule updated`,
+      team,
+      teams: [team],
+    })),
   });
+  assert.deepEqual(snapshot.events, []);
   assert.equal(snapshot.practiceBookings.length, 1);
+  assert.deepEqual(snapshot.recentChanges, []);
   const normalized = validatePracticeBookings(snapshot.practiceBookings);
   assert.equal(normalized.length, 1);
   assert.deepEqual({
@@ -1023,6 +1035,59 @@ test("legacy snapshots normalize to an empty practice booking list", () => {
     recentChanges: [],
     savedAt: "legacy",
   });
+});
+
+test("legacy tournament data receives the requested newsletter corrections", async () => {
+  const legacyEvents = [
+    { id: "b36-fury-fall-classic", team: "2036 Fury", title: "Fall Classic", status: "optional" },
+    { id: "g35-tornadoes", team: "2035 Tornadoes", title: "War at the Shore", status: "confirmed" },
+    { id: "g35-tornado", team: "2035 Tornado", title: "Long Ireland", status: "confirmed" },
+    { id: "custom-retired-title", team: "2033 Storm", title: "2036 Fury Fall Classic", status: "confirmed" },
+    { id: "custom-retired-note", team: "2034 Thunder", title: "Fall Classic", note: "For 2035 Tornadoes", status: "confirmed" },
+    { id: "b28-igloo", team: "2028 Black", title: "Blue Chip", status: "confirmed" },
+    { id: "b31-igloo", team: "2031 Carnage", title: "Igloo Elite Invitational", status: "entering", note: "Formerly Igloo Elite Invitational" },
+    { id: "custom-igloo", team: "2032 Cannons", title: "Igloo Elite Holiday Tournament", status: "entering", source: "Igloo Elite schedule" },
+    { id: "g31-queen-fall", team: "2031 Cyclones", title: "Queen of the Island", status: "optional" },
+    { id: "g31-fall-classic", team: "2031 Cyclones", title: "Fall Classic", status: "confirmed" },
+    { id: "b36-dawgs-fall-classic", team: "2036 Dawgs", title: "Fall Classic", status: "optional", note: "Optional tournament.", source: "Dan — optional Fall Classic for all boys teams" },
+    { id: "b37-fall-classic", team: "2037 Wolves", title: "Fall Classic", status: "optional", note: "Optional tournament.", source: "Dan — optional Fall Classic for all boys teams" },
+    { id: "untouched", team: "2033 Storm", title: "Apex Round Up", status: "confirmed" },
+  ];
+  const original = structuredClone(legacyEvents);
+
+  const normalized = normalizeTournamentEvents(legacyEvents);
+  assert.deepEqual(legacyEvents, original);
+  assert.ok(!normalized.some((event) => ["2036 Fury", "2035 Tornadoes", "2035 Tornado"].includes(event.team)));
+  assert.ok(!normalized.some((event) => ["custom-retired-title", "custom-retired-note"].includes(event.id)));
+  for (const event of normalized.filter((item) => ["b28-igloo", "b31-igloo", "custom-igloo"].includes(item.id))) {
+    assert.equal(event.title, "BLUE CHIP INVITATIONAL");
+  }
+  assert.doesNotMatch(JSON.stringify(normalized), /igloo elite/i);
+  assert.equal(normalized.find((event) => event.id === "g31-queen-fall").status, "confirmed");
+  assert.equal(normalized.find((event) => event.id === "g31-fall-classic").status, "optional");
+  assert.equal(normalized.find((event) => event.id === "b36-dawgs-fall-classic").status, "confirmed");
+  assert.equal(normalized.find((event) => event.id === "b37-fall-classic").status, "confirmed");
+  assert.equal(normalized.find((event) => event.id === "b36-dawgs-fall-classic").note, "Scheduled tournament; one additional tournament selection is pending.");
+  assert.equal(normalized.find((event) => event.id === "b37-fall-classic").note, "Only fall tournament.");
+  assert.doesNotMatch(JSON.stringify(normalized.filter((event) => ["b36-dawgs-fall-classic", "b37-fall-classic"].includes(event.id))), /optional/i);
+  assert.equal(normalized.find((event) => event.id === "untouched").title, "Apex Round Up");
+
+  const store = memoryStore({
+    version: 2,
+    events: legacyEvents,
+    practiceBookings: [],
+    recentChanges: [],
+    savedAt: FIXED_NOW.toISOString(),
+  });
+  const loaded = await readCalendarSnapshot(store);
+  assert.deepEqual(loaded.snapshot.events, normalized);
+
+  const saved = await saveCalendarSnapshot(store, {
+    events: legacyEvents,
+    practiceBookings: [],
+  }, store.etag, { now: FIXED_NOW });
+  assert.deepEqual(saved.snapshot.events, normalized);
+  assert.deepEqual(store.data.events, normalized);
 });
 
 test("recent changes normalize aliases and fields without mutating the source", () => {
@@ -1049,7 +1114,7 @@ test("recent changes normalize aliases and fields without mutating the source", 
     id: "change-two",
     type: "schedule_updated",
     occurredAt: "2026-08-30T18:00:00.000Z",
-    summary: " Schedule   updated ",
+    summary: " Igloo Elite   schedule updated ",
     team: "Unknown Team",
     coach: "",
     date: "08/30/2026",
@@ -1089,7 +1154,7 @@ test("recent changes normalize aliases and fields without mutating the source", 
     id: "change-two",
     type: "schedule_updated",
     occurredAt: "2026-08-30T18:00:00.000Z",
-    summary: "Schedule updated",
+    summary: "BLUE CHIP INVITATIONAL schedule updated",
     team: null,
     teams: [],
     coach: null,
@@ -1608,7 +1673,7 @@ test("Momentum one-hour windows allow two independent teams for one hour", async
 
   await expectCalendarError(claimPractice(store, {
     windowId: "momentum-2026-11-01",
-    team: "2036 Fury",
+    team: "2036 Dawgs",
     coach: "Coach Sean",
     startTime: "08:00",
     durationHours: 1,
@@ -1658,7 +1723,7 @@ test("Momentum two-hour windows allow two independent teams and reject a third",
 
   await expectCalendarError(claimPractice(store, {
     windowId: "momentum-2026-11-07",
-    team: "2036 Fury",
+    team: "2036 Dawgs",
     coach: "Coach Sean",
     startTime: "08:00",
     durationHours: 2,
@@ -1943,7 +2008,7 @@ test("a stale full save cannot erase a newer practice claim", async () => {
 
   await claimPractice(store, {
     windowId: "nickerson-2026-09-02",
-    team: "2035 Tornadoes",
+    team: "2035 Hurricanes",
     coach: "Coach Marisa",
     startTime: "17:00",
     durationHours: 1,
@@ -1964,7 +2029,7 @@ test("atomic claims retry ETag misses three times and report contention after th
   eventuallyAvailable.forceConditionalMisses(2);
   const claimed = await claimPractice(eventuallyAvailable, {
     windowId: "nickerson-2026-09-04",
-    team: "2036 Fury",
+    team: "2036 Dawgs",
     coach: "Coach Mike",
     startTime: "17:00",
     durationHours: 1,
@@ -1976,7 +2041,7 @@ test("atomic claims retry ETag misses three times and report contention after th
   contended.forceConditionalMisses(3);
   await expectCalendarError(claimPractice(contended, {
     windowId: "nickerson-2026-09-07",
-    team: "2036 Fury",
+    team: "2036 Dawgs",
     coach: "Coach Mike",
     startTime: "17:00",
     durationHours: 1,
