@@ -917,6 +917,16 @@
       background: var(--team-color);
     }
 
+    .event-pill.training {
+      border: 1px solid color-mix(in srgb, var(--training-color) 62%, transparent);
+      background: color-mix(in srgb, var(--training-color) 20%, #111316);
+      border-style: dashed;
+    }
+
+    .event-pill.training .event-bar {
+      background: var(--training-color);
+    }
+
     .off-island-mark {
       color: #fff;
       font-weight: 900;
@@ -2479,6 +2489,16 @@
       transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
     }
 
+    .day-detail-card.training {
+      cursor: default;
+      border-style: dashed;
+      border-left-style: solid;
+    }
+
+    .day-detail-card.training:hover {
+      transform: none;
+    }
+
     .day-detail-card:hover,
     .day-detail-card:focus-visible {
       border-color: var(--card-color);
@@ -3239,6 +3259,7 @@
                   <option value="all">All Schedule</option>
                   <option value="practices">Practices</option>
                   <option value="tournaments">Tournaments</option>
+                  <option value="training">A La Carte Training</option>
                 </select>
                 <button class="team-filter-trigger" id="teamFilterButton" type="button" popovertarget="teamFilterMenu"
                   aria-label="Choose teams shown on the calendar">
@@ -4224,6 +4245,64 @@
         { id: "g36-queen-fall", team: "2036 Avalanche", title: "Queen of the Island", start: "2026-10-24", end: "2026-10-24", time: "Game times TBD", location: "Destination KP, Kings Park, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2036 girls fall schedule" },
         { id: "g36-fall-classic", team: "2036 Avalanche", title: "Fall Classic", start: "2026-11-21", end: "2026-11-21", time: "Game times TBD", location: "SUSA + Destination KP, NY", status: "confirmed", paid: false, offIsland: false, note: "", source: "Dan — 2036 girls fall schedule" }
       ];
+      var TRAINING_COLOR = "#FF5CA8";
+      var TRAINING_PRICE_LABEL = "$250 for all sessions";
+      var TRAINING_MONDAYS = [
+        "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05",
+        "2026-10-12", "2026-10-19", "2026-10-26"
+      ];
+      var TRAINING_GROUPS = [
+        {
+          key: "girls-36-34",
+          label: "Girls 2036–2034",
+          teams: ["2036 Avalanche", "2035 Hurricanes", "2034 Thunder"],
+          startTime: "19:00",
+          endTime: "20:00",
+          timeLabel: "7:00 PM–8:00 PM"
+        },
+        {
+          key: "girls-33-31",
+          label: "Girls 2033–2031",
+          teams: ["2033 Storm", "2032 Riptide", "2031 Cyclones"],
+          startTime: "20:00",
+          endTime: "21:00",
+          timeLabel: "8:00 PM–9:00 PM"
+        }
+      ];
+
+      function buildTrainingSessions() {
+        var sessions = [];
+        TRAINING_GROUPS.forEach(function (group) {
+          TRAINING_MONDAYS.forEach(function (date) {
+            sessions.push({
+              id: "training-" + group.key + "-" + date,
+              date: date,
+              groupKey: group.key,
+              groupLabel: group.label,
+              title: group.label + " Training",
+              teams: group.teams.slice(),
+              coach: "Coach Dan",
+              startTime: group.startTime,
+              endTime: group.endTime,
+              timeLabel: group.timeLabel,
+              locationKey: "momentum",
+              venue: "Momentum Sports LI",
+              field: "Turf Field",
+              location: "10 Dunton Avenue, Deer Park, NY 11729",
+              optional: true,
+              price: TRAINING_PRICE_LABEL,
+              note: "A la carte optional training with Coach Dan. " + TRAINING_PRICE_LABEL + ".",
+              source: "Dan — Monday a la carte training at Momentum"
+            });
+          });
+        });
+        return sessions.sort(function (a, b) {
+          return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime);
+        });
+      }
+
+      var TRAINING_SESSIONS = buildTrainingSessions();
+
       var BLUE_CHIP_EVENT_IDS = new Set(["b28-igloo", "b31-igloo", "b33-igloo", "b34-igloo", "b36-igloo"]);
 
       var events = cloneDefaults();
@@ -4646,7 +4725,23 @@
             description: coachAttendanceLabel(booking)
           };
         }).filter(Boolean);
-        return tournamentItems.concat(assignedItems, claimedItems).sort(function (a, b) {
+        var trainingItems = TRAINING_SESSIONS.filter(function (session) {
+          return session.teams.indexOf(team) >= 0;
+        }).map(function (session) {
+          return {
+            id: "training-" + session.id,
+            kind: "Training",
+            title: "BTB " + TEAM_META[team].short + " — Optional Training",
+            startDate: session.date,
+            endDate: session.date,
+            startTime: session.startTime,
+            endTime: session.endTime,
+            allDay: false,
+            location: session.venue + " — " + session.location,
+            description: [session.title, "With " + session.coach, "Optional a la carte", session.price].join(" • ")
+          };
+        });
+        return tournamentItems.concat(assignedItems, claimedItems, trainingItems).sort(function (a, b) {
           return a.startDate.localeCompare(b.startDate) || String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
             a.title.localeCompare(b.title);
         });
@@ -5093,11 +5188,16 @@
               "'></span>" + escapeHtml(meta.label) + "</span>";
           }).join("") + "</div>";
 
-        document.getElementById("scheduleLegend").innerHTML = teamLegend + locationLegend +
+        var trainingLegend = "<div class='legend-group'><span class='legend-label'>Optional Training</span>" +
+          "<span class='legend-item'><span class='legend-swatch' style='--legend-color:" + TRAINING_COLOR +
+          "'></span>A La Carte Training • " + escapeHtml(TRAINING_PRICE_LABEL) + "</span></div>";
+
+        document.getElementById("scheduleLegend").innerHTML = teamLegend + locationLegend + trainingLegend +
           "<span class='legend-note'><span aria-hidden='true'>*</span> Off-Island Tournament</span>";
         document.getElementById("practiceLegend").innerHTML = locationLegend + teamLegend;
         footerHost.textContent = teamNames.length + " teams • " + linkedTeams.length + " linked calendars • " +
-          ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " + MASTER_PRACTICE_WINDOWS.length + " approved field windows";
+          ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " + MASTER_PRACTICE_WINDOWS.length +
+          " approved field windows • " + TRAINING_SESSIONS.length + " optional training sessions";
 
         var teamOptions = teamNames.map(function (team) {
           return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
@@ -5156,7 +5256,18 @@
         return bookingTeams(booking).some(function (team) { return visibleTeams.has(team); });
       }
 
-      function scheduleItemsForDay(dayIso, showTournaments, showPractices) {
+      function trainingSessionsForDay(dayIso) {
+        return TRAINING_SESSIONS.filter(function (session) {
+          return session.date === dayIso && session.teams.some(function (team) { return visibleTeams.has(team); });
+        }).sort(function (a, b) { return a.startTime.localeCompare(b.startTime); });
+      }
+
+      function trainingTeamLabel(session) {
+        return session.teams.filter(function (team) { return visibleTeams.has(team); })
+          .map(function (team) { return TEAM_META[team].short; }).join(" • ");
+      }
+
+      function scheduleItemsForDay(dayIso, showTournaments, showPractices, showTrainings) {
         var dayEvents = showTournaments ? events.filter(function (event) {
           return visibleTeams.has(event.team) && event.start && event.start <= dayIso && event.end >= dayIso;
         }).sort(function (a, b) {
@@ -5177,15 +5288,17 @@
           return String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
             a.venue.localeCompare(b.venue) || a.id.localeCompare(b.id);
         }) : [];
-        return { events: dayEvents, windows: dayWindows, bookings: dayBookings };
+        var dayTrainings = showTrainings ? trainingSessionsForDay(dayIso) : [];
+        return { events: dayEvents, windows: dayWindows, bookings: dayBookings, trainings: dayTrainings };
       }
 
       function renderMonth() {
         var title = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(viewDate);
         document.getElementById("monthTitle").textContent = title;
         var typeFilter = document.getElementById("scheduleTypeFilter").value;
-        var showTournaments = typeFilter !== "practices";
-        var showPractices = typeFilter !== "tournaments";
+        var showTournaments = typeFilter === "all" || typeFilter === "tournaments";
+        var showPractices = typeFilter === "all" || typeFilter === "practices";
+        var showTrainings = typeFilter === "all" || typeFilter === "training";
         var first = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1, 12);
         var sundayOffset = first.getDay();
         var gridStart = addDays(first, -sundayOffset);
@@ -5196,10 +5309,11 @@
         for (var i = 0; i < 42; i += 1) {
           var day = addDays(gridStart, i);
           var dayIso = isoDate(day);
-          var daySchedule = scheduleItemsForDay(dayIso, showTournaments, showPractices);
+          var daySchedule = scheduleItemsForDay(dayIso, showTournaments, showPractices, showTrainings);
           var dayEvents = daySchedule.events;
           var dayWindows = daySchedule.windows;
           var dayBookings = daySchedule.bookings;
+          var dayTrainings = daySchedule.trainings;
           var conflictLevel = conflictForDay(dayIso, conflicts);
           var classes = ["day"];
           if (day.getMonth() !== viewDate.getMonth()) classes.push("other-month");
@@ -5259,7 +5373,15 @@
               availability.label + (bookingCount ? " • " + bookingCount + " claimed" : "")) +
               "</small></span></button>";
           });
-          var allPills = tournamentPills.concat(claimedPracticePills, practicePills);
+          var trainingPills = dayTrainings.map(function (session) {
+            return "<button class='event-pill training' type='button' data-training-id='" + escapeHtml(session.id) +
+              "' style='--training-color:" + TRAINING_COLOR + "' title='" +
+              escapeHtml(session.title + " — " + session.timeLabel + " — " + session.venue + " — optional, " + session.price) +
+              "'><span class='event-bar'></span><span class='event-text'>" + escapeHtml(trainingTeamLabel(session)) +
+              " Training <small>" + escapeHtml(session.timeLabel + " • " + session.venue + " • Optional") +
+              "</small></span></button>";
+          });
+          var allPills = tournamentPills.concat(claimedPracticePills, practicePills, trainingPills);
           var pills = allPills.join("");
           var dayLabel = formatDate(dayIso, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
           var itemLabel = allPills.length + " schedule item" + (allPills.length === 1 ? "" : "s");
@@ -5380,11 +5502,13 @@
 
       function openDayDialog(dayIso) {
         var typeFilter = document.getElementById("scheduleTypeFilter").value;
-        var schedule = scheduleItemsForDay(dayIso, typeFilter !== "practices", typeFilter !== "tournaments");
+        var schedule = scheduleItemsForDay(dayIso, typeFilter === "all" || typeFilter === "tournaments",
+          typeFilter === "all" || typeFilter === "practices", typeFilter === "all" || typeFilter === "training");
         var dayTitle = formatDate(dayIso, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
         var tournamentCount = schedule.events.length;
         var practiceCount = schedule.windows.length + schedule.bookings.length;
-        var totalCount = tournamentCount + practiceCount;
+        var trainingCount = schedule.trainings.length;
+        var totalCount = tournamentCount + practiceCount + trainingCount;
         var dialog = document.getElementById("dayDialog");
         var body = document.getElementById("dayDialogBody");
 
@@ -5392,7 +5516,8 @@
         document.getElementById("dayDialogSummary").textContent = totalCount + " schedule item" +
           (totalCount === 1 ? "" : "s") + " • " + tournamentCount + " tournament" +
           (tournamentCount === 1 ? "" : "s") + " • " + practiceCount + " practice" +
-          (practiceCount === 1 ? "" : "s") + (totalCount ? " • Select any card to open it." : "");
+          (practiceCount === 1 ? "" : "s") + (trainingCount ? " • " + trainingCount + " optional training session" +
+          (trainingCount === 1 ? "" : "s") : "") + (totalCount ? " • Select any card to open it." : "");
 
         var tournamentCards = schedule.events.map(function (event) {
           var meta = TEAM_META[event.team];
@@ -5454,7 +5579,16 @@
             "</span><span class='day-detail-action'>Claim a block →</span></button>";
         });
 
-        body.innerHTML = totalCount ? tournamentCards.concat(claimedPracticeCards, practiceCards).join("") :
+        var trainingCards = schedule.trainings.map(function (session) {
+          return "<div class='day-detail-card training' style='--card-color:" + TRAINING_COLOR +
+            "'><span class='day-detail-card-top'><span>A La Carte Training</span><span>Optional</span></span>" +
+            "<span class='day-detail-card-title'>" + escapeHtml(session.title) + "</span>" +
+            "<span class='day-detail-meta'><span>" + escapeHtml(session.timeLabel) + "</span><span>" +
+            escapeHtml(session.venue + " — " + session.location) + "</span><span>" + escapeHtml("With " + session.coach) +
+            "</span><span>" + escapeHtml(session.price) + "</span></span></div>";
+        });
+
+        body.innerHTML = totalCount ? tournamentCards.concat(claimedPracticeCards, practiceCards, trainingCards).join("") :
           "<div class='day-detail-empty'>No schedule items are shown for this day with the current filters.</div>";
         body.querySelectorAll("[data-day-detail-item]").forEach(function (button) {
           button.addEventListener("click", function () {
@@ -6766,6 +6900,20 @@
           tbdTournamentCount: events.filter(function (event) { return !event.start || !event.end; }).length,
           offIslandCount: events.filter(function (event) { return event.offIsland === true; }).length,
           practiceWindowCount: PRACTICE_WINDOWS.length,
+          trainingSessionCount: TRAINING_SESSIONS.length,
+          trainingScheduleExact: TRAINING_GROUPS.every(function (group) {
+            var groupSessions = TRAINING_SESSIONS.filter(function (session) { return session.groupKey === group.key; });
+            return groupSessions.map(function (session) { return session.date; }).join(",") ===
+              "2026-09-14,2026-09-21,2026-09-28,2026-10-05,2026-10-12,2026-10-19,2026-10-26" &&
+              groupSessions.every(function (session) {
+                return session.startTime === group.startTime && session.endTime === group.endTime &&
+                  session.locationKey === "momentum" && session.venue === "Momentum Sports LI" &&
+                  session.optional === true && session.coach === "Coach Dan" &&
+                  session.price === TRAINING_PRICE_LABEL &&
+                  session.teams.join(",") === group.teams.join(",") &&
+                  session.teams.every(function (team) { return Boolean(TEAM_META[team]) && TEAM_META[team].label.indexOf("Girls") >= 0; });
+              });
+          }),
           masterPracticeWindowCount: MASTER_PRACTICE_WINDOWS.length,
           assignedPracticeWindowCount: ASSIGNED_PRACTICE_WINDOWS.length,
           assignedSeafordCount: assignedSeaford.length,
@@ -6902,6 +7050,8 @@
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
           result.practiceWindowCount === 306 &&
+          result.trainingSessionCount === 14 &&
+          result.trainingScheduleExact &&
           result.masterPracticeWindowCount === 123 &&
           result.assignedPracticeWindowCount === 183 &&
           result.assignedSeafordCount === 93 &&
@@ -7102,6 +7252,7 @@
           getEvents: function () { return JSON.parse(JSON.stringify(events)); },
           getDefaultTournaments: function () { return JSON.parse(JSON.stringify(DEFAULT_EVENTS)); },
           getPracticeWindows: function () { return JSON.parse(JSON.stringify(PRACTICE_WINDOWS)); },
+          getTrainingSessions: function () { return JSON.parse(JSON.stringify(TRAINING_SESSIONS)); },
           getMasterPracticeWindows: function () { return JSON.parse(JSON.stringify(MASTER_PRACTICE_WINDOWS)); },
           getAssignedPracticeWindows: function () { return JSON.parse(JSON.stringify(ASSIGNED_PRACTICE_WINDOWS)); },
           getClosedParentWindowIds: function () { return Array.from(CLOSED_PARENT_WINDOW_IDS); },

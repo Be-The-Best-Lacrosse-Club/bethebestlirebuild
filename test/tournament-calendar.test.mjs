@@ -110,6 +110,16 @@ function pagePracticeWindows() {
   return JSON.parse(JSON.stringify(context.result));
 }
 
+function pageTrainingSessions() {
+  const html = staffPageHtml();
+  const start = html.indexOf("var TRAINING_COLOR =");
+  const end = html.indexOf("var BLUE_CHIP_EVENT_IDS =", start);
+  assert.ok(start >= 0 && end > start, "training-session source must remain extractable from the staff page");
+  const context = {};
+  runInNewContext(`${html.slice(start, end)}\nthis.result = TRAINING_SESSIONS;`, context);
+  return JSON.parse(JSON.stringify(context.result));
+}
+
 function genericPracticeWindows(windows = PRACTICE_WINDOWS) {
   return windows.filter((window) => window.mode !== "assigned");
 }
@@ -680,14 +690,14 @@ test("the month grid is taller, scrolls crowded days, and opens a complete daily
   assert.match(html, /id="dayDialog"/);
   assert.match(html, /id="dayDialogTitle"/);
   assert.match(html, /id="dayDialogBody"/);
-  assert.match(html, /function scheduleItemsForDay\(dayIso, showTournaments, showPractices\)/);
+  assert.match(html, /function scheduleItemsForDay\(dayIso, showTournaments, showPractices, showTrainings\)/);
   assert.match(html, /function openDayDialog\(dayIso\)/);
   assert.match(html, /body\.querySelectorAll\("\[data-day-detail-item\]"\)/);
 });
 
 test("independent claimed practices stay separate and show team, time, and location on the master calendar", () => {
   const html = staffPageHtml();
-  const scheduleStart = html.indexOf("function scheduleItemsForDay(dayIso, showTournaments, showPractices)");
+  const scheduleStart = html.indexOf("function scheduleItemsForDay(dayIso, showTournaments, showPractices, showTrainings)");
   const scheduleEnd = html.indexOf("function renderMonth()", scheduleStart);
   assert.ok(scheduleStart >= 0 && scheduleEnd > scheduleStart, "daily schedule logic must remain extractable");
 
@@ -710,7 +720,7 @@ test("independent claimed practices stay separate and show team, time, and locat
   };
   runInNewContext(
     `${html.slice(scheduleStart, scheduleEnd)}\n` +
-      `this.result = scheduleItemsForDay("2026-09-05", false, true).bookings.map(function (item) { return item.booking.id; });`,
+      `this.result = scheduleItemsForDay("2026-09-05", false, true, false).bookings.map(function (item) { return item.booking.id; });`,
     scheduleContext,
   );
   assert.deepEqual(JSON.parse(JSON.stringify(scheduleContext.result)), ["claim-supernova", "claim-wolves"]);
@@ -750,7 +760,7 @@ test("the calendar team filter is an accessible multi-select that defaults to al
   assert.match(chromeSource, /setAllTeamFilters\(false\)/);
   assert.doesNotMatch(chromeSource, /localStorage|sessionStorage/);
 
-  const scheduleStart = html.indexOf("function scheduleItemsForDay(dayIso, showTournaments, showPractices)");
+  const scheduleStart = html.indexOf("function scheduleItemsForDay(dayIso, showTournaments, showPractices, showTrainings)");
   const scheduleEnd = html.indexOf("function renderMonth()", scheduleStart);
   const scheduleSource = html.slice(scheduleStart, scheduleEnd);
   assert.match(scheduleSource, /visibleTeams\.has\(event\.team\)/);
@@ -2159,4 +2169,41 @@ test("deploy preview origins are allowed dynamically without widening the produc
   assert.deepEqual(calendarOriginsForRequest(new Request("https://example.test", {
     headers: { origin: malicious },
   })), ALLOWED_ORIGINS);
+});
+
+test("Monday a la carte training runs at Momentum for both girls groups", () => {
+  const sessions = pageTrainingSessions();
+  const mondays = [
+    "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05",
+    "2026-10-12", "2026-10-19", "2026-10-26",
+  ];
+
+  assert.equal(sessions.length, 14);
+  assert.ok(sessions.every((session) => (
+    session.optional === true &&
+    session.coach === "Coach Dan" &&
+    session.price === "$250 for all sessions" &&
+    session.locationKey === "momentum" &&
+    session.venue === "Momentum Sports LI" &&
+    session.location === "10 Dunton Avenue, Deer Park, NY 11729"
+  )));
+
+  const younger = sessions.filter((session) => session.groupKey === "girls-36-34");
+  assert.deepEqual(younger.map((session) => session.date), mondays);
+  assert.ok(younger.every((session) => session.startTime === "19:00" && session.endTime === "20:00"));
+  assert.deepEqual(younger[0].teams, ["2036 Avalanche", "2035 Hurricanes", "2034 Thunder"]);
+
+  const older = sessions.filter((session) => session.groupKey === "girls-33-31");
+  assert.deepEqual(older.map((session) => session.date), mondays);
+  assert.ok(older.every((session) => session.startTime === "20:00" && session.endTime === "21:00"));
+  assert.deepEqual(older[0].teams, ["2033 Storm", "2032 Riptide", "2031 Cyclones"]);
+
+  // Every date is a Monday, the first is the Monday after Labor Day, the last is October's final Monday.
+  assert.ok(mondays.every((date) => new Date(`${date}T12:00:00Z`).getUTCDay() === 1));
+  assert.equal(mondays[0], "2026-09-14");
+  assert.equal(mondays[mondays.length - 1], "2026-10-26");
+
+  // Optional training is not a claimable field window and never collides with practice ids.
+  const practiceIds = new Set(PRACTICE_WINDOWS.map((window) => window.id));
+  assert.ok(sessions.every((session) => !practiceIds.has(session.id)));
 });
