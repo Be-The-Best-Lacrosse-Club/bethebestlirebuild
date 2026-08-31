@@ -178,9 +178,6 @@ function expectedAssignedPracticeSlots() {
   ];
   const pointLookoutSaturdays = saturdays.filter((date) => date !== "2026-09-19");
 
-  add("seaford", tuesdays, "19:15", "21:15", [
-    "2033 Renegades",
-  ]);
   add("seaford", tuesdays, "19:15", "21:00", ["2033 Storm"]);
   add("seaford", wednesdays, "19:15", "21:15", [
     "2036 Dawgs", "2035 Bombers", "2032 Riptide",
@@ -197,6 +194,7 @@ function expectedAssignedPracticeSlots() {
   add("seaford", saturdays, "15:00", null, ["2035 Bombers"]);
   add("seaford", sundays, "09:00", "11:00", ["2032 Riptide"]);
   add("seaford", sundays, "08:00", "09:30", ["2031 Cyclones"]);
+  add("seaford", mondays, "19:15", "21:15", ["2033 Renegades"]);
   add("seaford", mondays, "19:15", "20:45", ["2034 Venom"]);
 
   add("stimson", sundays, "09:00", "10:30", [
@@ -226,7 +224,7 @@ async function expectCalendarError(promise, { status, code }) {
   });
 }
 
-test("the server exposes 123 generic windows plus 183 recurring team practice slots", () => {
+test("the server exposes 123 generic windows plus 182 recurring team practice slots", () => {
   const generic = genericPracticeWindows();
   const assigned = assignedPracticeWindows();
   const seaford = generic.filter((window) => window.venue === "Seaford HS Turf");
@@ -249,9 +247,9 @@ test("the server exposes 123 generic windows plus 183 recurring team practice sl
     window.venue === "Momentum Sports LI" && window.requiredDurationHours === 2
   ));
 
-  assert.equal(PRACTICE_WINDOWS.length, 306);
+  assert.equal(PRACTICE_WINDOWS.length, 305);
   assert.equal(generic.length, 123);
-  assert.equal(assigned.length, 183);
+  assert.equal(assigned.length, 182);
   assert.equal(seaford.length, 24);
   assert.equal(nickersonWeekdays.length, 26);
   assert.equal(nickersonSaturdays.length, 9);
@@ -347,7 +345,7 @@ test("assigned team slots repeat every September pattern through October", () =>
     return counts;
   }, {});
 
-  assert.equal(assigned.length, 183);
+  assert.equal(assigned.length, 182);
   assert.deepEqual(
     assigned.map((window) => ({
       id: window.id,
@@ -360,14 +358,14 @@ test("assigned team slots repeat every September pattern through October", () =>
     expectedAssignedPracticeSlots().sort((a, b) => a.id.localeCompare(b.id)),
   );
   assert.deepEqual(countsByLocation, {
-    seaford: 93,
+    seaford: 92,
     stimson: 28,
     nickerson: 40,
     "point-lookout": 22,
   });
   assert.deepEqual(countsByTeam, {
     "2036 Avalanche": 16,
-    "2033 Renegades": 16,
+    "2033 Renegades": 15,
     "2036 Dawgs": 16,
     "2035 Bombers": 16,
     "2032 Riptide": 15,
@@ -385,15 +383,11 @@ test("assigned team slots repeat every September pattern through October", () =>
     "2026-09-08", "2026-09-15", "2026-09-22", "2026-09-29",
     "2026-10-06", "2026-10-13", "2026-10-20", "2026-10-27",
   ];
-  for (const team of ["2033 Renegades", "2033 Storm"]) {
-    const tuesdaySlots = assigned.filter((window) => (
-      window.assignedTeams[0] === team && window.locationKey === "seaford" && window.startTime === "19:15"
-    )).sort((a, b) => a.date.localeCompare(b.date));
-    assert.deepEqual(tuesdaySlots.map((window) => window.date), expectedTuesdays);
-    assert.ok(tuesdaySlots.every((window) => (
-      window.endTime === (team === "2033 Storm" ? "21:00" : "21:15")
-    )));
-  }
+  const stormTuesdays = assigned.filter((window) => (
+    window.assignedTeams[0] === "2033 Storm" && window.locationKey === "seaford" && window.startTime === "19:15"
+  )).sort((a, b) => a.date.localeCompare(b.date));
+  assert.deepEqual(stormTuesdays.map((window) => window.date), expectedTuesdays);
+  assert.ok(stormTuesdays.every((window) => window.endTime === "21:00"));
   const expectedMondays = [
     "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05",
     "2026-10-12", "2026-10-19", "2026-10-26",
@@ -405,6 +399,13 @@ test("assigned team slots repeat every September pattern through October", () =>
   assert.deepEqual(venomMondays.map((window) => window.date), expectedMondays);
   assert.ok(venomMondays.every((window) => (
     window.endTime === "20:45" && window.requiredDurationHours === 1.5
+  )));
+  const renegadesMondays = assigned.filter((window) => (
+    window.assignedTeams[0] === "2033 Renegades" && window.locationKey === "seaford" && window.startTime === "19:15"
+  )).sort((a, b) => a.date.localeCompare(b.date));
+  assert.deepEqual(renegadesMondays.map((window) => window.date), expectedMondays);
+  assert.ok(renegadesMondays.every((window) => (
+    window.endTime === "21:15" && window.requiredDurationHours === 2 && window.assignmentStatus === "adjusted"
   )));
   assert.equal(assigned.some((window) => (
     window.assignedTeams[0] === "2034 Venom" && window.locationKey === "stimson"
@@ -451,7 +452,7 @@ test("assigned team slots repeat every September pattern through October", () =>
   assert.equal(stormPointLookout.length, 7);
   assert.equal(stormPointLookout.some((window) => window.date === "2026-09-19"), false);
 
-  assert.equal(new Set(assigned.map((window) => window.id)).size, 183);
+  assert.equal(new Set(assigned.map((window) => window.id)).size, 182);
   assert.ok(assigned.every((window) => (
     /^pdf-(seaford|stimson|nickerson|point-lookout)-2026-(09|10)-\d{2}-[a-z0-9-]+$/.test(window.id) &&
     window.date >= "2026-09-08" && window.date <= "2026-10-31" &&
@@ -1556,20 +1557,20 @@ test("any shared attendee blocks overlapping practices while disjoint coach list
   assert.equal(second.snapshot.practiceBookings.length, 2);
 });
 
-test("Storm and Renegades Tuesday overlap requires different coaches", async () => {
+test("Venom and Renegades Monday overlap requires different coaches", async () => {
   const store = memoryStore();
   await claimPractice(store, {
-    windowId: "pdf-seaford-2026-09-15-2033-storm",
+    windowId: "pdf-seaford-2026-09-14-2034-venom",
     coach: "Coach Shared",
-  }, claimOptions("assigned-storm-overlap"));
+  }, claimOptions("assigned-venom-overlap"));
 
   await expectCalendarError(claimPractice(store, {
-    windowId: "pdf-seaford-2026-09-15-2033-renegades",
+    windowId: "pdf-seaford-2026-09-14-2033-renegades",
     coach: " coach shared ",
   }, claimOptions("assigned-renegades-overlap")), { status: 409, code: "practice_overlap" });
 
   const separateCoach = await claimPractice(store, {
-    windowId: "pdf-seaford-2026-09-15-2033-renegades",
+    windowId: "pdf-seaford-2026-09-14-2033-renegades",
     coach: "Coach Two",
   }, claimOptions("assigned-renegades-separate-coach"));
   assert.equal(separateCoach.snapshot.practiceBookings.length, 2);
