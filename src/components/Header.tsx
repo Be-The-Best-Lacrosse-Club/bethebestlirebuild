@@ -197,7 +197,7 @@ export function Header() {
           </button>
 
           {/* Desktop Nav — only when the full menu has room */}
-          <nav className="hidden min-[1100px]:flex items-center gap-1" ref={dropdownRef}>
+          <nav className="hidden min-[1380px]:flex items-center gap-1" ref={dropdownRef}>
 
             <div className="relative">
               <button onClick={() => setDropdown(dropdown === "programs" ? null : "programs")} className={navItemClass("/programs")}>
@@ -299,7 +299,9 @@ export function Header() {
             <button
               className={`z-[60] transition-colors p-1 ${scrolled || mobileOpen ? "text-black" : "text-white"}`}
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Open menu"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="btb-mobile-menu"
             >
               {mobileOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
@@ -311,13 +313,19 @@ export function Header() {
           backdrop-filter stacking context, which was preventing fixed positioning
           from covering the full viewport when the user had scrolled down. */}
       {mobileOpen && createPortal(
-        <div className="fixed inset-0 bg-black z-[200] overflow-y-auto">
+        <div
+          id="btb-mobile-menu"
+          className="fixed inset-0 bg-black z-[200] overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
+        >
           {/* Header row */}
           <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
             <button onClick={() => go("/")} className="font-display text-xl text-white uppercase tracking-tight">
               Be The <span className="text-[var(--btb-red)]">Best</span>
             </button>
-            <button onClick={() => setMobileOpen(false)} className="text-white p-1">
+            <button onClick={() => setMobileOpen(false)} className="text-white p-1" aria-label="Close menu">
               <X size={26} />
             </button>
           </div>

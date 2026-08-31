@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { CinematicFilmRoom } from "@/components/CinematicFilmRoom"
 import { SEO } from "@/components/shared/SEO"
 import "./HomePage.css"
 
@@ -335,6 +336,8 @@ export function HomePage() {
             </div>
           </div>
         </section>
+
+        <CinematicFilmRoom />
 
         <section className="btb-home__section btb-home__section--paper" id="proof">
           <div className="btb-home__shell">
