@@ -4,6 +4,7 @@ import test from "node:test"
 
 const calendarHtml = readFileSync(new URL("../public/dan-tournament-calendar.html", import.meta.url), "utf8")
 const newsletterHtml = readFileSync(new URL("../public/fall-winter-newsletter.html", import.meta.url), "utf8")
+const parentTrainingHtml = readFileSync(new URL("../public/parent-training.html", import.meta.url), "utf8")
 
 function extractBlock(source, start, end) {
   const startIndex = source.indexOf(start)
@@ -132,4 +133,11 @@ test("newsletter directs boys-program questions to both Boys Directors", () => {
   assert.match(newsletterHtml, /For all boys-program questions or concerns/)
   assert.match(newsletterHtml, /href="mailto:btb\.director\.reynolds@gmail\.com"/)
   assert.match(newsletterHtml, /href="mailto:coachtbtb@gmail\.com"/)
+})
+
+test("The Lab identifies the 2033 class as sixth grade", () => {
+  assert.match(newsletterHtml, /Open to BTB teams 2033 and older \(6th grade and up\)/)
+  assert.doesNotMatch(newsletterHtml, /2033 and older \(5th grade and up\)/)
+  assert.match(parentTrainingHtml, /<strong>BTB teams 2033 and older<\/strong> \(6th grade and up\), boys and girls\./)
+  assert.doesNotMatch(parentTrainingHtml, /2033 and older<\/strong> \(5th grade and up\)/)
 })
