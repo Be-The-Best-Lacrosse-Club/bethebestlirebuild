@@ -4110,8 +4110,11 @@
           { team: "2036 Avalanche", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", durationHours: 1 }
         ], "confirmed", "Wednesdays 7:15–8:15 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
         add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24", "2026-10-01", "2026-10-08", "2026-10-15", "2026-10-22", "2026-10-29"], [
-          { team: "2031 Cyclones", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
-        ], "adjusted", seafordWeekdayNote, DAN_RECURRING_SOURCE);
+          { team: "2035 Hurricanes", startTime: "19:15", endTime: "20:15", timeLabel: "7:15 PM–8:15 PM", durationHours: 1 }
+        ], "confirmed", "Thursdays 7:15–8:15 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-10", "2026-09-17", "2026-09-24", "2026-10-01", "2026-10-08", "2026-10-15", "2026-10-22", "2026-10-29"], [
+          { team: "2031 Cyclones", startTime: "20:00", endTime: "21:15", timeLabel: "8:00 PM–9:15 PM", durationHours: 1.25 }
+        ], "confirmed", "Thursdays 8:00–9:15 PM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
         add("seaford", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2035 Bombers", startTime: "15:00", endTime: null, timeLabel: "3:00 PM–End time needed", durationHours: null }
         ], "needs-time", "3:00 PM start; an exact end time is still needed. " + recurringNote, DAN_RECURRING_SOURCE);
@@ -4130,9 +4133,6 @@
           { team: "2031 Carnage", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 }
         ], "pending", recurringNote, DAN_RECURRING_SOURCE);
 
-        add("point-lookout", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
-          { team: "2035 Hurricanes", startTime: "18:00", endTime: "19:00", timeLabel: "6:00 PM–7:00 PM", durationHours: 1 }
-        ], "confirmed", "Mondays 6:00–7:00 PM at Point Lookout. " + recurringNote, DAN_RECURRING_SOURCE);
         add("nickerson", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2036 Dawgs", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", durationHours: 2 },
@@ -6770,8 +6770,6 @@
           }),
           movedMondayPracticesExact: [{
             team: "2034 Venom", locationKey: "seaford", startTime: "19:15", endTime: "20:45"
-          }, {
-            team: "2035 Hurricanes", locationKey: "point-lookout", startTime: "18:00", endTime: "19:00"
           }].every(function (expected) {
             return ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
               return assignedPracticeTeam(windowItem) === expected.team &&
@@ -6779,6 +6777,19 @@
                 windowItem.endTime === expected.endTime && windowItem.date >= "2026-09-14";
             }).map(function (windowItem) { return windowItem.date; }).join(",") ===
               "2026-09-14,2026-09-21,2026-09-28,2026-10-05,2026-10-12,2026-10-19,2026-10-26";
+          }),
+          seafordThursdayPracticesExact: [{
+            team: "2035 Hurricanes", startTime: "19:15", endTime: "20:15"
+          }, {
+            team: "2031 Cyclones", startTime: "20:00", endTime: "21:15"
+          }].every(function (expected) {
+            return ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+              return assignedPracticeTeam(windowItem) === expected.team && windowItem.locationKey === "seaford" &&
+                windowItem.startTime === expected.startTime && windowItem.endTime === expected.endTime;
+            }).map(function (windowItem) { return windowItem.date; }).join(",") ===
+              "2026-09-10,2026-09-17,2026-09-24,2026-10-01,2026-10-08,2026-10-15,2026-10-22,2026-10-29";
+          }) && !ASSIGNED_PRACTICE_WINDOWS.some(function (windowItem) {
+            return assignedPracticeTeam(windowItem) === "2035 Hurricanes" && windowItem.locationKey === "point-lookout";
           }),
           assignedPointLookoutBlackoutHonored: !assignedPointLookout.some(function (windowItem) {
             return windowItem.date === "2026-09-19";
@@ -6845,23 +6856,24 @@
           result.datedTournamentCount === 41 &&
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
-          result.practiceWindowCount === 305 &&
+          result.practiceWindowCount === 306 &&
           result.masterPracticeWindowCount === 123 &&
-          result.assignedPracticeWindowCount === 182 &&
-          result.assignedSeafordCount === 85 &&
+          result.assignedPracticeWindowCount === 183 &&
+          result.assignedSeafordCount === 93 &&
           result.assignedStimsonCount === 28 &&
           result.assignedNickersonCount === 40 &&
-          result.assignedPointLookoutCount === 29 &&
-          result.assignedAdjustedCount === 40 &&
+          result.assignedPointLookoutCount === 22 &&
+          result.assignedAdjustedCount === 32 &&
           result.assignedNeedsTimeCount === 8 &&
           result.assignedPendingCount === 50 &&
-          result.assignedConfirmedCount === 84 &&
+          result.assignedConfirmedCount === 93 &&
           result.assignedNullEndCount === 8 &&
           result.closedParentWindowCount === 44 &&
           result.assignedSchemaValid &&
           result.assignedDateRangeExact &&
           result.recurringTuesdayPatternExact &&
           result.movedMondayPracticesExact &&
+          result.seafordThursdayPracticesExact &&
           result.assignedPointLookoutBlackoutHonored &&
           result.seafordWindowCount === 24 &&
           result.nickersonWindowCount === 35 &&
