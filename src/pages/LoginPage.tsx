@@ -174,7 +174,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-6" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+    <main id="main-content" className="min-h-screen bg-black flex items-center justify-center px-6" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
         title="Login | BTB Lacrosse Club"
         description="Sign in to your BTB Lacrosse Club account to access the Players Hub, Coaches Hub, and Academy resources."
@@ -198,7 +198,7 @@ export function LoginPage() {
             )}
           </div>
           <div>
-            <div className="font-display text-2xl uppercase tracking-wide text-white">
+            <h1 className="font-display text-2xl uppercase tracking-wide text-white">
               {view === "set-password" ? (
                 <>Set New <span className="text-[var(--btb-red)]">Password</span></>
               ) : view === "forgot-sent" ? (
@@ -212,7 +212,7 @@ export function LoginPage() {
               ) : (
                 <>BTB <span className="text-[var(--btb-red)]">Login</span></>
               )}
-            </div>
+            </h1>
           </div>
         </div>
 
@@ -225,9 +225,12 @@ export function LoginPage() {
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
+                <label htmlFor="login-email" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
                 <input
+                  id="login-email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -237,9 +240,12 @@ export function LoginPage() {
                 />
               </div>
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
+                <label htmlFor="login-password" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
                 <input
+                  id="login-password"
+                  name="password"
                   type="password"
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -295,8 +301,10 @@ export function LoginPage() {
 
             <form onSubmit={handleSetPassword} className="space-y-4">
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">New Password</label>
+                <label htmlFor="new-password" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">New Password</label>
                 <input
+                  id="new-password"
+                  name="new-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -309,8 +317,10 @@ export function LoginPage() {
                 />
               </div>
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Confirm Password</label>
+                <label htmlFor="confirm-password" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Confirm Password</label>
                 <input
+                  id="confirm-password"
+                  name="confirm-password"
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -365,9 +375,12 @@ export function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Full Name</label>
+                <label htmlFor="signup-name" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Full Name</label>
                 <input
+                  id="signup-name"
+                  name="name"
                   type="text"
+                  autoComplete="name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
@@ -378,9 +391,12 @@ export function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
+                <label htmlFor="signup-email" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
                 <input
+                  id="signup-email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -391,9 +407,12 @@ export function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
+                <label htmlFor="signup-password" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Password</label>
                 <input
+                  id="signup-password"
+                  name="password"
                   type="password"
+                  autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -404,11 +423,12 @@ export function LoginPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Program</label>
+              <fieldset>
+                <legend className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Program</legend>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
+                    aria-pressed={program === "boys"}
                     onClick={() => setProgram("boys")}
                     className={`py-3 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1px] transition-colors ${
                       program === "boys"
@@ -420,6 +440,7 @@ export function LoginPage() {
                   </button>
                   <button
                     type="button"
+                    aria-pressed={program === "girls"}
                     onClick={() => setProgram("girls")}
                     className={`py-3 rounded-lg text-[1.05rem] font-bold uppercase tracking-[1px] transition-colors ${
                       program === "girls"
@@ -430,11 +451,13 @@ export function LoginPage() {
                     Girls
                   </button>
                 </div>
-              </div>
+              </fieldset>
 
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Graduation Year (Optional)</label>
+                <label htmlFor="signup-grad-year" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Graduation Year (Optional)</label>
                 <select
+                  id="signup-grad-year"
+                  name="graduation-year"
                   value={gradYear}
                   onChange={(e) => setGradYear(e.target.value)}
                   disabled={submitting}
@@ -505,9 +528,12 @@ export function LoginPage() {
 
             <form onSubmit={handleForgotPassword} className="space-y-4">
               <div>
-                <label className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
+                <label htmlFor="recovery-email" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
                 <input
+                  id="recovery-email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -564,6 +590,6 @@ export function LoginPage() {
           </>
         )}
       </div>
-    </div>
+    </main>
   )
 }

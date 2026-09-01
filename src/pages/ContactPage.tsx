@@ -194,29 +194,30 @@ export function ContactPage() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className={labelClass}>Name *</label>
-                    <input type="text" name="name" required className={inputClass} value={name} onChange={(e) => setName(e.target.value)} />
+                    <label htmlFor="contact-name" className={labelClass}>Name *</label>
+                    <input id="contact-name" type="text" name="name" autoComplete="name" required className={inputClass} value={name} onChange={(e) => setName(e.target.value)} />
                   </div>
                   <div>
-                    <label className={labelClass}>Email *</label>
-                    <input type="email" name="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <label htmlFor="contact-email" className={labelClass}>Email *</label>
+                    <input id="contact-email" type="email" name="email" autoComplete="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className={labelClass}>Phone</label>
-                    <input type="tel" name="phone" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    <label htmlFor="contact-phone" className={labelClass}>Phone</label>
+                    <input id="contact-phone" type="tel" name="phone" autoComplete="tel" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
                   </div>
                   <div>
-                    <label className={labelClass}>Subject</label>
-                    <input type="text" name="subject" className={inputClass} placeholder="What's this about?" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                    <label htmlFor="contact-subject" className={labelClass}>Subject</label>
+                    <input id="contact-subject" type="text" name="subject" className={inputClass} placeholder="What's this about?" value={subject} onChange={(e) => setSubject(e.target.value)} />
                   </div>
                 </div>
 
                 <div>
-                  <label className={labelClass}>Message *</label>
+                  <label htmlFor="contact-message" className={labelClass}>Message *</label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     required
                     rows={5}

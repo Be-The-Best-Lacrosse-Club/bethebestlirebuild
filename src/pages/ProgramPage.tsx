@@ -15,7 +15,7 @@ export function ProgramPage({ programKey }: { programKey: Gender }) {
 
   // For girls stats section: team pills from grad years
   const girlsTeamYears = isGirls
-    ? data.teams.map((t) => t.gradYear)
+    ? [...new Set(data.teams.map((t) => t.gradYear))]
     : []
 
   // Split hero tagline on newline

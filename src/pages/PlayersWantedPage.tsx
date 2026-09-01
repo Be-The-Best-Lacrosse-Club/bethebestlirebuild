@@ -191,7 +191,7 @@ export function PlayersWantedPage() {
         path="/players-wanted"
       />
 
-      <main className="min-h-screen overflow-hidden bg-black pt-16 text-white">
+      <main id="main-content" tabIndex={-1} className="min-h-screen overflow-hidden bg-black pt-16 text-white">
         <section className="relative border-b border-white/10 px-5 py-20 md:px-8 md:py-28">
           <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(210,38,48,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(210,38,48,.08)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--btb-red)]/20 blur-[120px]" />

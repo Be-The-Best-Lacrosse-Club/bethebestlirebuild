@@ -26,6 +26,8 @@ const HEADER_EVENTS: {
   title: string
   details: string
   href?: string
+  actionLabel?: string
+  ariaAction?: string
 }[] = [
   {
     label: "Go BTB",
@@ -37,12 +39,16 @@ const HEADER_EVENTS: {
     title: "Sixes League",
     details: "Coleman Sundays · Momentum Thursdays · 8–10 per team",
     href: "https://www.thesixesleague.com",
+    actionLabel: "Sign up",
+    ariaAction: "Register for",
   },
   {
-    label: "Now open",
-    title: "Futures Camp",
-    details: "Aug 18–20 · 9–11 AM · Plainedge Park · 2034–2037",
-    href: "/register-futures",
+    label: "Coming next",
+    title: "Camps & Clinics",
+    details: "New dates are being finalized · Request an update",
+    href: "/camps",
+    actionLabel: "View schedule",
+    ariaAction: "View",
   },
 ]
 
@@ -64,7 +70,6 @@ const staticLinks = new Set([
   "/parent-training",
   "/fall-winter-newsletter",
   "/coach-tools.html",
-  "/register-futures",
   "https://www.thesixesleague.com",
 ])
 
@@ -145,7 +150,7 @@ export function Header() {
                       <strong>{event.title}</strong>
                       <span className="btb-home__event-meta">{event.details}</span>
                       {event.href ? (
-                        <span className="btb-home__event-register">Sign up <span aria-hidden="true">→</span></span>
+                        <span className="btb-home__event-register">{event.actionLabel ?? "Learn more"} <span aria-hidden="true">→</span></span>
                       ) : null}
                     </>
                   )
@@ -155,7 +160,7 @@ export function Header() {
                       className="btb-home__event-item"
                       href={event.href}
                       key={event.title}
-                      aria-label={`Register for ${event.title}: ${event.details}`}
+                      aria-label={`${event.ariaAction ?? "Learn more about"} ${event.title}: ${event.details}`}
                     >
                       {content}
                     </a>

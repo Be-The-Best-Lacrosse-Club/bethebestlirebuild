@@ -206,23 +206,23 @@ export function InterestFormPage() {
 
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <label className={labelClass}>Name *</label>
-                <input type="text" name="name" required className={inputClass} value={name} onChange={(e) => setName(e.target.value)} />
+                <label htmlFor="interest-name" className={labelClass}>Name *</label>
+                <input id="interest-name" type="text" name="name" autoComplete="name" required className={inputClass} value={name} onChange={(e) => setName(e.target.value)} />
               </div>
               <div>
-                <label className={labelClass}>Phone *</label>
-                <input type="tel" name="phone" required className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <label htmlFor="interest-phone" className={labelClass}>Phone *</label>
+                <input id="interest-phone" type="tel" name="phone" autoComplete="tel" required className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
               </div>
             </div>
 
             <div>
-              <label className={labelClass}>Email *</label>
-              <input type="email" name="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
+              <label htmlFor="interest-email" className={labelClass}>Email *</label>
+              <input id="interest-email" type="email" name="email" autoComplete="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
 
             <div>
-              <label className={labelClass}>Address</label>
-              <input type="text" name="address" className={inputClass} placeholder="Street, City, State, ZIP" value={address} onChange={(e) => setAddress(e.target.value)} />
+              <label htmlFor="interest-address" className={labelClass}>Address</label>
+              <input id="interest-address" type="text" name="address" autoComplete="street-address" className={inputClass} placeholder="Street, City, State, ZIP" value={address} onChange={(e) => setAddress(e.target.value)} />
             </div>
           </div>
 
@@ -230,14 +230,15 @@ export function InterestFormPage() {
           <div className="space-y-6">
             <div className="flex items-center gap-3 border-b border-white/5 pb-4">
               <div className="w-1.5 h-1.5 rounded-full bg-[var(--btb-red)]" />
-              <span className="font-display text-lg uppercase tracking-widest">What Are You Interested In? *</span>
+              <span id="interest-category-label" className="font-display text-lg uppercase tracking-widest">What Are You Interested In? *</span>
             </div>
 
             {/* Primary category pills */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" role="group" aria-labelledby="interest-category-label">
               {CATEGORIES.map((c) => (
                 <button
                   type="button"
+                  aria-pressed={category === c.id}
                   key={c.id}
                   onClick={() => pickCategory(c.id)}
                   className={`px-6 py-3 text-[1.05rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all ${
@@ -254,13 +255,14 @@ export function InterestFormPage() {
             {/* Secondary: Boys / Girls (for categories that need it) */}
             {activeCategory?.hasProgram && (
               <div className="pl-4 border-l-2 border-[var(--btb-red)]/40 space-y-4">
-                <div className="text-[1.15rem] font-black uppercase tracking-[2px] text-white/70">
+                <div id="interest-program-label" className="text-[1.15rem] font-black uppercase tracking-[2px] text-white/70">
                   {category} Program
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2" role="group" aria-labelledby="interest-program-label">
                   {(["Boys", "Girls"] as Program[]).map((p) => (
                     <button
                       type="button"
+                      aria-pressed={program === p}
                       key={p}
                       onClick={() => pickProgram(p)}
                       className={`px-6 py-3 text-[1.05rem] font-bold uppercase tracking-[1.5px] rounded-lg transition-all ${
@@ -279,10 +281,12 @@ export function InterestFormPage() {
             {/* Tertiary: team dropdown (Travel only) */}
             {activeCategory?.hasTeam && program && (
               <div className="pl-4 border-l-2 border-[var(--btb-red)]/40 space-y-4">
-                <div className="text-[1.15rem] font-black uppercase tracking-[2px] text-white/70">
+                <label htmlFor="interest-team" className="block text-[1.15rem] font-black uppercase tracking-[2px] text-white/70">
                   {program} Travel Team
-                </div>
+                </label>
                 <select
+                  id="interest-team"
+                  name="interestTeam"
                   value={team}
                   onChange={(e) => setTeam(e.target.value)}
                   className={`${inputClass} appearance-none cursor-pointer`}
@@ -297,8 +301,9 @@ export function InterestFormPage() {
 
             {category === "Tryouts" && (
               <div className="pl-4 border-l-2 border-[var(--btb-red)]/40 space-y-4">
-                <label className={labelClass}>Player Graduation Year *</label>
+                <label htmlFor="interest-grad-year" className={labelClass}>Player Graduation Year *</label>
                 <input
+                  id="interest-grad-year"
                   type="text"
                   name="tryoutGradYear"
                   required
@@ -314,8 +319,9 @@ export function InterestFormPage() {
 
           {/* Notes */}
           <div>
-            <label className={labelClass}>Anything else we should know?</label>
+            <label htmlFor="interest-notes" className={labelClass}>Anything else we should know?</label>
             <textarea
+              id="interest-notes"
               name="notes"
               rows={3}
               className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-[1.15rem] placeholder:text-white/45 focus:outline-none focus:border-[var(--btb-red)]/50 transition-all resize-none"
