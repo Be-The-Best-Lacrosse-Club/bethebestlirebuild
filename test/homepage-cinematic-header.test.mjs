@@ -15,6 +15,16 @@ test("header switches between desktop navigation and the menu at one breakpoint"
   assert.match(header, /role="dialog"/)
 })
 
+test("header keeps its wordmark and controls readable on a light surface", async () => {
+  const header = await readSource("src/components/Header.tsx")
+
+  assert.match(header, /bg-white\/95 backdrop-blur-md/)
+  assert.match(header, /font-display text-lg md:text-2xl tracking-tight uppercase text-black/)
+  assert.match(header, /text-black\/70 hover:text-black hover:bg-black\/5/)
+  assert.match(header, /className="z-\[60\] p-1 text-black transition-colors"/)
+  assert.doesNotMatch(header, /scrolled \? "text-black" : "text-white"/)
+})
+
 test("homepage mounts both cinematic Filmroom development stories", async () => {
   const homepage = await readSource("src/pages/HomePage.tsx")
   const filmroom = await readSource("src/components/CinematicFilmRoom.tsx")
