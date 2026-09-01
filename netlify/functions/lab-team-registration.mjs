@@ -173,6 +173,7 @@ function registrationData(input, team, count, remaining) {
   data.grad_year = team.gradYear;
   data.amount = "500";
   data.registration_status = "Pending QuickBooks payment verification";
+  data.payment_match_reference = `${clean(input.player_first_name, 120)} ${clean(input.player_last_name, 120)} · ${clean(input.parent_email, 320)}`;
   data.team_registration_count = String(count);
   data.team_spots_to_minimum = String(remaining);
   return data;

@@ -410,7 +410,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   if (isEvaluationRequest) {
     subject = `Evaluation Requested ${data.gender} ${data.gradYear}`;
   } else if (isLabTeamStrength) {
-    subject = `The Lab — ${data.team_name || "Team"}: ${data.team_registration_count || "?"}/10 — ${playerName || data.parent_email || "new registration"}`;
+    subject = `The Lab — REGISTRATION SAVED / PAYMENT PENDING — ${data.team_name || "Team"}: ${data.team_registration_count || "?"}/10 — ${playerName || data.parent_email || "new registration"}`;
   } else if (isSupplementalTryout) {
     subject = `Supplemental Tryout Registration Confirmed — ${playerName || data.parent_email || "unknown"}`;
   } else {
@@ -425,7 +425,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
       <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:0.85">${escapeHtml(emailEyebrow)}</div>
       <h1 style="margin:6px 0 0;font-size:22px;font-weight:700">${escapeHtml(emailHeading)}</h1>
     </div>
-    ${isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
+    ${isLabTeamStrength ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment is not confirmed. Wait for the separate QuickBooks payment-received email before marking this player paid. Match it using the player name and parent email below.</div>' : isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
     <table style="width:100%;border-collapse:collapse;font-size:14px">${rows}</table>
     <div style="padding:16px 28px;color:#888;font-size:12px;background:#fafafa;border-top:1px solid #eee">
       Submitted ${escapeHtml(submissionTime || new Date().toISOString())} · ${escapeHtml(siteUrl || "bethebestli.com")}
@@ -1109,7 +1109,7 @@ const CONFIRMATION_CONFIG = {
         parentFirst,
         playerName,
         program: "The Lab at Momentum Sports — Team Strength Training",
-        details: `${progress}The registration details are saved for BTB and Quintin Germain. Complete the secure $500 QuickBooks payment to finalize the player's 16-session registration.`,
+        details: `${progress}The registration details are saved for BTB and Quintin Germain. Complete the secure $500 QuickBooks payment to finalize the player's 16-session registration. At QuickBooks checkout, enter the player's full name and the same parent email used on this form so the payment confirmation can be matched correctly.`,
         cta: "COMPLETE $500 PAYMENT",
         ctaUrl: LAB_TEAM_STRENGTH_PAYMENT_URL,
         headline: "Registration Received",
