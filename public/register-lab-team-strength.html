@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The Lab Team Strength Training Registration | BTB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--red:#d22630;--red-dark:#a01e26;--ink:#111214;--muted:#686c73;--line:#e2e4e8;--wash:#f4f5f7;--white:#fff}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#e9eaee;color:#32353a;font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    .shell{max-width:1040px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 60px rgba(0,0,0,.14)}
+    .site-header{height:70px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:#070708;color:#fff;border-bottom:3px solid var(--red)}
+    .brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.08em;white-space:nowrap}
+    .brand img{width:43px;height:43px;object-fit:contain}
+    .header-link{font-size:12px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:#d6d8dc;text-decoration:none;border-bottom:1px solid transparent}
+    .header-link:hover{color:#fff;border-bottom-color:var(--red)}
+    .hero{padding:62px 36px 58px;text-align:center;color:#fff;background:radial-gradient(circle at 18% 18%,rgba(210,38,48,.52),transparent 49%),linear-gradient(155deg,#0a0a0b,#1a1b1e 58%,#000)}
+    .hero h1{max-width:740px;margin:0 auto 14px;font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,9vw,84px);font-weight:400;line-height:.89;letter-spacing:.02em}
+    .hero h1 span{color:var(--red)}
+    .hero .lede{max-width:720px;margin:0 auto;color:#d1d3d7;font-size:15px;font-weight:500}
+    .hero-facts{max-width:750px;margin:30px auto 0;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.24)}
+    .hero-fact{padding:16px 12px;border-right:1px solid rgba(255,255,255,.14)}
+    .hero-fact:last-child{border-right:0}
+    .hero-fact strong{display:block;color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:19px;font-weight:400;letter-spacing:.1em}
+    .hero-fact span{display:block;color:#fff;font-size:12px;font-weight:700}
+    .main{padding:44px 34px 64px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:20px}
+    .section-label{color:var(--red);font-size:10px;font-weight:900;letter-spacing:.22em;text-transform:uppercase}
+    h2{margin:5px 0 0;color:var(--ink);font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,49px);font-weight:400;line-height:.95;letter-spacing:.025em}
+    .section-head p{max-width:475px;margin:0;color:var(--muted);font-size:13px;font-weight:600}
+    .progress-panel{margin-bottom:48px;background:#111214;color:#fff;border-top:5px solid var(--red);padding:24px}
+    .progress-note{margin:0 0 20px;color:#aeb1b7;font-size:12px;font-weight:600}
+    .team-columns{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .team-side-title{margin:0 0 7px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:19px;font-weight:400;letter-spacing:.1em}
+    .team-row{padding:11px 0;border-top:1px solid #2c2e32;transition:background .2s,padding .2s}
+    .team-row.selected{margin-inline:-10px;padding-inline:10px;background:rgba(210,38,48,.12)}
+    .team-line{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:7px}
+    .team-name{font-size:12px;font-weight:800}
+    .team-count{color:#c8cbd0;font-size:11px;font-weight:700;white-space:nowrap}
+    .team-count.met{color:#78d49a}
+    .track{height:6px;background:#2d2f33;overflow:hidden}
+    .fill{width:0;height:100%;background:var(--red);transition:width .35s ease}
+    .team-row[data-met="true"] .fill{background:#39a867}
+    .form-wrap{scroll-margin-top:18px;border-top:1px solid var(--line);padding-top:42px}
+    form{margin-top:24px;border:1px solid var(--line);background:#fff;padding:30px}
+    .form-intro{margin:-30px -30px 28px;padding:24px 30px;background:var(--wash);border-bottom:1px solid var(--line)}
+    .form-intro p{margin:7px 0 0;color:var(--muted);font-size:13px;font-weight:600}
+    .form-section{margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid var(--ink);color:var(--ink);font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.07em}
+    .form-section.first{margin-top:0}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .row-3{display:grid;grid-template-columns:1.2fr 1fr .75fr;gap:16px}
+    .field{margin-bottom:16px}
+    label{display:block;margin-bottom:6px;color:#24262a;font-size:11px;font-weight:800;letter-spacing:.055em;text-transform:uppercase}
+    .req{color:var(--red);margin-left:3px}
+    input,select,textarea{width:100%;min-height:48px;border:1px solid #cfd2d7;border-radius:0;background:#fff;color:var(--ink);font:600 14px 'Montserrat',sans-serif;padding:11px 13px}
+    textarea{min-height:96px;resize:vertical}
+    input:focus,select:focus,textarea:focus{outline:3px solid rgba(210,38,48,.12);border-color:var(--red)}
+    .team-confirm{display:none;margin:-3px 0 18px;padding:12px 14px;background:#fdf2f3;border-left:4px solid var(--red);font-size:12px;font-weight:700;color:#782027}
+    .team-confirm.show{display:block}
+    .sms-consent{margin:6px 0 0;color:#777;font-size:10px;line-height:1.55}
+    .check{display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:start;margin:14px 0}
+    .check input{width:18px;min-height:18px;height:18px;margin-top:2px;accent-color:var(--red)}
+    .check label{margin:0;color:#61656b;font-size:11px;font-weight:600;line-height:1.55;text-transform:none;letter-spacing:0}
+    .error{display:none;margin:0 0 20px;padding:13px 15px;background:#fdf2f3;border-left:4px solid var(--red);color:#7a1c22;font-size:12px;font-weight:800}
+    .error.show{display:block}
+    .success{display:none;margin:0 0 20px;padding:16px 18px;background:#eef9f2;border-left:4px solid #2f9c5b;color:#196337;font-size:13px;font-weight:800}
+    .success.show{display:block}
+    .submit{width:100%;min-height:60px;margin-top:18px;border:0;background:var(--red);color:#fff;cursor:pointer;font:400 22px 'Bebas Neue',sans-serif;letter-spacing:.1em;transition:background .2s,transform .2s}
+    .submit:hover{background:var(--red-dark);transform:translateY(-1px)}
+    .submit:disabled{cursor:wait;opacity:.65;transform:none}
+    .footer-note{margin:12px 0 0;color:#777;text-align:center;font-size:11px;font-weight:600}
+    .privacy-note{margin:28px 0 0;padding:16px 18px;background:var(--wash);color:#64686e;font-size:11px;font-weight:600}
+    .footer{padding:30px;text-align:center;background:#070708;color:#8f939a}
+    .footer-mark{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:29px;letter-spacing:.15em}
+    .footer-mark span{color:var(--red)}
+    .footer p{margin:7px 0 0;font-size:11px}
+    .footer a{color:#fff;text-decoration:none;border-bottom:1px solid var(--red)}
+    @media(max-width:760px){.section-head{display:block}.section-head p{margin-top:13px}.team-columns{grid-template-columns:1fr}.hero-facts{grid-template-columns:1fr}.hero-fact{border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}.hero-fact:last-child{border-bottom:0}}
+    @media(max-width:600px){.site-header{height:62px;padding:0 15px}.brand{font-size:20px}.brand img{width:37px;height:37px}.header-link{font-size:10px}.hero{padding:48px 19px 44px}.main{padding:36px 18px 50px}.progress-panel{padding:20px 17px}form{padding:21px 16px}.form-intro{margin:-21px -16px 24px;padding:20px 16px}.row,.row-3{grid-template-columns:1fr;gap:0}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Be The Best home">
+        <img src="/assets/brand/btb-circle-logo.png" alt="">
+        <span>Be The <span style="color:var(--red)">Best</span></span>
+      </a>
+      <a class="header-link" href="/parent-training">Back to Parent Hub</a>
+    </header>
+
+    <section class="hero">
+      <h1>THE LAB <span>TEAM STRENGTH</span> REGISTRATION</h1>
+      <p class="lede">Teams train together as a full roster at Momentum Sports. Save your player's information below, help your team reach the 10-player minimum, then continue to secure QuickBooks payment.</p>
+      <div class="hero-facts" aria-label="Program facts">
+        <div class="hero-fact"><strong>16 Sessions</strong><span>$500 per player</span></div>
+        <div class="hero-fact"><strong>10 Player Minimum</strong><span>Tracked team by team</span></div>
+        <div class="hero-fact"><strong>Momentum Sports</strong><span>10 Dunton Ave · Deer Park</span></div>
+      </div>
+    </section>
+
+    <main class="main">
+      <section aria-labelledby="progress-title">
+        <div class="section-head">
+          <div>
+            <div class="section-label">Shared Team Record</div>
+            <h2 id="progress-title">Road to 10</h2>
+          </div>
+          <p>Counts update when a family saves the registration form. Payment is verified separately, so this board tracks team commitments without exposing player or family information.</p>
+        </div>
+        <div class="progress-panel">
+          <p class="progress-note" id="progressStatus" role="status">Loading current team totals…</p>
+          <div class="team-columns">
+            <div>
+              <h3 class="team-side-title">Boys Teams</h3>
+              <div id="boysProgress"></div>
+            </div>
+            <div>
+              <h3 class="team-side-title">Girls Teams</h3>
+              <div id="girlsProgress"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-wrap" id="registration" aria-labelledby="registration-title">
+        <div class="section-head">
+          <div>
+            <div class="section-label">Player Registration</div>
+            <h2 id="registration-title">Save Your Spot</h2>
+          </div>
+          <p>Complete every required field once. The registration is saved before checkout and shared with BTB and Quintin Germain for team planning.</p>
+        </div>
+
+        <form name="btb-lab-team-strength-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="labForm">
+          <input type="hidden" name="form-name" value="btb-lab-team-strength-registration">
+          <input type="hidden" name="program" value="The Lab at Momentum Sports — Team Strength Training">
+          <input type="hidden" name="amount" value="500">
+          <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
+
+          <div class="form-intro">
+            <div class="section-label">Registration + Payment</div>
+            <h2>Player Information</h2>
+            <p>After this form is saved, you will continue to the current $500-per-player QuickBooks checkout.</p>
+          </div>
+          <div class="error" id="errorMsg" role="alert"></div>
+          <div class="success" id="successMsg" role="status"></div>
+
+          <div class="form-section first">Team &amp; Player</div>
+          <div class="field">
+            <label for="teamName">BTB Team<span class="req">*</span></label>
+            <select id="teamName" name="team_name" required>
+              <option value="">Select the player's team</option>
+              <optgroup label="Boys">
+                <option>2028 Black</option><option>2029 Chrome</option><option>2030 Rage</option><option>2031 Carnage</option><option>2032 Cannons</option><option>2032 Grizzlies</option><option>2033 Renegades</option>
+              </optgroup>
+              <optgroup label="Girls">
+                <option>2030 Reign</option><option>2030 Tidal Wave</option><option>2031 Cyclones</option><option>2032 Riptide</option><option>2033 Storm</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="team-confirm" id="teamConfirm" aria-live="polite"></div>
+          <div class="row">
+            <div class="field"><label for="playerFirst">Player First Name<span class="req">*</span></label><input id="playerFirst" name="player_first_name" autocomplete="given-name" required></div>
+            <div class="field"><label for="playerLast">Player Last Name<span class="req">*</span></label><input id="playerLast" name="player_last_name" autocomplete="family-name" required></div>
+          </div>
+          <div class="row-3">
+            <div class="field"><label for="dob">Date of Birth<span class="req">*</span></label><input id="dob" type="date" name="player_dob" min="2007-01-01" max="2017-12-31" required></div>
+            <div class="field"><label for="position">Primary Position<span class="req">*</span></label><select id="position" name="position" required><option value="">Select</option><option>Attack</option><option>Midfield</option><option>Defense</option><option>Goalie</option><option>Faceoff Specialist</option><option>Long-Stick Midfield</option><option>Draw Specialist</option><option>Unsure</option></select></div>
+            <div class="field"><label for="school">School / Town<span class="req">*</span></label><input id="school" name="school_town" required></div>
+          </div>
+
+          <div class="form-section">Parent / Guardian</div>
+          <div class="row">
+            <div class="field"><label for="parentFirst">Parent First Name<span class="req">*</span></label><input id="parentFirst" name="parent_first_name" autocomplete="given-name" required></div>
+            <div class="field"><label for="parentLast">Parent Last Name<span class="req">*</span></label><input id="parentLast" name="parent_last_name" autocomplete="family-name" required></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="email">Email<span class="req">*</span></label><input id="email" type="email" name="parent_email" autocomplete="email" required></div>
+            <div class="field"><label for="phone">Mobile Phone<span class="req">*</span></label><input id="phone" type="tel" name="parent_phone" inputmode="tel" autocomplete="tel" placeholder="(516) 555-1234" required><p class="sms-consent">By providing your number, you consent to transactional texts from Be The Best Lacrosse Club about this registration and schedule updates. Msg &amp; data rates may apply. Reply STOP to opt out. <a href="/sms-policy" target="_blank" rel="noopener">SMS Policy</a>.</p></div>
+          </div>
+          <div class="field"><label for="street">Street Address<span class="req">*</span></label><input id="street" name="address_street" autocomplete="street-address" required></div>
+          <div class="row-3">
+            <div class="field"><label for="city">City<span class="req">*</span></label><input id="city" name="address_city" autocomplete="address-level2" required></div>
+            <div class="field"><label for="state">State<span class="req">*</span></label><input id="state" name="address_state" maxlength="2" value="NY" autocomplete="address-level1" required></div>
+            <div class="field"><label for="zip">ZIP<span class="req">*</span></label><input id="zip" name="address_zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}(-[0-9]{4})?" placeholder="11729" required></div>
+          </div>
+
+          <div class="form-section">Emergency, Medical &amp; Schedule</div>
+          <div class="row">
+            <div class="field"><label for="emergencyName">Emergency Contact<span class="req">*</span></label><input id="emergencyName" name="emergency_name" required></div>
+            <div class="field"><label for="emergencyPhone">Emergency Phone<span class="req">*</span></label><input id="emergencyPhone" type="tel" name="emergency_phone" inputmode="tel" placeholder="(516) 555-1234" required></div>
+          </div>
+          <div class="field"><label for="medical">Medical Conditions, Allergies, Injuries, or Medications<span class="req">*</span></label><textarea id="medical" name="medical_notes" placeholder="Enter none, or anything Quintin and the BTB staff should know" required></textarea></div>
+          <div class="field"><label for="schedulePreference">Preferred Slot Around Team Practice<span class="req">*</span></label><select id="schedulePreference" name="schedule_preference" required><option value="">Select</option><option>Before practice</option><option>After practice</option><option>Either works</option></select></div>
+          <div class="field"><label for="notes">Anything Else We Should Know</label><textarea id="notes" name="additional_notes" placeholder="Scheduling considerations, injuries being managed, or questions for BTB and Quintin"></textarea></div>
+
+          <div class="form-section">Waiver &amp; Payment</div>
+          <div class="check"><input type="checkbox" id="waiver" name="waiver_accepted" value="Yes" required><label for="waiver">I acknowledge the BTB Lacrosse waiver and release, accept the risks of strength and athletic training, authorize staff to seek emergency medical treatment if needed, and understand registration is finalized after completing payment.<span class="req">*</span></label></div>
+          <div class="check"><input type="checkbox" id="media" name="media_release" value="Yes"><label for="media">I grant Be The Best Lacrosse Club and The Lab at Momentum Sports permission to use photos or video of my player for program promotion. This is optional.</label></div>
+          <button class="submit" id="submitBtn" type="submit">Save Registration &amp; Continue to $500 Payment</button>
+          <p class="footer-note">Registration details go to BTB and Quintin Germain. Secure payment is processed through QuickBooks.</p>
+          <p class="privacy-note"><strong>Privacy:</strong> the Road to 10 board shows team totals only. Player names, contact information, addresses, emergency details, and medical notes are never displayed there.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-mark">BE THE <span>BEST</span></div>
+      <p>Questions? <a href="mailto:info@bethebestli.com">info@bethebestli.com</a> · Quintin Germain: <a href="mailto:quintingermain@gmail.com">quintingermain@gmail.com</a></p>
+    </footer>
+  </div>
+
+  <script>
+    const REGISTRATION_ENDPOINT = "/api/lab-team-registration";
+    const PAYMENT_LINK = "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-005e529290034c1784c41b75a25a08d7ffa08f9eed7c4342bb332487cbb29ea11ebdb27a2e174ca8af980aac794f8232?locale=EN_US";
+    const TEAM_GENDERS = {
+      "2028 Black":"Boys","2029 Chrome":"Boys","2030 Rage":"Boys","2031 Carnage":"Boys","2032 Cannons":"Boys","2032 Grizzlies":"Boys","2033 Renegades":"Boys",
+      "2030 Reign":"Girls","2030 Tidal Wave":"Girls","2031 Cyclones":"Girls","2032 Riptide":"Girls","2033 Storm":"Girls"
+    };
+    let teamProgress = [];
+    const form = document.getElementById("labForm");
+    const teamSelect = document.getElementById("teamName");
+    const teamConfirm = document.getElementById("teamConfirm");
+    const progressStatus = document.getElementById("progressStatus");
+    const submitBtn = document.getElementById("submitBtn");
+    const errorMsg = document.getElementById("errorMsg");
+    const successMsg = document.getElementById("successMsg");
+
+    function teamRow(team) {
+      const pct = Math.min(100, (team.count / 10) * 100);
+      const status = team.minimumMet ? "Minimum reached" : `${team.count} of 10 · ${team.remaining} needed`;
+      return `<div class="team-row" data-team-row="${team.name}" data-met="${team.minimumMet}"><div class="team-line"><span class="team-name">${team.name}</span><span class="team-count${team.minimumMet ? " met" : ""}">${status}</span></div><div class="track" aria-hidden="true"><div class="fill" style="width:${pct}%"></div></div></div>`;
+    }
+
+    function renderProgress(teams) {
+      teamProgress = teams;
+      document.getElementById("boysProgress").innerHTML = teams.filter((team) => team.gender === "Boys").map(teamRow).join("");
+      document.getElementById("girlsProgress").innerHTML = teams.filter((team) => team.gender === "Girls").map(teamRow).join("");
+      progressStatus.textContent = "Live commitments received · 10-player minimum per team";
+      highlightTeam();
+    }
+
+    async function loadProgress() {
+      try {
+        const response = await fetch(REGISTRATION_ENDPOINT, { headers:{ Accept:"application/json" }, cache:"no-store" });
+        if (!response.ok) throw new Error("progress unavailable");
+        const result = await response.json();
+        renderProgress(result.teams || []);
+      } catch {
+        progressStatus.textContent = "Current totals could not load. You can still register below.";
+      }
+    }
+
+    function highlightTeam() {
+      document.querySelectorAll("[data-team-row]").forEach((row) => row.classList.toggle("selected", row.dataset.teamRow === teamSelect.value));
+      if (!teamSelect.value) {
+        teamConfirm.classList.remove("show");
+        teamConfirm.textContent = "";
+        return;
+      }
+      const progress = teamProgress.find((team) => team.name === teamSelect.value);
+      const countText = progress ? (progress.minimumMet ? "has reached the 10-player minimum" : `has ${progress.count} commitment${progress.count === 1 ? "" : "s"} and needs ${progress.remaining} more to reach 10`) : "is eligible for The Lab";
+      teamConfirm.textContent = `${teamSelect.value} (${TEAM_GENDERS[teamSelect.value]}) ${countText}.`;
+      teamConfirm.classList.add("show");
+    }
+
+    teamSelect.addEventListener("change", highlightTeam);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      errorMsg.classList.remove("show");
+      successMsg.classList.remove("show");
+      if (!form.reportValidity()) return;
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.media_release = document.getElementById("media").checked ? "Yes" : "No";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Saving Registration…";
+
+      try {
+        const response = await fetch(REGISTRATION_ENDPOINT, {
+          method:"POST",
+          headers:{ "Content-Type":"application/json", Accept:"application/json" },
+          body:JSON.stringify(data),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const error = new Error(result.error || "Registration could not be completed. Please try again.");
+          error.code = result.code;
+          throw error;
+        }
+
+        if (result.team) {
+          const current = teamProgress.find((team) => team.name === result.team);
+          if (current) Object.assign(current, { count:result.count, remaining:result.remaining, minimumMet:result.minimumMet });
+          renderProgress(teamProgress);
+        }
+        successMsg.textContent = result.duplicate
+          ? "This player is already on the team record. Continuing to payment…"
+          : `${result.team} now has ${result.count} commitment${result.count === 1 ? "" : "s"}. Continuing to secure payment…`;
+        successMsg.classList.add("show");
+        successMsg.scrollIntoView({ behavior:"smooth", block:"center" });
+        window.setTimeout(() => { window.location.href = PAYMENT_LINK; }, 1300);
+      } catch (error) {
+        errorMsg.textContent = error.code === "registration_processing"
+          ? "This registration is already being processed. Wait a moment, then try again."
+          : error.message;
+        errorMsg.classList.add("show");
+        errorMsg.scrollIntoView({ behavior:"smooth", block:"center" });
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Save Registration & Continue to $500 Payment";
+      }
+    });
+
+    loadProgress();
+  </script>
+</body>
+</html>

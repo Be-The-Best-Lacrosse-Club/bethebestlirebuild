@@ -164,8 +164,8 @@ ul.check li::before{content:'';position:absolute;left:5px;top:16px;width:8px;hei
       <div class="fact"><div class="k">GYM</div><div class="v"><strong>Private access</strong> &mdash; each team has the floor to themselves. No sharing, no distractions.</div></div>
       <div class="fact"><div class="k">WHERE</div><div class="v">Momentum Sports &middot; 10 Dunton Ave, Deer Park, NY 11729</div></div>
     </div>
-    <a class="btn" data-reg="lab" href="#">PAY &amp; REGISTER &mdash; $500</a>
-    <div class="btn-note">Secure checkout through QuickBooks. Card or bank accepted.</div>
+    <a class="btn" data-reg="lab" href="#">REGISTER YOUR PLAYER &mdash; $500</a>
+    <div class="btn-note">Save player and team information first, then continue to secure QuickBooks checkout.</div>
     <div class="btn-note">Questions for Quintin: <a href="mailto:quintingermain@gmail.com">quintingermain@gmail.com</a> &middot; <a href="tel:6318347157">(631) 834-7157</a> &middot; Instagram <a href="https://instagram.com/thelabatmomentum" target="_blank" rel="noopener">@thelabatmomentum</a></div>
   </div>
 
@@ -297,7 +297,7 @@ ul.check li::before{content:'';position:absolute;left:5px;top:16px;width:8px;hei
    Paste a real purchase/registration URL here and the matching button will use it.
    Leave empty and the button falls back to emailing BTB. ---- */
 var REGISTRATION_LINKS = {
-  lab: "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-005e529290034c1784c41b75a25a08d7ffa08f9eed7c4342bb332487cbb29ea11ebdb27a2e174ca8af980aac794f8232?locale=EN_US",
+  lab: "/register-lab-team-strength",
   offense: "",
   faceoff: "",
   draw: ""
@@ -362,8 +362,10 @@ var EMAIL_SUBJECTS = {
       var url = REGISTRATION_LINKS[key];
       if (url) {
         el.setAttribute('href', url);
-        el.setAttribute('target', '_blank');
-        el.setAttribute('rel', 'noopener');
+        if (/^https?:\/\//.test(url)) {
+          el.setAttribute('target', '_blank');
+          el.setAttribute('rel', 'noopener');
+        }
       } else {
         el.setAttribute('href', 'mailto:info@bethebestli.com?subject=' +
           encodeURIComponent('Winter Training - ' + (EMAIL_SUBJECTS[key] || key)) +
