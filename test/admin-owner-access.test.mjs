@@ -100,6 +100,7 @@ test("Tournament calendar accepts a verified owner without the calendar password
         version: 0,
         events: [{ id: "event-1" }],
         practiceBookings: [],
+        practiceOverrides: [],
         recentChanges: [],
         savedAt: null,
       },

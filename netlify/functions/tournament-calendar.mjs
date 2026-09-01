@@ -35,6 +35,9 @@ const CALENDAR_URL = "https://www.bethebestli.com/dan-calendar";
 const CHANGE_TYPES = new Set([
   "practice_claimed",
   "practice_released",
+  "practice_added",
+  "practice_updated",
+  "practice_deleted",
   "tournament_added",
   "tournament_updated",
   "tournament_removed",
@@ -594,6 +597,47 @@ export const PRACTICE_WINDOWS = Object.freeze([
 ]);
 
 const PRACTICE_WINDOW_BY_ID = new Map(PRACTICE_WINDOWS.map((window) => [window.id, window]));
+const DEFAULT_ASSIGNED_PRACTICE_BY_ID = new Map(
+  ASSIGNED_PRACTICE_WINDOWS.map((window) => [window.id, window]),
+);
+
+export const PRACTICE_LOCATION_RULES = Object.freeze({
+  seaford: Object.freeze({
+    label: "Seaford",
+    venue: "Seaford HS Turf",
+    location: "Seaford High School — HS Turf/Track (Football Field)",
+    field: "HS Turf/Track (Football Field)",
+    capacity: 2,
+  }),
+  "point-lookout": Object.freeze({
+    label: "Point Lookout",
+    venue: "Point Lookout",
+    location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY",
+    field: "Lacrosse Field",
+    capacity: 2,
+  }),
+  nickerson: Object.freeze({
+    label: "Nickerson",
+    venue: "Nickerson Field 2",
+    location: "Nickerson Beach — Field 2, Lido Beach, NY",
+    field: "Multiple fields",
+    capacity: null,
+  }),
+  stimson: Object.freeze({
+    label: "Stimson",
+    venue: "Stimson Middle School",
+    location: "Stimson Middle School — Multiple fields",
+    field: "Multiple fields",
+    capacity: null,
+  }),
+  momentum: Object.freeze({
+    label: "Momentum Sports LI",
+    venue: "Momentum Sports LI",
+    location: "10 Dunton Avenue, Deer Park, NY 11729",
+    field: "Turf Field",
+    capacity: 2,
+  }),
+});
 
 export class CalendarApiError extends Error {
   constructor(message, { status = 400, code = "bad_request", snapshot, etag } = {}) {
@@ -709,6 +753,269 @@ function bookingTeams(booking) {
   return candidates.filter((team, index) => team && candidates.indexOf(team) === index);
 }
 
+function validCalendarDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return false;
+  const parsed = new Date(`${value}T12:00:00Z`);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+}
+
+function practiceCoaches(practice) {
+  return bookingCoaches(practice).slice(0, MAX_COACHES_PER_BOOKING);
+}
+
+function defaultPracticeRecord(window) {
+  return {
+    id: window.id,
+    team: window.assignedTeams[0],
+    coaches: [],
+    date: window.date,
+    locationKey: window.locationKey,
+    venue: window.venue,
+    location: window.location,
+    field: window.field,
+    startTime: window.startTime,
+    endTime: window.endTime,
+    source: window.source || "Approved staff schedule",
+    note: window.note || "",
+    assignmentStatus: window.assignmentStatus || "confirmed",
+    createdAt: null,
+    updatedAt: null,
+  };
+}
+
+function normalizeStoredPracticeOverride(input) {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return null;
+  const id = cleanChangeText(input.id, 120);
+  if (!id || (!DEFAULT_ASSIGNED_PRACTICE_BY_ID.has(id) && !id.startsWith("staff-practice-"))) return null;
+  const updatedAt = cleanChangeText(input.updatedAt, 40) || null;
+  if (input.deleted === true) return { id, deleted: true, updatedAt };
+
+  const team = teamValue(input.team);
+  const date = cleanChangeText(input.date, 10);
+  const locationKey = cleanChangeText(input.locationKey, 40);
+  const rule = PRACTICE_LOCATION_RULES[locationKey];
+  const startTime = cleanChangeText(input.startTime, 5);
+  const endTime = cleanChangeText(input.endTime, 5);
+  const start = timeToMinutes(startTime);
+  const end = timeToMinutes(endTime);
+  if (!KNOWN_TEAM_SET.has(team) || !validCalendarDate(date) || !rule ||
+      !Number.isFinite(start) || !Number.isFinite(end) || end <= start) return null;
+
+  return {
+    id,
+    team,
+    coaches: practiceCoaches(input),
+    date,
+    locationKey,
+    venue: rule.venue,
+    location: rule.location,
+    field: rule.field,
+    startTime,
+    endTime,
+    source: cleanChangeText(input.source, 240) || "BTB Staff Calendar editor",
+    note: cleanChangeText(input.note, 320),
+    assignmentStatus: "confirmed",
+    createdAt: cleanChangeText(input.createdAt, 40) || null,
+    updatedAt,
+  };
+}
+
+export function normalizePracticeOverrides(overrides) {
+  if (!Array.isArray(overrides)) return [];
+  const byId = new Map();
+  for (const input of overrides) {
+    const clean = normalizeStoredPracticeOverride(input);
+    if (clean) byId.set(clean.id, clean);
+  }
+  return Array.from(byId.values());
+}
+
+export function effectiveAssignedPractices(overrides = []) {
+  const schedule = new Map(
+    ASSIGNED_PRACTICE_WINDOWS.map((window) => [window.id, defaultPracticeRecord(window)]),
+  );
+  for (const override of normalizePracticeOverrides(overrides)) {
+    if (override.deleted) schedule.delete(override.id);
+    else schedule.set(override.id, override);
+  }
+  return Array.from(schedule.values()).sort((first, second) => (
+    first.date.localeCompare(second.date) ||
+    String(first.startTime || "").localeCompare(String(second.startTime || "")) ||
+    first.team.localeCompare(second.team)
+  ));
+}
+
+function fieldAvailabilityEnvelopes(locationKey, date) {
+  const inventory = PRACTICE_WINDOWS.filter((window) => (
+    window.mode !== "assigned" && window.locationKey === locationKey && window.date === date &&
+    Number.isFinite(timeToMinutes(window.startTime)) && Number.isFinite(timeToMinutes(window.endTime))
+  )).map((window) => ({
+    start: timeToMinutes(window.startTime),
+    end: timeToMinutes(window.endTime),
+  }));
+  if (inventory.length) return inventory;
+
+  const assignedIntervals = ASSIGNED_PRACTICE_WINDOWS.filter((window) => (
+    window.locationKey === locationKey && window.date === date &&
+    Number.isFinite(timeToMinutes(window.startTime)) && Number.isFinite(timeToMinutes(window.endTime))
+  )).map((window) => ({
+    start: timeToMinutes(window.startTime),
+    end: timeToMinutes(window.endTime),
+  }));
+  if (!assignedIntervals.length) return [];
+  return [{
+    start: Math.min(...assignedIntervals.map((interval) => interval.start)),
+    end: Math.max(...assignedIntervals.map((interval) => interval.end)),
+  }];
+}
+
+function normalizeScheduledPractice(input, { id, existing, occurredAt } = {}) {
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    throw new CalendarApiError("Bad practice schedule item", { code: "invalid_practice" });
+  }
+  const practiceId = id || cleanChangeText(input.id, 120);
+  if (!practiceId || (!DEFAULT_ASSIGNED_PRACTICE_BY_ID.has(practiceId) && !practiceId.startsWith("staff-practice-"))) {
+    throw new CalendarApiError("Practice schedule ID is invalid", { code: "invalid_practice" });
+  }
+  const team = teamValue(input.team);
+  if (!KNOWN_TEAM_SET.has(team)) {
+    throw new CalendarApiError("Choose a current BTB team", { code: "invalid_team" });
+  }
+  const date = cleanChangeText(input.date, 10);
+  if (!validCalendarDate(date)) {
+    throw new CalendarApiError("Choose a valid practice date", { code: "invalid_date" });
+  }
+  const locationKey = cleanChangeText(input.locationKey, 40);
+  const rule = PRACTICE_LOCATION_RULES[locationKey];
+  if (!rule) {
+    throw new CalendarApiError("Choose a supported practice location", { code: "invalid_location" });
+  }
+  const startTime = cleanChangeText(input.startTime, 5);
+  const endTime = cleanChangeText(input.endTime, 5);
+  const start = timeToMinutes(startTime);
+  const end = timeToMinutes(endTime);
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start || start % 15 || end % 15) {
+    throw new CalendarApiError("Practice times must use 15-minute increments and end after the start", {
+      code: "invalid_time",
+    });
+  }
+  if (end - start < 30 || end - start > 4 * 60) {
+    throw new CalendarApiError("Practice length must be between 30 minutes and 4 hours", {
+      code: "invalid_duration",
+    });
+  }
+  const envelopes = fieldAvailabilityEnvelopes(locationKey, date);
+  // A few imported assignments intentionally have a start time but no source
+  // end time. Let staff repair that missing end in place without inventing a
+  // broader field window or allowing the practice to move elsewhere.
+  const repairsIncompleteAssignment = existing?.endTime === null &&
+    existing.date === date && existing.locationKey === locationKey && existing.startTime === startTime;
+  const fitsAvailability = envelopes.some((envelope) => start >= envelope.start && end <= envelope.end) ||
+    repairsIncompleteAssignment;
+  if (!fitsAvailability) {
+    throw new CalendarApiError(`${rule.label} does not have a master field window covering that time.`, {
+      status: 409,
+      code: "outside_field_availability",
+    });
+  }
+  const coaches = practiceCoaches(input);
+  if (!coaches.length) {
+    throw new CalendarApiError("Link at least one coach to this team in Coach Directory first", {
+      code: "missing_team_coach",
+    });
+  }
+  if (coaches.some((coach) => coach.length > 120)) {
+    throw new CalendarApiError("Coach names must be 120 characters or fewer", { code: "invalid_coach" });
+  }
+
+  return {
+    id: practiceId,
+    team,
+    coaches,
+    date,
+    locationKey,
+    venue: rule.venue,
+    location: rule.location,
+    field: rule.field,
+    startTime,
+    endTime,
+    source: "BTB Staff Calendar editor",
+    note: cleanChangeText(input.note, 320),
+    assignmentStatus: "confirmed",
+    createdAt: existing?.createdAt || occurredAt,
+    updatedAt: occurredAt,
+  };
+}
+
+function scheduledPracticeInterval(practice) {
+  const start = timeToMinutes(practice?.startTime);
+  const end = timeToMinutes(practice?.endTime);
+  return Number.isFinite(start) && Number.isFinite(end) && end > start ? { start, end } : null;
+}
+
+function bookingAsScheduledPractice(booking) {
+  const window = PRACTICE_WINDOW_BY_ID.get(booking.windowId);
+  const interval = bookingInterval(booking);
+  if (!window || !interval) return null;
+  return {
+    id: booking.id,
+    team: booking.team,
+    teams: bookingTeams(booking),
+    date: booking.date,
+    locationKey: window.locationKey,
+    startTime: minutesToTime(interval.start),
+    endTime: minutesToTime(interval.end),
+    capacityUnits: bookingCapacityUnits(booking),
+  };
+}
+
+function assertScheduledPracticeFits(practice, overrides, bookings) {
+  const interval = scheduledPracticeInterval(practice);
+  const scheduled = effectiveAssignedPractices(overrides).filter((item) => item.id !== practice.id);
+  const bookingItems = bookings.map(bookingAsScheduledPractice).filter(Boolean);
+  const allExisting = scheduled.concat(bookingItems);
+  const teamConflict = allExisting.find((item) => {
+    if (item.date !== practice.date) return false;
+    const otherInterval = scheduledPracticeInterval(item);
+    if (!otherInterval || !intervalsOverlap(interval.start, interval.end, otherInterval.start, otherInterval.end)) return false;
+    return bookingTeams(item).includes(practice.team);
+  });
+  if (teamConflict) {
+    throw new CalendarApiError(`${practice.team} already has an overlapping practice.`, {
+      status: 409,
+      code: "practice_overlap",
+    });
+  }
+
+  const capacity = PRACTICE_LOCATION_RULES[practice.locationKey].capacity;
+  if (!Number.isFinite(capacity)) return;
+  const overlapping = allExisting.filter((item) => {
+    if (item.date !== practice.date || item.locationKey !== practice.locationKey) return false;
+    const otherInterval = scheduledPracticeInterval(item);
+    return otherInterval && intervalsOverlap(interval.start, interval.end, otherInterval.start, otherInterval.end);
+  });
+  const checkpoints = [
+    interval.start,
+    ...overlapping.map((item) => scheduledPracticeInterval(item)?.start)
+      .filter((start) => Number.isFinite(start) && start >= interval.start && start < interval.end),
+  ];
+  const exceedsCapacity = checkpoints.some((point) => {
+    const used = overlapping.reduce((total, item) => {
+      const otherInterval = scheduledPracticeInterval(item);
+      return otherInterval && otherInterval.start <= point && point < otherInterval.end
+        ? total + (Number(item.capacityUnits) || 1)
+        : total;
+    }, 0);
+    return used + 1 > capacity;
+  });
+  if (exceedsCapacity) {
+    throw new CalendarApiError(`${PRACTICE_LOCATION_RULES[practice.locationKey].label} is full for part of that time.`, {
+      status: 409,
+      code: "field_capacity",
+    });
+  }
+}
+
 function bookingInterval(booking) {
   const start = timeToMinutes(booking?.startTime);
   const window = PRACTICE_WINDOW_BY_ID.get(booking?.windowId);
@@ -803,6 +1110,29 @@ function practiceChange(type, booking, occurredAt) {
   };
 }
 
+function scheduledPracticeChange(type, practice, occurredAt) {
+  const verb = {
+    practice_added: "added",
+    practice_updated: "updated",
+    practice_deleted: "deleted",
+  }[type] || "updated";
+  const coaches = practiceCoaches(practice);
+  return {
+    id: `change-${randomUUID()}`,
+    type,
+    occurredAt,
+    summary: `${practice.team} practice ${verb}`,
+    team: practice.team,
+    teams: [practice.team],
+    coach: coaches[0] || null,
+    coaches,
+    date: practice.date,
+    startTime: practice.startTime,
+    endTime: practice.endTime,
+    location: practice.location,
+  };
+}
+
 function snapshotChange(previous, next, occurredAt) {
   const previousEvents = new Map(previous.events.map((event) => [event?.id, event]));
   const nextEvents = new Map(next.events.map((event) => [event?.id, event]));
@@ -819,9 +1149,10 @@ function snapshotChange(previous, next, occurredAt) {
   }
 
   const bookingsChanged = JSON.stringify(previous.practiceBookings) !== JSON.stringify(next.practiceBookings);
-  if (!eventChanges.length && !bookingsChanged) return null;
+  const practicesChanged = JSON.stringify(previous.practiceOverrides) !== JSON.stringify(next.practiceOverrides);
+  if (!eventChanges.length && !bookingsChanged && !practicesChanged) return null;
 
-  if (eventChanges.length === 1 && !bookingsChanged) {
+  if (eventChanges.length === 1 && !bookingsChanged && !practicesChanged) {
     const detail = eventChanges[0];
     const event = detail.event || {};
     const team = teamValue(event.team);
@@ -848,6 +1179,7 @@ function snapshotChange(previous, next, occurredAt) {
   const parts = [];
   if (eventChanges.length) parts.push(`${eventChanges.length} tournament change${eventChanges.length === 1 ? "" : "s"}`);
   if (bookingsChanged) parts.push("practice bookings updated");
+  if (practicesChanged) parts.push("practice schedule updated");
   return {
     id: `change-${randomUUID()}`,
     type: "schedule_updated",
@@ -1243,6 +1575,7 @@ export function normalizeSnapshot(value) {
     version: Number.isSafeInteger(source.version) && source.version >= 0 ? source.version : 0,
     events: normalizeTournamentEvents(source.events),
     practiceBookings: storedBookings,
+    practiceOverrides: normalizePracticeOverrides(source.practiceOverrides),
     recentChanges: normalizeRecentChanges(source.recentChanges),
     savedAt: typeof source.savedAt === "string" ? source.savedAt : null,
   };
@@ -1283,9 +1616,11 @@ export async function mutateSnapshotAtomically(store, mutator, {
     const candidate = await mutator({
       ...current.snapshot,
       practiceBookings: currentBookings,
+      practiceOverrides: normalizePracticeOverrides(current.snapshot.practiceOverrides),
     });
 
-    if (!candidate || !Array.isArray(candidate.events) || !Array.isArray(candidate.practiceBookings)) {
+    if (!candidate || !Array.isArray(candidate.events) || !Array.isArray(candidate.practiceBookings) ||
+        !Array.isArray(candidate.practiceOverrides)) {
       throw new CalendarApiError("Bad snapshot", { code: "invalid_snapshot" });
     }
 
@@ -1293,6 +1628,7 @@ export async function mutateSnapshotAtomically(store, mutator, {
       version: current.snapshot.version + 1,
       events: normalizeTournamentEvents(candidate.events),
       practiceBookings: validatePracticeBookings(candidate.practiceBookings),
+      practiceOverrides: normalizePracticeOverrides(candidate.practiceOverrides),
       recentChanges: normalizeRecentChanges(candidate.recentChanges ?? current.snapshot.recentChanges),
       savedAt: nowIso(now),
     };
@@ -1361,6 +1697,73 @@ export async function releasePractice(store, bookingId, options = {}) {
   return { ...result, booking: releasedBooking, change };
 }
 
+export async function saveScheduledPractice(store, input, {
+  now = () => new Date(),
+  idFactory = () => `staff-practice-${randomUUID()}`,
+  maxAttempts = MAX_ATOMIC_ATTEMPTS,
+} = {}) {
+  const occurredAt = nowIso(now);
+  const requestedId = cleanChangeText(input?.id, 120);
+  let savedPractice = null;
+  let change = null;
+  const result = await mutateSnapshotAtomically(store, (snapshot) => {
+    const currentSchedule = effectiveAssignedPractices(snapshot.practiceOverrides);
+    const existing = requestedId
+      ? currentSchedule.find((practice) => practice.id === requestedId) || null
+      : null;
+    if (requestedId && !existing) {
+      throw new CalendarApiError("Practice was not found", {
+        status: 404,
+        code: "practice_not_found",
+      });
+    }
+    const id = requestedId || idFactory();
+    savedPractice = normalizeScheduledPractice(input, { id, existing, occurredAt });
+    assertScheduledPracticeFits(savedPractice, snapshot.practiceOverrides, snapshot.practiceBookings);
+    const overrides = snapshot.practiceOverrides.filter((item) => item.id !== id).concat(savedPractice);
+    change = scheduledPracticeChange(existing ? "practice_updated" : "practice_added", savedPractice, occurredAt);
+    return {
+      ...snapshot,
+      practiceOverrides: overrides,
+      practiceBookings: snapshot.practiceBookings.filter((booking) => booking.windowId !== id),
+      recentChanges: prependRecentChange(snapshot.recentChanges, change),
+    };
+  }, { now: occurredAt, maxAttempts });
+  return { ...result, practice: savedPractice, change };
+}
+
+export async function deleteScheduledPractice(store, practiceId, options = {}) {
+  const id = cleanChangeText(practiceId, 120);
+  if (!id) {
+    throw new CalendarApiError("Practice schedule ID is required", { code: "invalid_practice" });
+  }
+  const occurredAt = nowIso(options.now);
+  let deletedPractice = null;
+  let change = null;
+  const result = await mutateSnapshotAtomically(store, (snapshot) => {
+    deletedPractice = effectiveAssignedPractices(snapshot.practiceOverrides)
+      .find((practice) => practice.id === id) || null;
+    if (!deletedPractice) {
+      throw new CalendarApiError("Practice was not found", {
+        status: 404,
+        code: "practice_not_found",
+      });
+    }
+    const remaining = snapshot.practiceOverrides.filter((item) => item.id !== id);
+    const overrides = DEFAULT_ASSIGNED_PRACTICE_BY_ID.has(id)
+      ? remaining.concat({ id, deleted: true, updatedAt: occurredAt })
+      : remaining;
+    change = scheduledPracticeChange("practice_deleted", deletedPractice, occurredAt);
+    return {
+      ...snapshot,
+      practiceOverrides: overrides,
+      practiceBookings: snapshot.practiceBookings.filter((booking) => booking.windowId !== id),
+      recentChanges: prependRecentChange(snapshot.recentChanges, change),
+    };
+  }, { ...options, now: occurredAt });
+  return { ...result, practice: deletedPractice, change };
+}
+
 export async function saveCalendarSnapshot(store, incoming, etag, { now = () => new Date() } = {}) {
   if (!incoming || typeof incoming !== "object" || !Array.isArray(incoming.events)) {
     throw new CalendarApiError("Bad snapshot", { code: "invalid_snapshot" });
@@ -1385,17 +1788,23 @@ export async function saveCalendarSnapshot(store, incoming, etag, { now = () => 
     ? incoming.practiceBookings
     : current.snapshot.practiceBookings;
   const normalizedBookings = validatePracticeBookings(requestedBookings);
+  const includesPracticeOverrides = Object.prototype.hasOwnProperty.call(incoming, "practiceOverrides");
+  const normalizedPracticeOverrides = normalizePracticeOverrides(
+    includesPracticeOverrides ? incoming.practiceOverrides : current.snapshot.practiceOverrides,
+  );
   const normalizedEvents = normalizeTournamentEvents(incoming.events);
   const occurredAt = nowIso(now);
   const pending = {
     events: normalizedEvents,
     practiceBookings: normalizedBookings,
+    practiceOverrides: normalizedPracticeOverrides,
   };
   const change = snapshotChange(current.snapshot, pending, occurredAt);
   const saved = {
     version: current.snapshot.version + 1,
     events: normalizedEvents,
     practiceBookings: normalizedBookings,
+    practiceOverrides: normalizedPracticeOverrides,
     recentChanges: change
       ? prependRecentChange(current.snapshot.recentChanges, change)
       : current.snapshot.recentChanges,
@@ -1564,6 +1973,18 @@ async function handleRequest(req, { authorize, getBlobStore, sendAlert }) {
 
     if (req.method === "POST" && body?.action === "releasePractice") {
       const result = await releasePractice(store, body.bookingId);
+      const notification = await notifyCalendarChange(result.change, sendAlert);
+      return jsonResponse({ ok: true, ...result, notification });
+    }
+
+    if (req.method === "POST" && body?.action === "saveScheduledPractice") {
+      const result = await saveScheduledPractice(store, body.practice);
+      const notification = await notifyCalendarChange(result.change, sendAlert);
+      return jsonResponse({ ok: true, ...result, notification });
+    }
+
+    if (req.method === "POST" && body?.action === "deleteScheduledPractice") {
+      const result = await deleteScheduledPractice(store, body.practiceId);
       const notification = await notifyCalendarChange(result.change, sendAlert);
       return jsonResponse({ ok: true, ...result, notification });
     }
