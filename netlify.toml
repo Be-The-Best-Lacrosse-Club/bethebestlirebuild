@@ -42,25 +42,26 @@
 
 [[redirects]]
   from = "/coach-tools.html"
-  to = "/coach-tools.html"
-  status = 200
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/coach-tools"
-  to = "/coach-tools.html"
+  to = "/index.html"
   status = 200
   force = true
 
 [[redirects]]
   from = "/coach-hub"
-  to = "/coach-tools.html"
-  status = 200
+  to = "/login?redirect=/coach-tools"
+  status = 302
   force = true
 
 [[redirects]]
   from = "/coaches-hub"
-  to = "/coach-tools.html"
-  status = 200
+  to = "/login?redirect=/coach-tools"
+  status = 302
   force = true
 
 [[redirects]]
