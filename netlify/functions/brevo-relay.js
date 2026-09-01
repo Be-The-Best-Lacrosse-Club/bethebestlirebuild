@@ -38,6 +38,8 @@ const BOYS_MINI_CAMP_FORM_NAME = "btb-boys-mini-camp-registration";
 const BOYS_MINI_CAMP_NOTIFY_EMAIL = process.env.BOYS_MINI_CAMP_NOTIFY_EMAIL || "info@bethebestli.com";
 const LAB_TEAM_STRENGTH_FORM_NAME = "btb-lab-team-strength-registration";
 const DEFAULT_LAB_TEAM_STRENGTH_NOTIFY_EMAILS = ["info@bethebestli.com", "quintingermain@gmail.com"];
+const MONDAY_OFFENSIVE_FORM_NAME = "btb-monday-offensive-training-registration";
+const MONDAY_OFFENSIVE_NOTIFY_EMAIL = "info@bethebestli.com";
 const BOYS_REGISTRATION_FORMS = new Set([
   "btb-boys-tryout-registration",
   "btb-east-boys-tryout-registration",
@@ -198,6 +200,7 @@ function brevoListIdFor(formName) {
     "btb-boys-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-lab-team-strength-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-monday-offensive-training-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "supplemental-tryouts-registration": process.env.BREVO_LIST_TRYOUT,
     "camp-registration": process.env.BREVO_LIST_TRYOUT,
@@ -379,8 +382,11 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   };
   const isBoysMiniCamp = formName === BOYS_MINI_CAMP_FORM_NAME;
   const isLabTeamStrength = formName === LAB_TEAM_STRENGTH_FORM_NAME;
+  const isMondayOffensive = formName === MONDAY_OFFENSIVE_FORM_NAME;
   const isEvaluationRequest = formName === "players-wanted-evaluation";
-  const emails = isLabTeamStrength
+  const emails = isMondayOffensive
+    ? [MONDAY_OFFENSIVE_NOTIFY_EMAIL]
+    : isLabTeamStrength
     ? labTeamStrengthNotificationEmails()
     : isBoysMiniCamp
     ? [BOYS_MINI_CAMP_NOTIFY_EMAIL]
@@ -388,7 +394,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
       ? [...EVALUATION_NOTIFY_EMAILS]
       : (includeDefaultRecipients ? notificationEmailsFromEnv() : []);
   if (!isBoysMiniCamp && isBoysSideRegistration(formName, data)) {
-    if (!isEvaluationRequest) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
+    if (!isMondayOffensive && !isEvaluationRequest) emails.push(BOYS_DIRECTOR_NOTIFY_EMAIL);
   }
   if (formName === "supplemental-tryouts-registration") {
     emails.push(...supplementalTryoutNotificationEmails());
@@ -409,6 +415,8 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   let subject;
   if (isEvaluationRequest) {
     subject = `Evaluation Requested ${data.gender} ${data.gradYear}`;
+  } else if (isMondayOffensive) {
+    subject = `Monday Offensive Training — REGISTRATION SAVED / PAYMENT PENDING — ${data.training_group || "Monday Night"}: ${data.group_registration_count || "?"} registered — ${playerName || data.parent_email || "new registration"}`;
   } else if (isLabTeamStrength) {
     subject = `The Lab — REGISTRATION SAVED / PAYMENT PENDING — ${data.team_name || "Team"}: ${data.team_registration_count || "?"}/10 — ${playerName || data.parent_email || "new registration"}`;
   } else if (isSupplementalTryout) {
@@ -416,8 +424,8 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   } else {
     subject = `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
   }
-  const emailEyebrow = isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
-  const emailHeading = isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
+  const emailEyebrow = isMondayOffensive ? "BTB Monday Night Offensive Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
+  const emailHeading = isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
 <!doctype html><html><body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f7;padding:24px;margin:0">
   <div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden">
@@ -425,7 +433,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
       <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:0.85">${escapeHtml(emailEyebrow)}</div>
       <h1 style="margin:6px 0 0;font-size:22px;font-weight:700">${escapeHtml(emailHeading)}</h1>
     </div>
-    ${isLabTeamStrength ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment is not confirmed. Wait for the separate QuickBooks payment-received email before marking this player paid. Match it using the player name and parent email below.</div>' : isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
+    ${isMondayOffensive || isLabTeamStrength ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment is not confirmed. Wait for the separate QuickBooks payment-received email before marking this player paid. Match it using the player name and parent email below.</div>' : isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
     <table style="width:100%;border-collapse:collapse;font-size:14px">${rows}</table>
     <div style="padding:16px 28px;color:#888;font-size:12px;background:#fafafa;border-top:1px solid #eee">
       Submitted ${escapeHtml(submissionTime || new Date().toISOString())} · ${escapeHtml(siteUrl || "bethebestli.com")}
@@ -925,6 +933,8 @@ const BOYS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Boys_Futures_
 const GIRLS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Girls_Futures_June_Clinic.jpg";
 const LAB_TEAM_STRENGTH_PAYMENT_URL =
   "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-005e529290034c1784c41b75a25a08d7ffa08f9eed7c4342bb332487cbb29ea11ebdb27a2e174ca8af980aac794f8232?locale=EN_US";
+const MONDAY_OFFENSIVE_PAYMENT_URL =
+  "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-d7ed4f0985e8442391d477a68a779dc7b3e11703e8f548e3a3ec1afb9538ce130dba73afcce5431e9680a8065f5c54ed?locale=EN_US";
 
 const CONFIRMATION_DISABLED_FORMS = new Set([
   "camp-registration",
@@ -1112,6 +1122,26 @@ const CONFIRMATION_CONFIG = {
         details: `${progress}The registration details are saved for BTB and Quintin Germain. Complete the secure $500 QuickBooks payment to finalize the player's 16-session registration. At QuickBooks checkout, enter the player's full name and the same parent email used on this form so the payment confirmation can be matched correctly.`,
         cta: "COMPLETE $500 PAYMENT",
         ctaUrl: LAB_TEAM_STRENGTH_PAYMENT_URL,
+        headline: "Registration Received",
+        introVerb: "saved for",
+      });
+    },
+  },
+  "btb-monday-offensive-training-registration": {
+    subject: (data) => `Registration Received — Monday Offensive Training | ${data.training_group || "Monday Night"}`,
+    getHtml: (data) => {
+      const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
+      const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      const groupName = String(data.training_group || "the selected Monday night group").trim();
+      const count = String(data.group_registration_count || "").trim();
+      const progress = count ? `${groupName} now has ${count} registration${count === "1" ? "" : "s"}. ` : "";
+      return confirmationBase({
+        parentFirst,
+        playerName,
+        program: "BTB Monday Night Offensive Training — 6 Sessions",
+        details: `${progress}Sessions are Monday, September 14, 21, and 28 and October 5, 12, and 19, 2026 at Momentum Sports. Coach Dan will confirm the group's exact start time. Complete the secure $250 QuickBooks payment to finalize registration. At checkout, enter the player's full name and the same parent email used on this form so BTB can match the payment receipt correctly.`,
+        cta: "COMPLETE $250 PAYMENT",
+        ctaUrl: MONDAY_OFFENSIVE_PAYMENT_URL,
         headline: "Registration Received",
         introVerb: "saved for",
       });
