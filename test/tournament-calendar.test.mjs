@@ -967,6 +967,34 @@ test("recent shared saves appear beside open fields with useful schedule details
   assert.match(html, /@media[\s\S]*\.recent-changes-panel\s*{[\s\S]*max-height:\s*none/);
 });
 
+test("the calendar defaults wide with a collapsible openings rail and a white high-contrast canvas", () => {
+  const html = staffPageHtml();
+  assert.match(html, /class="wall-layout sidebar-collapsed"/);
+  assert.match(html, /id="sidebarToggleButton"[^>]*aria-expanded="false"[^>]*aria-controls="scheduleSidebarPanels"/);
+  assert.match(html, /class="sidebar-toggle-text">Openings &amp; Changes</);
+  assert.match(html, /id="scheduleSidebarPanels" hidden/);
+
+  const readabilityCssStart = html.indexOf("/* Readable calendar wall:");
+  const readabilityCssEnd = html.indexOf("</style>", readabilityCssStart);
+  const readabilityCss = html.slice(readabilityCssStart, readabilityCssEnd);
+  assert.match(readabilityCss, /\.wall-layout\.sidebar-collapsed\s*\{[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\) 48px/);
+  assert.match(readabilityCss, /\.sidebar\.is-collapsed\s*\{[\s\S]*max-width:\s*48px/);
+  assert.match(readabilityCss, /#wallView \.calendar-panel\s*\{[\s\S]*background:\s*#fff[;\s]/);
+  assert.match(readabilityCss, /#wallView \.day\s*\{[\s\S]*background:\s*#fff[;\s][\s\S]*color:\s*#17191d/);
+  assert.match(readabilityCss, /#wallView \.day-availability-label\s*\{[\s\S]*color:\s*#3f4854[;\s][\s\S]*font-size:\s*clamp\(9px/);
+  assert.match(readabilityCss, /@media \(max-width: 900px\)[\s\S]*\.sidebar\.is-collapsed \.sidebar-toggle-text\s*\{[\s\S]*writing-mode:\s*horizontal-tb/);
+
+  const behaviorStart = html.indexOf("var SIDEBAR_COLLAPSED_STORAGE_KEY");
+  const behaviorEnd = html.indexOf("function bindEvents()", behaviorStart);
+  const behaviorSource = html.slice(behaviorStart, behaviorEnd);
+  assert.match(behaviorSource, /btb-calendar-sidebar-collapsed/);
+  assert.match(behaviorSource, /layout\.classList\.toggle\("sidebar-collapsed", collapsed\)/);
+  assert.match(behaviorSource, /panels\.hidden = collapsed/);
+  assert.match(behaviorSource, /button\.setAttribute\("aria-expanded", String\(!collapsed\)\)/);
+  assert.match(behaviorSource, /window\.matchMedia\("\(min-width: 901px\)"\)\.matches/);
+  assert.match(html, /initializeScheduleSidebar\(\);[\s\S]*bindEvents\(\);/);
+});
+
 test("coach phone and email actions use larger wrapping text on responsive cards", () => {
   const html = staffPageHtml();
   const contactStart = html.indexOf(".coach-contact-actions {");
