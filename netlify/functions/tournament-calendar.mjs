@@ -95,6 +95,13 @@ const ASSIGNED_PRACTICE_WINDOW_ALIASES = Object.freeze({
   "pdf-point-lookout-2026-10-12-2035-hurricanes": "pdf-seaford-2026-10-15-2035-hurricanes",
   "pdf-point-lookout-2026-10-19-2035-hurricanes": "pdf-seaford-2026-10-22-2035-hurricanes",
   "pdf-point-lookout-2026-10-26-2035-hurricanes": "pdf-seaford-2026-10-29-2035-hurricanes",
+  "pdf-stimson-2026-09-13-2028-black": "pdf-seaford-2026-09-13-2028-black",
+  "pdf-stimson-2026-09-20-2028-black": "pdf-seaford-2026-09-20-2028-black",
+  "pdf-stimson-2026-09-27-2028-black": "pdf-seaford-2026-09-27-2028-black",
+  "pdf-stimson-2026-10-04-2028-black": "pdf-seaford-2026-10-04-2028-black",
+  "pdf-stimson-2026-10-11-2028-black": "pdf-seaford-2026-10-11-2028-black",
+  "pdf-stimson-2026-10-18-2028-black": "pdf-seaford-2026-10-18-2028-black",
+  "pdf-stimson-2026-10-25-2028-black": "pdf-seaford-2026-10-25-2028-black",
 });
 const RETIRED_TEAM_SET = new Set([
   "2029 Chrome",
@@ -381,6 +388,16 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
   }),
   ...assignedPracticeWindowsForDates({
     ...SEAFORD_ASSIGNED_LOCATION,
+    dates: ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"],
+    assignmentStatus: "pending",
+    note: `2028 Black moved to Sundays 9:00–11:00 AM at Seaford. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
+    sessions: [
+      { team: "2028 Black", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...SEAFORD_ASSIGNED_LOCATION,
     dates: ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"],
     assignmentStatus: "adjusted",
     note: `Moved from Tuesdays to Mondays, 7:15–9:15 PM at Seaford. ${RECURRING_NOTE}`,
@@ -408,7 +425,6 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     sessions: [
       { team: "2030 Rage", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
       { team: "2032 Cannons", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
-      { team: "2028 Black", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", requiredDurationHours: 1.5 },
       { team: "2031 Carnage", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", requiredDurationHours: 1.5 },
     ],
   }),
@@ -423,6 +439,16 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
       { team: "2033 Renegades", startTime: "10:30", endTime: "12:30", timeLabel: "10:30 AM–12:30 PM", requiredDurationHours: 2 },
       { team: "2035 Hurricanes", startTime: "09:30", endTime: "11:00", timeLabel: "9:30 AM–11:00 AM", requiredDurationHours: 1.5 },
       { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", requiredDurationHours: 1.5 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...NICKERSON_ASSIGNED_LOCATION,
+    dates: ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"],
+    assignmentStatus: "confirmed",
+    note: `2037 Wolves Saturdays 10:30–11:45 AM at Nickerson, beginning Sept. 12. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
+    sessions: [
+      { team: "2037 Wolves", startTime: "10:30", endTime: "11:45", timeLabel: "10:30 AM–11:45 AM", requiredDurationHours: 1.25 },
     ],
   }),
   ...assignedPracticeWindowsForDates({
@@ -443,6 +469,16 @@ export const ASSIGNED_PRACTICE_WINDOWS = Object.freeze([
     source: DAN_RECURRING_SOURCE,
     sessions: [
       { team: "2034 Thunder", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", requiredDurationHours: 2 },
+    ],
+  }),
+  ...assignedPracticeWindowsForDates({
+    ...POINT_LOOKOUT_ASSIGNED_LOCATION,
+    dates: ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"],
+    assignmentStatus: "confirmed",
+    note: `2037 Wolves Wednesdays 6:00–7:15 PM at Point Lookout, beginning Sept. 9. ${RECURRING_NOTE}`,
+    source: DAN_RECURRING_SOURCE,
+    sessions: [
+      { team: "2037 Wolves", startTime: "18:00", endTime: "19:15", timeLabel: "6:00 PM–7:15 PM", requiredDurationHours: 1.25 },
     ],
   }),
   ...assignedPracticeWindowsForDates({

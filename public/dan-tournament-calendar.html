@@ -3237,7 +3237,7 @@
       <button class="tab-button" type="button" data-view="directory">Coach Directory</button>
       <button class="tab-button" type="button" data-view="manage">Manage</button>
       <div class="tab-spacer"></div>
-      <div class="source-badge">44 tournaments + 182 assigned team practices + 123 approved field windows</div>
+      <div class="source-badge">44 tournaments + 198 assigned team practices + 123 approved field windows</div>
       <button class="conflicts-tab" id="reviewConflictsButton" type="button" aria-haspopup="dialog" aria-controls="conflictDialog">
         Conflicts <span class="count-badge" id="conflictCount" aria-live="polite">0</span>
       </button>
@@ -4145,6 +4145,9 @@
           { team: "2032 Riptide", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", durationHours: 2 },
           { team: "2031 Cyclones", startTime: "08:00", endTime: "09:30", timeLabel: "8:00 AM–9:30 AM", durationHours: 1.5 }
         ], "pending", recurringNote, DAN_RECURRING_SOURCE);
+        add("seaford", ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"], [
+          { team: "2028 Black", startTime: "09:00", endTime: "11:00", timeLabel: "9:00 AM–11:00 AM", durationHours: 2 }
+        ], "pending", "2028 Black moved to Sundays 9:00–11:00 AM at Seaford. " + recurringNote, DAN_RECURRING_SOURCE);
 
         add("seaford", ["2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19", "2026-10-26"], [
           { team: "2033 Renegades", startTime: "19:15", endTime: "21:15", timeLabel: "7:15 PM–9:15 PM", durationHours: 2 }
@@ -4155,7 +4158,6 @@
         add("stimson", ["2026-09-13", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-25"], [
           { team: "2030 Rage", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
           { team: "2032 Cannons", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 },
-          { team: "2028 Black", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 },
           { team: "2031 Carnage", startTime: "10:30", endTime: "12:00", timeLabel: "10:30 AM–12:00 PM", durationHours: 1.5 }
         ], "pending", recurringNote, DAN_RECURRING_SOURCE);
 
@@ -4166,12 +4168,18 @@
           { team: "2034 Venom", startTime: "09:00", endTime: "10:30", timeLabel: "9:00 AM–10:30 AM", durationHours: 1.5 }
         ], "confirmed", recurringNote, DAN_RECURRING_SOURCE);
         add("nickerson", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
+          { team: "2037 Wolves", startTime: "10:30", endTime: "11:45", timeLabel: "10:30 AM–11:45 AM", durationHours: 1.25 }
+        ], "confirmed", "2037 Wolves Saturdays 10:30–11:45 AM at Nickerson, beginning Sept. 12. " + recurringNote, DAN_RECURRING_SOURCE);
+        add("nickerson", ["2026-09-12", "2026-09-19", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2036 Avalanche", startTime: "08:15", endTime: "09:30", timeLabel: "8:15 AM–9:30 AM", durationHours: 1.25 }
         ], "pending", "Saturdays 8:15–9:30 AM at Nickerson. " + recurringNote, DAN_RECURRING_SOURCE);
 
         add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"], [
           { team: "2034 Thunder", startTime: "18:00", endTime: "20:00", timeLabel: "6:00 PM–8:00 PM", durationHours: 2 }
         ], "confirmed", recurringNote, DAN_RECURRING_SOURCE);
+        add("point-lookout", ["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30", "2026-10-07", "2026-10-14", "2026-10-21", "2026-10-28"], [
+          { team: "2037 Wolves", startTime: "18:00", endTime: "19:15", timeLabel: "6:00 PM–7:15 PM", durationHours: 1.25 }
+        ], "confirmed", "2037 Wolves Wednesdays 6:00–7:15 PM at Point Lookout, beginning Sept. 9. " + recurringNote, DAN_RECURRING_SOURCE);
         add("point-lookout", ["2026-09-12", "2026-09-26", "2026-10-03", "2026-10-10", "2026-10-17", "2026-10-24", "2026-10-31"], [
           { team: "2033 Storm", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", durationHours: 2 },
           { team: "2034 Thunder", startTime: "08:00", endTime: "10:00", timeLabel: "8:00 AM–10:00 AM", durationHours: 2 }
@@ -7008,6 +7016,28 @@
           assignedPointLookoutBlackoutHonored: !assignedPointLookout.some(function (windowItem) {
             return windowItem.date === "2026-09-19";
           }),
+          black2028SeafordSundaysExact: ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+            return assignedPracticeTeam(windowItem) === "2028 Black";
+          }).every(function (windowItem) {
+            return windowItem.locationKey === "seaford" && windowItem.startTime === "09:00" &&
+              windowItem.endTime === "11:00" && windowItem.requiredDurationHours === 2;
+          }) && ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+            return assignedPracticeTeam(windowItem) === "2028 Black";
+          }).map(function (windowItem) { return windowItem.date; }).join(",") ===
+            "2026-09-13,2026-09-20,2026-09-27,2026-10-04,2026-10-11,2026-10-18,2026-10-25",
+          wolvesPracticePatternExact: [{
+            locationKey: "point-lookout", startTime: "18:00", endTime: "19:15",
+            dates: "2026-09-09,2026-09-16,2026-09-23,2026-09-30,2026-10-07,2026-10-14,2026-10-21,2026-10-28"
+          }, {
+            locationKey: "nickerson", startTime: "10:30", endTime: "11:45",
+            dates: "2026-09-12,2026-09-19,2026-09-26,2026-10-03,2026-10-10,2026-10-17,2026-10-24,2026-10-31"
+          }].every(function (expected) {
+            return ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
+              return assignedPracticeTeam(windowItem) === "2037 Wolves" &&
+                windowItem.locationKey === expected.locationKey && windowItem.startTime === expected.startTime &&
+                windowItem.endTime === expected.endTime && windowItem.requiredDurationHours === 1.25;
+            }).map(function (windowItem) { return windowItem.date; }).join(",") === expected.dates;
+          }),
           seafordWindowCount: seaford.length,
           nickersonWindowCount: nickerson.length,
           nickersonWeekdayCount: nickerson.filter(function (windowItem) { return windowItem.startTime === "17:00"; }).length,
@@ -7087,19 +7117,19 @@
           result.datedTournamentCount === 40 &&
           result.tbdTournamentCount === 3 &&
           result.offIslandCount === 12 &&
-          result.practiceWindowCount === 305 &&
+          result.practiceWindowCount === 321 &&
           result.trainingSessionCount === 28 &&
           result.trainingScheduleExact &&
           result.masterPracticeWindowCount === 123 &&
-          result.assignedPracticeWindowCount === 182 &&
-          result.assignedSeafordCount === 92 &&
-          result.assignedStimsonCount === 28 &&
-          result.assignedNickersonCount === 40 &&
-          result.assignedPointLookoutCount === 22 &&
+          result.assignedPracticeWindowCount === 198 &&
+          result.assignedSeafordCount === 99 &&
+          result.assignedStimsonCount === 21 &&
+          result.assignedNickersonCount === 48 &&
+          result.assignedPointLookoutCount === 30 &&
           result.assignedAdjustedCount === 31 &&
           result.assignedNeedsTimeCount === 8 &&
           result.assignedPendingCount === 50 &&
-          result.assignedConfirmedCount === 93 &&
+          result.assignedConfirmedCount === 109 &&
           result.assignedNullEndCount === 8 &&
           result.closedParentWindowCount === 44 &&
           result.assignedSchemaValid &&
@@ -7108,6 +7138,8 @@
           result.movedMondayPracticesExact &&
           result.seafordThursdayPracticesExact &&
           result.assignedPointLookoutBlackoutHonored &&
+          result.black2028SeafordSundaysExact &&
+          result.wolvesPracticePatternExact &&
           result.seafordWindowCount === 24 &&
           result.nickersonWindowCount === 35 &&
           result.nickersonWeekdayCount === 26 &&
