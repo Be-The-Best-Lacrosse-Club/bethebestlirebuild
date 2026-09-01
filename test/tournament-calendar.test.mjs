@@ -8,10 +8,13 @@ import {
   calendarAlertRecipients,
   calendarOriginsForRequest,
   claimPractice,
+  deleteScheduledPractice,
+  effectiveAssignedPractices,
   KNOWN_TEAMS,
   MAX_COACHES_PER_BOOKING,
   MAX_RECENT_CHANGES,
   normalizeRecentChanges,
+  normalizePracticeOverrides,
   normalizeSnapshot,
   normalizeTournamentEvents,
   PRACTICE_WINDOWS,
@@ -19,6 +22,7 @@ import {
   readCalendarSnapshot,
   releasePractice,
   saveCalendarSnapshot,
+  saveScheduledPractice,
   sendCalendarChangeAlert,
   validatePracticeBookings,
 } from "../netlify/functions/tournament-calendar.mjs";
@@ -901,12 +905,46 @@ test("assign coach uses the protected directory as a mobile multi-select attenda
   assert.match(html, /function coachAttendanceLabel\(booking\)/);
 });
 
+test("the shared practice editor exposes daily availability and automatic team coaches", () => {
+  const html = staffPageHtml();
+  assert.match(html, /id="addPracticeButton"[^>]*>\+ Add Practice</);
+  assert.match(html, /id="practiceEditorDialog"/);
+  assert.match(html, /id="practiceEditorTeam"/);
+  assert.match(html, /id="practiceEditorDate"/);
+  assert.match(html, /id="practiceEditorLocation"/);
+  assert.match(html, /id="practiceEditorStart"/);
+  assert.match(html, /id="practiceEditorEnd"/);
+  assert.match(html, /Coaches added automatically/);
+
+  const availabilityStart = html.indexOf("function fieldAvailabilityWindowsForDay");
+  const editorStart = html.indexOf("function practiceEditorWindow", availabilityStart);
+  assert.ok(availabilityStart >= 0 && editorStart > availabilityStart);
+  const availabilitySource = html.slice(availabilityStart, editorStart);
+  assert.match(availabilitySource, /capacity:\s*2|rule\.capacity/);
+  assert.match(availabilitySource, /Multiple fields/);
+  assert.match(availabilitySource, /dayAvailabilityMarkup/);
+
+  const editorEnd = html.indexOf("function openClaimDialog", editorStart);
+  const editorSource = html.slice(editorStart, editorEnd);
+  assert.match(editorSource, /coachesForTeam\(team\)/);
+  assert.match(editorSource, /saveScheduledPractice/);
+  assert.match(editorSource, /deleteScheduledPractice/);
+
+  const boardStart = html.indexOf("function renderPracticeBoard");
+  const boardEnd = html.indexOf("function coachDirectoryName", boardStart);
+  const boardSource = html.slice(boardStart, boardEnd);
+  assert.match(boardSource, /dayAvailabilityMarkup\(group\.date, false\)/);
+  assert.match(boardSource, /class='btn subtle edit-practice'/);
+  assert.match(boardSource, /class='btn danger delete-practice'/);
+  assert.doesNotMatch(boardSource, /Assign Coach/);
+});
+
 test("recent shared saves appear beside open fields with useful schedule details", () => {
   const html = staffPageHtml();
   const sidebarStart = html.indexOf('<aside class="sidebar">');
   const sidebarEnd = html.indexOf("</aside>", sidebarStart);
   const sidebarSource = html.slice(sidebarStart, sidebarEnd);
-  const coachNeededIndex = sidebarSource.indexOf("Coach Needed + Open Fields");
+  const coachNeededIndex = sidebarSource.indexOf("Upcoming Practices + Open Fields");
   const recentIndex = sidebarSource.indexOf("Recent Changes");
   const dataNoteIndex = sidebarSource.indexOf('class="panel data-note"');
   assert.ok(coachNeededIndex >= 0 && recentIndex > coachNeededIndex && dataNoteIndex > recentIndex);
@@ -1082,6 +1120,7 @@ test("legacy snapshots normalize to an empty practice booking list", () => {
     version: 0,
     events: [{ id: "event-1" }],
     practiceBookings: [],
+    practiceOverrides: [],
     recentChanges: [],
     savedAt: "legacy",
   });
@@ -1985,6 +2024,119 @@ test("releasing one of two split-field claims preserves the other", async () => 
   assert.deepEqual(released.snapshot.practiceBookings.map((booking) => booking.id), ["renegades-sep-18"]);
   assert.equal(released.change.type, "practice_released");
   assert.equal(released.snapshot.recentChanges[0].team, "2033 Storm");
+});
+
+test("the practice editor supports one full Seaford slot plus sequential half-slot teams", async () => {
+  const store = memoryStore();
+  const save = (id, team, startTime, endTime) => saveScheduledPractice(store, {
+    team,
+    coaches: [`Coach ${team}`],
+    date: "2026-09-01",
+    locationKey: "seaford",
+    startTime,
+    endTime,
+  }, {
+    now: FIXED_NOW,
+    idFactory: () => id,
+  });
+
+  await save("staff-practice-full", "2030 Rage", "19:15", "21:15");
+  await save("staff-practice-first-half", "2031 Carnage", "19:15", "20:15");
+  await save("staff-practice-second-half", "2032 Cannons", "20:15", "21:15");
+
+  assert.equal(store.data.practiceOverrides.length, 3);
+  await expectCalendarError(
+    save("staff-practice-third-overlap", "2033 Storm", "19:15", "20:15"),
+    { status: 409, code: "field_capacity" },
+  );
+  assert.equal(store.data.practiceOverrides.length, 3);
+});
+
+test("Nickerson allows multiple simultaneous fields while Point Lookout remains two-team capacity", async () => {
+  const nickersonStore = memoryStore();
+  const nickerson = await saveScheduledPractice(nickersonStore, {
+    team: "2030 Rage",
+    coaches: ["Coach Rage"],
+    date: "2026-09-12",
+    locationKey: "nickerson",
+    startTime: "09:00",
+    endTime: "10:00",
+  }, {
+    now: FIXED_NOW,
+    idFactory: () => "staff-practice-nickerson-extra",
+  });
+  assert.equal(nickerson.practice.locationKey, "nickerson");
+
+  const pointLookoutStore = memoryStore();
+  await expectCalendarError(saveScheduledPractice(pointLookoutStore, {
+    team: "2030 Rage",
+    coaches: ["Coach Rage"],
+    date: "2026-09-12",
+    locationKey: "point-lookout",
+    startTime: "08:00",
+    endTime: "09:00",
+  }, {
+    now: FIXED_NOW,
+    idFactory: () => "staff-practice-point-lookout-third",
+  }), { status: 409, code: "field_capacity" });
+});
+
+test("default team practices can be edited and deleted without rewriting the baseline", async () => {
+  const store = memoryStore();
+  const practiceId = "pdf-seaford-2026-09-14-2033-renegades";
+  const edited = await saveScheduledPractice(store, {
+    id: practiceId,
+    team: "2033 Renegades",
+    coaches: ["Coach Dan", "Coach Matt"],
+    date: "2026-09-14",
+    locationKey: "seaford",
+    startTime: "19:15",
+    endTime: "21:15",
+    note: "Monday night practice",
+  }, { now: FIXED_NOW });
+
+  assert.equal(edited.change.type, "practice_updated");
+  assert.deepEqual(edited.practice.coaches, ["Coach Dan", "Coach Matt"]);
+  assert.equal(normalizePracticeOverrides(store.data.practiceOverrides).length, 1);
+  assert.equal(effectiveAssignedPractices(store.data.practiceOverrides)
+    .find((practice) => practice.id === practiceId).note, "Monday night practice");
+
+  const deleted = await deleteScheduledPractice(store, practiceId, { now: FIXED_NOW });
+  assert.equal(deleted.change.type, "practice_deleted");
+  assert.equal(effectiveAssignedPractices(store.data.practiceOverrides)
+    .some((practice) => practice.id === practiceId), false);
+  assert.deepEqual(store.data.practiceOverrides, [{
+    id: practiceId,
+    deleted: true,
+    updatedAt: FIXED_NOW.toISOString(),
+  }]);
+});
+
+test("an incomplete imported practice can have its missing end time repaired in place", async () => {
+  const store = memoryStore();
+  const practiceId = "pdf-seaford-2026-09-12-2035-bombers";
+  const repaired = await saveScheduledPractice(store, {
+    id: practiceId,
+    team: "2035 Bombers",
+    coaches: ["Coach Bombers"],
+    date: "2026-09-12",
+    locationKey: "seaford",
+    startTime: "15:00",
+    endTime: "17:00",
+    note: "End time confirmed",
+  }, { now: FIXED_NOW });
+
+  assert.equal(repaired.practice.endTime, "17:00");
+  assert.equal(repaired.change.type, "practice_updated");
+  await expectCalendarError(saveScheduledPractice(store, {
+    id: practiceId,
+    team: "2035 Bombers",
+    coaches: ["Coach Bombers"],
+    date: "2026-09-12",
+    locationKey: "seaford",
+    startTime: "15:15",
+    endTime: "17:00",
+  }, { now: FIXED_NOW }), { status: 409, code: "outside_field_availability" });
 });
 
 test("same-team and same-coach overlaps are detected across different locations", () => {
