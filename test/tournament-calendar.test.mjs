@@ -967,7 +967,7 @@ test("recent shared saves appear beside open fields with useful schedule details
   assert.match(html, /@media[\s\S]*\.recent-changes-panel\s*{[\s\S]*max-height:\s*none/);
 });
 
-test("the calendar defaults wide with a collapsible openings rail and a white high-contrast canvas", () => {
+test("the calendar defaults wide with a collapsible openings rail and a black high-contrast canvas", () => {
   const html = staffPageHtml();
   assert.match(html, /class="wall-layout sidebar-collapsed"/);
   assert.match(html, /id="sidebarToggleButton"[^>]*aria-expanded="false"[^>]*aria-controls="scheduleSidebarPanels"/);
@@ -979,9 +979,9 @@ test("the calendar defaults wide with a collapsible openings rail and a white hi
   const readabilityCss = html.slice(readabilityCssStart, readabilityCssEnd);
   assert.match(readabilityCss, /\.wall-layout\.sidebar-collapsed\s*\{[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\) 48px/);
   assert.match(readabilityCss, /\.sidebar\.is-collapsed\s*\{[\s\S]*max-width:\s*48px/);
-  assert.match(readabilityCss, /#wallView \.calendar-panel\s*\{[\s\S]*background:\s*#fff[;\s]/);
-  assert.match(readabilityCss, /#wallView \.day\s*\{[\s\S]*background:\s*#fff[;\s][\s\S]*color:\s*#17191d/);
-  assert.match(readabilityCss, /#wallView \.day-availability-label\s*\{[\s\S]*color:\s*#3f4854[;\s][\s\S]*font-size:\s*clamp\(9px/);
+  assert.match(readabilityCss, /#wallView \.calendar-panel\s*\{[\s\S]*background:\s*#0b0c0e[;\s][\s\S]*color:\s*#f5f5f6/);
+  assert.match(readabilityCss, /#wallView \.day\s*\{[\s\S]*background:\s*#0b0c0e[;\s][\s\S]*color:\s*#f5f5f6/);
+  assert.match(readabilityCss, /#wallView \.day-availability-label\s*\{[\s\S]*color:\s*#d8dbe0[;\s][\s\S]*font-size:\s*clamp\(9px/);
   assert.match(readabilityCss, /@media \(max-width: 900px\)[\s\S]*\.sidebar\.is-collapsed \.sidebar-toggle-text\s*\{[\s\S]*writing-mode:\s*horizontal-tb/);
 
   const behaviorStart = html.indexOf("var SIDEBAR_COLLAPSED_STORAGE_KEY");
