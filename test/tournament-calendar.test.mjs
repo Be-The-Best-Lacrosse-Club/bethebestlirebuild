@@ -995,6 +995,15 @@ test("the calendar defaults wide with a collapsible openings rail and a black hi
   assert.match(html, /initializeScheduleSidebar\(\);[\s\S]*bindEvents\(\);/);
 });
 
+test("the upcoming-practices ticker moves at a slower readable pace and still pauses on hover", () => {
+  const html = staffPageHtml();
+  const tickerCssStart = html.indexOf(".practice-ticker-track {");
+  const tickerCssEnd = html.indexOf("@keyframes practiceTickerScroll", tickerCssStart);
+  const tickerCss = html.slice(tickerCssStart, tickerCssEnd);
+  assert.match(tickerCss, /animation:\s*practiceTickerScroll 120s linear infinite/);
+  assert.match(tickerCss, /\.practice-ticker:hover \.practice-ticker-track\s*\{[\s\S]*animation-play-state:\s*paused/);
+});
+
 test("field availability stays in a dedicated row above the scrollable team schedule", () => {
   const html = staffPageHtml();
   const dayCssStart = html.indexOf(".day {");
