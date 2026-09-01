@@ -36,6 +36,8 @@ const NETLIFY_ADMIN_NOTIFICATION_FORMS = new Set(["futures-clinic-registration"]
 const BOYS_DIRECTOR_NOTIFY_EMAIL = process.env.BOYS_DIRECTOR_NOTIFY_EMAIL || "coachtbtb@gmail.com";
 const BOYS_MINI_CAMP_FORM_NAME = "btb-boys-mini-camp-registration";
 const BOYS_MINI_CAMP_NOTIFY_EMAIL = process.env.BOYS_MINI_CAMP_NOTIFY_EMAIL || "info@bethebestli.com";
+const LAB_TEAM_STRENGTH_FORM_NAME = "btb-lab-team-strength-registration";
+const DEFAULT_LAB_TEAM_STRENGTH_NOTIFY_EMAILS = ["info@bethebestli.com", "quintingermain@gmail.com"];
 const BOYS_REGISTRATION_FORMS = new Set([
   "btb-boys-tryout-registration",
   "btb-east-boys-tryout-registration",
@@ -195,6 +197,7 @@ function brevoListIdFor(formName) {
     "btb-girls-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-mini-camp-registration": process.env.BREVO_LIST_TRYOUT,
+    "btb-lab-team-strength-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "supplemental-tryouts-registration": process.env.BREVO_LIST_TRYOUT,
     "camp-registration": process.env.BREVO_LIST_TRYOUT,
@@ -339,6 +342,14 @@ function supplementalTryoutNotificationEmails() {
   });
 }
 
+function labTeamStrengthNotificationEmails() {
+  const configured = (process.env.LAB_REGISTRATION_NOTIFY_EMAILS || "")
+    .split(",")
+    .map((email) => email.trim())
+    .filter(Boolean);
+  return [...notificationEmailsFromEnv(), ...DEFAULT_LAB_TEAM_STRENGTH_NOTIFY_EMAILS, ...configured];
+}
+
 function isBoysSideRegistration(formName, data) {
   const normalizedFormName = String(formName || "").toLowerCase();
   if (BOYS_REGISTRATION_FORMS.has(normalizedFormName)) return true;
@@ -367,8 +378,11 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
     email: process.env.BREVO_SENDER_EMAIL,
   };
   const isBoysMiniCamp = formName === BOYS_MINI_CAMP_FORM_NAME;
+  const isLabTeamStrength = formName === LAB_TEAM_STRENGTH_FORM_NAME;
   const isEvaluationRequest = formName === "players-wanted-evaluation";
-  const emails = isBoysMiniCamp
+  const emails = isLabTeamStrength
+    ? labTeamStrengthNotificationEmails()
+    : isBoysMiniCamp
     ? [BOYS_MINI_CAMP_NOTIFY_EMAIL]
     : isEvaluationRequest
       ? [...EVALUATION_NOTIFY_EMAILS]
@@ -395,13 +409,15 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   let subject;
   if (isEvaluationRequest) {
     subject = `Evaluation Requested ${data.gender} ${data.gradYear}`;
+  } else if (isLabTeamStrength) {
+    subject = `The Lab — ${data.team_name || "Team"}: ${data.team_registration_count || "?"}/10 — ${playerName || data.parent_email || "new registration"}`;
   } else if (isSupplementalTryout) {
     subject = `Supplemental Tryout Registration Confirmed — ${playerName || data.parent_email || "unknown"}`;
   } else {
     subject = `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
   }
-  const emailEyebrow = isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
-  const emailHeading = isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
+  const emailEyebrow = isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
+  const emailHeading = isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
 <!doctype html><html><body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f7;padding:24px;margin:0">
   <div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden">
@@ -907,6 +923,8 @@ async function syncTryoutRosterSheet({ formName, data, submissionTime, submissio
 
 const BOYS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Boys_Futures_June_Clinic.jpg";
 const GIRLS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Girls_Futures_June_Clinic.jpg";
+const LAB_TEAM_STRENGTH_PAYMENT_URL =
+  "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-005e529290034c1784c41b75a25a08d7ffa08f9eed7c4342bb332487cbb29ea11ebdb27a2e174ca8af980aac794f8232?locale=EN_US";
 
 const CONFIRMATION_DISABLED_FORMS = new Set([
   "camp-registration",
@@ -1069,6 +1087,31 @@ const CONFIRMATION_CONFIG = {
         details,
         cta: "COMPLETE $150 PAYMENT",
         ctaUrl: GIRLS_MINI_CAMP_PAYMENT_URL,
+        headline: "Registration Received",
+        introVerb: "saved for",
+      });
+    },
+  },
+  "btb-lab-team-strength-registration": {
+    subject: (data) => `Registration Received — The Lab | ${data.team_name || "BTB Team"}`,
+    getHtml: (data) => {
+      const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
+      const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      const teamName = String(data.team_name || "their BTB team").trim();
+      const count = String(data.team_registration_count || "").trim();
+      const remaining = String(data.team_spots_to_minimum || "").trim();
+      const progress = count
+        ? remaining === "0"
+          ? `${teamName} has reached the 10-player team minimum. `
+          : `${teamName} now has ${count} commitment${count === "1" ? "" : "s"} and needs ${remaining} more to reach the 10-player minimum. `
+        : "";
+      return confirmationBase({
+        parentFirst,
+        playerName,
+        program: "The Lab at Momentum Sports — Team Strength Training",
+        details: `${progress}The registration details are saved for BTB and Quintin Germain. Complete the secure $500 QuickBooks payment to finalize the player's 16-session registration.`,
+        cta: "COMPLETE $500 PAYMENT",
+        ctaUrl: LAB_TEAM_STRENGTH_PAYMENT_URL,
         headline: "Registration Received",
         introVerb: "saved for",
       });

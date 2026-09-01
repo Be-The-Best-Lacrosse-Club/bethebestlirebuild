@@ -178,9 +178,22 @@ test("newsletter directs boys-program questions to both Boys Directors", () => {
   assert.match(newsletterHtml, /href="mailto:coachtbtb@gmail\.com"/)
 })
 
-test("The Lab identifies the 2033 class as sixth grade", () => {
-  assert.match(newsletterHtml, /Open to BTB teams 2033 and older \(6th grade and up\)/)
-  assert.doesNotMatch(newsletterHtml, /2033 and older \(5th grade and up\)/)
-  assert.match(parentTrainingHtml, /<strong>BTB teams 2033 and older<\/strong> \(6th grade and up\), boys and girls\./)
-  assert.doesNotMatch(parentTrainingHtml, /2033 and older<\/strong> \(5th grade and up\)/)
+test("The Lab details stay aligned across the newsletter and parent hub", () => {
+  const sharedDetails = [
+    "Led by owner Quintin Germain. Open to BTB teams 2033 and older.",
+    "Teams train together as a full roster &mdash; functional, athletic movement built to develop power, force, and motor control, so we come out of the winter as more resilient, more explosive athletes.",
+    "<strong>BTB teams 2033 and older</strong> (6th grade and up), boys and girls.",
+    "<strong>16 sessions &mdash; $500 per player.</strong> Need more or fewer sessions? Quintin will adjust the plan and the cost to fit the team.",
+    "<strong>10 players per team.</strong> Under 10 and the price goes up, so commit early.",
+    "Slots directly before or after your team's practice hour. Practice at 9:00 AM? Lift at 8:00 or 10:00, then you're done for the day.",
+    "<strong>Private access</strong> &mdash; each team has the floor to themselves. No sharing, no distractions.",
+    "Momentum Sports &middot; 10 Dunton Ave, Deer Park, NY 11729",
+  ]
+
+  for (const detail of sharedDetails) {
+    assert.ok(newsletterHtml.includes(detail), `newsletter is missing: ${detail}`)
+    assert.ok(parentTrainingHtml.includes(detail), `parent hub is missing: ${detail}`)
+  }
+  assert.doesNotMatch(newsletterHtml, /2033 and older(?:<\/strong>)? \(5th grade and up\)/)
+  assert.doesNotMatch(parentTrainingHtml, /2033 and older(?:<\/strong>)? \(5th grade and up\)/)
 })
