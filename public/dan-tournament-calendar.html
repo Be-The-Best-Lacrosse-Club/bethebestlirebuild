@@ -764,6 +764,10 @@
       overflow: hidden;
     }
 
+    .day.has-availability {
+      grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
     .day:nth-child(7n) {
       border-right: 0;
     }
@@ -3207,8 +3211,23 @@
     .day-availability {
       display: grid;
       gap: 4px;
-      margin: 0 0 7px;
-      padding: 0 6px;
+      min-width: 0;
+      margin: 0 -0.42rem 0.42rem;
+      padding: 0.34rem 0.42rem 0.42rem;
+      border-top: 1px solid rgba(255, 255, 255, .09);
+      border-bottom: 1px solid rgba(255, 255, 255, .16);
+      background: #15171a;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, .18);
+    }
+
+    .day-availability::before {
+      color: #fff;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .09em;
+      line-height: 1;
+      text-transform: uppercase;
+      content: "Field availability";
     }
 
     .day-availability-label {
@@ -6233,6 +6252,7 @@
           if (dayIso === todayIso) classes.push("today");
           if (conflictLevel === "critical") classes.push("conflict-critical");
           if (conflictLevel === "high") classes.push("conflict-high");
+          if (showPractices) classes.push("has-availability");
 
           var dots = "";
           if (conflictLevel === "critical") dots = "<span class='conflict-dot' title='Action conflict'></span>";

@@ -995,6 +995,29 @@ test("the calendar defaults wide with a collapsible openings rail and a black hi
   assert.match(html, /initializeScheduleSidebar\(\);[\s\S]*bindEvents\(\);/);
 });
 
+test("field availability stays in a dedicated row above the scrollable team schedule", () => {
+  const html = staffPageHtml();
+  const dayCssStart = html.indexOf(".day {");
+  const dayCssEnd = html.indexOf(".day:nth-child", dayCssStart);
+  const dayCss = html.slice(dayCssStart, dayCssEnd);
+  assert.match(dayCss, /\.day\.has-availability\s*\{[\s\S]*grid-template-rows:\s*auto auto minmax\(0, 1fr\)/);
+
+  const availabilityCssStart = html.indexOf(".day-availability {");
+  const availabilityCssEnd = html.indexOf(".practice-day-availability", availabilityCssStart);
+  const availabilityCss = html.slice(availabilityCssStart, availabilityCssEnd);
+  assert.match(availabilityCss, /background:\s*#15171a/);
+  assert.match(availabilityCss, /border-bottom:\s*1px solid rgba\(255, 255, 255, \.16\)/);
+  assert.match(availabilityCss, /content:\s*"Field availability"/);
+
+  const renderStart = html.indexOf("function renderMonth()");
+  const renderEnd = html.indexOf("function openDayDialog", renderStart);
+  const renderSource = html.slice(renderStart, renderEnd);
+  assert.match(renderSource, /if \(showPractices\) classes\.push\("has-availability"\)/);
+  const availabilityIndex = renderSource.indexOf("class='day-availability'");
+  const teamScheduleIndex = renderSource.indexOf("class='day-events'", availabilityIndex);
+  assert.ok(availabilityIndex >= 0 && teamScheduleIndex > availabilityIndex);
+});
+
 test("coach phone and email actions use larger wrapping text on responsive cards", () => {
   const html = staffPageHtml();
   const contactStart = html.indexOf(".coach-contact-actions {");
