@@ -48,7 +48,12 @@
 
 # Coach AI is a standalone static tool with no SPA equivalent, so it is served
 # in place to signed-in coaches and owners via Identity role matching. Requests
-# without a matching role fall through to the login redirect below.
+# without a matching role fall through to a login redirect.
+#
+# Every path that can resolve to the file needs its own pair: Netlify's Pretty
+# URLs also serve it at the extensionless /btb-coach-ai, which a rule on the
+# .html path alone does not cover.
+
 [[redirects]]
   from = "/btb-coach-ai.html"
   to = "/btb-coach-ai.html"
@@ -58,6 +63,19 @@
 
 [[redirects]]
   from = "/btb-coach-ai.html"
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/btb-coach-ai"
+  to = "/btb-coach-ai.html"
+  status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
+[[redirects]]
+  from = "/btb-coach-ai"
   to = "/login?redirect=/coach-tools"
   status = 302
   force = true
