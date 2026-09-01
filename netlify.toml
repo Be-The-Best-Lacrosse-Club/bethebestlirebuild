@@ -40,6 +40,17 @@
   status = 200
   force = true
 
+# The legacy static hub still holds drills, standards, terminology and the
+# season phases that the SPA CoachToolsPage does not cover yet, so it stays
+# reachable to signed-in coaches and owners at its .html path rather than
+# being retired. /coach-tools remains the SPA launcher.
+[[redirects]]
+  from = "/coach-tools.html"
+  to = "/coach-tools.html"
+  status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
 [[redirects]]
   from = "/coach-tools.html"
   to = "/login?redirect=/coach-tools"
