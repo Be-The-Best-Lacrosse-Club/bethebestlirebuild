@@ -3343,7 +3343,7 @@
       .practice-agenda-action .practice-actions .btn { flex: 1; }
     }
 
-    /* Readable calendar wall: a bright schedule canvas with a collapsible utility rail. */
+    /* Readable calendar wall: a dark schedule canvas with a collapsible utility rail. */
     .wall-layout {
       transition: grid-template-columns 180ms ease, gap 180ms ease;
     }
@@ -3415,40 +3415,40 @@
     }
 
     #wallView .calendar-panel {
-      border-color: #cbd1d9;
-      background: #fff;
-      color: #15171a;
-      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.14);
+      background: #0b0c0e;
+      color: #f5f5f6;
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.42);
     }
 
     #wallView .calendar-toolbar,
     #wallView .legend-strip,
     #wallView .weekday-row {
-      border-color: #d6dbe2;
-      background: #fff;
+      border-color: rgba(255, 255, 255, 0.12);
+      background: #0b0c0e;
     }
 
     #wallView .month-title {
-      color: #111318;
+      color: #fff;
     }
 
     #wallView .calendar-toolbar .btn.subtle {
-      border-color: #aeb6c1;
-      background: #f2f4f7;
-      color: #1d222a;
+      border-color: rgba(255, 255, 255, 0.18);
+      background: #17191d;
+      color: #fff;
     }
 
     #wallView .calendar-toolbar .btn.subtle:hover {
       border-color: var(--red);
-      background: #e6e9ee;
-      color: #111318;
+      background: #202329;
+      color: #fff;
     }
 
     #wallView .schedule-type-filter,
     #wallView .team-filter-trigger {
-      border-color: #aeb6c1;
-      background: #fff;
-      color: #15171a;
+      border-color: rgba(255, 255, 255, 0.18);
+      background: #0e0f11;
+      color: #fff;
     }
 
     #wallView .schedule-type-filter:hover,
@@ -3459,35 +3459,35 @@
     }
 
     #wallView .legend-label {
-      color: #5b6470;
+      color: #858b94;
     }
 
     #wallView .legend-item,
     #wallView .legend-note {
-      color: #252a31;
+      color: #d8dbe0;
     }
 
     #wallView .weekday-row {
-      background: #f1f3f6;
+      background: #15171a;
     }
 
     #wallView .weekday {
-      color: #3f4752;
+      color: #c2c7ce;
     }
 
     #wallView .calendar-grid {
-      background: #d6dbe2;
+      background: #050505;
     }
 
     #wallView .day {
-      border-color: #d6dbe2;
-      background: #fff;
-      color: #17191d;
+      border-color: rgba(255, 255, 255, 0.12);
+      background: #0b0c0e;
+      color: #f5f5f6;
     }
 
     #wallView .day.other-month {
-      background: #f2f4f7;
-      color: #737b86;
+      background: #07080a;
+      color: #6f747c;
     }
 
     #wallView .day.today::before {
@@ -3495,50 +3495,50 @@
     }
 
     #wallView .day.conflict-critical {
-      background: linear-gradient(145deg, rgba(210, 38, 48, 0.13), #fff 72%);
+      background: linear-gradient(145deg, rgba(210, 38, 48, 0.22), #0b0c0e 72%);
     }
 
     #wallView .day.conflict-high {
-      background: linear-gradient(145deg, rgba(255, 183, 67, 0.17), #fff 72%);
+      background: linear-gradient(145deg, rgba(255, 183, 67, 0.17), #0b0c0e 72%);
     }
 
     #wallView .day-number-button:hover,
     #wallView .day-number-button:focus-visible {
-      color: #111318;
-      background: rgba(210, 38, 48, 0.11);
+      color: #fff;
+      background: rgba(210, 38, 48, 0.18);
     }
 
     #wallView .day-item-count {
-      background: #e7eaf0;
-      color: #303640;
+      background: rgba(255, 255, 255, 0.1);
+      color: #c9cdd3;
     }
 
     #wallView .day-events {
-      scrollbar-color: rgba(31, 41, 55, 0.38) transparent;
+      scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
     }
 
     #wallView .day-events::-webkit-scrollbar-thumb {
-      background: rgba(31, 41, 55, 0.34);
+      background: rgba(255, 255, 255, 0.28);
     }
 
     #wallView .day-availability-label {
-      color: #3f4854;
+      color: #d8dbe0;
       font-size: clamp(9px, 0.48vw, 13px);
       line-height: 1.42;
     }
 
     #wallView .day-availability-label.over {
-      color: #8a4c00;
+      color: #ffd08a;
     }
 
     #wallView .day-availability-empty {
-      color: #747d89;
+      color: #858b94;
       font-size: clamp(9px, 0.45vw, 12px);
     }
 
     #wallView .calendar-panel button:focus-visible,
     #wallView .calendar-panel select:focus-visible {
-      outline-color: #111318;
+      outline-color: #fff;
     }
 
     #wallView .event-pill:focus-visible,
@@ -3573,19 +3573,19 @@
 
     @media (max-width: 760px) {
       #wallView .mobile-event-row {
-        border-color: #cbd1d9;
-        background: #f6f7f9;
-        color: #17191d;
+        border-color: rgba(255, 255, 255, 0.13);
+        background: #111316;
+        color: #fff;
       }
 
       #wallView .mobile-event-row.critical {
         border-color: rgba(210, 38, 48, 0.62);
-        background: #fff0f1;
+        background: rgba(210, 38, 48, 0.12);
       }
 
       #wallView .mobile-event-date,
       #wallView .mobile-event-time {
-        color: #515a66;
+        color: #b9bec6;
       }
     }
   </style>
