@@ -153,6 +153,8 @@ test("registration saves one team commitment, forwards the full form, and return
   assert.equal(formSubmissions[0].grad_year, "2033");
   assert.equal(formSubmissions[0].team_registration_count, "3");
   assert.equal(formSubmissions[0].team_spots_to_minimum, "7");
+  assert.equal(formSubmissions[0].registration_status, "Pending QuickBooks payment verification");
+  assert.equal(formSubmissions[0].payment_match_reference, "Test Player · parent@example.com");
   assert.equal(formSubmissions[0].medical_notes, "None");
 
   const savedRecord = [...store.values.entries()].find(([key]) => key.includes("/registrations/") && !key.includes("existing"))[1];
@@ -199,7 +201,10 @@ test("the public registration page collects required details and connects parent
   assert.match(newsletter, /href="https:\/\/www\.bethebestli\.com\/register-lab-team-strength"/);
 
   assert.match(relay, /DEFAULT_LAB_TEAM_STRENGTH_NOTIFY_EMAILS = \["info@bethebestli\.com", "quintingermain@gmail\.com"\]/);
-  assert.match(relay, /The Lab — \$\{data\.team_name/);
+  assert.match(relay, /The Lab — REGISTRATION SAVED \/ PAYMENT PENDING/);
+  assert.match(relay, /Wait for the separate QuickBooks payment-received email before marking this player paid/);
   assert.match(relay, /"btb-lab-team-strength-registration": \{/);
   assert.match(relay, /COMPLETE \$500 PAYMENT/);
+  assert.match(registrationPage, /player's full name and the same parent email/);
+  assert.match(registrationPage, /payment is confirmed only by the separate QuickBooks payment-received notice/);
 });

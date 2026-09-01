@@ -147,7 +147,7 @@
           <div class="form-intro">
             <div class="section-label">Registration + Payment</div>
             <h2>Player Information</h2>
-            <p>After this form is saved, you will continue to the current $500-per-player QuickBooks checkout.</p>
+            <p>After this form is saved, you will continue to the current $500-per-player QuickBooks checkout. Enter the player's full name and the same parent email there so BTB and Quintin can match the payment confirmation to this registration.</p>
           </div>
           <div class="error" id="errorMsg" role="alert"></div>
           <div class="success" id="successMsg" role="status"></div>
@@ -205,7 +205,7 @@
           <div class="check"><input type="checkbox" id="waiver" name="waiver_accepted" value="Yes" required><label for="waiver">I acknowledge the BTB Lacrosse waiver and release, accept the risks of strength and athletic training, authorize staff to seek emergency medical treatment if needed, and understand registration is finalized after completing payment.<span class="req">*</span></label></div>
           <div class="check"><input type="checkbox" id="media" name="media_release" value="Yes"><label for="media">I grant Be The Best Lacrosse Club and The Lab at Momentum Sports permission to use photos or video of my player for program promotion. This is optional.</label></div>
           <button class="submit" id="submitBtn" type="submit">Save Registration &amp; Continue to $500 Payment</button>
-          <p class="footer-note">Registration details go to BTB and Quintin Germain. Secure payment is processed through QuickBooks.</p>
+          <p class="footer-note">Registration details go to BTB and Quintin Germain immediately. Both receive the detailed registration summary, and payment is confirmed only by the separate QuickBooks payment-received notice.</p>
           <p class="privacy-note"><strong>Privacy:</strong> the Road to 10 board shows team totals only. Player names, contact information, addresses, emergency details, and medical notes are never displayed there.</p>
         </form>
       </section>
@@ -303,8 +303,8 @@
           renderProgress(teamProgress);
         }
         successMsg.textContent = result.duplicate
-          ? "This player is already on the team record. Continuing to payment…"
-          : `${result.team} now has ${result.count} commitment${result.count === 1 ? "" : "s"}. Continuing to secure payment…`;
+          ? "This player is already on the team record. At QuickBooks, use the player's full name and the same parent email so the payment can be matched. Continuing to payment…"
+          : `${result.team} now has ${result.count} commitment${result.count === 1 ? "" : "s"}. At QuickBooks, use the player's full name and the same parent email so the payment can be matched. Continuing to secure payment…`;
         successMsg.classList.add("show");
         successMsg.scrollIntoView({ behavior:"smooth", block:"center" });
         window.setTimeout(() => { window.location.href = PAYMENT_LINK; }, 1300);
