@@ -129,14 +129,14 @@ export function Header() {
 
   const navItemClass = (href: string) => `px-3 py-2 text-[1.0rem] font-bold uppercase tracking-[1.5px] transition-colors rounded ${
     isActive(href)
-      ? (scrolled ? "text-[var(--btb-red)] bg-[var(--btb-red)]/5" : "text-[var(--btb-red)] bg-white/10")
-      : (scrolled ? "text-black/60 hover:text-black hover:bg-black/5" : "text-white/85 hover:text-white hover:bg-white/5")
+      ? "text-[var(--btb-red)] bg-[var(--btb-red)]/5"
+      : "text-black/70 hover:text-black hover:bg-black/5"
   }`
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 ${
+        scrolled ? "shadow-lg" : "shadow-sm"
       }`}>
         {/* Announcement ticker — one bar, every page */}
         <section className="btb-home__events" aria-label="Current BTB announcements">
@@ -196,7 +196,7 @@ export function Header() {
               alt="BTB Lacrosse Club"
               className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover group-hover:scale-105 transition-transform"
             />
-            <div className={`font-display text-lg md:text-2xl tracking-tight uppercase transition-colors ${scrolled ? "text-black" : "text-white"}`}>
+            <div className="font-display text-lg md:text-2xl tracking-tight uppercase text-black">
               Be The <span className="text-[var(--btb-red)]">Best</span>
             </div>
           </button>
@@ -271,7 +271,7 @@ export function Header() {
               )}
             </div>
 
-            <div className={`w-px h-5 mx-3 ${scrolled ? "bg-black/10" : "bg-white/10"}`} />
+            <div className="w-px h-5 mx-3 bg-black/10" />
 
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
@@ -282,7 +282,7 @@ export function Header() {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--btb-red)] to-red-700 flex items-center justify-center font-display text-white text-xs border-2 border-white/20">
                     {user?.name?.[0]}
                   </div>
-                  <button onClick={handleLogout} className={`p-2 transition-colors ${scrolled ? "text-black/30 hover:text-black" : "text-white/85 hover:text-white"}`}>
+                  <button onClick={handleLogout} className="p-2 text-black/40 transition-colors hover:text-black">
                     <LogOut size={14} />
                   </button>
                 </div>
@@ -292,7 +292,7 @@ export function Header() {
                 <button onClick={() => go("/login")} className={navItemClass("/login")}>
                   <Lock size={11} className="inline mr-1" /> Login
                 </button>
-                <button onClick={() => go("/interest")} className={`px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] transition-all rounded-lg border ${scrolled ? "border-black/20 text-black hover:bg-black hover:text-white" : "border-white/20 text-white hover:bg-white hover:text-black"}`}>
+                <button onClick={() => go("/interest")} className="rounded-lg border border-black/20 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] text-black transition-all hover:bg-black hover:text-white">
                   Join BTB
                 </button>
               </div>
@@ -302,7 +302,7 @@ export function Header() {
           {/* Mobile/Tablet toggle — shows until the full menu has room */}
           <div className="min-[1380px]:hidden flex items-center gap-3">
             <button
-              className={`z-[60] transition-colors p-1 ${scrolled || mobileOpen ? "text-black" : "text-white"}`}
+              className="z-[60] p-1 text-black transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
