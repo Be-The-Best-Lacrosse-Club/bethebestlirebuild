@@ -85,7 +85,7 @@ export function ParentPortalPage() {
   const ref = useReveal({ className: "reveal-stagger" })
 
   return (
-    <div className="bg-black min-h-screen pt-32 pb-24 px-6">
+    <main id="main-content" className="bg-black min-h-screen pt-32 pb-24 px-6">
       <div className="max-w-[1100px] mx-auto">
         <div className="mb-16 border-b border-white/10 pb-12">
           <div className="flex items-center gap-3 text-[var(--btb-red)] font-mono text-[1.15rem] tracking-[5px] mb-6">
@@ -192,6 +192,6 @@ export function ParentPortalPage() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   )
 }

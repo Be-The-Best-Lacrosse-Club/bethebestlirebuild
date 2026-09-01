@@ -518,10 +518,19 @@
   status = 301
   force = true
 
+# The August Futures camp has concluded. Keep old emails and saved links safe
+# until a new, confirmed session receives its own registration route.
 [[redirects]]
   from = "/register-futures"
-  to = "/register-futures.html"
-  status = 200
+  to = "/camps"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/register-futures.html"
+  to = "/camps"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/camp-checkin"

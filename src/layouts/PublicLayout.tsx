@@ -11,12 +11,24 @@ import { NewsletterPopup } from "@/components/NewsletterPopup"
 export function PublicLayout() {
   const location = useLocation()
   const isHomePage = location.pathname === "/"
+  const pageProvidesMain = isHomePage || location.pathname === "/players-wanted"
 
   return (
     <SmoothScroll>
+      {!isHomePage && (
+        <a className="btb-skip-link" href="#main-content">
+          Skip to main content
+        </a>
+      )}
       <ProgressBar />
       <Header />
-      <Outlet />
+      {pageProvidesMain ? (
+        <Outlet />
+      ) : (
+        <main id="main-content" tabIndex={-1}>
+          <Outlet />
+        </main>
+      )}
       {!isHomePage && <Footer />}
       {/* <CoachB surface="player_parent" /> */}
       <NewsletterPopup />

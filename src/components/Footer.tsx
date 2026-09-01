@@ -66,15 +66,15 @@ export function Footer() {
           <div>
             <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">Futures</h4>
             <a href="/futures" onClick={link("/futures")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
-            <a href="/futures" onClick={link("/futures")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Foundation</a>
-            <a href="/futures" onClick={link("/futures")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Enrollment</a>
+            <a href="/futures#locations" onClick={link("/futures#locations")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Locations</a>
+            <a href="/futures#itinerary" onClick={link("/futures#itinerary")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Session Plan</a>
           </div>
 
           <div>
             <h4 className="font-display text-white uppercase text-[1.0rem] tracking-[2.5px] mb-5">Camps</h4>
             <a href="/camps" onClick={link("/camps")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Overview</a>
-            <a href="/camps" onClick={link("/camps")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Clinics</a>
-            <a href="/camps" onClick={link("/camps")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Intensives</a>
+            <a href="/camps#camp-values" onClick={link("/camps#camp-values")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Core Values</a>
+            <a href="/camps#included" onClick={link("/camps#included")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">What&apos;s Included</a>
           </div>
 
           <div>

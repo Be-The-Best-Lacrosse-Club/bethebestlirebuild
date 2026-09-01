@@ -1,8 +1,14 @@
 import { MessageSquare } from "lucide-react"
+import { SEO } from "@/components/shared/SEO"
 
 export function SmsPolicyPage() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="SMS Policy & Privacy | BTB Lacrosse Club"
+        description="How BTB Lacrosse Club uses, protects, and manages opt-in text message communications."
+        path="/sms-policy"
+      />
       <div className="max-w-3xl mx-auto px-5 md:px-8 py-16 md:py-24">
         {/* Header */}
         <div className="mb-12">

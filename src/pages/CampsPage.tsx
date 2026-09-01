@@ -1,52 +1,6 @@
-import { useEffect, useState } from "react"
-import { ArrowRight, Calendar, Clock, Target, Users, Trophy, MapPin } from "lucide-react"
+import { useEffect } from "react"
+import { ArrowRight, Calendar, Target, Users, Trophy, MapPin } from "lucide-react"
 import { SEO } from "@/components/shared/SEO"
-
-type Camp = {
-  key: string
-  name: string
-  tagline: string
-  dates: string
-  tabDates: string
-  range: string
-  time: string
-  location: string
-  forWho: string
-  description: string
-  bullets: string[]
-  icon: typeof Trophy
-  registerUrl: string
-  price: string
-  flyerSrc: string
-  flyerAlt: string
-}
-
-const CAMPS: Camp[] = [
-  {
-    key: "futures",
-    name: "Futures Camp",
-    tagline: "Build the Foundation.",
-    dates: "August 18 – August 20",
-    tabDates: "Aug 18-20",
-    range: "3 Days · Any Consecutive",
-    time: "9 – 11 AM Daily",
-    location: "Plainedge Park",
-    forWho: "Classes of 2034–2037",
-    description:
-      "Three days built for the next generation. High-energy, fundamentals-first coaching from the same pros who lead our travel teams. Fun, but serious.",
-    bullets: [
-      "Stick skills and footwork foundation",
-      "6:1 player-to-coach ratio",
-      "Small-sided games and competition",
-      "Intro to the BTB Standard",
-    ],
-    icon: Users,
-    registerUrl: "/register-futures",
-    price: "$125",
-    flyerSrc: "/images/tryouts/BTB_Futures_Camp_2026.jpg",
-    flyerAlt: "BTB Futures Camp 2026 flyer for August 18 through August 20 at Plainedge Park",
-  },
-]
 
 const CORE_VALUES = [
   {
@@ -99,10 +53,6 @@ const POSITION_TRACKS = [
 ]
 
 export function CampsPage() {
-  const [activeCampKey, setActiveCampKey] = useState(CAMPS[0].key)
-  const activeCamp = CAMPS.find((camp) => camp.key === activeCampKey) ?? CAMPS[0]
-  const ActiveCampIcon = activeCamp.icon
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -141,119 +91,50 @@ export function CampsPage() {
 Our next round of camps and clinics is being finalized — stay tuned. Dates will post here and go out to families as soon as they are locked in.
           </p>
 
-          <div className="max-w-[980px]" aria-label="BTB camp selector">
-            <div className="mb-3 text-[0.72rem] font-black uppercase tracking-[2.4px] text-white/40">
-              Choose a Camp
-            </div>
-            <div role="tablist" aria-label="BTB August camps" className="grid grid-cols-1 gap-2 md:grid-cols-3">
-              {CAMPS.map((camp) => {
-                const isActive = activeCamp.key === camp.key
-
-                return (
-                  <button
-                    key={camp.key}
-                    type="button"
-                    role="tab"
-                    id={`camp-tab-${camp.key}`}
-                    aria-selected={isActive}
-                    aria-controls={`camp-panel-${camp.key}`}
-                    onClick={() => setActiveCampKey(camp.key)}
-                    className={`min-h-[86px] border px-4 py-3 text-left transition-all duration-200 ${
-                      isActive
-                        ? "border-[var(--btb-red)] bg-[var(--btb-red)] text-white shadow-[0_18px_42px_rgba(210,38,48,0.2)]"
-                        : "border-white/10 bg-white/[0.035] text-white/80 hover:border-white/25 hover:bg-white/[0.06] hover:text-white"
-                    }`}
-                  >
-                    <span className="block font-display text-[1.2rem] uppercase tracking-wide leading-none">
-                      {camp.name}
-                    </span>
-                    <span
-                      className={`mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[0.72rem] font-black uppercase tracking-[1.4px] ${
-                        isActive ? "text-white" : "text-white/60"
-                      }`}
-                    >
-                      <span>{camp.tabDates}</span>
-                      <span>{camp.price}</span>
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-
-            <div
-              id={`camp-panel-${activeCamp.key}`}
-              role="tabpanel"
-              aria-labelledby={`camp-tab-${activeCamp.key}`}
-              className="mt-3 border border-white/10 bg-neutral-950/90 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.28)] md:p-6"
-            >
-              <div className="grid gap-5 md:grid-cols-[1fr_180px] md:items-start">
-                <div>
-                  <div className="mb-3 flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--btb-red)]/15 text-[var(--btb-red)]">
-                      <ActiveCampIcon size={18} strokeWidth={1.7} />
-                    </span>
-                    <div>
-                      <div className="font-display text-[1.35rem] uppercase tracking-wide leading-none text-white">
-                        {activeCamp.name}
-                      </div>
-                      <div className="mt-1 text-[0.78rem] font-black uppercase tracking-[1.8px] text-[var(--btb-red)]">
-                        {activeCamp.tagline}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="max-w-[660px] text-[0.98rem] leading-relaxed text-white/62">
-                    {activeCamp.description}
-                  </p>
-
-                  <div className="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-4">
-                    {[
-                      { label: "Dates", value: activeCamp.dates, icon: Calendar },
-                      { label: "Time", value: activeCamp.time, icon: Clock },
-                      { label: "Price", value: activeCamp.price, icon: Trophy },
-                      { label: "Best For", value: activeCamp.forWho, icon: Users },
-                    ].map((item) => (
-                      <div key={item.label} className="border border-white/10 bg-white/[0.03] p-3">
-                        <div className="mb-2 flex items-center gap-2 text-[0.66rem] font-black uppercase tracking-[1.5px] text-white/35">
-                          <item.icon size={12} className="text-[var(--btb-red)]" />
-                          {item.label}
-                        </div>
-                        <div className="text-[0.82rem] font-bold leading-snug text-white/88">{item.value}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                    <a
-                      href={activeCamp.registerUrl}
-                      className="inline-flex items-center justify-center gap-2 bg-[var(--btb-red)] px-6 py-3 text-[0.9rem] font-black uppercase tracking-[1.8px] text-white transition-all duration-200 hover:bg-[var(--btb-red-dark)]"
-                    >
-                      Register · {activeCamp.price} <ArrowRight size={13} />
-                    </a>
-                    <a
-                      href="#camps"
-                      className="inline-flex items-center justify-center border border-white/15 px-6 py-3 text-[0.9rem] font-black uppercase tracking-[1.8px] text-white/75 transition-all duration-200 hover:border-white/35 hover:text-white"
-                    >
-                      View Camp Schedule
-                    </a>
-                  </div>
+          <div className="max-w-[980px] border border-white/10 bg-neutral-950/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.3)] md:p-8">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-[660px]">
+                <div className="mb-4 inline-flex items-center gap-2 border border-[var(--btb-red)]/45 bg-[var(--btb-red)]/10 px-3 py-2 text-[0.75rem] font-black uppercase tracking-[2px] text-white">
+                  <span className="h-2 w-2 rounded-full bg-[var(--btb-red)]" />
+                  Registration Status · No Open Camp Registration
                 </div>
-
+                <h2 className="font-display text-[2rem] uppercase leading-none tracking-wide text-white md:text-[2.7rem]">
+                  Next Clinic Schedule<br /><span className="text-[var(--btb-red)]">In Progress.</span>
+                </h2>
+                <p className="mt-4 max-w-[620px] text-[1rem] leading-relaxed text-white/70">
+                  We are finalizing the next dates, age groups, locations, and pricing. We will publish every detail before registration opens—no outdated checkout links and no guessing.
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col">
                 <a
-                  href={activeCamp.registerUrl}
-                  className="hidden overflow-hidden border border-white/10 bg-black transition-all duration-200 hover:border-[var(--btb-red)]/60 md:block"
-                  aria-label={`Register for ${activeCamp.name}`}
+                  href="/interest?category=Camp&notes=Please%20notify%20me%20when%20new%20camp%20or%20clinic%20dates%20are%20published."
+                  className="inline-flex items-center justify-center gap-2 bg-[var(--btb-red)] px-6 py-3 text-[0.9rem] font-black uppercase tracking-[1.8px] text-white transition-all duration-200 hover:bg-[var(--btb-red-dark)]"
                 >
-                  <img
-                    src={activeCamp.flyerSrc}
-                    alt={activeCamp.flyerAlt}
-                    width={1024}
-                    height={1280}
-                    className="aspect-[4/5] w-full bg-black object-contain"
-                    loading="eager"
-                    decoding="async"
-                  />
+                  Get Camp Updates <ArrowRight size={13} />
+                </a>
+                <a
+                  href="mailto:info@bethebestli.com?subject=BTB%20Camp%20Question"
+                  className="inline-flex items-center justify-center border border-white/20 px-6 py-3 text-[0.9rem] font-black uppercase tracking-[1.8px] text-white transition-all duration-200 hover:border-white/45"
+                >
+                  Ask a Question
                 </a>
               </div>
+            </div>
+
+            <div className="mt-7 grid gap-2 sm:grid-cols-3">
+              {[
+                { label: "Dates", value: "To Be Announced", icon: Calendar },
+                { label: "Location", value: "Long Island", icon: MapPin },
+                { label: "Enrollment", value: "Opens With Published Dates", icon: Users },
+              ].map((item) => (
+                <div key={item.label} className="border border-white/10 bg-white/[0.035] p-4">
+                  <div className="mb-2 flex items-center gap-2 text-[0.7rem] font-black uppercase tracking-[1.5px] text-white/65">
+                    <item.icon size={13} className="text-[var(--btb-red)]" />
+                    {item.label}
+                  </div>
+                  <div className="text-[0.9rem] font-bold leading-snug text-white">{item.value}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -264,14 +145,14 @@ Our next round of camps and clinics is being finalized — stay tuned. Dates wil
         <div className="max-w-[900px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { num: "Soon", label: "More Dates" },
-              { num: "3", label: "Days Each" },
+              { num: "Next", label: "Schedule" },
+              { num: "Small", label: "Groups" },
               { num: "Pro", label: "Staff" },
               { num: "All", label: "Skill Levels" },
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <div className="font-display text-[2.2rem] text-[var(--btb-red)] leading-none">{s.num}</div>
-                <div className="text-[1.1rem] font-semibold uppercase tracking-[1.5px] text-white/25 mt-2">
+                <div className="text-[1.1rem] font-semibold uppercase tracking-[1.5px] text-white/60 mt-2">
                   {s.label}
                 </div>
               </div>
@@ -280,121 +161,39 @@ Our next round of camps and clinics is being finalized — stay tuned. Dates wil
         </div>
       </section>
 
-      {/* Camps */}
+      {/* Schedule process */}
       <section id="camps" className="py-24 px-6 border-b border-white/[0.07]">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-4">
             The Schedule
           </div>
           <h2 className="font-display text-[clamp(2rem,4vw,3rem)] uppercase tracking-wide leading-[0.92] mb-4">
-More Coming.<br />One Standard.
+No Guesswork.<br />One Standard.
           </h2>
-          <p className="text-[1.1rem] text-white/35 mb-14 max-w-[480px] leading-relaxed">
-More camps and clinics are on the way — stay tuned. In the meantime, here is what is on the calendar.
+          <p className="text-[1.1rem] text-white/70 mb-14 max-w-[620px] leading-relaxed">
+            There is no active camp registration today. The next schedule will appear here only after the dates, location, age groups, and price are confirmed.
           </p>
 
-          <div className="space-y-4">
-            {CAMPS.map((c, i) => (
-              <div
-                key={c.key}
-                className={`group relative rounded-2xl border p-8 md:p-10 transition-all duration-300 ${
-                  i === 0
-                    ? "border-[var(--btb-red)]/40 bg-[var(--btb-red)]/5"
-                    : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.15]"
-                }`}
-              >
-                <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-start">
-                  <div className="flex md:flex-col gap-4 md:gap-3 items-start">
-                    <div
-                      className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                        i === 0 ? "bg-[var(--btb-red)]/20" : "bg-white/[0.05]"
-                      }`}
-                    >
-                      <c.icon
-                        size={20}
-                        strokeWidth={1.5}
-                        className={i === 0 ? "text-[var(--btb-red)]" : "text-white/70"}
-                      />
-                    </div>
-                    <span
-                      className={`md:hidden text-[1.08rem] font-bold uppercase tracking-[1.5px] px-2.5 py-1 rounded-full self-center ${
-                        i === 0
-                          ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]"
-                          : "bg-white/[0.05] text-white/25"
-                      }`}
-                    >
-                      {c.tagline}
-                    </span>
-                  </div>
-
-                  <div>
-                    <div className="hidden md:flex items-center gap-3 mb-3">
-                      <span
-                        className={`text-[1.08rem] font-bold uppercase tracking-[2px] px-2.5 py-1 rounded-full ${
-                          i === 0
-                            ? "bg-[var(--btb-red)]/20 text-[var(--btb-red)]"
-                            : "bg-white/[0.05] text-white/70"
-                        }`}
-                      >
-                        {c.tagline}
-                      </span>
-                    </div>
-                    <h3 className="font-display text-[clamp(1.6rem,3vw,2.2rem)] uppercase tracking-wide text-white mb-2">
-                      {c.name}
-                    </h3>
-                    <div className="text-[1.05rem] text-white/35 mb-5">{c.forWho}</div>
-                    <p className="text-[1.12rem] text-white/45 leading-relaxed mb-6 max-w-[560px]">
-                      {c.description}
-                    </p>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {c.bullets.map((b) => (
-                        <li
-                          key={b}
-                          className="flex items-start gap-2 text-[1.05rem] text-white/45 leading-relaxed"
-                        >
-                          <div className="w-1 h-1 rounded-full bg-[var(--btb-red)] mt-1.5 shrink-0" />
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="md:text-right md:min-w-[200px]">
-                    <div className="flex md:flex-col items-baseline md:items-end gap-2 md:gap-1">
-                      <Calendar
-                        size={14}
-                        className={`md:hidden ${i === 0 ? "text-[var(--btb-red)]" : "text-white/70"}`}
-                      />
-                      <div className="font-display text-[1.1rem] uppercase tracking-wide text-white leading-tight">
-                        {c.dates}
-                      </div>
-                    </div>
-                    <div className="text-[1.15rem] font-bold uppercase tracking-[1.5px] text-white/85 mt-2">
-                      {c.range}
-                    </div>
-                    <div className="flex md:justify-end items-center gap-1.5 mt-3 text-[1.05rem] text-white/55">
-                      <Clock size={12} className={i === 0 ? "text-[var(--btb-red)]" : "text-white/70"} />
-                      {c.time}
-                    </div>
-                    <div className="flex md:justify-end items-center gap-1.5 mt-1.5 text-[1.05rem] text-white/55">
-                      <MapPin size={12} className={i === 0 ? "text-[var(--btb-red)]" : "text-white/70"} />
-                      {c.location}
-                    </div>
-                    <a
-                      href={c.registerUrl}
-                      className={`mt-5 block text-center py-3 px-6 font-black text-[1.0rem] uppercase tracking-[2px] transition-all ${
-                        i === 0
-                          ? "bg-[var(--btb-red)] text-white hover:bg-[var(--btb-red-dark)]"
-                          : "border border-[var(--btb-red)] text-white hover:bg-[var(--btb-red)]"
-                      }`}
-                    >
-                      Register · {c.price}
-                    </a>
-                  </div>
-                </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              { step: "01", title: "Details Confirmed", text: "Dates, times, location, age groups, and price are locked before anything is promoted." },
+              { step: "02", title: "Families Notified", text: "The new schedule is published here and shared with families who requested camp updates." },
+              { step: "03", title: "Registration Opens", text: "A clear registration button appears only when the correct session is ready to accept players." },
+            ].map((item) => (
+              <div key={item.step} className="border border-white/10 bg-white/[0.025] p-7">
+                <div className="text-[0.8rem] font-black uppercase tracking-[2px] text-[var(--btb-red)]">Step {item.step}</div>
+                <h3 className="mt-5 font-display text-[1.55rem] uppercase tracking-wide text-white">{item.title}</h3>
+                <p className="mt-3 text-[1rem] leading-relaxed text-white/70">{item.text}</p>
               </div>
             ))}
           </div>
+
+          <a
+            href="/interest?category=Camp&notes=Please%20notify%20me%20when%20new%20camp%20or%20clinic%20dates%20are%20published."
+            className="mt-8 inline-flex items-center justify-center gap-2 bg-[var(--btb-red)] px-7 py-4 text-[0.95rem] font-black uppercase tracking-[2px] text-white transition-colors hover:bg-[var(--btb-red-dark)]"
+          >
+            Notify Me About Camps <ArrowRight size={14} />
+          </a>
         </div>
       </section>
 
@@ -536,21 +335,21 @@ More camps and clinics are on the way — stay tuned. In the meantime, here is w
             <div className="absolute inset-0 bg-[var(--btb-red)]/[0.04]" />
             <div className="relative">
               <div className="text-[1.15rem] font-bold uppercase tracking-[4px] text-[var(--btb-red)] mb-6">
-                Save Your Spot
+                Camp Updates
               </div>
               <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] uppercase tracking-wide leading-[0.92] mb-6">
-                Lock In Your Camp.<br />
-                <span className="text-[var(--btb-red)]">Pick Your Days.</span>
+                Be First To Know.<br />
+                <span className="text-[var(--btb-red)]">Then Pick Your Session.</span>
               </h2>
-              <p className="text-[1.15rem] text-white/35 max-w-[460px] mx-auto leading-relaxed mb-10">
-                Camps fill up. Reach out to confirm pricing, location, and reserve your athlete's spot.
+              <p className="text-[1.15rem] text-white/70 max-w-[520px] mx-auto leading-relaxed mb-10">
+                Tell us you want camp updates. We will send the confirmed schedule and registration path when the next session is ready.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="/interest"
+                  href="/interest?category=Camp&notes=Please%20notify%20me%20when%20new%20camp%20or%20clinic%20dates%20are%20published."
                   className="inline-flex items-center justify-center gap-2 px-9 py-4 bg-[var(--btb-red)] text-white text-[1.0rem] font-bold uppercase tracking-[2px] rounded hover:bg-[var(--btb-red-dark)] transition-all duration-200"
                 >
-                  Reserve a Spot <ArrowRight size={13} />
+                  Get Camp Updates <ArrowRight size={13} />
                 </a>
                 <a
                   href="mailto:info@bethebestli.com"

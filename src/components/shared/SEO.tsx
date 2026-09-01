@@ -8,7 +8,7 @@ interface SEOProps {
   ogType?: string
 }
 
-const BASE_URL = "https://bethebestli.com"
+const BASE_URL = "https://www.bethebestli.com"
 const DEFAULT_OG_IMAGE = `${BASE_URL}/images/Be%20The%20Best%20Helmet%2C%20Merch%2C%20and%20Social%20Icon.png`
 
 export function SEO({

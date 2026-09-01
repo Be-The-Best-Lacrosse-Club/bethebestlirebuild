@@ -1,8 +1,14 @@
 import { FileText } from "lucide-react"
+import { SEO } from "@/components/shared/SEO"
 
 export function TermsAndConditionsPage() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title="Terms and Conditions | BTB Lacrosse Club"
+        description="Terms governing the BTB Lacrosse Club website, registrations, programs, and communications."
+        path="/terms-and-conditions"
+      />
       <div className="max-w-3xl mx-auto px-5 md:px-8 py-16 md:py-24">
         {/* Header */}
         <div className="mb-12">
