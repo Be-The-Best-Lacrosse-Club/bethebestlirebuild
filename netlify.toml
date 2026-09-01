@@ -46,6 +46,35 @@
   status = 302
   force = true
 
+# Coach AI is a standalone static tool with no SPA equivalent, so it is served
+# in place to signed-in coaches and owners via Identity role matching. Requests
+# without a matching role fall through to the login redirect below.
+[[redirects]]
+  from = "/btb-coach-ai.html"
+  to = "/btb-coach-ai.html"
+  status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
+[[redirects]]
+  from = "/btb-coach-ai.html"
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/coach-ai"
+  to = "/btb-coach-ai.html"
+  status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
+[[redirects]]
+  from = "/coach-ai"
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
+
 [[redirects]]
   from = "/coach-tools"
   to = "/index.html"
