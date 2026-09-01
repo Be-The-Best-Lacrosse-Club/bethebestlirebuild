@@ -981,9 +981,20 @@
       max-width: 285px;
       min-height: 0;
       display: grid;
-      grid-template-rows: minmax(0, 1fr) auto auto;
+      grid-template-rows: auto minmax(0, 1fr);
       gap: clamp(0.55rem, 0.8vw, 0.85rem);
       justify-self: end;
+    }
+
+    .sidebar-panels {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto auto;
+      gap: clamp(0.55rem, 0.8vw, 0.85rem);
+    }
+
+    .sidebar-panels[hidden] {
+      display: none;
     }
 
     .panel {
@@ -991,7 +1002,7 @@
       overflow: hidden;
     }
 
-    .sidebar > .panel:first-child {
+    .sidebar-panels > .panel:first-child {
       display: grid;
       grid-template-rows: auto minmax(0, 1fr);
     }
@@ -3331,6 +3342,252 @@
       .practice-agenda-action .practice-actions { width: 100%; }
       .practice-agenda-action .practice-actions .btn { flex: 1; }
     }
+
+    /* Readable calendar wall: a bright schedule canvas with a collapsible utility rail. */
+    .wall-layout {
+      transition: grid-template-columns 180ms ease, gap 180ms ease;
+    }
+
+    .wall-layout.sidebar-collapsed {
+      grid-template-columns: minmax(0, 1fr) 48px;
+      gap: 0.55rem;
+    }
+
+    .sidebar {
+      transition: max-width 180ms ease;
+    }
+
+    .sidebar.is-collapsed {
+      max-width: 48px;
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    .sidebar-toggle {
+      width: 100%;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.55rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-left: 3px solid var(--red);
+      border-radius: 0.7rem;
+      padding: 0.58rem 0.7rem;
+      background: #17191d;
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-align: left;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+    }
+
+    .sidebar-toggle:hover {
+      border-color: rgba(255, 255, 255, 0.36);
+      border-left-color: #ef3943;
+      background: #202329;
+    }
+
+    .sidebar-toggle-icon {
+      width: 1rem;
+      height: 1rem;
+      flex: 0 0 auto;
+      transition: transform 180ms ease;
+    }
+
+    .sidebar.is-collapsed .sidebar-toggle {
+      height: 100%;
+      min-height: 18rem;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 0.9rem 0.4rem;
+    }
+
+    .sidebar.is-collapsed .sidebar-toggle-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    .sidebar.is-collapsed .sidebar-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    #wallView .calendar-panel {
+      border-color: #cbd1d9;
+      background: #fff;
+      color: #15171a;
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.2);
+    }
+
+    #wallView .calendar-toolbar,
+    #wallView .legend-strip,
+    #wallView .weekday-row {
+      border-color: #d6dbe2;
+      background: #fff;
+    }
+
+    #wallView .month-title {
+      color: #111318;
+    }
+
+    #wallView .calendar-toolbar .btn.subtle {
+      border-color: #aeb6c1;
+      background: #f2f4f7;
+      color: #1d222a;
+    }
+
+    #wallView .calendar-toolbar .btn.subtle:hover {
+      border-color: var(--red);
+      background: #e6e9ee;
+      color: #111318;
+    }
+
+    #wallView .schedule-type-filter,
+    #wallView .team-filter-trigger {
+      border-color: #aeb6c1;
+      background: #fff;
+      color: #15171a;
+    }
+
+    #wallView .schedule-type-filter:hover,
+    #wallView .schedule-type-filter:focus-visible,
+    #wallView .team-filter-trigger:hover,
+    #wallView .team-filter-trigger:focus-visible {
+      border-color: var(--red);
+    }
+
+    #wallView .legend-label {
+      color: #5b6470;
+    }
+
+    #wallView .legend-item,
+    #wallView .legend-note {
+      color: #252a31;
+    }
+
+    #wallView .weekday-row {
+      background: #f1f3f6;
+    }
+
+    #wallView .weekday {
+      color: #3f4752;
+    }
+
+    #wallView .calendar-grid {
+      background: #d6dbe2;
+    }
+
+    #wallView .day {
+      border-color: #d6dbe2;
+      background: #fff;
+      color: #17191d;
+    }
+
+    #wallView .day.other-month {
+      background: #f2f4f7;
+      color: #737b86;
+    }
+
+    #wallView .day.today::before {
+      border-color: var(--red);
+    }
+
+    #wallView .day.conflict-critical {
+      background: linear-gradient(145deg, rgba(210, 38, 48, 0.13), #fff 72%);
+    }
+
+    #wallView .day.conflict-high {
+      background: linear-gradient(145deg, rgba(255, 183, 67, 0.17), #fff 72%);
+    }
+
+    #wallView .day-number-button:hover,
+    #wallView .day-number-button:focus-visible {
+      color: #111318;
+      background: rgba(210, 38, 48, 0.11);
+    }
+
+    #wallView .day-item-count {
+      background: #e7eaf0;
+      color: #303640;
+    }
+
+    #wallView .day-events {
+      scrollbar-color: rgba(31, 41, 55, 0.38) transparent;
+    }
+
+    #wallView .day-events::-webkit-scrollbar-thumb {
+      background: rgba(31, 41, 55, 0.34);
+    }
+
+    #wallView .day-availability-label {
+      color: #3f4854;
+      font-size: clamp(9px, 0.48vw, 13px);
+      line-height: 1.42;
+    }
+
+    #wallView .day-availability-label.over {
+      color: #8a4c00;
+    }
+
+    #wallView .day-availability-empty {
+      color: #747d89;
+      font-size: clamp(9px, 0.45vw, 12px);
+    }
+
+    #wallView .calendar-panel button:focus-visible,
+    #wallView .calendar-panel select:focus-visible {
+      outline-color: #111318;
+    }
+
+    #wallView .event-pill:focus-visible,
+    #wallView .calendar-toolbar .btn:focus-visible {
+      outline-color: var(--red);
+    }
+
+    @media (max-width: 900px) {
+      .wall-layout.sidebar-collapsed {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+      }
+
+      .sidebar.is-collapsed {
+        max-width: none;
+        grid-template-rows: auto;
+      }
+
+      .sidebar.is-collapsed .sidebar-toggle {
+        height: auto;
+        min-height: 48px;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.62rem 0.75rem;
+      }
+
+      .sidebar.is-collapsed .sidebar-toggle-text {
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      #wallView .mobile-event-row {
+        border-color: #cbd1d9;
+        background: #f6f7f9;
+        color: #17191d;
+      }
+
+      #wallView .mobile-event-row.critical {
+        border-color: rgba(210, 38, 48, 0.62);
+        background: #fff0f1;
+      }
+
+      #wallView .mobile-event-date,
+      #wallView .mobile-event-time {
+        color: #515a66;
+      }
+    }
   </style>
   <script>
   // An authenticated owner is verified by the Netlify function. Everyone else
@@ -3392,7 +3649,7 @@
 
     <main>
       <section class="view active" id="wallView" aria-label="Combined season schedule">
-        <div class="wall-layout">
+        <div class="wall-layout sidebar-collapsed">
           <section class="calendar-panel">
             <div class="calendar-toolbar">
               <div class="month-nav">
@@ -3441,30 +3698,40 @@
           </section>
 
           <aside class="sidebar">
-            <section class="panel">
-              <div class="panel-header">
-                <h2>Upcoming Practices + Open Fields</h2>
-                <span class="count-badge" id="lockedCount">0</span>
-              </div>
-              <div class="panel-body locked-list" id="lockedList"></div>
-            </section>
+            <button class="sidebar-toggle" id="sidebarToggleButton" type="button" aria-expanded="false"
+              aria-controls="scheduleSidebarPanels" aria-label="Open openings and recent changes">
+              <span class="sidebar-toggle-text">Openings &amp; Changes</span>
+              <svg class="sidebar-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
 
-            <section class="panel recent-changes-panel" aria-label="Latest shared schedule changes">
-              <div class="panel-header">
-                <h2>Recent Changes</h2>
-                <span class="count-badge" id="recentChangeCount">0</span>
-              </div>
-              <div class="panel-body recent-change-list" id="recentChangeList" aria-live="polite"></div>
-            </section>
+            <div class="sidebar-panels" id="scheduleSidebarPanels" hidden>
+              <section class="panel">
+                <div class="panel-header">
+                  <h2>Upcoming Practices + Open Fields</h2>
+                  <span class="count-badge" id="lockedCount">0</span>
+                </div>
+                <div class="panel-body locked-list" id="lockedList"></div>
+              </section>
 
-            <section class="panel data-note">
-              <div class="data-note-symbol">◇</div>
-              <div>
-                <strong><span id="tbdCount">0</span> dates still need confirmation</strong>
-                <span>They stay off the dated grid so bad source years cannot create false alerts.</span>
-              </div>
-              <button class="btn subtle" id="showTbdButton" type="button">View</button>
-            </section>
+              <section class="panel recent-changes-panel" aria-label="Latest shared schedule changes">
+                <div class="panel-header">
+                  <h2>Recent Changes</h2>
+                  <span class="count-badge" id="recentChangeCount">0</span>
+                </div>
+                <div class="panel-body recent-change-list" id="recentChangeList" aria-live="polite"></div>
+              </section>
+
+              <section class="panel data-note">
+                <div class="data-note-symbol">◇</div>
+                <div>
+                  <strong><span id="tbdCount">0</span> dates still need confirmation</strong>
+                  <span>They stay off the dated grid so bad source years cannot create false alerts.</span>
+                </div>
+                <button class="btn subtle" id="showTbdButton" type="button">View</button>
+              </section>
+            </div>
           </aside>
         </div>
       </section>
@@ -8024,7 +8291,46 @@
         return result;
       }
 
+      var SIDEBAR_COLLAPSED_STORAGE_KEY = "btb-calendar-sidebar-collapsed";
+
+      function setScheduleSidebarCollapsed(collapsed, persistPreference) {
+        var layout = document.querySelector(".wall-layout");
+        var sidebar = document.querySelector(".sidebar");
+        var panels = document.getElementById("scheduleSidebarPanels");
+        var button = document.getElementById("sidebarToggleButton");
+        layout.classList.toggle("sidebar-collapsed", collapsed);
+        sidebar.classList.toggle("is-collapsed", collapsed);
+        panels.hidden = collapsed;
+        button.setAttribute("aria-expanded", String(!collapsed));
+        button.setAttribute("aria-label", collapsed
+          ? "Open openings and recent changes"
+          : "Collapse openings and recent changes");
+        if (persistPreference) {
+          try {
+            localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(collapsed));
+          } catch (storageError) {
+            console.warn("Could not save the calendar sidebar preference.", storageError);
+          }
+        }
+      }
+
+      function initializeScheduleSidebar() {
+        var savedPreference = null;
+        try {
+          savedPreference = localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY);
+        } catch (storageError) {
+          console.warn("Could not read the calendar sidebar preference.", storageError);
+        }
+        var collapsed = savedPreference === null
+          ? window.matchMedia("(min-width: 901px)").matches
+          : savedPreference === "true";
+        setScheduleSidebarCollapsed(collapsed, false);
+      }
+
       function bindEvents() {
+        document.getElementById("sidebarToggleButton").addEventListener("click", function () {
+          setScheduleSidebarCollapsed(this.getAttribute("aria-expanded") === "true", true);
+        });
         document.querySelectorAll(".tab-button").forEach(function (button) {
           button.addEventListener("click", function () {
             showView(button.getAttribute("data-view"));
@@ -8168,6 +8474,7 @@
 
       function start() {
         renderTeamChrome();
+        initializeScheduleSidebar();
         bindEvents();
         updateClock();
         renderAll();
