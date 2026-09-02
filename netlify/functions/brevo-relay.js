@@ -424,7 +424,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   } else {
     subject = `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
   }
-  const emailEyebrow = isMondayOffensive ? "BTB Monday Night Offensive Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
+  const emailEyebrow = isMondayOffensive ? "BTB Girls Monday Night Offensive Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
   const emailHeading = isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
 <!doctype html><html><body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f7;padding:24px;margin:0">
@@ -1138,8 +1138,8 @@ const CONFIRMATION_CONFIG = {
       return confirmationBase({
         parentFirst,
         playerName,
-        program: "BTB Monday Night Offensive Training — 6 Sessions",
-        details: `${progress}Sessions are Monday, September 14, 21, and 28 and October 5, 12, and 19, 2026 at Momentum Sports. Coach Dan will confirm the group's exact start time. Complete the secure $250 QuickBooks payment to finalize registration. At checkout, enter the player's full name and the same parent email used on this form so BTB can match the payment receipt correctly.`,
+        program: "BTB Girls Monday Night Offensive Training — 6 Sessions",
+        details: `${progress}This group trains ${String(data.training_time || "at its listed Monday time").trim()} on September 14, 21, and 28 and October 5, 12, and 19, 2026 at Momentum Sports. Complete the secure $250 QuickBooks payment to finalize registration. At checkout, enter the player's full name and the same parent email used on this form so BTB can match the payment receipt correctly.`,
         cta: "COMPLETE $250 PAYMENT",
         ctaUrl: MONDAY_OFFENSIVE_PAYMENT_URL,
         headline: "Registration Received",
