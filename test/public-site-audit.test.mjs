@@ -41,7 +41,7 @@ test("SEO points search engines at the production www host and current public ro
   assert.match(index, /rel="canonical" href="https:\/\/www\.bethebestli\.com\/"/)
   assert.match(robots, /https:\/\/www\.bethebestli\.com\/sitemap\.xml/)
   assert.doesNotMatch(sitemap, /register-(?:futures|boys-mini-camp|girls-mini-camp)/)
-  for (const path of ["/boys", "/girls", "/futures", "/camps", "/players-wanted", "/academy", "/recruiting", "/contact", "/interest"]) {
+  for (const path of ["/boys", "/girls", "/futures", "/camps", "/players-wanted", "/academy", "/recruiting", "/logos", "/contact", "/interest"]) {
     assert.match(sitemap, new RegExp(`<loc>https://www\\.bethebestli\\.com${path.replace("/", "\\/")}<\\/loc>`))
   }
   assert.match(terms, /<SEO/)
