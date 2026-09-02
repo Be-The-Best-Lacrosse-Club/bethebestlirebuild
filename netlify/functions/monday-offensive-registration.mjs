@@ -15,19 +15,29 @@ export const SESSION_DATES = Object.freeze([
 ]);
 
 export const TRAINING_GROUPS = Object.freeze([
-  { name: "Boys Monday Night", slug: "boys-monday-night", gender: "Boys" },
-  { name: "Girls Monday Night", slug: "girls-monday-night", gender: "Girls" },
+  {
+    name: "Girls 2036–2034 · 7:00–8:00 PM",
+    slug: "girls-2036-2034-7pm",
+    gender: "Girls",
+    gradYears: ["2036", "2035", "2034"],
+    time: "7:00–8:00 PM",
+  },
+  {
+    name: "Girls 2033–2031 · 8:00–9:00 PM",
+    slug: "girls-2033-2031-8pm",
+    gender: "Girls",
+    gradYears: ["2033", "2032", "2031"],
+    time: "8:00–9:00 PM",
+  },
 ]);
 
 const GROUP_BY_NAME = new Map(TRAINING_GROUPS.map((group) => [group.name, group]));
-const GRAD_YEARS = new Set(Array.from({ length: 13 }, (_, index) => String(2027 + index)));
+const GRAD_YEARS = new Set(TRAINING_GROUPS.flatMap((group) => group.gradYears));
 const POSITIONS = new Set([
   "Attack",
   "Midfield",
   "Defense",
   "Goalie",
-  "Faceoff Specialist",
-  "Long-Stick Midfield",
   "Draw Specialist",
   "Unsure",
 ]);
@@ -93,7 +103,7 @@ export function groupForName(value) {
 
 export function validateMondayRegistration(input = {}) {
   const group = groupForName(input.training_group);
-  if (!group) return { error: "Please choose the boys or girls Monday night group." };
+  if (!group) return { error: "Please choose one of the two girls Monday night groups." };
 
   const requiredFields = [
     "player_first_name",
@@ -132,8 +142,12 @@ export function validateMondayRegistration(input = {}) {
   if (!validDate(input.player_dob)) {
     return { error: "Please check the player's date of birth." };
   }
-  if (!GRAD_YEARS.has(clean(input.grad_year, 4))) {
-    return { error: "Please choose a valid graduation year." };
+  const gradYear = clean(input.grad_year, 4);
+  if (!GRAD_YEARS.has(gradYear)) {
+    return { error: "Monday girls training is open to graduation years 2036 through 2031." };
+  }
+  if (!group.gradYears.includes(gradYear)) {
+    return { error: "Please choose the girls group that matches the player's graduation year." };
   }
   if (!POSITIONS.has(clean(input.position, 40))) {
     return { error: "Please choose a valid primary position." };
@@ -167,8 +181,10 @@ function registrationData(input, group, count) {
   const data = {};
   for (const field of ALLOWED_FIELDS) data[field] = clean(input[field]);
   data["form-name"] = FORM_NAME;
-  data.program = "BTB Monday Night Offensive Training — 6 Sessions";
+  data.program = "BTB Girls Monday Night Offensive Training — 6 Sessions";
   data.program_gender = group.gender;
+  data.training_time = group.time;
+  data.group_grad_years = group.gradYears.join(", ");
   data.amount = "250";
   data.session_dates = SESSION_DATES.join("; ");
   data.registration_status = "Pending QuickBooks payment verification";
@@ -183,6 +199,8 @@ export async function buildGroupCounts(store) {
   return TRAINING_GROUPS.map((group) => ({
     name: group.name,
     gender: group.gender,
+    gradYears: group.gradYears,
+    time: group.time,
     count: records.filter((record) => record?.group === group.name).length,
   }));
 }

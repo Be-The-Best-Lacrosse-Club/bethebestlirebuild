@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Monday Night Offensive Training Registration | BTB</title>
+  <title>Girls Monday Night Offensive Training Registration | BTB</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -40,6 +40,7 @@
     .group-card{padding:20px;border:1px solid #303237;background:#191a1d;transition:border-color .2s,background .2s}
     .group-card.selected{border-color:var(--red);background:rgba(210,38,48,.12)}
     .group-card h3{margin:0;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:26px;font-weight:400;letter-spacing:.07em}
+    .group-card p{margin:2px 0 10px;color:#d4d6da;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
     .count-number{display:block;margin-top:4px;color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1}
     .count-label{color:#c8cbd0;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
     .schedule{margin:0 0 48px;padding:20px 22px;border:1px solid var(--line);background:var(--wash)}
@@ -96,8 +97,8 @@
     </header>
 
     <section class="hero">
-      <h1>MONDAY NIGHT <span>OFFENSIVE TRAINING</span></h1>
-      <p class="lede">Six high-rep sessions with Coach Dan and BTB staff. Each Monday builds on the last to sharpen offensive skill, decision-making, and confidence.</p>
+      <h1>GIRLS MONDAY NIGHT <span>OFFENSIVE TRAINING</span></h1>
+      <p class="lede">Six high-rep girls sessions with Coach Dan and BTB staff. Each Monday builds on the last to sharpen offensive skill, decision-making, and confidence.</p>
       <div class="hero-facts" aria-label="Program facts">
         <div class="hero-fact"><strong>6 Mondays</strong><span>September 14–October 19</span></div>
         <div class="hero-fact"><strong>$250</strong><span>Full six-session progression</span></div>
@@ -112,13 +113,13 @@
             <div class="section-label">Live Enrollment</div>
             <h2 id="counts-title">Two Separate Groups</h2>
           </div>
-          <p>Boys and girls registrations are counted separately. Totals update when a family saves this form; payment is verified through the separate QuickBooks receipt.</p>
+          <p>Each girls graduation-year group has its own exact registration total. Totals update when a family saves this form; payment is verified through the separate QuickBooks receipt.</p>
         </div>
         <div class="count-panel">
           <p class="count-note" id="countStatus" role="status">Loading current registration totals…</p>
           <div class="group-grid" id="groupCounts">
-            <article class="group-card" data-group-card="Boys Monday Night"><h3>Boys Monday Night</h3><span class="count-number">—</span><span class="count-label">registrations</span></article>
-            <article class="group-card" data-group-card="Girls Monday Night"><h3>Girls Monday Night</h3><span class="count-number">—</span><span class="count-label">registrations</span></article>
+            <article class="group-card" data-group-card="Girls 2036–2034 · 7:00–8:00 PM"><h3>Girls 2036–2034</h3><p>7:00–8:00 PM</p><span class="count-number">—</span><span class="count-label">registrations</span></article>
+            <article class="group-card" data-group-card="Girls 2033–2031 · 8:00–9:00 PM"><h3>Girls 2033–2031</h3><p>8:00–9:00 PM</p><span class="count-number">—</span><span class="count-label">registrations</span></article>
           </div>
         </div>
         <div class="schedule">
@@ -127,7 +128,7 @@
             <li>September 14, 2026</li><li>September 21, 2026</li><li>September 28, 2026</li>
             <li>October 5, 2026</li><li>October 12, 2026</li><li>October 19, 2026</li>
           </ul>
-          <p>Both groups train Monday nights at Momentum Sports. Coach Dan will confirm each group's exact start time directly with registered families.</p>
+          <p><strong>Girls 2036–2034 train 7:00–8:00 PM.</strong> <strong>Girls 2033–2031 train 8:00–9:00 PM.</strong> Both groups train at Momentum Sports.</p>
         </div>
       </section>
 
@@ -142,7 +143,7 @@
 
         <form name="btb-monday-offensive-training-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="offensiveForm">
           <input type="hidden" name="form-name" value="btb-monday-offensive-training-registration">
-          <input type="hidden" name="program" value="BTB Monday Night Offensive Training — 6 Sessions">
+          <input type="hidden" name="program" value="BTB Girls Monday Night Offensive Training — 6 Sessions">
           <input type="hidden" name="amount" value="250">
           <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
 
@@ -159,8 +160,8 @@
             <label for="trainingGroup">Monday Night Group<span class="req">*</span></label>
             <select id="trainingGroup" name="training_group" required>
               <option value="">Select the player's group</option>
-              <option>Boys Monday Night</option>
-              <option>Girls Monday Night</option>
+              <option>Girls 2036–2034 · 7:00–8:00 PM</option>
+              <option>Girls 2033–2031 · 8:00–9:00 PM</option>
             </select>
           </div>
           <div class="group-confirm" id="groupConfirm" aria-live="polite"></div>
@@ -170,8 +171,8 @@
           </div>
           <div class="row-3">
             <div class="field"><label for="dob">Date of Birth<span class="req">*</span></label><input id="dob" type="date" name="player_dob" min="2008-01-01" max="2021-12-31" required></div>
-            <div class="field"><label for="gradYear">Graduation Year<span class="req">*</span></label><select id="gradYear" name="grad_year" required><option value="">Select</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option><option>2032</option><option>2033</option><option>2034</option><option>2035</option><option>2036</option><option>2037</option><option>2038</option><option>2039</option></select></div>
-            <div class="field"><label for="position">Primary Position<span class="req">*</span></label><select id="position" name="position" required><option value="">Select</option><option>Attack</option><option>Midfield</option><option>Defense</option><option>Goalie</option><option>Faceoff Specialist</option><option>Long-Stick Midfield</option><option>Draw Specialist</option><option>Unsure</option></select></div>
+            <div class="field"><label for="gradYear">Graduation Year<span class="req">*</span></label><select id="gradYear" name="grad_year" required><option value="">Select</option><option>2031</option><option>2032</option><option>2033</option><option>2034</option><option>2035</option><option>2036</option></select></div>
+            <div class="field"><label for="position">Primary Position<span class="req">*</span></label><select id="position" name="position" required><option value="">Select</option><option>Attack</option><option>Midfield</option><option>Defense</option><option>Goalie</option><option>Draw Specialist</option><option>Unsure</option></select></div>
           </div>
           <div class="row">
             <div class="field"><label for="btbTeam">Current BTB Team<span class="req">*</span></label><input id="btbTeam" name="btb_team" placeholder="Example: 2032 Riptide" required></div>
@@ -224,6 +225,7 @@
     let groupCounts = [];
     const form = document.getElementById("offensiveForm");
     const groupSelect = document.getElementById("trainingGroup");
+    const gradYearSelect = document.getElementById("gradYear");
     const groupConfirm = document.getElementById("groupConfirm");
     const countStatus = document.getElementById("countStatus");
     const submitBtn = document.getElementById("submitBtn");
@@ -238,7 +240,7 @@
         card.querySelector(".count-number").textContent = String(count);
         card.querySelector(".count-label").textContent = count === 1 ? "registration" : "registrations";
       });
-      countStatus.textContent = "Live registrations received · boys and girls counted separately";
+      countStatus.textContent = "Live registrations received · each girls time slot counted separately";
       highlightGroup();
     }
 
@@ -267,6 +269,12 @@
     }
 
     groupSelect.addEventListener("change", highlightGroup);
+    gradYearSelect.addEventListener("change", () => {
+      const year = Number(gradYearSelect.value);
+      if (year >= 2034 && year <= 2036) groupSelect.value = "Girls 2036–2034 · 7:00–8:00 PM";
+      if (year >= 2031 && year <= 2033) groupSelect.value = "Girls 2033–2031 · 8:00–9:00 PM";
+      highlightGroup();
+    });
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
