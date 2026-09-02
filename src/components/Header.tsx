@@ -271,6 +271,10 @@ export function Header() {
               )}
             </div>
 
+            <button onClick={() => go("/logos")} className={navItemClass("/logos")}>
+              Logos
+            </button>
+
             <div className="w-px h-5 mx-3 bg-black/10" />
 
             {isAuthenticated ? (
@@ -395,6 +399,7 @@ export function Header() {
                 links: [
                   { label: "Digital Academy", href: "/academy" },
                   { label: "Recruiting", href: "/recruiting" },
+                  { label: "Logos", href: "/logos" },
                   { label: "Coaches Hub", href: "/coach-tools.html" },
                   { label: "Login", href: "/login" },
                 ],
