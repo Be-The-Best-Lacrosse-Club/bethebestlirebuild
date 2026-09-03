@@ -205,7 +205,6 @@ function brevoListIdFor(formName) {
     "btb-monday-offensive-training-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-training-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
-    "supplemental-tryouts-registration": process.env.BREVO_LIST_TRYOUT,
     "camp-registration": process.env.BREVO_LIST_TRYOUT,
     "positional-registration": process.env.BREVO_LIST_TRYOUT,
     "futures-registration": process.env.BREVO_LIST_TRYOUT,
