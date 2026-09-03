@@ -33,7 +33,7 @@ test("Identity authorization accepts the supported nf_jwt session cookie", async
   assert.equal(calls[0].options.headers.Authorization, "Bearer cookie-signed-jwt")
 })
 
-test("Recruiting hub lets a verified owner bypass the rotating family code", async () => {
+test("Recruiting hub lets a verified owner bypass the family code", async () => {
   let requestedRoles
   const handler = createRecruitingHandler({
     authorize: async (_event, roles) => {
@@ -64,6 +64,74 @@ test("Recruiting hub rejects an unverified owner bypass", async () => {
 
   assert.equal(response.statusCode, 403)
   assert.equal(JSON.parse(response.body).error, "Insufficient permissions")
+})
+
+test("Recruiting hub uses the server-only family code and invalidates access after a reset", async () => {
+  const originalAccessCode = process.env.RECRUITING_HUB_ACCESS_CODE
+  const originalSecret = process.env.RECRUITING_HUB_SECRET
+  process.env.RECRUITING_HUB_ACCESS_CODE = "test-family-code-one"
+  process.env.RECRUITING_HUB_SECRET = "test-only-signing-secret"
+  const handler = createRecruitingHandler()
+
+  try {
+    const signedIn = await handler({
+      httpMethod: "POST",
+      headers: {},
+      body: JSON.stringify({ code: "TEST FAMILY CODE ONE" }),
+    })
+    assert.equal(signedIn.statusCode, 200)
+    const token = JSON.parse(signedIn.body).token
+    assert.equal(typeof token, "string")
+
+    const verified = await handler({
+      httpMethod: "POST",
+      headers: {},
+      body: JSON.stringify({ token }),
+    })
+    assert.equal(verified.statusCode, 200)
+
+    process.env.RECRUITING_HUB_ACCESS_CODE = "test-family-code-two"
+
+    const expired = await handler({
+      httpMethod: "POST",
+      headers: {},
+      body: JSON.stringify({ token }),
+    })
+    assert.equal(expired.statusCode, 401)
+
+    const oldCode = await handler({
+      httpMethod: "POST",
+      headers: {},
+      body: JSON.stringify({ code: "test-family-code-one" }),
+    })
+    assert.equal(oldCode.statusCode, 401)
+  } finally {
+    if (originalAccessCode === undefined) delete process.env.RECRUITING_HUB_ACCESS_CODE
+    else process.env.RECRUITING_HUB_ACCESS_CODE = originalAccessCode
+    if (originalSecret === undefined) delete process.env.RECRUITING_HUB_SECRET
+    else process.env.RECRUITING_HUB_SECRET = originalSecret
+  }
+})
+
+test("Recruiting hub fails closed when its server-only configuration is missing", async () => {
+  const originalAccessCode = process.env.RECRUITING_HUB_ACCESS_CODE
+  const originalSecret = process.env.RECRUITING_HUB_SECRET
+  delete process.env.RECRUITING_HUB_ACCESS_CODE
+  delete process.env.RECRUITING_HUB_SECRET
+
+  try {
+    const response = await createRecruitingHandler()({
+      httpMethod: "POST",
+      headers: {},
+      body: JSON.stringify({ code: "anything" }),
+    })
+    assert.equal(response.statusCode, 503)
+  } finally {
+    if (originalAccessCode === undefined) delete process.env.RECRUITING_HUB_ACCESS_CODE
+    else process.env.RECRUITING_HUB_ACCESS_CODE = originalAccessCode
+    if (originalSecret === undefined) delete process.env.RECRUITING_HUB_SECRET
+    else process.env.RECRUITING_HUB_SECRET = originalSecret
+  }
 })
 
 test("Tournament calendar accepts a verified owner without the calendar password", async () => {
