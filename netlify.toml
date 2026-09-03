@@ -41,6 +41,12 @@
   force = true
 
 [[redirects]]
+  from = "/register-boys-training"
+  to = "/register-boys-training.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/fall-winter-newsletter"
   to = "/fall-winter-newsletter.html"
   status = 200
