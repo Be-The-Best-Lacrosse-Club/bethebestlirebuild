@@ -2462,11 +2462,12 @@ test("a la carte training runs at Momentum on girls Mondays and boys Fridays", (
   ];
   const fridays = [
     "2026-09-18", "2026-09-25", "2026-10-02", "2026-10-09",
-    "2026-10-16", "2026-10-23", "2026-10-30",
+    "2026-10-23", "2026-10-30",
   ];
   const weekday = (date) => new Date(`${date}T12:00:00Z`).getUTCDay();
 
-  assert.equal(sessions.length, 28);
+  assert.equal(sessions.length, 26);
+  assert.match(staffPageHtml(), /groupSessions\.length === group\.dates\.length/);
   assert.ok(sessions.every((session) => (
     session.optional === true &&
     session.coach === "Coach Dan" &&
@@ -2479,8 +2480,8 @@ test("a la carte training runs at Momentum on girls Mondays and boys Fridays", (
   const expected = {
     "girls-36-34": { dates: mondays, program: "Girls", startTime: "19:00", endTime: "20:00", teams: ["2036 Avalanche", "2035 Hurricanes", "2034 Thunder"] },
     "girls-33-31": { dates: mondays, program: "Girls", startTime: "20:00", endTime: "21:00", teams: ["2033 Storm", "2032 Riptide", "2031 Cyclones"] },
-    "boys-36-34": { dates: fridays, program: "Boys", startTime: "19:00", endTime: "20:00", teams: ["2036 Dawgs", "2035 Bombers", "2034 Venom"] },
-    "boys-33-31": { dates: fridays, program: "Boys", startTime: "20:00", endTime: "21:00", teams: ["2033 Renegades", "2032 Cannons", "2031 Carnage"] },
+    "boys-36-34": { dates: fridays, program: "Boys", startTime: "18:00", endTime: "19:00", teams: ["2036 Dawgs", "2035 Bombers", "2034 Venom"] },
+    "boys-33-31": { dates: fridays, program: "Boys", startTime: "19:00", endTime: "20:00", teams: ["2033 Renegades", "2032 Cannons", "2031 Carnage"] },
   };
 
   for (const [groupKey, group] of Object.entries(expected)) {
