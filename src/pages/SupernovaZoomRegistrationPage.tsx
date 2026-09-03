@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react"
-import { ArrowRight, CalendarDays, CheckCircle2, Clock3, Mail, Phone, ShieldCheck, Users, Video } from "lucide-react"
+import { ArrowRight, CalendarDays, Check, CheckCircle2, Clock3, Copy, ExternalLink, Mail, Phone, ShieldCheck, Users, Video, X } from "lucide-react"
 import { toast } from "sonner"
 import { SEO } from "@/components/shared/SEO"
 
@@ -25,10 +25,53 @@ function phoneIsValid(phone: string) {
 export function SupernovaZoomRegistrationPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [showLinkReminder, setShowLinkReminder] = useState(false)
+  const [linkCopied, setLinkCopied] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  useEffect(() => {
+    if (!showLinkReminder) return
+
+    const previousOverflow = document.body.style.overflow
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setShowLinkReminder(false)
+    }
+
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", closeOnEscape)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", closeOnEscape)
+    }
+  }, [showLinkReminder])
+
+  async function copyZoomLink() {
+    try {
+      await navigator.clipboard.writeText(ZOOM_URL)
+      setLinkCopied(true)
+      toast.success("Zoom link copied. You're ready for tonight.")
+    } catch {
+      const textArea = document.createElement("textarea")
+      textArea.value = ZOOM_URL
+      textArea.style.position = "fixed"
+      textArea.style.opacity = "0"
+      document.body.appendChild(textArea)
+      textArea.select()
+      const copied = document.execCommand("copy")
+      document.body.removeChild(textArea)
+
+      if (copied) {
+        setLinkCopied(true)
+        toast.success("Zoom link copied. You're ready for tonight.")
+      } else {
+        toast.error("Press and hold the Zoom link to copy it.")
+      }
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -54,6 +97,7 @@ export function SupernovaZoomRegistrationPage() {
       if (!response.ok) throw new Error(`Form submission failed (${response.status})`)
 
       setSubmitted(true)
+      setShowLinkReminder(true)
       window.scrollTo({ top: 0, behavior: "smooth" })
       toast.success("You're registered. Your Zoom link is ready.")
     } catch {
@@ -111,16 +155,34 @@ export function SupernovaZoomRegistrationPage() {
                 <div className="mt-5 border-t border-white/10 pt-5 text-sm text-white/55">
                   Meeting ID: <span className="font-bold text-white">{MEETING_ID}</span>
                 </div>
+                <a
+                  href={ZOOM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 block break-all rounded-lg bg-black/45 px-4 py-3 text-xs font-bold text-white underline decoration-[var(--btb-red)] underline-offset-4 sm:text-sm"
+                >
+                  {ZOOM_URL}
+                </a>
               </div>
 
-              <a
-                href={ZOOM_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-7 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg bg-[var(--btb-red)] px-6 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)] sm:w-auto sm:min-w-72"
-              >
-                <Video size={19} aria-hidden="true" /> Join the Zoom <ArrowRight size={17} aria-hidden="true" />
-              </a>
+              <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={copyZoomLink}
+                  className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg bg-[var(--btb-red)] px-6 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:bg-[var(--btb-red-dark)]"
+                >
+                  {linkCopied ? <Check size={19} aria-hidden="true" /> : <Copy size={19} aria-hidden="true" />}
+                  {linkCopied ? "Link Copied" : "Copy Zoom Link"}
+                </button>
+                <a
+                  href={ZOOM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/[0.06] px-6 text-sm font-black uppercase tracking-[2px] text-white transition-all hover:border-white/40 hover:bg-white/10"
+                >
+                  <Video size={19} aria-hidden="true" /> Join the Zoom <ArrowRight size={17} aria-hidden="true" />
+                </a>
+              </div>
 
               <p className="mt-8 text-sm leading-relaxed text-white/45">
                 Know another family who may be interested? Send them this registration page:<br />
@@ -128,6 +190,79 @@ export function SupernovaZoomRegistrationPage() {
               </p>
             </div>
           </div>
+
+          {showLinkReminder && (
+            <div
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 px-4 py-8 backdrop-blur-sm"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="zoom-link-reminder-title"
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) setShowLinkReminder(false)
+              }}
+            >
+              <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/15 bg-[#0b0b0b] text-left shadow-2xl shadow-black">
+                <div className="h-1.5 bg-[var(--btb-red)]" />
+                <button
+                  type="button"
+                  onClick={() => setShowLinkReminder(false)}
+                  className="absolute right-4 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-white/65 transition-colors hover:bg-white/10 hover:text-white"
+                  aria-label="Close Zoom link reminder"
+                >
+                  <X size={20} aria-hidden="true" />
+                </button>
+
+                <div className="p-6 sm:p-8">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--btb-red)]/15 text-[var(--btb-red)]">
+                    <Copy size={26} aria-hidden="true" />
+                  </div>
+                  <p className="mt-5 text-xs font-black uppercase tracking-[3px] text-[var(--btb-red)]">Registration Complete</p>
+                  <h2 id="zoom-link-reminder-title" className="mt-2 pr-8 font-display text-4xl uppercase leading-none sm:text-5xl">
+                    Copy the Zoom Link
+                  </h2>
+                  <p className="mt-4 text-base font-medium leading-relaxed text-white/65">
+                    Save this link now so it&apos;s ready for tonight at 8:00 PM Eastern.
+                  </p>
+
+                  <a
+                    href={ZOOM_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-5 block break-all rounded-xl border border-white/10 bg-black px-4 py-4 text-xs font-bold leading-relaxed text-white underline decoration-[var(--btb-red)] underline-offset-4 sm:text-sm"
+                  >
+                    {ZOOM_URL}
+                  </a>
+
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={copyZoomLink}
+                      className="inline-flex min-h-14 items-center justify-center gap-2 rounded-lg bg-[var(--btb-red)] px-5 text-sm font-black uppercase tracking-[1.5px] text-white transition-colors hover:bg-[var(--btb-red-dark)]"
+                    >
+                      {linkCopied ? <Check size={18} aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
+                      <span aria-live="polite">{linkCopied ? "Link Copied" : "Copy Zoom Link"}</span>
+                    </button>
+                    <a
+                      href={ZOOM_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex min-h-14 items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/[0.06] px-5 text-sm font-black uppercase tracking-[1.5px] text-white transition-colors hover:bg-white/10"
+                    >
+                      Join Zoom <ExternalLink size={17} aria-hidden="true" />
+                    </a>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowLinkReminder(false)}
+                    className="mt-5 w-full text-center text-xs font-black uppercase tracking-[2px] text-white/45 transition-colors hover:text-white"
+                  >
+                    Continue to Confirmation
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
       </>
     )
@@ -192,7 +327,18 @@ export function SupernovaZoomRegistrationPage() {
 
             <div className="mt-7 flex gap-3 rounded-xl border border-white/10 bg-white/[0.035] p-5 text-sm leading-relaxed text-white/60">
               <ShieldCheck className="mt-0.5 shrink-0 text-[var(--btb-red)]" size={20} aria-hidden="true" />
-              Complete the form to receive the private Zoom link immediately. Please share this page with other interested families.
+              <div className="min-w-0">
+                <p className="font-black uppercase tracking-[1.5px] text-white">Zoom Meeting Link</p>
+                <a
+                  href={ZOOM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 block break-all text-xs font-bold text-white underline decoration-[var(--btb-red)] underline-offset-4 sm:text-sm"
+                >
+                  {ZOOM_URL}
+                </a>
+                <p className="mt-3">Please register below so Coach Dan knows you&apos;re joining, and share this page with other interested families.</p>
+              </div>
             </div>
           </div>
 

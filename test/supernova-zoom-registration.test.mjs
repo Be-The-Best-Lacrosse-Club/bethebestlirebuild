@@ -17,6 +17,11 @@ test("2037 Supernova registration is public and detectable by Netlify", async ()
   assert.match(page, /data-netlify="true"/)
   assert.match(page, /Register & Get Zoom Link/)
   assert.match(page, /https:\/\/us06web\.zoom\.us\/j\/84173521590/)
+  assert.match(page, /setShowLinkReminder\(true\)/)
+  assert.match(page, /role="dialog"/)
+  assert.match(page, /Copy the Zoom Link/)
+  assert.match(page, /Copy Zoom Link/)
+  assert.match(page, /navigator\.clipboard\.writeText\(ZOOM_URL\)/)
   assert.match(index, new RegExp(`<form name="${formName}"[^>]*netlify`))
 
   for (const field of [
