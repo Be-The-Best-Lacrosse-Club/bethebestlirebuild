@@ -120,7 +120,8 @@ ul.check li::before{content:'';position:absolute;left:5px;top:16px;width:8px;hei
   <div class="tabs" id="tabs">
     <button class="tab active" data-p="start">START HERE</button>
     <button class="tab" data-p="lab">THE LAB</button>
-    <button class="tab" data-p="offense">OFFENSE</button>
+    <button class="tab" data-p="boys-training">BOYS TRAINING</button>
+    <button class="tab" data-p="offense">GIRLS OFFENSE</button>
     <button class="tab" data-p="defense">DEFENSE</button>
     <button class="tab" data-p="faceoff">FACE-OFF</button>
     <button class="tab" data-p="goalie">GOALIE</button>
@@ -137,7 +138,8 @@ ul.check li::before{content:'';position:absolute;left:5px;top:16px;width:8px;hei
     <p>Tap any option to see the details, pricing, and how to sign up.</p>
     <div class="cards">
       <div class="card" data-go="lab"><div class="kicker">Boys &amp; Girls &middot; 2033+</div><h4>The Lab</h4><p>Team strength, speed &amp; agility with Quintin Germain. $500 / 16 sessions.</p></div>
-      <div class="card" data-go="offense"><div class="kicker">Boys &amp; Girls</div><h4>Offensive Training</h4><p>Coach Dan and staff. Monday nights beginning September 14. $250 / 6 sessions.</p></div>
+      <div class="card" data-go="boys-training"><div class="kicker">Boys &middot; Fridays</div><h4>Training with Coach Dan</h4><p>Six Friday offensive training sessions at Momentum. $250 for all 6 sessions.</p></div>
+      <div class="card" data-go="offense"><div class="kicker">Girls &middot; Mondays</div><h4>Offensive Training</h4><p>Coach Dan and staff. Monday nights beginning September 14. $250 / 6 sessions.</p></div>
       <div class="card" data-go="defense"><div class="kicker">Boys</div><h4>Stonewall Defense</h4><p>Novice and Advanced group defensive training.</p></div>
       <div class="card" data-go="faceoff"><div class="kicker">Boys</div><h4>The Faceoff Academy</h4><p>Greg Gurenlian's TFOA. Thursdays, all season.</p></div>
       <div class="card" data-go="goalie"><div class="kicker">Boys &amp; Girls</div><h4>Breakout Goaltending</h4><p>Three discounted sessions through the BTB partnership.</p></div>
@@ -169,10 +171,30 @@ ul.check li::before{content:'';position:absolute;left:5px;top:16px;width:8px;hei
     <div class="btn-note">Questions for Quintin: <a href="mailto:quintingermain@gmail.com">quintingermain@gmail.com</a> &middot; <a href="tel:6318347157">(631) 834-7157</a> &middot; Instagram <a href="https://instagram.com/thelabatmomentum" target="_blank" rel="noopener">@thelabatmomentum</a></div>
   </div>
 
-  <!-- OFFENSE -->
+  <!-- BOYS TRAINING -->
+  <div class="panel" id="p-boys-training">
+    <span class="eyebrow">Boys &middot; Friday Nights</span>
+    <h2>Training with <span class="red">Coach Dan</span></h2>
+    <div class="deck">Six high-rep Friday sessions at Momentum Sports.</div>
+    <p>Coach Dan and BTB staff will lead focused offensive skill development built as a progression, with each session adding to the work from the week before.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">WHO</div><div class="v"><strong>Boys 2036 through 2031.</strong></div></div>
+      <div class="fact"><div class="k">RUN BY</div><div class="v"><strong>Coach Dan Achatz</strong> and other members of the BTB staff.</div></div>
+      <div class="fact"><div class="k">WHERE</div><div class="v">Momentum Sports &middot; 10 Dunton Ave, Deer Park, NY 11729.</div></div>
+      <div class="fact"><div class="k">GROUPS</div><div class="v"><strong>Boys 2036&ndash;2034 and Boys 2033&ndash;2031.</strong></div></div>
+      <div class="fact"><div class="k">COST</div><div class="v"><strong>$250 for all 6 sessions.</strong> À la carte &mdash; the fee also covers the indoor facility.</div></div>
+      <div class="fact"><div class="k">DATES</div><div class="v"><strong>Friday nights:</strong> September 18 and 25; October 2, 9, 23, and 30, 2026.</div></div>
+      <div class="fact"><div class="k">TIMES</div><div class="v"><strong>2036&ndash;2034: 6:00&ndash;7:00 PM.</strong> <strong>2033&ndash;2031: 7:00&ndash;8:00 PM.</strong></div></div>
+    </div>
+    <a class="btn" data-reg="boysTraining" href="/register-boys-training">REGISTER FOR BOYS TRAINING &mdash; $250</a>
+    <div class="btn-note">Choose the boys group matching the player's graduation year, save his information, then continue to secure QuickBooks checkout.</div>
+    <div class="btn-note">BTB receives the registration summary immediately. Payment is confirmed only by the separate QuickBooks payment-received receipt.</div>
+  </div>
+
+  <!-- GIRLS OFFENSE -->
   <div class="panel" id="p-offense">
-    <span class="eyebrow">Boys &amp; Girls</span>
-    <h2>Offensive <span class="red">Training</span></h2>
+    <span class="eyebrow">Girls &middot; Monday Nights</span>
+    <h2>Girls Offensive <span class="red">Training</span></h2>
     <div class="deck">Run by Coach Dan and BTB staff at Momentum.</div>
     <p>This is not a clinic where kids stand in line. It is <strong>intense training with a ton of reps</strong>, built as a progression &mdash; each session builds on the last until we hit specific benchmarks for that player's age and skill level.</p>
     <div class="facts">
@@ -299,12 +321,14 @@ ul.check li::before{content:'';position:absolute;left:5px;top:16px;width:8px;hei
    Leave empty and the button falls back to emailing BTB. ---- */
 var REGISTRATION_LINKS = {
   lab: "/register-lab-team-strength",
+  boysTraining: "/register-boys-training",
   offense: "/register-monday-offensive-training",
   faceoff: "",
   draw: ""
 };
 var EMAIL_SUBJECTS = {
   lab: "The Lab - Team Strength Training",
+  boysTraining: "Boys Friday Training with Coach Dan",
   offense: "Offensive Training",
   faceoff: "Face-Off Training (TFOA)",
   draw: "Girls Draw Training"
