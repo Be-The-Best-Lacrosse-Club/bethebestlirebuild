@@ -12,6 +12,7 @@ export function PublicLayout() {
   const location = useLocation()
   const isHomePage = location.pathname === "/"
   const pageProvidesMain = isHomePage || location.pathname === "/players-wanted"
+  const suppressNewsletterPopup = location.pathname.startsWith("/2037-supernova")
 
   return (
     <SmoothScroll>
@@ -31,7 +32,7 @@ export function PublicLayout() {
       )}
       {!isHomePage && <Footer />}
       {/* <CoachB surface="player_parent" /> */}
-      <NewsletterPopup />
+      {!suppressNewsletterPopup && <NewsletterPopup />}
     </SmoothScroll>
   )
 }

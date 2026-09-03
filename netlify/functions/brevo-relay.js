@@ -42,6 +42,7 @@ const MONDAY_OFFENSIVE_FORM_NAME = "btb-monday-offensive-training-registration";
 const MONDAY_OFFENSIVE_NOTIFY_EMAIL = "info@bethebestli.com";
 const BOYS_TRAINING_FORM_NAME = "btb-boys-training-registration";
 const BOYS_TRAINING_NOTIFY_EMAIL = "info@bethebestli.com";
+const SUPERNOVA_ZOOM_FORM_NAME = "btb-2037-supernova-zoom-registration";
 const BOYS_REGISTRATION_FORMS = new Set([
   "btb-boys-tryout-registration",
   "btb-east-boys-tryout-registration",
@@ -53,6 +54,7 @@ const PROGRAM_GENDER_REGISTRATION_FORMS = new Set([
   "futures-clinic-registration",
   "supplemental-tryouts-registration",
   "players-wanted-evaluation",
+  SUPERNOVA_ZOOM_FORM_NAME,
 ]);
 const EVALUATION_NOTIFY_EMAILS = [
   "info@bethebestli.com",
@@ -196,6 +198,7 @@ function brevoListIdFor(formName) {
     newsletter: process.env.BREVO_LIST_NEWSLETTER,
     "interest-form": process.env.BREVO_LIST_INTEREST_FORM,
     "players-wanted-evaluation": process.env.BREVO_LIST_TRYOUT,
+    [SUPERNOVA_ZOOM_FORM_NAME]: process.env.BREVO_LIST_TRYOUT,
     "tryout-interest": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-girls-tryout-registration": process.env.BREVO_LIST_TRYOUT,
@@ -384,6 +387,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   const isMondayOffensive = formName === MONDAY_OFFENSIVE_FORM_NAME;
   const isBoysTraining = formName === BOYS_TRAINING_FORM_NAME;
   const isEvaluationRequest = formName === "players-wanted-evaluation";
+  const isSupernovaZoom = formName === SUPERNOVA_ZOOM_FORM_NAME;
   const emails = isMondayOffensive
     ? [MONDAY_OFFENSIVE_NOTIFY_EMAIL]
     : isBoysTraining
@@ -415,7 +419,9 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   const playerName = [data.player_first_name, data.player_last_name].filter(Boolean).join(" ").trim();
   const isSupplementalTryout = formName === "supplemental-tryouts-registration";
   let subject;
-  if (isEvaluationRequest) {
+  if (isSupernovaZoom) {
+    subject = `2037 Supernova Zoom Signup — ${playerName || joinedName(data, [["parent_first_name", "parent_last_name"]]) || data.email || "new family"}`;
+  } else if (isEvaluationRequest) {
     subject = `Evaluation Requested ${data.gender} ${data.gradYear}`;
   } else if (isBoysTraining) {
     subject = `Boys Friday Training — REGISTRATION SAVED / PAYMENT PENDING — ${data.training_group || "Friday Training"}: ${data.group_registration_count || "?"} registered — ${playerName || data.parent_email || "new registration"}`;
@@ -428,8 +434,8 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   } else {
     subject = `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
   }
-  const emailEyebrow = isBoysTraining ? "BTB Boys Friday Offensive Training with Coach Dan" : isMondayOffensive ? "BTB Girls Monday Night Offensive Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
-  const emailHeading = isBoysTraining ? `${data.training_group || "Friday Training"} · ${data.group_registration_count || "?"} registered` : isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
+  const emailEyebrow = isSupernovaZoom ? "BTB 2037 Girls Supernova" : isBoysTraining ? "BTB Boys Friday Offensive Training with Coach Dan" : isMondayOffensive ? "BTB Girls Monday Night Offensive Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
+  const emailHeading = isSupernovaZoom ? "New Zoom Registration" : isBoysTraining ? `${data.training_group || "Friday Training"} · ${data.group_registration_count || "?"} registered` : isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
 <!doctype html><html><body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f7;padding:24px;margin:0">
   <div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden">
@@ -949,6 +955,52 @@ const CONFIRMATION_DISABLED_FORMS = new Set([
 
 // Per-form confirmation config. Add new programs here as they're created.
 const CONFIRMATION_CONFIG = {
+  [SUPERNOVA_ZOOM_FORM_NAME]: {
+    subject: () => "You're Registered — 2037 Supernova Zoom Tonight at 8:00 PM",
+    getHtml: (data) => {
+      const parentFirst = String(data.parent_first_name || "BTB Family").trim();
+      const playerName = [data.player_first_name, data.player_last_name].filter(Boolean).join(" ").trim() || "your player";
+      return `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0a0a0a;font-family:Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#000;border-bottom:3px solid #D22630;">
+    <tr><td style="padding:24px 20px;text-align:center;">
+      <p style="margin:0 0 6px;color:#D22630;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;">BE THE BEST LACROSSE CLUB</p>
+      <h1 style="margin:0;color:#fff;font-size:27px;letter-spacing:2px;text-transform:uppercase;font-weight:900;">YOU'RE REGISTERED</h1>
+      <p style="margin:8px 0 0;color:#D22630;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">2037 GIRLS SUPERNOVA ZOOM</p>
+    </td></tr>
+  </table>
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
+    <tr><td style="padding:32px 24px 40px;background:#111;">
+      <p style="font-size:16px;color:#ccc;line-height:1.7;margin:0 0 24px;">
+        Hi ${escapeHtml(parentFirst)},<br><br>
+        Your family is registered for tonight's 2037 Supernova Zoom meeting. We have <strong style="color:#fff;">${escapeHtml(playerName)}</strong> on the list.
+      </p>
+      <div style="background:#1a1a1a;border-left:3px solid #D22630;border-radius:6px;padding:20px 22px;margin-bottom:24px;">
+        <p style="color:#D22630;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;">MEETING DETAILS</p>
+        <p style="color:#fff;font-size:16px;font-weight:700;margin:0 0 6px;">Thursday, September 3, 2026</p>
+        <p style="color:#ccc;font-size:15px;margin:0 0 6px;">8:00 PM Eastern</p>
+        <p style="color:#999;font-size:13px;margin:0;">Meeting ID: 841 7352 1590</p>
+      </div>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr><td style="text-align:center;padding:2px 0 26px;">
+          <a href="https://us06web.zoom.us/j/84173521590" style="display:inline-block;background:#D22630;color:#fff;text-decoration:none;font-size:14px;font-weight:900;letter-spacing:2px;text-transform:uppercase;padding:16px 32px;border-radius:6px;">JOIN THE ZOOM</a>
+        </td></tr>
+      </table>
+      <div style="border-top:1px solid #292929;padding-top:22px;text-align:center;">
+        <p style="font-size:13px;color:#777;line-height:1.7;margin:0 0 10px;">Know another family who may be interested? Send them the registration page:</p>
+        <a href="https://www.bethebestli.com/2037-supernova" style="color:#D22630;font-size:13px;font-weight:700;text-decoration:none;">bethebestli.com/2037-supernova</a>
+      </div>
+    </td></tr>
+  </table>
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#000;border-top:1px solid #1a1a1a;">
+    <tr><td style="padding:20px;text-align:center;color:#555;font-size:12px;">Coach Dan · Be The Best Lacrosse Club · Long Island, NY</td></tr>
+  </table>
+</body>
+</html>`;
+    },
+  },
   "futures-clinic-registration": {
     subject: (data) => `You're Registered — BTB ${data.program_gender || ""} Futures Clinic | June 28 Seaford`,
     getHtml: (data) => {
