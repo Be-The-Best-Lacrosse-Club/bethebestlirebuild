@@ -17,8 +17,9 @@ jobs:
         id: metadata
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: peter-evans/enable-pull-request-automerge@v4
+      - uses: peter-evans/enable-pull-request-automerge@v3
         if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
           merge-method: squash
