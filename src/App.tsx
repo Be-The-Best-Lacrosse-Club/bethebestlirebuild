@@ -29,7 +29,7 @@ import { ScrollDemoPage } from "@/pages/ScrollDemoPage"
 import { ContactPage } from "@/pages/ContactPage"
 import { PlayersWantedPage } from "@/pages/PlayersWantedPage"
 import { CoachToolsPage } from "@/pages/CoachToolsPage"
-import { LogoLibraryPage } from "@/pages/LogoLibraryPage"
+import { LogosPage } from "@/pages/LogosPage"
 
 // Lazy-loaded so konva/react-konva stay out of the main bundle
 const CoachWhiteboardPage = lazy(() =>
@@ -131,7 +131,7 @@ function App() {
               <Route path="/recruiting" element={<RecruitingPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/players-wanted" element={<PlayersWantedPage />} />
-              <Route path="/logos" element={<LogoLibraryPage />} />
+              <Route path="/logos" element={<LogosPage />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />

@@ -29,3 +29,7 @@ remotion/
 # Editor docs
 docs/
 tsconfig.tsbuildinfo
+
+# Local scratch / generated output
+output/
+tmp/
