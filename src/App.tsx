@@ -30,6 +30,7 @@ import { ContactPage } from "@/pages/ContactPage"
 import { PlayersWantedPage } from "@/pages/PlayersWantedPage"
 import { CoachToolsPage } from "@/pages/CoachToolsPage"
 import { LogosPage } from "@/pages/LogosPage"
+import { SupernovaZoomRegistrationPage } from "@/pages/SupernovaZoomRegistrationPage"
 
 // Lazy-loaded so konva/react-konva stay out of the main bundle
 const CoachWhiteboardPage = lazy(() =>
@@ -132,6 +133,8 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/players-wanted" element={<PlayersWantedPage />} />
               <Route path="/logos" element={<LogosPage />} />
+              <Route path="/2037-supernova" element={<SupernovaZoomRegistrationPage />} />
+              <Route path="/2037-supernova-zoom" element={<Navigate to="/2037-supernova" replace />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />

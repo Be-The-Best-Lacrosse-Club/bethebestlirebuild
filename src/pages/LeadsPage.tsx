@@ -35,6 +35,7 @@ const FORM_LABELS: Record<string, string> = {
   "positional-registration": "Positional Reg",
   "futures-registration": "Futures Reg",
   "futures-clinic-registration": "Futures Clinic Reg",
+  "btb-2037-supernova-zoom-registration": "2037 Supernova Zoom",
 }
 
 function formLabel(name?: string) {
