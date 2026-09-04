@@ -173,6 +173,35 @@ test("recurring events retain their shared UID but receive distinct instance IDs
   ]);
 });
 
+test("inferred recurring IDs stay instance-specific after the feed window shrinks", () => {
+  const recurringUids = new Set();
+  const occurrence = (start) => [
+    "BEGIN:VEVENT",
+    "UID:expanded-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    `DTSTART:${start}`,
+    "END:VEVENT",
+  ];
+  const initialCalendar = [
+    "BEGIN:VCALENDAR",
+    ...occurrence("20260909T231500Z"),
+    ...occurrence("20260916T231500Z"),
+    "END:VCALENDAR",
+  ].join("\n");
+  const initial = parseTeamSnapOneCalendar(initialCalendar, { recurringUids });
+  const firstId = initial[0].id;
+
+  const narrowedCalendar = [
+    "BEGIN:VCALENDAR",
+    ...occurrence("20260909T231500Z"),
+    "END:VCALENDAR",
+  ].join("\n");
+  const [remaining] = parseTeamSnapOneCalendar(narrowedCalendar, { recurringUids });
+
+  assert.equal(recurringUids.has("expanded-practice@teamsnapone.com"), true);
+  assert.equal(remaining.id, firstId);
+});
+
 test("recurrence IDs stay stable when an occurrence is rescheduled", () => {
   const occurrence = (start) => [
     "BEGIN:VCALENDAR",
@@ -354,6 +383,56 @@ test("the protected calendar load includes TeamSnap ONE data without exposing th
     assert.equal(response.status, 200);
     assert.deepEqual(payload.teamsnapOne, teamsnapOne);
     assert.doesNotMatch(JSON.stringify(payload), /calendar-api[.]teamsnap[.]com/);
+  } finally {
+    if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD;
+    else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword;
+  }
+});
+
+test("calendar loads persist recurring TeamSnap UIDs for later feed windows", async () => {
+  const originalPassword = process.env.TOURNAMENT_CALENDAR_PASSWORD;
+  process.env.TOURNAMENT_CALENDAR_PASSWORD = "server-password";
+  let savedRegistry = null;
+  const store = {
+    getWithMetadata: async () => ({ data: { events: [] }, etag: '"v1"' }),
+    get: async (key) => key === "teamsnap-one-recurring-uids"
+      ? { uids: ["known-series@teamsnapone.com"] }
+      : null,
+    setJSON: async (key, value) => {
+      savedRegistry = { key, value };
+    },
+  };
+  const handler = createCalendarHandler({
+    authorize: async () => ({ ok: false }),
+    getBlobStore: () => store,
+    loadTeamSnapOne: async ({ recurringUids }) => {
+      assert.equal(recurringUids.has("known-series@teamsnapone.com"), true);
+      recurringUids.add("new-series@teamsnapone.com");
+      return {
+        configured: true,
+        available: true,
+        stale: false,
+        events: [],
+        counts: {},
+      };
+    },
+  });
+
+  try {
+    const response = await handler(new Request(
+      "https://www.bethebestli.com/.netlify/functions/tournament-calendar",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Origin: "https://www.bethebestli.com" },
+        body: JSON.stringify({ action: "load", password: "server-password" }),
+      },
+    ));
+    assert.equal(response.status, 200);
+    assert.equal(savedRegistry.key, "teamsnap-one-recurring-uids");
+    assert.deepEqual(savedRegistry.value.uids.sort(), [
+      "known-series@teamsnapone.com",
+      "new-series@teamsnapone.com",
+    ]);
   } finally {
     if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD;
     else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword;

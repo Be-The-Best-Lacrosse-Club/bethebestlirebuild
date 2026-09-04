@@ -403,6 +403,7 @@ function normalizeEvent(rawEvent, index, timeZone) {
   const instanceStart = recurrence
     ? (recurrence.allDay ? `${recurrence.date}T00:00:00.000Z` : recurrence.dateTime.toISOString())
     : sortStart;
+  const deepLink = extractLink(description, propertyValue(rawEvent, "URL"));
   const title = usefulTitle(summary, kind, teamMatch);
   const updatedAt = timestampValue(rawEvent, "LAST-MODIFIED", timeZone)
     || timestampValue(rawEvent, "DTSTAMP", timeZone);
@@ -422,7 +423,7 @@ function normalizeEvent(rawEvent, index, timeZone) {
     durationMinutes,
     location: location || null,
     description: cleanNotes(description, summary) || null,
-    deepLink: extractLink(description, propertyValue(rawEvent, "URL")),
+    deepLink,
     status,
     updatedAt,
     hasRecurrenceId: Boolean(recurrence),
@@ -431,7 +432,10 @@ function normalizeEvent(rawEvent, index, timeZone) {
   };
 }
 
-export function parseTeamSnapOneCalendar(calendarText, { timeZone = DEFAULT_TIME_ZONE } = {}) {
+export function parseTeamSnapOneCalendar(calendarText, {
+  timeZone = DEFAULT_TIME_ZONE,
+  recurringUids = new Set(),
+} = {}) {
   if (typeof calendarText !== "string" || !/BEGIN:VCALENDAR/i.test(calendarText)) {
     throw new TypeError("Invalid TeamSnap ONE calendar response.");
   }
@@ -443,9 +447,15 @@ export function parseTeamSnapOneCalendar(calendarText, { timeZone = DEFAULT_TIME
   for (const event of normalized) {
     if (event.uid) uidCounts.set(event.uid, (uidCounts.get(event.uid) || 0) + 1);
   }
+  const knownRecurringUids = recurringUids instanceof Set ? recurringUids : new Set();
+  for (const event of normalized) {
+    if (event.uid && (event.hasRecurrenceId || uidCounts.get(event.uid) > 1)) {
+      knownRecurringUids.add(event.uid);
+    }
+  }
   const uniqueEvents = new Map();
   for (const event of normalized) {
-    const needsInstanceId = event.hasRecurrenceId || (event.uid && uidCounts.get(event.uid) > 1);
+    const needsInstanceId = event.uid && knownRecurringUids.has(event.uid);
     const id = needsInstanceId ? `${event.id}:${encodeURIComponent(event.instanceStart)}` : event.id;
     uniqueEvents.set(id, { ...event, id });
   }
@@ -513,6 +523,7 @@ export async function loadTeamSnapOneCalendar({
   now = () => new Date(),
   timeoutMs = DEFAULT_TIMEOUT_MS,
   cacheTtlMs = DEFAULT_CACHE_TTL_MS,
+  recurringUids = new Set(),
 } = {}) {
   const configuredValue = env?.[FEED_ENV_KEY];
   if (!configuredValue) return unavailablePayload({ configured: false });
@@ -523,7 +534,9 @@ export async function loadTeamSnapOneCalendar({
   const attemptDate = safeDate(typeof now === "function" ? now() : now);
   const attemptMs = attemptDate.getTime();
   const cacheKey = feedUrl.href;
-  if (calendarCache?.key === cacheKey && calendarCache.expiresAt > attemptMs) {
+  const recurringUidKey = recurringUids instanceof Set ? [...recurringUids].sort().join("\n") : "";
+  if (calendarCache?.key === cacheKey && calendarCache.recurringUidKey === recurringUidKey
+      && calendarCache.expiresAt > attemptMs) {
     return clone(calendarCache.payload);
   }
 
@@ -539,7 +552,7 @@ export async function loadTeamSnapOneCalendar({
     if (Buffer.byteLength(calendarText, "utf8") > MAX_FEED_BYTES) {
       throw new Error("Calendar response is too large.");
     }
-    const events = parseTeamSnapOneCalendar(calendarText);
+    const events = parseTeamSnapOneCalendar(calendarText, { recurringUids });
     const payload = {
       configured: true,
       available: true,
@@ -553,12 +566,13 @@ export async function loadTeamSnapOneCalendar({
     };
     calendarCache = {
       key: cacheKey,
+      recurringUidKey: recurringUids instanceof Set ? [...recurringUids].sort().join("\n") : "",
       expiresAt: attemptMs + Math.max(0, Number(cacheTtlMs) || 0),
       payload: clone(payload),
     };
     return clone(payload);
   } catch {
-    if (calendarCache?.key === cacheKey) {
+    if (calendarCache?.key === cacheKey && calendarCache.recurringUidKey === recurringUidKey) {
       const stalePayload = clone(calendarCache.payload);
       stalePayload.stale = true;
       stalePayload.error = {

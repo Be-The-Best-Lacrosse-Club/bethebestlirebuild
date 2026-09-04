@@ -13,6 +13,8 @@ import { loadTeamSnapOneCalendar } from "./_teamsnap-one-calendar.mjs";
 
 const STORE_NAME = "tournament-calendar";
 export const SNAPSHOT_KEY = "dan-wall-snapshot";
+const TEAMSNAP_RECURRING_UIDS_KEY = "teamsnap-one-recurring-uids";
+const MAX_TEAMSNAP_RECURRING_UIDS = 10_000;
 
 const HEADERS = {
   "Content-Type": "application/json",
@@ -44,6 +46,37 @@ const CHANGE_TYPES = new Set([
   "tournament_removed",
   "schedule_updated",
 ]);
+
+function normalizeTeamSnapRecurringUids(value) {
+  const source = Array.isArray(value) ? value : value?.uids;
+  if (!Array.isArray(source)) return [];
+  return [...new Set(source
+    .filter((uid) => typeof uid === "string")
+    .map((uid) => uid.trim())
+    .filter((uid) => uid && uid.length <= 512))]
+    .slice(-MAX_TEAMSNAP_RECURRING_UIDS);
+}
+
+async function readTeamSnapRecurringUids(store) {
+  if (typeof store?.get !== "function") return [];
+  try {
+    return normalizeTeamSnapRecurringUids(await store.get(TEAMSNAP_RECURRING_UIDS_KEY, { type: "json" }));
+  } catch {
+    return [];
+  }
+}
+
+async function saveTeamSnapRecurringUids(store, recurringUids) {
+  if (typeof store?.setJSON !== "function") return;
+  try {
+    await store.setJSON(TEAMSNAP_RECURRING_UIDS_KEY, {
+      uids: normalizeTeamSnapRecurringUids([...recurringUids]),
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("tournament-calendar recurring UID registry write failed", error);
+  }
+}
 
 export const KNOWN_TEAMS = Object.freeze([
   "2028 Black",
@@ -1957,9 +1990,12 @@ async function handleRequest(req, { authorize, getBlobStore, sendAlert, loadTeam
 
   try {
     if (req.method === "GET" || (req.method === "POST" && body?.action === "load")) {
+      const currentPromise = readCalendarSnapshot(store);
+      const storedRecurringUids = await readTeamSnapRecurringUids(store);
+      const recurringUids = new Set(storedRecurringUids);
       const [current, teamsnapOne] = await Promise.all([
-        readCalendarSnapshot(store),
-        Promise.resolve().then(() => loadTeamSnapOne()).catch(() => ({
+        currentPromise,
+        Promise.resolve().then(() => loadTeamSnapOne({ recurringUids })).catch(() => ({
           configured: true,
           available: false,
           stale: false,
@@ -1971,6 +2007,9 @@ async function handleRequest(req, { authorize, getBlobStore, sendAlert, loadTeam
           error: { code: "unavailable", message: "The TeamSnap ONE calendar is temporarily unavailable." },
         })),
       ]);
+      if (recurringUids.size > storedRecurringUids.length) {
+        await saveTeamSnapRecurringUids(store, recurringUids);
+      }
       const response = { snapshot: current.snapshot, etag: current.etag };
       const hasInvalidTeamSnapConfiguration = teamsnapOne?.error?.code === "invalid_configuration";
       const shouldIncludeTeamSnap = !hasInvalidTeamSnapConfiguration && (
