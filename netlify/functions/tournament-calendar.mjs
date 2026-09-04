@@ -9,6 +9,7 @@ import { randomUUID } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { ALLOWED_ORIGINS, guardRequest } from "./_guard.js";
 import { authorizeIdentity } from "./_identity.js";
+import { loadTeamSnapOneCalendar } from "./_teamsnap-one-calendar.mjs";
 
 const STORE_NAME = "tournament-calendar";
 export const SNAPSHOT_KEY = "dan-wall-snapshot";
@@ -1916,11 +1917,12 @@ export function createHandler({
   authorize = authorizeIdentity,
   getBlobStore = getStore,
   sendAlert = sendCalendarChangeAlert,
+  loadTeamSnapOne = loadTeamSnapOneCalendar,
 } = {}) {
-  return (req) => handleRequest(req, { authorize, getBlobStore, sendAlert });
+  return (req) => handleRequest(req, { authorize, getBlobStore, sendAlert, loadTeamSnapOne });
 }
 
-async function handleRequest(req, { authorize, getBlobStore, sendAlert }) {
+async function handleRequest(req, { authorize, getBlobStore, sendAlert, loadTeamSnapOne }) {
   const blocked = guardRequest(req, {
     limit: 60,
     windowMs: 60_000,
@@ -1955,8 +1957,29 @@ async function handleRequest(req, { authorize, getBlobStore, sendAlert }) {
 
   try {
     if (req.method === "GET" || (req.method === "POST" && body?.action === "load")) {
-      const current = await readCalendarSnapshot(store);
-      return jsonResponse({ snapshot: current.snapshot, etag: current.etag });
+      const [current, teamsnapOne] = await Promise.all([
+        readCalendarSnapshot(store),
+        Promise.resolve().then(() => loadTeamSnapOne()).catch(() => ({
+          configured: true,
+          available: false,
+          stale: false,
+          source: "TeamSnap ONE",
+          syncedAt: null,
+          calendarName: "TeamSnap ONE Schedule",
+          events: [],
+          counts: { total: 0, active: 0, cancelled: 0, practices: 0, games: 0, other: 0 },
+          error: { code: "unavailable", message: "The TeamSnap ONE calendar is temporarily unavailable." },
+        })),
+      ]);
+      const response = { snapshot: current.snapshot, etag: current.etag };
+      const hasInvalidTeamSnapConfiguration = teamsnapOne?.error?.code === "invalid_configuration";
+      const shouldIncludeTeamSnap = !hasInvalidTeamSnapConfiguration && (
+        teamsnapOne?.configured || teamsnapOne?.available || teamsnapOne?.stale || teamsnapOne?.events?.length
+      );
+      if (shouldIncludeTeamSnap) {
+        response.teamsnapOne = teamsnapOne;
+      }
+      return jsonResponse(response);
     }
 
     if (req.method === "POST" && body?.action === "save") {

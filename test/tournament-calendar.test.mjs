@@ -692,6 +692,87 @@ test("shared tournament plans do not create false conflicts", () => {
   assert.equal(sameTitleDifferentVenue.length, 1);
 });
 
+test("TeamSnap tournament matching never hides a dated manual event from another season", () => {
+  const html = staffPageHtml();
+  const start = html.indexOf("function teamSnapTitleWords(value, team)");
+  const end = html.indexOf("function teamSnapScheduleEvent(item)", start);
+  assert.ok(start >= 0 && end > start, "TeamSnap tournament matching must remain extractable");
+
+  const context = {};
+  runInNewContext(
+    `${html.slice(start, end)}\n` +
+      `var live = { kind: "event", team: "2035 Bombers", title: "Fall Classic", ` +
+      `startDate: "2026-10-10", endDate: "2026-10-11" };\n` +
+      `this.result = [\n` +
+      `  teamSnapMatchesTournament(live, { team: "2035 Bombers", title: "Fall Classic", start: "2027-10-09", end: "2027-10-09" }),\n` +
+      `  teamSnapMatchesTournament(live, { team: "2035 Bombers", title: "Fall Classic", start: "2026-10-10", end: "2026-10-10" }),\n` +
+      `  teamSnapMatchesTournament(live, { team: "2035 Bombers", title: "Fall Classic", start: "2026-10-11", end: "2026-10-11" }),\n` +
+      `  teamSnapMatchesTournament(live, { team: "2035 Bombers", title: "Fall Classic", start: "2026-10-12", end: "2026-10-12" }),\n` +
+      `  teamSnapMatchesTournament(live, { team: "2035 Bombers", title: "Fall Classic", start: "", end: "" }),\n` +
+      `  teamSnapMatchesTournament(live, { team: "2035 Bombers", title: "Fall Classic Tournament", start: "", end: "" }),\n` +
+      `  teamSnapMatchesTournament(live, { team: "2035 Bombers", title: "Fall Classic", start: "2026-10-09", end: "" }),\n` +
+      `  teamSnapMatchesTournament(live, { team: "2034 Venom", title: "Fall Classic", start: "2026-10-10", end: "2026-10-10" })\n` +
+      `];`,
+    context,
+  );
+
+  assert.deepEqual(JSON.parse(JSON.stringify(context.result)), [false, true, true, false, true, false, false, false]);
+});
+
+test("a TeamSnap cancellation cannot prune a persisted manual coach booking", () => {
+  const html = staffPageHtml();
+  const start = html.indexOf("function bookingValidationWindows()");
+  const end = html.indexOf("function normalizeRecentChanges(items)", start);
+  assert.ok(start >= 0 && end > start, "booking validation must remain extractable");
+
+  const assignedWindow = {
+    id: "pdf-seaford-2026-09-08-2033-storm",
+    mode: "assigned",
+    assignedTeams: ["2033 Storm"],
+    startTime: "19:15",
+    requiredDurationHours: 1.5,
+  };
+  const booking = {
+      id: "coach-booking",
+      windowId: assignedWindow.id,
+      team: "2033 Storm",
+      coaches: ["Coach Dan"],
+      startTime: "19:15",
+      durationHours: 1.5,
+  };
+  const makeContext = (practiceOverrides, input) => ({
+    MASTER_PRACTICE_WINDOWS: [],
+    DEFAULT_ASSIGNED_PRACTICE_WINDOWS: [assignedWindow],
+    PRACTICE_WINDOWS: [],
+    practiceOverrides,
+    practiceOverrideWindow: (item) => item,
+    findPracticeWindow: () => null,
+    recordReferencesInactiveTeam: () => false,
+    canonicalTeamName: (team) => team,
+    TEAM_META: { "2033 Storm": {} },
+    bookingCoaches: (item) => item.coaches || [],
+    FIELD_TEAM_CAPACITY: 2,
+    allowedDurationsForWindow: () => [1, 1.5, 2],
+    input,
+  });
+  const context = makeContext([], [booking, {
+    ...booking,
+    id: "live-only-booking",
+    windowId: "teamsnap-one:live-only-practice",
+  }]);
+  runInNewContext(`${html.slice(start, end)}\nthis.result = normalizeBookings(input);`, context);
+  const [normalizedBooking] = JSON.parse(JSON.stringify(context.result));
+
+  assert.equal(context.result.length, 1, "the hidden display window must not erase stored booking data");
+  assert.equal(normalizedBooking.id, "coach-booking");
+  assert.equal(normalizedBooking.team, "2033 Storm");
+  assert.deepEqual(normalizedBooking.coaches, ["Coach Dan"]);
+
+  const deletedContext = makeContext([{ id: assignedWindow.id, deleted: true }], [booking]);
+  runInNewContext(`${html.slice(start, end)}\nthis.result = normalizeBookings(input);`, deletedContext);
+  assert.equal(deletedContext.result.length, 0, "an explicit BTB deletion must remain authoritative");
+});
+
 test("the staff page uses a compact conflicts tab, wider calendar, transparent mark, and team export view", () => {
   const html = staffPageHtml();
   assert.doesNotMatch(html, /id="alertStrip"|class="alert-strip"/);

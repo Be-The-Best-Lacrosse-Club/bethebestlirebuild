@@ -901,6 +901,11 @@
       background: color-mix(in srgb, var(--team-color) 20%, #111316);
     }
 
+    .event-pill.teamsnap {
+      border-style: dashed;
+      box-shadow: inset 0 0 0 1px rgba(210, 38, 48, 0.2);
+    }
+
     .event-pill.practice {
       border: 1px solid color-mix(in srgb, var(--location-color) 58%, transparent);
       background: color-mix(in srgb, var(--location-color) 17%, #111316);
@@ -1297,17 +1302,157 @@
       grid-template-columns: minmax(0, 1fr) minmax(240px, 0.28fr);
     }
 
-    .live-frame-wrap {
+    .live-agenda-wrap {
       min-height: 0;
       padding: 0.8rem;
+      overflow-y: auto;
     }
 
-    #liveFrame {
-      width: 100%;
-      height: 100%;
+    .live-status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.7rem;
+      padding: 0.72rem 0.8rem;
       border: 1px solid var(--line);
       border-radius: 0.75rem;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.035);
+      color: #d9dce1;
+      font-size: 0.62rem;
+      font-weight: 800;
+    }
+
+    .live-status-bar strong {
+      color: #fff;
+    }
+
+    .live-status-dot {
+      width: 0.56rem;
+      height: 0.56rem;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 0.24rem rgba(16, 185, 129, 0.13);
+    }
+
+    .live-status-bar.unavailable .live-status-dot {
+      background: var(--amber);
+      box-shadow: 0 0 0 0.24rem rgba(243, 186, 63, 0.13);
+    }
+
+    .live-status-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .live-status-copy span {
+      display: block;
+      margin-top: 0.12rem;
+      color: var(--muted);
+      font-size: 0.54rem;
+    }
+
+    .live-feed-list {
+      display: grid;
+      gap: 0.72rem;
+    }
+
+    .live-feed-day {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .live-feed-date {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.62rem 0.78rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.035);
+      font-size: 0.62rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .live-feed-date span {
+      color: var(--muted);
+      font-size: 0.52rem;
+    }
+
+    .live-feed-item {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 5.2rem 0.3rem minmax(0, 1fr) auto;
+      gap: 0.7rem;
+      align-items: center;
+      min-height: 3.8rem;
+      padding: 0.72rem 0.78rem;
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+      background: transparent;
+      color: #fff;
+      font: inherit;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 160ms ease;
+    }
+
+    .live-feed-item:last-child {
+      border-bottom: 0;
+    }
+
+    .live-feed-item:hover {
+      background: rgba(210, 38, 48, 0.08);
+    }
+
+    .live-feed-time {
+      color: #d4d7dc;
+      font-size: 0.58rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .live-feed-color {
+      align-self: stretch;
+      border-radius: 999px;
+      background: var(--team-color);
+    }
+
+    .live-feed-title {
+      display: block;
+      font-size: 0.69rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .live-feed-meta {
+      display: block;
+      margin-top: 0.18rem;
+      color: var(--muted);
+      font-size: 0.53rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .teamsnap-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.28rem 0.42rem;
+      border: 1px solid rgba(210, 38, 48, 0.42);
+      border-radius: 999px;
+      background: rgba(210, 38, 48, 0.12);
+      color: #ffabb0;
+      font-size: 0.45rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     .live-info {
@@ -1341,6 +1486,64 @@
       margin: 0.5rem 0;
       font-size: 0.62rem;
       font-weight: 800;
+    }
+
+    .live-team small {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 0.45rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .teamsnap-detail-body {
+      display: grid;
+      gap: 0.8rem;
+      padding: 1rem;
+    }
+
+    .teamsnap-detail-kicker {
+      color: #ff8f96;
+      font-size: 0.58rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .teamsnap-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .teamsnap-detail-item {
+      padding: 0.72rem;
+      border: 1px solid var(--line);
+      border-radius: 0.62rem;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .teamsnap-detail-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .teamsnap-detail-item span {
+      display: block;
+      margin-bottom: 0.22rem;
+      color: var(--muted);
+      font-size: 0.5rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .teamsnap-detail-item strong,
+    .teamsnap-detail-item p {
+      margin: 0;
+      color: #fff;
+      font-size: 0.66rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
     }
 
     .export-body {
@@ -2801,7 +3004,7 @@
         grid-template-columns: 1fr;
       }
 
-      .live-frame-wrap {
+      .live-agenda-wrap {
         min-height: 620px;
       }
 
@@ -2886,6 +3089,25 @@
 
       .source-badge {
         display: none;
+      }
+
+      .teamsnap-detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .teamsnap-detail-item.full {
+        grid-column: auto;
+      }
+
+      .live-feed-item {
+        grid-template-columns: 4.25rem 0.24rem minmax(0, 1fr) auto;
+        gap: 0.5rem;
+        padding: 0.72rem 0.62rem;
+      }
+
+      .live-agenda-wrap {
+        min-height: 420px;
+        max-height: 72vh;
       }
 
       .view {
@@ -3656,7 +3878,7 @@
       <button class="tab-button active" type="button" data-view="wall">Season Schedule</button>
       <button class="tab-button" type="button" data-view="export">Export</button>
       <button class="tab-button" type="button" data-view="practice">Practice Board</button>
-      <button class="tab-button" type="button" data-view="live">Live Feeds</button>
+      <button class="tab-button" type="button" data-view="live">TeamSnap ONE</button>
       <button class="tab-button" type="button" data-view="directory">Coach Directory</button>
       <button class="tab-button" type="button" data-view="manage">Manage</button>
       <div class="tab-spacer"></div>
@@ -3681,7 +3903,7 @@
                 <select class="schedule-type-filter" id="scheduleTypeFilter" aria-label="Filter schedule by type">
                   <option value="all">All Schedule</option>
                   <option value="practices">Practices</option>
-                  <option value="tournaments">Tournaments</option>
+                  <option value="tournaments">Tournaments, Games + Events</option>
                   <option value="training">A La Carte Training</option>
                 </select>
                 <button class="team-filter-trigger" id="teamFilterButton" type="button" popovertarget="teamFilterMenu"
@@ -3806,27 +4028,31 @@
         </div>
       </section>
 
-      <section class="view" id="liveView" aria-label="Live Google team calendars">
+      <section class="view" id="liveView" aria-label="Live TeamSnap ONE team calendar">
         <div class="live-card">
           <div class="section-header">
             <div class="section-title">
-              <h2>Live Team Feeds</h2>
-              <p>Direct Google Calendar view for the 14 currently linked team calendars • refreshes every 15 minutes</p>
+              <h2>TeamSnap ONE Live Schedule</h2>
+              <p>One protected feed for every current BTB team • updates automatically every 15 minutes</p>
             </div>
-            <button class="btn primary" id="refreshLiveButton" type="button">Refresh Live Feed</button>
+            <button class="btn primary" id="refreshLiveButton" type="button">Sync TeamSnap ONE</button>
           </div>
           <div class="live-body">
-            <div class="live-frame-wrap">
-              <iframe id="liveFrame" title="Live Google calendars for 14 linked BTB teams" loading="lazy"></iframe>
+            <div class="live-agenda-wrap">
+              <div class="live-status-bar unavailable" id="teamSnapStatus" role="status" aria-live="polite">
+                <span class="live-status-dot" aria-hidden="true"></span>
+                <div class="live-status-copy"><strong>Connecting to TeamSnap ONE…</strong><span>The saved BTB schedule remains available while the feed loads.</span></div>
+              </div>
+              <div class="live-feed-list" id="liveAgenda"></div>
             </div>
             <aside class="live-info">
-              <h3>Linked team calendars, one screen</h3>
-              <p>This live panel is separate from the saved tournament schedule. It will populate as future events are published to the team calendars.</p>
+              <h3>One source of truth</h3>
+              <p>TeamSnap ONE games, practices, meetings, and club events now appear here and on the main Season Schedule. Cancellations and schedule changes flow in on the next sync.</p>
               <div id="liveTeamList"></div>
               <ul>
-                <li>Sign into Chrome with <strong>info@bethebestli.com</strong> if Google asks.</li>
+                <li>The private TeamSnap subscription stays secured on the BTB server.</li>
+                <li>Select any synced item to open its TeamSnap ONE details.</li>
                 <li>Use the Conflicts tab on the right to review separate tournaments that overlap.</li>
-                <li>Teams attending the same tournament count as one shared plan.</li>
               </ul>
               <p id="lastLiveRefresh">Live feed not loaded yet.</p>
             </aside>
@@ -3839,7 +4065,7 @@
           <div class="section-header">
             <div class="section-title">
               <h2>Export Team Calendar</h2>
-              <p>Choose a team, download its full iCal schedule, or add individual events to Google Calendar.</p>
+              <p>Choose a team, download its combined TeamSnap ONE + staff iCal schedule, or add individual events to Google Calendar.</p>
             </div>
           </div>
           <div class="export-body">
@@ -3848,7 +4074,7 @@
               <select class="field" id="exportTeam" aria-label="Choose a team to export"></select>
               <div class="export-summary" id="exportSummary" role="status" aria-live="polite"></div>
               <button class="btn primary" id="downloadIcalButton" type="button">Download Team iCal (.ics)</button>
-              <p class="export-help">The iCal file includes every loaded tournament and assigned team practice. It can be imported into Apple Calendar, Outlook, or Google Calendar.</p>
+              <p class="export-help">The iCal file includes synced TeamSnap ONE events plus BTB’s saved tournaments and field-planning items. It can be imported into Apple Calendar, Outlook, or Google Calendar.</p>
             </aside>
             <section class="export-schedule" aria-labelledby="exportScheduleTitle">
               <h3 id="exportScheduleTitle">Team Schedule</h3>
@@ -3954,6 +4180,22 @@
     <div class="day-detail-body">
       <div class="day-detail-summary" id="dayDialogSummary"></div>
       <div class="day-detail-grid" id="dayDialogBody"></div>
+    </div>
+  </dialog>
+
+  <dialog id="teamsnapOneDialog" aria-labelledby="teamsnapOneDialogTitle">
+    <div class="dialog-header">
+      <h2 id="teamsnapOneDialogTitle">TeamSnap ONE Event</h2>
+      <button class="dialog-close" type="button" data-close-dialog="teamsnapOneDialog" aria-label="Close TeamSnap ONE event">×</button>
+    </div>
+    <div class="teamsnap-detail-body">
+      <div class="teamsnap-detail-kicker" id="teamsnapOneDialogKicker">Live TeamSnap ONE Schedule</div>
+      <div class="teamsnap-detail-grid" id="teamsnapOneDialogBody"></div>
+      <div class="dialog-actions">
+        <div class="dialog-spacer"></div>
+        <button class="btn" type="button" data-close-dialog="teamsnapOneDialog">Close</button>
+        <a class="btn primary" id="teamsnapOneDialogLink" href="#" target="_blank" rel="noopener">Open in TeamSnap ONE</a>
+      </div>
     </div>
   </dialog>
 
@@ -4349,14 +4591,16 @@
         nickerson: { label: "Nickerson", color: "#00B894" },
         "point-lookout": { label: "Point Lookout", color: "#1479FF" },
         momentum: { label: "Momentum Sports LI", color: "#F3BA3F" },
-        stimson: { label: "Stimson • Pending", color: "#87909C" }
+        stimson: { label: "Stimson • Pending", color: "#87909C" },
+        "teamsnap-one": { label: "TeamSnap ONE", color: "#A855F7" }
       };
       var PRACTICE_LOCATION_RULES = {
         seaford: { label: "Seaford", capacity: 2, venue: "Seaford HS Turf", location: "Seaford High School — HS Turf/Track (Football Field)", field: "HS Turf/Track (Football Field)" },
         "point-lookout": { label: "Point Lookout", capacity: 2, venue: "Point Lookout", location: "Point Lookout Town Park — Lacrosse Field, Point Lookout, NY", field: "Lacrosse Field" },
         nickerson: { label: "Nickerson", capacity: null, venue: "Nickerson Field 2", location: "Nickerson Beach — Field 2, Lido Beach, NY", field: "Multiple fields" },
         stimson: { label: "Stimson", capacity: null, venue: "Stimson Middle School", location: "Stimson Middle School — Multiple fields", field: "Multiple fields" },
-        momentum: { label: "Momentum Sports LI", capacity: 2, venue: "Momentum Sports LI", location: "10 Dunton Avenue, Deer Park, NY 11729", field: "Turf Field" }
+        momentum: { label: "Momentum Sports LI", capacity: 2, venue: "Momentum Sports LI", location: "10 Dunton Avenue, Deer Park, NY 11729", field: "Turf Field" },
+        "teamsnap-one": { label: "TeamSnap ONE", capacity: null, venue: "TeamSnap ONE", location: "Location in TeamSnap ONE", field: "" }
       };
       var ALLOWED_DURATIONS = [1, 1.5, 2];
       var FIELD_TEAM_CAPACITY = 2;
@@ -4859,6 +5103,16 @@
       var practiceBookings = [];
       var practiceOverrides = [];
       var recentChanges = [];
+      var teamSnapOne = {
+        configured: false,
+        available: false,
+        stale: false,
+        syncedAt: null,
+        calendarName: "TeamSnap ONE Schedule",
+        events: [],
+        counts: {}
+      };
+      var teamSnapOneEvents = [];
       var currentEtag = null;
       var snapshotVersion = 0;
       var coachDirectoryEntries = [];
@@ -4906,6 +5160,189 @@
         }).filter(function (event) {
           return Boolean(TEAM_META[event.team]);
         });
+      }
+
+      function normalizeTeamSnapOneData(value) {
+        var source = value && typeof value === "object" ? value : {};
+        var normalizedEvents = (Array.isArray(source.events) ? source.events : []).map(function (item) {
+          if (!item || typeof item !== "object") return null;
+          var team = canonicalTeamName(item.team);
+          var startDate = String(item.startDate || item.date || "");
+          var endDate = String(item.endDate || item.end || startDate);
+          var kind = ["practice", "game", "event"].indexOf(item.kind) >= 0 ? item.kind : "event";
+          var status = item.status === "cancelled" || item.cancelled === true ? "cancelled" : "confirmed";
+          if (!TEAM_META[team] || !/^\d{4}-\d{2}-\d{2}$/.test(startDate) ||
+              !/^\d{4}-\d{2}-\d{2}$/.test(endDate)) return null;
+          return {
+            id: String(item.id || ("teamsnap-one-" + startDate + "-" + team.replace(/[^a-z0-9]+/gi, "-"))).trim(),
+            uid: String(item.uid || ""),
+            provider: "teamsnap-one",
+            team: team,
+            kind: kind,
+            title: String(item.title || (kind === "practice" ? "Practice" : kind === "game" ? "Game" : "Team Event")),
+            startDate: startDate,
+            endDate: endDate,
+            startTime: /^\d{2}:\d{2}$/.test(item.startTime || "") ? item.startTime : "",
+            endTime: /^\d{2}:\d{2}$/.test(item.endTime || "") ? item.endTime : "",
+            allDay: item.allDay === true,
+            durationMinutes: Number.isFinite(Number(item.durationMinutes)) ? Number(item.durationMinutes) : null,
+            location: String(item.location || ""),
+            description: String(item.description || item.notes || ""),
+            deepLink: /^https:\/\//.test(item.deepLink || item.link || "") ? String(item.deepLink || item.link) : "",
+            status: status,
+            updatedAt: String(item.updatedAt || "")
+          };
+        }).filter(Boolean);
+        teamSnapOneEvents = normalizedEvents;
+        teamSnapOne = {
+          configured: source.configured === true,
+          available: source.available === true,
+          stale: source.stale === true,
+          syncedAt: typeof source.syncedAt === "string" ? source.syncedAt : null,
+          calendarName: typeof source.calendarName === "string" && source.calendarName ? source.calendarName : "TeamSnap ONE Schedule",
+          events: normalizedEvents,
+          counts: source.counts && typeof source.counts === "object" ? source.counts : {}
+        };
+        return teamSnapOne;
+      }
+
+      function hasUsableTeamSnapOneData() {
+        return teamSnapOne.configured && (teamSnapOne.available || teamSnapOne.stale) && teamSnapOneEvents.length > 0;
+      }
+
+      function activeTeamSnapOneEvents() {
+        return hasUsableTeamSnapOneData() ? teamSnapOneEvents.filter(function (item) {
+          return item.status !== "cancelled";
+        }) : [];
+      }
+
+      function teamSnapLocationKey(value) {
+        var location = String(value || "").toLocaleLowerCase("en-US");
+        if (location.indexOf("seaford") >= 0) return "seaford";
+        if (location.indexOf("nickerson") >= 0 || location.indexOf("lido") >= 0) return "nickerson";
+        if (location.indexOf("point lookout") >= 0) return "point-lookout";
+        if (location.indexOf("momentum") >= 0 || location.indexOf("dunton") >= 0) return "momentum";
+        if (location.indexOf("stimson") >= 0) return "stimson";
+        return "teamsnap-one";
+      }
+
+      function teamSnapPracticeMatchesWindow(item, windowItem) {
+        if (!item || !windowItem || item.kind !== "practice" || item.team !== assignedPracticeTeam(windowItem) ||
+            item.startDate !== windowItem.date) return false;
+        if (!item.startTime || !windowItem.startTime) return true;
+        return Math.abs(toMinutes(item.startTime) - toMinutes(windowItem.startTime)) <= 90;
+      }
+
+      function teamSnapPracticeWindow(item) {
+        var locationKey = teamSnapLocationKey(item.location);
+        var durationHours = item.durationMinutes && item.durationMinutes > 0 ? item.durationMinutes / 60 : null;
+        return {
+          id: item.id,
+          date: item.startDate,
+          locationKey: locationKey,
+          venue: item.location || "TeamSnap ONE",
+          field: "",
+          location: item.location || "Location in TeamSnap ONE",
+          startTime: item.startTime,
+          endTime: item.endTime || (durationHours ? minutesToClock(toMinutes(item.startTime) + item.durationMinutes) : ""),
+          kind: "assigned",
+          approval: "confirmed",
+          startIncrementMinutes: 15,
+          teamCount: 1,
+          claimCapacity: 1,
+          requiredDurationHours: durationHours,
+          mode: "assigned",
+          claimMode: "assigned",
+          assignedTeams: [item.team],
+          timeLabel: item.endTime ? formatClock(item.startTime) + "–" + formatClock(item.endTime) : formatClock(item.startTime),
+          assignmentStatus: "confirmed",
+          automaticCoaches: [],
+          source: "TeamSnap ONE",
+          note: item.description || "Synced from TeamSnap ONE.",
+          provider: "teamsnap-one",
+          readOnly: true,
+          liveEventId: item.id,
+          deepLink: item.deepLink,
+          updatedAt: item.updatedAt
+        };
+      }
+
+      function teamSnapTitleWords(value, team) {
+        var teamWords = String(team || "").toLocaleLowerCase("en-US").split(/\s+/);
+        return String(value || "").toLocaleLowerCase("en-US")
+          .replace(/\([^)]*arriv[^)]*\)/g, " ")
+          .replace(/[^a-z0-9]+/g, " ")
+          .split(/\s+/)
+          .filter(function (word) {
+            return word && ["btb", "practice", "game", "event", "vs", "the", "lacrosse"].indexOf(word) < 0 &&
+              teamWords.indexOf(word) < 0;
+          });
+      }
+
+      function teamSnapMatchesTournament(item, event) {
+        if (!item || !event || item.kind === "practice" || item.team !== event.team) return false;
+        var overlaps = Boolean(event.start && event.end && item.startDate <= event.end && item.endDate >= event.start);
+        var itemWords = teamSnapTitleWords(item.title, item.team);
+        var eventWords = teamSnapTitleWords(event.title, event.team);
+        var shared = itemWords.filter(function (word) { return eventWords.indexOf(word) >= 0; });
+        var exactTitle = itemWords.join(" ") === eventWords.join(" ");
+        var titleMatch = exactTitle ||
+          (shared.length >= 2 && shared.length >= Math.min(itemWords.length, eventWords.length) * 0.6);
+        var hasAnySavedDate = Boolean(event.start || event.end);
+        return hasAnySavedDate ? titleMatch && overlaps : exactTitle;
+      }
+
+      function teamSnapScheduleEvent(item) {
+        var time = item.allDay || !item.startTime ? "All day" : formatClock(item.startTime) +
+          (item.endTime ? "–" + formatClock(item.endTime) : "");
+        return {
+          id: item.id,
+          team: item.team,
+          title: item.title,
+          start: item.startDate,
+          end: item.endDate,
+          time: time,
+          startTime: item.startTime,
+          endTime: item.endTime,
+          allDay: item.allDay,
+          location: item.location,
+          status: "confirmed",
+          paid: false,
+          offIsland: false,
+          note: item.description,
+          source: "TeamSnap ONE",
+          provider: "teamsnap-one",
+          readOnly: true,
+          kind: item.kind,
+          deepLink: item.deepLink
+        };
+      }
+
+      function calendarScheduleEvents() {
+        if (!hasUsableTeamSnapOneData()) return events.slice();
+        var feedRecords = teamSnapOneEvents.filter(function (item) {
+          return item.kind !== "practice" || item.allDay || !item.startTime;
+        });
+        var savedEvents = events.filter(function (event) {
+          return !feedRecords.some(function (item) { return teamSnapMatchesTournament(item, event); });
+        });
+        var liveEvents = feedRecords.filter(function (item) { return item.status !== "cancelled"; }).map(teamSnapScheduleEvent);
+        return savedEvents.concat(liveEvents);
+      }
+
+      function scheduleEventKindLabel(event) {
+        if (event && event.provider === "teamsnap-one") {
+          if (event.kind === "game") return "Game";
+          if (event.kind === "practice") return "Practice";
+          return "Team Event";
+        }
+        return "Tournament";
+      }
+
+      function scheduleEventMatchesType(event, showTournaments, showPractices) {
+        return event && event.provider === "teamsnap-one" && event.kind === "practice"
+          ? showPractices
+          : showTournaments;
       }
 
       function normalizePracticeOverrides(items) {
@@ -4977,9 +5414,38 @@
           var copy = Object.assign({}, windowItem, { automaticCoaches: [] });
           return [copy.id, copy];
         }));
+        if (hasUsableTeamSnapOneData()) {
+          teamSnapOneEvents.filter(function (item) {
+            return item.kind === "practice" && !item.allDay && Boolean(item.startTime);
+          }).forEach(function (item) {
+            var replacementId = item.id;
+            Array.from(effective.entries()).forEach(function (entry) {
+              if (teamSnapPracticeMatchesWindow(item, entry[1])) {
+                if (!entry[1].readOnly) replacementId = entry[0];
+                effective.delete(entry[0]);
+              }
+            });
+            if (item.status !== "cancelled") {
+              var liveWindow = teamSnapPracticeWindow(item);
+              liveWindow.id = replacementId;
+              effective.set(replacementId, liveWindow);
+            }
+          });
+        }
         practiceOverrides.forEach(function (item) {
           if (item.deleted) effective.delete(item.id);
-          else effective.set(item.id, practiceOverrideWindow(item));
+          else {
+            var overrideWindow = practiceOverrideWindow(item);
+            Array.from(effective.entries()).forEach(function (entry) {
+              if (entry[1].readOnly && teamSnapPracticeMatchesWindow({
+                kind: "practice",
+                team: item.team,
+                startDate: item.date,
+                startTime: item.startTime
+              }, entry[1])) effective.delete(entry[0]);
+            });
+            effective.set(item.id, overrideWindow);
+          }
         });
         ASSIGNED_PRACTICE_WINDOWS = Array.from(effective.values()).sort(function (a, b) {
           return a.date.localeCompare(b.date) || String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
@@ -4990,13 +5456,25 @@
         });
       }
 
+      function bookingValidationWindows() {
+        var windows = new Map(MASTER_PRACTICE_WINDOWS.concat(DEFAULT_ASSIGNED_PRACTICE_WINDOWS).map(function (windowItem) {
+          return [windowItem.id, windowItem];
+        }));
+        practiceOverrides.forEach(function (item) {
+          if (item.deleted) windows.delete(item.id);
+          else windows.set(item.id, practiceOverrideWindow(item));
+        });
+        return windows;
+      }
+
       function normalizeBookings(items) {
-        var windowIds = new Set(PRACTICE_WINDOWS.map(function (windowItem) { return windowItem.id; }));
+        var validationWindows = bookingValidationWindows();
+        var windowIds = new Set(validationWindows.keys());
         return (Array.isArray(items) ? items : []).filter(function (booking) {
           return !recordReferencesInactiveTeam(booking);
         }).map(function (booking) {
           if (!booking || typeof booking !== "object") return null;
-          var windowItem = findPracticeWindow(booking.windowId);
+          var windowItem = validationWindows.get(booking.windowId);
           var coaches = bookingCoaches(booking);
           if (windowItem && windowItem.mode === "assigned") {
             var assignedTeams = windowItem.assignedTeams.slice();
@@ -5030,7 +5508,7 @@
           });
         }).filter(function (booking) {
           if (!booking) return false;
-          var windowItem = findPracticeWindow(booking.windowId);
+          var windowItem = validationWindows.get(booking.windowId);
           if (windowItem && windowItem.mode === "assigned") {
             return Boolean(booking.id && windowIds.has(booking.windowId) && bookingCoaches(booking).length &&
               booking.team === windowItem.assignedTeams[0]);
@@ -5274,24 +5752,29 @@
 
       // The shared snapshot holds tournaments, practice edits, and claimed field blocks.
       // Default assignments remain the migration-safe baseline; overrides make them editable.
-      function applyScheduleData(data) {
+      function applyScheduleData(data, resetMissingTeamSnapOne) {
         var snapshot = data && data.snapshot ? data.snapshot : {};
         currentEtag = data && typeof data.etag === "string" ? data.etag : null;
         snapshotVersion = Number.isFinite(Number(snapshot.version)) ? Number(snapshot.version) : 0;
         events = Array.isArray(snapshot.events) && snapshot.events.length
           ? normalizeEvents(snapshot.events)
           : cloneDefaults();
+        if (data && Object.prototype.hasOwnProperty.call(data, "teamsnapOne")) {
+          normalizeTeamSnapOneData(data.teamsnapOne);
+        } else if (resetMissingTeamSnapOne) {
+          normalizeTeamSnapOneData({});
+        }
         practiceOverrides = normalizePracticeOverrides(snapshot.practiceOverrides);
         rebuildPracticeSchedule();
         practiceBookings = normalizeBookings(snapshot.practiceBookings);
         recentChanges = normalizeRecentChanges(snapshot.recentChanges);
         return { events: events, practiceBookings: practiceBookings, practiceOverrides: practiceOverrides,
-          recentChanges: recentChanges, etag: currentEtag };
+          recentChanges: recentChanges, teamsnapOne: teamSnapOne, etag: currentEtag };
       }
 
       function loadSchedule() {
         return syncRequest({ action: "load" }).then(function (data) {
-          return applyScheduleData(data);
+          return applyScheduleData(data, true);
         });
       }
 
@@ -5604,20 +6087,26 @@
       }
 
       function calendarExportItems(team) {
-        var tournamentItems = events.filter(function (event) {
+        var tournamentItems = calendarScheduleEvents().filter(function (event) {
           return event.team === team && event.start && event.end;
         }).map(function (event) {
+          var liveKind = event.provider === "teamsnap-one"
+            ? (event.kind === "game" ? "Game" : event.kind === "practice" ? "Practice" : "Team Event")
+            : "Tournament";
+          var allDay = event.provider !== "teamsnap-one" || event.allDay === true || !event.startTime;
           return {
             id: "tournament-" + event.id,
-            kind: "Tournament",
+            kind: liveKind,
             title: "BTB " + TEAM_META[team].short + " — " + event.title,
             startDate: event.start,
             endDate: event.end,
-            startTime: null,
-            endTime: null,
-            allDay: true,
+            startTime: allDay ? null : event.startTime,
+            endTime: allDay ? null : event.endTime,
+            allDay: allDay,
             location: event.location,
-            description: [event.time, event.note, event.offIsland ? "Off-island tournament" : ""].filter(Boolean).join(" • ")
+            provider: event.provider || "btb-staff",
+            description: [event.time, event.note, event.offIsland ? "Off-island tournament" : "",
+              event.provider === "teamsnap-one" ? "Synced from TeamSnap ONE" : ""].filter(Boolean).join(" • ")
           };
         });
         var assignedItems = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
@@ -5634,8 +6123,10 @@
             endTime: windowItem.endTime,
             allDay: false,
             location: practiceWindowLocation(windowItem),
+            provider: windowItem.provider || "btb-staff",
             description: [assignedPracticeTime(windowItem), assignmentStatusLabel(windowItem.assignmentStatus),
-              automaticCoachLabel(windowItem), windowItem.note].filter(Boolean).join(" • ")
+              automaticCoachLabel(windowItem), windowItem.note,
+              windowItem.readOnly ? "Synced from TeamSnap ONE" : ""].filter(Boolean).join(" • ")
           };
         });
         var claimedItems = practiceBookings.map(function (booking) {
@@ -5775,12 +6266,13 @@
         var team = select.value || Object.keys(TEAM_META)[0];
         var teamMeta = TEAM_META[team];
         var items = calendarExportItems(team);
-        var tournamentCount = items.filter(function (item) { return item.kind === "Tournament"; }).length;
         var practiceCount = items.filter(function (item) { return item.kind === "Practice"; }).length;
+        var liveCount = items.filter(function (item) { return item.provider === "teamsnap-one"; }).length;
         document.getElementById("exportSummary").style.setProperty("--team-color", teamMeta.color);
         document.getElementById("exportSummary").innerHTML = "<strong style='color:" + teamMeta.color + "'>" +
-          escapeHtml(teamMeta.label) + "</strong><br>" + tournamentCount + " tournament" + (tournamentCount === 1 ? "" : "s") +
-          " • " + practiceCount + " practice" + (practiceCount === 1 ? "" : "s");
+          escapeHtml(teamMeta.label) + "</strong><br>" + items.length + " schedule item" + (items.length === 1 ? "" : "s") +
+          " • " + practiceCount + " practice" + (practiceCount === 1 ? "" : "s") +
+          (liveCount ? " • " + liveCount + " live from TeamSnap ONE" : "");
         document.getElementById("exportScheduleTitle").textContent = teamMeta.label + " Schedule";
         document.getElementById("exportScheduleList").innerHTML = items.length ? items.map(function (item) {
           var dateLabel = item.allDay ? formatRange(item.startDate, item.endDate) : formatDate(item.startDate);
@@ -6091,7 +6583,9 @@
         var manageSelect = document.getElementById("manageTeamFilter");
         var liveList = document.getElementById("liveTeamList");
         var teamNames = Object.keys(TEAM_META);
-        var linkedTeams = teamNames.filter(function (team) { return Boolean(TEAM_META[team].calendar); });
+        var linkedTeams = teamNames.filter(function (team) {
+          return teamSnapOneEvents.some(function (item) { return item.team === team; });
+        });
         visibleTeams = new Set(teamNames);
 
         function teamOptionsFor(program) {
@@ -6126,7 +6620,7 @@
         document.getElementById("scheduleLegend").innerHTML = teamLegend + locationLegend + trainingLegend +
           "<span class='legend-note'><span aria-hidden='true'>*</span> Off-Island Tournament</span>";
         document.getElementById("practiceLegend").innerHTML = locationLegend + teamLegend;
-        footerHost.textContent = teamNames.length + " teams • " + linkedTeams.length + " linked calendars • " +
+        footerHost.textContent = teamNames.length + " teams • " + linkedTeams.length + " in TeamSnap ONE • " +
           ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " + MASTER_PRACTICE_WINDOWS.length +
           " approved field windows • " + TRAINING_SESSIONS.length + " optional training sessions";
 
@@ -6142,10 +6636,11 @@
           return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
         }).join("");
 
-        liveList.innerHTML = linkedTeams.map(function (team) {
+        liveList.innerHTML = teamNames.map(function (team) {
           var meta = TEAM_META[team];
           return "<div class='live-team' style='--team-color:" + meta.color +
-            "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "</div>";
+            "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "<small>" +
+            (linkedTeams.indexOf(team) >= 0 ? "Synced" : "Awaiting event") + "</small></div>";
         }).join("");
 
         function updateTeamFilterSummary() {
@@ -6200,11 +6695,16 @@
       }
 
       function scheduleItemsForDay(dayIso, showTournaments, showPractices, showTrainings) {
-        var dayEvents = showTournaments ? events.filter(function (event) {
-          return visibleTeams.has(event.team) && event.start && event.start <= dayIso && event.end >= dayIso;
+        var sourceEvents = typeof calendarScheduleEvents === "function" ? calendarScheduleEvents() : events;
+        var dayEvents = sourceEvents.filter(function (event) {
+          var typeMatches = typeof scheduleEventMatchesType === "function"
+            ? scheduleEventMatchesType(event, showTournaments, showPractices)
+            : showTournaments;
+          return typeMatches && visibleTeams.has(event.team) &&
+            event.start && event.start <= dayIso && event.end >= dayIso;
         }).sort(function (a, b) {
           return STATUS_META[b.status].score - STATUS_META[a.status].score || a.team.localeCompare(b.team);
-        }) : [];
+        });
         var dayBookings = showPractices ? practiceBookings.map(function (booking) {
           var windowItem = findPracticeWindow(booking.windowId);
           if (!windowItem || isAssignedPractice(windowItem) || windowItem.date !== dayIso || !bookingMatchesVisibleTeams(booking)) return null;
@@ -6261,10 +6761,12 @@
           var tournamentPills = dayEvents.map(function (event) {
             var meta = TEAM_META[event.team];
             var lockedMark = STATUS_META[event.status].locked ? " ●" : "";
-            return "<button class='event-pill tournament' type='button' data-event-id='" + escapeHtml(event.id) +
+            var liveMark = event.provider === "teamsnap-one" ? " LIVE" : "";
+            return "<button class='event-pill tournament" + (event.provider === "teamsnap-one" ? " teamsnap" : "") +
+              "' type='button' data-event-id='" + escapeHtml(event.id) +
               "' style='--team-color:" + meta.color + "' title='" + escapeHtml(event.team + " — " + event.title) +
               "'><span class='event-bar'></span><span class='event-text'>" +
-              escapeHtml(meta.short) + "<small>" + lockedMark + "</small> " + escapeHtml(event.title) +
+              escapeHtml(meta.short) + "<small>" + escapeHtml(liveMark + lockedMark) + "</small> " + escapeHtml(event.title) +
               offIslandMark(event) + "</span></button>";
           });
           var claimedPracticePills = dayBookings.map(function (item) {
@@ -6288,7 +6790,7 @@
             if (isAssignedPractice(windowItem)) {
               var assignedTeam = assignedPracticeTeam(windowItem);
               var assignedMeta = TEAM_META[assignedTeam];
-              var coachState = automaticCoachLabel(windowItem);
+              var coachState = windowItem.readOnly ? "TeamSnap ONE • Live" : automaticCoachLabel(windowItem);
               return "<button class='event-pill practice assigned' type='button' data-window-id='" + escapeHtml(windowItem.id) +
                 "' style='--team-color:" + assignedMeta.color + ";--location-color:" + location.color + "' title='" +
                 escapeHtml(assignedMeta.label + " practice — " + windowItem.venue + " — " + assignedPracticeTime(windowItem) + " — " + coachState) +
@@ -6348,11 +6850,12 @@
 
         var monthStartIso = isoDate(first);
         var monthEndIso = isoDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 0, 12));
-        var monthEvents = showTournaments ? events.filter(function (event) {
-          return visibleTeams.has(event.team) && event.start && event.end >= monthStartIso && event.start <= monthEndIso;
+        var monthEvents = calendarScheduleEvents().filter(function (event) {
+          return scheduleEventMatchesType(event, showTournaments, showPractices) && visibleTeams.has(event.team) &&
+            event.start && event.end >= monthStartIso && event.start <= monthEndIso;
         }).sort(function (a, b) {
           return a.start.localeCompare(b.start) || STATUS_META[b.status].score - STATUS_META[a.status].score;
-        }) : [];
+        });
         var monthWindows = showPractices ? PRACTICE_WINDOWS.filter(function (windowItem) {
           if (windowItem.date < monthStartIso || windowItem.date > monthEndIso) return false;
           if (isAssignedPractice(windowItem)) return visibleTeams.has(assignedPracticeTeam(windowItem));
@@ -6365,7 +6868,7 @@
           return { booking: booking, windowItem: windowItem };
         }).filter(Boolean) : [];
         var mobileRows = monthEvents.map(function (event) {
-          return { kind: "tournament", date: event.start, startTime: "", value: event };
+          return { kind: "tournament", date: event.start, startTime: event.startTime || "", value: event };
         }).concat(monthBookings.map(function (item) {
           return { kind: "claimed-practice", date: item.windowItem.date, startTime: item.booking.startTime,
             value: item.booking, windowItem: item.windowItem };
@@ -6386,8 +6889,9 @@
               "<span><span class='mobile-event-title'>" + escapeHtml(event.title) + offIslandMark(event) + "</span>" +
               "<span class='mobile-event-team'>" + escapeHtml(meta.label) + "</span>" +
               (event.time ? "<span class='mobile-event-time'>" + escapeHtml(event.time) + "</span>" : "") + "</span>" +
-              "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) +
-              "</span></button>";
+              (event.provider === "teamsnap-one" ? "<span class='teamsnap-chip'>Live</span>" :
+              "<span class='status-chip status-" + escapeHtml(event.status) + "'>" + escapeHtml(STATUS_META[event.status].label) + "</span>") +
+              "</button>";
           }
           if (row.kind === "claimed-practice") {
             var claimedBooking = row.value;
@@ -6409,13 +6913,13 @@
           if (isAssignedPractice(windowItem)) {
             var assignedTeam = assignedPracticeTeam(windowItem);
             var assignedMeta = TEAM_META[assignedTeam];
-            var coachState = automaticCoachLabel(windowItem);
+            var coachState = windowItem.readOnly ? "TeamSnap ONE • Live" : automaticCoachLabel(windowItem);
             return "<button class='mobile-event-row practice assigned' type='button' data-window-id='" + escapeHtml(windowItem.id) +
               "' style='--team-color:" + assignedMeta.color + "'><span class='mobile-event-date'>" + escapeHtml(formatDate(windowItem.date)) +
               "</span><span><span class='mobile-event-title'>Team Practice</span><span class='mobile-event-team'>" +
               practiceTeamMarkup([assignedTeam], windowItem, "label") + "</span><span class='mobile-event-time'>" +
               escapeHtml(windowItem.venue + " • " + assignedPracticeTime(windowItem) + " • " + coachState) + "</span></span>" +
-              "<span class='assignment-chip coach-assigned'>Edit</span></button>";
+              "<span class='assignment-chip coach-assigned'>" + (windowItem.readOnly ? "Live" : "Edit") + "</span></button>";
           }
           var availability = practiceAvailability(windowItem);
           return "<button class='mobile-event-row practice' type='button' data-window-id='" + escapeHtml(windowItem.id) +
@@ -6444,17 +6948,17 @@
         var schedule = scheduleItemsForDay(dayIso, typeFilter === "all" || typeFilter === "tournaments",
           typeFilter === "all" || typeFilter === "practices", typeFilter === "all" || typeFilter === "training");
         var dayTitle = formatDate(dayIso, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
-        var tournamentCount = schedule.events.length;
+        var eventCount = schedule.events.length;
         var practiceCount = schedule.windows.length + schedule.bookings.length;
         var trainingCount = schedule.trainings.length;
-        var totalCount = tournamentCount + practiceCount + trainingCount;
+        var totalCount = eventCount + practiceCount + trainingCount;
         var dialog = document.getElementById("dayDialog");
         var body = document.getElementById("dayDialogBody");
 
         document.getElementById("dayDialogTitle").textContent = dayTitle;
         document.getElementById("dayDialogSummary").textContent = totalCount + " schedule item" +
-          (totalCount === 1 ? "" : "s") + " • " + tournamentCount + " tournament" +
-          (tournamentCount === 1 ? "" : "s") + " • " + practiceCount + " practice" +
+          (totalCount === 1 ? "" : "s") + " • " + eventCount + " game, tournament, or team event" +
+          (eventCount === 1 ? "" : "s") + " • " + practiceCount + " practice" +
           (practiceCount === 1 ? "" : "s") + (trainingCount ? " • " + trainingCount + " optional training session" +
           (trainingCount === 1 ? "" : "s") : "") + (totalCount ? " • Select any card to open it." : "");
 
@@ -6462,13 +6966,16 @@
           var meta = TEAM_META[event.team];
           var status = STATUS_META[event.status];
           var note = event.note ? "<span>" + escapeHtml(event.note) + "</span>" : "";
+          var kindLabel = scheduleEventKindLabel(event);
           return "<button class='day-detail-card tournament' type='button' data-day-detail-item data-event-id='" +
             escapeHtml(event.id) + "' style='--card-color:" + meta.color + "' aria-label='" +
-            escapeHtml("Open " + meta.label + " " + event.title) + "'><span class='day-detail-card-top'><span>Tournament</span><span>" +
-            escapeHtml(status.label) + "</span></span><span class='day-detail-card-title'>" +
+            escapeHtml("Open " + meta.label + " " + event.title) + "'><span class='day-detail-card-top'><span>" +
+            escapeHtml(kindLabel) + "</span><span>" + escapeHtml(event.provider === "teamsnap-one" ? "TeamSnap ONE • Live" : status.label) +
+            "</span></span><span class='day-detail-card-title'>" +
             escapeHtml(meta.short + " — " + event.title) + offIslandMark(event) +
             "</span><span class='day-detail-meta'><span>" + escapeHtml(event.time || "Game times TBD") + "</span><span>" +
-            escapeHtml(event.location || "Location TBD") + "</span>" + note + "</span><span class='day-detail-action'>Open tournament →</span></button>";
+            escapeHtml(event.location || "Location TBD") + "</span>" + note + "</span><span class='day-detail-action'>" +
+            (event.provider === "teamsnap-one" ? "View live details →" : "Open tournament →") + "</span></button>";
         });
 
         var claimedPracticeCards = schedule.bookings.map(function (item) {
@@ -6492,7 +6999,7 @@
           if (isAssignedPractice(windowItem)) {
             var assignedTeam = assignedPracticeTeam(windowItem);
             var team = TEAM_META[assignedTeam];
-            var coachState = automaticCoachLabel(windowItem);
+            var coachState = windowItem.readOnly ? "TeamSnap ONE • Live" : automaticCoachLabel(windowItem);
             return "<button class='day-detail-card practice assigned' type='button' data-day-detail-item data-window-id='" +
               escapeHtml(windowItem.id) + "' style='--card-color:" + team.color + "' aria-label='" +
               escapeHtml("Open " + team.label + " practice") + "'><span class='day-detail-card-top'><span>Team Practice</span><span>" +
@@ -6501,7 +7008,7 @@
               "</span><span class='day-detail-meta'><span>" + escapeHtml(assignedPracticeTime(windowItem)) + "</span><span>" +
               escapeHtml(practiceWindowLocation(windowItem)) + "</span><span>" +
               escapeHtml(assignmentStatusLabel(windowItem.assignmentStatus)) + "</span></span><span class='day-detail-action'>" +
-              "Edit practice →</span></button>";
+              (windowItem.readOnly ? "View live details →" : "Edit practice →") + "</span></button>";
           }
           var availability = practiceAvailability(windowItem);
           var bookingCount = bookingsForWindow(windowItem.id).length;
@@ -6692,10 +7199,16 @@
             if (row.kind === "assigned") {
               var assignedTeam = assignedPracticeTeam(windowItem);
               var team = TEAM_META[assignedTeam];
-              var coachLabel = automaticCoachLabel(windowItem);
+              var coachLabel = windowItem.readOnly ? "TeamSnap ONE • Live" : automaticCoachLabel(windowItem);
               var endLabel = windowItem.endTime
                 ? formatClock(windowItem.endTime)
                 : (windowItem.timeLabel && windowItem.timeLabel.indexOf("Dark") >= 0 ? "Dark" : "End time needed");
+              var practiceActions = windowItem.readOnly
+                ? "<div class='practice-actions'><button class='btn subtle edit-practice' type='button' data-practice-id='" +
+                  escapeHtml(windowItem.id) + "'>View</button></div>"
+                : "<div class='practice-actions'><button class='btn subtle edit-practice' type='button' data-practice-id='" +
+                  escapeHtml(windowItem.id) + "'>Edit</button><button class='btn danger delete-practice' type='button' data-practice-id='" +
+                  escapeHtml(windowItem.id) + "'>Delete</button></div>";
               return "<article class='practice-agenda-item assigned' data-practice-card='" + escapeHtml(windowItem.id) +
                 "' data-practice-agenda-item='assigned' style='--team-color:" + team.color + ";--agenda-color:" + team.color + "'>" +
                 "<div class='practice-agenda-time'><strong>" + escapeHtml(formatClock(windowItem.startTime)) +
@@ -6706,9 +7219,7 @@
                 "<div class='practice-agenda-meta'>" + escapeHtml(practiceWindowLocation(windowItem)) + "</div>" +
                 "<div class='practice-agenda-note'>" + escapeHtml(windowItem.note) +
                 "</div></div><div class='practice-agenda-action'><span class='assignment-chip coach-assigned'>" +
-                escapeHtml(coachLabel) + "</span><div class='practice-actions'><button class='btn subtle edit-practice' type='button' data-practice-id='" +
-                escapeHtml(windowItem.id) + "'>Edit</button><button class='btn danger delete-practice' type='button' data-practice-id='" +
-                escapeHtml(windowItem.id) + "'>Delete</button></div></div></article>";
+                escapeHtml(coachLabel) + "</span>" + practiceActions + "</div></article>";
             }
 
             var availability = practiceAvailability(windowItem);
@@ -6794,6 +7305,7 @@
       }
 
       function automaticCoachLabel(windowItem) {
+        if (windowItem && windowItem.readOnly) return "TeamSnap ONE • Live";
         var coaches = automaticCoachesForWindow(windowItem);
         return coaches.length ? (coaches.length === 1 ? "Coach " : "Coaches ") + coaches.join(", ") : "Coach Directory link needed";
       }
@@ -7019,7 +7531,7 @@
           return { kind: "tournament", date: event.start || "9999-12-31", value: event };
         });
         var assignedPracticeRows = ASSIGNED_PRACTICE_WINDOWS.filter(function (windowItem) {
-          if (typeFilter === "tournaments") return false;
+          if (typeFilter === "tournaments" || windowItem.readOnly) return false;
           return (teamFilter === "all" || assignedPracticeTeam(windowItem) === teamFilter) &&
             (statusFilter === "all" || statusFilter === "coach-assigned");
         }).map(function (windowItem) {
@@ -7103,12 +7615,15 @@
 
       function renderAll() {
         var teamNames = Object.keys(TEAM_META);
-        var linkedTeams = teamNames.filter(function (team) { return Boolean(TEAM_META[team].calendar); });
-        document.getElementById("scheduleSourceBadge").textContent = events.length + " tournaments + " +
-          ASSIGNED_PRACTICE_WINDOWS.length + " assigned team practices + " + MASTER_PRACTICE_WINDOWS.length +
-          " approved field windows";
-        document.getElementById("footerTeams").textContent = teamNames.length + " teams • " + linkedTeams.length +
-          " linked calendars • " + ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " +
+        var activeLiveEvents = activeTeamSnapOneEvents();
+        var linkedTeams = new Set(activeLiveEvents.map(function (item) { return item.team; }));
+        var sourceLabel = hasUsableTeamSnapOneData()
+          ? "TeamSnap ONE " + (teamSnapOne.stale ? "CACHED" : "LIVE") + " • " + activeLiveEvents.length + " synced items • "
+          : "Saved BTB plan • TeamSnap ONE reconnecting • ";
+        document.getElementById("scheduleSourceBadge").textContent = sourceLabel +
+          ASSIGNED_PRACTICE_WINDOWS.length + " team practices • " + MASTER_PRACTICE_WINDOWS.length + " field windows";
+        document.getElementById("footerTeams").textContent = teamNames.length + " teams • " + linkedTeams.size +
+          " in TeamSnap ONE • " + ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " +
           MASTER_PRACTICE_WINDOWS.length + " approved field windows • " + TRAINING_SESSIONS.length +
           " optional training sessions";
         renderPracticeTicker();
@@ -7117,6 +7632,7 @@
         renderPracticeBoard();
         renderExportView();
         renderManageTable();
+        renderTeamSnapOneFeed();
       }
 
       function updateClaimStartOptions() {
@@ -7283,6 +7799,10 @@
 
       function openPracticeEditor(practiceId) {
         var practice = practiceId ? findPracticeWindow(practiceId) : null;
+        if (practice && practice.readOnly) {
+          openTeamSnapOneDialog(practice.liveEventId || practice.id);
+          return;
+        }
         if (practiceId && !isAssignedPractice(practice)) {
           showToast("That team practice is no longer on the shared schedule.");
           return;
@@ -7367,6 +7887,10 @@
 
       async function deleteScheduledPractice(practiceId) {
         var practice = findPracticeWindow(practiceId);
+        if (practice && practice.readOnly) {
+          showToast("TeamSnap ONE practices are updated in TeamSnap ONE.");
+          return;
+        }
         if (!practice || !isAssignedPractice(practice)) {
           showToast("That practice was already removed. The schedule is refreshed.");
           return;
@@ -7555,7 +8079,36 @@
         }
       }
 
+      function openTeamSnapOneDialog(id) {
+        var item = teamSnapOneEvents.find(function (candidate) { return candidate.id === id; });
+        if (!item) {
+          showToast("That TeamSnap ONE item is no longer in the live schedule.");
+          return;
+        }
+        var typeLabel = item.kind === "practice" ? "Practice" : item.kind === "game" ? "Game" : "Team Event";
+        var timeLabel = item.allDay || !item.startTime ? "All day" : formatClock(item.startTime) +
+          (item.endTime ? "–" + formatClock(item.endTime) : "");
+        var dateLabel = formatRange(item.startDate, item.endDate);
+        var team = TEAM_META[item.team];
+        document.getElementById("teamsnapOneDialogTitle").textContent = item.title;
+        document.getElementById("teamsnapOneDialogKicker").textContent = team.label + " • " + typeLabel + " • TeamSnap ONE Live";
+        document.getElementById("teamsnapOneDialogBody").innerHTML =
+          "<div class='teamsnap-detail-item'><span>Date</span><strong>" + escapeHtml(dateLabel) + "</strong></div>" +
+          "<div class='teamsnap-detail-item'><span>Time</span><strong>" + escapeHtml(timeLabel) + "</strong></div>" +
+          "<div class='teamsnap-detail-item full'><span>Location</span><strong>" + escapeHtml(item.location || "Location not posted") + "</strong></div>" +
+          (item.description ? "<div class='teamsnap-detail-item full'><span>Details</span><p>" + escapeHtml(item.description) + "</p></div>" : "");
+        var link = document.getElementById("teamsnapOneDialogLink");
+        link.hidden = !item.deepLink;
+        link.href = item.deepLink || "#";
+        document.getElementById("teamsnapOneDialog").showModal();
+      }
+
       function openEventDialog(id) {
+        var liveEvent = id ? teamSnapOneEvents.find(function (item) { return item.id === id; }) : null;
+        if (liveEvent) {
+          openTeamSnapOneDialog(id);
+          return;
+        }
         var event = id ? events.find(function (item) { return item.id === id; }) : null;
         document.getElementById("eventDialogTitle").textContent = event ? "Edit Tournament" : "Add Tournament";
         document.getElementById("eventId").value = event ? event.id : "";
@@ -7670,37 +8223,118 @@
           button.classList.toggle("active", active);
           button.setAttribute("aria-current", active ? "page" : "false");
         });
-        if (name === "live") refreshLiveFrame(false);
+        if (name === "live") renderTeamSnapOneFeed();
         if (name === "practice") renderPracticeBoard();
         if (name === "export") renderExportView();
         if (name === "directory") loadCoachDirectory(false).catch(function () {});
         if (name === "manage") renderManageTable();
       }
 
-      function refreshLiveFrame(showMessage) {
-        var params = [
-          "height=800",
-          "wkst=1",
-          "bgcolor=%230b0b0b",
-          "ctz=America%2FNew_York",
-          "mode=AGENDA",
-          "showTitle=0",
-          "showPrint=0",
-          "showTabs=0",
-          "showCalendars=0",
-          "showTz=0",
-          "showNav=1"
-        ];
-        Object.keys(TEAM_META).forEach(function (team) {
-          if (!TEAM_META[team].calendar) return;
-          params.push("src=" + encodeURIComponent(TEAM_META[team].calendar));
-          params.push("color=" + encodeURIComponent(TEAM_META[team].color));
+      function teamSnapOneSyncLabel() {
+        if (!teamSnapOne.syncedAt) return "No successful sync yet";
+        return "Synced " + new Intl.DateTimeFormat("en-US", {
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+          timeZone: "America/New_York"
+        }).format(new Date(teamSnapOne.syncedAt)) + " ET";
+      }
+
+      function renderTeamSnapOneFeed() {
+        var status = document.getElementById("teamSnapStatus");
+        var agenda = document.getElementById("liveAgenda");
+        var teamList = document.getElementById("liveTeamList");
+        if (!status || !agenda || !teamList) return;
+        var today = isoDate(new Date());
+        var active = activeTeamSnapOneEvents();
+        var upcoming = active.filter(function (item) { return item.endDate >= today; }).sort(function (a, b) {
+          return a.startDate.localeCompare(b.startDate) || String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
+            a.team.localeCompare(b.team) || a.title.localeCompare(b.title);
         });
-        params.push("refresh=" + Date.now());
-        document.getElementById("liveFrame").src = "https://calendar.google.com/calendar/embed?" + params.join("&");
-        document.getElementById("lastLiveRefresh").textContent = "Last refreshed " +
-          new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).format(new Date()) + " ET.";
-        if (showMessage) showToast("Live Google team feeds refreshed.");
+        var syncedTeams = new Set(active.map(function (item) { return item.team; }));
+        var activeCount = active.length;
+
+        status.classList.toggle("unavailable", !teamSnapOne.available || teamSnapOne.stale);
+        status.querySelector("strong").textContent = teamSnapOne.available && !teamSnapOne.stale
+          ? "TeamSnap ONE connected • " + activeCount + " active items"
+          : teamSnapOne.stale
+            ? "Showing the last TeamSnap ONE sync"
+            : teamSnapOne.configured
+              ? "TeamSnap ONE is reconnecting"
+              : "TeamSnap ONE connection is not configured";
+        status.querySelector("span:last-child").textContent = hasUsableTeamSnapOneData()
+          ? syncedTeams.size + " teams • " + teamSnapOneSyncLabel()
+          : "The saved BTB schedule remains available.";
+        document.getElementById("lastLiveRefresh").textContent = hasUsableTeamSnapOneData()
+          ? teamSnapOneSyncLabel() + (teamSnapOne.stale ? " • Cached schedule" : " • Automatic 15-minute refresh")
+          : "TeamSnap ONE is temporarily unavailable. Showing the saved BTB plan.";
+
+        teamList.innerHTML = Object.keys(TEAM_META).map(function (team) {
+          var meta = TEAM_META[team];
+          var connected = syncedTeams.has(team);
+          return "<div class='live-team' style='--team-color:" + meta.color + (connected ? "" : ";opacity:.55") +
+            "'><span class='team-swatch'></span>" + escapeHtml(meta.label) + "<small>" +
+            (connected ? "Synced" : "Awaiting event") + "</small></div>";
+        }).join("");
+
+        if (!upcoming.length) {
+          agenda.innerHTML = "<div class='empty'>" + (hasUsableTeamSnapOneData()
+            ? "No upcoming TeamSnap ONE items are posted."
+            : "The live TeamSnap ONE schedule could not be loaded. The saved season plan is still on the main calendar.") + "</div>";
+          return;
+        }
+
+        var groups = [];
+        upcoming.forEach(function (item) {
+          var group = groups[groups.length - 1];
+          if (!group || group.date !== item.startDate) {
+            group = { date: item.startDate, items: [] };
+            groups.push(group);
+          }
+          group.items.push(item);
+        });
+        agenda.innerHTML = groups.map(function (group) {
+          var rows = group.items.map(function (item) {
+            var meta = TEAM_META[item.team];
+            var typeLabel = item.kind === "practice" ? "Practice" : item.kind === "game" ? "Game" : "Team Event";
+            var timeLabel = item.allDay || !item.startTime ? "All day" : formatClock(item.startTime) +
+              (item.endTime ? "<br>to " + formatClock(item.endTime) : "");
+            return "<button class='live-feed-item' type='button' data-teamsnap-id='" + escapeHtml(item.id) +
+              "' style='--team-color:" + meta.color + "'><span class='live-feed-time'>" + timeLabel +
+              "</span><span class='live-feed-color' aria-hidden='true'></span><span><span class='live-feed-title'>" +
+              escapeHtml(item.title) + "</span><span class='live-feed-meta'>" + escapeHtml(meta.label + " • " + typeLabel +
+              (item.location ? " • " + item.location : "")) + "</span></span><span class='teamsnap-chip'>Live</span></button>";
+          }).join("");
+          return "<section class='live-feed-day'><div class='live-feed-date'><strong>" +
+            escapeHtml(formatDate(group.date, { weekday: "long", month: "long", day: "numeric", year: "numeric" })) +
+            "</strong><span>" + group.items.length + " item" + (group.items.length === 1 ? "" : "s") +
+            "</span></div>" + rows + "</section>";
+        }).join("");
+        agenda.querySelectorAll("[data-teamsnap-id]").forEach(function (button) {
+          button.addEventListener("click", function () { openTeamSnapOneDialog(button.getAttribute("data-teamsnap-id")); });
+        });
+      }
+
+      function refreshTeamSnapOne(showMessage) {
+        var button = document.getElementById("refreshLiveButton");
+        if (button) {
+          button.disabled = true;
+          button.textContent = "Syncing…";
+        }
+        return loadSchedule().then(function () {
+          renderAll();
+          if (showMessage) showToast(hasUsableTeamSnapOneData()
+            ? "TeamSnap ONE and the staff schedule are up to date."
+            : "Staff schedule refreshed. TeamSnap ONE is reconnecting.");
+        }).catch(function () {
+          if (showMessage) showToast("Could not refresh the staff schedule.");
+        }).finally(function () {
+          if (button) {
+            button.disabled = false;
+            button.textContent = "Sync TeamSnap ONE";
+          }
+        });
       }
 
       function updateClock() {
@@ -7979,7 +8613,7 @@
 
       function jumpToNextEvent() {
         var today = isoDate(new Date());
-        var tournamentDates = events.filter(function (event) {
+        var tournamentDates = calendarScheduleEvents().filter(function (event) {
           return event.start && event.end >= today;
         }).map(function (event) { return event.start; });
         var practiceDates = PRACTICE_WINDOWS.filter(function (windowItem) {
@@ -8399,16 +9033,10 @@
         document.getElementById("reviewConflictsButton").addEventListener("click", function () { openConflictDialog(); });
         document.getElementById("showTbdButton").addEventListener("click", function () { document.getElementById("tbdDialog").showModal(); });
         document.getElementById("syncButton").addEventListener("click", function () {
-          loadSchedule().then(function () {
-            renderAll();
-            showToast("Pulled the latest staff schedule from the shared store.");
-          }).catch(function () {
-            showToast("Could not reach the calendar store.");
-          });
+          refreshTeamSnapOne(true);
           if (coachDirectoryLoaded) loadCoachDirectory(true).catch(function () {});
-          refreshLiveFrame(true);
         });
-        document.getElementById("refreshLiveButton").addEventListener("click", function () { refreshLiveFrame(true); });
+        document.getElementById("refreshLiveButton").addEventListener("click", function () { refreshTeamSnapOne(true); });
         document.getElementById("wakeButton").addEventListener("click", toggleWakeLock);
         document.getElementById("fullscreenButton").addEventListener("click", toggleFullscreen);
         document.getElementById("addEventButton").addEventListener("click", function () { openEventDialog(); });
@@ -8498,13 +9126,12 @@
         bindEvents();
         updateClock();
         renderAll();
-        refreshLiveFrame(false);
         setInterval(updateClock, 1000);
         setInterval(function () {
           renderAll();
         }, 60000);
         setInterval(function () {
-          refreshLiveFrame(false);
+          refreshTeamSnapOne(false);
         }, 15 * 60 * 1000);
         window.__BTB_CALENDAR_TEST__ = {
           version: DATA_VERSION,
