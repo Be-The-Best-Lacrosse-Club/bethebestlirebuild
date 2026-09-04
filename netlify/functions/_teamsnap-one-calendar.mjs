@@ -241,12 +241,24 @@ function parseDurationMinutes(description, durationProperty) {
   return minutes > 0 ? minutes : null;
 }
 
-function findTeam(...values) {
-  const haystack = values.filter(Boolean).join("\n");
+function findFirstTeam(value) {
+  const haystack = String(value || "");
+  let firstMatch = null;
+
   for (const candidate of TEAM_MATCHERS) {
-    if (candidate.matcher.test(haystack)) return candidate;
+    const match = candidate.matcher.exec(haystack);
+    if (!match) continue;
+    if (!firstMatch || match.index < firstMatch.index
+        || (match.index === firstMatch.index && match[0].length > firstMatch.length)) {
+      firstMatch = { candidate, index: match.index, length: match[0].length };
+    }
   }
-  return null;
+
+  return firstMatch?.candidate || null;
+}
+
+function findTeam(summary, description) {
+  return findFirstTeam(summary) || findFirstTeam(description);
 }
 
 function normalizeSummary(summary) {
@@ -387,12 +399,16 @@ function normalizeEvent(rawEvent, index, timeZone) {
 
   const uid = unescapeIcsText(propertyValue(rawEvent, "UID")).trim();
   const fallbackUid = encodeURIComponent(`${startDate}:${startTime || "all-day"}:${teamMatch.team}:${summary}:${index}`);
+  const recurrence = parseDateTimeProperty(firstProperty(rawEvent, "RECURRENCE-ID"), timeZone);
+  const instanceStart = recurrence
+    ? (recurrence.allDay ? `${recurrence.date}T00:00:00.000Z` : recurrence.dateTime.toISOString())
+    : sortStart;
   const title = usefulTitle(summary, kind, teamMatch);
   const updatedAt = timestampValue(rawEvent, "LAST-MODIFIED", timeZone)
     || timestampValue(rawEvent, "DTSTAMP", timeZone);
 
   return {
-    id: `teamsnap-one:${uid || fallbackUid}`,
+    id: `teamsnap-one:${uid || fallbackUid}:${encodeURIComponent(instanceStart)}`,
     uid: uid || null,
     provider: "teamsnap-one",
     team: teamMatch.team,
@@ -423,8 +439,7 @@ export function parseTeamSnapOneCalendar(calendarText, { timeZone = DEFAULT_TIME
     .filter(Boolean);
   const uniqueEvents = new Map();
   for (const event of normalized) {
-    const recurrenceKey = `${event.id}:${event.sortStart}`;
-    uniqueEvents.set(recurrenceKey, event);
+    uniqueEvents.set(event.id, event);
   }
 
   return [...uniqueEvents.values()]

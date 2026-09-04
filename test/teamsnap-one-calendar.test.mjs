@@ -84,7 +84,7 @@ test("the parser normalizes UTC, all-day, canceled, duration, folding, and known
 
   const practice = events.find((event) => event.uid === "event-practice@teamsnapone.com");
   assert.deepEqual(practice, {
-    id: "teamsnap-one:event-practice@teamsnapone.com",
+    id: "teamsnap-one:event-practice@teamsnapone.com:2026-09-09T23%3A15%3A00.000Z",
     uid: "event-practice@teamsnapone.com",
     provider: "teamsnap-one",
     team: "2036 Dawgs",
@@ -143,6 +143,53 @@ test("an explicit DTEND takes priority over the description duration", () => {
   assert.equal(meeting.endTime, "20:00");
   assert.equal(meeting.durationMinutes, 60);
   assert.equal(meeting.title, "Team Meeting");
+});
+
+test("recurring events retain their shared UID but receive distinct instance IDs", () => {
+  const calendar = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:recurring-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "RECURRENCE-ID:20260909T231500Z",
+    "DTSTART:20260909T231500Z",
+    "END:VEVENT",
+    "BEGIN:VEVENT",
+    "UID:recurring-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "RECURRENCE-ID:20260916T231500Z",
+    "DTSTART:20260917T001500Z",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const events = parseTeamSnapOneCalendar(calendar);
+  assert.equal(events.length, 2);
+  assert.deepEqual(events.map((event) => event.uid), [
+    "recurring-practice@teamsnapone.com",
+    "recurring-practice@teamsnapone.com",
+  ]);
+  assert.deepEqual(events.map((event) => event.id), [
+    "teamsnap-one:recurring-practice@teamsnapone.com:2026-09-09T23%3A15%3A00.000Z",
+    "teamsnap-one:recurring-practice@teamsnapone.com:2026-09-16T23%3A15%3A00.000Z",
+  ]);
+});
+
+test("the first known team in the summary owns a multi-team event", () => {
+  const calendar = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:multi-team-game@teamsnapone.com",
+    "SUMMARY:Game: 2036 DAWGS vs 2028 BLACK",
+    "DTSTART:20261010T160000Z",
+    "DESCRIPTION:Opponent: 2028 BLACK\\nTeam: 2036 DAWGS",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const [game] = parseTeamSnapOneCalendar(calendar);
+  assert.equal(game.team, "2036 Dawgs");
+  assert.equal(game.title, "vs 2028 BLACK");
 });
 
 test("the loader fetches once, reports counts, caches for five minutes, and never returns its token", async () => {
