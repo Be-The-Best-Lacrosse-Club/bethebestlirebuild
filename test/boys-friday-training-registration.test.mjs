@@ -11,8 +11,10 @@ import {
   validateBoysTrainingRegistration,
 } from "../netlify/functions/boys-training-registration.mjs";
 
-const EARLY_GROUP = "Boys 2036–2034 · 6:00–7:00 PM";
-const LATE_GROUP = "Boys 2033–2031 · 7:00–8:00 PM";
+const EARLY_GROUP = "Boys 2036–2034 · 5:00–6:00 PM";
+const LATE_GROUP = "Boys 2033–2031 · 6:00–7:00 PM";
+const LEGACY_EARLY_GROUP = "Boys 2036–2034 · 6:00–7:00 PM";
+const LEGACY_LATE_GROUP = "Boys 2033–2031 · 7:00–8:00 PM";
 const PAYMENT_TOKEN = "scs-v1-d7ed4f0985e8442391d477a68a779dc7b3e11703e8f548e3a3ec1afb9538ce130dba73afcce5431e9680a8065f5c54ed";
 
 const validRegistration = {
@@ -76,21 +78,23 @@ test("Friday boys training has the six requested dates and two separately tracke
   assert.deepEqual(TRAINING_GROUPS, [
     {
       name: EARLY_GROUP,
-      slug: "boys-2036-2034-6pm",
+      slug: "boys-2036-2034-5pm",
       gender: "Boys",
       gradYears: ["2036", "2035", "2034"],
-      time: "6:00–7:00 PM",
+      time: "5:00–6:00 PM",
     },
     {
       name: LATE_GROUP,
-      slug: "boys-2033-2031-7pm",
+      slug: "boys-2033-2031-6pm",
       gender: "Boys",
       gradYears: ["2033", "2032", "2031"],
-      time: "7:00–8:00 PM",
+      time: "6:00–7:00 PM",
     },
   ]);
   assert.equal(groupForName(EARLY_GROUP)?.gender, "Boys");
   assert.equal(groupForName(LATE_GROUP)?.gender, "Boys");
+  assert.equal(groupForName(LEGACY_EARLY_GROUP)?.name, EARLY_GROUP);
+  assert.equal(groupForName(LEGACY_LATE_GROUP)?.name, LATE_GROUP);
   assert.equal(groupForName("Girls 2036–2034 · 7:00–8:00 PM"), null);
 });
 
@@ -120,15 +124,15 @@ test("server validation requires a complete boys player record and the matching 
 
 test("public boys group totals stay separate and expose no player or family data", async () => {
   const store = memoryStore({
-    "registrations/one": JSON.stringify({ group: EARLY_GROUP, parent_email: "private@example.com" }),
+    "registrations/one": JSON.stringify({ group: LEGACY_EARLY_GROUP, parent_email: "private@example.com" }),
     "registrations/two": JSON.stringify({ group: EARLY_GROUP, medical_notes: "private" }),
-    "registrations/three": JSON.stringify({ group: LATE_GROUP, player_first_name: "Private" }),
+    "registrations/three": JSON.stringify({ group: LEGACY_LATE_GROUP, player_first_name: "Private" }),
   });
   const counts = await buildGroupCounts(store);
 
   assert.deepEqual(counts, [
-    { name: EARLY_GROUP, gender: "Boys", gradYears: ["2036", "2035", "2034"], time: "6:00–7:00 PM", count: 2 },
-    { name: LATE_GROUP, gender: "Boys", gradYears: ["2033", "2032", "2031"], time: "7:00–8:00 PM", count: 1 },
+    { name: EARLY_GROUP, gender: "Boys", gradYears: ["2036", "2035", "2034"], time: "5:00–6:00 PM", count: 2 },
+    { name: LATE_GROUP, gender: "Boys", gradYears: ["2033", "2032", "2031"], time: "6:00–7:00 PM", count: 1 },
   ]);
   assert.equal(JSON.stringify(counts).includes("private@example.com"), false);
   assert.equal(JSON.stringify(counts).includes("medical_notes"), false);
@@ -137,8 +141,8 @@ test("public boys group totals stay separate and expose no player or family data
 
 test("boys registration saves one group count, forwards the summary, and stores no PII", async () => {
   const store = memoryStore({
-    "registrations/existing-one": JSON.stringify({ group: EARLY_GROUP, status: "pending_payment" }),
-    "registrations/existing-two": JSON.stringify({ group: LATE_GROUP, status: "pending_payment" }),
+    "registrations/existing-one": JSON.stringify({ group: LEGACY_EARLY_GROUP, status: "pending_payment" }),
+    "registrations/existing-two": JSON.stringify({ group: LEGACY_LATE_GROUP, status: "pending_payment" }),
   });
   const formSubmissions = [];
   const handler = createHandler({
@@ -160,7 +164,7 @@ test("boys registration saves one group count, forwards the summary, and stores 
   assert.equal(formSubmissions[0]["form-name"], "btb-boys-training-registration");
   assert.equal(formSubmissions[0].program, "BTB Boys Friday Offensive Training with Coach Dan — 6 Sessions");
   assert.equal(formSubmissions[0].program_gender, "Boys");
-  assert.equal(formSubmissions[0].training_time, "6:00–7:00 PM");
+  assert.equal(formSubmissions[0].training_time, "5:00–6:00 PM");
   assert.equal(formSubmissions[0].group_grad_years, "2036, 2035, 2034");
   assert.equal(formSubmissions[0].amount, "250");
   assert.equal(formSubmissions[0].group_registration_count, "2");
@@ -204,8 +208,8 @@ test("one player cannot be double-counted by switching Friday groups", async () 
   });
   assert.equal(formSubmissions.length, 1);
   assert.deepEqual(await buildGroupCounts(store), [
-    { name: EARLY_GROUP, gender: "Boys", gradYears: ["2036", "2035", "2034"], time: "6:00–7:00 PM", count: 1 },
-    { name: LATE_GROUP, gender: "Boys", gradYears: ["2033", "2032", "2031"], time: "7:00–8:00 PM", count: 0 },
+    { name: EARLY_GROUP, gender: "Boys", gradYears: ["2036", "2035", "2034"], time: "5:00–6:00 PM", count: 1 },
+    { name: LATE_GROUP, gender: "Boys", gradYears: ["2033", "2032", "2031"], time: "6:00–7:00 PM", count: 0 },
   ]);
 });
 
@@ -222,8 +226,12 @@ test("boys page, dedicated route and store, QuickBooks handoff, and registration
   assert.match(registrationPage, /name="btb-boys-training-registration"/);
   assert.match(registrationPage, /BOYS FRIDAY/);
   assert.match(registrationPage, /TRAINING WITH COACH DAN/);
-  assert.match(registrationPage, /Boys 2036–2034 · 6:00–7:00 PM/);
-  assert.match(registrationPage, /Boys 2033–2031 · 7:00–8:00 PM/);
+  assert.match(registrationPage, /Change of Time/i);
+  assert.match(registrationPage, /Boys sessions now run 5:00–7:00 PM/);
+  assert.match(registrationPage, /Boys 2036–2034 · 5:00–6:00 PM/);
+  assert.match(registrationPage, /Boys 2033–2031 · 6:00–7:00 PM/);
+  assert.doesNotMatch(registrationPage, /Boys 2036–2034 · 6:00–7:00 PM/);
+  assert.doesNotMatch(registrationPage, /Boys 2033–2031 · 7:00–8:00 PM/);
   assert.match(registrationPage, /Faceoff Specialist/);
   assert.match(registrationPage, /Long-Stick Midfield/);
   assert.doesNotMatch(registrationPage, /Draw Specialist/);
@@ -242,12 +250,12 @@ test("boys page, dedicated route and store, QuickBooks handoff, and registration
   assert.doesNotMatch(registrationFunction, /monday-offensive-registrations/);
 
   assert.match(parentTraining, /href="\/register-boys-training"|boys[^\n]{0,120}: "\/register-boys-training"/i);
-  assert.match(parentTraining, /2036&ndash;2034[^\n]{0,120}6:00&ndash;7:00 PM/);
-  assert.match(parentTraining, /2033&ndash;2031[^\n]{0,120}7:00&ndash;8:00 PM/);
+  assert.match(parentTraining, /2036&ndash;2034[^\n]{0,120}5:00&ndash;6:00 PM/);
+  assert.match(parentTraining, /2033&ndash;2031[^\n]{0,120}6:00&ndash;7:00 PM/);
   assert.match(newsletter, /href="https:\/\/www\.bethebestli\.com\/register-boys-training"/);
   assert.match(newsletter, /BOYS FRIDAY/);
-  assert.match(newsletter, /Boys 2036&ndash;2034[^\n]{0,120}6:00&ndash;7:00 PM/);
-  assert.match(newsletter, /Boys 2033&ndash;2031[^\n]{0,120}7:00&ndash;8:00 PM/);
+  assert.match(newsletter, /Boys 2036&ndash;2034[^\n]{0,120}5:00&ndash;6:00 PM/);
+  assert.match(newsletter, /Boys 2033&ndash;2031[^\n]{0,120}6:00&ndash;7:00 PM/);
   assert.match(netlifyConfig, /from = "\/register-boys-training"[\s\S]*?to = "\/register-boys-training\.html"/);
 
   assert.match(relay, /btb-boys-training-registration/);

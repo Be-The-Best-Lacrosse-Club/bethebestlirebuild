@@ -2480,8 +2480,8 @@ test("a la carte training runs at Momentum on girls Mondays and boys Fridays", (
   const expected = {
     "girls-36-34": { dates: mondays, program: "Girls", startTime: "19:00", endTime: "20:00", teams: ["2036 Avalanche", "2035 Hurricanes", "2034 Thunder"] },
     "girls-33-31": { dates: mondays, program: "Girls", startTime: "20:00", endTime: "21:00", teams: ["2033 Storm", "2032 Riptide", "2031 Cyclones"] },
-    "boys-36-34": { dates: fridays, program: "Boys", startTime: "18:00", endTime: "19:00", teams: ["2036 Dawgs", "2035 Bombers", "2034 Venom"] },
-    "boys-33-31": { dates: fridays, program: "Boys", startTime: "19:00", endTime: "20:00", teams: ["2033 Renegades", "2032 Cannons", "2031 Carnage"] },
+    "boys-36-34": { dates: fridays, program: "Boys", startTime: "17:00", endTime: "18:00", teams: ["2036 Dawgs", "2035 Bombers", "2034 Venom"] },
+    "boys-33-31": { dates: fridays, program: "Boys", startTime: "18:00", endTime: "19:00", teams: ["2033 Renegades", "2032 Cannons", "2031 Carnage"] },
   };
 
   for (const [groupKey, group] of Object.entries(expected)) {

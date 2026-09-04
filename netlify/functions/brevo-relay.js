@@ -42,6 +42,8 @@ const MONDAY_OFFENSIVE_FORM_NAME = "btb-monday-offensive-training-registration";
 const MONDAY_OFFENSIVE_NOTIFY_EMAIL = "info@bethebestli.com";
 const BOYS_TRAINING_FORM_NAME = "btb-boys-training-registration";
 const BOYS_TRAINING_NOTIFY_EMAIL = "info@bethebestli.com";
+const DRAW_TRAINING_FORM_NAME = "btb-draw-training-registration";
+const DRAW_TRAINING_NOTIFY_EMAIL = "info@bethebestli.com";
 const SUPERNOVA_ZOOM_FORM_NAME = "btb-2037-supernova-zoom-registration";
 const BOYS_REGISTRATION_FORMS = new Set([
   "btb-boys-tryout-registration",
@@ -207,6 +209,7 @@ function brevoListIdFor(formName) {
     "btb-lab-team-strength-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-monday-offensive-training-registration": process.env.BREVO_LIST_TRYOUT,
     "btb-boys-training-registration": process.env.BREVO_LIST_TRYOUT,
+    [DRAW_TRAINING_FORM_NAME]: process.env.BREVO_LIST_TRYOUT,
     "btb-east-boys-tryout-registration": process.env.BREVO_LIST_TRYOUT,
     "camp-registration": process.env.BREVO_LIST_TRYOUT,
     "positional-registration": process.env.BREVO_LIST_TRYOUT,
@@ -386,10 +389,13 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   const isLabTeamStrength = formName === LAB_TEAM_STRENGTH_FORM_NAME;
   const isMondayOffensive = formName === MONDAY_OFFENSIVE_FORM_NAME;
   const isBoysTraining = formName === BOYS_TRAINING_FORM_NAME;
+  const isDrawTraining = formName === DRAW_TRAINING_FORM_NAME;
   const isEvaluationRequest = formName === "players-wanted-evaluation";
   const isSupernovaZoom = formName === SUPERNOVA_ZOOM_FORM_NAME;
   const emails = isMondayOffensive
     ? [MONDAY_OFFENSIVE_NOTIFY_EMAIL]
+    : isDrawTraining
+    ? [DRAW_TRAINING_NOTIFY_EMAIL]
     : isBoysTraining
     ? [BOYS_TRAINING_NOTIFY_EMAIL]
     : isLabTeamStrength
@@ -427,6 +433,8 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
     subject = `Boys Friday Training — REGISTRATION SAVED / PAYMENT PENDING — ${data.training_group || "Friday Training"}: ${data.group_registration_count || "?"} registered — ${playerName || data.parent_email || "new registration"}`;
   } else if (isMondayOffensive) {
     subject = `Monday Offensive Training — REGISTRATION SAVED / PAYMENT PENDING — ${data.training_group || "Monday Night"}: ${data.group_registration_count || "?"} registered — ${playerName || data.parent_email || "new registration"}`;
+  } else if (isDrawTraining) {
+    subject = `Emma Mclam Draw Training — REGISTRATION SAVED / PAYMENT INSTRUCTIONS PENDING — ${playerName || data.parent_email || "new registration"}`;
   } else if (isLabTeamStrength) {
     subject = `The Lab — REGISTRATION SAVED / PAYMENT PENDING — ${data.team_name || "Team"}: ${data.team_registration_count || "?"}/10 — ${playerName || data.parent_email || "new registration"}`;
   } else if (isSupplementalTryout) {
@@ -434,8 +442,8 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   } else {
     subject = `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
   }
-  const emailEyebrow = isSupernovaZoom ? "BTB 2037 Girls Supernova" : isBoysTraining ? "BTB Boys Friday Offensive Training with Coach Dan" : isMondayOffensive ? "BTB Girls Monday Night Offensive Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
-  const emailHeading = isSupernovaZoom ? "New Zoom Registration" : isBoysTraining ? `${data.training_group || "Friday Training"} · ${data.group_registration_count || "?"} registered` : isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
+  const emailEyebrow = isSupernovaZoom ? "BTB 2037 Girls Supernova" : isBoysTraining ? "BTB Boys Friday Offensive Training with Coach Dan" : isMondayOffensive ? "BTB Girls Monday Night Offensive Training" : isDrawTraining ? "BTB Emma Mclam Draw Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
+  const emailHeading = isSupernovaZoom ? "New Zoom Registration" : isBoysTraining ? `${data.training_group || "Friday Training"} · ${data.group_registration_count || "?"} registered` : isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isDrawTraining ? "Registration Saved · Payment Instructions Pending" : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
 <!doctype html><html><body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f7;padding:24px;margin:0">
   <div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden">
@@ -443,7 +451,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
       <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:0.85">${escapeHtml(emailEyebrow)}</div>
       <h1 style="margin:6px 0 0;font-size:22px;font-weight:700">${escapeHtml(emailHeading)}</h1>
     </div>
-    ${isBoysTraining || isMondayOffensive || isLabTeamStrength ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment is not confirmed. Wait for the separate QuickBooks payment-received email before marking this player paid. Match it using the player name and parent email below.</div>' : isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
+    ${isDrawTraining ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment instructions are pending. BTB will send payment instructions separately.</div>' : isBoysTraining || isMondayOffensive || isLabTeamStrength ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment is not confirmed. Wait for the separate QuickBooks payment-received email before marking this player paid. Match it using the player name and parent email below.</div>' : isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
     <table style="width:100%;border-collapse:collapse;font-size:14px">${rows}</table>
     <div style="padding:16px 28px;color:#888;font-size:12px;background:#fafafa;border-top:1px solid #eee">
       Submitted ${escapeHtml(submissionTime || new Date().toISOString())} · ${escapeHtml(siteUrl || "bethebestli.com")}
@@ -1185,6 +1193,21 @@ const CONFIRMATION_CONFIG = {
       });
     },
   },
+  [DRAW_TRAINING_FORM_NAME]: {
+    subject: () => "Registration Received — Emma Mclam Draw Training | Thursdays 7:00–8:00 PM",
+    getHtml: (data) => {
+      const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
+      const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      return confirmationBase({
+        parentFirst,
+        playerName,
+        program: "BTB Girls Draw Training with Emma Mclam — 5-Session Package",
+        details: "Five Thursday sessions: September 17 and 24 and October 1, 8, and 15, 2026, from 7:00–8:00 PM at Momentum Sports. The program fee is $175. Your registration details are saved, and BTB will send payment instructions separately.",
+        headline: "Registration Received",
+        introVerb: "saved for",
+      });
+    },
+  },
   "btb-monday-offensive-training-registration": {
     subject: (data) => `Registration Received — Monday Offensive Training | ${data.training_group || "Monday Night"}`,
     getHtml: (data) => {
@@ -1264,6 +1287,13 @@ function confirmationBase({
   headline = "You're Registered!",
   introVerb = "registered for",
 }) {
+  const ctaMarkup = cta && ctaUrl
+    ? `<table width="100%" cellpadding="0" cellspacing="0">
+        <tr><td style="text-align:center;padding:4px 0 24px;">
+          <a href="${ctaUrl}" style="display:inline-block;background:#D22630;color:#fff;text-decoration:none;font-size:14px;font-weight:900;letter-spacing:2px;text-transform:uppercase;padding:16px 32px;border-radius:6px;">${escapeHtml(cta)}</a>
+        </td></tr>
+      </table>`
+    : "";
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -1285,11 +1315,7 @@ function confirmationBase({
         <p style="color:#D22630;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 10px;">WHAT'S NEXT</p>
         <p style="color:#ccc;font-size:14px;line-height:1.7;margin:0;">${escapeHtml(details)}</p>
       </div>
-      <table width="100%" cellpadding="0" cellspacing="0">
-        <tr><td style="text-align:center;padding:4px 0 24px;">
-          <a href="${ctaUrl}" style="display:inline-block;background:#D22630;color:#fff;text-decoration:none;font-size:14px;font-weight:900;letter-spacing:2px;text-transform:uppercase;padding:16px 32px;border-radius:6px;">${escapeHtml(cta)}</a>
-        </td></tr>
-      </table>
+      ${ctaMarkup}
       <p style="font-size:13px;color:#555;text-align:center;margin:0;">Questions? Reply to this email or reach us at <a href="mailto:info@bethebestli.com" style="color:#D22630;text-decoration:none;">info@bethebestli.com</a></p>
     </td></tr>
   </table>

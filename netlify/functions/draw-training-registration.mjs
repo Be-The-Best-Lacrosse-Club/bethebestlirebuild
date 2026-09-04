@@ -2,48 +2,35 @@ import { createHash } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import { ALLOWED_ORIGINS, guardRequest } from "./_guard.js";
 
-const STORE_NAME = "boys-training-registrations";
-const FORM_NAME = "btb-boys-training-registration";
+const STORE_NAME = "draw-training-registrations";
+const FORM_NAME = "btb-draw-training-registration";
 
 export const SESSION_DATES = Object.freeze([
-  "September 18, 2026",
-  "September 25, 2026",
-  "October 2, 2026",
-  "October 9, 2026",
-  "October 23, 2026",
-  "October 30, 2026",
+  "September 17, 2026",
+  "September 24, 2026",
+  "October 1, 2026",
+  "October 8, 2026",
+  "October 15, 2026",
 ]);
 
 export const TRAINING_GROUPS = Object.freeze([
   {
-    name: "Boys 2036–2034 · 5:00–6:00 PM",
-    slug: "boys-2036-2034-5pm",
-    gender: "Boys",
-    gradYears: ["2036", "2035", "2034"],
-    time: "5:00–6:00 PM",
-  },
-  {
-    name: "Boys 2033–2031 · 6:00–7:00 PM",
-    slug: "boys-2033-2031-6pm",
-    gender: "Boys",
-    gradYears: ["2033", "2032", "2031"],
-    time: "6:00–7:00 PM",
+    name: "Girls Draw Training · 7:00–8:00 PM",
+    slug: "girls-draw-training-7pm",
+    gender: "Girls",
+    gradYears: ["2037", "2036", "2035", "2034", "2033", "2032", "2031"],
+    time: "7:00–8:00 PM",
   },
 ]);
 
 const GROUP_BY_NAME = new Map(TRAINING_GROUPS.map((group) => [group.name, group]));
-const LEGACY_GROUP_ALIASES = new Map([
-  ["Boys 2036–2034 · 6:00–7:00 PM", "Boys 2036–2034 · 5:00–6:00 PM"],
-  ["Boys 2033–2031 · 7:00–8:00 PM", "Boys 2033–2031 · 6:00–7:00 PM"],
-]);
 const GRAD_YEARS = new Set(TRAINING_GROUPS.flatMap((group) => group.gradYears));
 const POSITIONS = new Set([
   "Attack",
   "Midfield",
   "Defense",
   "Goalie",
-  "Faceoff Specialist",
-  "Long-Stick Midfield",
+  "Draw Specialist",
   "Unsure",
 ]);
 const ALLOWED_FIELDS = [
@@ -103,13 +90,12 @@ function validDate(value) {
 }
 
 export function groupForName(value) {
-  const name = clean(value, 80);
-  return GROUP_BY_NAME.get(LEGACY_GROUP_ALIASES.get(name) || name) || null;
+  return GROUP_BY_NAME.get(clean(value, 80)) || null;
 }
 
-export function validateBoysTrainingRegistration(input = {}) {
+export function validateDrawTrainingRegistration(input = {}) {
   const group = groupForName(input.training_group);
-  if (!group) return { error: "Please choose one of the two boys Friday training groups." };
+  if (!group) return { error: "Please choose the girls draw training package." };
 
   const requiredFields = [
     "player_first_name",
@@ -150,10 +136,7 @@ export function validateBoysTrainingRegistration(input = {}) {
   }
   const gradYear = clean(input.grad_year, 4);
   if (!GRAD_YEARS.has(gradYear)) {
-    return { error: "Boys Friday training is open to graduation years 2036 through 2031." };
-  }
-  if (!group.gradYears.includes(gradYear)) {
-    return { error: "Please choose the boys group that matches the player's graduation year." };
+    return { error: "Girls draw training is open to graduation years 2037 through 2031." };
   }
   if (!POSITIONS.has(clean(input.position, 40))) {
     return { error: "Please choose a valid primary position." };
@@ -187,13 +170,16 @@ function registrationData(input, group, count) {
   const data = {};
   for (const field of ALLOWED_FIELDS) data[field] = clean(input[field]);
   data["form-name"] = FORM_NAME;
-  data.program = "BTB Boys Friday Offensive Training with Coach Dan — 6 Sessions";
+  data.program = "BTB Girls Draw Training with Emma Mclam — 5-Session Package";
   data.program_gender = group.gender;
+  data.coach = "Emma Mclam";
+  data.training_day = "Thursdays";
   data.training_time = group.time;
   data.group_grad_years = group.gradYears.join(", ");
-  data.amount = "250";
+  data.location = "Momentum Sports · 10 Dunton Ave, Deer Park, NY 11729";
+  data.amount = "175";
   data.session_dates = SESSION_DATES.join("; ");
-  data.registration_status = "Pending QuickBooks payment verification";
+  data.registration_status = "Pending $175 payment instructions";
   data.payment_match_reference = `${clean(input.player_first_name, 120)} ${clean(input.player_last_name, 120)} · ${clean(input.parent_email, 320)}`;
   data.group_registration_count = String(count);
   return data;
@@ -207,7 +193,7 @@ export async function buildGroupCounts(store) {
     gender: group.gender,
     gradYears: group.gradYears,
     time: group.time,
-    count: records.filter((record) => groupForName(record?.group)?.name === group.name).length,
+    count: records.filter((record) => record?.group === group.name).length,
   }));
 }
 
@@ -242,8 +228,8 @@ export function createHandler({
       try {
         return json({ groups: await buildGroupCounts(store) });
       } catch (error) {
-        console.error("boys training group counts failed:", error);
-        return json({ error: "Group counts are temporarily unavailable." }, 500);
+        console.error("draw training group count failed:", error);
+        return json({ error: "The registration total is temporarily unavailable." }, 500);
       }
     }
 
@@ -266,7 +252,7 @@ export function createHandler({
     }
     if (clean(input["bot-field"])) return json({ ok: true });
 
-    const validation = validateBoysTrainingRegistration(input);
+    const validation = validateDrawTrainingRegistration(input);
     if (validation.error) return json({ error: validation.error }, 400);
     const { group } = validation;
     const registrationKey = `registrations/${registrationFingerprint(input)}`;
@@ -277,12 +263,11 @@ export function createHandler({
       const existing = await store.get(registrationKey, { type: "json" });
       if (existing) {
         const groups = await buildGroupCounts(store);
-        const canonicalGroupName = groupForName(existing.group)?.name || existing.group;
-        const existingGroup = groups.find((item) => item.name === canonicalGroupName);
+        const existingGroup = groups.find((item) => item.name === existing.group);
         return json({
           ok: true,
           duplicate: true,
-          group: canonicalGroupName,
+          group: existing.group,
           count: existingGroup?.count || 1,
         });
       }
@@ -308,19 +293,19 @@ export function createHandler({
 
       try {
         await store.setJSON(registrationKey, {
-          status: "pending_payment",
+          status: "pending_payment_instructions",
           group: group.name,
           gender: group.gender,
           acceptedAt: now().toISOString(),
         });
       } catch (error) {
-        console.warn("boys training registration status update failed:", error);
+        console.warn("draw training registration status update failed:", error);
       }
 
       return json({ ok: true, group: group.name, count });
     } catch (error) {
       if (recordSaved && !formSaved) await Promise.allSettled([store.delete(registrationKey)]);
-      console.error("boys training registration failed:", error);
+      console.error("draw training registration failed:", error);
       return json({ error: "Registration could not be completed. Please try again." }, 500);
     }
   };
@@ -329,7 +314,7 @@ export function createHandler({
 export default createHandler();
 
 export const config = {
-  path: "/api/boys-training-registration",
+  path: "/api/draw-training-registration",
   rateLimit: {
     windowLimit: 60,
     windowSize: 60,
