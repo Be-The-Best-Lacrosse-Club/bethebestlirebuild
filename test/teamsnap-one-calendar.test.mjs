@@ -84,7 +84,7 @@ test("the parser normalizes UTC, all-day, canceled, duration, folding, and known
 
   const practice = events.find((event) => event.uid === "event-practice@teamsnapone.com");
   assert.deepEqual(practice, {
-    id: "teamsnap-one:event-practice@teamsnapone.com:2026-09-09T23%3A15%3A00.000Z",
+    id: "teamsnap-one:event-practice@teamsnapone.com",
     uid: "event-practice@teamsnapone.com",
     provider: "teamsnap-one",
     team: "2036 Dawgs",
@@ -151,14 +151,12 @@ test("recurring events retain their shared UID but receive distinct instance IDs
     "BEGIN:VEVENT",
     "UID:recurring-practice@teamsnapone.com",
     "SUMMARY:Practice: 2036 DAWGS",
-    "RECURRENCE-ID:20260909T231500Z",
     "DTSTART:20260909T231500Z",
     "END:VEVENT",
     "BEGIN:VEVENT",
     "UID:recurring-practice@teamsnapone.com",
     "SUMMARY:Practice: 2036 DAWGS",
-    "RECURRENCE-ID:20260916T231500Z",
-    "DTSTART:20260917T001500Z",
+    "DTSTART:20260916T231500Z",
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\n");
@@ -173,6 +171,41 @@ test("recurring events retain their shared UID but receive distinct instance IDs
     "teamsnap-one:recurring-practice@teamsnapone.com:2026-09-09T23%3A15%3A00.000Z",
     "teamsnap-one:recurring-practice@teamsnapone.com:2026-09-16T23%3A15%3A00.000Z",
   ]);
+});
+
+test("recurrence IDs stay stable when an occurrence is rescheduled", () => {
+  const occurrence = (start) => [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:recurring-game@teamsnapone.com",
+    "RECURRENCE-ID:20261010T160000Z",
+    "SUMMARY:Game: 2036 DAWGS vs 2028 BLACK",
+    `DTSTART:${start}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const [original] = parseTeamSnapOneCalendar(occurrence("20261010T160000Z"));
+  const [rescheduled] = parseTeamSnapOneCalendar(occurrence("20261011T170000Z"));
+  assert.equal(original.id, rescheduled.id);
+  assert.equal(original.id, "teamsnap-one:recurring-game@teamsnapone.com:2026-10-10T16%3A00%3A00.000Z");
+});
+
+test("a non-recurring event keeps its source UID when rescheduled", () => {
+  const event = (start) => [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:single-game@teamsnapone.com",
+    "SUMMARY:Game: 2036 DAWGS vs 2028 BLACK",
+    `DTSTART:${start}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const [original] = parseTeamSnapOneCalendar(event("20261010T160000Z"));
+  const [rescheduled] = parseTeamSnapOneCalendar(event("20261011T170000Z"));
+  assert.equal(original.id, "teamsnap-one:single-game@teamsnapone.com");
+  assert.equal(original.id, rescheduled.id);
 });
 
 test("the first known team in the summary owns a multi-team event", () => {

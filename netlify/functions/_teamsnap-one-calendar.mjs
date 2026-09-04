@@ -408,7 +408,7 @@ function normalizeEvent(rawEvent, index, timeZone) {
     || timestampValue(rawEvent, "DTSTAMP", timeZone);
 
   return {
-    id: `teamsnap-one:${uid || fallbackUid}:${encodeURIComponent(instanceStart)}`,
+    id: `teamsnap-one:${uid || fallbackUid}`,
     uid: uid || null,
     provider: "teamsnap-one",
     team: teamMatch.team,
@@ -425,6 +425,8 @@ function normalizeEvent(rawEvent, index, timeZone) {
     deepLink: extractLink(description, propertyValue(rawEvent, "URL")),
     status,
     updatedAt,
+    hasRecurrenceId: Boolean(recurrence),
+    instanceStart,
     sortStart,
   };
 }
@@ -437,14 +439,20 @@ export function parseTeamSnapOneCalendar(calendarText, { timeZone = DEFAULT_TIME
   const normalized = parseRawEvents(calendarText)
     .map((rawEvent, index) => normalizeEvent(rawEvent, index, timeZone))
     .filter(Boolean);
+  const uidCounts = new Map();
+  for (const event of normalized) {
+    if (event.uid) uidCounts.set(event.uid, (uidCounts.get(event.uid) || 0) + 1);
+  }
   const uniqueEvents = new Map();
   for (const event of normalized) {
-    uniqueEvents.set(event.id, event);
+    const needsInstanceId = event.hasRecurrenceId || (event.uid && uidCounts.get(event.uid) > 1);
+    const id = needsInstanceId ? `${event.id}:${encodeURIComponent(event.instanceStart)}` : event.id;
+    uniqueEvents.set(id, { ...event, id });
   }
 
   return [...uniqueEvents.values()]
     .sort((left, right) => left.sortStart.localeCompare(right.sortStart) || left.team.localeCompare(right.team))
-    .map(({ sortStart: _sortStart, ...event }) => event);
+    .map(({ hasRecurrenceId: _hasRecurrenceId, instanceStart: _instanceStart, sortStart: _sortStart, ...event }) => event);
 }
 
 function calendarName(calendarText) {
