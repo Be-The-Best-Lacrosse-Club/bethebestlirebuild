@@ -209,6 +209,7 @@ test("inferred recurring IDs stay instance-specific after the feed window shrink
 });
 
 test("ambiguous inferred recurring instances fail closed instead of emitting changeable IDs", () => {
+  const recurringUids = new Set();
   const calendar = [
     "BEGIN:VCALENDAR",
     "BEGIN:VEVENT",
@@ -225,8 +226,23 @@ test("ambiguous inferred recurring instances fail closed instead of emitting cha
   ].join("\n");
 
   assert.throws(
-    () => parseTeamSnapOneCalendar(calendar),
+    () => parseTeamSnapOneCalendar(calendar, { recurringUids }),
     /missing its stable instance link/,
+  );
+  assert.equal(recurringUids.size, 0);
+
+  const singleton = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:ambiguous-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260909T231500Z",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+  assert.equal(
+    parseTeamSnapOneCalendar(singleton, { recurringUids })[0].id,
+    "teamsnap-one:ambiguous-practice@teamsnapone.com",
   );
 });
 

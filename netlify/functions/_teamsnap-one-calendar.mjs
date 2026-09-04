@@ -456,7 +456,8 @@ export function parseTeamSnapOneCalendar(calendarText, {
   for (const event of normalized) {
     if (event.uid) uidCounts.set(event.uid, (uidCounts.get(event.uid) || 0) + 1);
   }
-  const knownRecurringUids = recurringUids instanceof Set ? recurringUids : new Set();
+  const recurringUidRegistry = recurringUids instanceof Set ? recurringUids : null;
+  const knownRecurringUids = new Set(recurringUidRegistry || []);
   for (const event of normalized) {
     if (event.uid && (event.hasRecurrenceId || uidCounts.get(event.uid) > 1)) {
       knownRecurringUids.add(event.uid);
@@ -474,6 +475,7 @@ export function parseTeamSnapOneCalendar(calendarText, {
     }
     recurringInstanceKeys.add(registryKey);
   }
+  for (const uid of knownRecurringUids) recurringUidRegistry?.add(uid);
   const uniqueEvents = new Map();
   for (const event of normalized) {
     const needsInstanceId = event.uid && knownRecurringUids.has(event.uid);
