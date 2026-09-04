@@ -91,3 +91,26 @@ test("girls program age pills stay unique when a grad year has multiple teams", 
   const programPage = await read("src/pages/ProgramPage.tsx")
   assert.match(programPage, /new Set\(data\.teams\.map\(\(t\) => t\.gradYear\)\)/)
 })
+
+test("staff can find the protected season calendar from site navigation and footers", async () => {
+  const [header, footer, homepage, redirects] = await Promise.all([
+    read("src/components/Header.tsx"),
+    read("src/components/Footer.tsx"),
+    read("src/pages/HomePage.tsx"),
+    read("netlify.toml"),
+  ])
+
+  const headerLinks = header.match(/\{ label: "Staff Calendar", href: "\/dan-calendar" \}/g) ?? []
+  assert.equal(headerLinks.length, 2, "desktop and mobile navigation both link to the staff calendar")
+  assert.match(header, /const staticLinks = new Set\(\[[\s\S]*?"\/dan-calendar"[\s\S]*?\]\)/)
+  assert.match(footer, /href="\/dan-calendar" onClick=\{link\("\/dan-calendar"\)\}[^>]*>Staff Calendar<\/a>/)
+  assert.match(homepage, /href="\/dan-calendar"[^>]*>Staff Calendar<\/a>/)
+
+  const calendarRedirect = redirects.match(
+    /from = "\/dan-calendar"[\s\S]*?(?=\n\[\[redirects\]\]|$)/,
+  )?.[0]
+  assert.ok(calendarRedirect, "/dan-calendar redirect exists")
+  assert.match(calendarRedirect, /to = "\/dan-tournament-calendar\.html"/)
+  assert.match(calendarRedirect, /status = 200/)
+  assert.match(calendarRedirect, /force = true/)
+})

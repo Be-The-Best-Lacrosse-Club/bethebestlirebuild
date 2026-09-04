@@ -63,6 +63,7 @@ const resourceLinks = [
   { label: "Digital Academy", href: "/academy" },
   { label: "Recruiting", href: "/recruiting" },
   { label: "Coaches Hub", href: "/coach-tools.html" },
+  { label: "Staff Calendar", href: "/dan-calendar" },
 ]
 
 const staticLinks = new Set([
@@ -70,6 +71,7 @@ const staticLinks = new Set([
   "/parent-training",
   "/fall-winter-newsletter",
   "/coach-tools.html",
+  "/dan-calendar",
   "https://www.thesixesleague.com",
 ])
 
@@ -401,6 +403,7 @@ export function Header() {
                   { label: "Recruiting", href: "/recruiting" },
                   { label: "Logos", href: "/logos" },
                   { label: "Coaches Hub", href: "/coach-tools.html" },
+                  { label: "Staff Calendar", href: "/dan-calendar" },
                   { label: "Login", href: "/login" },
                 ],
               },

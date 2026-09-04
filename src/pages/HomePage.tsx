@@ -506,7 +506,7 @@ export function HomePage() {
             <div><h3>Programs</h3><a href="/boys">Boys lacrosse</a><a href="/girls">Girls lacrosse</a><a href="/futures">BTB Futures</a><a href="/camps">Camps + clinics</a></div>
             <div><h3>Join BTB</h3><a href="/players-wanted">Roster openings</a><a href="/interest">Interest form</a><a href="/recruiting">Recruiting</a><a href="/contact">Contact</a></div>
             <div><h3>Parents</h3><a href="/fall-winter-newsletter">Season newsletter</a><a href="/parent-training">Winter training</a><a href="/parent-hub">Parent hub</a></div>
-            <div><h3>Connect</h3><a href="https://www.instagram.com/bethebestli" target="_blank" rel="noreferrer">Instagram</a><a href="https://x.com/bethebestli" target="_blank" rel="noreferrer">X / Twitter</a><a href="mailto:info@bethebestli.com">info@bethebestli.com</a></div>
+            <div><h3>Connect</h3><a href="/dan-calendar">Staff Calendar</a><a href="https://www.instagram.com/bethebestli" target="_blank" rel="noreferrer">Instagram</a><a href="https://x.com/bethebestli" target="_blank" rel="noreferrer">X / Twitter</a><a href="mailto:info@bethebestli.com">info@bethebestli.com</a></div>
           </div>
         </div>
         <div className="btb-home__shell btb-home__footer-bottom"><p>© 2026 Be The Best Lacrosse Academy.</p><p>Our Culture Built Us. Our Hard Work Made Us.</p></div>
