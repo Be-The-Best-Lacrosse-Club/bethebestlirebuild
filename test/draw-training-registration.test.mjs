@@ -137,7 +137,7 @@ test("the live total is exact, uncapped, and exposes no player or family data", 
 
 test("registration saves the package summary and stores no PII in the live-total record", async () => {
   const store = memoryStore({
-    "registrations/existing": JSON.stringify({ group: DRAW_GROUP, status: "pending_payment_instructions" }),
+    "registrations/existing": JSON.stringify({ group: DRAW_GROUP, status: "pending_payment" }),
   });
   const formSubmissions = [];
   const handler = createHandler({
@@ -166,15 +166,15 @@ test("registration saves the package summary and stores no PII in the live-total
   assert.equal(formSubmissions[0].location, "Momentum Sports · 10 Dunton Ave, Deer Park, NY 11729");
   assert.equal(formSubmissions[0].amount, "175");
   assert.equal(formSubmissions[0].session_dates, SESSION_DATES.join("; "));
-  assert.equal(formSubmissions[0].registration_status, "Pending $175 payment instructions");
+  assert.equal(formSubmissions[0].registration_status, "Pending QuickBooks payment verification");
+  assert.equal(formSubmissions[0].payment_match_reference, "Test Player · parent@example.com");
   assert.equal(formSubmissions[0].group_registration_count, "2");
-  assert.doesNotMatch(JSON.stringify(formSubmissions[0]), /connect\.intuit\.com|quickbooks|checkout/i);
 
   const savedRecord = [...store.values.entries()].find(([key]) => key.startsWith("registrations/") && key !== "registrations/existing")[1];
   assert.equal(savedRecord.includes("parent@example.com"), false);
   assert.equal(savedRecord.includes("medical_notes"), false);
   assert.equal(savedRecord.includes("Test Player"), false);
-  assert.equal(JSON.parse(savedRecord).status, "pending_payment_instructions");
+  assert.equal(JSON.parse(savedRecord).status, "pending_payment");
 });
 
 test("one player cannot be double-counted for the package", async () => {
@@ -205,7 +205,7 @@ test("one player cannot be double-counted for the package", async () => {
   assert.equal((await buildGroupCounts(store))[0].count, 1);
 });
 
-test("the draw page, parent hub, newsletter, route, and email flow stay aligned", async () => {
+test("the draw page, parent hub, newsletter, route, QuickBooks handoff, and email flow stay aligned", async () => {
   const [registrationPage, parentTraining, newsletter, relay, netlifyConfig] = await Promise.all([
     readFile(new URL("../public/register-draw-training.html", import.meta.url), "utf8"),
     readFile(new URL("../public/parent-training.html", import.meta.url), "utf8"),
@@ -224,18 +224,28 @@ test("the draw page, parent hub, newsletter, route, and email flow stay aligned"
   assert.match(registrationPage, /Momentum Sports/);
   assert.match(registrationPage, /10 Dunton Ave/);
   assert.match(registrationPage, /const REGISTRATION_ENDPOINT = "\/api\/draw-training-registration"/);
-  assert.doesNotMatch(registrationPage, /connect\.intuit\.com|PAYMENT_LINK|QuickBooks/i);
+  const pagePaymentLink = registrationPage.match(/const PAYMENT_LINK = "([^"]+)"/)?.[1];
+  assert.ok(pagePaymentLink, "QuickBooks payment link is configured on the registration page");
+  const paymentUrl = new URL(pagePaymentLink);
+  assert.equal(paymentUrl.protocol, "https:");
+  assert.equal(paymentUrl.hostname, "connect.intuit.com");
+  assert.match(pagePaymentLink, /scs-v1-e7c6e9491a2d493a91ee01540d32dcea3a72371fe31344cda1f0522a0509ad25c0d1fbea0d8b40bda19c50ae46254e0b-0/);
+  assert.match(registrationPage, /window\.location\.href = PAYMENT_LINK/);
 
   assert.match(parentTraining, /draw: "\/register-draw-training"/);
   assert.match(parentTraining, /REGISTER FOR DRAW TRAINING &mdash; \$175/);
   assert.match(parentTraining, /September 17 and 24; October 1, 8, and 15, 2026/);
+  assert.match(parentTraining, /continue to secure QuickBooks checkout/);
   assert.match(newsletter, /href="https:\/\/www\.bethebestli\.com\/register-draw-training"/);
   assert.match(newsletter, /\$175 for 5 Thursday sessions/);
+  assert.match(newsletter, /secure \$175 QuickBooks checkout/);
   assert.match(netlifyConfig, /from = "\/register-draw-training"[\s\S]*?to = "\/register-draw-training\.html"/);
 
   assert.match(relay, /btb-draw-training-registration/);
   assert.match(relay, /Emma Mclam Draw Training/);
   assert.match(relay, /September 17 and 24/);
-  assert.match(relay, /BTB will send[^\n]{0,120}payment instructions/i);
-  assert.doesNotMatch(relay, /DRAW_TRAINING_PAYMENT_URL/);
+  const relayPaymentLink = relay.match(/const DRAW_TRAINING_PAYMENT_URL =\s*"([^"]+)"/)?.[1];
+  assert.equal(relayPaymentLink, pagePaymentLink);
+  assert.match(relay, /COMPLETE \$175 PAYMENT/);
+  assert.match(relay, /separate QuickBooks payment-received email/);
 });
