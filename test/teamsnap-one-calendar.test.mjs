@@ -10,7 +10,10 @@ import {
   TEAMSNAP_ONE_TEAMS,
   unescapeIcsText,
 } from "../netlify/functions/_teamsnap-one-calendar.mjs";
-import { createHandler as createCalendarHandler } from "../netlify/functions/tournament-calendar.mjs";
+import {
+  createHandler as createCalendarHandler,
+  SNAPSHOT_KEY,
+} from "../netlify/functions/tournament-calendar.mjs";
 
 const FEED_URL = "https://calendar-api.teamsnap.com/v1/user.ics?token=test-token-not-a-secret";
 
@@ -145,6 +148,156 @@ test("an explicit DTEND takes priority over the description duration", () => {
   assert.equal(meeting.title, "Team Meeting");
 });
 
+test("recurring events retain their shared UID but receive distinct instance IDs", () => {
+  const calendar = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:recurring-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260909T231500Z",
+    "URL:https://link.teamsnapone.com/practice/first",
+    "END:VEVENT",
+    "BEGIN:VEVENT",
+    "UID:recurring-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260916T231500Z",
+    "URL:https://link.teamsnapone.com/practice/second",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const events = parseTeamSnapOneCalendar(calendar);
+  assert.equal(events.length, 2);
+  assert.deepEqual(events.map((event) => event.uid), [
+    "recurring-practice@teamsnapone.com",
+    "recurring-practice@teamsnapone.com",
+  ]);
+  assert.equal(new Set(events.map((event) => event.id)).size, 2);
+  assert.equal(events.every((event) => (
+    event.id.startsWith("teamsnap-one:recurring-practice@teamsnapone.com:link-")
+  )), true);
+});
+
+test("inferred recurring IDs stay instance-specific after the feed window shrinks", () => {
+  const recurringUids = new Set();
+  const occurrence = (start, link) => [
+    "BEGIN:VEVENT",
+    "UID:expanded-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    `DTSTART:${start}`,
+    `URL:${link}`,
+    "END:VEVENT",
+  ];
+  const initialCalendar = [
+    "BEGIN:VCALENDAR",
+    ...occurrence("20260909T231500Z", "https://link.teamsnapone.com/practice/first"),
+    ...occurrence("20260916T231500Z", "https://link.teamsnapone.com/practice/second"),
+    "END:VCALENDAR",
+  ].join("\n");
+  const initial = parseTeamSnapOneCalendar(initialCalendar, { recurringUids });
+  const firstId = initial[0].id;
+
+  const narrowedCalendar = [
+    "BEGIN:VCALENDAR",
+    ...occurrence("20260910T001500Z", "https://link.teamsnapone.com/practice/first"),
+    "END:VCALENDAR",
+  ].join("\n");
+  const [remaining] = parseTeamSnapOneCalendar(narrowedCalendar, { recurringUids });
+
+  assert.equal(recurringUids.has("expanded-practice@teamsnapone.com"), true);
+  assert.equal(remaining.id, firstId);
+});
+
+test("ambiguous inferred recurring instances fail closed instead of emitting changeable IDs", () => {
+  const recurringUids = new Set();
+  const calendar = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:ambiguous-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260909T231500Z",
+    "END:VEVENT",
+    "BEGIN:VEVENT",
+    "UID:ambiguous-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260916T231500Z",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  assert.throws(
+    () => parseTeamSnapOneCalendar(calendar, { recurringUids }),
+    /missing its stable instance link/,
+  );
+  assert.equal(recurringUids.size, 0);
+
+  const singleton = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:ambiguous-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260909T231500Z",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+  assert.equal(
+    parseTeamSnapOneCalendar(singleton, { recurringUids })[0].id,
+    "teamsnap-one:ambiguous-practice@teamsnapone.com",
+  );
+});
+
+test("recurrence IDs stay stable when an occurrence is rescheduled", () => {
+  const occurrence = (start) => [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:recurring-game@teamsnapone.com",
+    "RECURRENCE-ID:20261010T160000Z",
+    "SUMMARY:Game: 2036 DAWGS vs 2028 BLACK",
+    `DTSTART:${start}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const [original] = parseTeamSnapOneCalendar(occurrence("20261010T160000Z"));
+  const [rescheduled] = parseTeamSnapOneCalendar(occurrence("20261011T170000Z"));
+  assert.equal(original.id, rescheduled.id);
+  assert.equal(original.id, "teamsnap-one:recurring-game@teamsnapone.com:2026-10-10T16%3A00%3A00.000Z");
+});
+
+test("a non-recurring event keeps its source UID when rescheduled", () => {
+  const event = (start) => [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:single-game@teamsnapone.com",
+    "SUMMARY:Game: 2036 DAWGS vs 2028 BLACK",
+    `DTSTART:${start}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const [original] = parseTeamSnapOneCalendar(event("20261010T160000Z"));
+  const [rescheduled] = parseTeamSnapOneCalendar(event("20261011T170000Z"));
+  assert.equal(original.id, "teamsnap-one:single-game@teamsnapone.com");
+  assert.equal(original.id, rescheduled.id);
+});
+
+test("the first known team in the summary owns a multi-team event", () => {
+  const calendar = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:multi-team-game@teamsnapone.com",
+    "SUMMARY:Game: 2036 DAWGS vs 2028 BLACK",
+    "DTSTART:20261010T160000Z",
+    "DESCRIPTION:Opponent: 2028 BLACK\\nTeam: 2036 DAWGS",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  const [game] = parseTeamSnapOneCalendar(calendar);
+  assert.equal(game.team, "2036 Dawgs");
+  assert.equal(game.title, "vs 2028 BLACK");
+});
+
 test("the loader fetches once, reports counts, caches for five minutes, and never returns its token", async () => {
   resetTeamSnapOneCalendarCache();
   let fetchCount = 0;
@@ -274,6 +427,108 @@ test("the protected calendar load includes TeamSnap ONE data without exposing th
     assert.equal(response.status, 200);
     assert.deepEqual(payload.teamsnapOne, teamsnapOne);
     assert.doesNotMatch(JSON.stringify(payload), /calendar-api[.]teamsnap[.]com/);
+  } finally {
+    if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD;
+    else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword;
+  }
+});
+
+test("calendar loads persist recurring TeamSnap UIDs for later feed windows", async () => {
+  const originalPassword = process.env.TOURNAMENT_CALENDAR_PASSWORD;
+  process.env.TOURNAMENT_CALENDAR_PASSWORD = "server-password";
+  let registry = { uids: ["known-series@teamsnapone.com"] };
+  let registryEtag = '"registry-v1"';
+  let registryWriteCount = 0;
+  const store = {
+    getWithMetadata: async (key) => key === SNAPSHOT_KEY
+      ? { data: { events: [] }, etag: '"v1"' }
+      : { data: structuredClone(registry), etag: registryEtag },
+    setJSON: async (key, value, options) => {
+      assert.equal(key, "teamsnap-one-recurring-uids");
+      registryWriteCount += 1;
+      if (registryWriteCount === 1) {
+        assert.deepEqual(options, { onlyIfMatch: '"registry-v1"' });
+        registry = { uids: ["known-series@teamsnapone.com", "concurrent-series@teamsnapone.com"] };
+        registryEtag = '"registry-v2"';
+        return { modified: false };
+      }
+      assert.deepEqual(options, { onlyIfMatch: '"registry-v2"' });
+      registry = structuredClone(value);
+      registryEtag = '"registry-v3"';
+      return { modified: true, etag: registryEtag };
+    },
+  };
+  const handler = createCalendarHandler({
+    authorize: async () => ({ ok: false }),
+    getBlobStore: () => store,
+    loadTeamSnapOne: async ({ recurringUids }) => {
+      assert.equal(recurringUids.has("known-series@teamsnapone.com"), true);
+      recurringUids.add("new-series@teamsnapone.com");
+      return {
+        configured: true,
+        available: true,
+        stale: false,
+        events: [],
+        counts: {},
+      };
+    },
+  });
+
+  try {
+    const response = await handler(new Request(
+      "https://www.bethebestli.com/.netlify/functions/tournament-calendar",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Origin: "https://www.bethebestli.com" },
+        body: JSON.stringify({ action: "load", password: "server-password" }),
+      },
+    ));
+    assert.equal(response.status, 200);
+    assert.equal(registryWriteCount, 2);
+    assert.deepEqual(registry.uids.sort(), [
+      "concurrent-series@teamsnapone.com",
+      "known-series@teamsnapone.com",
+      "new-series@teamsnapone.com",
+    ]);
+  } finally {
+    if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD;
+    else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword;
+  }
+});
+
+test("a recurring registry read failure hides TeamSnap data without hiding the saved schedule", async () => {
+  const originalPassword = process.env.TOURNAMENT_CALENDAR_PASSWORD;
+  process.env.TOURNAMENT_CALENDAR_PASSWORD = "server-password";
+  let feedCalled = false;
+  const handler = createCalendarHandler({
+    authorize: async () => ({ ok: false }),
+    getBlobStore: () => ({
+      getWithMetadata: async (key) => {
+        if (key === SNAPSHOT_KEY) return { data: { events: [{ id: "saved-event" }] }, etag: '"v1"' };
+        throw new Error("temporary registry outage");
+      },
+    }),
+    loadTeamSnapOne: async () => {
+      feedCalled = true;
+      throw new Error("must not load without a verified registry");
+    },
+  });
+
+  try {
+    const response = await handler(new Request(
+      "https://www.bethebestli.com/.netlify/functions/tournament-calendar",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Origin: "https://www.bethebestli.com" },
+        body: JSON.stringify({ action: "load", password: "server-password" }),
+      },
+    ));
+    const payload = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(feedCalled, false);
+    assert.equal(payload.snapshot.events[0].id, "saved-event");
+    assert.equal(payload.teamsnapOne.available, false);
+    assert.equal(payload.teamsnapOne.error.code, "unavailable");
   } finally {
     if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD;
     else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword;

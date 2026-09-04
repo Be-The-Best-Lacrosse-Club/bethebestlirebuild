@@ -13,6 +13,7 @@ import { loadTeamSnapOneCalendar } from "./_teamsnap-one-calendar.mjs";
 
 const STORE_NAME = "tournament-calendar";
 export const SNAPSHOT_KEY = "dan-wall-snapshot";
+const TEAMSNAP_RECURRING_UIDS_KEY = "teamsnap-one-recurring-uids";
 
 const HEADERS = {
   "Content-Type": "application/json",
@@ -44,6 +45,62 @@ const CHANGE_TYPES = new Set([
   "tournament_removed",
   "schedule_updated",
 ]);
+
+function normalizeTeamSnapRecurringUids(value) {
+  const source = Array.isArray(value) ? value : value?.uids;
+  if (!Array.isArray(source)) return [];
+  return [...new Set(source
+    .filter((uid) => typeof uid === "string")
+    .map((uid) => uid.trim())
+    .filter((uid) => uid && uid.length <= 512))];
+}
+
+async function readTeamSnapRecurringUidRegistry(store) {
+  const entry = await store.getWithMetadata(TEAMSNAP_RECURRING_UIDS_KEY, { type: "json" });
+  return {
+    exists: Boolean(entry),
+    uids: normalizeTeamSnapRecurringUids(entry?.data),
+    etag: entry?.etag || null,
+  };
+}
+
+async function mergeTeamSnapRecurringUids(store, discoveredUids, initialRegistry) {
+  let current = initialRegistry;
+  const discovered = normalizeTeamSnapRecurringUids([...discoveredUids]);
+
+  for (let attempt = 1; attempt <= MAX_ATOMIC_ATTEMPTS; attempt += 1) {
+    const merged = normalizeTeamSnapRecurringUids([...current.uids, ...discovered]);
+    if (merged.length === current.uids.length) return current;
+    if (current.exists && !current.etag) {
+      throw new Error("Existing TeamSnap recurring UID registry is missing an ETag");
+    }
+    const write = await store.setJSON(
+      TEAMSNAP_RECURRING_UIDS_KEY,
+      { uids: merged, updatedAt: new Date().toISOString() },
+      current.exists ? { onlyIfMatch: current.etag } : { onlyIfNew: true },
+    );
+    if (write.modified) {
+      return { exists: true, uids: merged, etag: write.etag || null };
+    }
+    current = await readTeamSnapRecurringUidRegistry(store);
+  }
+
+  throw new Error("TeamSnap recurring UID registry changed too many times");
+}
+
+function unavailableTeamSnapOnePayload() {
+  return {
+    configured: true,
+    available: false,
+    stale: false,
+    source: "TeamSnap ONE",
+    syncedAt: null,
+    calendarName: "TeamSnap ONE Schedule",
+    events: [],
+    counts: { total: 0, active: 0, cancelled: 0, practices: 0, games: 0, other: 0 },
+    error: { code: "unavailable", message: "The TeamSnap ONE calendar is temporarily unavailable." },
+  };
+}
 
 export const KNOWN_TEAMS = Object.freeze([
   "2028 Black",
@@ -1957,20 +2014,33 @@ async function handleRequest(req, { authorize, getBlobStore, sendAlert, loadTeam
 
   try {
     if (req.method === "GET" || (req.method === "POST" && body?.action === "load")) {
-      const [current, teamsnapOne] = await Promise.all([
-        readCalendarSnapshot(store),
-        Promise.resolve().then(() => loadTeamSnapOne()).catch(() => ({
-          configured: true,
-          available: false,
-          stale: false,
-          source: "TeamSnap ONE",
-          syncedAt: null,
-          calendarName: "TeamSnap ONE Schedule",
-          events: [],
-          counts: { total: 0, active: 0, cancelled: 0, practices: 0, games: 0, other: 0 },
-          error: { code: "unavailable", message: "The TeamSnap ONE calendar is temporarily unavailable." },
-        })),
+      const currentPromise = readCalendarSnapshot(store);
+      let recurringRegistry;
+      try {
+        recurringRegistry = await readTeamSnapRecurringUidRegistry(store);
+      } catch (error) {
+        console.error("tournament-calendar recurring UID registry read failed", error);
+        const current = await currentPromise;
+        return jsonResponse({
+          snapshot: current.snapshot,
+          etag: current.etag,
+          teamsnapOne: unavailableTeamSnapOnePayload(),
+        });
+      }
+      const recurringUids = new Set(recurringRegistry.uids);
+      const [current, loadedTeamSnapOne] = await Promise.all([
+        currentPromise,
+        Promise.resolve().then(() => loadTeamSnapOne({ recurringUids })).catch(unavailableTeamSnapOnePayload),
       ]);
+      let teamsnapOne = loadedTeamSnapOne;
+      if (recurringUids.size > recurringRegistry.uids.length) {
+        try {
+          await mergeTeamSnapRecurringUids(store, recurringUids, recurringRegistry);
+        } catch (error) {
+          console.error("tournament-calendar recurring UID registry write failed", error);
+          teamsnapOne = unavailableTeamSnapOnePayload();
+        }
+      }
       const response = { snapshot: current.snapshot, etag: current.etag };
       const hasInvalidTeamSnapConfiguration = teamsnapOne?.error?.code === "invalid_configuration";
       const shouldIncludeTeamSnap = !hasInvalidTeamSnapConfiguration && (

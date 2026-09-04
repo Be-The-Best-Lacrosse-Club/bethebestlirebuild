@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 const FEED_ENV_KEY = "TEAMSNAP_ONE_CALENDAR_URL";
 const FEED_HOST = "calendar-api.teamsnap.com";
 const FEED_PATH = "/v1/user.ics";
@@ -241,12 +243,24 @@ function parseDurationMinutes(description, durationProperty) {
   return minutes > 0 ? minutes : null;
 }
 
-function findTeam(...values) {
-  const haystack = values.filter(Boolean).join("\n");
+function findFirstTeam(value) {
+  const haystack = String(value || "");
+  let firstMatch = null;
+
   for (const candidate of TEAM_MATCHERS) {
-    if (candidate.matcher.test(haystack)) return candidate;
+    const match = candidate.matcher.exec(haystack);
+    if (!match) continue;
+    if (!firstMatch || match.index < firstMatch.index
+        || (match.index === firstMatch.index && match[0].length > firstMatch.length)) {
+      firstMatch = { candidate, index: match.index, length: match[0].length };
+    }
   }
-  return null;
+
+  return firstMatch?.candidate || null;
+}
+
+function findTeam(summary, description) {
+  return findFirstTeam(summary) || findFirstTeam(description);
 }
 
 function normalizeSummary(summary) {
@@ -284,6 +298,11 @@ function extractLink(description, urlProperty) {
   if (/^https:\/\//i.test(directUrl)) return directUrl;
   const linkLine = String(description).match(/(?:^|\n)\s*Link:\s*(https:\/\/\S+)/i);
   return linkLine ? linkLine[1].trim() : null;
+}
+
+function linkIdentity(value) {
+  if (!value) return null;
+  return `link-${createHash("sha256").update(value).digest("hex").slice(0, 20)}`;
 }
 
 function cleanNotes(description, summary) {
@@ -387,6 +406,13 @@ function normalizeEvent(rawEvent, index, timeZone) {
 
   const uid = unescapeIcsText(propertyValue(rawEvent, "UID")).trim();
   const fallbackUid = encodeURIComponent(`${startDate}:${startTime || "all-day"}:${teamMatch.team}:${summary}:${index}`);
+  const recurrence = parseDateTimeProperty(firstProperty(rawEvent, "RECURRENCE-ID"), timeZone);
+  const instanceStart = recurrence
+    ? (recurrence.allDay ? `${recurrence.date}T00:00:00.000Z` : recurrence.dateTime.toISOString())
+    : sortStart;
+  const deepLink = extractLink(description, propertyValue(rawEvent, "URL"));
+  // Expanded TeamSnap series omit RECURRENCE-ID; their occurrence link stays stable when DTSTART moves.
+  const instanceKey = recurrence ? instanceStart : linkIdentity(deepLink);
   const title = usefulTitle(summary, kind, teamMatch);
   const updatedAt = timestampValue(rawEvent, "LAST-MODIFIED", timeZone)
     || timestampValue(rawEvent, "DTSTAMP", timeZone);
@@ -406,14 +432,19 @@ function normalizeEvent(rawEvent, index, timeZone) {
     durationMinutes,
     location: location || null,
     description: cleanNotes(description, summary) || null,
-    deepLink: extractLink(description, propertyValue(rawEvent, "URL")),
+    deepLink,
     status,
     updatedAt,
+    hasRecurrenceId: Boolean(recurrence),
+    instanceKey,
     sortStart,
   };
 }
 
-export function parseTeamSnapOneCalendar(calendarText, { timeZone = DEFAULT_TIME_ZONE } = {}) {
+export function parseTeamSnapOneCalendar(calendarText, {
+  timeZone = DEFAULT_TIME_ZONE,
+  recurringUids = new Set(),
+} = {}) {
   if (typeof calendarText !== "string" || !/BEGIN:VCALENDAR/i.test(calendarText)) {
     throw new TypeError("Invalid TeamSnap ONE calendar response.");
   }
@@ -421,15 +452,40 @@ export function parseTeamSnapOneCalendar(calendarText, { timeZone = DEFAULT_TIME
   const normalized = parseRawEvents(calendarText)
     .map((rawEvent, index) => normalizeEvent(rawEvent, index, timeZone))
     .filter(Boolean);
+  const uidCounts = new Map();
+  for (const event of normalized) {
+    if (event.uid) uidCounts.set(event.uid, (uidCounts.get(event.uid) || 0) + 1);
+  }
+  const recurringUidRegistry = recurringUids instanceof Set ? recurringUids : null;
+  const knownRecurringUids = new Set(recurringUidRegistry || []);
+  for (const event of normalized) {
+    if (event.uid && (event.hasRecurrenceId || uidCounts.get(event.uid) > 1)) {
+      knownRecurringUids.add(event.uid);
+    }
+  }
+  const recurringInstanceKeys = new Set();
+  for (const event of normalized) {
+    if (!event.uid || !knownRecurringUids.has(event.uid) || event.hasRecurrenceId) continue;
+    if (!event.instanceKey) {
+      throw new TypeError("A recurring TeamSnap ONE event is missing its stable instance link.");
+    }
+    const registryKey = `${event.uid}\n${event.instanceKey}`;
+    if (recurringInstanceKeys.has(registryKey)) {
+      throw new TypeError("Recurring TeamSnap ONE events share the same instance link.");
+    }
+    recurringInstanceKeys.add(registryKey);
+  }
+  for (const uid of knownRecurringUids) recurringUidRegistry?.add(uid);
   const uniqueEvents = new Map();
   for (const event of normalized) {
-    const recurrenceKey = `${event.id}:${event.sortStart}`;
-    uniqueEvents.set(recurrenceKey, event);
+    const needsInstanceId = event.uid && knownRecurringUids.has(event.uid);
+    const id = needsInstanceId ? `${event.id}:${encodeURIComponent(event.instanceKey)}` : event.id;
+    uniqueEvents.set(id, { ...event, id });
   }
 
   return [...uniqueEvents.values()]
     .sort((left, right) => left.sortStart.localeCompare(right.sortStart) || left.team.localeCompare(right.team))
-    .map(({ sortStart: _sortStart, ...event }) => event);
+    .map(({ hasRecurrenceId: _hasRecurrenceId, instanceKey: _instanceKey, sortStart: _sortStart, ...event }) => event);
 }
 
 function calendarName(calendarText) {
@@ -490,6 +546,7 @@ export async function loadTeamSnapOneCalendar({
   now = () => new Date(),
   timeoutMs = DEFAULT_TIMEOUT_MS,
   cacheTtlMs = DEFAULT_CACHE_TTL_MS,
+  recurringUids = new Set(),
 } = {}) {
   const configuredValue = env?.[FEED_ENV_KEY];
   if (!configuredValue) return unavailablePayload({ configured: false });
@@ -500,7 +557,9 @@ export async function loadTeamSnapOneCalendar({
   const attemptDate = safeDate(typeof now === "function" ? now() : now);
   const attemptMs = attemptDate.getTime();
   const cacheKey = feedUrl.href;
-  if (calendarCache?.key === cacheKey && calendarCache.expiresAt > attemptMs) {
+  const recurringUidKey = recurringUids instanceof Set ? [...recurringUids].sort().join("\n") : "";
+  if (calendarCache?.key === cacheKey && calendarCache.recurringUidKey === recurringUidKey
+      && calendarCache.expiresAt > attemptMs) {
     return clone(calendarCache.payload);
   }
 
@@ -516,7 +575,7 @@ export async function loadTeamSnapOneCalendar({
     if (Buffer.byteLength(calendarText, "utf8") > MAX_FEED_BYTES) {
       throw new Error("Calendar response is too large.");
     }
-    const events = parseTeamSnapOneCalendar(calendarText);
+    const events = parseTeamSnapOneCalendar(calendarText, { recurringUids });
     const payload = {
       configured: true,
       available: true,
@@ -530,12 +589,13 @@ export async function loadTeamSnapOneCalendar({
     };
     calendarCache = {
       key: cacheKey,
+      recurringUidKey: recurringUids instanceof Set ? [...recurringUids].sort().join("\n") : "",
       expiresAt: attemptMs + Math.max(0, Number(cacheTtlMs) || 0),
       payload: clone(payload),
     };
     return clone(payload);
   } catch {
-    if (calendarCache?.key === cacheKey) {
+    if (calendarCache?.key === cacheKey && calendarCache.recurringUidKey === recurringUidKey) {
       const stalePayload = clone(calendarCache.payload);
       stalePayload.stale = true;
       stalePayload.error = {
