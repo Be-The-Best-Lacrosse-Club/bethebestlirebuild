@@ -155,11 +155,13 @@ test("recurring events retain their shared UID but receive distinct instance IDs
     "UID:recurring-practice@teamsnapone.com",
     "SUMMARY:Practice: 2036 DAWGS",
     "DTSTART:20260909T231500Z",
+    "URL:https://link.teamsnapone.com/practice/first",
     "END:VEVENT",
     "BEGIN:VEVENT",
     "UID:recurring-practice@teamsnapone.com",
     "SUMMARY:Practice: 2036 DAWGS",
     "DTSTART:20260916T231500Z",
+    "URL:https://link.teamsnapone.com/practice/second",
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\n");
@@ -170,25 +172,26 @@ test("recurring events retain their shared UID but receive distinct instance IDs
     "recurring-practice@teamsnapone.com",
     "recurring-practice@teamsnapone.com",
   ]);
-  assert.deepEqual(events.map((event) => event.id), [
-    "teamsnap-one:recurring-practice@teamsnapone.com:2026-09-09T23%3A15%3A00.000Z",
-    "teamsnap-one:recurring-practice@teamsnapone.com:2026-09-16T23%3A15%3A00.000Z",
-  ]);
+  assert.equal(new Set(events.map((event) => event.id)).size, 2);
+  assert.equal(events.every((event) => (
+    event.id.startsWith("teamsnap-one:recurring-practice@teamsnapone.com:link-")
+  )), true);
 });
 
 test("inferred recurring IDs stay instance-specific after the feed window shrinks", () => {
   const recurringUids = new Set();
-  const occurrence = (start) => [
+  const occurrence = (start, link) => [
     "BEGIN:VEVENT",
     "UID:expanded-practice@teamsnapone.com",
     "SUMMARY:Practice: 2036 DAWGS",
     `DTSTART:${start}`,
+    `URL:${link}`,
     "END:VEVENT",
   ];
   const initialCalendar = [
     "BEGIN:VCALENDAR",
-    ...occurrence("20260909T231500Z"),
-    ...occurrence("20260916T231500Z"),
+    ...occurrence("20260909T231500Z", "https://link.teamsnapone.com/practice/first"),
+    ...occurrence("20260916T231500Z", "https://link.teamsnapone.com/practice/second"),
     "END:VCALENDAR",
   ].join("\n");
   const initial = parseTeamSnapOneCalendar(initialCalendar, { recurringUids });
@@ -196,13 +199,35 @@ test("inferred recurring IDs stay instance-specific after the feed window shrink
 
   const narrowedCalendar = [
     "BEGIN:VCALENDAR",
-    ...occurrence("20260909T231500Z"),
+    ...occurrence("20260910T001500Z", "https://link.teamsnapone.com/practice/first"),
     "END:VCALENDAR",
   ].join("\n");
   const [remaining] = parseTeamSnapOneCalendar(narrowedCalendar, { recurringUids });
 
   assert.equal(recurringUids.has("expanded-practice@teamsnapone.com"), true);
   assert.equal(remaining.id, firstId);
+});
+
+test("ambiguous inferred recurring instances fail closed instead of emitting changeable IDs", () => {
+  const calendar = [
+    "BEGIN:VCALENDAR",
+    "BEGIN:VEVENT",
+    "UID:ambiguous-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260909T231500Z",
+    "END:VEVENT",
+    "BEGIN:VEVENT",
+    "UID:ambiguous-practice@teamsnapone.com",
+    "SUMMARY:Practice: 2036 DAWGS",
+    "DTSTART:20260916T231500Z",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\n");
+
+  assert.throws(
+    () => parseTeamSnapOneCalendar(calendar),
+    /missing its stable instance link/,
+  );
 });
 
 test("recurrence IDs stay stable when an occurrence is rescheduled", () => {

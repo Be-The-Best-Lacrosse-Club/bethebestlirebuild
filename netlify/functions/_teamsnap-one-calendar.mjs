@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 const FEED_ENV_KEY = "TEAMSNAP_ONE_CALENDAR_URL";
 const FEED_HOST = "calendar-api.teamsnap.com";
 const FEED_PATH = "/v1/user.ics";
@@ -298,6 +300,11 @@ function extractLink(description, urlProperty) {
   return linkLine ? linkLine[1].trim() : null;
 }
 
+function linkIdentity(value) {
+  if (!value) return null;
+  return `link-${createHash("sha256").update(value).digest("hex").slice(0, 20)}`;
+}
+
 function cleanNotes(description, summary) {
   return String(description)
     .split("\n")
@@ -404,6 +411,8 @@ function normalizeEvent(rawEvent, index, timeZone) {
     ? (recurrence.allDay ? `${recurrence.date}T00:00:00.000Z` : recurrence.dateTime.toISOString())
     : sortStart;
   const deepLink = extractLink(description, propertyValue(rawEvent, "URL"));
+  // Expanded TeamSnap series omit RECURRENCE-ID; their occurrence link stays stable when DTSTART moves.
+  const instanceKey = recurrence ? instanceStart : linkIdentity(deepLink);
   const title = usefulTitle(summary, kind, teamMatch);
   const updatedAt = timestampValue(rawEvent, "LAST-MODIFIED", timeZone)
     || timestampValue(rawEvent, "DTSTAMP", timeZone);
@@ -427,7 +436,7 @@ function normalizeEvent(rawEvent, index, timeZone) {
     status,
     updatedAt,
     hasRecurrenceId: Boolean(recurrence),
-    instanceStart,
+    instanceKey,
     sortStart,
   };
 }
@@ -453,16 +462,28 @@ export function parseTeamSnapOneCalendar(calendarText, {
       knownRecurringUids.add(event.uid);
     }
   }
+  const recurringInstanceKeys = new Set();
+  for (const event of normalized) {
+    if (!event.uid || !knownRecurringUids.has(event.uid) || event.hasRecurrenceId) continue;
+    if (!event.instanceKey) {
+      throw new TypeError("A recurring TeamSnap ONE event is missing its stable instance link.");
+    }
+    const registryKey = `${event.uid}\n${event.instanceKey}`;
+    if (recurringInstanceKeys.has(registryKey)) {
+      throw new TypeError("Recurring TeamSnap ONE events share the same instance link.");
+    }
+    recurringInstanceKeys.add(registryKey);
+  }
   const uniqueEvents = new Map();
   for (const event of normalized) {
     const needsInstanceId = event.uid && knownRecurringUids.has(event.uid);
-    const id = needsInstanceId ? `${event.id}:${encodeURIComponent(event.instanceStart)}` : event.id;
+    const id = needsInstanceId ? `${event.id}:${encodeURIComponent(event.instanceKey)}` : event.id;
     uniqueEvents.set(id, { ...event, id });
   }
 
   return [...uniqueEvents.values()]
     .sort((left, right) => left.sortStart.localeCompare(right.sortStart) || left.team.localeCompare(right.team))
-    .map(({ hasRecurrenceId: _hasRecurrenceId, instanceStart: _instanceStart, sortStart: _sortStart, ...event }) => event);
+    .map(({ hasRecurrenceId: _hasRecurrenceId, instanceKey: _instanceKey, sortStart: _sortStart, ...event }) => event);
 }
 
 function calendarName(calendarText) {
