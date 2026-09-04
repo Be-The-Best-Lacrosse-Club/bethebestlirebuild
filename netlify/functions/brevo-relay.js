@@ -434,7 +434,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
   } else if (isMondayOffensive) {
     subject = `Monday Offensive Training — REGISTRATION SAVED / PAYMENT PENDING — ${data.training_group || "Monday Night"}: ${data.group_registration_count || "?"} registered — ${playerName || data.parent_email || "new registration"}`;
   } else if (isDrawTraining) {
-    subject = `Emma Mclam Draw Training — REGISTRATION SAVED / PAYMENT INSTRUCTIONS PENDING — ${playerName || data.parent_email || "new registration"}`;
+    subject = `Emma Mclam Draw Training — REGISTRATION SAVED / PAYMENT PENDING — ${data.training_group || "Thursday Night"}: ${data.group_registration_count || "?"} registered — ${playerName || data.parent_email || "new registration"}`;
   } else if (isLabTeamStrength) {
     subject = `The Lab — REGISTRATION SAVED / PAYMENT PENDING — ${data.team_name || "Team"}: ${data.team_registration_count || "?"}/10 — ${playerName || data.parent_email || "new registration"}`;
   } else if (isSupplementalTryout) {
@@ -443,7 +443,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
     subject = `New ${prettyFormName(formName)} submission — ${data.name || data.playerName || data.parentName || data.email || "unknown"}`;
   }
   const emailEyebrow = isSupernovaZoom ? "BTB 2037 Girls Supernova" : isBoysTraining ? "BTB Boys Friday Offensive Training with Coach Dan" : isMondayOffensive ? "BTB Girls Monday Night Offensive Training" : isDrawTraining ? "BTB Emma Mclam Draw Training" : isLabTeamStrength ? "The Lab at Momentum Sports" : isSupplementalTryout ? "BTB Supplemental Tryouts" : "BTB Website Form";
-  const emailHeading = isSupernovaZoom ? "New Zoom Registration" : isBoysTraining ? `${data.training_group || "Friday Training"} · ${data.group_registration_count || "?"} registered` : isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isDrawTraining ? "Registration Saved · Payment Instructions Pending" : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
+  const emailHeading = isSupernovaZoom ? "New Zoom Registration" : isBoysTraining ? `${data.training_group || "Friday Training"} · ${data.group_registration_count || "?"} registered` : isMondayOffensive ? `${data.training_group || "Monday Night"} · ${data.group_registration_count || "?"} registered` : isDrawTraining ? `${data.training_group || "Thursday Night"} · ${data.group_registration_count || "?"} registered` : isLabTeamStrength ? `${data.team_name || "Team"} · ${data.team_registration_count || "?"} of 10` : isSupplementalTryout ? "Registration Confirmed" : prettyFormName(formName);
   const htmlContent = `
 <!doctype html><html><body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f7;padding:24px;margin:0">
   <div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden">
@@ -451,7 +451,7 @@ async function brevoSendNotification({ formName, data, submissionTime, siteUrl, 
       <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:0.85">${escapeHtml(emailEyebrow)}</div>
       <h1 style="margin:6px 0 0;font-size:22px;font-weight:700">${escapeHtml(emailHeading)}</h1>
     </div>
-    ${isDrawTraining ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment instructions are pending. BTB will send payment instructions separately.</div>' : isBoysTraining || isMondayOffensive || isLabTeamStrength ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment is not confirmed. Wait for the separate QuickBooks payment-received email before marking this player paid. Match it using the player name and parent email below.</div>' : isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
+    ${isBoysTraining || isMondayOffensive || isDrawTraining || isLabTeamStrength ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration saved — payment is not confirmed. Wait for the separate QuickBooks payment-received email before marking this player paid. Match it using the player name and parent email below.</div>' : isSupplementalTryout ? '<div style="padding:14px 28px;background:#fff4f4;border-bottom:1px solid #f2cccc;color:#7a1c22;font-size:13px;font-weight:700">Registration details are saved. QuickBooks payment is still pending verification.</div>' : ""}
     <table style="width:100%;border-collapse:collapse;font-size:14px">${rows}</table>
     <div style="padding:16px 28px;color:#888;font-size:12px;background:#fafafa;border-top:1px solid #eee">
       Submitted ${escapeHtml(submissionTime || new Date().toISOString())} · ${escapeHtml(siteUrl || "bethebestli.com")}
@@ -951,6 +951,8 @@ const BOYS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Boys_Futures_
 const GIRLS_FLYER = "https://www.bethebestli.com/images/tryouts/BTB_Girls_Futures_June_Clinic.jpg";
 const LAB_TEAM_STRENGTH_PAYMENT_URL =
   "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-005e529290034c1784c41b75a25a08d7ffa08f9eed7c4342bb332487cbb29ea11ebdb27a2e174ca8af980aac794f8232?locale=EN_US";
+const DRAW_TRAINING_PAYMENT_URL =
+  "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-e7c6e9491a2d493a91ee01540d32dcea3a72371fe31344cda1f0522a0509ad25c0d1fbea0d8b40bda19c50ae46254e0b-0?locale=EN_US";
 const MONDAY_OFFENSIVE_PAYMENT_URL =
   "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-d7ed4f0985e8442391d477a68a779dc7b3e11703e8f548e3a3ec1afb9538ce130dba73afcce5431e9680a8065f5c54ed?locale=EN_US";
 // The QuickBooks item is gender-neutral: "BTB Offensive Training with Coach Dan (6 Sessions)".
@@ -1198,11 +1200,16 @@ const CONFIRMATION_CONFIG = {
     getHtml: (data) => {
       const parentFirst = (data.parent_first_name || data.name || "BTB Family").trim();
       const playerName = [(data.player_first_name || ""), (data.player_last_name || "")].filter(Boolean).join(" ") || "your player";
+      const groupName = String(data.training_group || "Girls Draw Training · 7:00–8:00 PM").trim();
+      const count = String(data.group_registration_count || "").trim();
+      const progress = count ? `${groupName} now has ${count} registration${count === "1" ? "" : "s"}. ` : "";
       return confirmationBase({
         parentFirst,
         playerName,
         program: "BTB Girls Draw Training with Emma Mclam — 5-Session Package",
-        details: "Five Thursday sessions: September 17 and 24 and October 1, 8, and 15, 2026, from 7:00–8:00 PM at Momentum Sports. The program fee is $175. Your registration details are saved, and BTB will send payment instructions separately.",
+        details: `${progress}Five Thursday sessions run September 17 and 24 and October 1, 8, and 15, 2026, from 7:00–8:00 PM at Momentum Sports. Complete the secure $175 QuickBooks payment to finalize registration. At checkout, enter the player's full name and the same parent email used on this form so BTB can match the payment receipt correctly.`,
+        cta: "COMPLETE $175 PAYMENT",
+        ctaUrl: DRAW_TRAINING_PAYMENT_URL,
         headline: "Registration Received",
         introVerb: "saved for",
       });

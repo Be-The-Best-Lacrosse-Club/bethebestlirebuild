@@ -179,7 +179,7 @@ function registrationData(input, group, count) {
   data.location = "Momentum Sports · 10 Dunton Ave, Deer Park, NY 11729";
   data.amount = "175";
   data.session_dates = SESSION_DATES.join("; ");
-  data.registration_status = "Pending $175 payment instructions";
+  data.registration_status = "Pending QuickBooks payment verification";
   data.payment_match_reference = `${clean(input.player_first_name, 120)} ${clean(input.player_last_name, 120)} · ${clean(input.parent_email, 320)}`;
   data.group_registration_count = String(count);
   return data;
@@ -293,7 +293,7 @@ export function createHandler({
 
       try {
         await store.setJSON(registrationKey, {
-          status: "pending_payment_instructions",
+          status: "pending_payment",
           group: group.name,
           gender: group.gender,
           acceptedAt: now().toISOString(),

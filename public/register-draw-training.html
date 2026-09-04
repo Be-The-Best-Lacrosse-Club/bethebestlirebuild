@@ -110,7 +110,7 @@
             <div class="section-label">Live Enrollment</div>
             <h2 id="counts-title">One Thursday Group</h2>
           </div>
-          <p>All five sessions are included in one registration. The total updates when a family saves this form; payment is handled separately.</p>
+          <p>All five sessions are included in one registration. The total updates when a family saves this form; payment is verified through the separate QuickBooks receipt.</p>
         </div>
         <div class="count-panel">
           <p class="count-note" id="countStatus" role="status">Loading current registration total…</p>
@@ -133,7 +133,7 @@
             <div class="section-label">Player Registration</div>
             <h2 id="registration-title">Register for All Five</h2>
           </div>
-          <p>Complete every required field once. BTB receives the full registration summary immediately and will send the $175 payment instructions separately.</p>
+          <p>Complete every required field once. BTB receives the full registration summary immediately, then QuickBooks handles the secure $175 payment and paid receipt.</p>
         </div>
 
         <form name="btb-draw-training-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="drawTrainingForm">
@@ -144,9 +144,9 @@
           <p hidden><label>Don't fill this out: <input name="bot-field"></label></p>
 
           <div class="form-intro">
-            <div class="section-label">Registration + Payment Follow-Up</div>
+            <div class="section-label">Registration + Payment</div>
             <h2>Player Information</h2>
-            <p>Your player is registering for all five Thursday sessions. BTB will use the parent email below to send the separate $175 payment instructions.</p>
+            <p>After the registration is saved, you will continue to the active $175 QuickBooks checkout. Use the player's full name and this same parent email at checkout so BTB can match the payment receipt correctly.</p>
           </div>
           <div class="error" id="errorMsg" role="alert"></div>
           <div class="success" id="successMsg" role="status"></div>
@@ -192,10 +192,10 @@
           <div class="field"><label for="notes">Anything Else We Should Know</label><textarea id="notes" name="additional_notes" placeholder="Draw experience, injuries being managed, or questions for BTB"></textarea></div>
 
           <div class="form-section">Waiver &amp; Payment</div>
-          <div class="check"><input type="checkbox" id="waiver" name="waiver_accepted" value="Yes" required><label for="waiver">I acknowledge the BTB Lacrosse waiver and release, accept the risks of lacrosse training, authorize staff to seek emergency medical treatment if needed, and understand registration is finalized after completing the separate $175 payment.<span class="req">*</span></label></div>
+          <div class="check"><input type="checkbox" id="waiver" name="waiver_accepted" value="Yes" required><label for="waiver">I acknowledge the BTB Lacrosse waiver and release, accept the risks of lacrosse training, authorize staff to seek emergency medical treatment if needed, and understand registration is finalized after completing the $175 QuickBooks payment.<span class="req">*</span></label></div>
           <div class="check"><input type="checkbox" id="media" name="media_release" value="Yes"><label for="media">I grant Be The Best Lacrosse Club permission to use photos or video of my player for program promotion. This is optional.</label></div>
-          <button class="submit" id="submitBtn" type="submit">Save $175 Draw Training Registration</button>
-          <p class="footer-note">BTB receives the detailed registration summary at info@bethebestli.com. Payment instructions will be sent separately to the parent email entered above.</p>
+          <button class="submit" id="submitBtn" type="submit">Save Registration &amp; Continue to $175 Payment</button>
+          <p class="footer-note">BTB receives the detailed registration summary at info@bethebestli.com. Payment is confirmed only by the separate QuickBooks payment-received receipt sent after checkout.</p>
           <p class="privacy-note"><strong>Privacy:</strong> the live enrollment board shows the exact total only. Player names, contact information, addresses, emergency details, and medical notes are never displayed there.</p>
         </form>
       </section>
@@ -209,6 +209,7 @@
 
   <script>
     const REGISTRATION_ENDPOINT = "/api/draw-training-registration";
+    const PAYMENT_LINK = "https://connect.intuit.com/pay/BTBLacrossecamp/scs-v1-e7c6e9491a2d493a91ee01540d32dcea3a72371fe31344cda1f0522a0509ad25c0d1fbea0d8b40bda19c50ae46254e0b-0?locale=EN_US";
     const form = document.getElementById("drawTrainingForm");
     const countStatus = document.getElementById("countStatus");
     const submitBtn = document.getElementById("submitBtn");
@@ -260,11 +261,11 @@
 
         renderCount([{ name:result.group, count:result.count }]);
         successMsg.textContent = result.duplicate
-          ? "This player is already registered for Emma Mclam Draw Training. BTB will send the $175 payment instructions separately."
-          : `Registration saved. ${result.group} now has ${result.count} registration${result.count === 1 ? "" : "s"}. BTB will send the $175 payment instructions separately.`;
+          ? "This player is already registered for Emma Mclam Draw Training. At QuickBooks, use the player's full name and the same parent email so payment can be matched. Continuing to payment…"
+          : `Registration saved. ${result.group} now has ${result.count} registration${result.count === 1 ? "" : "s"}. Your registration summary was sent to BTB. Continuing to secure $175 QuickBooks payment…`;
         successMsg.classList.add("show");
         successMsg.scrollIntoView({ behavior:"smooth", block:"center" });
-        submitBtn.textContent = "Registration Saved";
+        window.setTimeout(() => { window.location.href = PAYMENT_LINK; }, 1300);
       } catch (error) {
         errorMsg.textContent = error.code === "registration_processing"
           ? "This registration is already being processed. Wait a moment, then try again."
@@ -272,7 +273,7 @@
         errorMsg.classList.add("show");
         errorMsg.scrollIntoView({ behavior:"smooth", block:"center" });
         submitBtn.disabled = false;
-        submitBtn.textContent = "Save $175 Draw Training Registration";
+        submitBtn.textContent = "Save Registration & Continue to $175 Payment";
       }
     });
 
