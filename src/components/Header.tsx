@@ -66,6 +66,11 @@ const resourceLinks = [
   { label: "Staff Calendar", href: "/dan-calendar" },
 ]
 
+const headerAccessLinks = [
+  { id: "coach", label: "Coach Login", mobileLabel: "Coach", href: "/coach-tools.html" },
+  { id: "parent", label: "Parent Hub", mobileLabel: "Parent", href: "/parent-hub" },
+] as const
+
 const staticLinks = new Set([
   "/newsletter",
   "/parent-training",
@@ -198,7 +203,7 @@ export function Header() {
               alt="BTB Lacrosse Club"
               className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover group-hover:scale-105 transition-transform"
             />
-            <div className="font-display text-lg md:text-2xl tracking-tight uppercase text-black">
+            <div className="hidden sm:block font-display text-lg md:text-2xl tracking-tight uppercase text-black">
               Be The <span className="text-[var(--btb-red)]">Best</span>
             </div>
           </button>
@@ -277,6 +282,29 @@ export function Header() {
               Logos
             </button>
 
+            <div
+              className="ml-2 flex items-center overflow-hidden rounded-lg border border-black/15"
+              role="group"
+              aria-label="Hub logins"
+              data-access-placement="desktop"
+            >
+              {headerAccessLinks.map((link, index) => (
+                <button
+                  key={link.id}
+                  type="button"
+                  data-header-access={link.id}
+                  onClick={() => go(link.href)}
+                  className={`inline-flex min-h-9 items-center gap-1.5 px-3 text-[0.78rem] font-black uppercase tracking-[1.4px] transition-colors ${
+                    index === 0
+                      ? "bg-white text-black hover:bg-black/5"
+                      : "border-l border-black/15 bg-black text-white hover:bg-[var(--btb-red)]"
+                  }`}
+                >
+                  <Lock size={11} aria-hidden="true" /> {link.label}
+                </button>
+              ))}
+            </div>
+
             <div className="w-px h-5 mx-3 bg-black/10" />
 
             {isAuthenticated ? (
@@ -295,9 +323,6 @@ export function Header() {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <button onClick={() => go("/login")} className={navItemClass("/login")}>
-                  <Lock size={11} className="inline mr-1" /> Login
-                </button>
                 <button onClick={() => go("/interest")} className="rounded-lg border border-black/20 px-4 py-2 text-[1.0rem] font-black uppercase tracking-[2px] text-black transition-all hover:bg-black hover:text-white">
                   Join BTB
                 </button>
@@ -307,6 +332,26 @@ export function Header() {
 
           {/* Mobile/Tablet toggle — shows until the full menu has room */}
           <div className="min-[1380px]:hidden flex items-center gap-3">
+            <div
+              className="flex items-center gap-1"
+              role="group"
+              aria-label="Hub logins"
+              data-access-placement="mobile"
+            >
+              {headerAccessLinks.map((link) => (
+                <button
+                  key={link.id}
+                  type="button"
+                  data-header-access={link.id}
+                  onClick={() => go(link.href)}
+                  className="inline-flex min-h-11 items-center gap-1 rounded-md border border-black/15 px-1.5 text-[0.62rem] font-black uppercase tracking-[0.7px] text-black transition-colors hover:border-[var(--btb-red)] hover:text-[var(--btb-red)] sm:px-2.5 sm:text-[0.72rem]"
+                >
+                  <Lock size={10} aria-hidden="true" />
+                  <span className="sm:hidden">{link.mobileLabel}</span>
+                  <span className="hidden sm:inline">{link.label}</span>
+                </button>
+              ))}
+            </div>
             <button
               className="z-[60] p-1 text-black transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}

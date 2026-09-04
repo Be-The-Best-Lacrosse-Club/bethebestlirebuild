@@ -93,11 +93,12 @@ test("girls program age pills stay unique when a grad year has multiple teams", 
 })
 
 test("staff can find the protected season calendar from site navigation and footers", async () => {
-  const [header, footer, homepage, redirects] = await Promise.all([
+  const [header, footer, homepage, redirects, calendar] = await Promise.all([
     read("src/components/Header.tsx"),
     read("src/components/Footer.tsx"),
     read("src/pages/HomePage.tsx"),
     read("netlify.toml"),
+    read("public/dan-tournament-calendar.html"),
   ])
 
   const headerLinks = header.match(/\{ label: "Staff Calendar", href: "\/dan-calendar" \}/g) ?? []
@@ -113,4 +114,5 @@ test("staff can find the protected season calendar from site navigation and foot
   assert.match(calendarRedirect, /to = "\/dan-tournament-calendar\.html"/)
   assert.match(calendarRedirect, /status = 200/)
   assert.match(calendarRedirect, /force = true/)
+  assert.match(calendar, /<link rel="canonical" href="https:\/\/www\.bethebestli\.com\/dan-calendar">/)
 })
