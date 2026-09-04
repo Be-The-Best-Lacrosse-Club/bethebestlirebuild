@@ -10,7 +10,10 @@ import {
   TEAMSNAP_ONE_TEAMS,
   unescapeIcsText,
 } from "../netlify/functions/_teamsnap-one-calendar.mjs";
-import { createHandler as createCalendarHandler } from "../netlify/functions/tournament-calendar.mjs";
+import {
+  createHandler as createCalendarHandler,
+  SNAPSHOT_KEY,
+} from "../netlify/functions/tournament-calendar.mjs";
 
 const FEED_URL = "https://calendar-api.teamsnap.com/v1/user.ics?token=test-token-not-a-secret";
 
@@ -392,14 +395,26 @@ test("the protected calendar load includes TeamSnap ONE data without exposing th
 test("calendar loads persist recurring TeamSnap UIDs for later feed windows", async () => {
   const originalPassword = process.env.TOURNAMENT_CALENDAR_PASSWORD;
   process.env.TOURNAMENT_CALENDAR_PASSWORD = "server-password";
-  let savedRegistry = null;
+  let registry = { uids: ["known-series@teamsnapone.com"] };
+  let registryEtag = '"registry-v1"';
+  let registryWriteCount = 0;
   const store = {
-    getWithMetadata: async () => ({ data: { events: [] }, etag: '"v1"' }),
-    get: async (key) => key === "teamsnap-one-recurring-uids"
-      ? { uids: ["known-series@teamsnapone.com"] }
-      : null,
-    setJSON: async (key, value) => {
-      savedRegistry = { key, value };
+    getWithMetadata: async (key) => key === SNAPSHOT_KEY
+      ? { data: { events: [] }, etag: '"v1"' }
+      : { data: structuredClone(registry), etag: registryEtag },
+    setJSON: async (key, value, options) => {
+      assert.equal(key, "teamsnap-one-recurring-uids");
+      registryWriteCount += 1;
+      if (registryWriteCount === 1) {
+        assert.deepEqual(options, { onlyIfMatch: '"registry-v1"' });
+        registry = { uids: ["known-series@teamsnapone.com", "concurrent-series@teamsnapone.com"] };
+        registryEtag = '"registry-v2"';
+        return { modified: false };
+      }
+      assert.deepEqual(options, { onlyIfMatch: '"registry-v2"' });
+      registry = structuredClone(value);
+      registryEtag = '"registry-v3"';
+      return { modified: true, etag: registryEtag };
     },
   };
   const handler = createCalendarHandler({
@@ -428,11 +443,51 @@ test("calendar loads persist recurring TeamSnap UIDs for later feed windows", as
       },
     ));
     assert.equal(response.status, 200);
-    assert.equal(savedRegistry.key, "teamsnap-one-recurring-uids");
-    assert.deepEqual(savedRegistry.value.uids.sort(), [
+    assert.equal(registryWriteCount, 2);
+    assert.deepEqual(registry.uids.sort(), [
+      "concurrent-series@teamsnapone.com",
       "known-series@teamsnapone.com",
       "new-series@teamsnapone.com",
     ]);
+  } finally {
+    if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD;
+    else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword;
+  }
+});
+
+test("a recurring registry read failure hides TeamSnap data without hiding the saved schedule", async () => {
+  const originalPassword = process.env.TOURNAMENT_CALENDAR_PASSWORD;
+  process.env.TOURNAMENT_CALENDAR_PASSWORD = "server-password";
+  let feedCalled = false;
+  const handler = createCalendarHandler({
+    authorize: async () => ({ ok: false }),
+    getBlobStore: () => ({
+      getWithMetadata: async (key) => {
+        if (key === SNAPSHOT_KEY) return { data: { events: [{ id: "saved-event" }] }, etag: '"v1"' };
+        throw new Error("temporary registry outage");
+      },
+    }),
+    loadTeamSnapOne: async () => {
+      feedCalled = true;
+      throw new Error("must not load without a verified registry");
+    },
+  });
+
+  try {
+    const response = await handler(new Request(
+      "https://www.bethebestli.com/.netlify/functions/tournament-calendar",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Origin: "https://www.bethebestli.com" },
+        body: JSON.stringify({ action: "load", password: "server-password" }),
+      },
+    ));
+    const payload = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(feedCalled, false);
+    assert.equal(payload.snapshot.events[0].id, "saved-event");
+    assert.equal(payload.teamsnapOne.available, false);
+    assert.equal(payload.teamsnapOne.error.code, "unavailable");
   } finally {
     if (originalPassword === undefined) delete process.env.TOURNAMENT_CALENDAR_PASSWORD;
     else process.env.TOURNAMENT_CALENDAR_PASSWORD = originalPassword;
