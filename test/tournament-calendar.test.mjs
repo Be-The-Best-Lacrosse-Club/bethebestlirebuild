@@ -109,7 +109,7 @@ function pagePracticeWindows() {
   const start = html.indexOf("var SEAFORD_DATES =");
   const end = html.indexOf("var DEFAULT_EVENTS =", start);
   assert.ok(start >= 0 && end > start, "practice-window source must remain extractable from the staff page");
-  const context = {};
+  const context = { TEAMSNAP_ONE_ONLY: false };
   runInNewContext(`${html.slice(start, end)}\nthis.result = PRACTICE_WINDOWS;`, context);
   return JSON.parse(JSON.stringify(context.result));
 }
@@ -119,7 +119,7 @@ function pageTrainingSessions() {
   const start = html.indexOf("var TRAINING_COLOR =");
   const end = html.indexOf("var BLUE_CHIP_EVENT_IDS =", start);
   assert.ok(start >= 0 && end > start, "training-session source must remain extractable from the staff page");
-  const context = {};
+  const context = { TEAMSNAP_ONE_ONLY: false };
   runInNewContext(`${html.slice(start, end)}\nthis.result = TRAINING_SESSIONS;`, context);
   return JSON.parse(JSON.stringify(context.result));
 }
@@ -902,7 +902,7 @@ test("the calendar team filter is accessible and restores valid Coach Mode team 
   assert.match(mobileFilterCss, /\.team-filter-menu\s*\{[\s\S]*width:\s*100%/);
 });
 
-test("Coach Mode has a compact header and exactly four phone navigation actions", () => {
+test("TeamSnap-only Coach Mode has a compact header and three phone navigation actions", () => {
   const html = staffPageHtml();
   const headerStart = html.indexOf('id="mobileCoachHeader"');
   const navStart = html.indexOf('id="mobileCoachNav"');
@@ -912,7 +912,7 @@ test("Coach Mode has a compact header and exactly four phone navigation actions"
 
   const nav = html.slice(navStart, navEnd);
   const actions = Array.from(nav.matchAll(/data-mobile-nav="([^"]+)"/g), (match) => match[1]);
-  assert.deepEqual(actions, ["schedule", "practices", "openings", "more"]);
+  assert.deepEqual(actions, ["schedule", "practices", "more"]);
   assert.match(nav, /aria-label="Coach navigation"/);
   assert.match(nav, /aria-current="page"|aria-selected="true"/);
   assert.match(html, /#mobileCoachHeader[\s\S]*position:\s*sticky/);
@@ -920,10 +920,10 @@ test("Coach Mode has a compact header and exactly four phone navigation actions"
   assert.doesNotMatch(html.slice(navStart, navEnd + 1), /data-view="(?:export|live|directory|manage)"/);
 });
 
-test("Coach Mode renders a grouped today-forward agenda and keeps open inventory separate", () => {
+test("Coach Mode renders a grouped today-forward agenda and keeps open inventory hidden", () => {
   const html = staffPageHtml();
   assert.match(html, /id="mobileCoachAgenda"/);
-  assert.match(html, /id="mobileOpeningsAgenda"/);
+  assert.match(html, /id="mobileOpeningsAgenda"[^>]*hidden/);
   const start = html.indexOf("function renderMobileCoachAgenda()");
   const end = html.indexOf("function openDayDialog", start);
   assert.ok(start >= 0 && end > start, "mobile agenda rendering must remain independently testable");
@@ -938,6 +938,7 @@ test("Coach Mode renders a grouped today-forward agenda and keeps open inventory
   const openingsEnd = html.indexOf("function renderPracticeBoard()", openingsStart);
   assert.ok(openingsStart >= 0 && openingsEnd > openingsStart);
   assert.match(html.slice(openingsStart, openingsEnd), /isOpenInventoryWindow\(windowItem\)/);
+  assert.match(html.slice(openingsStart, openingsEnd), /if \(TEAMSNAP_ONE_ONLY\)[\s\S]*host\.hidden = true;[\s\S]*return;/);
 });
 
 test("mobile Practices keeps claimed bookings visible and never routes them into Add Practice", () => {
@@ -1199,17 +1200,19 @@ test("the shared practice editor exposes daily availability and automatic team c
   assert.doesNotMatch(boardSource, /Assign Coach/);
 });
 
-test("recent shared saves appear beside open fields with useful schedule details", () => {
+test("TeamSnap practices remain in the sidebar while saved planning sections stay hidden", () => {
   const html = staffPageHtml();
   const sidebarStart = html.indexOf('<aside class="sidebar">');
   const sidebarEnd = html.indexOf("</aside>", sidebarStart);
   const sidebarSource = html.slice(sidebarStart, sidebarEnd);
-  const coachNeededIndex = sidebarSource.indexOf("Upcoming Practices + Open Fields");
+  const coachNeededIndex = sidebarSource.indexOf("Upcoming TeamSnap Practices");
   const recentIndex = sidebarSource.indexOf("Recent Changes");
   const dataNoteIndex = sidebarSource.indexOf('class="panel data-note"');
   assert.ok(coachNeededIndex >= 0 && recentIndex > coachNeededIndex && dataNoteIndex > recentIndex);
   assert.match(sidebarSource, /id="recentChangeCount"/);
   assert.match(sidebarSource, /id="recentChangeList" aria-live="polite"/);
+  assert.match(sidebarSource, /class="panel recent-changes-panel"[^>]*hidden/);
+  assert.match(sidebarSource, /class="panel data-note" hidden/);
 
   const renderStart = html.indexOf("function renderSidebar()");
   const renderEnd = html.indexOf("function renderPracticeBoard()", renderStart);
@@ -1227,11 +1230,11 @@ test("recent shared saves appear beside open fields with useful schedule details
   assert.match(html, /@media[\s\S]*\.recent-changes-panel\s*{[\s\S]*max-height:\s*none/);
 });
 
-test("the calendar defaults wide with a collapsible openings rail and a black high-contrast canvas", () => {
+test("the calendar defaults wide with a collapsible TeamSnap practice rail and a black high-contrast canvas", () => {
   const html = staffPageHtml();
   assert.match(html, /class="wall-layout sidebar-collapsed"/);
   assert.match(html, /id="sidebarToggleButton"[^>]*aria-expanded="false"[^>]*aria-controls="scheduleSidebarPanels"/);
-  assert.match(html, /class="sidebar-toggle-text">Openings &amp; Changes</);
+  assert.match(html, /class="sidebar-toggle-text">Upcoming Practices</);
   assert.match(html, /id="scheduleSidebarPanels" hidden/);
 
   const readabilityCssStart = html.indexOf("/* Readable calendar wall:");
@@ -1264,7 +1267,7 @@ test("the upcoming-practices ticker moves at a slower readable pace and still pa
   assert.match(tickerCss, /\.practice-ticker:hover \.practice-ticker-track\s*\{[\s\S]*animation-play-state:\s*paused/);
 });
 
-test("field availability stays in a dedicated row above the scrollable team schedule", () => {
+test("field availability remains available to legacy mode but is suppressed in TeamSnap-only mode", () => {
   const html = staffPageHtml();
   const dayCssStart = html.indexOf(".day {");
   const dayCssEnd = html.indexOf(".day:nth-child", dayCssStart);
@@ -1281,7 +1284,8 @@ test("field availability stays in a dedicated row above the scrollable team sche
   const renderStart = html.indexOf("function renderMonth()");
   const renderEnd = html.indexOf("function openDayDialog", renderStart);
   const renderSource = html.slice(renderStart, renderEnd);
-  assert.match(renderSource, /if \(showPractices\) classes\.push\("has-availability"\)/);
+  assert.match(renderSource, /if \(showPractices && !TEAMSNAP_ONE_ONLY\) classes\.push\("has-availability"\)/);
+  assert.match(renderSource, /showPractices && !TEAMSNAP_ONE_ONLY \? "<div class='day-availability'/);
   const availabilityIndex = renderSource.indexOf("class='day-availability'");
   const teamScheduleIndex = renderSource.indexOf("class='day-events'", availabilityIndex);
   assert.ok(availabilityIndex >= 0 && teamScheduleIndex > availabilityIndex);

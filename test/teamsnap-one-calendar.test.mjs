@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { runInNewContext } from "node:vm";
 
 import {
   isValidTeamSnapOneCalendarUrl,
@@ -598,4 +599,72 @@ test("Dan's calendar renders a native TeamSnap ONE view and never embeds the pri
   assert.match(html, /TeamSnap ONE practices are updated in TeamSnap ONE/);
   assert.doesNotMatch(html, /id="liveFrame"|calendar\.google\.com\/calendar\/embed/);
   assert.doesNotMatch(html, /calendar-api\.teamsnap\.com\/v1\/user\.ics/);
+});
+
+test("Dan's calendar excludes every schedule item that is not synced from TeamSnap ONE", () => {
+  const html = readFileSync(new URL("../public/dan-tournament-calendar.html", import.meta.url), "utf8");
+  assert.match(html, /var TEAMSNAP_ONE_ONLY = true;/);
+  assert.match(html, /MASTER_PRACTICE_WINDOWS = \(TEAMSNAP_ONE_ONLY \? \[\] : buildPracticeWindows\(\)\)/);
+  assert.match(html, /DEFAULT_ASSIGNED_PRACTICE_WINDOWS = TEAMSNAP_ONE_ONLY \? \[\] : buildAssignedPracticeWindows\(\)/);
+  assert.match(html, /TRAINING_SESSIONS = TEAMSNAP_ONE_ONLY \? \[\] : buildTrainingSessions\(\)/);
+  assert.match(html, /events = TEAMSNAP_ONE_ONLY \? \[\] : cloneDefaults\(\)/);
+  assert.match(html, /practiceOverrides = TEAMSNAP_ONE_ONLY \? \[\] : normalizePracticeOverrides/);
+  assert.match(html, /practiceBookings = TEAMSNAP_ONE_ONLY \? \[\] : normalizeBookings/);
+  assert.match(html, /recentChanges = TEAMSNAP_ONE_ONLY \? \[\] : normalizeRecentChanges/);
+  assert.match(html, /filter\(function \(item\) \{\s*return item\.provider === "teamsnap-one";/);
+  assert.match(html, /data-view="manage" hidden/);
+  assert.match(html, /id="addPracticeButton"[^>]*hidden/);
+  assert.doesNotMatch(html, /data-mobile-nav="openings"/);
+  assert.doesNotMatch(html, /data-mobile-action="manage"/);
+  assert.doesNotMatch(html, /<button[^>]*data-mobile-add-practice/);
+  assert.doesNotMatch(html, /<option value="training">/);
+  assert.doesNotMatch(html, /saved BTB schedule|saved season plan|combined TeamSnap ONE \+ staff/i);
+
+  const calendarStart = html.indexOf("function calendarScheduleEvents()");
+  const calendarEnd = html.indexOf("function scheduleEventKindLabel", calendarStart);
+  const calendarContext = {
+    TEAMSNAP_ONE_ONLY: true,
+    events: [{ id: "manual-event", provider: "btb-staff" }],
+    activeTeamSnapOneEvents: () => [
+      { id: "live-game", kind: "game" },
+      { id: "timed-practice", kind: "practice", allDay: false, startTime: "18:00" },
+      { id: "all-day-practice", kind: "practice", allDay: true, startTime: "" },
+    ],
+    teamSnapScheduleEvent: (item) => ({ ...item, provider: "teamsnap-one" }),
+  };
+  runInNewContext(`${html.slice(calendarStart, calendarEnd)}\nthis.result = calendarScheduleEvents();`, calendarContext);
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(calendarContext.result.map((item) => item.id))),
+    ["live-game", "all-day-practice"],
+  );
+
+  const practiceStart = html.indexOf("function rebuildPracticeSchedule()");
+  const practiceEnd = html.indexOf("function bookingValidationWindows()", practiceStart);
+  const practiceContext = {
+    TEAMSNAP_ONE_ONLY: true,
+    DEFAULT_ASSIGNED_PRACTICE_WINDOWS: [{ id: "manual-practice" }],
+    MASTER_PRACTICE_WINDOWS: [{ id: "manual-field-window" }],
+    ASSIGNED_PRACTICE_WINDOWS: [],
+    PRACTICE_WINDOWS: [],
+    practiceOverrides: [{ id: "manual-override" }],
+    teamSnapOneEvents: [
+      { id: "live-practice", kind: "practice", allDay: false, startTime: "18:00", startDate: "2026-09-10", team: "2036 Dawgs", status: "confirmed" },
+      { id: "cancelled-practice", kind: "practice", allDay: false, startTime: "19:00", startDate: "2026-09-11", team: "2036 Dawgs", status: "cancelled" },
+    ],
+    hasUsableTeamSnapOneData: () => true,
+    teamSnapPracticeMatchesWindow: () => false,
+    teamSnapPracticeWindow: (item) => ({
+      id: item.id,
+      date: item.startDate,
+      startTime: item.startTime,
+      assignedTeams: [item.team],
+      readOnly: true,
+    }),
+    assignedPracticeTeam: (item) => item.assignedTeams[0],
+    practiceOverrideWindow: (item) => item,
+  };
+  runInNewContext(`${html.slice(practiceStart, practiceEnd)}\nrebuildPracticeSchedule();\nthis.result = [ASSIGNED_PRACTICE_WINDOWS, PRACTICE_WINDOWS];`, practiceContext);
+  const [assigned, displayed] = JSON.parse(JSON.stringify(practiceContext.result));
+  assert.deepEqual(assigned.map((item) => item.id), ["live-practice"]);
+  assert.deepEqual(displayed.map((item) => item.id), ["live-practice"]);
 });

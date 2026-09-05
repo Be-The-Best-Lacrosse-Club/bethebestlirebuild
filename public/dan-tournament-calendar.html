@@ -3529,7 +3529,7 @@
         z-index: 55;
         min-height: var(--mobile-nav-height);
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         overflow-x: hidden;
         padding: 0.36rem 0.35rem calc(0.36rem + env(safe-area-inset-bottom));
         border-top: 1px solid rgba(255, 255, 255, 0.14);
@@ -4543,16 +4543,16 @@
       <button class="tab-button" type="button" data-view="practice">Practice Board</button>
       <button class="tab-button" type="button" data-view="live">TeamSnap ONE</button>
       <button class="tab-button" type="button" data-view="directory">Coach Directory</button>
-      <button class="tab-button" type="button" data-view="manage">Manage</button>
+      <button class="tab-button" type="button" data-view="manage" hidden>Manage</button>
       <div class="tab-spacer"></div>
-      <div class="source-badge" id="scheduleSourceBadge">44 tournaments + 198 assigned team practices + 123 approved field windows</div>
+      <div class="source-badge" id="scheduleSourceBadge">TeamSnap ONE only</div>
       <button class="conflicts-tab" id="reviewConflictsButton" type="button" aria-haspopup="dialog" aria-controls="conflictDialog">
         Conflicts <span class="count-badge" id="conflictCount" aria-live="polite">0</span>
       </button>
     </nav>
 
     <main>
-      <section class="view active" id="wallView" aria-label="Combined season schedule">
+      <section class="view active" id="wallView" aria-label="TeamSnap ONE season schedule">
         <div class="wall-layout sidebar-collapsed">
           <section class="calendar-panel">
             <div class="calendar-toolbar">
@@ -4567,7 +4567,6 @@
                   <option value="all">All Schedule</option>
                   <option value="practices">Practices</option>
                   <option value="tournaments">Tournaments, Games + Events</option>
-                  <option value="training">A La Carte Training</option>
                 </select>
                 <button class="team-filter-trigger" id="teamFilterButton" type="button" popovertarget="teamFilterMenu"
                   aria-controls="teamFilterMenu" aria-expanded="false" aria-label="Choose teams shown on the calendar">
@@ -4602,8 +4601,8 @@
 
           <aside class="sidebar">
             <button class="sidebar-toggle" id="sidebarToggleButton" type="button" aria-expanded="false"
-              aria-controls="scheduleSidebarPanels" aria-label="Open openings and recent changes">
-              <span class="sidebar-toggle-text">Openings &amp; Changes</span>
+              aria-controls="scheduleSidebarPanels" aria-label="Open upcoming TeamSnap practices">
+              <span class="sidebar-toggle-text">Upcoming Practices</span>
               <svg class="sidebar-toggle-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
@@ -4612,13 +4611,13 @@
             <div class="sidebar-panels" id="scheduleSidebarPanels" hidden>
               <section class="panel">
                 <div class="panel-header">
-                  <h2>Upcoming Practices + Open Fields</h2>
+                  <h2>Upcoming TeamSnap Practices</h2>
                   <span class="count-badge" id="lockedCount">0</span>
                 </div>
                 <div class="panel-body locked-list" id="lockedList"></div>
               </section>
 
-              <section class="panel recent-changes-panel" aria-label="Latest shared schedule changes">
+              <section class="panel recent-changes-panel" aria-label="Latest shared schedule changes" hidden>
                 <div class="panel-header">
                   <h2>Recent Changes</h2>
                   <span class="count-badge" id="recentChangeCount">0</span>
@@ -4626,7 +4625,7 @@
                 <div class="panel-body recent-change-list" id="recentChangeList" aria-live="polite"></div>
               </section>
 
-              <section class="panel data-note">
+              <section class="panel data-note" hidden>
                 <div class="data-note-symbol">◇</div>
                 <div>
                   <strong><span id="tbdCount">0</span> dates still need confirmation</strong>
@@ -4646,14 +4645,12 @@
           <div class="section-header">
             <div class="section-title">
               <h2>Practice Schedule</h2>
-              <p>Shared team schedule with live field availability. Add, edit, or delete a practice and every coach sees the update.</p>
+              <p>Live TeamSnap ONE practices. Make schedule changes in TeamSnap ONE and refresh this page to see them here.</p>
             </div>
             <div class="practice-board-controls">
-              <button class="btn primary practice-add-button" id="addPracticeButton" type="button">+ Add Practice</button>
+              <button class="btn primary practice-add-button" id="addPracticeButton" type="button" hidden>+ Add Practice</button>
               <select class="manage-filter" id="practiceTypeFilter" aria-label="Choose practice schedule items">
-                <option value="assigned">Team practices</option>
-                <option value="open">Open field times</option>
-                <option value="all">All practice times</option>
+                <option value="assigned">TeamSnap practices</option>
               </select>
               <select class="manage-filter" id="practiceLocationFilter" aria-label="Filter practice windows by location">
                 <option value="all">All active locations</option>
@@ -4663,10 +4660,10 @@
                 <option value="momentum">Momentum Sports LI</option>
                 <option value="stimson">Stimson</option>
               </select>
-              <button class="btn primary" id="nextOpenPracticeButton" type="button">Next Open Window</button>
+              <button class="btn primary" id="nextOpenPracticeButton" type="button">Next Team Practice</button>
             </div>
           </div>
-          <details class="practice-notices">
+          <details class="practice-notices" hidden>
             <summary><span>Field status and permit notes</span><span>4 notes</span></summary>
             <div class="pending-notices" aria-label="Practice facility status">
               <div class="pending-notice confirmed">
@@ -4705,7 +4702,7 @@
             <div class="live-agenda-wrap">
               <div class="live-status-bar unavailable" id="teamSnapStatus" role="status" aria-live="polite">
                 <span class="live-status-dot" aria-hidden="true"></span>
-                <div class="live-status-copy"><strong>Connecting to TeamSnap ONE…</strong><span>The saved BTB schedule remains available while the feed loads.</span></div>
+                <div class="live-status-copy"><strong>Connecting to TeamSnap ONE…</strong><span>Only TeamSnap ONE items appear on this calendar.</span></div>
               </div>
               <div class="live-feed-list" id="liveAgenda"></div>
             </div>
@@ -4716,7 +4713,7 @@
               <ul>
                 <li>The private TeamSnap subscription stays secured on the BTB server.</li>
                 <li>Select any synced item to open its TeamSnap ONE details.</li>
-                <li>Use the Conflicts tab on the right to review separate tournaments that overlap.</li>
+                <li>Use the Conflicts tab on the right to review synced events that overlap.</li>
               </ul>
               <p id="lastLiveRefresh">Live feed not loaded yet.</p>
             </aside>
@@ -4729,7 +4726,7 @@
           <div class="section-header">
             <div class="section-title">
               <h2>Export Team Calendar</h2>
-              <p>Choose a team, download its combined TeamSnap ONE + staff iCal schedule, or add individual events to Google Calendar.</p>
+              <p>Choose a team, download its synced TeamSnap ONE iCal schedule, or add individual events to Google Calendar.</p>
             </div>
           </div>
           <div class="export-body">
@@ -4738,7 +4735,7 @@
               <select class="field" id="exportTeam" aria-label="Choose a team to export"></select>
               <div class="export-summary" id="exportSummary" role="status" aria-live="polite"></div>
               <button class="btn primary" id="downloadIcalButton" type="button">Download Team iCal (.ics)</button>
-              <p class="export-help">The iCal file includes synced TeamSnap ONE events plus BTB’s saved tournaments and field-planning items. It can be imported into Apple Calendar, Outlook, or Google Calendar.</p>
+              <p class="export-help">The iCal file includes only synced TeamSnap ONE events. It can be imported into Apple Calendar, Outlook, or Google Calendar.</p>
             </aside>
             <section class="export-schedule" aria-labelledby="exportScheduleTitle">
               <h3 id="exportScheduleTitle">Team Schedule</h3>
@@ -4852,10 +4849,6 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5.5a9 9 0 0 1 11 11M5.5 7.5a9 9 0 0 0 11 11M8 8l8 8M6.2 13.3l4.5 4.5M13.3 6.2l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
         <span>Practices</span>
       </button>
-      <button class="mobile-nav-button" type="button" data-mobile-nav="openings" aria-current="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V8l8-4 8 4v11M8 19v-6h8v6M4 10h16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"></path></svg>
-        <span>Openings</span>
-      </button>
       <button class="mobile-nav-button" type="button" data-mobile-nav="more" aria-current="false" aria-haspopup="dialog" aria-controls="mobileMoreDialog">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" fill="currentColor"></circle><circle cx="12" cy="12" r="1.7" fill="currentColor"></circle><circle cx="19" cy="12" r="1.7" fill="currentColor"></circle></svg>
         <span>More</span><span class="mobile-nav-badge" id="mobileConflictCount" aria-label="0 conflicts">0</span>
@@ -4865,7 +4858,7 @@
     <footer class="footer">
       <div class="footer-teams" id="footerTeams"></div>
       <div class="footer-spacer"></div>
-      <span>Staff season schedule updated Aug. 29, 2026</span>
+      <span>TeamSnap ONE schedule • automatic 15-minute refresh</span>
       <span>•</span>
       <span>Our Culture Built Us. Our Hard Work Made Us.</span>
     </footer>
@@ -4901,7 +4894,6 @@
           <option value="all">All schedule items</option>
           <option value="practices">Practices only</option>
           <option value="tournaments">Games, tournaments, and team events</option>
-          <option value="training">A La Carte training only</option>
         </select>
       </div>
       <div class="mobile-more-grid">
@@ -4920,10 +4912,6 @@
         <button class="mobile-more-action" type="button" data-mobile-action="directory">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M5 20c.7-4 3-6 7-6s6.3 2 7 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
           Coach Directory
-        </button>
-        <button class="mobile-more-action" type="button" data-mobile-action="manage">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2m4 0h10M14 4v6M6 14v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
-          Manage Schedule
         </button>
         <button class="mobile-more-action" type="button" data-mobile-action="refresh">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7v5h-5M5 17v-5h5M7 8a7 7 0 0 1 11.2 1.2L19 12M5 12l.8 2.8A7 7 0 0 0 17 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -4984,7 +4972,7 @@
       <div class="install-hero">
         <img class="install-icon" src="/assets/dan-calendar/btb-staff-icon-192-v1.png" alt="BTB Lacrosse Club app icon">
         <div class="install-copy">
-          <div class="install-kicker">BTB Staff Schedule</div>
+          <div class="install-kicker">BTB TeamSnap Schedule</div>
           <h3>Open it like an app</h3>
           <p id="installDialogIntro">Add the calendar to your Home Screen for one-tap access without typing the website address.</p>
         </div>
@@ -5225,6 +5213,7 @@
       "use strict";
 
       var DATA_VERSION = "staff-2026-27-v5";
+      var TEAMSNAP_ONE_ONLY = true;
       var BOYS_TEAM_COLOR = "#55D88A";
       var GIRLS_TEAM_COLOR = "#C9A7FF";
       var TEAM_META = {
@@ -5716,7 +5705,7 @@
         return windows;
       }
 
-      var MASTER_PRACTICE_WINDOWS = buildPracticeWindows().map(function (windowItem) {
+      var MASTER_PRACTICE_WINDOWS = (TEAMSNAP_ONE_ONLY ? [] : buildPracticeWindows()).map(function (windowItem) {
         windowItem.mode = "inventory";
         windowItem.claimMode = CLOSED_PARENT_WINDOW_IDS.has(windowItem.id) ? "closed-to-new" : "open";
         windowItem.assignedTeams = [];
@@ -5724,7 +5713,7 @@
         windowItem.assignmentStatus = null;
         return windowItem;
       });
-      var DEFAULT_ASSIGNED_PRACTICE_WINDOWS = buildAssignedPracticeWindows();
+      var DEFAULT_ASSIGNED_PRACTICE_WINDOWS = TEAMSNAP_ONE_ONLY ? [] : buildAssignedPracticeWindows();
       var ASSIGNED_PRACTICE_WINDOWS = DEFAULT_ASSIGNED_PRACTICE_WINDOWS.slice();
       var PRACTICE_WINDOWS = MASTER_PRACTICE_WINDOWS.concat(ASSIGNED_PRACTICE_WINDOWS).sort(function (a, b) {
         return a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime) || a.id.localeCompare(b.id);
@@ -5871,11 +5860,11 @@
         });
       }
 
-      var TRAINING_SESSIONS = buildTrainingSessions();
+      var TRAINING_SESSIONS = TEAMSNAP_ONE_ONLY ? [] : buildTrainingSessions();
 
       var BLUE_CHIP_EVENT_IDS = new Set(["b28-igloo", "b31-igloo", "b33-igloo", "b34-igloo", "b36-igloo"]);
 
-      var events = cloneDefaults();
+      var events = TEAMSNAP_ONE_ONLY ? [] : cloneDefaults();
       var practiceBookings = [];
       var practiceOverrides = [];
       var recentChanges = [];
@@ -6132,6 +6121,11 @@
       }
 
       function calendarScheduleEvents() {
+        if (TEAMSNAP_ONE_ONLY) {
+          return activeTeamSnapOneEvents().filter(function (item) {
+            return item.kind !== "practice" || item.allDay || !item.startTime;
+          }).map(teamSnapScheduleEvent);
+        }
         if (!hasUsableTeamSnapOneData()) return events.slice();
         var feedRecords = teamSnapOneEvents.filter(function (item) {
           return item.kind !== "practice" || item.allDay || !item.startTime;
@@ -6223,7 +6217,8 @@
       }
 
       function rebuildPracticeSchedule() {
-        var effective = new Map(DEFAULT_ASSIGNED_PRACTICE_WINDOWS.map(function (windowItem) {
+        var baselineWindows = TEAMSNAP_ONE_ONLY ? [] : DEFAULT_ASSIGNED_PRACTICE_WINDOWS;
+        var effective = new Map(baselineWindows.map(function (windowItem) {
           var copy = Object.assign({}, windowItem, { automaticCoaches: [] });
           return [copy.id, copy];
         }));
@@ -6245,7 +6240,7 @@
             }
           });
         }
-        practiceOverrides.forEach(function (item) {
+        (TEAMSNAP_ONE_ONLY ? [] : practiceOverrides).forEach(function (item) {
           if (item.deleted) effective.delete(item.id);
           else {
             var overrideWindow = practiceOverrideWindow(item);
@@ -6264,7 +6259,7 @@
           return a.date.localeCompare(b.date) || String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
             assignedPracticeTeam(a).localeCompare(assignedPracticeTeam(b));
         });
-        PRACTICE_WINDOWS = MASTER_PRACTICE_WINDOWS.concat(ASSIGNED_PRACTICE_WINDOWS).sort(function (a, b) {
+        PRACTICE_WINDOWS = (TEAMSNAP_ONE_ONLY ? [] : MASTER_PRACTICE_WINDOWS).concat(ASSIGNED_PRACTICE_WINDOWS).sort(function (a, b) {
           return a.date.localeCompare(b.date) || String(a.startTime || "").localeCompare(String(b.startTime || "")) || a.id.localeCompare(b.id);
         });
       }
@@ -6569,18 +6564,20 @@
         var snapshot = data && data.snapshot ? data.snapshot : {};
         currentEtag = data && typeof data.etag === "string" ? data.etag : null;
         snapshotVersion = Number.isFinite(Number(snapshot.version)) ? Number(snapshot.version) : 0;
-        events = Array.isArray(snapshot.events) && snapshot.events.length
-          ? normalizeEvents(snapshot.events)
-          : cloneDefaults();
+        events = TEAMSNAP_ONE_ONLY
+          ? []
+          : Array.isArray(snapshot.events) && snapshot.events.length
+            ? normalizeEvents(snapshot.events)
+            : cloneDefaults();
         if (data && Object.prototype.hasOwnProperty.call(data, "teamsnapOne")) {
           normalizeTeamSnapOneData(data.teamsnapOne);
         } else if (resetMissingTeamSnapOne) {
           normalizeTeamSnapOneData({});
         }
-        practiceOverrides = normalizePracticeOverrides(snapshot.practiceOverrides);
+        practiceOverrides = TEAMSNAP_ONE_ONLY ? [] : normalizePracticeOverrides(snapshot.practiceOverrides);
         rebuildPracticeSchedule();
-        practiceBookings = normalizeBookings(snapshot.practiceBookings);
-        recentChanges = normalizeRecentChanges(snapshot.recentChanges);
+        practiceBookings = TEAMSNAP_ONE_ONLY ? [] : normalizeBookings(snapshot.practiceBookings);
+        recentChanges = TEAMSNAP_ONE_ONLY ? [] : normalizeRecentChanges(snapshot.recentChanges);
         return { events: events, practiceBookings: practiceBookings, practiceOverrides: practiceOverrides,
           recentChanges: recentChanges, teamsnapOne: teamSnapOne, etag: currentEtag };
       }
@@ -6974,7 +6971,9 @@
             description: [session.title, "With " + session.coach, "Optional a la carte", session.price].join(" • ")
           };
         });
-        return tournamentItems.concat(assignedItems, claimedItems, trainingItems).sort(function (a, b) {
+        return tournamentItems.concat(assignedItems, claimedItems, trainingItems).filter(function (item) {
+          return item.provider === "teamsnap-one";
+        }).sort(function (a, b) {
           return a.startDate.localeCompare(b.startDate) || String(a.startTime || "").localeCompare(String(b.startTime || "")) ||
             a.title.localeCompare(b.title);
         });
@@ -7053,7 +7052,7 @@
         var team = document.getElementById("exportTeam").value;
         var items = calendarExportItems(team);
         if (!team || !items.length) {
-          showToast("No dated schedule items are available for that team.");
+          showToast("No synced TeamSnap ONE items are available for that team.");
           return;
         }
         var blobUrl = URL.createObjectURL(new Blob([teamIcal(team)], { type: "text/calendar;charset=utf-8" }));
@@ -7097,7 +7096,7 @@
             "</span><span class='export-item-meta'>" + escapeHtml(item.kind + " • " + timeLabel + " • " + item.location) +
             "</span></span><a class='btn subtle' href='" + escapeHtml(googleCalendarUrl(item)) +
             "' target='_blank' rel='noopener' aria-label='" + escapeHtml(googleLabel) + "'>Add to Google</a></article>";
-        }).join("") : "<div class='empty'>No dated tournaments or assigned practices are loaded for this team.</div>";
+        }).join("") : "<div class='empty'>No synced TeamSnap ONE items are loaded for this team.</div>";
       }
 
       function bookingsForWindow(windowId) {
@@ -7430,12 +7429,20 @@
           "<span class='legend-item'><span class='legend-swatch' style='--legend-color:" + TRAINING_COLOR +
           "'></span>A La Carte Training • " + escapeHtml(TRAINING_PRICE_LABEL) + "</span></div>";
 
-        document.getElementById("scheduleLegend").innerHTML = teamLegend + locationLegend + trainingLegend +
-          "<span class='legend-note'><span aria-hidden='true'>*</span> Off-Island Tournament</span>";
-        document.getElementById("practiceLegend").innerHTML = locationLegend + teamLegend;
-        footerHost.textContent = teamNames.length + " teams • " + linkedTeams.length + " in TeamSnap ONE • " +
-          ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " + MASTER_PRACTICE_WINDOWS.length +
-          " approved field windows • " + TRAINING_SESSIONS.length + " optional training sessions";
+        var teamSnapLegend = "<div class='legend-group'><span class='legend-label'>Schedule Source</span>" +
+          "<span class='legend-item'><span class='legend-swatch' style='--legend-color:#A855F7'></span>TeamSnap ONE • Live</span></div>";
+        document.getElementById("scheduleLegend").innerHTML = TEAMSNAP_ONE_ONLY
+          ? teamLegend + teamSnapLegend
+          : teamLegend + locationLegend + trainingLegend +
+            "<span class='legend-note'><span aria-hidden='true'>*</span> Off-Island Tournament</span>";
+        document.getElementById("practiceLegend").innerHTML = TEAMSNAP_ONE_ONLY
+          ? teamLegend + teamSnapLegend
+          : locationLegend + teamLegend;
+        footerHost.textContent = TEAMSNAP_ONE_ONLY
+          ? teamNames.length + " teams • " + linkedTeams.length + " in TeamSnap ONE • TeamSnap ONE only"
+          : teamNames.length + " teams • " + linkedTeams.length + " in TeamSnap ONE • " +
+            ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " + MASTER_PRACTICE_WINDOWS.length +
+            " approved field windows • " + TRAINING_SESSIONS.length + " optional training sessions";
 
         var teamOptions = teamNames.map(function (team) {
           return "<option value='" + escapeHtml(team) + "'>" + escapeHtml(TEAM_META[team].label) + "</option>";
@@ -7561,7 +7568,7 @@
         var sundayOffset = first.getDay();
         var gridStart = addDays(first, -sundayOffset);
         var todayIso = isoDate(new Date());
-        var conflicts = getConflictGroups(events.filter(function (event) { return visibleTeams.has(event.team); }));
+        var conflicts = getConflictGroups(calendarScheduleEvents().filter(function (event) { return visibleTeams.has(event.team); }));
         var html = [];
 
         for (var i = 0; i < 42; i += 1) {
@@ -7578,7 +7585,7 @@
           if (dayIso === todayIso) classes.push("today");
           if (conflictLevel === "critical") classes.push("conflict-critical");
           if (conflictLevel === "high") classes.push("conflict-high");
-          if (showPractices) classes.push("has-availability");
+          if (showPractices && !TEAMSNAP_ONE_ONLY) classes.push("has-availability");
 
           var dots = "";
           if (conflictLevel === "critical") dots = "<span class='conflict-dot' title='Action conflict'></span>";
@@ -7651,7 +7658,7 @@
             "<div class='day-number'><button class='day-number-button' type='button' data-day-date='" + dayIso +
             "' aria-haspopup='dialog' aria-controls='dayDialog' aria-label='" + escapeHtml("Open " + dayLabel + ", " + itemLabel) +
             "'><span>" + day.getDate() + "</span>" + itemCount + "</button>" + dots + "</div>" +
-            (showPractices ? "<div class='day-availability' aria-label='Field availability'>" + dayAvailabilityMarkup(dayIso, true) + "</div>" : "") +
+            (showPractices && !TEAMSNAP_ONE_ONLY ? "<div class='day-availability' aria-label='Field availability'>" + dayAvailabilityMarkup(dayIso, true) + "</div>" : "") +
             "<div class='day-events'>" + pills + "</div></div>");
         }
 
@@ -8213,7 +8220,7 @@
             escapeHtml(change.summary) + "</strong><span>" + escapeHtml(details) + "</span></article>";
         }).join("") : "<div class='empty'>No shared schedule changes yet.</div>";
 
-        var conflicts = getConflictGroups();
+        var conflicts = getConflictGroups(calendarScheduleEvents());
         document.getElementById("conflictCount").textContent = conflicts.length;
         var mobileConflictCount = document.getElementById("mobileConflictCount");
         mobileConflictCount.textContent = conflicts.length;
@@ -8289,8 +8296,7 @@
           }
           group.rows.push(row);
         });
-        host.innerHTML = "<header class='mobile-surface-header'><h2>Team Practices</h2><p>Upcoming practices for your saved teams. Coaches are attached automatically.</p>" +
-          "<div class='mobile-surface-actions'><button class='btn primary' type='button' data-mobile-add-practice>Add Practice</button></div></header>" +
+        host.innerHTML = "<header class='mobile-surface-header'><h2>TeamSnap Practices</h2><p>Live practices synced from TeamSnap ONE for your saved teams.</p></header>" +
           (groups.length ? "<div class='mobile-practice-groups'>" + groups.map(function (group) {
             return "<section data-practice-date='" + escapeHtml(group.date) + "'>" + mobilePracticeDateHeading(group.date, today) +
               "<div class='mobile-date-rows'>" + group.rows.map(function (row) {
@@ -8332,6 +8338,11 @@
 
       function renderMobileOpeningsAgenda() {
         var host = document.getElementById("mobileOpeningsAgenda");
+        if (TEAMSNAP_ONE_ONLY) {
+          host.innerHTML = "";
+          host.hidden = true;
+          return;
+        }
         var today = isoDate(new Date());
         var locationFilter = document.getElementById("practiceLocationFilter").value;
         var rows = MASTER_PRACTICE_WINDOWS.filter(function (windowItem) {
@@ -8387,10 +8398,11 @@
       }
 
       function renderMobilePracticeSurfaces() {
+        if (TEAMSNAP_ONE_ONLY && mobileCoachSection === "openings") mobileCoachSection = "practices";
         renderMobilePracticeAgenda();
         renderMobileOpeningsAgenda();
         document.getElementById("mobilePracticeAgenda").hidden = mobileCoachSection !== "practices";
-        document.getElementById("mobileOpeningsAgenda").hidden = mobileCoachSection !== "openings";
+        document.getElementById("mobileOpeningsAgenda").hidden = TEAMSNAP_ONE_ONLY || mobileCoachSection !== "openings";
       }
 
       function renderPracticeBoard() {
@@ -8920,14 +8932,11 @@
         var activeLiveEvents = activeTeamSnapOneEvents();
         var linkedTeams = new Set(activeLiveEvents.map(function (item) { return item.team; }));
         var sourceLabel = hasUsableTeamSnapOneData()
-          ? "TeamSnap ONE " + (teamSnapOne.stale ? "CACHED" : "LIVE") + " • " + activeLiveEvents.length + " synced items • "
-          : "Saved BTB plan • TeamSnap ONE reconnecting • ";
-        document.getElementById("scheduleSourceBadge").textContent = sourceLabel +
-          ASSIGNED_PRACTICE_WINDOWS.length + " team practices • " + MASTER_PRACTICE_WINDOWS.length + " field windows";
+          ? "TeamSnap ONE " + (teamSnapOne.stale ? "CACHED" : "LIVE") + " • " + activeLiveEvents.length + " synced items"
+          : "TeamSnap ONE only • reconnecting";
+        document.getElementById("scheduleSourceBadge").textContent = sourceLabel;
         document.getElementById("footerTeams").textContent = teamNames.length + " teams • " + linkedTeams.size +
-          " in TeamSnap ONE • " + ASSIGNED_PRACTICE_WINDOWS.length + " assigned practices • " +
-          MASTER_PRACTICE_WINDOWS.length + " approved field windows • " + TRAINING_SESSIONS.length +
-          " optional training sessions";
+          " in TeamSnap ONE • " + activeLiveEvents.length + " synced items • TeamSnap ONE only";
         renderPracticeTicker();
         renderMonth();
         renderSidebar();
@@ -9106,6 +9115,10 @@
           openTeamSnapOneDialog(practice.liveEventId || practice.id);
           return;
         }
+        if (TEAMSNAP_ONE_ONLY) {
+          showToast("Add or update practices in TeamSnap ONE.");
+          return;
+        }
         if (practiceId && !isAssignedPractice(practice)) {
           showToast("That team practice is no longer on the shared schedule.");
           return;
@@ -9152,6 +9165,10 @@
 
       async function savePracticeFromEditor(eventObject) {
         eventObject.preventDefault();
+        if (TEAMSNAP_ONE_ONLY) {
+          showToast("Add or update practices in TeamSnap ONE.");
+          return;
+        }
         setPracticeEditorError("");
         var status = updatePracticeEditorStatus();
         if (!status.coaches.length) {
@@ -9418,6 +9435,10 @@
           openTeamSnapOneDialog(id);
           return;
         }
+        if (TEAMSNAP_ONE_ONLY) {
+          showToast("Add or update events in TeamSnap ONE.");
+          return;
+        }
         var event = id ? events.find(function (item) { return item.id === id; }) : null;
         document.getElementById("eventDialogTitle").textContent = event ? "Edit Tournament" : "Add Tournament";
         document.getElementById("eventId").value = event ? event.id : "";
@@ -9438,6 +9459,10 @@
 
       async function saveEventFromForm(eventObject) {
         eventObject.preventDefault();
+        if (TEAMSNAP_ONE_ONLY) {
+          showToast("Add or update events in TeamSnap ONE.");
+          return;
+        }
         var id = document.getElementById("eventId").value;
         var start = document.getElementById("eventStart").value;
         var end = document.getElementById("eventEnd").value;
@@ -9495,7 +9520,7 @@
       }
 
       function openConflictDialog(selectedIndex) {
-        var conflicts = getConflictGroups();
+        var conflicts = getConflictGroups(calendarScheduleEvents());
         if (!conflicts.length) {
           document.getElementById("conflictDialogTitle").textContent = "No Schedule Conflicts";
           document.getElementById("conflictDialogBody").innerHTML =
@@ -9524,6 +9549,7 @@
       }
 
       function showView(name) {
+        if (TEAMSNAP_ONE_ONLY && name === "manage") name = "wall";
         document.querySelectorAll(".view").forEach(function (view) {
           view.classList.toggle("active", view.id === name + "View");
         });
@@ -9554,6 +9580,7 @@
       }
 
       function activateMobileCoachSection(section) {
+        if (TEAMSNAP_ONE_ONLY && section === "openings") section = "practices";
         if (section === "more") {
           document.querySelectorAll("[data-mobile-nav]").forEach(function (button) {
             button.setAttribute("aria-current", button.getAttribute("data-mobile-nav") === "more" ? "page" : "false");
@@ -9607,10 +9634,10 @@
               : "TeamSnap ONE connection is not configured";
         status.querySelector("span:last-child").textContent = hasUsableTeamSnapOneData()
           ? syncedTeams.size + " teams • " + teamSnapOneSyncLabel()
-          : "The saved BTB schedule remains available.";
+          : "Only TeamSnap ONE items appear on this calendar.";
         document.getElementById("lastLiveRefresh").textContent = hasUsableTeamSnapOneData()
           ? teamSnapOneSyncLabel() + (teamSnapOne.stale ? " • Cached schedule" : " • Automatic 15-minute refresh")
-          : "TeamSnap ONE is temporarily unavailable. Showing the saved BTB plan.";
+          : "TeamSnap ONE is temporarily unavailable. No unsynced schedule items are shown.";
 
         teamList.innerHTML = Object.keys(TEAM_META).map(function (team) {
           var meta = TEAM_META[team];
@@ -9623,7 +9650,7 @@
         if (!upcoming.length) {
           agenda.innerHTML = "<div class='empty'>" + (hasUsableTeamSnapOneData()
             ? "No upcoming TeamSnap ONE items are posted."
-            : "The live TeamSnap ONE schedule could not be loaded. The saved season plan is still on the main calendar.") + "</div>";
+            : "The live TeamSnap ONE schedule could not be loaded. No unsynced schedule items are shown.") + "</div>";
           return;
         }
 
@@ -9667,10 +9694,10 @@
         return loadSchedule().then(function () {
           renderAll();
           if (showMessage) showToast(hasUsableTeamSnapOneData()
-            ? "TeamSnap ONE and the staff schedule are up to date."
-            : "Staff schedule refreshed. TeamSnap ONE is reconnecting.");
+            ? "TeamSnap ONE schedule is up to date."
+            : "TeamSnap ONE is reconnecting. No unsynced items are shown.");
         }).catch(function () {
-          if (showMessage) showToast("Could not refresh the staff schedule.");
+          if (showMessage) showToast("Could not refresh the TeamSnap ONE schedule.");
         }).finally(function () {
           if (button) {
             button.disabled = false;
@@ -10321,8 +10348,8 @@
         panels.hidden = collapsed;
         button.setAttribute("aria-expanded", String(!collapsed));
         button.setAttribute("aria-label", collapsed
-          ? "Open openings and recent changes"
-          : "Collapse openings and recent changes");
+          ? "Open upcoming TeamSnap practices"
+          : "Collapse upcoming TeamSnap practices");
         if (persistPreference) {
           try {
             localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(collapsed));
@@ -10616,7 +10643,7 @@
             })));
           },
           getPracticeBookings: function () { return JSON.parse(JSON.stringify(practiceBookings)); },
-          getConflicts: function () { return JSON.parse(JSON.stringify(getConflictGroups())); },
+          getConflicts: function () { return JSON.parse(JSON.stringify(getConflictGroups(calendarScheduleEvents()))); },
           getCalendarExportItems: function (team) { return JSON.parse(JSON.stringify(calendarExportItems(team))); },
           getTeamIcal: function (team) { return teamIcal(team); },
           getCurrentMonth: function () { return isoDate(viewDate); },
