@@ -614,6 +614,8 @@ test("Dan's calendar excludes every schedule item that is not synced from TeamSn
   assert.match(html, /filter\(function \(item\) \{\s*return item\.provider === "teamsnap-one";/);
   assert.match(html, /data-view="manage" hidden/);
   assert.match(html, /id="addPracticeButton"[^>]*hidden/);
+  assert.match(html, /#addPracticeButton\[hidden\],[\s\S]*display: none !important/);
+  assert.match(html, /TEAMSNAP_ONE_ONLY \? "" : "<div class='practice-day-availability'/);
   assert.doesNotMatch(html, /data-mobile-nav="openings"/);
   assert.doesNotMatch(html, /data-mobile-action="manage"/);
   assert.doesNotMatch(html, /<button[^>]*data-mobile-add-practice/);

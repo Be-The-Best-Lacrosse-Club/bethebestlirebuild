@@ -4108,6 +4108,7 @@
     .practice-time-separator { padding-bottom: 13px; color: var(--muted); font-size: 10px; font-weight: 900; text-transform: uppercase; }
     .label-optional { color: var(--muted); font-size: 9px; font-weight: 700; text-transform: none; }
     .practice-editor-status { display: grid; align-content: start; gap: 12px; }
+    #addPracticeButton[hidden],
     #deletePracticeButton[hidden] { display: none !important; }
 
     .automatic-coach-card,
@@ -8518,8 +8519,9 @@
             "<div class='practice-agenda-date-copy'><strong>" + escapeHtml(formatDate(group.date, { weekday: "long" })) +
             "</strong><span>" + escapeHtml(formatDate(group.date, { month: "long", year: "numeric" })) +
             "</span></div><span class='practice-agenda-count'>" + group.rows.length + " item" + (group.rows.length === 1 ? "" : "s") +
-            "</span></div><div class='practice-day-availability' aria-label='Field availability'>" + dayAvailabilityMarkup(group.date, false) +
-            "</div><div class='practice-agenda-events'>" + rowHtml + "</div></section>";
+            "</span></div>" + (TEAMSNAP_ONE_ONLY ? "" : "<div class='practice-day-availability' aria-label='Field availability'>" +
+            dayAvailabilityMarkup(group.date, false) + "</div>") +
+            "<div class='practice-agenda-events'>" + rowHtml + "</div></section>";
         }).join("");
 
         host.innerHTML = "<div class='practice-agenda-summary'><strong>" + escapeHtml(summaryLabel) +
