@@ -856,9 +856,9 @@ test("independent claimed practices stay separate and show team, time, and locat
   assert.match(renderSource, /var claimedPracticePills = dayBookings\.map\(function \(item\)/);
   assert.match(renderSource, /data-booking-id=/);
   assert.match(renderSource, /practiceTeamMarkup\(teams, windowItem, "short"\)[\s\S]*escapeHtml\(timeLabel \+ " • " \+ locationLabel\)/);
-  assert.match(renderSource, /monthBookings = showPractices \? practiceBookings\.map\(function \(booking\)/);
+  assert.match(renderSource, /var claimedRows = showPractices \? practiceBookings\.map\(function \(booking\)/);
   assert.match(renderSource, /kind: "claimed-practice"/);
-  assert.match(renderSource, /practiceTeamMarkup\(claimedTeams, claimedWindow, "label"\)[\s\S]*escapeHtml\(claimedTime \+ " • " \+ practiceWindowLocation\(claimedWindow\)/);
+  assert.match(renderSource, /practiceTeamMarkup\(claimedTeams, claimedWindow, "label"\)[\s\S]*formatClock\(claimedBooking\.startTime\)[\s\S]*practiceWindowLocation\(claimedWindow\)/);
 
   const dialogEnd = html.indexOf("function renderSidebar()", dialogStart);
   const dialogSource = html.slice(dialogStart, dialogEnd);
@@ -866,24 +866,27 @@ test("independent claimed practices stay separate and show team, time, and locat
   assert.match(dialogSource, /practiceTeamMarkup\(teams, windowItem, "label"\)[\s\S]*escapeHtml\(timeLabel\)[\s\S]*practiceWindowLocation\(windowItem\)/);
 });
 
-test("the calendar team filter is an accessible multi-select that defaults to all teams on each page load", () => {
+test("the calendar team filter is accessible and restores valid Coach Mode team choices", () => {
   const html = staffPageHtml();
   assert.match(html, /id="teamFilterSummary">All Teams<\/span>/);
   assert.match(html, /id="teamFilterMenu" popover aria-label="Choose teams shown on the calendar"/);
   assert.match(html, /id="selectAllTeamsButton"/);
   assert.match(html, /id="clearTeamsButton"/);
-  assert.match(html, /var visibleTeams = new Set\(Object\.keys\(TEAM_META\)\)/);
+  assert.match(html, /btb-calendar-mobile-coach-v1/);
+  assert.match(html, /function restoreMobileCoachState\(\)/);
+  assert.match(html, /function persistMobileCoachState\(\)/);
 
   const chromeStart = html.indexOf("function renderTeamChrome()");
   const chromeEnd = html.indexOf("function allTeamsAreVisible()", chromeStart);
   const chromeSource = html.slice(chromeStart, chromeEnd);
-  assert.match(chromeSource, /visibleTeams = new Set\(teamNames\)/);
   assert.match(chromeSource, /type='checkbox'[\s\S]*data-team-filter=[\s\S]*checked/);
   assert.match(chromeSource, /if \(visibleTeams\.size === teamNames\.length\) label = "All Teams"/);
   assert.match(chromeSource, /if \(input\.checked\) visibleTeams\.add\(team\)[\s\S]*else visibleTeams\.delete\(team\)/);
   assert.match(chromeSource, /setAllTeamFilters\(true\)/);
   assert.match(chromeSource, /setAllTeamFilters\(false\)/);
-  assert.doesNotMatch(chromeSource, /localStorage|sessionStorage/);
+  assert.match(html, /restoreMobileCoachState\(\)[\s\S]*localStorage/);
+  assert.match(html, /persistMobileCoachState\(\)[\s\S]*localStorage/);
+  assert.match(html, /Object\.keys\(TEAM_META\)/);
 
   const scheduleStart = html.indexOf("function scheduleItemsForDay(dayIso, showTournaments, showPractices, showTrainings)");
   const scheduleEnd = html.indexOf("function renderMonth()", scheduleStart);
@@ -892,11 +895,187 @@ test("the calendar team filter is an accessible multi-select that defaults to al
   assert.match(scheduleSource, /bookingMatchesVisibleTeams\(booking\)/);
   assert.match(scheduleSource, /visibleTeams\.has\(assignedPracticeTeam\(windowItem\)\)/);
 
-  const mobileCssStart = html.indexOf(".team-filter-trigger {", html.indexOf("@media"));
-  const mobileCssEnd = html.indexOf(".calendar-panel {", mobileCssStart);
+  const mobileCssStart = html.indexOf("@media (max-width: 760px)");
+  const mobileCssEnd = html.indexOf("@media (prefers-reduced-motion: reduce)", mobileCssStart);
   const mobileFilterCss = html.slice(mobileCssStart, mobileCssEnd);
-  assert.match(mobileFilterCss, /min-height:\s*44px/);
-  assert.match(mobileFilterCss, /width:\s*calc\(100vw - 1rem\)/);
+  assert.match(mobileFilterCss, /\.mobile-header-button\s*\{[\s\S]*min-height:\s*44px/);
+  assert.match(mobileFilterCss, /\.team-filter-menu\s*\{[\s\S]*width:\s*100%/);
+});
+
+test("Coach Mode has a compact header and exactly four phone navigation actions", () => {
+  const html = staffPageHtml();
+  const headerStart = html.indexOf('id="mobileCoachHeader"');
+  const navStart = html.indexOf('id="mobileCoachNav"');
+  const navEnd = html.indexOf("</nav>", navStart);
+  assert.ok(headerStart >= 0, "mobile Coach Mode must provide a dedicated compact header");
+  assert.ok(navStart > headerStart && navEnd > navStart, "Coach Mode navigation must follow its header");
+
+  const nav = html.slice(navStart, navEnd);
+  const actions = Array.from(nav.matchAll(/data-mobile-nav="([^"]+)"/g), (match) => match[1]);
+  assert.deepEqual(actions, ["schedule", "practices", "openings", "more"]);
+  assert.match(nav, /aria-label="Coach navigation"/);
+  assert.match(nav, /aria-current="page"|aria-selected="true"/);
+  assert.match(html, /#mobileCoachHeader[\s\S]*position:\s*sticky/);
+  assert.match(html, /#mobileCoachNav[\s\S]*overflow-x:\s*hidden/);
+  assert.doesNotMatch(html.slice(navStart, navEnd + 1), /data-view="(?:export|live|directory|manage)"/);
+});
+
+test("Coach Mode renders a grouped today-forward agenda and keeps open inventory separate", () => {
+  const html = staffPageHtml();
+  assert.match(html, /id="mobileCoachAgenda"/);
+  assert.match(html, /id="mobileOpeningsAgenda"/);
+  const start = html.indexOf("function renderMobileCoachAgenda()");
+  const end = html.indexOf("function openDayDialog", start);
+  assert.ok(start >= 0 && end > start, "mobile agenda rendering must remain independently testable");
+  const source = html.slice(start, end);
+  assert.match(source, /date\s*>=\s*today/);
+  assert.match(source, /data-coach-date=/);
+  assert.match(source, /data-coach-event-id=/);
+  assert.match(source, /assignedPracticeTeam|bookingMatchesVisibleTeams/);
+  assert.doesNotMatch(source, /isOpenInventoryWindow\(windowItem\)/, "open field inventory belongs in its own view");
+  assert.match(html, /function renderMobileOpeningsAgenda\(\)/);
+  const openingsStart = html.indexOf("function renderMobileOpeningsAgenda()");
+  const openingsEnd = html.indexOf("function renderPracticeBoard()", openingsStart);
+  assert.ok(openingsStart >= 0 && openingsEnd > openingsStart);
+  assert.match(html.slice(openingsStart, openingsEnd), /isOpenInventoryWindow\(windowItem\)/);
+});
+
+test("mobile Practices keeps claimed bookings visible and never routes them into Add Practice", () => {
+  const html = staffPageHtml();
+  const start = html.indexOf("function renderMobilePracticeAgenda()");
+  const end = html.indexOf("function renderMobileOpeningsAgenda()", start);
+  assert.ok(start >= 0 && end > start, "mobile practice rendering must remain independently testable");
+  const source = html.slice(start, end);
+  assert.match(source, /practiceBookings\.map\(function \(booking\)/);
+  assert.match(source, /bookingMatchesVisibleTeams\(booking\)/);
+  assert.match(source, /kind:\s*"claimed-practice"/);
+  assert.match(source, /data-booking-id=/);
+  assert.match(source, /data-mobile-practice-key='booking:/);
+
+  const actionStart = html.indexOf('document.getElementById("mobileEventSheetAction").addEventListener');
+  const actionEnd = html.indexOf('document.getElementById("mobileEventSheet").addEventListener', actionStart);
+  assert.ok(actionStart >= 0 && actionEnd > actionStart);
+  const actionSource = html.slice(actionStart, actionEnd);
+  assert.match(actionSource, /row\.kind === "claimed-practice"[\s\S]*releasePractice\(row\.value\.id\)/);
+  assert.doesNotMatch(actionSource, /row\.kind === "claimed-practice"\) openPracticeEditorForAvailability/);
+});
+
+test("Coach Mode provides sticky date controls and Next Event focuses the exact occurrence", () => {
+  const html = staffPageHtml();
+  assert.match(html, /id="mobileCoachDateControls"/);
+  assert.match(html, /#mobileCoachDateControls[\s\S]*position:\s*sticky/);
+  const start = html.indexOf("function jumpToNextEvent()");
+  const end = html.indexOf("function jumpToNextOpenPractice()", start);
+  assert.ok(start >= 0 && end > start);
+  const source = html.slice(start, end);
+  assert.match(source, /data-coach-event-id|data-window-id/);
+  assert.match(source, /scrollIntoView/);
+  assert.match(source, /focus\(\)/);
+  assert.match(source, /is-next-event/);
+  assert.doesNotMatch(source, /viewDate\s*=.*renderMonth\(\);/s,
+    "Next Event must move to an occurrence instead of only changing the displayed month");
+});
+
+test("Coach Mode restores trigger focus and scroll state after a mobile detail sheet closes", () => {
+  const html = staffPageHtml();
+  assert.match(html, /function rememberMobileCoachReturnState\(\)/);
+  assert.match(html, /function restoreMobileCoachReturnState\(\)/);
+  const restoreStart = html.indexOf("function restoreMobileCoachReturnState()");
+  const restoreEnd = html.indexOf("function renderAll()", restoreStart);
+  assert.ok(restoreStart >= 0 && restoreEnd > restoreStart);
+  const restoreSource = html.slice(restoreStart, restoreEnd);
+  assert.match(restoreSource, /scrollTop/);
+  assert.match(restoreSource, /focus\(/);
+  assert.match(restoreSource, /data-coach-event-id|data-window-id/);
+  assert.match(restoreSource, /if \(!target[\s\S]*\.mobile-event-row/,
+    "a removed booking trigger must fall back to a surviving row or navigation control");
+});
+
+test("Coach Mode uses a readable, accessible mobile event bottom sheet", () => {
+  const html = staffPageHtml();
+  const sheetStart = html.indexOf('id="mobileEventSheet"');
+  const sheetEnd = html.indexOf("</dialog>", sheetStart);
+  assert.ok(sheetStart >= 0 && sheetEnd > sheetStart);
+  const sheet = html.slice(sheetStart, sheetEnd);
+  assert.match(sheet, /aria-labelledby=/);
+  assert.match(sheet, /data-close-dialog="mobileEventSheet"/);
+  assert.match(html, /#mobileEventSheet[\s\S]*inset-block-end:\s*0/);
+  assert.match(html, /#mobileEventSheet[\s\S]*max-height:\s*calc\(100dvh/);
+  assert.match(html, /#mobileEventSheet[\s\S]*padding-bottom:\s*calc\([^;]*safe-area-inset-bottom/);
+
+  const mobileCssStart = html.indexOf("@media (max-width: 760px)");
+  const mobileCssEnd = html.indexOf("@media (prefers-reduced-motion: reduce)", mobileCssStart);
+  const mobileCss = html.slice(mobileCssStart, mobileCssEnd);
+  assert.match(mobileCss, /\.mobile-event-row\s*\{[\s\S]*min-height:\s*44px/);
+  assert.match(mobileCss, /\.mobile-event-title\s*\{[\s\S]*font-size:\s*(?:1rem|16px)/);
+  assert.match(mobileCss, /\.mobile-event-(?:team|time)\s*\{[\s\S]*font-size:\s*(?:0\.875rem|14px)/);
+  assert.match(mobileCss, /\.mobile-event-row[\s\S]*width:\s*100%/);
+
+  const reduceStart = html.indexOf("@media (prefers-reduced-motion: reduce)");
+  assert.ok(reduceStart >= 0);
+  const reduceCss = html.slice(reduceStart, html.indexOf("</style>", reduceStart));
+  assert.match(reduceCss, /animation-duration:\s*0\.01ms/);
+  assert.match(reduceCss, /scroll-behavior:\s*auto/);
+});
+
+test("the global mobile team filter stays available when Coach Mode switches away from the wall", () => {
+  const html = staffPageHtml();
+  const mainStart = html.indexOf("<main>");
+  const menuStart = html.indexOf('id="teamFilterMenu"');
+  const wallStart = html.indexOf('id="wallView"');
+  const wallEnd = html.indexOf("</section>", wallStart);
+  assert.ok(mainStart >= 0 && menuStart >= 0 && wallStart >= 0 && wallEnd > wallStart);
+  assert.ok(menuStart < mainStart || menuStart > wallEnd,
+    "the global filter popover must not live inside the hidden wall view");
+  assert.match(html, /id="mobileTeamFilterButton"[^>]*popovertarget="teamFilterMenu"/);
+  assert.match(html, /id="teamFilterMenu"[^>]*popover/);
+});
+
+test("mobile multi-day events calculate conflict emphasis for the displayed agenda date", () => {
+  const html = staffPageHtml();
+  const start = html.indexOf("function renderMobileCoachAgenda()");
+  const end = html.indexOf("function scrollToMobileCoachDate", start);
+  assert.ok(start >= 0 && end > start);
+  const source = html.slice(start, end);
+  assert.match(source, /conflictForDay\(row\.date,\s*conflicts\)/);
+  assert.doesNotMatch(source, /conflictForDay\(event\.start,\s*conflicts\)/,
+    "a continuing multi-day event must show conflict/status emphasis on the visible day");
+});
+
+test("mobile bottom navigation derives Practices and Openings state from the active practice surface", () => {
+  const html = staffPageHtml();
+  const start = html.indexOf("function updateMobileCoachNavigation(viewName)");
+  const end = html.indexOf("function activateMobileCoachSection(section)", start);
+  assert.ok(start >= 0 && end > start);
+  const source = html.slice(start, end);
+  assert.match(source, /viewName === "practice"/);
+  assert.match(source, /practiceTypeFilter/);
+  assert.match(source, /"openings"/);
+  assert.match(source, /"practices"/);
+  assert.match(source, /setAttribute\("aria-current"/);
+});
+
+test("mobile Openings only renders inventory with at least one saveable duration/start", () => {
+  const html = staffPageHtml();
+  const start = html.indexOf("function renderMobileOpeningsAgenda()");
+  const end = html.indexOf("function renderMobilePracticeSurfaces()", start);
+  assert.ok(start >= 0 && end > start);
+  const source = html.slice(start, end);
+  assert.match(source, /isOpenInventoryWindow\(windowItem\)/);
+  assert.match(source, /ALLOWED_DURATIONS\.some\(function \(duration\)/);
+  assert.match(source, /availableStarts\(windowItem, duration\)\.length > 0/);
+});
+
+test("mobile TeamSnap sheet action explicitly opens TeamSnap ONE details", () => {
+  const html = staffPageHtml();
+  const start = html.indexOf('id="mobileEventSheetAction"');
+  const bindStart = html.indexOf('document.getElementById("mobileEventSheetAction").addEventListener', start);
+  const bindEnd = html.indexOf('document.getElementById("mobileEventSheet").addEventListener("close"', bindStart);
+  assert.ok(bindStart >= 0 && bindEnd > bindStart);
+  const source = html.slice(bindStart, bindEnd);
+  assert.match(source, /row\.value\.provider === "teamsnap-one"/);
+  assert.match(source, /openTeamSnapOneDialog\(/);
+  assert.match(source, /row\.value\.id/);
 });
 
 test("boys share the exact green and girls share the exact light-purple program color", () => {
