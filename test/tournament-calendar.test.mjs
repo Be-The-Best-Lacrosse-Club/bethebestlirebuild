@@ -1289,6 +1289,11 @@ test("field availability remains available to legacy mode but is suppressed in T
   const availabilityIndex = renderSource.indexOf("class='day-availability'");
   const teamScheduleIndex = renderSource.indexOf("class='day-events'", availabilityIndex);
   assert.ok(availabilityIndex >= 0 && teamScheduleIndex > availabilityIndex);
+
+  const practiceAgendaStart = html.indexOf("function renderPracticeBoard()");
+  const practiceAgendaEnd = html.indexOf("function coachDirectoryName", practiceAgendaStart);
+  const practiceAgendaSource = html.slice(practiceAgendaStart, practiceAgendaEnd);
+  assert.match(practiceAgendaSource, /TEAMSNAP_ONE_ONLY \? "" : "<div class='practice-day-availability'/);
 });
 
 test("coach phone and email actions use larger wrapping text on responsive cards", () => {
