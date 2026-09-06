@@ -58,27 +58,86 @@
   status = 200
   force = true
 
+# The legacy static hub still holds drills, standards, terminology and the
+# season phases that the SPA CoachToolsPage does not cover yet, so it stays
+# reachable to signed-in coaches and owners at its .html path rather than
+# being retired. /coach-tools remains the SPA launcher.
 [[redirects]]
   from = "/coach-tools.html"
   to = "/coach-tools.html"
   status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
+[[redirects]]
+  from = "/coach-tools.html"
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
+
+# Coach AI is a standalone static tool with no SPA equivalent, so it is served
+# in place to signed-in coaches and owners via Identity role matching. Requests
+# without a matching role fall through to a login redirect.
+#
+# Every path that can resolve to the file needs its own pair: Netlify's Pretty
+# URLs also serve it at the extensionless /btb-coach-ai, which a rule on the
+# .html path alone does not cover.
+
+[[redirects]]
+  from = "/btb-coach-ai.html"
+  to = "/btb-coach-ai.html"
+  status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
+[[redirects]]
+  from = "/btb-coach-ai.html"
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/btb-coach-ai"
+  to = "/btb-coach-ai.html"
+  status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
+[[redirects]]
+  from = "/btb-coach-ai"
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/coach-ai"
+  to = "/btb-coach-ai.html"
+  status = 200
+  force = true
+  conditions = {Role = ["coach", "owner"]}
+
+[[redirects]]
+  from = "/coach-ai"
+  to = "/login?redirect=/coach-tools"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/coach-tools"
-  to = "/coach-tools.html"
+  to = "/index.html"
   status = 200
   force = true
 
 [[redirects]]
   from = "/coach-hub"
-  to = "/coach-tools.html"
-  status = 200
+  to = "/login?redirect=/coach-tools"
+  status = 302
   force = true
 
 [[redirects]]
   from = "/coaches-hub"
-  to = "/coach-tools.html"
-  status = 200
+  to = "/login?redirect=/coach-tools"
+  status = 302
   force = true
 
 [[redirects]]
