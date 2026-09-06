@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>Girls Defensive Playbook | BTB Lacrosse</title>
-<meta name="description" content="BTB Girls Defensive Playbook — slides, recovery, defending picks, cutter help, and disadvantage defense for women's lacrosse with D1 film breakdowns.">
+<meta name="description" content="BTB Girls Defensive Playbook — slides and recovery, defending picks, off-ball help, and disadvantage defense with NCAA Division I women's film and BTB coaching notes.">
 <meta property="og:title" content="Girls Defensive Playbook | BTB Lacrosse">
-<meta property="og:description" content="Women's Lacrosse Concepts. Backer Zone. Shooting Space Awareness.">
+<meta property="og:description" content="NCAA D1 women's film. BTB communication system. Shooting space and 3-second awareness.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#D22630">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,442 +15,102 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
-/* ===== DARK THEME OVERRIDES ===== */
 :root {
-  --bg: #0a0a0a;
-  --surface: #141414;
-  --surface-2: #1a1a1a;
-  --border: rgba(255,255,255,0.08);
-  --text: #ffffff;
-  --text-secondary: rgba(255,255,255,0.7);
-  --text-muted: rgba(255,255,255,0.4);
-  --red: #D22630;
-  --red-dark: #a01e26;
-  --gold: #C5A44E;
+  --bg: #0a0a0a; --surface: #141414; --surface-2: #1a1a1a;
+  --border: rgba(255,255,255,0.08); --text: #ffffff;
+  --text-secondary: rgba(255,255,255,0.7); --text-muted: rgba(255,255,255,0.4);
+  --red: #D22630; --red-dark: #a01e26; --gold: #C5A44E;
 }
+body { background: var(--bg); color: var(--text); }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-}
-
-/* ===== HEADER DARK OVERRIDE ===== */
-.btb-header {
-  background: rgba(10,10,10,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  box-shadow: none;
-}
+.btb-header { background: rgba(10,10,10,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); box-shadow: none; }
 .btb-nav a { color: rgba(255,255,255,0.8) !important; }
 .btb-nav a:hover { color: var(--red) !important; }
 .hamburger span { background: #fff; }
-
 @media (max-width: 768px) {
-  .btb-nav {
-    background: rgba(10,10,10,0.98) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
+  .btb-nav { background: rgba(10,10,10,0.98) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
   .btb-nav a { color: #fff !important; font-size: 1.1rem; }
 }
 
-/* ===== HERO ===== */
-.hero {
-  padding: 8rem 2rem 3.5rem;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #0d0d0d 100%);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 80%, rgba(210,38,48,0.18) 0%, transparent 60%);
-}
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  margin: 0 auto;
-}
-.hero .badge {
-  display: inline-block;
-  background: rgba(210,38,48,0.15);
-  border: 1px solid rgba(210,38,48,0.4);
-  color: var(--red);
-  padding: 0.4rem 1.2rem;
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: 1rem;
-}
-.hero h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  text-transform: uppercase;
-  line-height: 1.05;
-  margin-bottom: 0.8rem;
-  color: #fff;
-}
+/* Hero */
+.hero { padding: 8rem 2rem 3.5rem; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #0d0d0d 100%); text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 80%, rgba(210,38,48,0.18) 0%, transparent 60%); }
+.hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+.hero .badge { display: inline-block; background: rgba(210,38,48,0.15); border: 1px solid rgba(210,38,48,0.4); color: var(--red); padding: 0.4rem 1.2rem; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1rem; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 5vw, 4rem); text-transform: uppercase; line-height: 1.05; margin-bottom: 0.8rem; color: #fff; }
 .hero h1 .hl { color: var(--red); }
-.hero p {
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--text-secondary);
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
+.hero p { font-size: 1rem; font-weight: 300; color: var(--text-secondary); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+.hero-stamp { margin-top: 1.2rem; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
 
-/* ===== PLAYBOOK TABS ===== */
-.playbook-tabs {
-  position: sticky;
-  top: 70px;
-  z-index: 100;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0.8rem 1rem;
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
+/* Tabs */
+.playbook-tabs { position: sticky; top: 70px; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.8rem 1rem; display: flex; gap: 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .playbook-tabs::-webkit-scrollbar { display: none; }
-.playbook-tab {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0.55rem 1.2rem;
-  border-radius: 50px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.25s ease;
-  min-height: 40px;
-}
-.playbook-tab:hover {
-  color: var(--text);
-  border-color: rgba(255,255,255,0.2);
-}
-.playbook-tab.active {
-  background: var(--red);
-  color: #fff;
-  border-color: var(--red);
-}
+.playbook-tab { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 50px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.25s ease; min-height: 40px; }
+.playbook-tab:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+.playbook-tab.active { background: var(--red); color: #fff; border-color: var(--red); }
 
-/* ===== TAB PANELS ===== */
-.tab-panel {
-  display: none;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 2.5rem 1.5rem 4rem;
-  animation: fadeIn 0.35s ease;
-}
+/* Panels */
+.tab-panel { display: none; max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; animation: fadeIn 0.35s ease; }
 .tab-panel.active { display: block; }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ===== SECTION TITLES ===== */
-.section-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.8rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #fff;
-  margin-bottom: 0.5rem;
-}
-.section-subtitle {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 2rem;
-}
-
-/* ===== VIDEO CARDS ===== */
-.video-grid {
-  display: grid;
-  gap: 1.5rem;
-}
-@media (min-width: 768px) {
-  .video-grid.two-col { grid-template-columns: repeat(2, 1fr); }
-}
-.video-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-}
-.video-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-  border-color: rgba(210,38,48,0.3);
-}
-.video-embed {
-  position: relative;
-  padding-bottom: 56.25%;
-  background: #000;
-}
-.video-embed iframe {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  border: none;
-}
-.video-info {
-  padding: 1.2rem 1.4rem;
-}
-.video-info h3 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.15rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #fff;
-  margin-bottom: 0.4rem;
-}
-.video-info p {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-.video-badge {
-  display: inline-block;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0.2rem 0.7rem;
-  border-radius: 3px;
-  margin-right: 0.4rem;
-  margin-bottom: 0.5rem;
-}
-.video-badge.powlax { background: rgba(210,38,48,0.2); color: var(--red); }
-.video-badge.d1-film { background: rgba(197,164,78,0.2); color: var(--gold); }
-.video-badge.coaching { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
-
-/* ===== COACH NOTE ===== */
-.coach-note {
-  background: var(--surface-2);
-  border-left: 3px solid var(--red);
-  border-radius: 0 8px 8px 0;
-  padding: 1.2rem 1.4rem;
-  margin: 1.5rem 0;
-}
-.coach-note h4 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--red);
-  margin-bottom: 0.5rem;
-}
-.coach-note p, .coach-note ul {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-.coach-note ul {
-  padding-left: 1.2rem;
-  margin-top: 0.5rem;
-}
-.coach-note li { margin-bottom: 0.4rem; }
-
-/* ===== TEACHING POINT ===== */
-.teaching-point {
-  background: var(--surface-2);
-  border-left: 3px solid var(--gold);
-  border-radius: 0 8px 8px 0;
-  padding: 1.2rem 1.4rem;
-  margin: 1.5rem 0;
-}
-.teaching-point h4 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--gold);
-  margin-bottom: 0.5rem;
-}
-.teaching-point p, .teaching-point ul, .teaching-point ol {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-.teaching-point ul, .teaching-point ol {
-  padding-left: 1.2rem;
-  margin-top: 0.5rem;
-}
-.teaching-point li { margin-bottom: 0.4rem; }
-
-/* ===== COMM BOX ===== */
-.comm-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-}
-.comm-box h4 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #fff;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-.comm-call {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  padding: 0.8rem 1rem;
-  background: var(--surface-2);
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-  border-left: 3px solid var(--red);
-}
-.comm-call .call-word {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
-  color: var(--red);
-  min-width: 140px;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-.comm-call .call-meaning {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-/* ===== TERM BOX ===== */
-.term-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-}
-.term-box h4 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #fff;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-.term-item {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.8rem;
-  align-items: flex-start;
-}
-.term-item strong {
-  color: var(--red);
-  font-size: 0.88rem;
-  white-space: nowrap;
-  min-width: 160px;
-}
-.term-item span {
-  color: var(--text-secondary);
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
-/* ===== CRITICAL RULE ===== */
-.critical-rule {
-  background: rgba(210,38,48,0.08);
-  border: 1px solid rgba(210,38,48,0.25);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-}
-.critical-rule h4 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--red);
-  margin-bottom: 0.6rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.critical-rule h4::before {
-  content: '!';
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: var(--red);
-  color: #fff;
-  border-radius: 50%;
-  font-size: 0.8rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.critical-rule p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-
-/* ===== CONTENT TEXT ===== */
-.content-text {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-}
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-bottom: 0.5rem; }
+.content-text { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem; }
 .content-text strong { color: #fff; }
+.section-divider { width: 60px; height: 2px; background: var(--red); margin: 2.5rem 0 2rem; }
+.sub-heading { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--text-muted); letter-spacing: 3px; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
 
-/* ===== DIVIDER ===== */
-.section-divider {
-  width: 60px;
-  height: 2px;
-  background: var(--red);
-  margin: 2.5rem 0 2rem;
-}
+/* Video cards */
+.video-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 768px) { .video-grid.two-col { grid-template-columns: repeat(2, 1fr); } }
+.video-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+.video-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); border-color: rgba(210,38,48,0.3); }
+.video-embed { position: relative; padding-bottom: 56.25%; background: #000; }
+.video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.video-info { padding: 1.2rem 1.4rem; }
+.video-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; margin-bottom: 0.4rem; }
+.video-info p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+.video-badge { display: inline-block; font-family: 'Bebas Neue', sans-serif; font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 3px; margin-right: 0.4rem; margin-bottom: 0.5rem; }
+.video-badge.team { background: rgba(210,38,48,0.2); color: var(--red); }
+.video-badge.d1-film { background: rgba(197,164,78,0.2); color: var(--gold); }
+.video-badge.coaching { background: rgba(37,99,235,0.25); color: #8ab4ff; }
+.video-badge.clip { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
 
-/* ===== SCROLL REVEAL ===== */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Boxes */
+.coach-note { background: var(--surface-2); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 1.2rem 1.4rem; margin: 1.5rem 0; }
+.coach-note h4 { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--red); margin-bottom: 0.5rem; }
+.teaching-point { background: var(--surface-2); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 1.2rem 1.4rem; margin: 1.5rem 0; }
+.teaching-point h4 { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 0.5rem; }
+.coach-note p, .coach-note ul, .teaching-point p, .teaching-point ul, .teaching-point ol { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+.coach-note ul, .teaching-point ul, .teaching-point ol { padding-left: 1.2rem; margin-top: 0.5rem; }
+.coach-note li, .teaching-point li { margin-bottom: 0.4rem; }
+.teaching-point strong, .coach-note strong { color: #fff; }
 
-/* ===== FOOTER DARK ===== */
-footer {
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-}
+.comm-box, .term-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+.comm-box h4, .term-box h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.comm-call { display: flex; gap: 1rem; align-items: flex-start; padding: 0.8rem 1rem; background: var(--surface-2); border-radius: 6px; margin-bottom: 0.5rem; border-left: 3px solid var(--red); }
+.comm-call .call-word { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--red); min-width: 150px; letter-spacing: 1px; }
+.comm-call .call-meaning { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+.term-item { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; align-items: flex-start; }
+.term-item strong { color: var(--red); font-size: 0.88rem; white-space: nowrap; min-width: 170px; }
+.term-item span { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; }
 
-/* ===== RESPONSIVE ===== */
+.critical-rule { background: rgba(210,38,48,0.08); border: 1px solid rgba(210,38,48,0.25); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+.critical-rule h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--red); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+.critical-rule h4::before { content: '!'; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--red); color: #fff; border-radius: 50%; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+.critical-rule p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+footer { background: var(--surface); border-top: 1px solid var(--border); }
+
 @media (max-width: 768px) {
   .hero { padding: 7rem 1.2rem 2.5rem; }
   .hero h1 { font-size: 2rem; }
   .tab-panel { padding: 1.5rem 1rem 3rem; }
   .section-title { font-size: 1.4rem; }
   .term-item { flex-direction: column; gap: 0.2rem; }
-  .term-item strong { min-width: auto; }
+  .term-item strong { min-width: auto; white-space: normal; }
   .comm-call { flex-direction: column; gap: 0.3rem; }
   .comm-call .call-word { min-width: auto; }
   .video-info { padding: 1rem; }
@@ -487,423 +147,400 @@ footer {
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════ HEADER ═══════════════════════════════════════ -->
 <header class="btb-header" id="navbar">
-  <a href="index.html" class="btb-logo">
+  <a href="/" class="btb-logo">
     <img src="assets/B 3d Metal Logo copy.png" alt="Be The Best Lacrosse">
   </a>
   <nav class="btb-nav" id="navLinks">
-    <a href="index.html">Our Standard</a>
-    <a href="players-hub.html">Players Hub</a>
-    <a href="world-series.html">World Series</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="coach-bios.html">Coaches</a>
-    <a href="faq.html">FAQ</a>
-    <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register Now</a>
+    <a href="/">Home</a>
+    <a href="/login?redirect=/girls/players">Players Hub</a>
+    <a href="/girls/teams">Teams</a>
+    <a href="/coach-tools">Coaches Hub</a>
+    <a href="/contact">Contact</a>
+    <a href="mailto:info@bethebestli.com?subject=BTB%20Registration" class="btb-cta">Register</a>
   </nav>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
     <span></span><span></span><span></span>
   </button>
 </header>
 
-<!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-content">
     <div class="badge">Girls Program</div>
     <h1>BTB <span class="hl">Defensive</span> Playbook</h1>
-    <p>Women's Lacrosse Concepts &bull; Backer Zone &bull; Shooting Space Awareness</p>
+    <p>NCAA Division I Women's Film &bull; BTB Communication System &bull; Shooting Space &amp; 3-Second Awareness</p>
+    <div class="hero-stamp">Film set rebuilt September 2026 &bull; Women's D1 sources only</div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════ TABS ═══════════════════════════════════════ -->
 <nav class="playbook-tabs" id="tabBar">
   <button class="playbook-tab active" data-tab="overview">Overview</button>
   <button class="playbook-tab" data-tab="slides">Slides &amp; Recovery</button>
   <button class="playbook-tab" data-tab="picks">Defending Picks</button>
-  <button class="playbook-tab" data-tab="cutters">Cutters &amp; Help</button>
+  <button class="playbook-tab" data-tab="cutters">Off-Ball &amp; Help</button>
   <button class="playbook-tab" data-tab="disadvantage">Disadvantage</button>
 </nav>
 
-<!-- ═══════════════════════════════════════ CONTENT ═══════════════════════════════════════ -->
 <main>
 
-<!-- ============ OVERVIEW TAB ============ -->
+<!-- ============ OVERVIEW ============ -->
 <div class="tab-panel active" id="overview">
 
-  <h2 class="section-title reveal">Defense = Communication + Positioning</h2>
-  <p class="content-text reveal">In the women's game, defense is built on footwork, body position, and VOICE. You cannot body-check your way out of trouble. There is no slashing, no cross-checking, no pushing an attacker off her spot. Your tools are your feet, your stick positioning, your ability to read the play, and — most importantly — your voice. A silent defense is a beaten defense. Every concept in this playbook depends on constant, loud, specific communication between all five field defenders and the goalkeeper.</p>
-  <p class="content-text reveal">The women's game also introduces rules that don't exist in boys lacrosse — shooting space, the 3-second rule, and the 90-second shot clock. These rules fundamentally change how defense is played. You can't just pack the crease and wait. You have to be active, engaged, and rule-aware on every possession.</p>
+  <h2 class="section-title reveal">Defense = Feet + Position + Voice</h2>
+  <p class="content-text reveal">In the women's game you cannot body-check your way out of trouble. Your tools are your feet, your stick position, your reads, and your voice. A silent defense is a beaten defense. Every concept in this playbook depends on loud, specific talk between all seven defenders, goalkeeper included.</p>
+  <p class="content-text reveal">Two rules shape everything we do: <strong>shooting space</strong> and the <strong>3-second rule</strong>. They mean you cannot pack the 8-meter and wait. Every defender has to be active, legal, and connected on every possession.</p>
 
   <div class="section-divider"></div>
 
   <h2 class="section-title reveal">BTB Girls Defensive Communication System</h2>
-  <p class="content-text reveal">Every BTB defender must know and use these calls. They are non-negotiable. If you are not talking on defense, you are not defending. Learn these calls, use them every possession, and say them LOUD enough that your teammates can hear you over the crowd and the wind.</p>
+  <p class="content-text reveal">One word per job. Every BTB defender uses these exact calls, every possession, loud enough to hear over wind and crowd. Every tab in this playbook uses this same vocabulary.</p>
 
   <div class="comm-box reveal">
-    <h4>Defensive Communication Calls</h4>
-    <div class="comm-call">
-      <span class="call-word">"I'VE GOT BALL!"</span>
-      <span class="call-meaning">I am guarding the ball carrier. My teammates know who is responsible for on-ball pressure. Say this every time possession changes or the ball is passed to your player.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"HELP!"</span>
-      <span class="call-meaning">I am one pass away from the ball, ready to slide if my teammate gets beaten. I'm in a position where I can see my player AND the ball at the same time. I'm the first line of help defense.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"SLIDE!"</span>
-      <span class="call-meaning">I am two passes away, ready for the second rotation if the first slide happens. I'm deeper in the defense, watching the whole picture. If "Help" goes, I take her player.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"FIRE!" or "GO!"</span>
-      <span class="call-meaning">The on-ball defender is beaten. I'm sliding NOW. This is the emergency call — when you hear it, the entire defense must rotate. The player calling "FIRE" is leaving her assignment to stop the ball. Everyone else must shift to cover the gap she left.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"RECOVER!"</span>
-      <span class="call-meaning">The ball has moved and the crisis is over. Sprint back and find a body. Every defender must re-establish her assignment. Don't jog — SPRINT. The offense is looking to attack during recovery because the defense is scrambled.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"PICK LEFT!" / "PICK RIGHT!"</span>
-      <span class="call-meaning">Screen alert. An attacker is setting up a pick on my side. My teammate needs to know it's coming so she can prepare to fight through it or we can plan a switch.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"GO UNDER!"</span>
-      <span class="call-meaning">Fight under the pick — go between the screener and the goal. Used when the pick is set high and you'd rather give up a longer shot than a driving lane.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"SWITCH!"</span>
-      <span class="call-meaning">We're swapping defensive assignments. Used when a pick is too good to fight through and both defenders need to exchange their marks. Both players must acknowledge the switch verbally.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"CUTTER!"</span>
-      <span class="call-meaning">An off-ball attacker is cutting through the 8-meter arc. Defenders in the area need to bump her path or pick her up if she's open. Don't let cutters run free through the scoring area.</span>
-    </div>
-    <div class="comm-call">
-      <span class="call-word">"MARK UP!"</span>
-      <span class="call-meaning">Everyone find a body. Used after scramble situations, turnovers, or when the defense is disorganized. Every defender grabs the nearest open attacker and calls out who she has.</span>
-    </div>
+    <h4>The Calls</h4>
+    <div class="comm-call"><span class="call-word">"I'VE GOT BALL!"</span><span class="call-meaning">I am on the ball carrier. Say it every time the ball moves to your player.</span></div>
+    <div class="comm-call"><span class="call-word">"HELP!"</span><span class="call-meaning">I am one pass away and I am the first slide. I can see my player and the ball, and I am ready to go.</span></div>
+    <div class="comm-call"><span class="call-word">"GO!"</span><span class="call-meaning">The on-ball defender is beaten and I am sliding now. When you hear it, the whole defense rotates.</span></div>
+    <div class="comm-call"><span class="call-word">"SECOND!"</span><span class="call-meaning">I have the player the first slider left. The second rotation.</span></div>
+    <div class="comm-call"><span class="call-word">"RECOVER!"</span><span class="call-meaning">The crisis is over. Sprint to a player. Every recovery ends within a stick's length of an attacker.</span></div>
+    <div class="comm-call"><span class="call-word">"PICK LEFT!" / "PICK RIGHT!"</span><span class="call-meaning">A screen is being set on my teammate. Called by the screener's defender the moment the picker starts moving.</span></div>
+    <div class="comm-call"><span class="call-word">"OVER!" / "UNDER!" / "SWITCH!"</span><span class="call-meaning">Our answer to the pick. Both defenders say it back. A one-sided switch is an open shot.</span></div>
+    <div class="comm-call"><span class="call-word">"CUTTER!"</span><span class="call-meaning">An off-ball attacker is cutting into the 8-meter. Nearest defender steps into her path.</span></div>
+    <div class="comm-call"><span class="call-word">"MARK UP!"</span><span class="call-meaning">Everyone find a body. Used after scrambles, turnovers, and the draw.</span></div>
+    <div class="comm-call"><span class="call-word">"BALL TOP / LEFT / RIGHT / LOW!"</span><span class="call-meaning">Ball location calls, owned by the goalkeeper. They shift the whole unit, especially when we are down a player.</span></div>
+    <div class="comm-call"><span class="call-word">"CLOCK!"</span><span class="call-meaning">Under 30 seconds on the shot clock. No reaching, no gambling. Make them shoot over us.</span></div>
   </div>
 
   <div class="section-divider"></div>
 
-  <h2 class="section-title reveal">Key Women's Lacrosse Defensive Terms</h2>
-
+  <h2 class="section-title reveal">Key Terms</h2>
   <div class="term-box reveal">
-    <h4>Defensive Terminology</h4>
-    <div class="term-item">
-      <strong>8-Meter Arc</strong>
-      <span>The scoring zone directly in front of the goal. Most goals are scored from here. Defenders must be active inside the 8 — you cannot passively stand inside it.</span>
-    </div>
-    <div class="term-item">
-      <strong>12-Meter Fan</strong>
-      <span>The wider arc outside the 8-meter. Free position shots are taken from the 12-meter. This is the outer boundary of the critical scoring area.</span>
-    </div>
-    <div class="term-item">
-      <strong>Critical Scoring Area</strong>
-      <span>The high-danger zone in front of the goal. This is where your defense must be at its best. Every slide, every rotation, every call is designed to keep the ball OUT of this zone.</span>
-    </div>
-    <div class="term-item">
-      <strong>Shooting Space</strong>
-      <span>You CANNOT stand in the lane between an attacker with the ball and the goal unless you are within a stick's length and actively marking her. Violation = free position shot for the offense.</span>
-    </div>
-    <div class="term-item">
-      <strong>3-Second Rule</strong>
-      <span>No defensive player may remain inside the 8-meter arc for more than 3 seconds unless she is within a stick's length of an opponent. If no attacker is near you, get OUT of the 8.</span>
-    </div>
-    <div class="term-item">
-      <strong>Adjacent Slide</strong>
-      <span>The defender closest to the ball carrier is responsible for the first slide. She leaves her player to stop the driving attacker. The rest of the defense rotates to fill the gap.</span>
-    </div>
-    <div class="term-item">
-      <strong>Backer</strong>
-      <span>A floating defender positioned behind the on-ball pressure. The backer reads the play and provides depth. She's the "safety net" — if the first slide fails, the backer is there.</span>
-    </div>
-    <div class="term-item">
-      <strong>90-Second Shot Clock</strong>
-      <span>The offense has 90 seconds to take a shot after gaining possession. As a defender, you can use this to your advantage — patient defense forces the offense into rushed shots late in the clock.</span>
-    </div>
+    <h4>Women's Lacrosse Defensive Terminology</h4>
+    <div class="term-item"><strong>8-Meter Arc</strong><span>The scoring zone in front of the goal. Most goals come from here. You must be actively marking to stand inside it.</span></div>
+    <div class="term-item"><strong>12-Meter Fan</strong><span>The wider arc outside the 8. Outer edge of the critical scoring area.</span></div>
+    <div class="term-item"><strong>Critical Scoring Area</strong><span>The high-danger zone in front of the goal. Every slide and rotation is built to keep the ball out of it.</span></div>
+    <div class="term-item"><strong>Adjacent Slide</strong><span>The defender closest to the ball carrier leaves her player to stop the drive. Everyone else rotates behind her.</span></div>
+    <div class="term-item"><strong>Backer</strong><span>A defender who plays behind the on-ball pressure inside the 8, reading the play instead of marking one attacker. She is the safety net if the first slide fails. Because of the 3-second rule she drifts on and off the arc rather than camping in it.</span></div>
+    <div class="term-item"><strong>Open Stance</strong><span>Body angled so you see your player and the ball at the same time. Never turn your back on either.</span></div>
+    <div class="term-item"><strong>90-Second Shot Clock</strong><span>The offense must shoot within 90 seconds of possession. Patient defense turns the clock into a weapon.</span></div>
   </div>
-
-  <div class="section-divider"></div>
-
-  <h2 class="section-title reveal">Critical Rules You Must Know</h2>
 
   <div class="critical-rule reveal">
     <h4>Shooting Space</h4>
-    <p>When you slide, slide TO THE PLAYER — not to the space in front of the goal. Lead with your stick. Approach at an angle. If you're inside the 8-meter arc, you must be actively marking someone within a stick's length. If you plant yourself between the attacker and the goal without being within a stick's length, the referee will call a shooting space violation and the offense gets a free position shot from the 8-meter arc. This is one of the most common fouls in the women's game. Train yourself to slide to the player's body, not to the goal.</p>
+    <p>You cannot stand in the lane between a shooter and the goal unless you are within a stick's length of an attacker and actively marking her. Slide to the <strong>player</strong>, not to the space in front of the goal. Lead with your stick, approach at an angle, and arrive within a stick's length. A violation is a free position for the offense, and it is the most common foul in the women's game.</p>
   </div>
 
   <div class="critical-rule reveal">
-    <h4>3-Second Violation</h4>
-    <p>Defenders cannot camp inside the 8-meter arc waiting to help. You must be actively engaged with an attacker within a stick's length. If no attacker is in your zone, get OUT of the 8 and reposition yourself outside the arc where you can still provide help without violating the rule. This prevents zone defenses from simply packing the crease. You have to earn your position inside the 8 by actually marking someone. The referee counts silently — and when she hits 3, the whistle blows and it's a free position for the offense.</p>
+    <h4>3-Second Rule</h4>
+    <p>No defender may stay inside the 8-meter arc for more than three seconds unless she is within a stick's length of an attacker. If nobody is in your zone, get out of the 8 and reposition on the edge. The referee counts silently, and at three the whistle blows and it is a free position. Help defenders live on the edge of the arc: one foot in, one foot out, stepping in to bump and stepping back out.</p>
   </div>
 
   <div class="coach-note reveal">
     <h4>Coach's Note: The Defensive Mindset</h4>
-    <p>Great defenders in the women's game share three traits: they talk constantly, they move their feet instead of reaching with their sticks, and they play with discipline — never gambling for a check or a steal unless they're certain they'll win it. A missed check in women's lacrosse is a foul. A reach with your stick into shooting space is a free position. Discipline wins. Teach your players that stopping the ball with their body position — staying between the attacker and the goal — is more important than any stick check. The best defense in the women's game is positioning, not checking.</p>
+    <p>Great defenders in the women's game share three habits. They talk constantly. They move their feet instead of reaching with their stick. And they play with discipline, never gambling on a check unless they are certain. A missed check is a foul and a reach into shooting space is a free position. Stopping the ball with body position beats any stick check.</p>
   </div>
+
+  <div class="sub-heading reveal">Film</div>
+  <div class="video-grid two-col reveal">
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/R7URthwoIfo" title="Inside Maryland's Defense" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Maryland</span><span class="video-badge d1-film">D1 Game Film</span>
+        <h3>Inside Maryland's Defense</h3>
+        <p>Official Maryland Athletics all-access on the Terps defensive unit under Cathy Reese. Practice footage and player voices on the disciplined 1v1 system that produced seven IWLCA Defenders of the Year.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/rs_IlqTv-VM?start=1760" title="Scott Teeter: Defensive Concepts for the Women's Game" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Louisville</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">Starts 29:20</span>
+        <h3>Scott Teeter: Defensive Concepts for the Women's Game</h3>
+        <p>Louisville head coach and Team Canada coach walks through his slide system on Louisville film. Help comes inside-out from the hub so the slider stays in the passing lane and out of shooting space.</p>
+      </div>
+    </div>
+  </div>
+
 
 </div>
 
-<!-- ============ SLIDES & RECOVERY TAB ============ -->
+<!-- ============ SLIDES & RECOVERY ============ -->
 <div class="tab-panel" id="slides">
 
   <h2 class="section-title reveal">Slides &amp; Recovery</h2>
-  <p class="content-text reveal">The slide is the most important team defensive concept in women's lacrosse. When a ball carrier beats her defender one-on-one, the ADJACENT defender — the one closest to the ball — must leave her player and slide to stop the ball. This triggers a chain reaction: every other defender rotates to fill the gap. It's like a zipper closing — one move triggers the next, and the next, until the defense is reset.</p>
+  <p class="content-text reveal">The slide is the most important team concept in women's defense. When a ball carrier beats her defender, the adjacent defender leaves her player to stop the ball and every other defender rotates to fill. It is a chain reaction. One move triggers the next until the defense is reset.</p>
 
   <div class="teaching-point reveal">
-    <h4>The Slide Rotation System</h4>
+    <h4>The Slide Rotation</h4>
     <ol>
-      <li><strong>On-Ball Defender:</strong> Gets beaten. She doesn't quit — she immediately recovers and looks for the player left open by the slide.</li>
-      <li><strong>Adjacent Defender (1st Slide):</strong> Sees the drive, calls "FIRE!" or "GO!", and sprints to the ball carrier. Her goal: stop the ball. Force a pass or a pull-out. Do NOT go for the check — just get in position.</li>
-      <li><strong>2nd Slide:</strong> The next closest defender takes the player left open by the 1st slide. She calls "I'VE GOT [number/position]!" so the team knows.</li>
-      <li><strong>3rd Rotation:</strong> The deepest defender shifts toward the crease to protect the most dangerous area. She's covering the back-side attacker nearest the goal.</li>
-      <li><strong>Goalkeeper:</strong> Directs the entire rotation from the cage. She can see everything and must call out who's open, where the ball is going, and when to recover.</li>
+      <li><strong>On-Ball Defender:</strong> Gets beaten. She does not quit. She recovers inside first and finds the player the slide left open.</li>
+      <li><strong>First Slide (Adjacent):</strong> Has already called "HELP." When the dodger's hips get past her teammate's hips, she calls "GO" and sprints to the ball. Her job is to stop the ball, not to check it.</li>
+      <li><strong>Second Slide:</strong> Calls "SECOND" and takes the player the first slider left.</li>
+      <li><strong>Backer / Low Defenders:</strong> Shift toward the crease to protect the most dangerous area and pick up any cutter.</li>
+      <li><strong>Goalkeeper:</strong> Runs the whole rotation. She sees everything, calls who is open, and calls "RECOVER" when the ball moves out.</li>
     </ol>
   </div>
 
   <div class="video-grid two-col reveal">
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/CXrIybHK6Lk" title="Women's Lacrosse — Slide Rotations" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/gzZfd3jwPzE" title="Adjacent Slides with Cookie Carr" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge d1-film">D1 Film</span>
-        <h3>Adjacent Slide Execution</h3>
-        <p>Watch the defenders' rotation when the ball carrier drives from the top. The adjacent defender slides on time, the second rotation fills, and the ball carrier is forced to pass. The pass goes to the player left open — but the recovery defender is already closing out. This is what organized defense looks like.</p>
+        <span class="video-badge team">USA Lacrosse</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">79 sec</span>
+        <h3>Adjacent Slides with Cookie Carr</h3>
+        <p>Johns Hopkins assistant and Team USA defender Cookie Carr on the three keys for the first slider: keep your girl and the ball in your sight line, slide to where the carrier is going, and be decisive.</p>
       </div>
     </div>
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/XmCnzjD80KY" title="Women's Lacrosse — Defensive Recovery" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/RZWTcRZTlk0" title="Slide, Double, Recover: Ann Elliott" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge coaching">Coaching</span>
-        <h3>Recovery After the Slide</h3>
-        <p>This is where most youth defenses break down — the recovery. The first slide is good, but after the ball is passed, no one sprints back. Watch this D1 team recover: full sprint, head on a swivel, find a body, call it out. Recovery must be faster than the slide. Every time.</p>
+        <span class="video-badge team">Colorado</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">4 min</span>
+        <h3>Slide, Double, Recover: Ann Elliott</h3>
+        <p>Colorado head coach and former Northwestern associate head coach Ann Elliott runs her 2v2 with outlet drill. Crease defender slides toward the stick, locks the double, and the beaten defender recovers to the open player.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/ye9Csy2koPo?start=1513" title="Colleen Magarity: Teaching the Slide" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Northwestern</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">Starts 25:13</span>
+        <h3>Colleen Magarity: Teaching the Slide</h3>
+        <p>Three-time national champion at Northwestern teaches the Wildcats slide system with film. Jump to the Sliding chapter. At 1:21:20 she gives the recovery rule: the player who started on ball recovers.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/ko6QbOcpbmw?start=190" title="Help Shuffle and Recover: Shea Baker" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Duke / BC</span><span class="video-badge coaching">D1 Practice</span><span class="video-badge clip">Starts 3:10</span>
+        <h3>Help Shuffle and Recover: Shea Baker</h3>
+        <p>Boston College defender Shea Baker shuffles into the middle of the 8 as help with her stick up, then shuffles back out and approaches her own attacker as the ball moves. Recovery footwork at game speed.</p>
       </div>
     </div>
   </div>
 
+
   <div class="section-divider"></div>
 
   <div class="coach-note reveal">
-    <h4>Coach's Note: Sliding in the Women's Game</h4>
-    <p>Recovery after a slide is even more critical in the women's game because the shooting space rule means you can't just clog the lane and hope for the best. When you recover, you have to recover to a PLAYER — not to a zone, not to a spot on the field. If you recover to open space inside the 8-meter arc without marking a specific attacker, you'll get called for a 3-second violation. Every recovery must end with you within a stick's length of an opponent. Train this in practice: after every slide drill, the coach blows the whistle and every defender must be able to point to the attacker she's marking. No exceptions.</p>
+    <h4>Coach's Note: Recover to a Player</h4>
+    <p>Recovery is where youth defenses break down. The slide is good, the ball moves, and nobody sprints back. In the women's game recovery is even more important because you cannot recover to a spot inside the 8. You recover to a <strong>player</strong>, within a stick's length, or you get called for three seconds. In practice, after every slide drill blow the whistle and make every defender point to the attacker she is marking.</p>
   </div>
 
   <div class="teaching-point reveal">
     <h4>Slide Timing</h4>
-    <p>When do you slide? Here's the trigger: slide when the ball carrier's inside shoulder crosses your teammate's body. At that point, the on-ball defender is beaten. If you wait longer, the attacker is already in shooting position. If you slide too early, the attacker can pull back and pass to the player you left open. The inside shoulder is the cue. Practice reading it until it becomes instinct.</p>
+    <p>Slide when the dodger's hips pass your teammate's hips. Earlier and the attacker pulls back and hits the player you left. Later and she is already in shooting position. Read hips, not the stick.</p>
   </div>
 
   <div class="teaching-point reveal">
-    <h4>Practice Drill: 3v2 Slide Recovery</h4>
-    <p>Set up 3 attackers around the 8-meter arc and 2 defenders plus a goalie. The ball starts at the top. The ball carrier drives and the one defender slides. The third attacker is open. The drill: can the on-ball defender who got beaten recover fast enough to close out on the open attacker before she gets a clean shot? This drill teaches defenders that getting beaten isn't the end of the play — the recovery IS the play. Run it at full speed, every rep.</p>
+    <h4>Practice Drill: 3v2 Slide and Recover</h4>
+    <p>Three attackers around the 8-meter, two defenders plus a goalie. Ball starts at the top. The ball carrier drives, one defender slides, the third attacker is open. Can the beaten defender recover and close out before a clean shot? Full speed, every rep. Getting beaten is not the end of the play. The recovery is the play.</p>
   </div>
 
 </div>
 
-<!-- ============ DEFENDING PICKS TAB ============ -->
+<!-- ============ DEFENDING PICKS ============ -->
 <div class="tab-panel" id="picks">
 
   <h2 class="section-title reveal">Defending Picks</h2>
-  <p class="content-text reveal">Off-ball picks are one of the most effective offensive weapons in women's lacrosse. As a defender, you will face screens every game, and how you handle them determines whether the offense gets open looks or contested shots. In the women's game, you cannot use body contact to fight through a screen — so you need technique, communication, and a plan.</p>
+  <p class="content-text reveal">You will see off-ball picks every game. You cannot fight through a screen with your body, so you need technique, an early call, and a plan. We carry four answers.</p>
 
   <div class="teaching-point reveal">
-    <h4>Three Ways to Defend a Pick</h4>
+    <h4>Four Ways to Defend a Pick</h4>
     <ol>
-      <li><strong>Fight Through (Over):</strong> The defender being screened works over the top of the pick, staying between her player and the ball. This is the default option when the cutter is a strong shooter — you want to stay attached to her. Requires the defender to anticipate the pick and get her body past the screener before the cutter uses it. Call: "OVER!"</li>
-      <li><strong>Go Under:</strong> The defender being screened goes under the pick — between the screener and the goal. This takes away the driving lane but gives the cutter more space for an outside shot. Use this when the cutter is a poor shooter but a great driver. Call: "UNDER!"</li>
-      <li><strong>Switch:</strong> Both defenders swap assignments. The defender guarding the screener takes the cutter, and the defender being screened takes the screener. This is the fastest adjustment but can create mismatches. Use only when the pick is set too well to fight through. Call: "SWITCH!"</li>
+      <li><strong>Over:</strong> Work over the top of the pick and stay attached to your player. Default against a strong shooter. You have to anticipate the pick to get your body past the screener's hip in time. Call "OVER."</li>
+      <li><strong>Under:</strong> Go between the screener and the goal. Takes away the drive, gives up a longer shot. Use it against a driver who is not a shooter. Call "UNDER."</li>
+      <li><strong>Switch:</strong> Swap players. Fastest fix when the pick is set too well to fight, but it can create a mismatch. Call "SWITCH" and hear "SWITCH" back.</li>
+      <li><strong>Hedge:</strong> The screener's defender steps out for one beat to slow the cutter, then snaps back to the screener before she rolls. Advanced. Takes trust and timing. Call "PICK" first, then hedge.</li>
     </ol>
   </div>
 
   <div class="video-grid two-col reveal">
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/ZI2rWb5c_pI" title="Women's Lacrosse — Defending Off-Ball Picks" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/xMFcEHFO3Ao" title="Defending On-Ball Picks: John Sung" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge d1-film">D1 Film</span>
-        <h3>Fighting Through the Screen</h3>
-        <p>Watch the defender anticipate the pick, call it out to her teammates, and then get her body past the screener's hip before the cutter changes direction. She stays attached to her mark and takes away the shot. This is elite pick defense — it starts with recognition and communication.</p>
+        <span class="video-badge team">Winthrop</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">3.5 min</span>
+        <h3>Defending On-Ball Picks: John Sung</h3>
+        <p>Winthrop head coach teaches three on-ball pick coverages. The jam: the picker's defender calls it, gets body to body on the picker, and gives her teammate room to fight through.</p>
       </div>
     </div>
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/Q3O-NBXRNKo" title="Women's Lacrosse — Switch vs Fight Through" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/GwydFc6cy20" title="Defending Off-Ball Picks: John Sung" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge coaching">Coaching</span>
-        <h3>When to Switch on Picks</h3>
-        <p>This film shows the decision point: the pick is set so well that fighting through is impossible. Watch how both defenders communicate the switch in real time — "SWITCH!" from the screener's defender, "GOT IT!" from the other. The exchange happens in less than a second, and neither cutter nor screener gets a clean look.</p>
+        <span class="video-badge team">Winthrop</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">1.5 min</span>
+        <h3>Defending Off-Ball Picks: John Sung</h3>
+        <p>Same coach on off-ball picks. Early "pick coming" call, the jammer creates run room, and why his defense goes under and fights through instead of switching.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/ye9Csy2koPo?start=3270" title="Colleen Magarity: Defending Off-Ball Picks" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Northwestern</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">Starts 54:30</span>
+        <h3>Defending Off-Ball Picks, Walls and Stacks: Colleen Magarity</h3>
+        <p>Three-time Northwestern champion on off-ball picks: open your body, step back toward the middle, and do not fight through contact you cannot win. Communicate the pick early.</p>
       </div>
     </div>
   </div>
+  </div>
+
 
   <div class="section-divider"></div>
 
   <div class="coach-note reveal">
-    <h4>Coach's Note: Communication Before the Pick</h4>
-    <p>The defender guarding the screener is the most important person in pick defense — not the defender being screened. Why? Because she can SEE the pick being set up. She must call it out EARLY: "PICK LEFT!" or "PICK RIGHT!" This warning gives her teammate time to prepare. If the call comes late — or not at all — the pick will work every time. In practice, if a defender doesn't call the pick, stop the drill. Make it a habit. Make it non-negotiable. No call = the offense wins for free.</p>
-  </div>
-
-  <div class="teaching-point reveal">
-    <h4>Hedging: The Advanced Option</h4>
-    <p>For experienced defenders, there's a fourth option: the HEDGE. The screener's defender briefly steps out to slow down the cutter as she comes off the pick, then recovers back to the screener. This gives the other defender time to fight through the screen without the cutter getting a clean look. The hedge is a split-second move — step out, show your body, step back. It requires trust between both defenders and perfect timing. If you hedge too long, the screener rolls to the goal and no one is covering her.</p>
-    <ul>
-      <li><strong>Step 1:</strong> Screener's defender sees the pick coming, calls "PICK LEFT!"</li>
-      <li><strong>Step 2:</strong> As the cutter uses the pick, the screener's defender steps out one step to "show" (slow the cutter down)</li>
-      <li><strong>Step 3:</strong> The screened defender fights through behind the hedge</li>
-      <li><strong>Step 4:</strong> The screener's defender snaps back to the screener before she can roll</li>
-    </ul>
+    <h4>Coach's Note: The Screener's Defender Talks First</h4>
+    <p>The most important player in pick defense is not the one being screened. It is the defender guarding the screener, because she can see the pick coming. She calls "PICK LEFT" or "PICK RIGHT" early enough for her teammate to prepare. In practice, if the pick is not called, stop the drill. No call means the offense wins for free.</p>
   </div>
 
   <div class="teaching-point reveal">
     <h4>Practice Drill: 2v2 Pick Defense</h4>
-    <p>Set up a screener and cutter with two defenders. The coach designates "over," "under," or "switch" before each rep. Run all three options until defenders can execute them on command. Then remove the coach's designation and let the defenders decide together in real time. The first rep where both defenders execute the same option without talking to each other is a failure — make them communicate the plan out loud.</p>
+    <p>A screener and a cutter against two defenders. The coach names Over, Under, or Switch before each rep until all three are automatic. Then remove the call and let the two defenders decide together, out loud, in real time. If both defenders pick the same option without talking, it does not count.</p>
   </div>
 
 </div>
 
-<!-- ============ CUTTERS & HELP TAB ============ -->
+<!-- ============ OFF-BALL & HELP ============ -->
 <div class="tab-panel" id="cutters">
 
-  <h2 class="section-title reveal">Defending Cutters &amp; Help Defense</h2>
-  <p class="content-text reveal">Off-ball cutters are the silent killers of women's lacrosse defense. While everyone watches the ball, an attacker without the ball makes a V-cut, slips behind her defender, and flashes to the 8-meter arc for a feed and finish. Defending cutters requires weak-side awareness, active body positioning, and understanding of the 3-second rule inside the 8.</p>
+  <h2 class="section-title reveal">Off-Ball Defense &amp; Help</h2>
+  <p class="content-text reveal">While everyone watches the ball, an attacker makes a V-cut, slips behind her defender, and flashes into the 8 for a feed and finish. Defending it takes an open stance, weak-side awareness, bump responsibility, and legal footwork inside the arc.</p>
 
   <div class="teaching-point reveal">
-    <h4>Bump Responsibilities Inside the 8-Meter</h4>
-    <p>When an attacker cuts through the 8-meter arc, the nearest defender must BUMP her — step into her path with proper body positioning (no body check) to disrupt the timing of the cut. In the women's game, a bump is positioning your body between the cutter and the ball. You're not making contact — you're occupying the space she wants to cut through.</p>
+    <h4>Ball-You-Player</h4>
+    <p>Every off-ball defender sits in a triangle between her player, the ball, and the goal. The closer the ball is to your player, the tighter you play her. The farther away, the more you sag toward the goal.</p>
     <ul>
-      <li><strong>See the cutter early:</strong> Keep your head on a swivel. Off-ball defenders should be in a "pistol" stance — body angled so you can see both your player and the ball simultaneously. Never turn your back completely to the ball or your player.</li>
-      <li><strong>Call it out:</strong> "CUTTER!" alerts every defender in the area. The goalkeeper should be calling cutters too — she has the best vantage point.</li>
-      <li><strong>Step into the path:</strong> Don't chase the cutter — step to the spot she's running to. Beat her to the position. If you're in the spot first with your body set, she has to go around you.</li>
-      <li><strong>Recover after the bump:</strong> After disrupting the cut, don't stand there. Find your player or find the most dangerous open attacker.</li>
+      <li><strong>Two or more passes away:</strong> Sag toward the goal. You are in full help mode and your first job is protecting the middle.</li>
+      <li><strong>One pass away:</strong> Split the difference. You must be able to close out if the pass comes and slide if the driver beats her defender. The hardest spot on the field.</li>
+      <li><strong>Your player has the ball:</strong> Full denial. Feet moving, stick active, body between her and the goal.</li>
+    </ul>
+  </div>
+
+  <div class="teaching-point reveal">
+    <h4>Bumping Cutters Inside the 8</h4>
+    <ul>
+      <li><strong>See it early:</strong> Open stance, head on a swivel, never fully turned away from ball or player.</li>
+      <li><strong>Call it:</strong> "CUTTER." The goalkeeper calls it too. She has the best view.</li>
+      <li><strong>Beat her to the spot:</strong> Do not chase. Step to where she is going and get there first with your body set. No contact needed. You are occupying the space she wants.</li>
+      <li><strong>Recover:</strong> After the bump, find your player or the most dangerous open attacker. Do not stand in the 8.</li>
     </ul>
   </div>
 
   <div class="video-grid two-col reveal">
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/vf7ZbxNjS40" title="Women's Lacrosse — Help Defense Positioning" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/-xcUVMYN_Z0" title="Take Charge Help Defense: Amy Bokker" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge d1-film">D1 Film</span>
-        <h3>Weak-Side Help Positioning</h3>
-        <p>Watch the weak-side defender's positioning. She's not ball-watching — she's in a position where she can see the ball AND her player, and she's sagging toward the goal just enough to bump any cutters that come through. When the cut happens, she steps into the lane and disrupts the timing. The pass goes elsewhere and the offense resets.</p>
+        <span class="video-badge team">Stanford</span><span class="video-badge coaching">D1 Coach Clinic</span><span class="video-badge clip">4.5 min</span>
+        <h3>"Take Charge" Help Defense: Amy Bokker</h3>
+        <p>The former Stanford head coach and U.S. National Team defensive coordinator whiteboards and runs a 4v4 built on the help package behind the ball: hedge in on the weak-hand drive, cross-crease slide, recover.</p>
       </div>
     </div>
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/I5OTTccXYXY" title="Women's Lacrosse — Defending Off-Ball Movement" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/evN-yDJ5AxM?start=26" title="Sam Thacker as the Rover: Denver vs UNC" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge coaching">Coaching</span>
-        <h3>The Cost of Ball-Watching</h3>
-        <p>This clip shows what happens when the weak-side defender watches the ball and loses her player. The cutter goes back door — completely unguarded — and receives a feed at the crease for an easy goal. One second of ball-watching. One goal. This is why the pistol stance and head-on-a-swivel are non-negotiable.</p>
+        <span class="video-badge team">Denver</span><span class="video-badge d1-film">D1 Film Breakdown</span><span class="video-badge clip">Starts 0:26</span>
+        <h3>Sam Thacker as the Rover: Denver vs UNC</h3>
+        <p>2023 NCAA quarterfinal film. First-team All-American Sam Thacker flows ball-side inside the 8, reads the weak-side 2v1, sprints across the eight and gets her stick in the lane.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/OTZDYafhtKY?start=99" title="Albany Backer Zone vs Stony Brook" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Albany</span><span class="video-badge d1-film">D1 Game Film</span><span class="video-badge clip">Starts 1:39</span>
+        <h3>Albany Backer Zone vs Stony Brook</h3>
+        <p>Thirteen minutes of uncut 2016 America East championship film. The broadcast identifies the backer, Emily Mizer, so players can watch weak-side help positioning on every possession.</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/nuZne9SMmkI" title="Florida Extra Attacker vs Syracuse" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Syracuse</span><span class="video-badge d1-film">D1 Game Film</span><span class="video-badge clip">Game clips</span>
+        <h3>Florida Extra Attacker vs Syracuse</h3>
+        <p>Three real yellow-card possessions. Florida goes 2 for 3, which is the lesson: watch where Syracuse's short-handed zone loses the adjacent skip and the inside feed.</p>
       </div>
     </div>
   </div>
+
 
   <div class="section-divider"></div>
 
   <div class="coach-note reveal">
-    <h4>Coach's Note: 3-Second Rule and Help Defense</h4>
-    <p>Here's the challenge unique to women's lacrosse: you WANT your help defenders near the 8-meter arc so they can bump cutters and slide on drives. But the 3-second rule says a defender can't be inside the 8 for more than 3 seconds without marking an attacker within a stick's length. So your help defenders need to practice a "drift" technique — they position themselves at the EDGE of the 8-meter arc, one foot in, one foot out. When a cutter comes through, they step in to bump. When no one is cutting, they step back out. This drift keeps them legal while maintaining help position. Practice it until it's automatic.</p>
-  </div>
-
-  <div class="teaching-point reveal">
-    <h4>The Help-Side Triangle</h4>
-    <p>Every off-ball defender should form a triangle between three points: her assigned player, the ball, and the goal. The triangle changes shape as the ball moves — it gets wider when the ball is far from your player and narrower when the ball is close. The key principle: the closer the ball is to your player, the tighter you play her. The farther the ball is from your player, the more you sag toward the goal to provide help. This is called "ball-you-man" positioning, and it's the foundation of every help defense system in women's lacrosse.</p>
-    <ul>
-      <li><strong>Ball is 2+ passes away:</strong> Sag significantly toward the goal. You're in full help mode. Your player is the least likely to receive the ball, so your job is to protect the middle.</li>
-      <li><strong>Ball is 1 pass away:</strong> Split the difference. You need to be able to close out on your player if the pass comes AND slide on the ball if the driver beats her defender. This is the hardest position to play.</li>
-      <li><strong>Your player has the ball:</strong> Full denial. You're on-ball. Feet moving, stick active, body between her and the goal.</li>
-    </ul>
+    <h4>Coach's Note: Help Position and the 3-Second Rule</h4>
+    <p>You want your help defenders near the arc to bump cutters and slide on drives, but the 3-second rule says they cannot stay inside it unmarked. The answer is the <strong>drift</strong>: live on the edge of the 8, one foot in and one foot out. Step in to bump. Step out when nobody is cutting. Practice it until it is automatic.</p>
   </div>
 
   <div class="teaching-point reveal">
     <h4>Practice Drill: 4v4 Cutter Defense</h4>
-    <p>Set up 4 attackers: 2 with the ball up top, 2 without the ball near the 8-meter. The off-ball attackers take turns cutting through the 8. The defenders must call "CUTTER!", bump the cut, and recover — all while maintaining their help triangle. The rule: if a cutter catches the ball inside the 8-meter unmarked, it's a point for the offense. If the defender bumps the cut or forces the cutter to change her path, it's a point for the defense. First to 5 wins.</p>
+    <p>Two attackers with the ball up top, two off-ball near the 8. The off-ball attackers take turns cutting through. Defenders call "CUTTER," bump, and recover while keeping their triangles. A cutter who catches the ball unmarked inside the 8 is a point for the offense. A bump that changes her path is a point for the defense. First to five.</p>
   </div>
 
 </div>
 
-<!-- ============ DISADVANTAGE TAB ============ -->
+<!-- ============ DISADVANTAGE ============ -->
 <div class="tab-panel" id="disadvantage">
 
   <h2 class="section-title reveal">Disadvantage Defense</h2>
-  <p class="content-text reveal">In women's lacrosse, when a player draws a yellow card, she must leave the field for 2 minutes. Her team plays short-handed — a "disadvantage" situation (the equivalent of man-down in boys lacrosse). Your team has 4 field defenders plus a goalie against the opponent's 7 attackers. The numbers are against you, but disciplined team defense can survive — and the 90-second shot clock is your ally.</p>
+  <p class="content-text reveal">A yellow card sends a player off for two minutes and her team plays a player down. In our end that means <strong>six field defenders plus the goalkeeper against seven attackers</strong>. Someone is always open. Our job is to make the open player the least dangerous one, eat clock, and survive.</p>
 
   <div class="teaching-point reveal">
-    <h4>Backer Zone: Your Disadvantage Framework</h4>
-    <p>When you're short-handed, you can't play player-to-player defense — you have fewer defenders than attackers. The solution is a modified zone called the "Backer Zone." Here's how it works:</p>
+    <h4>BTB Backer Zone (7v6)</h4>
+    <p>You cannot mark seven players with six, so we drop into a zone built around the 8-meter arc with a backer inside it.</p>
     <ol>
-      <li><strong>Two Top Defenders:</strong> Position at the top of the 8-meter arc, split wide. They pressure the ball when it's above the arc and force the offense to go wide, not through the middle.</li>
-      <li><strong>Two Low Defenders:</strong> Position at the bottom of the 8-meter arc near the goal line extended. They protect the crease and the areas directly in front of the goal. They are responsible for cutters and feeds.</li>
-      <li><strong>Goalkeeper:</strong> Commands the entire unit. She calls slides, identifies the most dangerous attacker, and positions herself to cut off the highest-percentage shot.</li>
+      <li><strong>Three High:</strong> Left, center, and right across the top of the 8. They pressure the ball above the arc and force it wide, never through the middle.</li>
+      <li><strong>Two Low:</strong> Either side of the crease near goal line extended. They own the low feeds and the low cutters.</li>
+      <li><strong>Backer:</strong> Floats inside the 8 behind the pressure. She takes any cutter who enters, then drifts back out to stay legal on the 3-second count.</li>
+      <li><strong>Goalkeeper:</strong> Calls "BALL TOP / LEFT / RIGHT / LOW" to move the whole unit and identifies the most dangerous attacker.</li>
     </ol>
   </div>
 
   <div class="section-divider"></div>
 
   <h3 class="section-title reveal">Pack the 8</h3>
-  <p class="content-text reveal">The core principle of disadvantage defense is "Pack the 8" — condense your zone inside the 8-meter arc and protect the critical scoring area. Let the offense have the ball outside the 12-meter fan. Let them pass it around the perimeter. Make them earn every inch toward the goal. The 90-second shot clock means they can't be patient forever — eventually, they have to attack your zone, and that's where your discipline pays off.</p>
+  <p class="content-text reveal">Let them have the ball outside the 12. Let them pass it around. Make them earn every step toward the goal. With a 90-second shot clock, a two-minute penalty is roughly one full possession and part of another. The mindset is not "survive two minutes." It is "survive one possession."</p>
 
   <div class="video-grid two-col reveal">
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/UjLNe5RsHfs" title="Women's Lacrosse — Disadvantage Defense" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/iSiacH_Dm78?start=1525" title="Maryland Goes Woman-Down vs UNC, 2026 Semifinal" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge d1-film">D1 Film</span>
-        <h3>Backer Zone in Action</h3>
-        <p>Watch how 4 defenders plus the goalie collapse around the 8-meter arc. The offense has the ball up top but can't penetrate. Every pass around the perimeter eats clock. When an attacker drives, the zone shifts as a unit — not one person sliding, but all four defenders adjusting position. The offense runs out of ideas and takes a contested shot with 10 seconds left.</p>
+        <span class="video-badge team">Maryland</span><span class="video-badge d1-film">D1 Game Film</span><span class="video-badge clip">Starts 25:25</span>
+        <h3>Maryland Goes Woman-Down vs UNC, 2026 Semifinal</h3>
+        <p>Official NCAA replay. Maryland takes a yellow card, drops out of its man-to-man into a woman-down zone, and the broadcast explains why you abandon man principles a player down.</p>
       </div>
     </div>
     <div class="video-card">
-      <div class="video-embed">
-        <iframe src="https://www.youtube-nocookie.com/embed/R19Zg4xQfYs" title="Women's Lacrosse — Man Down Defense" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/fb5tNawns50?start=46" title="Killing the Clock: 2024 National Championship" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div class="video-info">
-        <span class="video-badge coaching">Coaching</span>
-        <h3>Using the Shot Clock</h3>
-        <p>Great disadvantage defense doesn't mean stopping every shot — it means surviving the 2 minutes. This clip shows a team that understands the shot clock. They give up perimeter passes gladly. They contest every shot inside the 8. When the clock hits 30 seconds, the offense gets desperate and forces a bad angle shot. Clock management wins the possession.</p>
+        <span class="video-badge team">Northwestern</span><span class="video-badge d1-film">D1 Game Film</span><span class="video-badge clip">Starts 0:46</span>
+        <h3>Killing the Clock: 2024 National Championship</h3>
+        <p>Under a minute in, Northwestern goes woman-down against Boston College. Listen to the broadcast count the shot clock against the penalty. That is the possession-at-a-time mindset.</p>
       </div>
     </div>
-  </div>
+    <div class="video-card">
+      <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/cgUMNKow8K0?start=2499" title="Winning the Run-Out Short-Handed: 2026 Semifinal" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="video-info">
+        <span class="video-badge team">Northwestern</span><span class="video-badge d1-film">D1 Game Film</span><span class="video-badge clip">Starts 41:39</span>
+        <h3>Winning the Run-Out Short-Handed: 2026 Semifinal</h3>
+        <p>Northwestern a player down against Johns Hopkins. Hopkins misfires and Northwestern wins the run-out, the one thing the woman-up team cannot afford.</p>
+      </div>
+    </div>
+
 
   <div class="coach-note reveal">
-    <h4>Coach's Note: Communication When Short-Handed</h4>
-    <p>Communication becomes even more critical when you're playing disadvantage. With only 4 field defenders, every player must know exactly where the ball is, who the most dangerous attacker is, and when to shift the zone. Here are the adjustments:</p>
+    <h4>Coach's Note: Talk When You Are Down</h4>
     <ul>
-      <li><strong>"BALL TOP!"</strong> — The ball is above the 8-meter arc. Top two defenders pressure, bottom two stay home.</li>
-      <li><strong>"BALL LEFT!" / "BALL RIGHT!"</strong> — The ball is on a wing. The zone shifts toward the ball side. Weak-side defenders collapse toward the crease.</li>
-      <li><strong>"BALL LOW!"</strong> — The ball is behind the goal or below the goal line extended. All four defenders pack tightly around the crease. This is the most dangerous position for the offense.</li>
-      <li><strong>"CLOCK!"</strong> — 30 seconds or less remaining on the shot clock. Play conservatively. Don't reach, don't gamble. Make them shoot over the zone.</li>
+      <li><strong>"BALL TOP!"</strong> The three high defenders pressure. The two low stay home.</li>
+      <li><strong>"BALL LEFT!" / "BALL RIGHT!"</strong> The zone shifts to the ball side. Weak-side defenders collapse toward the crease.</li>
+      <li><strong>"BALL LOW!"</strong> Ball behind the goal or below GLE. Everyone packs tight around the crease. This is the most dangerous look for us.</li>
+      <li><strong>"CLOCK!"</strong> Under 30 seconds. No reaching, no gambling. Make them shoot over the zone.</li>
     </ul>
   </div>
 
   <div class="teaching-point reveal">
-    <h4>Surviving the 2 Minutes</h4>
-    <p>Here's the math that should give your players confidence: a 2-minute yellow card equals approximately 90-100 seconds of actual disadvantage play (it takes a few seconds for the offense to set up). With a 90-second shot clock, the offense gets at most 1.5 possessions during your disadvantage. If you can force them to use most of the shot clock on each possession, they might only get ONE real scoring opportunity. One possession. Your defense just needs to survive ONE possession. That's the mindset: not "we have to play 2 minutes short-handed," but "we have to survive one possession."</p>
-  </div>
-
-  <div class="teaching-point reveal">
-    <h4>Practice Drill: 4v7 Shot Clock</h4>
-    <p>Run a 4v7 drill with a visible 90-second clock. The defense's only goal: don't give up a goal. Let the offense pass around the outside. Contest every shot inside the 8-meter. After each rep, note how much clock the offense used. If the offense scores in under 30 seconds, the defense wasn't patient enough — someone reached or gambled. If the offense uses 60+ seconds, the defense did its job regardless of whether the offense scored. Train patience. Train trust. Train the zone.</p>
+    <h4>Practice Drill: 7v6 Shot Clock</h4>
+    <p>Six defenders and a goalie against seven attackers with a visible 90-second clock. The defense has one goal: no goal. Give up the perimeter passes. Contest every shot inside the 8. After each rep, note how much clock the offense used. Under 30 seconds and someone reached or gambled. Over 60 seconds and the defense did its job, goal or not. Train patience, train trust, train the zone.</p>
   </div>
 
 </div>
 
 </main>
 
-<!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="index.html" class="logo">BTB <span>LACROSSE</span></a>
+      <a href="/" class="logo">BTB <span>LACROSSE</span></a>
       <p>A structured lacrosse development program built on accountability, film study, and intentional coaching. Long Island, NY.</p>
       <div class="footer-social">
         <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener" title="Instagram" aria-label="BTB on Instagram">IG</a>
@@ -912,81 +549,65 @@ footer {
     </div>
     <div class="footer-col">
       <h4>Program</h4>
-      <a href="index.html">Our Standard</a>
-      <a href="index.html#development">Development Model</a>
+      <a href="/">Home</a>
+      <a href="/#development">Development Model</a>
       <a href="/academy">Academy</a>
-      <a href="coach-bios.html">Coach Bios</a>
-      <a href="index.html#results">Results</a>
+      <a href="/coach-tools">Coaches Hub</a>
     </div>
     <div class="footer-col">
       <h4>Resources</h4>
-      <a href="coach-bios.html">Coaches</a>
-      <a href="testimonials.html">Testimonials</a>
-      <a href="faq.html">FAQ</a>
+      <a href="/btb-girls-offense-playbook.html">Offense Playbook</a>
+      <a href="/btb-girls-defense-playbook.html">Defense Playbook</a>
+      <a href="/btb-girls-transition-playbook.html">Transition Playbook</a>
+      <a href="/contact">Contact</a>
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
       <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
       <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener">@bethebestli</a>
-      <a>Long Island, NY</a>
+      <span>Long Island, NY</span>
     </div>
   </div>
-  <div class="footer-bottom">
-    &copy; 2026 Be The Best Lacrosse. All rights reserved.
-  </div>
+  <div class="footer-bottom">&copy; 2026 Be The Best Lacrosse. All rights reserved.</div>
 </footer>
 
-<!-- ═══════════════════════════════════════ SCRIPTS ═══════════════════════════════════════ -->
 <script>
-// ── Mobile menu toggle ──
 function toggleMenu() {
   const nav = document.getElementById('navLinks');
   const ham = document.getElementById('hamburger');
   nav.classList.toggle('open');
-  nav.classList.toggle('active');
   ham.classList.toggle('active');
 }
-
-// ── Tab switching ──
 document.querySelectorAll('.playbook-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.playbook-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     tab.classList.add('active');
+    tab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
     const panel = document.getElementById(tab.dataset.tab);
     if (panel) panel.classList.add('active');
     setTimeout(() => {
       panel.querySelectorAll('.reveal').forEach(el => {
-        if (el.getBoundingClientRect().top < window.innerHeight) {
-          el.classList.add('visible');
-        }
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
       });
     }, 50);
   });
 });
-
-// ── Scroll reveal ──
 function handleReveal() {
   document.querySelectorAll('.reveal').forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 60) {
-      el.classList.add('visible');
-    }
+    if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('visible');
   });
 }
 window.addEventListener('scroll', handleReveal);
 window.addEventListener('load', handleReveal);
-
-// ── Navbar scroll effect ──
 window.addEventListener('scroll', () => {
   const header = document.getElementById('navbar');
-  if (window.scrollY > 10) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
+  if (window.scrollY > 10) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+});
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash) { const t = document.querySelector(`[data-tab="${hash}"]`); if (t) t.click(); }
 });
 </script>
-
 </body>
 </html>
