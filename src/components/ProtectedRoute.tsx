@@ -48,7 +48,7 @@ export function ProtectedRoute() {
     const genderMismatch = pathGender !== null && !(user.programs ?? [user.gender]).includes(pathGender)
 
     // Check role mismatch: players can't access coach routes
-    const roleMismatch = location.pathname === "/admin" || (coachRoute && user.role === "player")
+    const roleMismatch = location.pathname === "/admin-hub" || (coachRoute && user.role === "player")
 
     if (genderMismatch || roleMismatch) {
       return (

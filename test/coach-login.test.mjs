@@ -70,3 +70,14 @@ test('accepting an invitation establishes a login session before opening the hub
     delete globalThis.__btbIdentityTest;
   }
 });
+
+test('admin hub route does not collide with the existing website editor', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  const config = await readFile(new URL('../netlify.toml', import.meta.url), 'utf8');
+  const route = app.match(/path="([^"]+)" element=\{<AdminPage/)[1];
+  const redirects = [...config.matchAll(/from = "([^"]+)"/g)].map(match => match[1]);
+  assert.equal(redirects.includes(route), false, 'Netlify redirects must not shadow the protected admin hub');
+  assert.equal(redirects.includes(`${route}/*`), false);
+  assert.notEqual(route, '/admin');
+});

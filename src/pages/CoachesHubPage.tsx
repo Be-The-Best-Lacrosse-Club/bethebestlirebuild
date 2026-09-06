@@ -292,7 +292,7 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
           <div className="flex flex-wrap gap-4 mt-6 text-white underline">
             <a href="/coach-tools.html">Coaching Library & Downloads</a>
             <a href="/forgot-password">Reset Password</a>
-            {user?.role === "owner" && <a href="/admin">Admin Hub</a>}
+            {user?.role === "owner" && <a href="/admin-hub">Admin Hub</a>}
             {(user?.role === "owner" || (user?.programs?.length ?? 0) > 1) && (
               <a href={`/${gender === "boys" ? "girls" : "boys"}/coaches-hub`}>Switch to {gender === "boys" ? "Girls" : "Boys"}</a>
             )}

@@ -50,7 +50,7 @@ export function LoginPage({ audience, recovery = false }: { audience?: "coach" |
   const [params] = useSearchParams()
   const requestedRedirect = params.get("redirect") || ""
   const redirect = /^\/(?!\/)/.test(requestedRedirect) && !/[\\\s]/.test(requestedRedirect) ? requestedRedirect : ""
-  const destinationFor = (user: User) => redirect || (user.role === "owner" ? "/admin" : user.role === "coach" ? `/${user.gender}/coaches-hub` : `/${user.gender}/players`)
+  const destinationFor = (user: User) => redirect || (user.role === "owner" ? "/admin-hub" : user.role === "coach" ? `/${user.gender}/coaches-hub` : `/${user.gender}/players`)
   const openHub = (user: User) => {
     const destination = destinationFor(user)
     if (destination.includes(".html")) window.location.assign(destination)

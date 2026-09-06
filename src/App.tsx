@@ -147,7 +147,7 @@ function App() {
             <Route path="/leads" element={<LeadsPage />} />
 
             <Route element={<ProtectedRoute />}>
-              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/admin-hub" element={<AdminPage />} />
               <Route path="/parent-hub" element={<ParentPortalPage />} />
               <Route path="/parent-portal" element={<ParentPortalPage />} />
               <Route path="/coach-tools" element={<CoachToolsPage />} />
