@@ -1,3 +1,4 @@
+import { identityRoles } from "../../shared/access-roles.js";
 /**
  * academy-coach-dashboard — aggregated academy progress for coaches.
  *
@@ -65,7 +66,7 @@ async function verifyCoachOrOwner(event) {
     })
     if (!res.ok) return null
     const userData = await res.json()
-    const roles = userData.app_metadata?.roles || []
+    const roles = identityRoles(userData)
     if (!roles.includes("coach") && !roles.includes("owner")) return null
     return userData
   } catch {

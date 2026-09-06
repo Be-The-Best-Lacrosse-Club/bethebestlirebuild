@@ -742,7 +742,7 @@ li { margin-bottom: 6px; }
   var requiredPassword = "#BTBCOACH26"
   var allowed = false
   try {
-    if (Number(localStorage.getItem("btb-owner-access-until")) > Date.now() || sessionStorage.getItem(storageKey) === "1") {
+    if ((Number(localStorage.getItem("btb-owner-access-until")) > Date.now() || Number(localStorage.getItem("btb-coach-girls-access-until")) > Date.now()) || sessionStorage.getItem(storageKey) === "1") {
       allowed = true
     } else {
       var entered = window.prompt("BTB coach password required")

@@ -8,6 +8,7 @@ import { lazy, Suspense, useEffect } from "react"
 
 // Pages
 import { HomePage } from "@/pages/HomePage"
+import { AdminPage } from "@/pages/AdminPage"
 import { LoginPage } from "@/pages/LoginPage"
 import { ParentPortalPage } from "@/pages/ParentPortalPage"
 import { InterestFormPage } from "@/pages/InterestFormPage"
@@ -138,10 +139,15 @@ function App() {
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/coach-login" element={<LoginPage audience="coach" />} />
+            <Route path="/admin-login" element={<LoginPage audience="admin" />} />
+            <Route path="/forgot-password" element={<LoginPage recovery />} />
+            <Route path="/reset-password" element={<LoginPage recovery />} />
             <Route path="/scroll-demo" element={<ScrollDemoPage />} />
             <Route path="/leads" element={<LeadsPage />} />
 
             <Route element={<ProtectedRoute />}>
+              <Route path="/admin" element={<AdminPage />} />
               <Route path="/parent-hub" element={<ParentPortalPage />} />
               <Route path="/parent-portal" element={<ParentPortalPage />} />
               <Route path="/coach-tools" element={<CoachToolsPage />} />

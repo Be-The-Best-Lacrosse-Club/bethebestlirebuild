@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let cancelled = false
 
     // Localhost dev bypass — auto-login as owner so hubs are accessible without Netlify Identity
-    const isDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    const isDev = import.meta.env.DEV && new URLSearchParams(window.location.search).get("dev_auth") === "owner"
     if (isDev) {
       const devAcademyAccess = new URLSearchParams(window.location.search).get("academy_access") === "public"
         ? "public"
@@ -66,8 +66,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     }
 
+    const unsubscribe = authLib.subscribeToAuth((current) => { if (!cancelled) setUser(current) })
     init()
-    return () => { cancelled = true }
+    return () => { cancelled = true; unsubscribe() }
   }, [])
 
   const login = useCallback(async (email: string, password: string): Promise<User> => {

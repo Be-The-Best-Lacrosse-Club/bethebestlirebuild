@@ -493,7 +493,10 @@
         <div class="gate-title" id="gateTitle">Coach <span>Hub</span></div>
       </div>
       <div class="gate-kicker">Staff Only</div>
-      <p class="gate-copy">Enter the BTB coach password to open practice plans, playbooks, standards, terminology, and sideline downloads.</p>
+      <p class="gate-copy">Sign in with your BTB account to open coaching resources.</p>
+      <a class="gate-submit" style="display:block;text-align:center;text-decoration:none;margin-bottom:16px" href="/coach-login?redirect=/coach-tools.html">Coach Account Login</a>
+      <p class="gate-note"><a href="/forgot-password" style="color:white;text-decoration:underline">Forgot / Reset Password</a> · <a href="/admin-login" style="color:white;text-decoration:underline">Admin Login</a></p>
+      <p class="gate-copy">Have a shared staff access code? You can still use it below.</p>
       <div class="gate-field">
         <label for="coachPassword">Coach Password</label>
         <input id="coachPassword" type="password" autocomplete="current-password" autofocus>
@@ -712,7 +715,7 @@
     setTimeout(function () { input.focus(); }, 50);
   }
 
-  if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now() || sessionStorage.getItem(STORAGE_KEY) === 'yes') {
+  if ((Number(localStorage.getItem('btb-owner-access-until')) > Date.now() || Number(localStorage.getItem("btb-coach-boys-access-until")) > Date.now() || Number(localStorage.getItem("btb-coach-girls-access-until")) > Date.now()) || sessionStorage.getItem(STORAGE_KEY) === 'yes') {
     unlockHub();
   }
 

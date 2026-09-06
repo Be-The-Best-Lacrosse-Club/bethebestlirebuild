@@ -311,7 +311,7 @@ body {
   var requiredPassword = "#BTBLAX26"
   var allowed = false
   try {
-    if (Number(localStorage.getItem("btb-owner-access-until")) > Date.now() || sessionStorage.getItem(storageKey) === "1") {
+    if ((Number(localStorage.getItem("btb-owner-access-until")) > Date.now() || Number(localStorage.getItem("btb-coach-boys-access-until")) > Date.now()) || sessionStorage.getItem(storageKey) === "1") {
       allowed = true
     } else {
       var entered = window.prompt("BTB member password required")

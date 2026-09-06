@@ -1,3 +1,4 @@
+import { identityRoles } from "../../shared/access-roles.js";
 /**
  * academy-access.js — Netlify Serverless Function
  *
@@ -75,7 +76,7 @@ export const handler = async (event) => {
     const userData = await res.json()
     const name = userData.user_metadata?.full_name || userData.email?.split("@")[0] || "BTB Member"
     const email = userData.email || ""
-    const roles = userData.app_metadata?.roles || []
+    const roles = identityRoles(userData)
     const role = roles.includes("owner") ? "owner"
                : roles.includes("coach") ? "coach"
                : "player"

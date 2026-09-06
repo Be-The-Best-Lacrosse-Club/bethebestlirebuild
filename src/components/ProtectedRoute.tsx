@@ -36,7 +36,7 @@ export function ProtectedRoute() {
   }
 
   if (!isAuthenticated || !user) {
-    return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} replace />
+    return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />
   }
 
   // Owner bypasses all access checks
@@ -45,10 +45,10 @@ export function ProtectedRoute() {
     const coachRoute = isCoachRoute(location.pathname)
 
     // Check gender mismatch
-    const genderMismatch = pathGender !== null && user.gender !== pathGender
+    const genderMismatch = pathGender !== null && !(user.programs ?? [user.gender]).includes(pathGender)
 
     // Check role mismatch: players can't access coach routes
-    const roleMismatch = coachRoute && user.role === "player"
+    const roleMismatch = location.pathname === "/admin" || (coachRoute && user.role === "player")
 
     if (genderMismatch || roleMismatch) {
       return (

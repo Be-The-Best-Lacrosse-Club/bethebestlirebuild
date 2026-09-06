@@ -59,6 +59,7 @@ export interface User {
   gender: Gender
   gradYear?: string
   academyAccess?: AcademyAccess
+  programs?: Gender[]
 }
 
 export interface AuthState {

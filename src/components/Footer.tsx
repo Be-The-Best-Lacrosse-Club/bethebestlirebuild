@@ -83,11 +83,12 @@ export function Footer() {
             <a href="/newsletter" onClick={link("/newsletter")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Newsletter</a>
             <a href="/academy" onClick={link("/academy")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Academy</a>
             <a href="/recruiting" onClick={link("/recruiting")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Recruiting</a>
-            <a href="/coach-tools.html" onClick={link("/coach-tools.html")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coach Hub</a>
+            <a href="/coach-login" onClick={link("/coach-login")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Coach Hub</a>
             <a href="/dan-calendar" onClick={link("/dan-calendar")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Staff Calendar</a>
             <a href="/interest" onClick={link("/interest")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Interest Form</a>
             <a href="/contact" onClick={link("/contact")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Contact</a>
             <a href="/login" onClick={link("/login")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Login</a>
+            <a href="/admin-login" className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Admin Login</a>
             <a href="/sms-policy" onClick={link("/sms-policy")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">SMS Policy &amp; Privacy Policy</a>
             <a href="/terms-and-conditions" onClick={link("/terms-and-conditions")} className="block text-[1.15rem] text-white/85 py-1.5 hover:text-white transition-colors">Terms and Conditions</a>
           </div>
