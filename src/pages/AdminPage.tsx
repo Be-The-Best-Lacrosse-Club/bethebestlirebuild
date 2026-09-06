@@ -3,6 +3,7 @@ import { useNavigate } from "react-router"
 import { SEO } from "@/components/shared/SEO"
 
 const areas = [
+  ["Website Editor", "Edit website content with your approved staff account", "/admin/"],
   ["Boys Coaches Hub", "Practice plans, film, and Boys coaching resources", "/boys/coaches-hub"],
   ["Girls Coaches Hub", "Practice plans, film, and Girls coaching resources", "/girls/coaches-hub"],
   ["Boys Players Hub", "Player development and Academy resources", "/boys/players"],
@@ -20,7 +21,7 @@ export function AdminPage() {
   const navigate = useNavigate()
   return (
     <main className="min-h-screen bg-black text-white border-t-4 border-[#D22630] px-5 py-12">
-      <SEO title="Admin Hub | BTB Lacrosse Club" description="BTB website access for approved administrators and directors." path="/admin" />
+      <SEO title="Admin Hub | BTB Lacrosse Club" description="BTB website access for approved administrators and directors." path="/admin-hub" />
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-wrap justify-between gap-4 mb-10">
           <a href="/" className="text-white/80">← BTB Website</a>
