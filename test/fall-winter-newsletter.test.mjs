@@ -196,4 +196,5 @@ test("The Lab details stay aligned across the newsletter and parent hub", () => 
   }
   assert.doesNotMatch(newsletterHtml, /2033 and older(?:<\/strong>)? \(5th grade and up\)/)
   assert.doesNotMatch(parentTrainingHtml, /2033 and older(?:<\/strong>)? \(5th grade and up\)/)
+  assert.ok(parentTrainingHtml.includes("<strong>The program begins in November and ends in March.</strong>"))
 })
