@@ -1242,6 +1242,7 @@
             </div>
 
             <!-- Password Entry (shown after role selection) -->
+            <p style="text-align:center;margin:18px 0"><a href="/coach-login" style="color:white;text-decoration:underline">Coach Account Login</a> · <a href="/forgot-password" style="color:white;text-decoration:underline">Forgot / Reset Password</a> · <a href="/admin-login" style="color:white;text-decoration:underline">Admin Login</a></p>
             <div class="gate-password-section" id="gatePasswordSection">
                 <div class="gate-label">Enter Staff Password</div>
                 <div class="gate-input-wrap">
@@ -2486,6 +2487,10 @@
             if (Number(localStorage.getItem('btb-owner-access-until')) > Date.now()) {
                 sessionStorage.setItem(GATE_KEY, '1');
                 sessionStorage.setItem(GATE_ROLE_KEY, 'administrator');
+            }
+            if (Number(localStorage.getItem('btb-coach-boys-access-until')) > Date.now() || Number(localStorage.getItem('btb-coach-girls-access-until')) > Date.now()) {
+                sessionStorage.setItem(GATE_KEY, '1');
+                sessionStorage.setItem(GATE_ROLE_KEY, 'coach');
             }
             if (sessionStorage.getItem(GATE_KEY) === '1') {
                 document.getElementById('gateOverlay').style.display = 'none';

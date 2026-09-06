@@ -1,3 +1,4 @@
+import { identityRoles } from "../../shared/access-roles.js";
 const DEFAULT_SITE_URL = "https://www.bethebestli.com";
 
 function headerValue(event, name) {
@@ -47,8 +48,7 @@ export async function authorizeIdentity(
     }
 
     const user = await response.json();
-    const roles = Array.isArray(user?.app_metadata?.roles) ? [...user.app_metadata.roles] : [];
-    if (typeof user?.role === "string") roles.push(user.role);
+    const roles = identityRoles(user);
     if (!allowedRoles.some((role) => roles.includes(role))) {
       return { ok: false, statusCode: 403, error: "Insufficient permissions" };
     }

@@ -28,7 +28,7 @@ test("header keeps its wordmark and controls readable on a light surface", async
 test("coach login and password-gated parent hub stay visible in desktop and mobile headers", async () => {
   const header = await readSource("src/components/Header.tsx")
 
-  assert.match(header, /\{ id: "coach", label: "Coach Login", mobileLabel: "Coach", href: "\/coach-tools\.html" \}/)
+  assert.match(header, /\{ id: "coach", label: "Coach Login", mobileLabel: "Coach", href: "\/coach-login" \}/)
   assert.match(header, /\{ id: "parent", label: "Parent Hub", mobileLabel: "Parent", href: "\/parent-training" \}/)
   assert.equal((header.match(/headerAccessLinks\.map/g) ?? []).length, 2)
   assert.match(header, /data-access-placement="desktop"/)

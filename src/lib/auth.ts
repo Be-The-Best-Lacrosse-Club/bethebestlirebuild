@@ -1,9 +1,11 @@
+import { identityRoles } from "../../shared/access-roles.js"
 import {
   acceptInvite,
   getUser as getIdentityUser,
   handleAuthCallback,
   login as identityLogin,
   logout as identityLogout,
+  onAuthChange,
   refreshSession,
   requestPasswordRecovery as identityRequestPasswordRecovery,
   signup as identitySignup,
@@ -33,6 +35,13 @@ function syncOwnerPageAccess(user: User | null): void {
   if (typeof window === "undefined") return
 
   try {
+    window.localStorage.removeItem("btb-coach-boys-access-until")
+    window.localStorage.removeItem("btb-coach-girls-access-until")
+    if (user?.role === "coach") {
+      for (const program of user.programs ?? [user.gender]) {
+        window.localStorage.setItem(`btb-coach-${program}-access-until`, String(Date.now() + OWNER_ACCESS_TTL_MS))
+      }
+    }
     if (user?.role === "owner") {
       window.localStorage.setItem(
         OWNER_ACCESS_STORAGE_KEY,
@@ -56,18 +65,14 @@ function cacheIdentityUser(identityUser: IdentityUser | null): User | null {
 export function mapNetlifyUser(identityUser: IdentityUser | null): User | null {
   if (!identityUser) return null
 
-  const metadataRoles = identityUser.appMetadata?.roles
-  const roles = [
-    ...(identityUser.roles ?? (Array.isArray(metadataRoles) ? metadataRoles : [])),
-    ...(identityUser.role ? [identityUser.role] : []),
-  ]
+  const roles = identityRoles(identityUser)
   const role: UserRole = roles.includes("owner")
     ? "owner"
     : roles.includes("coach")
       ? "coach"
       : "player"
 
-  const program = readMetadata(identityUser.userMetadata, "program") || "boys"
+  const program = readMetadata(identityUser.appMetadata, "program") || readMetadata(identityUser.userMetadata, "program") || "boys"
   const gender: Gender = program === "girls" ? "girls" : "boys"
   const rawAcademyAccess =
     readMetadata(identityUser.appMetadata, "academy_access") ||
@@ -85,6 +90,9 @@ export function mapNetlifyUser(identityUser: IdentityUser | null): User | null {
       "",
     role,
     gender,
+    programs: Array.isArray(identityUser.appMetadata?.programs)
+      ? identityUser.appMetadata.programs.filter((value): value is Gender => value === "boys" || value === "girls")
+      : [gender],
     gradYear: readMetadata(identityUser.userMetadata, "grad_year"),
     academyAccess,
   }
@@ -147,7 +155,11 @@ export async function completePendingPassword(password: string): Promise<void> {
   if (!action) throw new Error("This password link is no longer active. Request a new reset link.")
 
   if (action.type === "invite") {
-    await acceptInvite(action.token, password)
+    const invitedUser = await acceptInvite(action.token, password)
+    if (!invitedUser.email) throw new Error("Your password is set. Return to sign in with your email.")
+    // Identity 2.0 invite acceptance does not write the cookies getUser requires.
+    // Establish the normal login session before loading the coach's hub.
+    cacheIdentityUser(await identityLogin(invitedUser.email, password))
   } else {
     await updateUser({ password })
   }
@@ -155,7 +167,7 @@ export async function completePendingPassword(password: string): Promise<void> {
 }
 
 export async function login(email: string, password: string): Promise<User> {
-  const user = cacheIdentityUser(await identityLogin(email, password))
+  const user = cacheIdentityUser(await identityLogin(email.trim().toLowerCase(), password))
   if (!user) throw new Error("Login failed — could not read user data.")
   return user
 }
@@ -196,7 +208,7 @@ export function isAuthenticated(): boolean {
 }
 
 export async function requestPasswordRecovery(email: string): Promise<void> {
-  await identityRequestPasswordRecovery(email)
+  await identityRequestPasswordRecovery(email.trim().toLowerCase())
 }
 
 /** Owner sees every program and every role level. */
@@ -205,7 +217,7 @@ export function hasAccess(gender: Gender, requiredRole: UserRole): boolean {
   if (!user) return false
   if (user.role === "owner") return true
   if (user.role === "coach") {
-    return user.gender === gender && (requiredRole === "coach" || requiredRole === "player")
+    return (user.programs ?? [user.gender]).includes(gender) && (requiredRole === "coach" || requiredRole === "player")
   }
   return user.role === "player" && user.gender === gender && requiredRole === "player"
 }
@@ -232,4 +244,9 @@ export async function getAuthToken(): Promise<string | null> {
   cacheIdentityUser(identityUser)
   const refreshedToken = await refreshSession()
   return refreshedToken || readCookie("nf_jwt")
+}
+
+/** Keep React and legacy resource access in sync when sessions refresh or sign out. */
+export function subscribeToAuth(callback: (user: User | null) => void): () => void {
+  return onAuthChange((_event, user) => callback(cacheIdentityUser(user)))
 }

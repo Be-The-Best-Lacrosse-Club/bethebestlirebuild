@@ -62,12 +62,13 @@ const parentLinks = [
 const resourceLinks = [
   { label: "Digital Academy", href: "/academy" },
   { label: "Recruiting", href: "/recruiting" },
-  { label: "Coaches Hub", href: "/coach-tools.html" },
+  { label: "Coaches Hub", href: "/coach-login" },
   { label: "Staff Calendar", href: "/dan-calendar" },
 ]
 
 const headerAccessLinks = [
-  { id: "coach", label: "Coach Login", mobileLabel: "Coach", href: "/coach-tools.html" },
+  { id: "coach", label: "Coach Login", mobileLabel: "Coach", href: "/coach-login" },
+  { id: "admin", label: "Admin Login", mobileLabel: "Admin", href: "/admin-login" },
   { id: "parent", label: "Parent Hub", mobileLabel: "Parent", href: "/parent-training" },
 ] as const
 
@@ -447,7 +448,7 @@ export function Header() {
                   { label: "Digital Academy", href: "/academy" },
                   { label: "Recruiting", href: "/recruiting" },
                   { label: "Logos", href: "/logos" },
-                  { label: "Coaches Hub", href: "/coach-tools.html" },
+                  { label: "Coaches Hub", href: "/coach-login" },
                   { label: "Staff Calendar", href: "/dan-calendar" },
                   { label: "Login", href: "/login" },
                 ],

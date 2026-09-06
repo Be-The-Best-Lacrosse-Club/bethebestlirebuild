@@ -1,3 +1,4 @@
+import { identityRoles } from "../../shared/access-roles.js";
 /**
  * GET /.netlify/functions/leads-list?formName=<optional>&limit=<optional>
  *
@@ -32,7 +33,7 @@ async function verifyOwner(event) {
     });
     if (!res.ok) return null;
     const userData = await res.json();
-    const roles = userData.app_metadata?.roles || [];
+    const roles = identityRoles(userData);
     return roles.includes("owner") ? userData : null;
   } catch {
     return null;

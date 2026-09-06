@@ -1,3 +1,4 @@
+import { identityRoles } from "../../shared/access-roles.js";
 /**
  * playbook — save/list/delete Coach's Whiteboard plays in Supabase.
  *
@@ -70,7 +71,7 @@ export const handler = async (event) => {
 
   const user = await verifyIdentity(event)
   if (!user) return err(401, "Unauthorized — login required")
-  const roles = (user.app_metadata && user.app_metadata.roles) || []
+  const roles = identityRoles(user)
   if (!roles.includes("coach") && !roles.includes("owner")) return err(403, "Coach access required")
 
   try {

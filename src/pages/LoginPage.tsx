@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router"
 import { useAuth } from "@/context/AuthContext"
 import { SEO } from "@/components/shared/SEO"
 import { ArrowLeft, Lock, Loader2, Mail, CheckCircle, UserPlus } from "lucide-react"
-import type { Gender } from "@/types"
+import type { Gender, User } from "@/types"
 import { consumeAuthCallbackError, getPendingAuthAction } from "@/lib/auth"
 
 type View = "login" | "signup" | "signup-sent" | "forgot" | "forgot-sent" | "set-password"
@@ -33,7 +33,7 @@ function checkRateLimit(): { allowed: boolean; resetIn: number } {
   }
 }
 
-export function LoginPage() {
+export function LoginPage({ audience, recovery = false }: { audience?: "coach" | "admin"; recovery?: boolean }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -42,12 +42,20 @@ export function LoginPage() {
   const [gradYear, setGradYear] = useState("")
   const [honeypot, setHoneypot] = useState("") // Bot trap
   const [error, setError] = useState(() => consumeAuthCallbackError())
-  const [view, setView] = useState<View>(() => getPendingAuthAction() ? "set-password" : "login")
+  const [view, setView] = useState<View>(() => getPendingAuthAction() ? "set-password" : recovery ? "forgot" : "login")
   const [submitting, setSubmitting] = useState(false)
-  const { login, signup, requestPasswordRecovery, completePendingPassword } = useAuth()
+  const [showPassword, setShowPassword] = useState(false)
+  const { user: signedInUser, login, signup, requestPasswordRecovery, completePendingPassword } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  const redirect = params.get("redirect") || "/"
+  const requestedRedirect = params.get("redirect") || ""
+  const redirect = /^\/(?!\/)/.test(requestedRedirect) && !/[\\\s]/.test(requestedRedirect) ? requestedRedirect : ""
+  const destinationFor = (user: User) => redirect || (user.role === "owner" ? "/admin" : user.role === "coach" ? `/${user.gender}/coaches-hub` : `/${user.gender}/players`)
+  const openHub = (user: User) => {
+    const destination = destinationFor(user)
+    if (destination.includes(".html")) window.location.assign(destination)
+    else navigate(destination, { replace: true })
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -57,21 +65,12 @@ export function LoginPage() {
     try {
       const user = await login(email, password)
 
-      // Redirect based on role + program if no specific redirect was requested
-      if (redirect === "/") {
-        if (user.role === "owner" || user.role === "coach") {
-          navigate(`/${user.gender}/coaches-hub`, { replace: true })
-        } else {
-          navigate(`/${user.gender}/players`, { replace: true })
-        }
-      } else {
-        navigate(redirect, { replace: true })
-      }
+      openHub(user)
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Login failed"
       // Make common errors more user-friendly
       if (message.includes("invalid_grant") || message.includes("Invalid")) {
-        setError("Invalid email or password. Please try again.")
+        setError("Email or password not recognized. Use Forgot / Reset Password below, or check your invitation email if this is your first visit.")
       } else if (message.includes("not_found") || message.includes("No user")) {
         setError("No account found with that email address.")
       } else {
@@ -114,10 +113,7 @@ export function LoginPage() {
     setSubmitting(true)
     try {
       const user = await completePendingPassword(password)
-      const destination = user.role === "owner" || user.role === "coach"
-        ? `/${user.gender}/coaches-hub`
-        : `/${user.gender}/players`
-      navigate(destination, { replace: true })
+      openHub(user)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Could not update the password.")
     } finally {
@@ -174,7 +170,7 @@ export function LoginPage() {
   }
 
   return (
-    <main id="main-content" className="min-h-screen bg-black flex items-center justify-center px-6" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+    <main id="main-content" className="min-h-screen bg-black flex items-center justify-center px-6 py-12 border-t-4 border-[var(--btb-red)]" style={{ fontFamily: "'Montserrat', sans-serif" }}>
       <SEO
         title="Login | BTB Lacrosse Club"
         description="Sign in to your BTB Lacrosse Club account to access the Players Hub, Coaches Hub, and Academy resources."
@@ -210,7 +206,7 @@ export function LoginPage() {
               ) : view === "signup" ? (
                 <>Create <span className="text-[var(--btb-red)]">Account</span></>
               ) : (
-                <>BTB <span className="text-[var(--btb-red)]">Login</span></>
+                <>{audience === "admin" ? "Admin" : audience === "coach" ? "Coach" : "BTB"} <span className="text-[var(--btb-red)]">Login</span></>
               )}
             </h1>
           </div>
@@ -219,10 +215,15 @@ export function LoginPage() {
         {/* LOGIN VIEW */}
         {view === "login" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
-              Sign in to access your Players Hub or Coaches Hub. Course progress, film study, and resources are all inside.
+            <p className="text-[1.1rem] text-white/70 leading-relaxed mb-8">
+              {audience === "admin" ? "For Dan and approved directors. Sign in for access to both programs, coaching resources, and website administration." : "Sign in with your own email and password. Coaches go straight to their program’s hub, playbooks, and resources."}
             </p>
 
+            {signedInUser && (
+              <button type="button" onClick={() => openHub(signedInUser)} className="w-full mb-6 rounded-lg border border-white/20 p-3 text-white">
+                Continue as {signedInUser.name}
+              </button>
+            )}
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <label htmlFor="login-email" className="block text-[1.15rem] font-bold uppercase tracking-[2px] text-white/85 mb-2">Email</label>
@@ -244,7 +245,7 @@ export function LoginPage() {
                 <input
                   id="login-password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -275,19 +276,26 @@ export function LoginPage() {
               </button>
             </form>
 
+            <label className="mt-4 flex items-center gap-2 text-white/80 cursor-pointer">
+              <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)} /> Show password
+            </label>
             <div className="mt-6 text-center">
               <button
-                onClick={() => { setError(""); setView("forgot") }}
+                onClick={() => { setError(""); setPassword(""); setView("forgot") }}
                 className="text-[1.0rem] text-white/85 hover:text-white/85 transition-colors"
               >
-                Forgot your password?
+                Forgot / Reset Password
               </button>
             </div>
 
             <div className="mt-8 pt-6 border-t border-white/[0.07] text-center">
               <p className="text-[1.05rem] text-white/70 leading-relaxed">
-                BTB accounts are invite-only. Contact your program director if you need access.
+                First time here? Open your BTB invitation email and choose your password. Your TeamSnap or LeagueApps password may be different. Missing an invitation or locked out?
               </p>
+              <a href="mailto:info@bethebestli.com?subject=Coach%20website%20access" className="inline-block mt-3 text-white underline">Get help with access</a>
+              <div className="mt-4 flex justify-center gap-5 text-white/80 underline">
+                <a href="/coach-login">Coach Login</a><a href="/admin-login">Admin Login</a>
+              </div>
             </div>
           </>
         )}
@@ -295,7 +303,7 @@ export function LoginPage() {
         {/* PASSWORD RECOVERY / INVITE VIEW */}
         {view === "set-password" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-[1.1rem] text-white/70 leading-relaxed mb-8">
               Choose the password you’ll use for your BTB account.
             </p>
 
@@ -305,7 +313,7 @@ export function LoginPage() {
                 <input
                   id="new-password"
                   name="new-password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -321,7 +329,7 @@ export function LoginPage() {
                 <input
                   id="confirm-password"
                   name="confirm-password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
@@ -349,13 +357,16 @@ export function LoginPage() {
                 )}
               </button>
             </form>
+            <button type="button" onClick={() => { setError(""); setPassword(""); setConfirmPassword(""); setView("forgot") }} className="mt-6 w-full text-white underline">
+              Link expired? Request a new reset link
+            </button>
           </>
         )}
 
         {/* SIGNUP VIEW */}
         {view === "signup" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-[1.1rem] text-white/70 leading-relaxed mb-8">
               Create your BTB account to access the Players Hub, Academy courses, and program resources.
             </p>
 
@@ -411,7 +422,7 @@ export function LoginPage() {
                 <input
                   id="signup-password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -506,7 +517,7 @@ export function LoginPage() {
         {/* SIGNUP — EMAIL CONFIRMATION SENT */}
         {view === "signup-sent" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-[1.1rem] text-white/70 leading-relaxed mb-8">
               We sent a confirmation link to <span className="text-white/85">{email}</span>. Click the link in that email to verify your account, then come back here to sign in.
             </p>
 
@@ -522,7 +533,7 @@ export function LoginPage() {
         {/* FORGOT PASSWORD VIEW */}
         {view === "forgot" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-[1.1rem] text-white/70 leading-relaxed mb-8">
               Enter your email address and we'll send you a link to reset your password.
             </p>
 
@@ -577,7 +588,7 @@ export function LoginPage() {
         {/* FORGOT PASSWORD — EMAIL SENT */}
         {view === "forgot-sent" && (
           <>
-            <p className="text-[1.1rem] text-white/35 leading-relaxed mb-8">
+            <p className="text-[1.1rem] text-white/70 leading-relaxed mb-8">
               If an account exists for <span className="text-white/85">{email}</span>, you'll receive a password reset link shortly. Check your inbox and spam folder.
             </p>
 
