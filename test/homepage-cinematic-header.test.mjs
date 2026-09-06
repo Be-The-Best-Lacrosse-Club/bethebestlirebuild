@@ -25,15 +25,15 @@ test("header keeps its wordmark and controls readable on a light surface", async
   assert.doesNotMatch(header, /scrolled \? "text-black" : "text-white"/)
 })
 
-test("coach and parent hub logins stay visible in desktop and mobile headers", async () => {
+test("coach login and password-gated parent hub stay visible in desktop and mobile headers", async () => {
   const header = await readSource("src/components/Header.tsx")
 
   assert.match(header, /\{ id: "coach", label: "Coach Login", mobileLabel: "Coach", href: "\/coach-tools\.html" \}/)
-  assert.match(header, /\{ id: "parent", label: "Parent Hub", mobileLabel: "Parent", href: "\/parent-hub" \}/)
+  assert.match(header, /\{ id: "parent", label: "Parent Hub", mobileLabel: "Parent", href: "\/parent-training" \}/)
   assert.equal((header.match(/headerAccessLinks\.map/g) ?? []).length, 2)
   assert.match(header, /data-access-placement="desktop"/)
   assert.match(header, /data-access-placement="mobile"/)
-  assert.match(header, /aria-label="Hub logins"/)
+  assert.match(header, /aria-label="Hub access"/)
 })
 
 test("homepage mounts both cinematic Filmroom development stories", async () => {

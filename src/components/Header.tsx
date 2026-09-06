@@ -68,7 +68,7 @@ const resourceLinks = [
 
 const headerAccessLinks = [
   { id: "coach", label: "Coach Login", mobileLabel: "Coach", href: "/coach-tools.html" },
-  { id: "parent", label: "Parent Hub", mobileLabel: "Parent", href: "/parent-hub" },
+  { id: "parent", label: "Parent Hub", mobileLabel: "Parent", href: "/parent-training" },
 ] as const
 
 const staticLinks = new Set([
@@ -285,7 +285,7 @@ export function Header() {
             <div
               className="ml-2 flex items-center overflow-hidden rounded-lg border border-black/15"
               role="group"
-              aria-label="Hub logins"
+              aria-label="Hub access"
               data-access-placement="desktop"
             >
               {headerAccessLinks.map((link, index) => (
@@ -335,7 +335,7 @@ export function Header() {
             <div
               className="flex items-center gap-1"
               role="group"
-              aria-label="Hub logins"
+              aria-label="Hub access"
               data-access-placement="mobile"
             >
               {headerAccessLinks.map((link) => (
