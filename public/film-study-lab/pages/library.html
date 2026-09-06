@@ -173,7 +173,7 @@
   <section class="library-hero">
     <div class="library-hero-inner">
       <h1>Concept <span class="red">Library</span></h1>
-      <p>Every lacrosse concept, organized and explained at your level.</p>
+      <p>Every concept explained at your level, with NCAA Division I film only.</p>
     </div>
   </section>
 
@@ -196,7 +196,7 @@
         <input type="search" id="conceptSearch" placeholder="Search concepts...">
       </div>
       <div class="active-filter">
-        <label for="activeOnly">Active Only</label>
+        <label for="activeOnly">Film Ready Only</label>
         <label class="toggle-switch">
           <input type="checkbox" id="activeOnly">
           <span class="toggle-slider"></span>
@@ -251,12 +251,12 @@
           <span class="library-stat-label">total concepts</span>
         </div>
         <div class="library-stat">
-          <span class="library-stat-value">${stats.active}</span>
-          <span class="library-stat-label">with film content</span>
+          <span class="library-stat-value">${countConceptsWithFilm(currentProgram)}</span>
+          <span class="library-stat-label">with D1 film</span>
         </div>
         <div class="library-stat">
           <span class="library-stat-value">${getVideoCount(currentProgram)}</span>
-          <span class="library-stat-label">video clips</span>
+          <span class="library-stat-label">D1 clips</span>
         </div>
       `;
 
@@ -271,7 +271,9 @@
           Object.keys(cat.subcategories).forEach(subKey => {
             const items = cat.subcategories[subKey].filter(item => {
               const name = getConceptName(item);
-              return name.toLowerCase().includes(q) || subKey.toLowerCase().includes(q);
+              if (name.toLowerCase().includes(q) || subKey.toLowerCase().includes(q)) return true;
+              const c = getConceptContent(currentProgram, name);
+              return !!(c && c.videos && c.videos.some(v => (v.title || '').toLowerCase().includes(q) || (v.channel || '').toLowerCase().includes(q)));
             });
             if (items.length > 0) filteredSubs[subKey] = items;
           });
@@ -340,10 +342,6 @@
     // ============= INIT =============
     renderLibrary();
 
-    // Load clips from Google Sheet in background
-    loadSheetClips().then(count => {
-      if (count > 0) renderLibrary();
-    });
   </script>
 </body>
 </html>

@@ -862,3 +862,9 @@ input:focus, select:focus, textarea:focus {
     color: #999;
   }
 }
+
+/* Clip metadata (source badge, channel, timestamp) */
+.clip-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-bottom: 0.4rem; }
+.clip-badge { background: var(--btb-red); color: #fff; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 3px; }
+.clip-channel { color: var(--btb-gray-500); font-size: 0.75rem; }
+.clip-ts { color: var(--btb-gray-400); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px; }

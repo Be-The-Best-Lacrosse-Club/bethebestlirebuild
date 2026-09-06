@@ -125,7 +125,7 @@
       </div>
       <div class="sheet-status">
         <span class="sheet-dot" id="sheet-status-dot"></span>
-        <span id="sheet-status-text">Checking Google Sheet...</span>
+        <span id="sheet-status-text">NCAA Division I film only. Every clip verified.</span>
       </div>
     </div>
   </section>
@@ -192,7 +192,7 @@
             ${game.concepts.map(c => `<span class="game-tag">${c}</span>`).join('')}
           </div>
           <div class="game-meta" style="margin-top:0.5rem;">
-            ${game.clips} clips &mdash; ${game.summary}
+            ${game.type} &mdash; ${game.summary}
           </div>
           ${game.videoId ? `
             <a href="https://www.youtube.com/watch?v=${game.videoId}" target="_blank"
@@ -214,36 +214,16 @@
       });
     });
 
-    // Try to fetch live data from Google Sheet
-    async function loadSheetGames() {
+    // Static D1 archive (no external data source)
+    (function setStatus() {
       const dot = document.getElementById('sheet-status-dot');
       const text = document.getElementById('sheet-status-text');
-
-      try {
-        const data = await fetchSheetData('all');
-        if (data && data.games && data.games.length > 0) {
-          // Merge sheet games with seed data (avoid duplicates)
-          const existingIds = new Set(allGames.map(g => g.id));
-          data.games.forEach(g => {
-            if (!existingIds.has(g.id)) {
-              allGames.push(g);
-            }
-          });
-          dot.classList.add('connected');
-          text.textContent = `Google Sheet connected — ${data.games.length} games synced`;
-        } else {
-          dot.classList.add('connected');
-          text.textContent = 'Google Sheet connected — using seed data';
-        }
-      } catch (err) {
-        text.textContent = 'Offline — showing seed data';
-      }
-      renderArchive();
-    }
+      if (dot) dot.classList.add('connected');
+      if (text) text.textContent = 'NCAA Division I film only. Every clip verified.';
+    })();
 
     // Init
     renderArchive();
-    loadSheetGames();
   </script>
 </body>
 </html>

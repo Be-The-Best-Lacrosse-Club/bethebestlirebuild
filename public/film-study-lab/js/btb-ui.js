@@ -47,7 +47,7 @@ function renderTaxonomyGrid(taxonomy, program, containerId, options = {}) {
     let contentHTML = '<div class="category-content">';
     Object.keys(category.subcategories).forEach(subKey => {
       const items = category.subcategories[subKey];
-      const filteredItems = filterActive ? items.filter(i => isConceptActive(i)) : items;
+      const filteredItems = filterActive ? items.filter(i => (typeof conceptHasContent === 'function') ? conceptHasContent(program, getConceptName(i)) : isConceptActive(i)) : items;
       if (filterActive && filteredItems.length === 0) return;
 
       contentHTML += `<div class="subcategory">
@@ -55,9 +55,12 @@ function renderTaxonomyGrid(taxonomy, program, containerId, options = {}) {
 
       filteredItems.forEach(item => {
         const name = getConceptName(item);
-        const active = isConceptActive(item);
-        const statusClass = active ? 'active' : 'coming';
-        const statusText = active ? 'ACTIVE' : 'COMING SOON';
+        const _c = (typeof getConceptContent === 'function') ? getConceptContent(program, name) : null;
+        const hasFilm = !!(_c && _c.videos && _c.videos.length);
+        const hasNotes = !!(_c && (_c.dev || _c.int || _c.adv));
+        const active = hasFilm || hasNotes;
+        const statusClass = hasFilm ? 'active' : 'coming';
+        const statusText = hasFilm ? 'FILM READY' : (hasNotes ? 'NOTES ONLY' : 'COMING SOON');
 
         contentHTML += `
           <div class="concept-item" data-concept="${name}" data-program="${program}" data-active="${active}">
@@ -65,7 +68,7 @@ function renderTaxonomyGrid(taxonomy, program, containerId, options = {}) {
             ${showStatus ? `
               <div class="concept-status">
                 <span class="status-dot ${statusClass}"></span>
-                <span class="status-label" style="color: ${active ? '#CC0000' : '#999'};">${statusText}</span>
+                <span class="status-label" style="color: ${hasFilm ? '#CC0000' : (hasNotes ? '#C5A44E' : '#999')};">${statusText}</span>
               </div>
             ` : ''}
           </div>
@@ -143,8 +146,8 @@ function renderConceptDetail(conceptName, program, level) {
     return `
       <h2 style="font-size:1.5rem;text-transform:uppercase;border-bottom:3px solid #CC0000;padding-bottom:0.5rem;margin-bottom:1rem;">${conceptName}</h2>
       <div style="padding:1.5rem;background:#f0f0f0;border-radius:6px;text-align:center;">
-        <p style="color:#666;">Film clips and coaching notes for this concept are coming soon.</p>
-        <p style="color:#999;font-size:0.85rem;margin-top:0.5rem;">Check back regularly as we add new content!</p>
+        <p style="color:#666;">D1 film for this concept is being sourced.</p>
+        <p style="color:#999;font-size:0.85rem;margin-top:0.5rem;">Every BTB clip is NCAA Division I film. We only publish a concept once its clips are verified.</p>
       </div>
     `;
   }
@@ -154,7 +157,7 @@ function renderConceptDetail(conceptName, program, level) {
   if (content.videos && content.videos.length > 0) {
     videosHTML = '<div style="margin-bottom:1.5rem;">';
     content.videos.forEach(v => {
-      videosHTML += createVideoCard(v.id, v.title, v.notes);
+      videosHTML += createVideoCard(v.id, v.title, v.notes, v.startTime || 0, v.channel || '', v.source || '');
     });
     videosHTML += '</div>';
   }
@@ -189,6 +192,13 @@ function renderConceptDetail(conceptName, program, level) {
   };
 
   const tierLabels = { dev: 'Developmental', int: 'Intermediate', adv: 'Advanced' };
+  const hasTiers = !!(content.dev || content.int || content.adv);
+  if (!hasTiers) {
+    return `
+    <h2 style="font-size:1.5rem;text-transform:uppercase;border-bottom:3px solid #CC0000;padding-bottom:0.5rem;margin-bottom:1.5rem;">${conceptName}</h2>
+    ${videosHTML}
+    <p style="color:#999;font-size:0.85rem;">Tiered coaching notes for this concept are coming soon.</p>`;
+  }
 
   return `
     <h2 style="font-size:1.5rem;text-transform:uppercase;border-bottom:3px solid #CC0000;padding-bottom:0.5rem;margin-bottom:1.5rem;">${conceptName}</h2>
@@ -254,7 +264,7 @@ function renderGameArchive(containerId, programFilter = 'all') {
       <div style="margin-top:0.75rem;">
         ${game.concepts.map(c => `<span class="game-tag">${c}</span>`).join('')}
       </div>
-      <div class="game-meta" style="margin-top:0.5rem;">${game.clips} clips &mdash; ${game.summary}</div>
+      <div class="game-meta" style="margin-top:0.5rem;">${game.type} &mdash; ${game.summary}</div>
       ${game.videoId ? `<a href="https://www.youtube.com/watch?v=${game.videoId}" target="_blank" style="display:inline-block;margin-top:0.5rem;font-size:0.85rem;">Watch Full Game ↗</a>` : ''}
     </div>
   `).join('');

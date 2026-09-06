@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>Defensive Playbook | BTB Lacrosse Boys Program</title>
-<meta name="description" content="BTB Boys Defensive Playbook — Men's D1 film breakdowns, communication systems, slides, pick defense, man-down, and zone concepts with coaching notes.">
+<meta name="description" content="BTB Boys Defensive Playbook — NCAA Division I men's game film: slides and recovery, defending picks, off-ball help, man-down, and 3-3 zone with BTB coaching notes.">
 <meta property="og:title" content="Defensive Playbook | BTB Lacrosse Boys Program">
-<meta property="og:description" content="Men's D1 defensive film breakdowns — slides, pick defense, man-down, and zone systems with coaching notes.">
+<meta property="og:description" content="NCAA D1 men's defensive film — slides, pick defense, man-down, and zone systems with BTB coaching notes.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#D22630">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,10 +16,7 @@
 <link rel="stylesheet" href="shared.css">
 <style>
 /* ── Dark Theme Overrides ── */
-body {
-    background: #0a0a0a;
-    color: #fff;
-}
+body { background: #0a0a0a; color: #fff; }
 
 .btb-header {
     background: rgba(10,10,10,0.95);
@@ -80,12 +77,7 @@ body {
     margin-bottom: 1.2rem;
     font-family: 'Montserrat', sans-serif;
 }
-.hero h1 {
-    font-size: 3.5rem;
-    line-height: 1;
-    margin-bottom: 1rem;
-    letter-spacing: 3px;
-}
+.hero h1 { font-size: 3.5rem; line-height: 1; margin-bottom: 1rem; letter-spacing: 3px; }
 .hero h1 .highlight { color: #D22630; }
 .hero-sub {
     font-size: 1rem;
@@ -94,17 +86,33 @@ body {
     margin: 0 auto;
     line-height: 1.7;
 }
+.hero-stamp {
+    margin-top: 1.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+}
 
 /* ── Playbook Tabs ── */
 .playbook-tabs {
+    position: sticky;
+    top: 70px;
+    z-index: 100;
+    background: rgba(10,10,10,0.96);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0 20px;
+    padding: 12px 20px;
     margin-bottom: 40px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: center;
 }
+.playbook-tabs::-webkit-scrollbar { display: none; }
 .playbook-tab {
+    flex-shrink: 0;
     background: #111;
     border: 1px solid rgba(255,255,255,0.1);
     color: rgba(255,255,255,0.6);
@@ -116,13 +124,14 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    white-space: nowrap;
     transition: all 0.2s;
 }
 .playbook-tab:hover { border-color: #D22630; color: #fff; }
 .playbook-tab.active { background: #D22630; border-color: #D22630; color: #fff; }
 
 /* ── Tab Panels ── */
-.tab-panel { display: none; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+.tab-panel { display: none; max-width: 900px; margin: 0 auto; padding: 0 20px 40px; }
 .tab-panel.active { display: block; }
 
 /* ── Video Cards ── */
@@ -133,7 +142,7 @@ body {
     overflow: hidden;
     margin-bottom: 32px;
 }
-.video-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+.video-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; }
 .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 .video-info { padding: 20px; }
 .video-badge {
@@ -149,9 +158,10 @@ body {
     background: #D22630;
     color: #fff;
 }
-.video-badge.d1 { background: #C5A44E; }
+.video-badge.d1 { background: #C5A44E; color: #111; }
 .video-badge.coaching { background: #2563EB; }
-.video-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; margin: 8px 0 16px; }
+.video-badge.clip { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); }
+.video-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; margin: 8px 0 16px; letter-spacing: 1px; }
 .coach-note {
     background: rgba(210,38,48,0.08);
     border-left: 3px solid #D22630;
@@ -160,7 +170,6 @@ body {
     margin: 16px 0;
     font-size: 14px;
     line-height: 1.7;
-    font-style: italic;
 }
 .teaching-point {
     background: rgba(197,164,78,0.08);
@@ -171,89 +180,71 @@ body {
     font-size: 14px;
     line-height: 1.7;
 }
+.coach-note strong, .teaching-point strong { color: #fff; }
 
-/* ── Term Box ── */
-.term-box {
+/* ── Term / Comm Boxes ── */
+.term-box, .comm-box {
     background: #111;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 12px;
     padding: 24px;
     margin: 24px 0;
 }
-.term-box h3 {
+.term-box h3, .comm-box h3 {
     font-family: 'Bebas Neue', sans-serif;
     color: #D22630;
     font-size: 20px;
     margin-bottom: 16px;
+    letter-spacing: 1px;
 }
-.term-item { margin-bottom: 12px; font-size: 14px; line-height: 1.6; }
+.term-item { margin-bottom: 12px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.75); }
 .term-item strong { color: #fff; }
-
-/* ── Communication Box ── */
-.comm-box {
-    background: #111;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 24px;
-    margin: 24px 0;
-}
-.comm-box h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    color: #D22630;
-    font-size: 20px;
-    margin-bottom: 16px;
-}
-.comm-call { margin-bottom: 16px; }
-.comm-call .call {
-    font-family: 'Bebas Neue', sans-serif;
-    color: #D22630;
-    font-size: 18px;
-}
-.comm-call .meaning {
-    color: rgba(255,255,255,0.7);
-    font-size: 14px;
-    margin-top: 4px;
-}
+.comm-call { margin-bottom: 14px; }
+.comm-call .call { font-family: 'Bebas Neue', sans-serif; color: #D22630; font-size: 18px; letter-spacing: 1px; }
+.comm-call .meaning { color: rgba(255,255,255,0.7); font-size: 14px; margin-top: 3px; line-height: 1.6; }
 
 /* ── Section Intro ── */
 .section-intro {
     font-size: 15px;
     line-height: 1.8;
     color: rgba(255,255,255,0.7);
-    margin-bottom: 32px;
+    margin: 0 auto 32px;
     max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
 }
 .section-intro h2 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 28px;
     color: #fff;
     margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+.sub-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 3px;
+    margin: 36px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 /* ── Scroll Reveal ── */
-.reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
     .hero h1 { font-size: 2.4rem; }
     .hero { min-height: 40vh; padding: 7rem 1.2rem 3rem; }
-    .playbook-tabs { gap: 6px; }
-    .playbook-tab { padding: 8px 14px; font-size: 11px; }
+    .playbook-tabs { justify-content: flex-start; padding: 10px 14px; gap: 6px; margin-bottom: 28px; }
+    .playbook-tab { padding: 9px 14px; font-size: 11px; }
     .video-title { font-size: 20px; }
     .video-info { padding: 16px; }
     .coach-note, .teaching-point { padding: 12px; font-size: 13px; }
     .comm-call .call { font-size: 16px; }
 }
 @media (max-width: 480px) {
-    .hero h1 { font-size: 1.8rem; }
-    .playbook-tab { padding: 7px 12px; font-size: 10px; letter-spacing: 0.5px; }
+    .hero h1 { font-size: 1.9rem; }
 }
 </style>
 <script>
@@ -311,7 +302,8 @@ body {
         <div class="hero-inner">
             <div class="hero-badge">Boys Program</div>
             <h1>BTB <span class="highlight">DEFENSIVE</span> PLAYBOOK</h1>
-            <p class="hero-sub">Men's D1 Film &bull; Coaching Breakdowns &bull; Communication Systems</p>
+            <p class="hero-sub">NCAA Division I Men's Film &bull; BTB Communication System &bull; Slides, Picks, Man-Down, Zone</p>
+            <div class="hero-stamp">Film set rebuilt September 2026 &bull; D1 sources only</div>
         </div>
     </section>
 
@@ -320,7 +312,7 @@ body {
         <button class="playbook-tab active" role="tab" aria-selected="true" data-tab="overview">Overview</button>
         <button class="playbook-tab" role="tab" aria-selected="false" data-tab="slides">Slides & Recovery</button>
         <button class="playbook-tab" role="tab" aria-selected="false" data-tab="picks">Defending Picks</button>
-        <button class="playbook-tab" role="tab" aria-selected="false" data-tab="cutters">Cutters & Help</button>
+        <button class="playbook-tab" role="tab" aria-selected="false" data-tab="cutters">Off-Ball & Help</button>
         <button class="playbook-tab" role="tab" aria-selected="false" data-tab="man-down">Man-Down</button>
         <button class="playbook-tab" role="tab" aria-selected="false" data-tab="zone">3-3 Zone</button>
     </div>
@@ -332,62 +324,76 @@ body {
 
         <div class="section-intro reveal">
             <h2>Defense Is Communication</h2>
-            <p>At BTB, we believe that individual talent wins matchups but communication wins games. A defense that talks is a defense that knows where help is coming from before the dodge even starts. Every drill, every rep, every film session reinforces the same principle: if you are not talking, you are not playing defense. The calls below are non-negotiable. Every player on the field must use them, every possession, every time. No exceptions.</p>
+            <p>Talent wins matchups. Communication wins games. A defense that talks knows where help is coming from before the dodge starts. The calls below are the BTB defensive language. Every player uses them, every possession, at every age level. Every tab in this playbook uses this same vocabulary, and every clip is NCAA Division I men's film.</p>
         </div>
 
         <div class="comm-box reveal">
             <h3>BTB Defensive Communication System</h3>
             <div class="comm-call">
                 <div class="call">"BALL! BALL! BALL!"</div>
-                <div class="meaning">I am guarding the ball carrier. I have on-ball responsibility. Say it three times so everyone on the field knows who has the ball. If nobody calls "ball," the defense has already broken down.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"ONE!"</div>
-                <div class="meaning">I am one pass away from the ball, in a help position. I can see my man and the ball. I am in deny position, ready to jump the passing lane or slide if needed.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"TWO!"</div>
-                <div class="meaning">I am two passes away from the ball, in the hole. I am sagged toward the crease providing weakside help. My head is on a swivel — I can see the ball and I can see cutters coming through.</div>
+                <div class="meaning">I have the ball carrier. Say it three times so the whole field knows who is on-ball. If nobody calls ball, the defense has already broken down.</div>
             </div>
             <div class="comm-call">
                 <div class="call">"HOT!"</div>
-                <div class="meaning">I am the first slide. If the on-ball defender gets beat, I am leaving my man to help. My teammates need to know so they can rotate to cover my man when I slide.</div>
+                <div class="meaning">I am the first slide. If the on-ball defender gets beat, I leave my man to stop the ball. Everyone else rotates behind me.</div>
             </div>
             <div class="comm-call">
-                <div class="call">"TWO-SLIDE!"</div>
-                <div class="meaning">I am the second slide. When the hot defender leaves to slide, I rotate to cover the man he left. This is the chain reaction that keeps the defense connected.</div>
+                <div class="call">"TWO!"</div>
+                <div class="meaning">I am the second slide. When Hot leaves, I cover the man he left. This chain reaction keeps the defense connected.</div>
+            </div>
+            <div class="comm-call">
+                <div class="call">"HELP LEFT!" / "HELP RIGHT!"</div>
+                <div class="meaning">Told to the on-ball defender by the slider. It says which side the help is on so he can force the dodger into it.</div>
             </div>
             <div class="comm-call">
                 <div class="call">"PICK LEFT!" / "PICK RIGHT!"</div>
-                <div class="meaning">A screen is coming from the left or right side. This is an early warning — the on-ball defender needs time to prepare. Call it as soon as you see the screener moving into position, not after the pick has been set.</div>
+                <div class="meaning">A screen is coming. Called by the screener's defender the moment the picker starts moving, not after contact. Give your teammate two to three seconds of warning.</div>
             </div>
             <div class="comm-call">
-                <div class="call">"SWITCH!"</div>
-                <div class="meaning">We are swapping assignments. Used after a pick when fighting through is not possible. Both defenders must acknowledge the switch — a one-sided switch is a miscommunication and an open shot.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"GET THROUGH!"</div>
-                <div class="meaning">Fight over the pick. The on-ball defender should squeeze between the screener and the ball carrier instead of switching. Used when we want to keep our matchups and the on-ball defender has the athleticism to recover.</div>
+                <div class="call">"THROUGH!" / "SWITCH!"</div>
+                <div class="meaning">Our answer to the pick. Through means fight over the top and keep your man. Switch means swap. Both defenders must say it back. A one-sided switch is an open shot.</div>
             </div>
             <div class="comm-call">
                 <div class="call">"CUTTER!"</div>
-                <div class="meaning">An off-ball attacker is moving through the lane. Any defender who sees a cutter must call it out so the defense can bump him, body him, or pass him through to the next zone of help.</div>
+                <div class="meaning">An off-ball attacker is moving through the lane. Whoever sees it calls it, bumps him, and passes him to the next defender.</div>
+            </div>
+            <div class="comm-call">
+                <div class="call">"DEAD SIDE!"</div>
+                <div class="meaning">The ball is on the far side of the field from my man. I am sagged into the hole, eyes on ball and man, ready to bump cutters or be the second slide.</div>
             </div>
             <div class="comm-call">
                 <div class="call">"CHECK!"</div>
-                <div class="meaning">Everyone find your man. Used after a fast break, a dead ball, or any scramble situation. Before the next whistle, every defender must have eyes on his assignment and be in proper position.</div>
+                <div class="meaning">Everyone find your man. Used after a fast break, dead ball, or scramble. Before the next whistle every defender has eyes on his assignment.</div>
+            </div>
+        </div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/B2iFucKI_gM?start=4560" loading="lazy" allowfullscreen title="Duke Men's Lacrosse Coaching Clinic — Defensive Communication"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Duke</span>
+                <span class="video-badge coaching">D1 Coach Clinic</span>
+                <span class="video-badge clip">Starts at 1:16:00</span>
+                <h3 class="video-title">Duke Staff on Defensive Communication</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> The Duke staff (John Danowski, Ron Caputo, Matt Danowski, Ned Crotty) answer a question on defensive talk. Their standard is talking and listening: see the man and hear the man, head on a swivel, and an off-ball stance that lets you act on the call the instant you hear it.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> Communication is a two-way skill. We grade our defenders on whether they hear and respond to calls, not only on whether they make them.
+                </div>
             </div>
         </div>
 
         <div class="term-box reveal">
             <h3>Key Defensive Terms</h3>
-            <div class="term-item"><strong>Adjacent Slide:</strong> The defender next to the on-ball defender slides first. Shortest distance to help, fastest rotation, but leaves the adjacent attacker open for a quick pass.</div>
-            <div class="term-item"><strong>Crease Slide:</strong> The defender guarding the crease attacker slides first. Longer distance but protects the most dangerous area on the field — the crease. Used when you want to take away inside shots.</div>
-            <div class="term-item"><strong>Near Man:</strong> A hybrid slide — the nearest defender slides regardless of assigned matchup. More instinctive and harder for opponents to scout, but requires high defensive IQ from every player.</div>
-            <div class="term-item"><strong>Hedge:</strong> A temporary jump-out by the slider to slow down the ball carrier, buying time for the on-ball defender to recover. The hedger does not fully commit — he bumps the dodger and retreats to his man.</div>
-            <div class="term-item"><strong>Recovery:</strong> Getting back to your original assignment after a slide or rotation. The speed of recovery determines whether the defense gives up a shot. Sprint back — never jog.</div>
-            <div class="term-item"><strong>Bump:</strong> A physical redirect of a cutter or off-ball player moving through the lane. Legal contact with the body to alter the attacker's path and disrupt timing.</div>
-            <div class="term-item"><strong>Split:</strong> When the on-ball defender gets beat and the ball is in a dangerous position between two defenders. Neither can leave — the ball is "splitting" the defense, which is a breakdown.</div>
+            <div class="term-item"><strong>Adjacent Slide:</strong> The defender next to the on-ball defender slides first. Shortest distance, fastest help, but it opens the adjacent attacker for a quick pass.</div>
+            <div class="term-item"><strong>Crease Slide:</strong> The defender on the crease attacker slides first. Longer distance but it protects the most dangerous spot on the field. Used against a dominant crease attackman.</div>
+            <div class="term-item"><strong>Near Man:</strong> The closest defender slides regardless of assignment. Harder to scout, but every player must read and call it in real time.</div>
+            <div class="term-item"><strong>Hedge:</strong> A short jump-out by the slider to slow the ball carrier while the on-ball defender recovers. The hedger shows and retreats. He does not commit.</div>
+            <div class="term-item"><strong>Recovery:</strong> Getting back to a man after a slide or rotation. Recovery speed decides whether the defense gives up a shot. Sprint, never jog.</div>
+            <div class="term-item"><strong>Bump:</strong> Legal body contact that redirects a cutter moving through the lane.</div>
+            <div class="term-item"><strong>Split:</strong> One defender guarding two attackers who are both one pass from the ball. He sits between them and takes whichever one receives it.</div>
         </div>
     </div>
 
@@ -398,90 +404,115 @@ body {
 
         <div class="section-intro reveal">
             <h2>Slides & Recovery</h2>
-            <p>Sliding is the most important team defensive skill in lacrosse. No defender can stop every dodge 1-on-1 — help must come. The question is: where does the help come from, how fast does it arrive, and what happens after the slide? Every slide creates an open man. The defense's job is to make sure the recovery happens before the offense can find him.</p>
+            <p>No defender stops every dodge alone. Help must come. The questions are where it comes from, how fast it arrives, and what happens after. Every slide creates an open man. The defense's job is to recover before the offense finds him. Watch how Notre Dame, Maryland, Georgetown, and Yale answer those questions in real games.</p>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/TsTgsq2vcPE" loading="lazy" allowfullscreen title="Adjacent Slide Basics"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/HNXqIFbFhdc" loading="lazy" allowfullscreen title="Georgetown adjacent slide vs Villanova"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Adjacent Slide Basics</h3>
+                <span class="video-badge">Georgetown</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <span class="video-badge clip">15 sec</span>
+                <h3 class="video-title">Adjacent Slide — Georgetown vs Villanova</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Adjacent sliding creates the shortest, fastest help rotation. The defender NEXT TO the on-ball defender is the first slide. Because the distance is short, the slide arrives early and the dodger has less time to shoot. The trade-off is that the adjacent attacker — who is usually one pass away — becomes the open man. The two-slide must get there before the skip pass.
+                    <strong>Coach's Playbook:</strong> Villanova's John Kluh dodges from the top out of a two-up look. The adjacent Georgetown defender slides, the second and third slides fill behind him, and the defense recovers clean. Fifteen seconds of exactly what we teach.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Slide on the drive, not on the shot. If you wait until the dodger is already shooting, you are a spectator. Your trigger is the first step of the dodge — when the ball carrier turns the corner, the hot defender must be moving. Early slides prevent shots. Late slides prevent nothing.
-                </div>
-            </div>
-        </div>
-
-        <div class="video-card reveal">
-            <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/JITcbrt8g8M" loading="lazy" allowfullscreen title="Crease Slide Basics"></iframe>
-            </div>
-            <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Crease Slide Basics</h3>
-                <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Crease sliding means the defender on the crease player slides first. Longer distance but protects the middle of the field. The advantage of crease sliding is that it takes away the most dangerous pass — the feed to the crease. The disadvantage is that the crease attacker is now open, so the two-slide must get to the crease immediately. Many D1 teams use crease slides when the opponent has a dominant crease attackman.
-                </div>
-                <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> The crease slide must be a full commitment. Because the distance is longer, a half-hearted crease slide arrives late and leaves the crease open. When you slide from the crease, sprint to the ball carrier's top hand and take away the shot. Do not glide — attack.
+                    <strong>Key Teaching Point:</strong> Slide on the drive, not on the shot. The trigger is the dodger turning the corner. Watch the Hot defender: he is already moving before Kluh has a shooting angle.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/TL__YxdGSKQ" loading="lazy" allowfullscreen title="Near Man Defense"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/bXz6dVXlz8g?start=70" loading="lazy" allowfullscreen title="How Maryland's Defense Held Syracuse to 7 Goals"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Near Man Defense</h3>
+                <span class="video-badge">Maryland</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <span class="video-badge clip">Starts at 1:10</span>
+                <h3 class="video-title">Adjacent Support & Backside Fill — Maryland vs Syracuse 2025</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Near Man is a hybrid — the nearest defender slides regardless of assigned position. It is the most instinctive slide package because every player is simply helping from wherever they are. This makes it harder for opponents to scout and predict rotations. The challenge is that it requires every defender to read the play in real time and communicate who is sliding. No predetermined assignments — just awareness and trust.
+                    <strong>Coach's Playbook:</strong> First Class Lacrosse breaks down how Maryland held Syracuse to seven goals. From this timestamp he shows Maryland supporting from the adjacent, hedging instead of crease-sliding, and the backside filling behind it.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Near Man defense requires constant communication. Without pre-set slide assignments, every defender must call "I'm hot!" based on position in real time. If two players slide, you leave two attackers open. If nobody slides, the dodger scores. Talk or die.
+                    <strong>Key Teaching Point:</strong> The adjacent defender does not always have to fully slide. A hard show that stops the dodger's feet buys the on-ball defender time to recover and keeps the crease covered.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/xEnD16D8zL0" loading="lazy" allowfullscreen title="Individual Defensive Play"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/xA8aErPf7To" loading="lazy" allowfullscreen title="Notre Dame Slide and Recovery vs Maryland"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge coaching">Coaching</span>
-                <h3 class="video-title">Individual Defensive Play — 1v1 Fundamentals</h3>
+                <span class="video-badge">Notre Dame</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <span class="video-badge clip">7 min</span>
+                <h3 class="video-title">Crease Slide & Recovery — Notre Dame vs Maryland</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Before any team defense works, every player must master 1v1 positioning — approach angle, body position, top hand pressure. Your approach should be at a 45-degree angle, forcing the dodger to his weak hand. Your feet should be moving in a breakdown position — never flat-footed, never lunging. Top hand pressure means your stick is in the dodger's gloves, disrupting his cradle and shot preparation without reaching and getting beat.
+                    <strong>Coach's Playbook:</strong> One full Notre Dame defensive possession, telestrated. Watch the crease defender get ball-side of his man, open his stance so he sees ball and man, pass the crease attacker off to the backside, then fire to X and recover inside.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> The best individual defenders do not try to steal the ball on every play. They contain. They force the dodger into help. They make the dodger pick up his dribble (or in lacrosse terms, stop his feet and look to pass). If the dodger has to pass out of his dodge, you won the rep. Turnovers are a bonus, not the goal.
+                    <strong>Key Teaching Point:</strong> The crease slide must be a full commitment. A half slide arrives late and leaves the crease open. When you go, sprint to the dodger's hands and take the shot away.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/fwKoKVTOt7s" loading="lazy" allowfullscreen title="Building D with 3v0s, 3v2s, 3v3s"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/F_xzXygfV94?start=62" loading="lazy" allowfullscreen title="Notre Dame Lacrosse a Defensive Masterclass"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge coaching">Coaching</span>
-                <h3 class="video-title">Building Defense with 3v0s / 3v2s / 3v3s</h3>
+                <span class="video-badge">Notre Dame</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <span class="video-badge clip">Starts at 1:02</span>
+                <h3 class="video-title">Slide Triggers & Inside-Out Recovery — Notre Dame 2023</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Part-whole teaching: start with no offense (3v0 rotations) so defenders can practice slide timing and recovery without pressure. Add 2 offensive players (3v2) to introduce decision-making. Then go live 3v3 to test everything under game conditions. This progression builds muscle memory before adding complexity. Every defensive concept in this playbook should be installed using this 3v0 to 3v3 progression.
+                    <strong>Coach's Playbook:</strong> Notre Dame's 2023 national title defense, clip by clip. Ben Ramsey denies topside at X and Chris Conlin slides from the crease-side wing. Later you see the hedge-then-go off a pick, and the beaten defender recovering to the inside first before finding a man.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> In the 3v0 phase, focus on footwork and verbal communication. Defenders should be calling "Ball! One! Two!" and sliding on a coach's whistle at full speed. If the communication and footwork are not right at 3v0, they will not be right at 6v6. Master the basics before adding chaos.
+                    <strong>Key Teaching Point:</strong> Recover inside-out. The beaten defender runs to the crease first, then out to the open man. Running straight to the perimeter leaves the middle empty.
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/6doDKTgpzvg" loading="lazy" allowfullscreen title="Yale Defense vs Duke 2018 National Championship film review"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Yale</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <span class="video-badge clip">7 min</span>
+                <h3 class="video-title">Full-Possession Team Defense — Yale vs Duke, 2018 National Championship</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> Duke's first possession of the title game. Duke dodges wing to middle and up both alleys hunting for Yale's slide. Yale's off-ball defenders talk, hedge, slide once, and recover until they force the turnover.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> Good offenses dodge to find your slide, not to score on the first move. Six players moving together on every dodge is what makes the slide package hold up for a full possession.
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-heading reveal">Practice: Building the Slide</div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/ubfMhSOY0ac" loading="lazy" allowfullscreen title="Notre Dame Drill of the Week: 5 On A Die"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Notre Dame</span>
+                <span class="video-badge coaching">D1 Practice</span>
+                <span class="video-badge clip">2 min</span>
+                <h3 class="video-title">5 On A Die — Notre Dame Slide & Recovery Drill</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> Official Notre Dame practice film. A preset 5v5 rotation drill where the defense slides, fills, recovers, and declares new roles out loud on every rep. Nobody stays in the same job for two possessions.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> Run it as a progression: 5v0 on a whistle for footwork and calls, then 5v3, then live. If the talk is not right at 5v0, it will not be right at 6v6.
                 </div>
             </div>
         </div>
@@ -494,148 +525,167 @@ body {
 
         <div class="section-intro reveal">
             <h2>Defending Picks</h2>
-            <p>Off-ball screens are the primary weapon of organized offenses at every level. Every defense must have a plan for how to handle them. The three main options are fight through (squeeze past the screen), switch (swap assignments), and hedge and recover (jump out to slow the ball, then retreat). The choice depends on personnel, location, and scouting report. At BTB, we teach all three responses so our defense can adapt to any situation.</p>
+            <p>The two-man game is the most common action in organized D1 offense. Every defense needs a plan for it. Our three answers are Through (fight over the top), Switch (swap men), and Hedge (the screener's defender shows and recovers). Which one we use depends on where the pick is set and who is setting it.</p>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/rKZU6IMtJvo" loading="lazy" allowfullscreen title="Defending 2-Man Games"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/8Sy9oBd5Wug" loading="lazy" allowfullscreen title="Defending 2 Man Game — Maryland Men's Lacrosse Defense 2023"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Defending 2-Man Games</h3>
+                <span class="video-badge">Maryland</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <h3 class="video-title">Defending the 2-Man Game — Maryland 2023</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> When your man sets a pick, you have 3 options: fight through, switch, or hedge and recover. The choice depends on where the ball is and your defensive system. If the screener's man is less dangerous (a weak shooter), switching is safe. If both players are threats, hedge and recover keeps matchups intact. If the ball is far from the goal, fight through — there is time to recover because the shot is not imminent.
+                    <strong>Coach's Playbook:</strong> Thirty seconds of Maryland game film isolated on one two-man game. Watch the on-ball defender's path through the pick and how the screener's defender positions himself to switch if needed.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> The screener's defender is the communicator. He sees the pick coming first because his man is the one setting it. He must call "Pick left!" or "Pick right!" early enough for the on-ball defender to prepare. A late call is as bad as no call. Give your teammate 2-3 seconds of warning.
-                </div>
-            </div>
-        </div>
-
-        <div class="video-card reveal">
-            <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/3802fpuzdkE" loading="lazy" allowfullscreen title="2-Man Game Pick Locations"></iframe>
-            </div>
-            <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">2-Man Game Pick Locations</h3>
-                <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Where the pick is set changes everything. Top-side picks vs wing picks vs X picks require different responses. A top-side pick at the top of the box gives the ball carrier a direct driving lane to the cage — you must switch or hedge aggressively. A wing pick at GLE creates an east-west problem — fight through is often the best option because the shooter needs to turn the corner before he has an angle. An X pick behind the goal is the least dangerous — you can fight through because the shot is not available until the dodger gets above GLE.
-                </div>
-                <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Scout the opponent's tendencies. Does the point attackman always use a right-side pick? Does the crease set picks at the same spot every possession? Knowing WHERE the pick is coming makes defending it 50% easier. Film study is your defensive cheat code.
+                    <strong>Key Teaching Point:</strong> The screener's defender is the communicator. He sees the pick first because his man is setting it. Late call, no call, and open shot are the same thing.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/qcN0RdFFF_M" loading="lazy" allowfullscreen title="Executing and Defending 2-Man Games"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/XLJq73KSTcg?start=150" loading="lazy" allowfullscreen title="The Big Game: Duke at Virginia, Episode Two"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <span class="video-badge coaching">Full Session</span>
-                <h3 class="video-title">Executing & Defending 2-Man Games — Full Breakdown</h3>
+                <span class="video-badge">Duke</span>
+                <span class="video-badge coaching">D1 Program Access</span>
+                <span class="video-badge clip">Starts at 2:30</span>
+                <h3 class="video-title">Inside Duke's Film Room — Hedge & Switch Rules vs Virginia</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Comprehensive breakdown — use timestamps to focus on defending shallow cuts (14:30-22:15) and defending pick-and-roll (35:00-48:00). This is the same film used in the Offense Playbook but from the defensive perspective. Watch how the defense communicates through each screen action. Notice how the best D1 defenses switch seamlessly — there is no hesitation, no confusion, because they have drilled every scenario in practice.
+                    <strong>Coach's Playbook:</strong> USA Lacrosse goes inside Duke's game-plan meeting before playing Virginia and Steele Stanwick. Coach Chris Gabrielli teaches the hedge on film: hedge in the direction the ball carrier is going, do not over-hedge, and read the contact instead of predetermining the switch.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> After every pick, there is a 1-2 second window where the defense is vulnerable. The faster you recover after a switch or hedge, the smaller that window becomes. Defensive recovery speed is the most underrated skill in lacrosse. Sprint back to position — never walk.
+                    <strong>Key Teaching Point:</strong> You cannot decide Through or Switch before the pick happens. Read the contact, talk, and be decisive. Hesitation is the only wrong answer.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/jUlHAUToyhE" loading="lazy" allowfullscreen title="Salisbury Call Drill"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/j9kSgEEjo4U" loading="lazy" allowfullscreen title="Virginia scores 5 goals on picks against Michigan"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge coaching">Coaching</span>
-                <h3 class="video-title">Salisbury Call Drill — Communication Under Pressure</h3>
+                <span class="video-badge">Virginia</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <h3 class="video-title">Pick Locations — Why Virginia Scored 5 on Picks vs Michigan</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Communication drill that forces defenders to call out picks, slides, and switches in live situations. Salisbury University made this drill famous — they run it every single practice. The drill puts defenders in rapid-fire pick scenarios and requires them to communicate the correct call within 1 second. If you hesitate, the offense scores. If you call the wrong response, the offense scores. It is a defensive IQ test disguised as a drill.
+                    <strong>Coach's Playbook:</strong> Scout it from the offense's side. Virginia scores five times off picks set at X, on the wing, and up top, most of them by freshman McCabe Millon. Each location gives the defense a different problem and Michigan's answers arrive late every time.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Run this drill at the start of practice when players are fresh and focused. Communication habits are built in the first 15 minutes, not the last. Make it a non-negotiable daily drill and your pick defense will improve dramatically within two weeks.
+                    <strong>Key Teaching Point:</strong> Location decides the answer. Top-side picks give a direct lane to the cage, so we Switch or Hedge hard. Wing picks at GLE we fight Through because the shooter still has to turn the corner. X picks we fight Through because there is no shot until he gets above GLE.
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/SxcfMJWpfqE" loading="lazy" allowfullscreen title="Duke pick and roll 2 man game from X"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Duke</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <h3 class="video-title">X Pick-and-Roll — Duke vs Syracuse</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> Jordan Wolf dodges off a David Lawson pick at X, draws the double, and passes back to finish the pick-and-roll. Watch how the pick behind the cage pulls short-sticks into bad matchups and forces Syracuse's slide package to rotate.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> After every pick there is a one to two second window where the defense is vulnerable. The faster the recovery after a Switch or Hedge, the smaller that window gets.
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-heading reveal">Deep Dive</div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/6SFp0a2Ycig" loading="lazy" allowfullscreen title="Defending the 2 Man Game at X — IMLCA Convention 2020"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Marist</span>
+                <span class="video-badge coaching">D1 Coach Clinic</span>
+                <span class="video-badge clip">49 min</span>
+                <h3 class="video-title">Defending the 2-Man Game at X — Marist Staff, IMLCA 2020</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> Marist head coach Keegan Wilkinson and defensive coordinator Dave Scarcello present their full convention session. Covers getting under or over the pick, re-engaging hands after the pick, switch-on-contact rules, crease support, and the drills they use to install it.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> This is for coaches, not a sideline clip. Watch it once before you install pick defense and steal the drill progression.
                 </div>
             </div>
         </div>
     </div>
 
     <!-- ═══════════════════════════════════════ -->
-    <!-- TAB: CUTTERS & HELP                     -->
+    <!-- TAB: OFF-BALL & HELP                    -->
     <!-- ═══════════════════════════════════════ -->
     <div class="tab-panel" id="cutters" role="tabpanel">
 
         <div class="section-intro reveal">
-            <h2>Cutters & Help Defense</h2>
-            <p>Off-ball cutters are the silent killers of team defense. While everyone watches the ball, a good offensive player cuts through the lane, gets behind his defender, and receives a feed for a layup. Defending cutters requires three things: bump responsibility, weak-side vision, and the ball-you-man triangle. Every defender must be able to see his man AND the ball at all times. If you lose sight of either one, you are about to give up a goal.</p>
+            <h2>Off-Ball Defense & Help</h2>
+            <p>Off-ball cutters are the silent killers of team defense. While everyone watches the ball, a good attackman cuts through the lane, gets behind his man, and finishes a feed. Defending it takes three things: the ball-you-man triangle, bump responsibility, and weak-side vision.</p>
         </div>
 
         <div class="term-box reveal">
             <h3>The Ball-You-Man Triangle</h3>
-            <div class="term-item"><strong>The Concept:</strong> Position your body so you can draw a triangle between the ball, yourself, and your man. You should be able to see both without turning your head more than 90 degrees. If you have to spin around to find the ball or your man, you are out of position.</div>
-            <div class="term-item"><strong>One Pass Away:</strong> When your man is one pass away, you should be in a deny position — half a body between your man and the ball, stick in the passing lane, head turned to see both. You are ready to either contest the pass or slide to the ball.</div>
-            <div class="term-item"><strong>Two Passes Away:</strong> When your man is two passes away, sag toward the crease and the ball. You are in a help position. Your man is not an immediate threat, so your job is to protect the middle and be ready to bump cutters or provide a two-slide.</div>
-            <div class="term-item"><strong>When a Cutter Enters Your Zone:</strong> Call "Cutter!" and use your body to redirect him. You do not need to follow him across the entire field — bump him, alter his path, and pass him to the next defender. Think of it like a relay race: you own your zone, and you hand off the cutter to the next zone.</div>
+            <div class="term-item"><strong>The Rule:</strong> Position yourself so you can see the ball and your man without turning your head more than 90 degrees. If you have to spin to find one of them, you are out of position.</div>
+            <div class="term-item"><strong>One Pass Away:</strong> Deny position. Half a body between your man and the ball, stick in the passing lane, ready to contest the pass or be Hot.</div>
+            <div class="term-item"><strong>Two Passes Away ("Dead Side"):</strong> Sag toward the crease and the ball. You protect the middle, bump cutters, and are the second slide.</div>
+            <div class="term-item"><strong>A Cutter Enters Your Zone:</strong> Call "Cutter," bump him, and pass him to the next defender. It is a relay. You own your zone, not the cutter.</div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/xEnD16D8zL0" loading="lazy" allowfullscreen title="Off-Ball Defensive Positioning"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/UGRkkLFv-Vw" loading="lazy" allowfullscreen title="Defensive Off-ball Positioning — Jordan Stevens, Cornell"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Off-Ball Defensive Positioning and Help Concepts</h3>
+                <span class="video-badge">Cornell</span>
+                <span class="video-badge coaching">D1 Coach Clinic</span>
+                <h3 class="video-title">Off-Ball Positioning — Cornell DC Jordan Stevens</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> The best defenders in college lacrosse are not always guarding the best attackmen. They are the ones providing help that nobody sees on the stat sheet. Watch the weak-side defenders in this film — they are constantly adjusting their position based on where the ball is. Every pass, they move. Every dodge, they shift. They are never standing still. That is help defense — constant, disciplined, unglamorous movement that prevents goals.
+                    <strong>Coach's Playbook:</strong> Cornell's defensive coordinator walks through the off-ball stance (sideways, see man and ball), the difference between adjacent, slider, and slider-support jobs, and how off-ball defenders judge the quality of on-ball defense before they commit help.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Move your feet on every pass. When the ball swings from one side to the other, every defender must adjust. Two steps toward the ball, two steps toward the crease. These small adjustments keep the triangle intact and prevent cutters from getting behind you. Static defenders get scored on.
+                    <strong>Key Teaching Point:</strong> Move your feet on every pass. Two steps toward the ball, two steps toward the crease. Static defenders get scored on.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/fwKoKVTOt7s" loading="lazy" allowfullscreen title="Help Defense in Team Settings"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/0D04crVSZYc" loading="lazy" allowfullscreen title="Duke 1-3-2 Shallow Cut Midfield Dodging Offense"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge coaching">Coaching</span>
-                <h3 class="video-title">Team Help Defense — 3v3 and 6v6 Concepts</h3>
+                <span class="video-badge">Duke</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <h3 class="video-title">Duke's Shallow Cut — What Cutters Do to Your Help</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> This session progresses from 3v3 help-side rotations to full 6v6 defensive possessions. In the 3v3 portion, focus on how the two off-ball defenders adjust when the ball carrier drives. One slides, one rotates — and the rotation must happen simultaneously with the slide, not after. In the 6v6 portion, watch how the entire defense shifts as a unit. Six players moving together is what makes elite team defense — it cannot be one or two players doing the work while the others stand still.
+                    <strong>Coach's Playbook:</strong> Duke's 1-3-2 shallow-cut set. The adjacent midfielder cuts under the dodge and pops back to top center. The breakdown shows every option off the cut and how D1 defenses answered it with a hedge, a stay, or a switch.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Help defense is a team commitment. If one player sags to help and another does not rotate, the defense has a hole. Build the habit in practice: every time one defender slides, every other defender moves. No exceptions, no freelancing, no ball-watching. Move as one unit or the system breaks down.
+                    <strong>Key Teaching Point:</strong> The shallow cut is a pick and a cut at the same time. The cutter's defender must call it early and decide with his teammate whether he goes Through or they Switch before the dodger reaches the cut.
                 </div>
             </div>
         </div>
 
-        <div class="comm-box reveal">
-            <h3>Cutter Defense Communication Calls</h3>
-            <div class="comm-call">
-                <div class="call">"CUTTER THROUGH!"</div>
-                <div class="meaning">An attacker is cutting through the crease area. All nearby defenders must be aware and prepared to bump or body the cutter to disrupt his timing and path.</div>
+        <div class="sub-heading reveal">Practice: Hot Man & On-Ball on the Same Page</div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/BbT_o-QKPmo" loading="lazy" allowfullscreen title="Trail Position Slide Drill: Cornell Men's Lacrosse"></iframe>
             </div>
-            <div class="comm-call">
-                <div class="call">"BUMP HIM!"</div>
-                <div class="meaning">The cutter is in your zone — use your body to redirect his path. Legal contact, chest to chest, alter his angle so he cannot receive a clean feed on the crease.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"I GOT HIM THROUGH!"</div>
-                <div class="meaning">You are picking up the cutter as he exits one defender's zone and enters yours. This is the relay hand-off — the first defender can release back to his man because you have the cutter now.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"DEAD SIDE!"</div>
-                <div class="meaning">The ball is on the opposite side of the field from your man. You are in full help position — sagged to the crease, protecting the middle, eyes on the ball. Your man is not an immediate threat.</div>
+            <div class="video-info">
+                <span class="video-badge">Cornell</span>
+                <span class="video-badge coaching">D1 Practice</span>
+                <h3 class="video-title">Trail Position Slide Drill — Cornell Practice</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> Live Cornell practice with the staff coaching each rep. The on-ball defender starts at a disadvantage on purpose so he and the slider have to connect: trail position, a predictable body angle, and an audible slide call.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> When you are beaten, trail with a purpose. Stay on the dodger's hip so the slider knows exactly where the ball is going and can meet it early.
+                </div>
             </div>
         </div>
     </div>
@@ -647,73 +697,104 @@ body {
 
         <div class="section-intro reveal">
             <h2>Man-Down Defense</h2>
-            <p>Playing a man down is the ultimate test of defensive discipline. You are outnumbered 6-on-5, which means there is always an open attacker. The question is not IF the offense finds the open man — it is HOW LONG it takes them. Great man-down defense extends that clock, forces extra passes, and creates enough pressure to cause turnovers. At BTB, we install multiple man-down packages so we can adjust based on the opponent's extra-man offense.</p>
+            <p>Five against six means somebody is always open. The question is how long it takes the offense to find him. Good man-down defense makes them throw extra passes, contests every shot, and steals possessions. Our base is the Box-and-1. Our change-up is pressure.</p>
+        </div>
+
+        <div class="term-box reveal">
+            <h3>BTB Man-Down Packages</h3>
+            <div class="term-item"><strong>Box-and-1 (base):</strong> Four defenders in a box that rotates with the ball, one locked on the crease. Simplest to teach and hardest for young EMO units to break. Install this first.</div>
+            <div class="term-item"><strong>Pressure:</strong> Get out to the ball carrier's hands and speed him up while the backside collapses. Use it once or twice a game when the opponent's EMO has found a rhythm, not as your base.</div>
+            <div class="term-item"><strong>Surprise Lock:</strong> Show the box for ten to fifteen seconds, then on a sideline call lock man-to-man. Pre-assign the matchups before the penalty. Film for this look is still being sourced.</div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/pev8Lh9e6ng" loading="lazy" allowfullscreen title="Box and 1 Man-Down"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/T_6abjxKKE8" loading="lazy" allowfullscreen title="Notre Dame Men's Lacrosse 2023 — Man Down Defense (4 Man Rotation)"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Box and 1 Man-Down</h3>
+                <span class="video-badge">Notre Dame</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <span class="video-badge clip">46 sec</span>
+                <h3 class="video-title">Box-and-1 Rotation — Notre Dame vs Duke 2023</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Foundation formation. 4 defenders in a box around the crease, 1 chases the ball. The box shifts as the ball moves — practice the rotation until it is automatic. The chaser applies pressure to the ball carrier, forcing him to pass quickly and inaccurately. The four box defenders protect the inside — they give up perimeter shots but take away feeds and inside looks. At the youth level, this is the first man-down you install because it is the simplest to teach and the hardest for young EMO units to break down.
+                    <strong>Coach's Playbook:</strong> The 2023 national champions kill a Duke extra-man. Four perimeter defenders rotate as the ball moves while the fifth stays locked inside. Duke never gets a shot off.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> The box must shift as a unit. When the ball moves from the top to the wing, all four defenders slide one spot in the same direction. If one defender is late, a seam opens. Practice this rotation with no offense (5v0) until the box moves like a single organism. Then add offense and watch how the rotation holds up under pressure.
-                </div>
-            </div>
-        </div>
-
-        <div class="video-card reveal">
-            <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/9B-DbHoCERg" loading="lazy" allowfullscreen title="House Zone Man-Down Virginia 2019"></iframe>
-            </div>
-            <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">House Zone Man-Down — Virginia 2019 Championship</h3>
-                <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Virginia's championship man-down rotation. More aggressive than a standard box — defenders jump passing lanes and anticipate. The "house" shape means the defense forms the outline of a house (two up, two on the sides, one at the point of the roof chasing). This creates better passing lane coverage than a flat box but requires higher IQ because each defender must read the ball movement and jump routes. Watch how Virginia's defenders cheat toward the next pass before it is thrown — they are reading the passer's eyes and shoulders.
-                </div>
-                <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Install the House Zone only after your team has mastered the basic Box and 1. The House requires defenders to make reads that the Box does not. If your players cannot rotate a basic box consistently, the House will break down and give up easy goals. Progression matters.
+                    <strong>Key Teaching Point:</strong> The box shifts as a unit. When the ball goes from the top to the wing, all four slide one spot the same direction. One late defender opens a seam.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/hrzYFIyQWTI" loading="lazy" allowfullscreen title="Pushin P Man-Down"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/rLDWkJ2dcKM" loading="lazy" allowfullscreen title="Syracuse man-down diamond rotation"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Pushin P Man-Down — Pressure Package</h3>
+                <span class="video-badge">Syracuse</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <span class="video-badge clip">1 min</span>
+                <h3 class="video-title">Diamond Rotation, Second Look — Syracuse</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Flip the script — pressure the ball carrier instead of sitting back. High risk but disrupts the opponent's EMO rhythm. "Pushin P" means pushing pressure — two defenders chase the ball aggressively while three protect the inside. The goal is to speed up the offense and force rushed decisions. This is your change-up man-down — you run it when the opponent has settled into a comfortable EMO rhythm and you need to disrupt their timing. Use it once or twice per game, not as your base package.
+                    <strong>Coach's Playbook:</strong> Same idea in a diamond shape instead of a box: four Syracuse defenders rotate to the ball while the crease stays covered and inside looks are denied. Players see the rotation is a system, not a Notre Dame trick.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> The trap must happen in a corner or along the sideline. Never trap in the middle of the field — if the offense splits the trap, they have numbers to the cage. Force the ball carrier to the sideline, then bring the second defender. The three remaining defenders collapse to the crease and protect inside.
+                    <strong>Key Teaching Point:</strong> Practice the rotation 5v0 until the box moves like one body. Then add the offense and see if it holds.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/R26pAhoXoNA" loading="lazy" allowfullscreen title="Box and Surprise Lock Man-Down"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/kyC0UI2Ru44" loading="lazy" allowfullscreen title="Syracuse Junkyard Dogs man-down film breakdown"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Box and Surprise Lock Man-Down</h3>
+                <span class="video-badge">Syracuse</span>
+                <span class="video-badge d1">D1 Film Breakdown</span>
+                <span class="video-badge clip">4 min</span>
+                <h3 class="video-title">Pressure Package — Syracuse "Junkyard Dogs" vs Duke 2024</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Start in Box and 1, then on a sideline call, shift to man-to-man (lock). This catches the offense off guard when they have adjusted to the zone. The offense spends the first 10-15 seconds reading a zone, moving the ball around the perimeter, looking for seams. Then on a whistle or a verbal cue from the sideline, all five defenders lock onto a specific attacker and play man-to-man. Suddenly the EMO looks completely different and the offense has to re-read everything. It is a chess move — and it works especially well against teams that run scripted EMO plays.
+                    <strong>Coach's Playbook:</strong> Syracuse's dedicated five-man unit holds Duke's EMO to 0-for-2. They play a loose shape, get out to hands on the ball, collapse on the backside, and rotate to knock down passes.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> Pre-assign the lock matchups before the penalty. Every defender should know exactly which attacker he is locking onto when the call comes. No confusion, no hesitation. The element of surprise only works if the transition from zone to man is instant and clean.
+                    <strong>Key Teaching Point:</strong> Pressure only works if the other four trust it. When the ball defender goes, everyone else collapses to the crease together. One defender staying high gives the offense an easy escape pass.
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/HMz0gTEwax0" loading="lazy" allowfullscreen title="UNC man-up offense against the Maryland man down defense"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Maryland</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <span class="video-badge clip">4 min</span>
+                <h3 class="video-title">Maryland Man-Down vs UNC Extra-Man — All Four Possessions</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> Every UNC extra-man possession from one game. UNC finishes 1-for-4. Watch Maryland's on-ball pressure string UNC out, sticks in the lanes, and the backside covering the crease while the ball is pressured.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> Judge man-down by possessions, not goals. Forcing four passes and a bad-angle shot is a win even if one of four gets in.
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-heading reveal">Coach Clinic</div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/3qthdgKYvqE" loading="lazy" allowfullscreen title="Man Down Defense: How to Play the Grey with Charley Toomey"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Loyola</span>
+                <span class="video-badge coaching">D1 Coach Clinic</span>
+                <span class="video-badge clip">8 min</span>
+                <h3 class="video-title">Playing the Grey — Loyola HC Charley Toomey</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> The 2012 national champion coach teaches man-down "grey" responsibilities: the adjacent defenders split two while the on-ball defender gets out and pressures, and how the rotation covers when the ball moves.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> Splitting two is a skill. Sit in the middle of both attackers, stick up, and take whichever one catches it. Do not lean to either man before the pass.
                 </div>
             </div>
         </div>
@@ -726,70 +807,88 @@ body {
 
         <div class="section-intro reveal">
             <h2>3-3 Zone Defense</h2>
-            <p>Zone defense is not just for teams that cannot play man-to-man. It is a strategic weapon that changes the game. The 3-3 zone puts three defenders across the top and three on the crease, creating a wall that takes away inside shots and forces the offense to shoot from the perimeter. It is especially effective against teams that rely on dodging and 2-man games because there is no one to dodge against — the zone shifts to the ball, not to a man. At BTB, we install the 3-3 zone as a change-of-pace defense that we can call from the sideline when the opponent is in rhythm against our man-to-man.</p>
+            <p>Zone is a weapon, not a fallback. Three defenders across the top and three on the crease build a wall that takes away inside shots and forces the offense to beat you from the perimeter. It is especially effective against dodging teams because there is nobody to dodge. The zone shifts to the ball, not to a man. At BTB it is a change of pace we call from the sideline when the opponent is in rhythm against our man-to-man.</p>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/MQEnQtZem-o" loading="lazy" allowfullscreen title="Wesleyan Championship 3-3 Zone"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/pYdDg-Vz5UQ" loading="lazy" allowfullscreen title="Maryland runs a 3-3 zone defense against Duke"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Wesleyan Championship 3-3 Zone</h3>
+                <span class="video-badge">Maryland</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <span class="video-badge clip">28 sec</span>
+                <h3 class="video-title">Maryland 3-3 Zone vs Duke</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Wesleyan ran this zone to a championship. Three up top, three on the crease. Each defender owns a zone — not a man. When the ball moves to the right, the entire zone shifts right. When the ball goes behind the cage, the crease defenders pinch and the top defenders sag. The key is that every defender moves on the pass, not after the catch. If you wait until the receiver has the ball, you are a step late and the seam is already open. Wesleyan's defense was elite because they shifted before the ball arrived.
+                    <strong>Coach's Playbook:</strong> One clean possession of Maryland dropping into a 3-3 against Duke. Watch the three-up, three-down shell, perimeter sticks in the lanes, and the top line bumping over with each pass.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> In a 3-3 zone, the hardest area to defend is the seam between the top defender and the crease defender on the ball side. The offense will attack that seam with a dodger from the wing or a cutter from up top. Both defenders must communicate — "I have ball!" and "I have low!" — so the seam closes before the offense can exploit it.
+                    <strong>Key Teaching Point:</strong> Move on the pass, not the catch. If you wait until the receiver has the ball you are a step late and the seam is already open.
                 </div>
             </div>
         </div>
 
         <div class="video-card reveal">
             <div class="video-embed">
-                <iframe src="https://www.youtube-nocookie.com/embed/MWg_b503Ijw" loading="lazy" allowfullscreen title="Wild Cat Trap Zone"></iframe>
+                <iframe src="https://www.youtube-nocookie.com/embed/oYd-smuIfIU" loading="lazy" allowfullscreen title="UVA Zone Defense — US Lacrosse CEP"></iframe>
             </div>
             <div class="video-info">
-                <span class="video-badge">POWLAX</span>
-                <span class="video-badge d1">D1 Film</span>
-                <h3 class="video-title">Wild Cat Trap Zone</h3>
+                <span class="video-badge">Virginia</span>
+                <span class="video-badge coaching">D1 Coach Clinic</span>
+                <span class="video-badge clip">3 min</span>
+                <h3 class="video-title">Virginia's 2011 Championship Zone</h3>
                 <div class="coach-note">
-                    <strong>Coach's Playbook:</strong> Aggressive zone variation that traps ball carriers in specific zones on the field. When the ball enters the "trap zone" (usually the wing or the alley), two defenders converge and the remaining four collapse inside. The trap creates rushed passes, turnovers, and fast break opportunities going the other way. This is not a passive zone — it is a hunting zone. The defense is dictating where the ball goes and then attacking it when it gets there.
+                    <strong>Coach's Playbook:</strong> The zone that won Virginia the 2011 national title, cut for the US Lacrosse Level 3 coaching clinic. Shows base, wing, and top responsibilities, rotations on skip passes, and how the crease defender handles interior cutters.
                 </div>
                 <div class="teaching-point">
-                    <strong>Key Teaching Point:</strong> The trap only works if the four non-trapping defenders collapse to protect the inside. If one defender stays high while the trap is on, the offense has an easy escape pass and a 4-on-3 advantage going to the cage. Trust the trap — everyone collapses together or the scheme falls apart.
+                    <strong>Key Teaching Point:</strong> The hardest seam to defend is between the ball-side top defender and the ball-side crease defender. Both must talk: "I have ball" and "I have low" closes it before the offense attacks it.
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/y9mXncu1Z0k" loading="lazy" allowfullscreen title="Bryant plays a 3-3 zone against Syracuse"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Bryant</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <span class="video-badge clip">53 sec</span>
+                <h3 class="video-title">Bryant 3-3 Zone vs Syracuse — NCAA Tournament</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> A lower seed uses the 3-3 to shrink the field against an elite offense in the NCAA first round. This is why we carry a zone: it lets a less athletic group force outside shots and control tempo.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> Zone is a decision, not a surrender. Call it with a purpose, run it for a set number of possessions, and get back to man before the offense adjusts.
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card reveal">
+            <div class="video-embed">
+                <iframe src="https://www.youtube-nocookie.com/embed/ndaAAqoJXqM" loading="lazy" allowfullscreen title="Virginia Men's Lacrosse Zone Defense 2022"></iframe>
+            </div>
+            <div class="video-info">
+                <span class="video-badge">Virginia</span>
+                <span class="video-badge d1">D1 Game Film</span>
+                <h3 class="video-title">Virginia's Pressure Zone — 2022</h3>
+                <div class="coach-note">
+                    <strong>Coach's Playbook:</strong> A compilation of Virginia's 2022 zone under Lars Tiffany. This is the aggressive end of the zone spectrum: the shell extends to the ball and doubles on the wings instead of sitting back.
+                </div>
+                <div class="teaching-point">
+                    <strong>Key Teaching Point:</strong> A trap only works if the other four collapse together. When two go to the ball, everyone else sinks to the crease. One defender staying high gives the offense the escape pass and a numbers advantage.
                 </div>
             </div>
         </div>
 
         <div class="term-box reveal">
-            <h3>Zone Defense Terminology</h3>
-            <div class="term-item"><strong>Zone Shift:</strong> The entire defense moving in one direction as the ball moves. All six defenders shift on every pass — this is what keeps the zone intact and prevents seams from opening.</div>
-            <div class="term-item"><strong>Seam:</strong> The gap between two zones. The offense's primary goal against a zone is to find and attack the seam. Defenders must communicate to close seams before the ball gets there.</div>
-            <div class="term-item"><strong>Match-up Zone:</strong> A hybrid where defenders play zone principles but lock onto the nearest attacker when the ball enters their area. Combines the advantages of zone (help and coverage) with the advantages of man (accountability and pressure).</div>
-            <div class="term-item"><strong>Trap Zone:</strong> A designated area on the field where the defense sends two defenders to double-team the ball carrier. The rest of the defense collapses to protect the inside, gambling that the trap creates a turnover before the offense can swing the ball out.</div>
-            <div class="term-item"><strong>Zone Buster:</strong> An offensive player positioned in the seam between two defenders. He forces the defense to choose — who covers him? The zone buster is the offense's answer to zone defense, and defenders must communicate to deny him the ball.</div>
-        </div>
-
-        <div class="comm-box reveal">
-            <h3>Zone Communication Calls</h3>
-            <div class="comm-call">
-                <div class="call">"SHIFT LEFT!" / "SHIFT RIGHT!"</div>
-                <div class="meaning">The ball has moved and the entire zone must slide in the same direction. Every defender moves on this call — no exceptions.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"PINCH!"</div>
-                <div class="meaning">The ball is behind the cage. Crease defenders squeeze tight to the goal, top defenders sag into the middle. Take away the feed to the crease and force a perimeter shot.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"TRAP! TRAP!"</div>
-                <div class="meaning">Two defenders converge on the ball carrier. The rest of the defense collapses inside. This is an aggressive call — once committed, everyone must execute or the defense is exposed.</div>
-            </div>
-            <div class="comm-call">
-                <div class="call">"SEAM! SEAM!"</div>
-                <div class="meaning">A warning that an offensive player is sitting in the gap between two defenders. Both adjacent defenders must adjust to close the seam and deny the pass.</div>
-            </div>
+            <h3>Zone Terminology</h3>
+            <div class="term-item"><strong>Shift:</strong> All six defenders move the same direction on every pass. This is what keeps the zone intact.</div>
+            <div class="term-item"><strong>Seam:</strong> The gap between two zones. The offense's whole plan is to find and attack it.</div>
+            <div class="term-item"><strong>Pinch:</strong> Ball behind the cage. Crease defenders squeeze the goal, top defenders sag into the middle, force a perimeter shot.</div>
+            <div class="term-item"><strong>Match-Up Zone:</strong> Zone principles, but defenders lock the nearest attacker when the ball enters their area.</div>
+            <div class="term-item"><strong>Trap Zone:</strong> Two defenders double the ball in a designated area (usually the wing) while the other four collapse inside. Only works if all four collapse together.</div>
+            <div class="term-item"><strong>Zone Buster:</strong> The attacker who sits in a seam and forces two defenders to decide who has him. Communicate to deny him the ball.</div>
         </div>
     </div>
 
@@ -814,16 +913,16 @@ body {
             </div>
             <div class="footer-col">
                 <h4>Resources</h4>
-                <a href="btb-boys-offense-playbook.html">Offense Playbook</a>
-                <a href="btb-boys-defense-playbook.html">Defense Playbook</a>
-                <a href="btb-boys-transition-playbook.html">Transition Playbook</a>
+                <a href="/btb-boys-offense-playbook.html">Offense Playbook</a>
+                <a href="/btb-boys-defense-playbook.html">Defense Playbook</a>
+                <a href="/btb-boys-transition-playbook.html">Transition Playbook</a>
                 <a href="/contact">Contact</a>
             </div>
             <div class="footer-col">
                 <h4>Contact</h4>
                 <a href="mailto:info@bethebestli.com">info@bethebestli.com</a>
                 <a href="https://www.instagram.com/bethebestli/" target="_blank" rel="noopener">@bethebestli</a>
-                <a>Long Island, NY</a>
+                <span>Long Island, NY</span>
             </div>
         </div>
         <div class="footer-bottom">
@@ -846,6 +945,7 @@ body {
 
                 tab.classList.add('active');
                 tab.setAttribute('aria-selected', 'true');
+                tab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
                 const target = document.getElementById(tab.dataset.tab);
                 if (target) {
                     target.classList.add('active');
@@ -858,11 +958,8 @@ body {
         // ── Navbar scroll shadow ──
         window.addEventListener('scroll', () => {
             const header = document.getElementById('navbar');
-            if (window.scrollY > 40) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            if (window.scrollY > 40) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         });
 
         // ── Mobile Menu Toggle ──
@@ -871,8 +968,7 @@ body {
             const btn = document.getElementById('hamburger');
             nav.classList.toggle('open');
             btn.classList.toggle('active');
-            const expanded = nav.classList.contains('open');
-            btn.setAttribute('aria-expanded', expanded);
+            btn.setAttribute('aria-expanded', nav.classList.contains('open'));
         }
 
         document.querySelectorAll('.btb-nav a').forEach(link => {
@@ -900,9 +996,7 @@ body {
             const hash = window.location.hash.replace('#', '');
             if (hash) {
                 const targetTab = document.querySelector(`[data-tab="${hash}"]`);
-                if (targetTab) {
-                    targetTab.click();
-                }
+                if (targetTab) targetTab.click();
             }
         });
     </script>
