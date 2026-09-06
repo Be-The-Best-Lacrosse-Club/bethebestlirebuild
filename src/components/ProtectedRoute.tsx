@@ -19,6 +19,7 @@ function isCoachRoute(pathname: string): boolean {
   return (
     pathname.includes("/coaches-hub") ||
     pathname === "/coach-tools" ||
+    pathname === "/coach-filmroom" ||
     pathname.startsWith("/coach-ed")
   )
 }

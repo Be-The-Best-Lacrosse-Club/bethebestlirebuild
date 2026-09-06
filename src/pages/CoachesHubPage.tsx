@@ -489,6 +489,15 @@ export function CoachesHubPage({ gender }: CoachesHubPageProps) {
         ref={(el) => { sectionRefs.current["film"] = el }}
         className="bg-neutral-950 border-b border-white/[0.07]"
       >
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <p className="text-[var(--btb-red)] font-bold uppercase tracking-widest mb-3">Coach Film Study</p>
+          <h2 className="font-display text-4xl text-white mb-3">Filmroom with Coach Dan</h2>
+          <p className="text-white/70 max-w-2xl mb-6">Explore 84 NCAA Division I men’s and women’s quarterfinal, semifinal, and championship games from 2021–2026. Filter by coaching focus, study sourced breakdowns, and build your film sessions.</p>
+          <a href="/coach-filmroom" className="inline-flex items-center gap-3 bg-[var(--btb-red)] hover:bg-[var(--btb-red-dark)] text-white font-bold px-6 py-4 rounded-lg transition-colors">
+            Open Filmroom <ArrowRight size={18} />
+          </a>
+          <p className="text-white/50 text-sm mt-3">Included with your BTB coach/admin login.</p>
+        </div>
         <div className="w-full h-[800px]">
           <iframe
             src="https://btb-film-lab.netlify.app/iq/"

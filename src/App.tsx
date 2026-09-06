@@ -14,6 +14,7 @@ import { ParentPortalPage } from "@/pages/ParentPortalPage"
 import { InterestFormPage } from "@/pages/InterestFormPage"
 import { ProgramPage } from "@/pages/ProgramPage"
 import { DigitalAcademyHubPage } from "@/pages/DigitalAcademyHubPage"
+import { CoachFilmroomPage } from "@/pages/CoachFilmroomPage"
 import { CoachesHubPage } from "@/pages/CoachesHubPage"
 import { TravelPage } from "@/pages/TravelPage"
 import { CoachingStaffPage } from "@/pages/CoachingStaffPage"
@@ -151,6 +152,7 @@ function App() {
               <Route path="/parent-hub" element={<ParentPortalPage />} />
               <Route path="/parent-portal" element={<ParentPortalPage />} />
               <Route path="/coach-tools" element={<CoachToolsPage />} />
+              <Route path="/coach-filmroom" element={<CoachFilmroomPage />} />
               <Route
                 path="/coach-ed/whiteboard"
                 element={

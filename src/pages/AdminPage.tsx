@@ -3,6 +3,7 @@ import { useNavigate } from "react-router"
 import { SEO } from "@/components/shared/SEO"
 
 const areas = [
+  ["Filmroom with Coach Dan", "NCAA championship breakdowns and coaching film sessions", "/coach-filmroom"],
   ["Website Editor", "Edit website content with your approved staff account", "/admin/"],
   ["Boys Coaches Hub", "Practice plans, film, and Boys coaching resources", "/boys/coaches-hub"],
   ["Girls Coaches Hub", "Practice plans, film, and Girls coaching resources", "/girls/coaches-hub"],
