@@ -1342,6 +1342,7 @@
         // Normalize visual analysis fields to match transcript-path field names.
         // Gemini returns source_start_seconds / source_end_seconds per the prompt;
         // the legacy `start` / `end` fallbacks are kept for any older response shape.
+        if (data.partial && data.warning) showError(data.warning);
         return (data.plays || []).map((p, i) => {
             const startSec = Number(p.source_start_seconds ?? p.start ?? 0);
             const endSec = Number(p.source_end_seconds ?? p.end ?? 0);
