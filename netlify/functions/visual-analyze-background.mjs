@@ -16,6 +16,10 @@
 
 import { getStore } from "@netlify/blobs";
 import { guardRequest } from "./_guard.js";
+import {
+  buildGeminiVideoRequest,
+  parseGeminiPlays,
+} from "./_gemini-video-analysis.mjs";
 
 const VISUAL_PROMPT = `You are an expert lacrosse film analyst for BTB Lacrosse Club on Long Island, NY.
 Watch this lacrosse game video and identify EVERY notable play — not just the highlights.
@@ -132,9 +136,11 @@ export default async (req) => {
   // Do the long-running work. Errors are caught and recorded so the client
   // poller can surface them — never let this throw uncaught.
   try {
-    const videoUrl = youtube_url.startsWith("http")
-      ? youtube_url
-      : `https://www.youtube.com/watch?v=${video_id}`;
+    // Use a canonical public YouTube URL. Gemini's video input expects the URL
+    // in a file_data part rather than embedded as prose in the prompt.
+    const videoUrl = video_id
+      ? `https://www.youtube.com/watch?v=${video_id}`
+      : youtube_url;
 
     const contextLines = [
       game_title ? `Game: ${game_title}` : "",
@@ -154,16 +160,7 @@ export default async (req) => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{
-            role: "user",
-            parts: [{ text: `VIDEO URL: ${videoUrl}\n\n${promptText}` }],
-          }],
-          generationConfig: {
-            maxOutputTokens: 16384,
-            temperature: 0.2,
-          },
-        }),
+        body: JSON.stringify(buildGeminiVideoRequest(videoUrl, promptText)),
       }
     );
 
@@ -190,29 +187,27 @@ export default async (req) => {
       return new Response("", { status: 200 });
     }
 
-    const rawText = candidate.content?.parts?.[0]?.text ?? "";
+    const rawText = (candidate.content?.parts ?? [])
+      .filter((part) => !part.thought && typeof part.text === "string")
+      .map((part) => part.text)
+      .join("");
     if (!rawText) {
       await writeJob(jobId, { status: "error", error: "Gemini returned an empty response for this video." });
       return new Response("", { status: 200 });
     }
 
     let plays;
+    let partial = false;
     try {
-      let cleaned = rawText.replace(/^```(?:json)?\s*/m, "").replace(/\s*```\s*$/m, "").trim();
-      const arrStart = cleaned.indexOf("[");
-      const arrEnd = cleaned.lastIndexOf("]");
-      if (arrStart !== -1 && arrEnd !== -1 && arrEnd > arrStart) {
-        cleaned = cleaned.slice(arrStart, arrEnd + 1);
-      }
-      plays = JSON.parse(cleaned);
-      if (!Array.isArray(plays)) {
-        plays = plays.plays ?? plays.events ?? plays.data ?? [];
-      }
+      ({ plays, partial } = parseGeminiPlays(rawText, {
+        finishReason: candidate.finishReason ?? "",
+      }));
     } catch {
       await writeJob(jobId, {
         status: "error",
-        error: "Gemini returned text that could not be parsed as JSON. The video may not be supported for visual analysis.",
-        hint: "Try a video with captions enabled, or a shorter clip.",
+        error: "Gemini returned an invalid play list.",
+        hint: "Please retry. If this continues, use a shorter clip.",
+        finishReason: candidate.finishReason ?? "UNKNOWN",
         raw: rawText.slice(0, 300),
       });
       return new Response("", { status: 200 });
@@ -241,6 +236,10 @@ export default async (req) => {
       plays,
       count: plays.length,
       source: "gemini-visual",
+      partial,
+      warning: partial
+        ? "Gemini reached its output limit; all complete plays were preserved."
+        : undefined,
     });
     return new Response("", { status: 200 });
   } catch (err) {
